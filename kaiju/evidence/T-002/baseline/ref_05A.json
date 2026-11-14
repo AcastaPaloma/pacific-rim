@@ -1,0 +1,152 @@
+{
+ "input": {
+  "path": "art/style_refs/ref_05.png",
+  "sha256": "6acfab95d183fb5846e96c772944ef6f89ab0b67e4c1b476df913baec8797c61"
+ },
+ "measures": {
+  "accent_share": 0.035,
+  "box_xyxy": [
+   0,
+   0,
+   443,
+   744
+  ],
+  "denoised_vs_profile": {
+   "2": 0.352775482611,
+   "3": 0.574363404191,
+   "5": 0.87463381657
+  },
+  "dither": {
+   "DIG": 0.240383346529,
+   "O": -0.323572295675,
+   "gradient_share": 0.734088927637,
+   "interleaved_share": 0.204434272983
+  },
+  "file": "ref_05.png",
+  "grid": {
+   "detected": false,
+   "p": null,
+   "px": 11.39,
+   "py": 11.03,
+   "rx": 0.0352478827826,
+   "ry": 0.0546426911107,
+   "weak": false
+  },
+  "hue_families": 1,
+  "hue_peaks": [
+   [
+    50,
+    0.928260945968
+   ]
+  ],
+  "panel": "ref_05A",
+  "profile": "warm_amber_haze",
+  "raw_vs_own_palette": {
+   "2": 0.693138335107,
+   "3": 0.938468202921,
+   "5": 0.994029513415
+  },
+  "raw_vs_profile": {
+   "2": 0.340264371388,
+   "3": 0.56276073793,
+   "5": 0.864998571729
+  },
+  "silhouette_contrast": 59.1055911752,
+  "value_levels": 7
+ },
+ "panel": "ref_05A",
+ "r002": {
+  "DIG": 0.24,
+  "O": -0.324,
+  "denoised_vs_profile": {
+   "1": 0.1685,
+   "10": 0.9984,
+   "2": 0.353,
+   "3": 0.5741,
+   "5": 0.8745,
+   "7": 0.9717
+  },
+  "hue_families": 1,
+  "raw_vs_own_palette_2": 0.692996666667,
+  "raw_vs_own_palette_5": 0.993986666667,
+  "silhouette_contrast": 59.1,
+  "value_levels": 7
+ },
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-003@v1.yaml",
+  "revision": "v1.0",
+  "sha256": "c6fc21b8b22b9343d22f29948c05346a603ea9ba8d15a7569bec26c85a706c63",
+  "spec": "M-003@v1"
+ },
+ "report_schema": "baseline_panel@v1",
+ "submeasures": {
+  "M-003.a.internal": {
+   "note": "no internal (pre-upscale) buffer for a still",
+   "status": "NOT_APPLICABLE"
+  },
+  "M-003.a.output": {
+   "note": "raw panel pixels vs the district profile (own palette when no profile)",
+   "status": "FAIL",
+   "value": 0.340264371388
+  },
+  "M-003.b.DIG": {
+   "note": "single still: per-frame DIG >= 0.15",
+   "status": "PASS",
+   "value": 0.240383346529
+  },
+  "M-003.b.DIG_max": {
+   "status": "PASS",
+   "value": 0.240383346529
+  },
+  "M-003.b.O": {
+   "status": "REPORTED",
+   "value": -0.323572295675
+  },
+  "M-003.c1": {
+   "note": "no depth for a still",
+   "status": "NOT_APPLICABLE"
+  },
+  "M-003.c2": {
+   "note": "no haze_cal scene",
+   "status": "NOT_APPLICABLE"
+  },
+  "M-003.d-i": {
+   "status": "PASS",
+   "value": 7
+  },
+  "M-003.d-ii": {
+   "status": "PASS",
+   "value": 1
+  },
+  "M-003.d-iii": {
+   "status": "PASS",
+   "value": 0.035
+  },
+  "M-003.d-iv": {
+   "note": "references are resampled re-encodes (R-002 §4 d-iv)",
+   "status": "NOT_APPLICABLE"
+  },
+  "M-003.e.contrast": {
+   "status": "PASS",
+   "value": 59.1055911752
+  },
+  "M-003.e.horizon": {
+   "note": "no camera pose",
+   "status": "NOT_APPLICABLE"
+  },
+  "M-003.e.sky": {
+   "note": "no depth",
+   "status": "NOT_APPLICABLE"
+  },
+  "M-003.f": {
+   "note": "panel ratings are for game captures",
+   "status": "NOT_APPLICABLE"
+  },
+  "M-004": {
+   "note": "stills have no motion",
+   "status": "NOT_APPLICABLE"
+  }
+ },
+ "verdict": "NOT_APPLICABLE: not a capture set"
+}
