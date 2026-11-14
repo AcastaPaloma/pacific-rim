@@ -12,11 +12,10 @@
   37.805325
  ],
  "build": {
-  "bake_seconds": 13.97,
-  "built_utc": "2026-11-14T15:20:28Z",
-  "git": "650c7f67359af46de692d69ebda3d12dfdb54fe0",
+  "built_utc": "2026-11-14T16:31:54Z",
+  "git": "61aa55e8b89f9f4a0fabf6e560d2d6d14d53d191",
   "git_dirty_pipeline": false,
-  "inputs_sha256": "2d102a8d5e9546bbbbb1c4a2950a248f268c33cdcaa52cd263e42050010a4667",
+  "inputs_sha256": "ad5c0f927c7fd2ce2a74ebdf068ac5e83bd8c786497c80d884ce45cce43d5399",
   "script": "Pipelines/geo/bake_tile.py"
  },
  "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
@@ -540,7 +539,7 @@
      "reason": "no dry land samples near root"
     }
    ],
-   "sha256": "945546a549d550305ce19764ec042a83da20419477da9c2318ef430f313b26e3",
+   "sha256": "ee4b250c76f3637a20265c2d6a9ffe1f9eb5caf37c7e3a3e5744b4392ebe8b65",
    "sources": [
     {
      "attribution": "© OpenStreetMap contributors (ODbL)",
@@ -596,20 +595,27 @@
      ]
     }
    ],
-   "water_fraction": 0.37435,
+   "water_fraction": 0.37506,
    "water_level_navd88_m": 0.969
   },
   {
+   "base_rule": "base_navd88_m = 10th percentile of the surface along the footprint ring (1 m steps); ground_min_navd88_m = minimum under the footprint; walls reach ground_min - skirt",
    "count": 2503,
+   "count_excluded": 12,
+   "count_height_capped_to_parent": 53,
    "count_parts": 457,
-   "count_rendered": 2401,
+   "count_rendered": 2391,
    "count_structures": 2046,
+   "exclusion_rule": "kept as records, not extruded: location=underground, or layer<0 with building:levels:underground or level<0 (underground stations), building=ship; parts inherit their structure's exclusion",
    "extra_fields": [
     "has_parts",
     "roof_height_m",
     "remainder_geometry",
     "datasf_id",
-    "datasf_iou"
+    "datasf_iou",
+    "ground_min_navd88_m",
+    "excluded",
+    "height_capped_to_parent"
    ],
    "file": "buildings.geojson",
    "height_source_counts": {
@@ -620,9 +626,10 @@
    },
    "layer": "buildings",
    "owner_rule": "a structure is owned by the tile containing its shapely point_on_surface; its parts follow it; geometry is not clipped",
+   "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
    "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
    "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
-   "sha256": "4ce3c0b4b71db7b1251cd9a10efc04fa87be1a41d4db92694e3a722b571ab180",
+   "sha256": "d3e21d367ed68002f3f1f794dd61913fd85c9d57f80aee3df54292ec61264765",
    "sources": [
     {
      "attribution": "© OpenStreetMap contributors (ODbL)",
