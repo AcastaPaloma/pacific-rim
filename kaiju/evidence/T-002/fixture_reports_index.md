@@ -21,11 +21,11 @@
 | M-002.5_negative | 1 | M-002.5 |
 | M-001.4_boundary_0.98 | 3 (M-001.4 PASS, value 2.88414, <= 2.943) |  |
 | M-001.10_boundary_0.98 | 1 (M-001.10 FAIL, value 1.96363636364, in 2.0) | M-001.10 |
-| M-001.12_boundary_0.98 | 3 (M-001.12 PASS, value 3.04, >= 2.99721013915) |  |
+| M-001.12_boundary_0.98 | 1 (M-001.12 FAIL, value 2.94, >= 2.99721013915) | M-001.4, M-001.12 |
 | M-002.1_boundary_0.98 | 3 (M-002.1 PASS, value 0.00490000000003, < 0.005) |  |
 | M-001.4_boundary_1.02 | 1 (M-001.4 FAIL, value 3.00186, <= 2.943) | M-001.4, M-001.12 |
 | M-001.10_boundary_1.02 | 3 (M-001.10 PASS, value 2.04242424242, in 2.0) |  |
-| M-001.12_boundary_1.02 | 3 (M-001.12 PASS, value 3.18, >= 2.99721013915) |  |
+| M-001.12_boundary_1.02 | 3 (M-001.12 PASS, value 3.06, >= 2.99721013915) |  |
 | M-002.1_boundary_1.02 | 1 (M-002.1 FAIL, value 0.00509999999999, < 0.005) | M-002.1 |
 | M-003_pass_set | 3 |  |
 | M-003.a_unquantised_offpalette | 1 | M-003.a.output, M-003.a.internal |

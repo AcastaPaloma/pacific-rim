@@ -1,4 +1,4 @@
 $ $PY Tools/Metrics/metrics.py rescore evidence/T-002/reports/M-002_reference/report.json --registry $SCRATCH/M-002@v1.1.yaml
-# exit 2, 0.04 s
+# exit 2, 0.05 s
 INVALID_INPUT: 1 contract error(s)
   /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-002/kaiju/evidence/T-002/reports/M-002_reference/report.json:registry.sha256: registry differs from the one the report used; pass --allow-different-registry to re-score under it explicitly (expected dd104137882d9d95ebfcdeaedc03f076cd546ae278068fa276db55db880b5745; found 74096164cb38755a727c0bd053944705027295e45a3140fd7c2f6e093c48376c)

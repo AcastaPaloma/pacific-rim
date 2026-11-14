@@ -47,15 +47,15 @@
  ],
  "inputs": [
   {
-   "path": "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_ntula11q/bd_M-001.12_1.02/estop.gait.jsonl",
+   "path": "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_vv9ktmll/bd_M-001.12_1.02/estop.gait.jsonl",
    "role": "gait_log@v1 estop",
-   "sha256": "3980dc6e2ca09ecfbda3a8778a2bfde9982515e500edb66e379a115e422f2c4c"
+   "sha256": "244127a347205876bc23f40e9ff3a0634c8d460fde6e817fce26bc576e4770fb"
   }
  ],
  "invocation": {
   "command": "m001",
   "inputs": [
-   "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_ntula11q/bd_M-001.12_1.02"
+   "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_vv9ktmll/bd_M-001.12_1.02"
   ],
   "label": "bd_M-001.12_1.02",
   "mode": "standard",
@@ -95,8 +95,8 @@
  "run": {
   "host": "Kuans-MacBook-Pro.local",
   "python": "3.12.16",
-  "timestamp_utc": "2026-11-14T17:04:45Z",
-  "wall_time_s": 0.261
+  "timestamp_utc": "2026-11-14T17:26:39Z",
+  "wall_time_s": 0.307
  },
  "submeasures": [
   {
@@ -226,13 +226,13 @@
   {
    "decisive_part": "estop:peak |a_fore|",
    "diagnostics": {
-    "unsmoothed_peak_m_s2": 2.79039134185,
-    "where": "estop:peak |a_fore| at {'capture': 'estop', 'file': 'estop.gait.jsonl', 'n': 1495, 't_s': 29.9, 'stride_samples': None}"
+    "unsmoothed_peak_m_s2": 2.88529411765,
+    "where": "estop:peak |a_fore| at {'capture': 'estop', 'file': 'estop.gait.jsonl', 'n': 1395, 't_s': 27.9, 'stride_samples': None}"
    },
    "id": "M-001.4",
    "kind": "gating",
-   "margin": 0.152608658153,
-   "margin_rel": 0.0518547937997,
+   "margin": 0.0577058823529,
+   "margin_rel": 0.0196078431372,
    "note": null,
    "op": "<=",
    "parts": [
@@ -240,19 +240,19 @@
      "at": {
       "capture": "estop",
       "file": "estop.gait.jsonl",
-      "n": 1495,
+      "n": 1395,
       "stride_samples": null,
-      "t_s": 29.9
+      "t_s": 27.9
      },
-     "margin": 0.152608658153,
-     "margin_rel": 0.0518547937997,
+     "margin": 0.0577058823529,
+     "margin_rel": 0.0196078431372,
      "name": "estop:peak |a_fore|",
      "op": "<=",
      "status": "PASS",
      "threshold": 2.943,
      "unit": "m/s^2",
-     "unsmoothed_peak": 2.79039134185,
-     "value": 2.79039134185
+     "unsmoothed_peak": 2.88529411765,
+     "value": 2.88529411765
     }
    ],
    "status": "PASS",
@@ -260,13 +260,13 @@
    "threshold_status": "derived",
    "title": "Peak fore-aft CoM acceleration (smoothed), all captures",
    "unit": "m/s^2",
-   "value": 2.79039134185
+   "value": 2.88529411765
   },
   {
    "decisive_part": "estop:peak |a_lat|",
    "diagnostics": {
-    "unsmoothed_peak_m_s2": 1.84297022088e-14,
-    "where": "estop:peak |a_lat| at {'capture': 'estop', 'file': 'estop.gait.jsonl', 'n': 1496, 't_s': 29.92, 'stride_samples': None}"
+    "unsmoothed_peak_m_s2": 2.6645352591e-14,
+    "where": "estop:peak |a_lat| at {'capture': 'estop', 'file': 'estop.gait.jsonl', 'n': 1469, 't_s': 29.38, 'stride_samples': None}"
    },
    "id": "M-001.5",
    "kind": "gating",
@@ -279,9 +279,9 @@
      "at": {
       "capture": "estop",
       "file": "estop.gait.jsonl",
-      "n": 1496,
+      "n": 1469,
       "stride_samples": null,
-      "t_s": 29.92
+      "t_s": 29.38
      },
      "margin": 0.833850041856,
      "margin_rel": 1.0,
@@ -290,8 +290,8 @@
      "status": "PASS",
      "threshold": 0.833850041856,
      "unit": "m/s^2",
-     "unsmoothed_peak": 1.84297022088e-14,
-     "value": 1.62092561595e-14
+     "unsmoothed_peak": 2.6645352591e-14,
+     "value": 1.1990408666e-14
     }
    ],
    "status": "PASS",
@@ -299,7 +299,7 @@
    "threshold_status": "derived",
    "title": "Peak lateral CoM acceleration (smoothed), all captures",
    "unit": "m/s^2",
-   "value": 1.62092561595e-14
+   "value": 1.1990408666e-14
   },
   {
    "diagnostics": {},
@@ -464,14 +464,14 @@
       {
        "file": "estop.gait.jsonl",
        "mass_kg": 10000000.0,
-       "t_star": 1.52960288964
+       "t_star": 1.47188202588
       }
      ]
     }
    },
    "kind": "gating",
-   "margin": 0.182789860851,
-   "margin_rel": 0.0609866683897,
+   "margin": 0.0627898608506,
+   "margin_rel": 0.0209494356203,
    "note": null,
    "op": ">=",
    "parts": [
@@ -479,15 +479,15 @@
      "end_speed_mps": 0.3,
      "floor_brake_s": 2.99721013915,
      "floor_cruise_s": 2.99721013915,
-     "margin": 0.182789860851,
-     "margin_rel": 0.0609866683897,
+     "margin": 0.0627898608506,
+     "margin_rel": 0.0209494356203,
      "name": "estop:time to stop",
      "op": ">=",
      "status": "PASS",
      "threshold": 2.99721013915,
      "unit": "s",
      "v0_mps": 9.12078943952,
-     "value": 3.18
+     "value": 3.06
     }
    ],
    "status": "PASS",
@@ -495,7 +495,7 @@
    "threshold_status": "assumed_pending_calibration",
    "title": "Time to stop, emergency >= max(v_cruise / a_ref, m v0 / F_brake,max)",
    "unit": "s",
-   "value": 3.18
+   "value": 3.06
   },
   {
    "diagnostics": {},
@@ -511,7 +511,7 @@
   }
  ],
  "tool": {
-  "git_commit": "ef3b834cc480825634bef7126a5814bdc7f5b901",
+  "git_commit": "a175d2f47fbc7eb18501cd6c54a1bca7453c7b63",
   "name": "kaiju_metrics",
   "version": "1.0.0"
  },

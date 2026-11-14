@@ -1,7 +1,6 @@
 {
  "assumed_thresholds_decisive": [
   "M-001.1",
-  "M-001.12",
   "M-001.3",
   "M-001.9"
  ],
@@ -31,31 +30,34 @@
    "curve"
   ]
  },
- "exit_code": 3,
+ "exit_code": 1,
  "extra": {
   "smoothing_window_samples": {
    "estop.gait.jsonl": 17
   }
  },
- "failing_gating": [],
+ "failing_gating": [
+  "M-001.4",
+  "M-001.12"
+ ],
  "failures_suppressed": false,
  "flags": [],
- "headless_verdict": "INCOMPLETE",
- "headless_verdict_label": "INCOMPLETE",
+ "headless_verdict": "FAIL",
+ "headless_verdict_label": "FAIL",
  "images": [
   "diag_gait.png"
  ],
  "inputs": [
   {
-   "path": "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_ntula11q/bd_M-001.12_0.98/estop.gait.jsonl",
+   "path": "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_vv9ktmll/bd_M-001.12_0.98/estop.gait.jsonl",
    "role": "gait_log@v1 estop",
-   "sha256": "985befe58f362d3a2eb7572c8f9c7606438112f05d345e8263ef4b84c01c5117"
+   "sha256": "a6bf69ceddbf8570174be8a5c5fa5f4911271c6cc4f32ac3ae3ffc2094dadaa5"
   }
  ],
  "invocation": {
   "command": "m001",
   "inputs": [
-   "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_ntula11q/bd_M-001.12_0.98"
+   "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_vv9ktmll/bd_M-001.12_0.98"
   ],
   "label": "bd_M-001.12_0.98",
   "mode": "standard",
@@ -95,8 +97,8 @@
  "run": {
   "host": "Kuans-MacBook-Pro.local",
   "python": "3.12.16",
-  "timestamp_utc": "2026-11-14T17:04:44Z",
-  "wall_time_s": 0.262
+  "timestamp_utc": "2026-11-14T17:26:37Z",
+  "wall_time_s": 0.347
  },
  "submeasures": [
   {
@@ -226,13 +228,13 @@
   {
    "decisive_part": "estop:peak |a_fore|",
    "diagnostics": {
-    "unsmoothed_peak_m_s2": 2.904284866,
-    "where": "estop:peak |a_fore| at {'capture': 'estop', 'file': 'estop.gait.jsonl', 'n': 1369, 't_s': 27.38, 'stride_samples': None}"
+    "unsmoothed_peak_m_s2": 3.00306122449,
+    "where": "estop:peak |a_fore| at {'capture': 'estop', 'file': 'estop.gait.jsonl', 'n': 1419, 't_s': 28.38, 'stride_samples': None}"
    },
    "id": "M-001.4",
    "kind": "gating",
-   "margin": 0.0387151339955,
-   "margin_rel": 0.013154989465,
+   "margin": -0.0600612244898,
+   "margin_rel": -0.0204081632653,
    "note": null,
    "op": "<=",
    "parts": [
@@ -240,33 +242,33 @@
      "at": {
       "capture": "estop",
       "file": "estop.gait.jsonl",
-      "n": 1369,
+      "n": 1419,
       "stride_samples": null,
-      "t_s": 27.38
+      "t_s": 28.38
      },
-     "margin": 0.0387151339955,
-     "margin_rel": 0.013154989465,
+     "margin": -0.0600612244898,
+     "margin_rel": -0.0204081632653,
      "name": "estop:peak |a_fore|",
      "op": "<=",
-     "status": "PASS",
+     "status": "FAIL",
      "threshold": 2.943,
      "unit": "m/s^2",
-     "unsmoothed_peak": 2.904284866,
-     "value": 2.904284866
+     "unsmoothed_peak": 3.00306122449,
+     "value": 3.00306122449
     }
    ],
-   "status": "PASS",
+   "status": "FAIL",
    "threshold": 2.943,
    "threshold_status": "derived",
    "title": "Peak fore-aft CoM acceleration (smoothed), all captures",
    "unit": "m/s^2",
-   "value": 2.904284866
+   "value": 3.00306122449
   },
   {
    "decisive_part": "estop:peak |a_lat|",
    "diagnostics": {
-    "unsmoothed_peak_m_s2": 2.13162820728e-14,
-    "where": "estop:peak |a_lat| at {'capture': 'estop', 'file': 'estop.gait.jsonl', 'n': 1495, 't_s': 29.9, 'stride_samples': None}"
+    "unsmoothed_peak_m_s2": 1.95399252334e-14,
+    "where": "estop:peak |a_lat| at {'capture': 'estop', 'file': 'estop.gait.jsonl', 'n': 1422, 't_s': 28.44, 'stride_samples': None}"
    },
    "id": "M-001.5",
    "kind": "gating",
@@ -279,9 +281,9 @@
      "at": {
       "capture": "estop",
       "file": "estop.gait.jsonl",
-      "n": 1495,
+      "n": 1422,
       "stride_samples": null,
-      "t_s": 29.9
+      "t_s": 28.44
      },
      "margin": 0.833850041856,
      "margin_rel": 1.0,
@@ -290,8 +292,8 @@
      "status": "PASS",
      "threshold": 0.833850041856,
      "unit": "m/s^2",
-     "unsmoothed_peak": 2.13162820728e-14,
-     "value": 1.02140518266e-14
+     "unsmoothed_peak": 1.95399252334e-14,
+     "value": 5.99520433298e-15
     }
    ],
    "status": "PASS",
@@ -299,7 +301,7 @@
    "threshold_status": "derived",
    "title": "Peak lateral CoM acceleration (smoothed), all captures",
    "unit": "m/s^2",
-   "value": 1.02140518266e-14
+   "value": 5.99520433298e-15
   },
   {
    "diagnostics": {},
@@ -464,14 +466,14 @@
       {
        "file": "estop.gait.jsonl",
        "mass_kg": 10000000.0,
-       "t_star": 1.46226188192
+       "t_star": 1.41416116212
       }
      ]
     }
    },
    "kind": "gating",
-   "margin": 0.0427898608506,
-   "margin_rel": 0.0142765634921,
+   "margin": -0.0572101391494,
+   "margin_rel": -0.0190877971491,
    "note": null,
    "op": ">=",
    "parts": [
@@ -479,23 +481,23 @@
      "end_speed_mps": 0.3,
      "floor_brake_s": 2.99721013915,
      "floor_cruise_s": 2.99721013915,
-     "margin": 0.0427898608506,
-     "margin_rel": 0.0142765634921,
+     "margin": -0.0572101391494,
+     "margin_rel": -0.0190877971491,
      "name": "estop:time to stop",
      "op": ">=",
-     "status": "PASS",
+     "status": "FAIL",
      "threshold": 2.99721013915,
      "unit": "s",
      "v0_mps": 9.12078943952,
-     "value": 3.04
+     "value": 2.94
     }
    ],
-   "status": "PASS",
+   "status": "FAIL",
    "threshold": 2.99721013915,
    "threshold_status": "assumed_pending_calibration",
    "title": "Time to stop, emergency >= max(v_cruise / a_ref, m v0 / F_brake,max)",
    "unit": "s",
-   "value": 3.04
+   "value": 2.94
   },
   {
    "diagnostics": {},
@@ -511,11 +513,11 @@
   }
  ],
  "tool": {
-  "git_commit": "ef3b834cc480825634bef7126a5814bdc7f5b901",
+  "git_commit": "a175d2f47fbc7eb18501cd6c54a1bca7453c7b63",
   "name": "kaiju_metrics",
   "version": "1.0.0"
  },
- "verdict": "INCOMPLETE",
- "verdict_label": "INCOMPLETE",
+ "verdict": "FAIL",
+ "verdict_label": "FAIL",
  "warnings": []
 }
