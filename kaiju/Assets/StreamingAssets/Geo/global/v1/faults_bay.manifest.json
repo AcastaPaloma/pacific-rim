@@ -1,0 +1,48 @@
+{
+ "build": {
+  "built_utc": "2026-11-14T12:11:55Z",
+  "git": "d2a2249d62e92d27ebb110d6bdb6cc7331065ca3",
+  "git_dirty_pipeline": true,
+  "script": "Pipelines/geo/bake_faults.py"
+ },
+ "count": 3232,
+ "crs": "kaiju:BayTM@v1",
+ "fields": [
+  "fault_name",
+  "section",
+  "linetype",
+  "slip_rate",
+  "slip_sense",
+  "age",
+  "mapped_scale",
+  "fault_id",
+  "source_layer",
+  "objectid"
+ ],
+ "file": "faults_bay.geojson",
+ "layer": "faults",
+ "sha256": "0dbc51ca628f8859e8c81a20450cd320c7910bd58328c6a047c50a8e7eb16f4a",
+ "sources": [
+  {
+   "attribution": "U.S. Geological Survey Quaternary Fault and Fold Database",
+   "features": 3125,
+   "fetched_utc": "2026-11-14T12:05:53Z",
+   "item": "layer 4",
+   "licence": "US-Gov-PD",
+   "product": "USGS Quaternary Fault and Fold Database (2020 release), ArcGIS REST haz/Qfaults layers 4 (CA) and 5 (CA offshore)",
+   "source_sha256": "1bde71616d316e104f2cf82a6594abec2ae0f83540f6ce65b52efd2e407b0687",
+   "url": "https://earthquake.usgs.gov/arcgis/rest/services/haz/Qfaults/MapServer/4"
+  },
+  {
+   "attribution": "U.S. Geological Survey Quaternary Fault and Fold Database",
+   "features": 107,
+   "fetched_utc": "2026-11-14T12:05:54Z",
+   "item": "layer 5",
+   "licence": "US-Gov-PD",
+   "product": "USGS Quaternary Fault and Fold Database (2020 release), ArcGIS REST haz/Qfaults layers 4 (CA) and 5 (CA offshore)",
+   "source_sha256": "af059cffe6d840bdccdabb84b072b359ea021c7002b1e6d3da77012fb0ed7bb7",
+   "url": "https://earthquake.usgs.gov/arcgis/rest/services/haz/Qfaults/MapServer/5"
+  }
+ ],
+ "spec": "geo_global@v1"
+}
