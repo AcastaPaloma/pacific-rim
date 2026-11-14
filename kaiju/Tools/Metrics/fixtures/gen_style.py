@@ -112,7 +112,7 @@ def city_boxes(seed=3):
     return np.array(b, float)
 
 
-def render_city(cam: Cam, boxes, origin, haze=True, haze_d=1500.0):
+def render_city(cam: Cam, boxes, origin, haze=True, haze_d=1500.0, sky_k=0.12):
     """Tone p in [0, 1] (dark near objects, light far / sky), eye depth z (inf = sky), world hit points."""
     R = cam.rays()
     D = R.reshape(-1, 3)
@@ -138,7 +138,7 @@ def render_city(cam: Cam, boxes, origin, haze=True, haze_d=1500.0):
     z = np.where(sky, np.inf, tb * (Dn @ cam.basis()[2]))
     hz = 1 - np.exp(-np.where(sky, FAR, tb) / haze_d) if haze else np.where(sky, 1.0, 0.0)
     elev = np.clip(Dn[:, 1], 0, 0.4) / 0.4
-    p = np.where(sky, 1.0 - 0.12 * elev, 0.55 * np.clip(shade, 0, 1) * (1 - hz) + 0.97 * hz)
+    p = np.where(sky, 1.0 - sky_k * elev, 0.55 * np.clip(shade, 0, 1) * (1 - hz) + 0.97 * hz)
     Pw = np.where(sky[:, None], np.nan, cam.pos + Dn * tb[:, None])
     return p.reshape(cam.H, cam.W), z.reshape(cam.H, cam.W), Pw.reshape(cam.H, cam.W, 3)
 
@@ -284,7 +284,7 @@ ORIGIN = np.array([-2715000.0, 0.0, 4185000.0])
 
 def m003_gameplay_frames(set_dir, profile="slate_teal", n_frames=12, W=160, H=90, scale=4, mode="mixed",
                          seq_id="gameplay", haze=True, invert=False, off_palette_share=0.0, palettes=PALETTES,
-                         upscale_mode="nearest", offset=(0, 0), declare_offset=True, unquantised=False):
+                         upscale_mode="nearest", offset=(0, 0), declare_offset=True, unquantised=False, modes=None):
     """City frames from three viewpoints. mode: 'mixed' (Bayer in the sky, posterised geometry), 'bayer',
     'none', 'noise'. off_palette_share injects whole-block #00ff00 pixels (exact share, internal and output)."""
     hexes, roles, labs = load_profile(profile, palettes)
@@ -303,11 +303,12 @@ def m003_gameplay_frames(set_dir, profile="slate_teal", n_frames=12, W=160, H=90
         if invert:
             p = np.where(np.isfinite(zz), 1 - p, p)
         sky = ~np.isfinite(zz)
-        if mode == "mixed":
+        mode_k = modes[k] if modes else mode
+        if mode_k == "mixed":
             band = sky & (np.indices(p.shape)[0] >= int(0.15 * H))     # dither the lower sky only
             q = np.where(band, quantise(p, 8, "bayer"), quantise(p, 8, "none"))
         else:
-            q = quantise(p, 8, mode, seed=k)
+            q = quantise(p, 8, mode_k, seed=k)
         idx = np.array(ramp)[q]
         ci = None
         if unquantised:
@@ -519,3 +520,44 @@ if __name__ == "__main__":
     import sys
     out = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "out")
     print(example_capture_set(out))
+
+
+# ------------------------------------------------------------------------------------------------ editing helpers
+def read_index(seq_dir, k):
+    return np.array(Image.open(os.path.join(seq_dir, f"f{k:06d}_index.png"))).astype(np.int32)
+
+
+def repaint(seq_dir, k, index_img, palettes=PALETTES, out_override=None):
+    """Rewrite one frame's palette_index, color_internal and color_output (nearest upscale at the declared
+    offset) consistently from an index image (255 = off-palette #00ff00)."""
+    with open(os.path.join(seq_dir, f"f{k:06d}.json")) as f:
+        sc = json.load(f)
+    hexes, _, _ = load_profile(sc["style"]["palette_profile_id"], palettes)
+    pal = np.vstack([np.stack([hex_rgb(h) for h in hexes]), np.zeros((256 - len(hexes), 3), np.uint8)])
+    pal[255] = [0, 255, 0]
+    ci = pal[index_img]
+    s = sc["resolution"]["integer_scale"]
+    co = upscale(ci, s, tuple(sc["resolution"]["output_block_offset_px"])) if out_override is None else out_override
+    save_png(os.path.join(seq_dir, sc["files"]["palette_index"]), index_img.astype(np.uint8))
+    save_png(os.path.join(seq_dir, sc["files"]["color_internal"]), ci.astype(np.uint8))
+    save_png(os.path.join(seq_dir, sc["files"]["color_output"]), co.astype(np.uint8))
+    return ci, co
+
+
+def write_test_palettes(path, base=PALETTES):
+    """palette_set@v1 copy plus profile `test_many`: the slate_teal ramp, 12 neutral greys (L* 8..96, steps >= 8)
+    and 3 saturated hues (red, green, blue). Used to build d-i / d-ii negatives."""
+    from skimage.color import rgb2lab
+    with open(base) as f:
+        pj = json.load(f)
+    cols = [c for c in pj["profiles"]["slate_teal"]["colours"] if c["role"].startswith("ramp_")]
+    greys = ["#%02x%02x%02x" % (v, v, v) for v in (14, 30, 52, 74, 96, 118, 140, 162, 184, 206, 228, 250)]
+    hues = ["#c03020", "#20a040", "#2040c0"]
+    for h in greys + hues:
+        lab = rgb2lab(hex_rgb(h)[None, None, :] / 255.0)[0, 0]
+        cols.append({"role": "body", "hex": h, "lab": [round(float(v), 2) for v in lab]})
+    pj["profiles"]["test_many"] = {"members": [], "dominant_hue_deg": 0.0, "size": len(cols), "colours": cols,
+                                   "member_adherence": {}, "ramp_dL_cv": 0.0}
+    with open(path, "w") as f:
+        json.dump(pj, f)
+    return path
