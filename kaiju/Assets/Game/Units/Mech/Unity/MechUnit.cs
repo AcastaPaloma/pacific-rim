@@ -95,7 +95,7 @@ namespace Game.Units.Mech.Unity
                 _gait?.CameraImpulse(step, c.Foot, c.ContactId, 0.05 * Math.Pow(c.VerticalImpulseNs / (Body.TotalMassKg * Body.Tuning.gravity_mps2 * _dt), 0.75), c.Step);
             }
             foreach (var l in _liftoffs) _gait?.ContactEnd(l);
-            foreach (var e in _physEvents) { _world.LogEvent(Body, step, e, null); _gait?.Event(step, e, null); }
+            foreach (var e in _physEvents) _world.LogEvent(Body, step, e, null); // fall_start / fall_end belong to physics_log@v1; gait_log@v1 has no such event type
             _contacts.Clear(); _liftoffs.Clear(); _physEvents.Clear();
         }
 

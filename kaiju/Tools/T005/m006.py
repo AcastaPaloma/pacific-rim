@@ -158,7 +158,7 @@ def main():
                 for j, dofs in r.get("joints", {}).items():
                     m = max(abs(v[1]) for v in dofs.values()); k = "leg" if j.startswith(leg) else "arm"
                     if m > worst[k][0]: worst[k] = (m, name + ":" + j)
-                if prev is not None and r.get("non_foot_contacts", 0) == 0:
+                if prev is not None and r["step"] > 1 and r.get("non_foot_contacts", 0) == 0:  # step 1 holds a scene's initial condition
                     jump = r["e_total"] - prev - r.get("external_work", 0)
                     if jump > worst["jump"][0]: worst["jump"] = (jump, name + " t=%.2f" % r["t"])
             prev = r["e_total"]

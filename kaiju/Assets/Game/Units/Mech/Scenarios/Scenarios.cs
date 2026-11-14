@@ -18,7 +18,7 @@ namespace Game.Units.Mech.Scenarios
     {
         public string Name;
         public double Seconds;
-        public double CruiseFroude;
+        public double CruiseFroude = 0.20;   // the nominal cruise the header declares (R-001); walk captures override it
         public Action<ScriptedPilotSource, MechLimits> Script;
         /// <summary>Called before every step with (simulation, unit, time): only for logged external forces (shoves). Locomotion captures leave it null.</summary>
         public Action<MechSimulation, MechUnit, double> External;

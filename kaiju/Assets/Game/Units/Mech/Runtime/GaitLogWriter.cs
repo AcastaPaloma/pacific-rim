@@ -53,6 +53,7 @@ namespace Game.Units.Mech
         }
 
         static string F(double v) => JsonLine.Text(v);
+        static string D(double v) => v.ToString("R", System.Globalization.CultureInfo.InvariantCulture);
 
         public void WriteStep(long n, in IntentFrame intent, in LocoCommand cmd, in LocomotionController.Debug dbg)
         {
@@ -63,12 +64,20 @@ namespace Game.Units.Mech
             float yaw = (float)Math.Atan2(fwd.X, fwd.Z);
             if (_hasYaw) _yawRate = IntentLimiter.Wrap(yaw - _prevYaw) / _dt;
             _prevYaw = yaw; _hasYaw = true;
+            // positions in float64: the centre of mass and the sole centres are computed here in double precision from the engine's link states (origin offset is zero at M0)
+            double mx = 0, my = 0, mz = 0, mass = 0;
+            for (int i = 0; i < _b.LinkCount; i++) { _b.GetLink(i, out var ls); double m = _b.LinkMassKg(i); mass += m; mx += m * (double)ls.Com.X; my += m * (double)ls.Com.Y; mz += m * (double)ls.Com.Z; }
+            var sole = _b.Frame.foot_sole; double sy = -sole.ankle_height_m, sz = (sole.heel_z_m + sole.toe_z_m) * 0.5 - sole.ankle_z_m;
             _sb.Clear().Append('[');
             for (int i = 0; i < _b.FootCount; i++)
             {
-                _b.GetFoot(i, out var fs);
+                _b.GetFoot(i, out var fs); _b.GetLink(fs.Link, out var fl);
+                double qx = fl.Rotation.X, qy = fl.Rotation.Y, qz = fl.Rotation.Z, qw = fl.Rotation.W;
+                // rotate (0, sy, sz) by the foot rotation: v' = v + 2 w (q x v) + 2 q x (q x v)
+                double cx = qy * sz - qz * sy, cy = -qx * sz, cz = qx * sy;
+                double px = fl.Position.X + 2 * (qw * cx + qy * cz - qz * cy), py = fl.Position.Y + sy + 2 * (qw * cy + qz * cx - qx * cz), pz = fl.Position.Z + sz + 2 * (qw * cz + qx * cy - qy * cx);
                 if (i > 0) _sb.Append(',');
-                _sb.Append("{\"p\":").Append(JsonLine.VecOf(fs.SoleCentre)).Append(",\"q\":[").Append(F(fs.Rotation.X)).Append(',').Append(F(fs.Rotation.Y)).Append(',').Append(F(fs.Rotation.Z)).Append(',').Append(F(fs.Rotation.W))
+                _sb.Append("{\"p\":[").Append(D(px)).Append(',').Append(D(py)).Append(',').Append(D(pz)).Append(']').Append(",\"q\":[").Append(F(fs.Rotation.X)).Append(',').Append(F(fs.Rotation.Y)).Append(',').Append(F(fs.Rotation.Z)).Append(',').Append(F(fs.Rotation.W))
                    .Append("],\"v\":").Append(JsonLine.VecOf(fs.Velocity)).Append(",\"contact\":").Append(fs.Contact ? '1' : '0').Append(",\"fn\":").Append(F(fs.NormalForceN))
                    .Append(",\"ft\":").Append(JsonLine.VecOf(fs.TangentialForceN)).Append(",\"cn\":").Append(fs.NormalForceN > 0 ? JsonLine.VecOf(fs.Normal) : "null").Append(",\"cop\":").Append(JsonLine.VecOf(fs.Cop)).Append('}');
             }
@@ -78,7 +87,7 @@ namespace Game.Units.Mech
                 + ",\"cmd_heading_rad\":" + F(cmd.Heading) + ",\"requested_speed_mps\":" + F(cmd.RequestedSpeed) + ",\"limit_causes\":\"" + cmd.Causes + "\",\"pilots\":" + intent.pilots + "}";
             double power = 0;
             for (int d = 0; d < _b.DofCount; d++) { double p = _b.DofAppliedTorque(d) * _b.DofVelocity(d); if (p > 0) power += p; }
-            _j.Begin().Str("rec", "step").Int("n", n).Num("t", n * _dt).Vec("com_p", _b.Com).Vec("com_v", _b.ComVelocity).Vec("root_p", root.Position).Quat("root_q", root.Rotation)
+            _j.Begin().Str("rec", "step").Int("n", n).Num("t", n * _dt).Raw("com_p", "[" + D(mx / mass) + "," + D(my / mass) + "," + D(mz / mass) + "]").Vec("com_v", _b.ComVelocity).Vec("root_p", root.Position).Quat("root_q", root.Rotation)
               .Num("yaw", yaw).Num("yaw_rate", _yawRate).Raw("feet", feet).Num("ext_f", _b.ExternalForceMagnitudeN).Raw("intent", intentJson).Num("p_loco_W", power)
               .Raw("ctl", "{\"phase\":\"" + dbg.Phase + "\",\"stance\":" + dbg.Stance + ",\"dcm\":[" + F(dbg.Dcm.X) + "," + F(dbg.Dcm.Y) + "],\"cop_cmd\":[" + F(dbg.CopCommand.X) + "," + F(dbg.CopCommand.Y) + "],\"swing_target\":[" + F(dbg.SwingTarget.X) + "," + F(dbg.SwingTarget.Y) + "],\"ref\":[" + F(dbg.Reference.X) + "," + F(dbg.Reference.Y) + "],\"com_h_target\":" + F(dbg.ComHeightTarget) + ",\"swing_clamped\":" + (dbg.SwingClamped ? "true" : "false") + "}");
             _w.WriteLine(_j.End());

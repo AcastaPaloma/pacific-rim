@@ -61,7 +61,8 @@ namespace Game.Units.Mech.Editor
                         EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
                         string capture = (repeat > 1 ? name + "_run" + (k + 1) : name) + (variant.Key.Length > 0 ? "@" + variant.Key : "");
                         var cfg = variant.Value == null ? config : config.WithWalk(w => JsonUtility.FromJsonOverwrite(variant.Value, w));
-                        try { var r = ScenarioRunner.Run(ScenarioLibrary.Find(name), cfg, dt, outDir, commit, engine, strips && k == 0, capture, Arg("-nophys") == null); summary.AppendLine(r.Line()); }
+                        bool phys = Arg("-nophys") == null && (Arg("-physlist") == null || Array.IndexOf(Arg("-physlist").Split(','), name) >= 0);
+                        try { var r = ScenarioRunner.Run(ScenarioLibrary.Find(name), cfg, dt, outDir, commit, engine, strips && k == 0, capture, phys); summary.AppendLine(r.Line()); }
                         catch (Exception e) { summary.AppendLine(capture + " EXCEPTION " + e); }
                         File.WriteAllText(Path.Combine(outDir, "summary.txt"), summary.ToString());
                     }
