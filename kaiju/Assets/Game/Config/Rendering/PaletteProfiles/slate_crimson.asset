@@ -81,9 +81,10 @@ MonoBehaviour:
     rgba: 4284438087
   - serializedVersion: 2
     rgba: 4285489233
-  hazeStartM: 42
-  hazeFullM: 7200
-  hazeBands: 5
+  hazeStartM: 60
+  hazeFullM: 20000
+  hazeCurveGamma: 1
+  hazeBands: 7
   hazeSeamTexels: 5
   hazeSeamWidth: 0.7
   airlightValue: 1
@@ -98,7 +99,7 @@ MonoBehaviour:
   ditherSpread: 1.8
   ditherGradientMin: 0.001
   lutChromaWeight: 2
-  ladderMinStepL: 6.5
+  ladderMinStepL: 8
   ladderHueTolerance: 12
   ladderTopL: 50
   ladder: 00000000010000000d000000100000000b000000i
