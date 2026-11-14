@@ -24,7 +24,7 @@ def main(argv=None):
     hs = np.flipud(rasterio.open(d / "terrain.tif").read(1).astype(np.float64))
     xs = t.x0 + np.arange(2049) * t.spacing
     X, Z = np.meshgrid(xs, t.z0 + np.arange(2049) * t.spacing)
-    dsm = terrain.sample_rasters([CACHE / "lidar" / f"dsm_first_return__{t.id}.tif"], X, Z)
+    dsm = terrain.sample_rasters([CACHE / "lidar" / f"dsm_first_return_v2__{t.id}.tif"], X, Z)
     feats = json.loads((d / "buildings.geojson").read_text())["features"]
     tr = Affine(1, 0, t.x0 - 0.5, 0, 1, t.z0 - 0.5)   # south-up node grid
     osm = rasterize([(shape(f["geometry"]).buffer(6), 1) for f in feats], out_shape=(2049, 2049), transform=tr, dtype="uint8").astype(bool)

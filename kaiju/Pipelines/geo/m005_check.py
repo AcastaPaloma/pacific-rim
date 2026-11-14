@@ -617,7 +617,7 @@ def skyline_check(tile, ref, hs, water, feats):
 
     hide = {"V5": "osm:w28824850"}     # the observer stands on Coit Tower: its own structure is excluded (all renders)
     ind = None
-    lid = CACHE / "lidar" / f"dsm_first_return__{tile.id}.tif"
+    lid = CACHE / "lidar" / f"dsm_first_return_v2__{tile.id}.tif"
     if lid.exists():
         xs = tile.x0 + np.arange(2049) * tile.spacing
         X, Z = np.meshgrid(xs, tile.z0 + np.arange(2049) * tile.spacing)
@@ -664,7 +664,7 @@ def skyline_check(tile, ref, hs, water, feats):
                         ir = skyline.first_rows(skyline.profile_heightfield(cam, sampler(ind_v)))
                         ci = skyline.compare(g_rows, ir, h, cam.cy)
                         entry["vs_r_ind"] = res(ci, "IoU >= 0.90, MAE <= 3 px (Assumed)", ci["iou"] is not None and ci["iou"] >= 0.90 and ci["mae_px"] <= 3.0,
-                                                reference="3DEP CA_SanFrancisco_1_B23 first-return DSM (PDAL, EPT resolution 0.7 m, 1 m max grid), clipped to the tile, water filled at MSL")
+                                                reference="3DEP CA_SanFrancisco_1_B23 first-return DSM v2 (PDAL, EPT resolution 0.7 m, 1 m max grid): first returns only; ASPRS noise classes 7 and 18 removed; statistical outliers (mean_k 8, 2.5 sigma) removed; clipped to the tile; water (no returns) filled at MSL. Still CONTAINS vegetation (trees on Telegraph Hill, street trees), cranes, poles, rooftop plant, bridge structure; it is not a buildings-only surface (the point cloud has no building class)")
                     else:
                         entry["vs_r_ind"] = not_run("lidar DSM not fetched (fetch_refs.py needs python-pdal)")
                     (EVID / "skyline").mkdir(exist_ok=True)
