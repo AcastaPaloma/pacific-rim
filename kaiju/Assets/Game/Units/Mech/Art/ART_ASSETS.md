@@ -15,7 +15,7 @@ D-007 / D-008 (80 m, physics-derived proportions), D-009 / D-022 (original desig
 | `Materials/mech_{primary,secondary,joint,accent}.mat` | URP Lit, flat colour by palette role from `Pipelines/blender/mech_frame_balanced/palette_roles.json` (R-002 entries) |
 | `Runtime/` (`Game.Units.Mech.Art`) | `MechPartMap`, `MechArtRoot`, `MechFrameConfig` (reader for `mech_frame@v1`, refuses other schemas) |
 | `Editor/` (`Game.Units.Mech.Art.Editor`) | `MechFrameImport` (import settings, materials, map, prefab; idempotent), `MechFrameCapture` (4-view capture) |
-| `Tests/EditMode/` | `MechFrameBalancedArtTests`: mapping, hierarchy, height, joints vs config, axes/scale, socket symmetry, forearm swap, budget |
+| `Tests/EditMode/` | `MechFrameBalancedArtTests` (10): mapping, prefab contents (15 parts + 8 sockets only), hierarchy, height, joints vs config, axes/scale, socket symmetry, forearm swap (independent mesh, hardpoint follows), Remap guard, budget |
 
 Config (single source of dimensions, owned by the integration branch): `Assets/Game/Config/Mech/mech_frame_balanced.json`
 (`mech_frame@v1`, verbatim copy of `research/R-005/mech_frame_balanced.json`). Tests read every reference value from it.
