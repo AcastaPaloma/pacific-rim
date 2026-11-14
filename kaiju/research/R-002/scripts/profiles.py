@@ -69,7 +69,7 @@ def adherence(lab, pal):
 def main():
     pj = json.load(open(os.path.join(OUT, "panels.json")))
     panels = pj["panels"]
-    pooled = dict(np.load(os.path.join(OUT, "scripts", "_pooled_lab.npz")))
+    pooled = dict(np.load(os.path.join(CACHE, "_pooled_lab.npz")))
     ids = list(panels)
     P = {k: (np.array(v["palette_lab"]), np.array(v["palette_share"])) for k, v in panels.items()}
     D = np.array([[palette_distance(*P[a], *P[b]) for b in ids] for a in ids])
@@ -83,10 +83,15 @@ def main():
     for name, members in PROFILES.items():
         cols, roles, hdom, sample = build_profile(name, members, pooled, panels)
         member_adh = {m: adherence(pooled[m], cols) for m in members}
+        # renderer-ready alternative: the same ramp curve re-sampled at uniform L* steps (see M-NEW-b)
+        rl = np.array([c for c, r in zip(cols, roles) if r.startswith("ramp")]); Ls = np.linspace(rl[0, 0], rl[-1, 0], RAMP_N)
+        uni = np.array([[np.interp(L, rl[:, 0], rl[:, j]) for j in range(3)] for L in Ls])
+        dL = np.diff(rl[:, 0]); cv = float(dL.std() / dL.mean())
         profiles[name] = dict(members=members, dominant_hue_deg=round(hdom, 1), size=len(cols),
                               colours=[dict(role=r, hex=h, lab=np.round(c, 2).tolist())
                                        for r, h, c in zip(roles, hexs(lab_to_srgb_u8(cols)), cols)],
-                              member_adherence=member_adh)
+                              member_adherence=member_adh, ramp_dL_cv=round(cv, 2),
+                              ramp_uniform_L=[dict(hex=h, lab=np.round(c, 2).tolist()) for h, c in zip(hexs(lab_to_srgb_u8(uni)), uni)])
         print(name, len(cols), {m: a for m, a in member_adh.items()})
     # cross-profile adherence at 5 dE00 (discrimination check)
     cross = {}

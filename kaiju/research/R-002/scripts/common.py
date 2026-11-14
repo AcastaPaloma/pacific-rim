@@ -8,6 +8,9 @@ from skimage import color
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 REFS = os.path.join(ROOT, "art", "style_refs")
 OUT = os.path.join(ROOT, "research", "R-002")
+import tempfile
+CACHE = os.environ.get("R002_CACHE", os.path.join(tempfile.gettempdir(), "r002_cache"))
+os.makedirs(CACHE, exist_ok=True)
 
 # Panel inventory: id -> (file, box x0,y0,x1,y1 exclusive, exclusion boxes [captions/logos], neutral label)
 # ref_02 is byte-identical to ref_01 and is not analysed separately.

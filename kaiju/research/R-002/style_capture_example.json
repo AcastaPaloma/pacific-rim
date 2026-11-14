@@ -1,0 +1,83 @@
+{
+  "schema": "style_capture@v1",
+  "capture_set_id": "m004_yaw_slow_2026-11-14T09-00Z",
+  "sequence_id": "yaw_0p25",
+  "frame": { "index": 120, "sequence_length": 180, "sim_time_s": 2.0, "dt_s": 0.0166667, "sim_paused": false },
+  "build": {
+    "git_commit": "abcdef1",
+    "unity_version": "6000.6.0f1",
+    "render_pipeline": "URP",
+    "feature_flags": { "Rendering.Pixel": true, "Rendering.Pixel.Dither": "bayer4_direction_locked", "Rendering.Pixel.Outline": false }
+  },
+  "style": {
+    "palette_set": "palette_set@v1",
+    "palette_profile_id": "slate_teal",
+    "palette_sha256": "<sha256 of the profile's colour list as written in palettes.json>",
+    "district_id": "SF-Embarcadero",
+    "time_of_day": "fixed_v1"
+  },
+  "resolution": {
+    "internal_wh": [320, 180],
+    "output_wh": [1920, 1080],
+    "integer_scale": 6,
+    "output_block_offset_px": [3, 2],
+    "subpixel_offset_internal_px": [0.42, -0.13]
+  },
+  "camera": {
+    "rig": "ThirdPersonRig",
+    "projection": "perspective",
+    "hfov_deg": 60.0,
+    "vfov_deg": 35.98,
+    "near_m": 0.3,
+    "far_m": 20000.0,
+    "origin_offset_m": [-2715000.0, 0.0, 4185000.0],
+    "position_local_m": [12.5, 61.0, -340.2],
+    "rotation_xyzw": [0.0, 0.2587, 0.0, 0.9660],
+    "yaw_pitch_roll_deg": [29.979, 0.0, 0.0],
+    "snap": {
+      "enabled": true,
+      "reference_depth_m": 600.0,
+      "position_grid_m": 2.165,
+      "yaw_step_deg": 0.20675,
+      "pitch_step_deg": 0.20675,
+      "snapped_position_local_m": [12.99, 61.0, -340.2],
+      "snapped_yaw_pitch_roll_deg": [29.979, 0.0, 0.0],
+      "dither_anchor": "direction"
+    }
+  },
+  "conventions": {
+    "handedness": "left (Unity)", "up": "+Y", "forward": "+Z",
+    "pixel_origin": "top-left; pixel centre at (x+0.5, y+0.5)",
+    "rotation": "camera-to-world quaternion of the camera transform used for rendering this frame (after snapping)"
+  },
+  "motion": {
+    "type": "yaw",
+    "axis": "world_up",
+    "speed_internal_px_per_frame": 0.25,
+    "speed_si": { "deg_per_s": 3.10 },
+    "scripted": true,
+    "notes": "camera driven by the capture script, not by player input; all animation and VFX time frozen except camera"
+  },
+  "files": {
+    "color_internal": "f000120_color_internal.png",
+    "color_output": "f000120_color_output.png",
+    "palette_index": "f000120_index.png",
+    "depth": "f000120_depth.png",
+    "mask_ui": null,
+    "mask_animated": "f000120_mask_animated.png",
+    "motion_vectors": null
+  },
+  "encodings": {
+    "color_internal": "8-bit sRGB PNG, RGB, no alpha; final palette-quantised image before upscale and before UI",
+    "color_output": "8-bit sRGB PNG, RGB, no alpha; the presented frame (after upscale and sub-pixel compensation), UI layer disabled",
+    "palette_index": "8-bit greyscale PNG at internal resolution; value = index into the profile colour list; 255 = not palette-quantised",
+    "depth": {
+      "format": "png16_log",
+      "resolution": "internal",
+      "quantity": "eye-space linear depth z (m) along the camera forward axis",
+      "decode": "z = near_m * (far_m / near_m) ** (v / 65535); v = 65535 means sky / no geometry",
+      "alternative": "EXR float32 single channel, same quantity, inf for sky (optional)"
+    },
+    "mask_animated": "8-bit PNG at internal resolution; 255 = pixel covered by an animated element excluded from M-004"
+  }
+}

@@ -38,7 +38,7 @@ def denoise(rgb, mask, pid):
     px, rx = grid_period(g, mask, 1)
     py, ry = grid_period(g, mask, 0)
     detected = min(rx, ry) >= GRID_R
-    weak = (not detected) and max(rx, ry) >= GRID_R_WEAK and abs(px - py) / min(px, py) < 0.1
+    weak = (not detected) and max(rx, ry) >= GRID_R_WEAK and abs(px - py) / min(px, py) < 0.1 and max(px, py) <= 8.0
     if detected or weak:
         p = 0.5 * (px + py)
         h, w = mask.shape
@@ -151,7 +151,7 @@ def main():
         print(pid, "grid", info["detected"], round(info["px"], 2), round(info["rx"], 3), "k*", kstar, "pal", len(pal),
               "bands", nb, "adh_dn", {k: round(v, 3) for k, v in adh_dn.items()}, "adh_raw@5", round(adh_raw["5"], 3),
               "dom", dom, "acc", res[pid]["accent"] and res[pid]["accent"]["hex"])
-    np.savez_compressed(os.path.join(OUT, "scripts", "_pooled_lab.npz"), **pooled)
+    np.savez_compressed(os.path.join(CACHE, "_pooled_lab.npz"), **pooled)
     with open(os.path.join(OUT, "panels.json"), "w") as f:
         json.dump(dict(schema="panel_inventory@v1", generated_by="research/R-002/scripts/analyse_panels.py",
                        merge_de00=MERGE_DE, min_share=MIN_SHARE, grid_R_threshold=GRID_R, panels=res), f, indent=1)

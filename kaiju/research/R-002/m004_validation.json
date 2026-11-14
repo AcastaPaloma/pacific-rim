@@ -1,0 +1,335 @@
+{
+ "meta": {
+  "internal_res": [
+   320,
+   180
+  ],
+  "hfov_deg": 60,
+  "d_ref_m": 600.0,
+  "px_world_m": 2.165,
+  "px_angle_deg": 0.2067,
+  "frames": 60
+ },
+ "results": {
+  "static@0px/f|continuous|bayer_screen": {
+   "lag": 1,
+   "shimmer_per_px": 0.0,
+   "crawl_per_px": 0.0,
+   "shimmer": 0.0,
+   "shimmer_p95": 0.0,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.0,
+   "change_flat": 0.0
+  },
+  "static@0px/f|continuous|temporal_noise": {
+   "lag": 1,
+   "shimmer_per_px": 0.334,
+   "crawl_per_px": 0.4469,
+   "shimmer": 0.334,
+   "shimmer_p95": 0.3375,
+   "flicker_reversal": 0.1668,
+   "crawl_dithered": 0.4469,
+   "change_flat": 0.0585
+  },
+  "translate@0.1px/f|continuous|bayer_screen": {
+   "lag": 10,
+   "shimmer_per_px": 0.2481,
+   "crawl_per_px": 0.3331,
+   "shimmer": 0.0023,
+   "shimmer_p95": 0.0026,
+   "flicker_reversal": 0.0006,
+   "crawl_dithered": 0.003,
+   "change_flat": 0.0001
+  },
+  "translate@0.1px/f|snapped|bayer_screen": {
+   "lag": 10,
+   "shimmer_per_px": 0.2487,
+   "crawl_per_px": 0.3331,
+   "shimmer": 0.0211,
+   "shimmer_p95": 0.2462,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.0282,
+   "change_flat": 0.0002
+  },
+  "translate@0.1px/f|snapped|bayer_locked": {
+   "lag": 10,
+   "shimmer_per_px": 0.2942,
+   "crawl_per_px": 0.3734,
+   "shimmer": 0.0249,
+   "shimmer_p95": 0.2933,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.0316,
+   "change_flat": 0.0001
+  },
+  "translate@0.1px/f|snapped|bayer_direction_locked": {
+   "lag": 10,
+   "shimmer_per_px": 0.2487,
+   "crawl_per_px": 0.3331,
+   "shimmer": 0.0211,
+   "shimmer_p95": 0.2462,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.0282,
+   "change_flat": 0.0002
+  },
+  "translate@0.1px/f|snapped|bayer_world_anchored": {
+   "lag": 10,
+   "shimmer_per_px": 0.0946,
+   "crawl_per_px": 0.1242,
+   "shimmer": 0.008,
+   "shimmer_p95": 0.0447,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.0105,
+   "change_flat": 0.0001
+  },
+  "translate@0.25px/f|continuous|bayer_screen": {
+   "lag": 4,
+   "shimmer_per_px": 0.2453,
+   "crawl_per_px": 0.3312,
+   "shimmer": 0.2026,
+   "shimmer_p95": 0.2076,
+   "flicker_reversal": 0.111,
+   "crawl_dithered": 0.2645,
+   "change_flat": 0.0007
+  },
+  "translate@0.25px/f|snapped|bayer_screen": {
+   "lag": 4,
+   "shimmer_per_px": 0.2456,
+   "crawl_per_px": 0.3314,
+   "shimmer": 0.0583,
+   "shimmer_p95": 0.2462,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.0786,
+   "change_flat": 0.0007
+  },
+  "translate@0.25px/f|snapped|bayer_locked": {
+   "lag": 4,
+   "shimmer_per_px": 0.2964,
+   "crawl_per_px": 0.377,
+   "shimmer": 0.0703,
+   "shimmer_p95": 0.2982,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.0894,
+   "change_flat": 0.0004
+  },
+  "translate@0.25px/f|snapped|bayer_direction_locked": {
+   "lag": 4,
+   "shimmer_per_px": 0.2456,
+   "crawl_per_px": 0.3314,
+   "shimmer": 0.0583,
+   "shimmer_p95": 0.2462,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.0786,
+   "change_flat": 0.0007
+  },
+  "translate@0.25px/f|snapped|bayer_world_anchored": {
+   "lag": 4,
+   "shimmer_per_px": 0.0952,
+   "crawl_per_px": 0.1246,
+   "shimmer": 0.0226,
+   "shimmer_p95": 0.1115,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.0296,
+   "change_flat": 0.0004
+  },
+  "translate@1.0px/f|continuous|bayer_screen": {
+   "lag": 1,
+   "shimmer_per_px": 0.2448,
+   "crawl_per_px": 0.3249,
+   "shimmer": 0.2448,
+   "shimmer_p95": 0.2536,
+   "flicker_reversal": 0.1478,
+   "crawl_dithered": 0.3249,
+   "change_flat": 0.0075
+  },
+  "translate@1.0px/f|snapped|bayer_screen": {
+   "lag": 1,
+   "shimmer_per_px": 0.2448,
+   "crawl_per_px": 0.3249,
+   "shimmer": 0.2448,
+   "shimmer_p95": 0.2536,
+   "flicker_reversal": 0.1478,
+   "crawl_dithered": 0.3249,
+   "change_flat": 0.0075
+  },
+  "translate@1.0px/f|snapped|bayer_locked": {
+   "lag": 1,
+   "shimmer_per_px": 0.3071,
+   "crawl_per_px": 0.3755,
+   "shimmer": 0.3071,
+   "shimmer_p95": 0.3183,
+   "flicker_reversal": 0.1975,
+   "crawl_dithered": 0.3755,
+   "change_flat": 0.0028
+  },
+  "translate@1.0px/f|snapped|bayer_direction_locked": {
+   "lag": 1,
+   "shimmer_per_px": 0.2448,
+   "crawl_per_px": 0.3249,
+   "shimmer": 0.2448,
+   "shimmer_p95": 0.2536,
+   "flicker_reversal": 0.1478,
+   "crawl_dithered": 0.3249,
+   "change_flat": 0.0075
+  },
+  "translate@1.0px/f|snapped|bayer_world_anchored": {
+   "lag": 1,
+   "shimmer_per_px": 0.0984,
+   "crawl_per_px": 0.1231,
+   "shimmer": 0.0984,
+   "shimmer_p95": 0.1373,
+   "flicker_reversal": 0.069,
+   "crawl_dithered": 0.1231,
+   "change_flat": 0.0033
+  },
+  "yaw@0.1px/f|continuous|bayer_screen": {
+   "lag": 10,
+   "shimmer_per_px": 0.518,
+   "crawl_per_px": 0.6707,
+   "shimmer": 0.0013,
+   "shimmer_p95": 0.0019,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.0016,
+   "change_flat": 0.0003
+  },
+  "yaw@0.1px/f|snapped|bayer_screen": {
+   "lag": 10,
+   "shimmer_per_px": 0.5186,
+   "crawl_per_px": 0.6706,
+   "shimmer": 0.044,
+   "shimmer_p95": 0.5181,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.0568,
+   "change_flat": 0.0002
+  },
+  "yaw@0.1px/f|snapped|bayer_locked": {
+   "lag": 10,
+   "shimmer_per_px": 0.0025,
+   "crawl_per_px": 0.0028,
+   "shimmer": 0.0002,
+   "shimmer_p95": 0.0022,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.0002,
+   "change_flat": 0.0001
+  },
+  "yaw@0.1px/f|snapped|bayer_direction_locked": {
+   "lag": 10,
+   "shimmer_per_px": 0.0025,
+   "crawl_per_px": 0.0028,
+   "shimmer": 0.0002,
+   "shimmer_p95": 0.0022,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.0002,
+   "change_flat": 0.0001
+  },
+  "yaw@0.1px/f|snapped|bayer_world_anchored": {
+   "lag": 10,
+   "shimmer_per_px": 0.0566,
+   "crawl_per_px": 0.0716,
+   "shimmer": 0.0048,
+   "shimmer_p95": 0.0583,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.0061,
+   "change_flat": 0.0002
+  },
+  "yaw@0.25px/f|continuous|bayer_screen": {
+   "lag": 4,
+   "shimmer_per_px": 0.5146,
+   "crawl_per_px": 0.6706,
+   "shimmer": 0.0033,
+   "shimmer_p95": 0.0038,
+   "flicker_reversal": 0.0015,
+   "crawl_dithered": 0.0041,
+   "change_flat": 0.0008
+  },
+  "yaw@0.25px/f|snapped|bayer_screen": {
+   "lag": 4,
+   "shimmer_per_px": 0.5148,
+   "crawl_per_px": 0.6705,
+   "shimmer": 0.1222,
+   "shimmer_p95": 0.5181,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.1591,
+   "change_flat": 0.0007
+  },
+  "yaw@0.25px/f|snapped|bayer_locked": {
+   "lag": 4,
+   "shimmer_per_px": 0.0025,
+   "crawl_per_px": 0.0029,
+   "shimmer": 0.0006,
+   "shimmer_p95": 0.0028,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.0007,
+   "change_flat": 0.0003
+  },
+  "yaw@0.25px/f|snapped|bayer_direction_locked": {
+   "lag": 4,
+   "shimmer_per_px": 0.0025,
+   "crawl_per_px": 0.0029,
+   "shimmer": 0.0006,
+   "shimmer_p95": 0.0028,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.0007,
+   "change_flat": 0.0003
+  },
+  "yaw@0.25px/f|snapped|bayer_world_anchored": {
+   "lag": 4,
+   "shimmer_per_px": 0.0697,
+   "crawl_per_px": 0.0883,
+   "shimmer": 0.0165,
+   "shimmer_p95": 0.0792,
+   "flicker_reversal": 0.0,
+   "crawl_dithered": 0.021,
+   "change_flat": 0.0008
+  },
+  "yaw@1.0px/f|continuous|bayer_screen": {
+   "lag": 1,
+   "shimmer_per_px": 0.5117,
+   "crawl_per_px": 0.6676,
+   "shimmer": 0.5117,
+   "shimmer_p95": 0.5181,
+   "flicker_reversal": 0.4084,
+   "crawl_dithered": 0.6676,
+   "change_flat": 0.0031
+  },
+  "yaw@1.0px/f|snapped|bayer_screen": {
+   "lag": 1,
+   "shimmer_per_px": 0.5117,
+   "crawl_per_px": 0.6676,
+   "shimmer": 0.5117,
+   "shimmer_p95": 0.5181,
+   "flicker_reversal": 0.4084,
+   "crawl_dithered": 0.6676,
+   "change_flat": 0.0031
+  },
+  "yaw@1.0px/f|snapped|bayer_locked": {
+   "lag": 1,
+   "shimmer_per_px": 0.0029,
+   "crawl_per_px": 0.0035,
+   "shimmer": 0.0029,
+   "shimmer_p95": 0.0035,
+   "flicker_reversal": 0.0003,
+   "crawl_dithered": 0.0035,
+   "change_flat": 0.0009
+  },
+  "yaw@1.0px/f|snapped|bayer_direction_locked": {
+   "lag": 1,
+   "shimmer_per_px": 0.0029,
+   "crawl_per_px": 0.0035,
+   "shimmer": 0.0029,
+   "shimmer_p95": 0.0035,
+   "flicker_reversal": 0.0003,
+   "crawl_dithered": 0.0035,
+   "change_flat": 0.0009
+  },
+  "yaw@1.0px/f|snapped|bayer_world_anchored": {
+   "lag": 1,
+   "shimmer_per_px": 0.0756,
+   "crawl_per_px": 0.0952,
+   "shimmer": 0.0756,
+   "shimmer_p95": 0.0805,
+   "flicker_reversal": 0.0212,
+   "crawl_dithered": 0.0952,
+   "change_flat": 0.0083
+  }
+ }
+}
