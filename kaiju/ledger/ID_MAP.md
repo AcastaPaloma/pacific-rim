@@ -42,5 +42,27 @@ Written by the scribe on 2026-11-14. Translates the `M-NEW-*` / `Q-NEW-*` placeh
 | expectations/T-001.md Q-NEW (save compatibility; draft B Q-c) | Q-032 |
 | expectations/T-007.md Q-NEW (look of the Balanced chassis) | Q-033 |
 | expectations/T-007.md Q-NEW (chassis heights within D-007) | Q-034 |
+| expectations/T-002.md Q (provisional passes) | Q-035 |
+| expectations/T-002.md Q (incomplete metrics at the M0 gate) | Q-036 |
+| expectations/T-002.md Q (calibration ratings) | Q-037 |
+| expectations/T-002.md Q (version bump on calibration) | Q-038 |
+| expectations/T-003.md Q (recent buildings missing from open data) | Q-039 |
+| expectations/T-003.md Q (roads at M0) | Q-040 |
+| expectations/T-003.md Q (DataSF-derived heights under PDDL) | Q-041 |
+| expectations/T-004.md Q (camera impulse envelope and default framing) | Q-042 |
+| expectations/T-004.md Q (outlines, light shafts, clustered smoke) | Q-043 |
+| expectations/T-003.md Q (M0 tile and tile scheme) | Q-030 (extra source; tile scheme) |
+| expectations/T-003.md Q (budgets for a tile) | Q-019 (extra source; target PC) |
+| expectations/T-003.md Q (Bay Bridge west tower height) | Q-031 (extra source) |
+| expectations/T-003.md Q (fictional fault through downtown) | Q-030 (extra source; no fictional faults) |
+| expectations/T-003.md Q (OSM share-alike) | Q-023 (extra source) |
+| expectations/T-004.md Q (dither look) | Q-015 (extra source) |
+| expectations/T-004.md Q (translation shimmer) | Q-016 (extra source) |
+| expectations/T-004.md Q (rotation quantisation) | Q-021 (extra source) |
+| expectations/T-004.md Q (4K internal resolution) | Q-018 (extra source) |
+| expectations/T-004.md Q (profiles: five versus four) | Q-017 (extra source) |
+| expectations/T-004.md Q (target PC for M-008) | Q-019 (extra source) |
 
 Not placeholders but also registered: `R-001` to `R-005` (the file's own ID), `M-001@v1` to `M-006@v1` (specs; the proposals named `M-003@v1`, `M-004@v1`, `M-005@v1`, `M-006@v1` in the research files), `gait_log@v1` as M-010, `physics_log@v1`, `palette_set@v1`, `style_capture@v1`, `geo_tile@v1`, `mech_frame@v1` stay file-level data contracts owned by the file that defines them.
+
+Added 2026-11-14 (scribe): Q-035 to Q-043 from the reconciled specs `expectations/T-002.md`, `T-003.md`, `T-004.md`; the rows marked "extra source" are duplicates of an existing Q and create no new number.
