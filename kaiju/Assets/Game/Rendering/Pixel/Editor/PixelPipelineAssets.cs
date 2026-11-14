@@ -97,6 +97,8 @@ namespace Game.Rendering.Pixel.Editor
             so.FindProperty("m_RequireDepthTexture").boolValue = true;
             so.FindProperty("m_RequireOpaqueTexture").boolValue = false;
             so.FindProperty("m_SupportsHDR").boolValue = true;
+            so.FindProperty("m_MainLightShadowsSupported").boolValue = false;
+            so.FindProperty("m_AdditionalLightShadowsSupported").boolValue = false;
             so.ApplyModifiedPropertiesWithoutUndo();
             EditorUtility.SetDirty(asset);
             return asset;

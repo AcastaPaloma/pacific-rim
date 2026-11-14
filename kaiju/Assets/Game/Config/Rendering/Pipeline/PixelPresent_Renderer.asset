@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4131348632752143975
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59be11217f35040ecbcd9c0dd1ebeb4f, type: 3}
-  m_Name: PixelSmoke
-  m_EditorClassIdentifier: Game.Rendering.Pixel::Game.Rendering.Pixel.PixelSmokeFeature
-  m_Active: 1
-  shader: {fileID: 4800000, guid: 572b73d80330e49fa8b7481f0cb4113b, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de640fe3d0db1804a85f9fc8f5cadab6, type: 3}
-  m_Name: PixelSmoke_Renderer
+  m_Name: PixelPresent_Renderer
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalRendererData
   debugShaders:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7, type: 3}
@@ -39,8 +25,8 @@ MonoBehaviour:
     probeSamplingDebugTexture: {fileID: 0}
     probeVolumeBlendStatesCS: {fileID: 0}
   m_RendererFeatures:
-  - {fileID: -4131348632752143975}
-  m_RendererFeatureMap: 994183ad4e80aac6l
+  - {fileID: 2589272899046827861}
+  m_RendererFeatureMap: 55673baefbf1ee23l
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 0}
   m_AssetVersion: 3
@@ -69,3 +55,17 @@ MonoBehaviour:
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 0
   m_TileOnlyMode: 0
+--- !u!114 &2589272899046827861
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aec4d04fcbc7c443aac871bb6b2bb3ff, type: 3}
+  m_Name: PixelPresent
+  m_EditorClassIdentifier: Game.Rendering.Pixel::Game.Rendering.Pixel.PixelPresentFeature
+  m_Active: 1
+  shader: {fileID: 4800000, guid: 1e827e0c9e33a4e46b13820ca54d7dd4, type: 3}
