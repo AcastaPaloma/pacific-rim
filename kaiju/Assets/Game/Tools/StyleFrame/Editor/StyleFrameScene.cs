@@ -32,7 +32,7 @@ namespace Game.Tools.StyleFrame
         // Ferry Building and Salesforce Tower (WGS84), used only to place a search window relative to the tallest tower.
         const double FerryLon = -122.39345, FerryLat = 37.79553, TowerLon = -122.39690, TowerLat = 37.78970;
         const double SearchMargin = 60.0;
-        const float MechYawDeg = 270f;          // prefab faces +Z; 270 turns it to face west (-x), toward the city
+        const float DefaultMechYawDeg = 270f;   // prefab faces +Z; 270 turns it to face west (-x), toward the city (override: -styleFrameMechYaw)
         const double HeightTolerance = 0.5, MechHeight = 80.0;
 
         static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -92,12 +92,13 @@ namespace Game.Tools.StyleFrame
             var site = FindSite(inst, level, warnings, out var siteNotes);
 
             // 4. mech
+            float mechYaw = float.Parse(Arg("-styleFrameMechYaw", DefaultMechYawDeg.ToString(Inv)), Inv);
             var mechPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(MechPrefabPath) ?? throw new FileNotFoundException("mech prefab not found: " + MechPrefabPath);
             var mech = (GameObject)PrefabUtility.InstantiatePrefab(mechPrefab, scene);
             mech.name = "Mech_T007_Rest";
             var stripped = StripDynamics(mech);
             mech.transform.localScale = Vector3.one;
-            mech.transform.SetPositionAndRotation(new Vector3((float)site.LocalX, 0f, (float)site.LocalZ), Quaternion.Euler(0f, MechYawDeg, 0f));
+            mech.transform.SetPositionAndRotation(new Vector3((float)site.LocalX, 0f, (float)site.LocalZ), Quaternion.Euler(0f, mechYaw, 0f));
             Physics.SyncTransforms();
             var feet = FindFeet(mech);
             double seabedBelowFeet = double.MinValue; var footSeabed = new double[feet.Length];
@@ -128,8 +129,24 @@ namespace Game.Tools.StyleFrame
             var sun = new GameObject("Sun");
             var light = sun.AddComponent<Light>();
             light.type = LightType.Directional; light.intensity = 1f; light.shadows = LightShadows.None;
-            sun.transform.rotation = Quaternion.Euler(45f, 235f, 0f);
+            sun.transform.rotation = Quaternion.Euler((float)StyleFrameShots.SunElevationDeg, StyleFrameShots.SunTravelYawDeg, 0f);   // one fixed low sun, from the side (SSW)
             var pipe = AddPixelCameras(profile, mp, mb, out var flagsOn, out string paletteSha);
+
+            // 6b. shots and placeholder props (analytic; the hero pose is applied to the world camera, captures drive it through the rig)
+            var wcn = ctx.WaterCells; int wcells = hf.Samples - 1; double wsp = hf.Spacing;
+            var ground = new FrameGround
+            {
+                Level = level,
+                IsWater = (lx, lz) => { int c = (int)Math.Floor(lx / wsp), r = (int)Math.Floor(lz / wsp); return c >= 0 && r >= 0 && c < wcells && r < wcells && wcn[r * wcells + c]; },
+                Data = (lx, lz) => hf.SampleData(lx, lz),
+                Render = (lx, lz) => hf.SampleRender(lx, lz),
+            };
+            var mechInfo = new MechInfo { X = mb.center.x, Z = mb.center.z, YWater = level, YTop = mb.max.y, YSole = soleY, YawDeg = mechYaw, HeightM = measuredHeight, WaterDepthM = depthAtMech, ScenePosition = mp };
+            var towerInfo = new TowerInfo { X = site.TowerX, Z = site.TowerZ, Top = site.TowerTop, Bid = site.TowerBid };
+            var plan = StyleFrameShots.Plan(ground, mechInfo, towerInfo);
+            var worldCam = GameObject.Find(pipe).transform;
+            worldCam.SetPositionAndRotation(new Vector3((float)plan.Hero.X, (float)plan.Hero.Y, (float)plan.Hero.Z), Quaternion.Euler(-(float)plan.Hero.PitchDeg, (float)plan.Hero.YawDeg, 0f));
+            StyleFrameShots.AddProps(plan, StyleTestScenes.SurfaceShader);
 
             // 7. unit scales
             var nonUnit = FindNonUnitScales();
@@ -148,7 +165,7 @@ namespace Game.Tools.StyleFrame
             j.Append("  \"scene_position_m\": [").Append(Num(mp.x)).Append(", ").Append(Num(mp.y)).Append(", ").Append(Num(mp.z)).Append("],\n");
             j.Append("  \"baytm_position_m\": [").Append(Num(mp.x + inst.FloatingOriginX)).Append(", ").Append(Num(mp.y)).Append(", ").Append(Num(mp.z + inst.FloatingOriginZ)).Append("],\n");
             j.Append("  \"foot_centre_baytm\": [").Append(Num(footCentreX + inst.FloatingOriginX)).Append(", ").Append(Num(footCentreZ + inst.FloatingOriginZ)).Append("],\n");
-            j.Append("  \"yaw_deg\": ").Append(Num(MechYawDeg)).Append(",\n  \"scale\": [1, 1, 1],\n");
+            j.Append("  \"yaw_deg\": ").Append(Num(mechYaw)).Append(",\n  \"scale\": [1, 1, 1],\n");
             j.Append("  \"measured_height_m\": ").Append(Num(measuredHeight)).Append(",\n");
             j.Append("  \"bounds_min\": ").Append(Vec(mb.min)).Append(",\n  \"bounds_max\": ").Append(Vec(mb.max)).Append(",\n");
             j.Append("  \"sole_y_navd88_m\": ").Append(Num(soleY)).Append(",\n");
@@ -166,12 +183,16 @@ namespace Game.Tools.StyleFrame
             j.Append(" \"warnings\": [").Append(string.Join(", ", warnings.ConvertAll(Str))).Append("]\n}\n");
             Directory.CreateDirectory(Path.GetDirectoryName(LogPath));
             File.WriteAllText(LogPath, j.ToString());
+            StyleFrameShots.WriteProps(plan, inst.FloatingOriginX, inst.FloatingOriginZ, plan.Warnings);
+            StyleFrameShots.WriteShots(plan, inst.FloatingOriginX, inst.FloatingOriginZ, profile, paletteSha, Configuration, flagsOn, TileName);
+            foreach (var w in plan.Warnings) Debug.LogWarning("[StyleFrame] " + w);
             if (nonUnit.Count > 0) throw new InvalidOperationException("non-unit scales found: " + string.Join(", ", nonUnit));
+            Debug.Log("[StyleFrame] hero camera BayTM (" + (plan.Hero.X + inst.FloatingOriginX).ToString("F1", Inv) + ", " + plan.Hero.Y.ToString("F1", Inv) + ", " + (plan.Hero.Z + inst.FloatingOriginZ).ToString("F1", Inv) + "), mech height fraction " + plan.Hero.MechFractionFull80.ToString("F3", Inv) + ", horizon row " + plan.Hero.HorizonRowFromTop.ToString("F3", Inv));
             Debug.Log("[StyleFrame] mech at BayTM (" + (mp.x + inst.FloatingOriginX).ToString("F1", Inv) + ", " + (mp.z + inst.FloatingOriginZ).ToString("F1", Inv) + "), depth " + depthAtMech.ToString("F2", Inv) + " m, height " + measuredHeight.ToString("F2", Inv) + " m");
         }
 
         // ------------------------------------------------------------------ site search
-        sealed class Site { public double LocalX, LocalZ, Depth, Offshore; public string Pass; }
+        sealed class Site { public double LocalX, LocalZ, Depth, Offshore, TowerX, TowerZ, TowerTop; public string Pass, TowerBid; }
 
         static Site FindSite(GeoTileInstance inst, double level, List<string> warnings, out string notes)
         {
@@ -266,7 +287,7 @@ namespace Game.Tools.StyleFrame
                         if (!Flat(lx, lz, depth)) continue;
                         if (p.los && !Los(lx, lz)) continue;
                         double key = depth + 0.002 * Math.Abs(off - 500);
-                        if (key < bestKey) { bestKey = key; best = new Site { LocalX = lx, LocalZ = lz, Depth = depth, Offshore = off, Pass = p.name }; }
+                        if (key < bestKey) { bestKey = key; best = new Site { LocalX = lx, LocalZ = lz, Depth = depth, Offshore = off, Pass = p.name, TowerX = tower.AnchorLocalX, TowerZ = tower.AnchorLocalZ, TowerTop = towerTop, TowerBid = tower.Bid }; }
                     }
                 if (best != null)
                 {
@@ -466,9 +487,9 @@ namespace Game.Tools.StyleFrame
 
         // ------------------------------------------------------------------ small formatting helpers
         static string Hex(byte[] b) { var s = new StringBuilder(b.Length * 2); foreach (var x in b) s.Append(x.ToString("x2", Inv)); return s.ToString(); }
-        static string Num(double v) => v.ToString("R", Inv);
+        internal static string Num(double v) => v.ToString("R", Inv);
         static string Vec(Vector3 v) => "[" + Num(v.x) + ", " + Num(v.y) + ", " + Num(v.z) + "]";
-        static string Str(string s)
+        internal static string Str(string s)
         {
             if (s == null) return "null";
             var sb = new StringBuilder("\"");
