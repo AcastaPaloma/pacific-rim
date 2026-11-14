@@ -1,0 +1,2075 @@
+{
+ "spec": "M-005@v1",
+ "tile": "L0_30_36",
+ "source": "research/R-004.md §6",
+ "m005": {
+  "M-005.1": {
+   "landmarks": [
+    {
+     "n": 3,
+     "name": "Bay Bridge W2 tower",
+     "bid": "osm:w432712476",
+     "anchor_baytm": [
+      63352.5754,
+      74158.7473
+     ],
+     "d_vs_source_m": 0.0,
+     "d_vs_reference_m": 0.0186,
+     "base_navd88_m": -18.593,
+     "top_navd88_m": 141.407,
+     "height_above_base_m": 160.0,
+     "height_ref_m": 160,
+     "gate_height": false,
+     "height_basis": "OSM 160 vs 143 [R-004 ref 30]: conflict Q-031, not gated"
+    },
+    {
+     "n": 6,
+     "name": "Salesforce Tower",
+     "bid": "osm:w431972186",
+     "anchor_baytm": [
+      62374.4123,
+      74051.205
+     ],
+     "d_vs_source_m": 0.0,
+     "d_vs_reference_m": 1.1518,
+     "base_navd88_m": 4.756,
+     "top_navd88_m": 330.756,
+     "height_above_base_m": 326.0,
+     "height_ref_m": 326,
+     "gate_height": true,
+     "height_basis": "Wikidata Q14684154; OSM"
+    },
+    {
+     "n": 7,
+     "name": "Transamerica Pyramid",
+     "bid": "osm:w24222973",
+     "anchor_baytm": [
+      61859.0156,
+      74650.0833
+     ],
+     "d_vs_source_m": 0.0,
+     "d_vs_reference_m": 0.0386,
+     "base_navd88_m": 3.011,
+     "top_navd88_m": 263.011,
+     "height_above_base_m": 260.0,
+     "height_ref_m": 260,
+     "gate_height": true,
+     "height_basis": "Wikidata Q216865; OSM (spire included)"
+    },
+    {
+     "n": 8,
+     "name": "555 California Street",
+     "bid": "osm:w288511106",
+     "anchor_baytm": [
+      61777.0451,
+      74311.3138
+     ],
+     "d_vs_source_m": 0.0,
+     "d_vs_reference_m": 0.3371,
+     "base_navd88_m": 10.419,
+     "top_navd88_m": 247.419,
+     "height_above_base_m": 237.0,
+     "height_ref_m": 226,
+     "gate_height": false,
+     "height_basis": "OSM 226 vs commonly cited 237: conflict, reported only"
+    },
+    {
+     "n": 9,
+     "name": "Millennium Tower",
+     "bid": "osm:w72963089",
+     "anchor_baytm": [
+      62439.4387,
+      74121.4654
+     ],
+     "d_vs_source_m": 0.0001,
+     "d_vs_reference_m": 0.5242,
+     "base_navd88_m": -1.207,
+     "top_navd88_m": 195.793,
+     "height_above_base_m": 197.0,
+     "height_ref_m": 197,
+     "gate_height": true,
+     "height_basis": "OSM"
+    },
+    {
+     "n": 10,
+     "name": "Ferry Building",
+     "bid": "osm:w558731934",
+     "anchor_baytm": [
+      62682.2188,
+      74689.8605
+     ],
+     "d_vs_source_m": 0.0,
+     "d_vs_reference_m": 1.0582,
+     "base_navd88_m": 2.948,
+     "top_navd88_m": 86.048,
+     "height_above_base_m": 83.1,
+     "height_ref_m": 15,
+     "gate_height": false,
+     "height_basis": "main hall, OSM; clock tower unsourced: reported only"
+    },
+    {
+     "n": 11,
+     "name": "Coit Tower",
+     "bid": "osm:w28824850",
+     "anchor_baytm": [
+      61591.4629,
+      75450.4023
+     ],
+     "d_vs_source_m": 0.0001,
+     "d_vs_reference_m": 0.3151,
+     "base_navd88_m": 90.926,
+     "top_navd88_m": 154.926,
+     "height_above_base_m": 64.0,
+     "height_ref_m": 64,
+     "gate_height": true,
+     "height_basis": "Wikidata Q1107297; OSM"
+    }
+   ],
+   "a_vs_source": {
+    "value": 0.0001,
+    "threshold": "<= 0.5 m all",
+    "result": "pass"
+   },
+   "b_vs_reference": {
+    "value": {
+     "p95_m": 1.1237,
+     "max_m": 1.1518
+    },
+    "threshold": "p95 <= 5 m, max <= 10 m",
+    "result": "pass",
+    "note": "reference = R-004 §5 OSM centre (Overpass out center) positions; the anchor is the footprint area centroid"
+   },
+   "c_bridge_spans": {
+    "result": "not_applicable_in_tile",
+    "reason": "Golden Gate towers (#1, #2) are outside L0_30_36",
+    "due": "M1"
+   },
+   "out_of_tile_landmarks": {
+    "result": "not_applicable_in_tile",
+    "reason": "outside L0_30_36: #1 Golden Gate Bridge south tower, #2 Golden Gate Bridge north tower, #4 Bay Bridge W6 tower, #5 Bay Bridge east span SAS tower, #12 Sutro Tower, #13 Alcatraz lighthouse, #14 Ordway Building, Oakland, #15 SFO control tower, #17 Mount Davidson summit, #18 Mt Tamalpais East Peak, #19 Mount Diablo summit",
+    "due": "M1"
+   },
+   "d_heights": {
+    "value": [
+     {
+      "name": "Bay Bridge W2 tower",
+      "as_built_m": 160.0,
+      "ref_m": 160,
+      "delta_m": 0.0,
+      "tol_m": 2.0,
+      "gated": false,
+      "result": "reported"
+     },
+     {
+      "name": "Salesforce Tower",
+      "as_built_m": 326.0,
+      "ref_m": 326,
+      "delta_m": 0.0,
+      "tol_m": 3.2600000000000002,
+      "gated": true,
+      "result": "pass"
+     },
+     {
+      "name": "Transamerica Pyramid",
+      "as_built_m": 260.0,
+      "ref_m": 260,
+      "delta_m": 0.0,
+      "tol_m": 2.6,
+      "gated": true,
+      "result": "pass"
+     },
+     {
+      "name": "555 California Street",
+      "as_built_m": 237.0,
+      "ref_m": 226,
+      "delta_m": 11.0,
+      "tol_m": 2.2600000000000002,
+      "gated": false,
+      "result": "reported"
+     },
+     {
+      "name": "Millennium Tower",
+      "as_built_m": 197.0,
+      "ref_m": 197,
+      "delta_m": 0.0,
+      "tol_m": 2.0,
+      "gated": true,
+      "result": "pass"
+     },
+     {
+      "name": "Ferry Building",
+      "as_built_m": 83.1,
+      "ref_m": 15,
+      "delta_m": 68.1,
+      "tol_m": 2.0,
+      "gated": false,
+      "result": "reported"
+     },
+     {
+      "name": "Coit Tower",
+      "as_built_m": 64.0,
+      "ref_m": 64,
+      "delta_m": 0.0,
+      "tol_m": 2.0,
+      "gated": true,
+      "result": "pass"
+     }
+    ],
+    "threshold": "within max(2 m, 1 %) above base (gated rows: Salesforce, Transamerica, Millennium, Coit)",
+    "result": "pass",
+    "salesforce_tallest": true,
+    "tallest_bid": "osm:w431972186",
+    "tallest_top_navd88_m": 330.756
+   },
+   "result": "pass"
+  },
+  "M-005.2": {
+   "ngs_marks_in_tile": 29,
+   "ngs_qualifying": 0,
+   "marks": [
+    {
+     "pid": "HT0686",
+     "qualifies": false,
+     "orthoHt": 3.55,
+     "game_m": 3.5577,
+     "delta_m": 0.0077,
+     "vertSource": "VERTCON3",
+     "posSource": "SCALED",
+     "setting": "36 = SET IN A MASSIVE STRUCTURE",
+     "condition": "MARK NOT FOUND"
+    },
+    {
+     "pid": "HT0685",
+     "qualifies": false,
+     "orthoHt": 3.101,
+     "game_m": 3.1152,
+     "delta_m": 0.0142,
+     "vertSource": "ADJUSTED",
+     "posSource": "HD_HELD2",
+     "setting": "36 = SET IN A MASSIVE STRUCTURE",
+     "condition": "MARK NOT FOUND"
+    },
+    {
+     "pid": "AF8715",
+     "qualifies": false,
+     "orthoHt": 2.0,
+     "game_m": -7.1333,
+     "delta_m": -9.1333,
+     "vertSource": "SCALED",
+     "posSource": "ADJUSTED",
+     "setting": " ",
+     "condition": "FIRST OBSERVED"
+    },
+    {
+     "pid": "AF8714",
+     "qualifies": false,
+     "orthoHt": 2.0,
+     "game_m": -6.0429,
+     "delta_m": -8.0429,
+     "vertSource": "SCALED",
+     "posSource": "ADJUSTED",
+     "setting": " ",
+     "condition": "FIRST OBSERVED"
+    },
+    {
+     "pid": "HT3071",
+     "qualifies": false,
+     "orthoHt": 1.0,
+     "game_m": 9.2313,
+     "delta_m": 8.2313,
+     "vertSource": "SCALED",
+     "posSource": "ADJUSTED",
+     "setting": " ",
+     "condition": "GOOD"
+    },
+    {
+     "pid": "HT0746",
+     "qualifies": false,
+     "orthoHt": 6.66,
+     "game_m": 5.6267,
+     "delta_m": -1.0333,
+     "vertSource": "VERTCON3",
+     "posSource": "HD_HELD2",
+     "setting": "40 = SET IN A LARGE STRUCTURE WITH DEEP FOUNDATIONS",
+     "condition": "GOOD"
+    },
+    {
+     "pid": "HT3117",
+     "qualifies": false,
+     "orthoHt": 265.0,
+     "game_m": 5.4009,
+     "delta_m": -259.5991,
+     "vertSource": "VERTCON3",
+     "posSource": "ADJUSTED",
+     "setting": " ",
+     "condition": "GOOD"
+    },
+    {
+     "pid": "HT0738",
+     "qualifies": false,
+     "orthoHt": 19.2,
+     "game_m": 19.0668,
+     "delta_m": -0.1332,
+     "vertSource": "VERTCON3",
+     "posSource": "SCALED",
+     "setting": "34 = SET IN THE FOOTINGS OF SMALL/MEDIUM STRUCTURES",
+     "condition": "POOR"
+    },
+    {
+     "pid": "HT0736",
+     "qualifies": false,
+     "orthoHt": 12.81,
+     "game_m": 12.871,
+     "delta_m": 0.061,
+     "vertSource": "VERTCON3",
+     "posSource": "HD_HELD2",
+     "setting": "32 = SET IN A RETAINING WALL OR CONCRETE LEDGE",
+     "condition": "GOOD"
+    },
+    {
+     "pid": "AF8716",
+     "qualifies": false,
+     "orthoHt": 2.0,
+     "game_m": 3.7535,
+     "delta_m": 1.7535,
+     "vertSource": "SCALED",
+     "posSource": "ADJUSTED",
+     "setting": " ",
+     "condition": "FIRST OBSERVED"
+    },
+    {
+     "pid": "HT0727",
+     "qualifies": false,
+     "orthoHt": 3.56,
+     "game_m": 3.426,
+     "delta_m": -0.134,
+     "vertSource": "VERTCON3",
+     "posSource": "SCALED",
+     "setting": "36 = SET IN A MASSIVE STRUCTURE",
+     "condition": "MARK NOT FOUND"
+    },
+    {
+     "pid": "HT3053",
+     "qualifies": false,
+     "orthoHt": 100.0,
+     "game_m": 90.4594,
+     "delta_m": -9.5406,
+     "vertSource": "SCALED",
+     "posSource": "ADJUSTED",
+     "setting": "35 = SET IN A MAT FOUNDATION OR CONCRETE SLAB OTHER THAN PAVEMENT",
+     "condition": "MARK NOT FOUND"
+    },
+    {
+     "pid": "HT3075",
+     "qualifies": false,
+     "orthoHt": 77.0,
+     "game_m": 86.9332,
+     "delta_m": 9.9332,
+     "vertSource": "SCALED",
+     "posSource": "ADJUSTED",
+     "setting": "31 = SET IN A PAVEMENT SUCH AS STREET SIDEWALK CURB ETC.",
+     "condition": "GOOD"
+    },
+    {
+     "pid": "HT0761",
+     "qualifies": false,
+     "orthoHt": 7.1,
+     "game_m": 6.898,
+     "delta_m": -0.202,
+     "vertSource": "VERTCON3",
+     "posSource": "HD_HELD2",
+     "setting": "36 = SET IN A MASSIVE STRUCTURE",
+     "condition": "GOOD"
+    },
+    {
+     "pid": "HT0687",
+     "qualifies": false,
+     "orthoHt": 3.779,
+     "game_m": 3.1777,
+     "delta_m": -0.6013,
+     "vertSource": "ADJUSTED",
+     "posSource": "HD_HELD1",
+     "setting": "34 = SET IN THE FOOTINGS OF SMALL/MEDIUM STRUCTURES",
+     "condition": "GOOD"
+    },
+    {
+     "pid": "HT0733",
+     "qualifies": false,
+     "orthoHt": 5.3,
+     "game_m": 5.2701,
+     "delta_m": -0.0299,
+     "vertSource": "VERTCON3",
+     "posSource": "HD_HELD2",
+     "setting": "31 = SET IN A PAVEMENT SUCH AS STREET SIDEWALK CURB ETC.",
+     "condition": "POOR"
+    },
+    {
+     "pid": "HT0734",
+     "qualifies": false,
+     "orthoHt": 5.05,
+     "game_m": 3.9526,
+     "delta_m": -1.0974,
+     "vertSource": "VERTCON3",
+     "posSource": "HD_HELD2",
+     "setting": "35 = SET IN A MAT FOUNDATION OR CONCRETE SLAB OTHER THAN PAVEMENT",
+     "condition": "GOOD"
+    },
+    {
+     "pid": "HT0743",
+     "qualifies": false,
+     "orthoHt": 7.17,
+     "game_m": 6.0271,
+     "delta_m": -1.1429,
+     "vertSource": "VERTCON3",
+     "posSource": "SCALED",
+     "setting": "38 = SET IN THE ABUTMENT OR PIER OF A LARGE BRIDGE",
+     "condition": "MARK NOT FOUND"
+    },
+    {
+     "pid": "HT0728",
+     "qualifies": false,
+     "orthoHt": 4.385,
+     "game_m": 3.581,
+     "delta_m": -0.804,
+     "vertSource": "ADJUSTED",
+     "posSource": "HD_HELD1",
+     "setting": "40 = SET IN A LARGE STRUCTURE WITH DEEP FOUNDATIONS",
+     "condition": "GOOD"
+    },
+    {
+     "pid": "HT3080",
+     "qualifies": false,
+     "orthoHt": 3.0,
+     "game_m": 3.2009,
+     "delta_m": 0.2009,
+     "vertSource": "SCALED",
+     "posSource": "ADJUSTED",
+     "setting": "7 = SET IN TOP OF CONCRETE MONUMENT",
+     "condition": "GOOD"
+    },
+    {
+     "pid": "HT0729",
+     "qualifies": false,
+     "orthoHt": 3.289,
+     "game_m": 3.2414,
+     "delta_m": -0.0476,
+     "vertSource": "ADJUSTED",
+     "posSource": "SCALED",
+     "setting": "31 = SET IN A PAVEMENT SUCH AS STREET SIDEWALK CURB ETC.",
+     "condition": "GOOD"
+    },
+    {
+     "pid": "HT0742",
+     "qualifies": false,
+     "orthoHt": 3.61,
+     "game_m": 3.8039,
+     "delta_m": 0.1939,
+     "vertSource": "VERTCON3",
+     "posSource": "SCALED",
+     "setting": "31 = SET IN A PAVEMENT SUCH AS STREET SIDEWALK CURB ETC.",
+     "condition": "MARK NOT FOUND"
+    },
+    {
+     "pid": "HT0758",
+     "qualifies": false,
+     "orthoHt": 9.674,
+     "game_m": 9.606,
+     "delta_m": -0.068,
+     "vertSource": "ADJUSTED",
+     "posSource": "SCALED",
+     "setting": "32 = SET IN A RETAINING WALL OR CONCRETE LEDGE",
+     "condition": "MARK NOT FOUND"
+    },
+    {
+     "pid": "HT0683",
+     "qualifies": false,
+     "orthoHt": -26.984,
+     "game_m": 3.4279,
+     "delta_m": 30.4119,
+     "vertSource": "ADJUSTED",
+     "posSource": "SCALED",
+     "setting": "39 = SET IN A TUNNEL",
+     "condition": "GOOD"
+    },
+    {
+     "pid": "HT0684",
+     "qualifies": false,
+     "orthoHt": 1.461,
+     "game_m": 3.4279,
+     "delta_m": 1.9669,
+     "vertSource": "ADJUSTED",
+     "posSource": "SCALED",
+     "setting": "40 = SET IN A LARGE STRUCTURE WITH DEEP FOUNDATIONS",
+     "condition": "GOOD"
+    },
+    {
+     "pid": "HT3021",
+     "qualifies": false,
+     "orthoHt": 4.0,
+     "game_m": 3.4427,
+     "delta_m": -0.5573,
+     "vertSource": "SCALED",
+     "posSource": "ADJUSTED",
+     "setting": "17 = SET INTO TOP OF METAL PIPE DRIVEN INTO GROUND",
+     "condition": "GOOD"
+    },
+    {
+     "pid": "HT0759",
+     "qualifies": false,
+     "orthoHt": 3.505,
+     "game_m": 3.4427,
+     "delta_m": -0.0623,
+     "vertSource": "ADJUSTED",
+     "posSource": "HD_HELD1",
+     "setting": "34 = SET IN THE FOOTINGS OF SMALL/MEDIUM STRUCTURES",
+     "condition": "GOOD"
+    },
+    {
+     "pid": "HT0744",
+     "qualifies": false,
+     "orthoHt": 9.13,
+     "game_m": 8.8261,
+     "delta_m": -0.3039,
+     "vertSource": "VERTCON3",
+     "posSource": "SCALED",
+     "setting": "36 = SET IN A MASSIVE STRUCTURE",
+     "condition": "MARK NOT FOUND"
+    },
+    {
+     "pid": "HT0760",
+     "qualifies": false,
+     "orthoHt": 8.08,
+     "game_m": 6.8093,
+     "delta_m": -1.2707,
+     "vertSource": "VERTCON3",
+     "posSource": "SCALED",
+     "setting": "36 = SET IN A MASSIVE STRUCTURE",
+     "condition": "MARK NOT FOUND"
+    }
+   ],
+   "pipeline": {
+    "value": {
+     "rmse_m": 0.0095,
+     "max_m": 0.1365,
+     "n": 10000
+    },
+    "threshold": "RMSE <= 0.10 m, max <= 0.5 m (physics surface vs 3DEP source)",
+    "result": "pass",
+    "render_surface": {
+     "rmse_m": 0.0341,
+     "max_m": 0.1526
+    }
+   },
+   "ngs": {
+    "result": "insufficient_marks",
+    "qualifying": 0,
+    "rule": "fewer than 5 qualifying marks: the pipeline check gates (T-003 C3); thresholds unchanged",
+    "independent_check_all_marks_median_abs_m": 0.6013
+   },
+   "result": "pass"
+  },
+  "M-005.3": {
+   "pipeline_rmse": {
+    "value": {
+     "rmse_m": 0.0062,
+     "max_m": 0.4845,
+     "n": 10000
+    },
+    "threshold": "RMSE <= 0.25 m vs CUDEM on 10,000 wet points",
+    "result": "pass"
+   },
+   "tile_minimum": {
+    "value": {
+     "as_built_min_m": -29.481,
+     "cudem_min_in_tile_m": -29.485,
+     "delta_m": 0.004
+    },
+    "threshold": "within 1 m",
+    "result": "pass"
+   },
+   "golden_gate": {
+    "result": "not_applicable_in_tile",
+    "reason": "box -122.484..-122.472 W, 37.814..37.823 N is outside L0_30_36",
+    "due": "M1",
+    "preview": {
+     "tile": "L0_26_37",
+     "min_m": -101.95,
+     "p5_m": -99.11,
+     "threshold": "min -113 +/- 4 m; p5 <= -100 m",
+     "would_pass": false,
+     "cells": 584822
+    }
+   },
+   "oakland_inner_harbor": {
+    "result": "not_applicable_in_tile",
+    "reason": "box -122.300..-122.285 W is outside L0_30_36",
+    "due": "M1"
+   },
+   "san_pablo_shoal": {
+    "result": "not_applicable_in_tile",
+    "reason": "box 38.04..38.06 N is outside L0_30_36",
+    "due": "M1"
+   },
+   "bay_wide_shallowness": {
+    "result": "not_applicable_in_tile",
+    "reason": "needs the Bay polygon (~1200 km^2); one tile is 4.2 km^2",
+    "due": "M1/M2"
+   },
+   "result": "pass"
+  },
+  "M-005.4": {
+   "a_per_building": {
+    "value": {
+     "share_within_0.5m": 1.0,
+     "n": 2423,
+     "max_abs_m": 0.0
+    },
+    "threshold": ">= 99 %",
+    "result": "pass"
+   },
+   "b_distribution": {
+    "value": {
+     "ks_d": 0.0,
+     "quantiles": {
+      "p50": {
+       "as_built": 12.66,
+       "source": 12.66,
+       "tol": 0.5
+      },
+      "p90": {
+       "as_built": 74.0,
+       "source": 74.0,
+       "tol": 0.74
+      },
+      "p99": {
+       "as_built": 198.34,
+       "source": 198.34,
+       "tol": 1.983
+      }
+     }
+    },
+    "threshold": "KS D <= 0.02; p50/p90/p99 within max(0.5 m, 1 %)",
+    "result": "pass"
+   },
+   "c_fallback_validation": {
+    "value": {
+     "ks_d": 0.1125,
+     "median_abs_err_m": 0.32,
+     "hidden": 311,
+     "fallback_used": {
+      "datasf": 277,
+      "osm_levels": 12,
+      "default": 22
+     }
+    },
+    "threshold": "KS D <= 0.15 and median |e| <= 3 m (Assumed, pending calibration)",
+    "result": "pass",
+    "status": "Assumed"
+   },
+   "height_source_shares": {
+    "datasf": {
+     "count": 281,
+     "share": 0.1123
+    },
+    "default": {
+     "count": 334,
+     "share": 0.1334
+    },
+    "osm_height": {
+     "count": 1556,
+     "share": 0.6217
+    },
+    "osm_levels": {
+     "count": 332,
+     "share": 0.1326
+    }
+   },
+   "default_share": {
+    "value": 0.1334,
+    "threshold": "< 10 % of buildings (T-003 C5)",
+    "result": "fail",
+    "area_weighted_share": 0.1013,
+    "mitigation": "see t003.C5_default_share_mitigation"
+   },
+   "roof_rule": "as-built max(y) = base_navd88_m + height_m for every roof_shape; flat roofs except pyramidal/spire/cone with roof:height (apex at height_m). Parents with building:part render only through their parts and are excluded from (a)/(b).",
+   "rendered_buildings": 2423,
+   "structures_rendered_by_parts": 102,
+   "result": "pass"
+  },
+  "M-005.5": {
+   "area": {
+    "value": {
+     "recall": 0.99969,
+     "precision": 1.0
+    },
+    "threshold": ">= 0.98 each (0.5 m raster)",
+    "result": "pass"
+   },
+   "count": {
+    "value": {
+     "recall": 1.0,
+     "source_ge_20m2": 2443
+    },
+    "threshold": ">= 0.99 for source buildings >= 20 m^2 (matched by bid)",
+    "result": "pass"
+   },
+   "no_invented_buildings": {
+    "value": {
+     "bids_not_in_source": []
+    },
+    "threshold": "0",
+    "result": "pass"
+   },
+   "none_over_water": {
+    "value": {
+     "buildings_with_gt_1pct_footprint_on_water_surface": 0,
+     "edge_sliver_area_m2": 0.0,
+     "max_share": 0.0,
+     "footprints_mostly_on_osm_water": [
+      "osm:w24460886",
+      "osm:w25478444",
+      "osm:w25489458",
+      "osm:w69707604",
+      "osm:w104599975",
+      "osm:w123559869",
+      "osm:w123559872",
+      "osm:w281243360",
+      "osm:w281243626",
+      "osm:w288511114",
+      "osm:w404449724",
+      "osm:w404478465",
+      "osm:w404478466",
+      "osm:w404478467",
+      "osm:w404478468",
+      "osm:w406710833",
+      "osm:w406710834",
+      "osm:w406710835",
+      "osm:w406710836",
+      "osm:w406710837",
+      "osm:w406710838",
+      "osm:w406710839",
+      "osm:w432712476",
+      "osm:w558731934",
+      "osm:w738027034",
+      "osm:w979811981",
+      "osm:w979811987",
+      "osm:w1093564640",
+      "osm:w1189071405",
+      "osm:w1323673815"
+     ]
+    },
+    "threshold": "no building with > 1 % of its footprint on the water surface (0.5 m raster vs 1 m water cells; edge slivers reported)",
+    "result": "pass",
+    "note": "footprints listed on OSM water are bridge supports (W2) or pier structures; the water surface is cut out under them"
+   },
+   "cross_source_osm_vs_datasf": {
+    "result": "reported",
+    "datasf_area_covered_by_osm": 0.8184,
+    "osm_area_covered_by_datasf": 0.8781,
+    "gate": "informational at M0, >= 0.85 at M2"
+   },
+   "result": "pass"
+  },
+  "M-005.6": {
+   "pairs": [
+    {
+     "pair": [
+      6,
+      7
+     ],
+     "names": [
+      "Salesforce Tower",
+      "Transamerica Pyramid"
+     ],
+     "kind": "as_built",
+     "d_game_m": 790.1196,
+     "d_geo_m": 790.1188,
+     "ppm": 0.98,
+     "delta_m": 0.0008,
+     "result": "pass"
+    },
+    {
+     "pair": [
+      6,
+      9
+     ],
+     "names": [
+      "Salesforce Tower",
+      "Millennium Tower"
+     ],
+     "kind": "as_built",
+     "d_game_m": 95.7338,
+     "d_geo_m": 95.7336,
+     "ppm": 1.53,
+     "delta_m": 0.0001,
+     "result": "pass"
+    },
+    {
+     "pair": [
+      7,
+      11
+     ],
+     "names": [
+      "Transamerica Pyramid",
+      "Coit Tower"
+     ],
+     "kind": "as_built",
+     "d_game_m": 843.8572,
+     "d_geo_m": 843.8564,
+     "ppm": 0.96,
+     "delta_m": 0.0008,
+     "result": "pass"
+    },
+    {
+     "pair": [
+      3,
+      6
+     ],
+     "names": [
+      "Bay Bridge W2 tower",
+      "Salesforce Tower"
+     ],
+     "kind": "as_built",
+     "d_game_m": 984.0571,
+     "d_geo_m": 984.0563,
+     "ppm": 0.78,
+     "delta_m": 0.0008,
+     "result": "pass"
+    },
+    {
+     "pair": [
+      6,
+      10
+     ],
+     "names": [
+      "Salesforce Tower",
+      "Ferry Building"
+     ],
+     "kind": "as_built",
+     "d_game_m": 708.961,
+     "d_geo_m": 708.9604,
+     "ppm": 0.85,
+     "delta_m": 0.0006,
+     "result": "pass"
+    },
+    {
+     "pair": [
+      7,
+      8
+     ],
+     "names": [
+      "Transamerica Pyramid",
+      "555 California Street"
+     ],
+     "kind": "as_built",
+     "d_game_m": 348.5455,
+     "d_geo_m": 348.5451,
+     "ppm": 0.96,
+     "delta_m": 0.0003,
+     "result": "pass"
+    },
+    {
+     "pair": [
+      9,
+      10
+     ],
+     "names": [
+      "Millennium Tower",
+      "Ferry Building"
+     ],
+     "kind": "as_built",
+     "d_game_m": 618.0738,
+     "d_geo_m": 618.0733,
+     "ppm": 0.77,
+     "delta_m": 0.0005,
+     "result": "pass"
+    },
+    {
+     "pair": [
+      3,
+      11
+     ],
+     "names": [
+      "Bay Bridge W2 tower",
+      "Coit Tower"
+     ],
+     "kind": "as_built",
+     "d_game_m": 2184.0078,
+     "d_geo_m": 2184.0059,
+     "ppm": 0.86,
+     "delta_m": 0.0019,
+     "result": "pass"
+    },
+    {
+     "pair": [
+      8,
+      11
+     ],
+     "names": [
+      "555 California Street",
+      "Coit Tower"
+     ],
+     "kind": "as_built",
+     "d_game_m": 1154.1072,
+     "d_geo_m": 1154.106,
+     "ppm": 0.99,
+     "delta_m": 0.0011,
+     "result": "pass"
+    },
+    {
+     "pair": [
+      10,
+      11
+     ],
+     "names": [
+      "Ferry Building",
+      "Coit Tower"
+     ],
+     "kind": "as_built",
+     "d_game_m": 1329.7264,
+     "d_geo_m": 1329.7251,
+     "ppm": 0.95,
+     "delta_m": 0.0013,
+     "result": "pass"
+    },
+    {
+     "pair": [
+      1,
+      2
+     ],
+     "names": [
+      "Golden Gate Bridge south tower",
+      "Golden Gate Bridge north tower"
+     ],
+     "kind": "projection_only (out of tile)",
+     "d_game_m": 1280.5553,
+     "d_geo_m": 1280.5514,
+     "ppm": 3.04,
+     "delta_m": 0.0039,
+     "result": "pass"
+    },
+    {
+     "pair": [
+      1,
+      3
+     ],
+     "names": [
+      "Golden Gate Bridge south tower",
+      "Bay Bridge W2 tower"
+     ],
+     "kind": "projection_only (out of tile)",
+     "d_game_m": 8509.3493,
+     "d_geo_m": 8509.3346,
+     "ppm": 1.73,
+     "delta_m": 0.0147,
+     "result": "pass"
+    },
+    {
+     "pair": [
+      12,
+      19
+     ],
+     "names": [
+      "Sutro Tower",
+      "Mount Diablo summit"
+     ],
+     "kind": "projection_only (out of tile)",
+     "d_game_m": 49469.6119,
+     "d_geo_m": 49469.434,
+     "ppm": 3.6,
+     "delta_m": 0.1779,
+     "result": "pass"
+    },
+    {
+     "pair": [
+      18,
+      15
+     ],
+     "names": [
+      "Mt Tamalpais East Peak",
+      "SFO control tower"
+     ],
+     "kind": "projection_only (out of tile)",
+     "d_game_m": 38727.9174,
+     "d_geo_m": 38727.7852,
+     "ppm": 3.41,
+     "delta_m": 0.1322,
+     "result": "pass"
+    },
+    {
+     "pair": [
+      11,
+      13
+     ],
+     "names": [
+      "Coit Tower",
+      "Alcatraz lighthouse"
+     ],
+     "kind": "projection_only (out of tile)",
+     "d_game_m": 3020.6574,
+     "d_geo_m": 3020.6537,
+     "ppm": 1.24,
+     "delta_m": 0.0038,
+     "result": "pass"
+    }
+   ],
+   "horizontal": {
+    "value": {
+     "pairs": 15,
+     "as_built_pairs": 10,
+     "max_abs_ppm": 3.6
+    },
+    "threshold": ">= 10 pairs, |ratio - 1| <= 60 ppm, |delta| <= 0.1 m under 2 km",
+    "result": "pass"
+   },
+   "vertical_scale": {
+    "value": [
+     {
+      "bid": "osm:w431972186",
+      "as_built_m": 326.0,
+      "source_m": 326,
+      "ratio": 1.0
+     },
+     {
+      "bid": "osm:w72963089",
+      "as_built_m": 197.0,
+      "source_m": 197,
+      "ratio": 1.0
+     }
+    ],
+    "threshold": "exactly 1 (as-built height / source height)",
+    "result": "pass"
+   },
+   "unit_and_crs": {
+    "value": {
+     "spacing_m": 1.0,
+     "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
+     "utm_mentioned": false
+    },
+    "threshold": "1 unit = 1 m; BayTM@v1 stored; no UTM",
+    "result": "pass"
+   },
+   "result": "pass"
+  },
+  "M-005.7": {
+   "V1": {
+    "result": "not_applicable_in_tile",
+    "reason": "Treasure Island viewpoint is outside L0_30_36",
+    "due": "M1"
+   },
+   "V2": {
+    "result": "not_applicable_in_tile",
+    "reason": "Twin Peaks is outside L0_30_36",
+    "due": "M1"
+   },
+   "V3": {
+    "result": "not_applicable_in_tile",
+    "reason": "Vista Point, Marin is outside L0_30_36",
+    "due": "M1"
+   },
+   "V4": {
+    "eye_navd88_m": 10.0,
+    "size": [
+     1024,
+     576
+    ],
+    "excluded_own_structure": null,
+    "vs_r_src": {
+     "value": {
+      "iou": 0.9972682868892617,
+      "mae_px": 0.1796875,
+      "band": [
+       92,
+       288
+      ],
+      "columns": 1024
+     },
+     "threshold": "IoU >= 0.98, MAE <= 1 px",
+     "result": "pass"
+    },
+    "vs_r_ind": {
+     "value": {
+      "iou": 0.8445611002364186,
+      "mae_px": 11.9423828125,
+      "band": [
+       60,
+       288
+      ],
+      "columns": 1024
+     },
+     "threshold": "IoU >= 0.90, MAE <= 3 px (Assumed)",
+     "result": "fail",
+     "reference": "3DEP CA_SanFrancisco_1_B23 first-return DSM (PDAL, EPT resolution 0.7 m, 1 m max grid), clipped to the tile, water filled at MSL"
+    },
+    "gating": true,
+    "result": "fail"
+   },
+   "V5": {
+    "eye_navd88_m": 146.0,
+    "size": [
+     1024,
+     576
+    ],
+    "excluded_own_structure": "osm:w28824850",
+    "vs_r_src": {
+     "value": {
+      "iou": 0.9946026177304007,
+      "mae_px": 0.1171875,
+      "band": [
+       163,
+       288
+      ],
+      "columns": 1024
+     },
+     "threshold": "IoU >= 0.98, MAE <= 1 px",
+     "result": "pass"
+    },
+    "vs_r_ind": {
+     "value": {
+      "iou": 0.6354503156210177,
+      "mae_px": 12.0126953125,
+      "band": [
+       161,
+       288
+      ],
+      "columns": 1024
+     },
+     "threshold": "IoU >= 0.90, MAE <= 3 px (Assumed)",
+     "result": "fail",
+     "reference": "3DEP CA_SanFrancisco_1_B23 first-return DSM (PDAL, EPT resolution 0.7 m, 1 m max grid), clipped to the tile, water filled at MSL"
+    },
+    "gating": true,
+    "result": "fail"
+   },
+   "reported_variants": {
+    "skyline_V4_270rows": {
+     "eye_navd88_m": 10.0,
+     "size": [
+      480,
+      270
+     ],
+     "excluded_own_structure": null,
+     "vs_r_src": {
+      "value": {
+       "iou": 0.9916135524991614,
+       "mae_px": 0.2604166666666667,
+       "band": [
+        43,
+        135
+       ],
+       "columns": 480
+      },
+      "threshold": "IoU >= 0.98, MAE <= 1 px",
+      "result": "pass"
+     },
+     "vs_r_ind": {
+      "value": {
+       "iou": 0.8466257668711656,
+       "mae_px": 5.520833333333333,
+       "band": [
+        28,
+        135
+       ],
+       "columns": 480
+      },
+      "threshold": "IoU >= 0.90, MAE <= 3 px (Assumed)",
+      "result": "fail",
+      "reference": "3DEP CA_SanFrancisco_1_B23 first-return DSM (PDAL, EPT resolution 0.7 m, 1 m max grid), clipped to the tile, water filled at MSL"
+     },
+     "gating": false,
+     "result": "reported"
+    },
+    "skyline_V4_eye70": {
+     "eye_navd88_m": 70.0,
+     "size": [
+      1024,
+      576
+     ],
+     "excluded_own_structure": null,
+     "vs_r_src": {
+      "value": {
+       "iou": 0.9962311557788944,
+       "mae_px": 0.1201171875,
+       "band": [
+        156,
+        288
+       ],
+       "columns": 1024
+      },
+      "threshold": "IoU >= 0.98, MAE <= 1 px",
+      "result": "pass"
+     },
+     "vs_r_ind": {
+      "value": {
+       "iou": 0.7612118320610687,
+       "mae_px": 9.775390625,
+       "band": [
+        113,
+        288
+       ],
+       "columns": 1024
+      },
+      "threshold": "IoU >= 0.90, MAE <= 3 px (Assumed)",
+      "result": "fail",
+      "reference": "3DEP CA_SanFrancisco_1_B23 first-return DSM (PDAL, EPT resolution 0.7 m, 1 m max grid), clipped to the tile, water filled at MSL"
+     },
+     "gating": false,
+     "result": "reported"
+    },
+    "skyline_V5_270rows": {
+     "eye_navd88_m": 146.0,
+     "size": [
+      480,
+      270
+     ],
+     "excluded_own_structure": "osm:w28824850",
+     "vs_r_src": {
+      "value": {
+       "iou": 0.9798984771573604,
+       "mae_px": 0.20625,
+       "band": [
+        76,
+        135
+       ],
+       "columns": 480
+      },
+      "threshold": "IoU >= 0.98, MAE <= 1 px",
+      "result": "fail"
+     },
+     "vs_r_ind": {
+      "value": {
+       "iou": 0.628609805238415,
+       "mae_px": 5.760416666666667,
+       "band": [
+        76,
+        135
+       ],
+       "columns": 480
+      },
+      "threshold": "IoU >= 0.90, MAE <= 3 px (Assumed)",
+      "result": "fail",
+      "reference": "3DEP CA_SanFrancisco_1_B23 first-return DSM (PDAL, EPT resolution 0.7 m, 1 m max grid), clipped to the tile, water filled at MSL"
+     },
+     "gating": false,
+     "result": "reported"
+    }
+   },
+   "result": "fail"
+  },
+  "M-005.8": {
+   "manifest_complete": {
+    "value": {
+     "problems": [],
+     "layers": 6
+    },
+    "threshold": "100 % complete",
+    "result": "pass"
+   },
+   "attribution_diff": {
+    "value": {
+     "required": [
+      "City and County of San Francisco",
+      "Map data © OpenStreetMap contributors, available under the Open Database License (ODbL) 1.0: https://www.openstreetmap.org/copyright",
+      "NOAA CO-OPS",
+      "NOAA National Centers for Environmental Information (NCEI) CUDEM",
+      "U.S. Geological Survey 3D Elevation Program",
+      "U.S. Geological Survey Quaternary Fault and Fold Database",
+      "© OpenStreetMap contributors (ODbL)"
+     ],
+     "missing_from_asset": [],
+     "asset": "Assets/Game/World/Geo/Attribution/GeoAttribution.asset"
+    },
+    "threshold": "every manifest attribution in the Unity attribution asset",
+    "result": "pass"
+   },
+   "odbl_layers": [
+    "water",
+    "buildings",
+    "roads"
+   ],
+   "licences": [
+    "ODbL-1.0",
+    "PDDL-1.0",
+    "US-Gov-PD"
+   ],
+   "result": "pass"
+  }
+ },
+ "t003": {
+  "C10_shoreline": {
+   "value": {
+    "median_offset_m": 2.5,
+    "profiles_with_crossing": 47,
+    "water_level_navd88_m": 0.969
+   },
+   "threshold": "median offset <= 5 m between the terrain/water intersection and the OSM coastline",
+   "result": "pass",
+   "piers_dry": {
+    "pier_cells": 143172,
+    "pier_cells_with_water_surface": 0
+   }
+  },
+  "C11_continuous_surface": {
+   "value": {
+    "profiles": 50,
+    "max_jump_m": 6.998,
+    "undocumented_jumps_ge_1.5m": 0,
+    "profiles_detail": [
+     {
+      "x": 63386.2,
+      "z": 73781.2,
+      "msl_crossing_offset_m": 2.5,
+      "max_adjacent_jump_m": 1.595,
+      "source_jump_there_m": 3.251,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 63272.5,
+      "z": 73773.1,
+      "msl_crossing_offset_m": 0.5,
+      "max_adjacent_jump_m": 3.047,
+      "source_jump_there_m": 2.679,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 63271.3,
+      "z": 73838.3,
+      "msl_crossing_offset_m": 2.5,
+      "max_adjacent_jump_m": 1.476,
+      "source_jump_there_m": 1.476,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 63382.9,
+      "z": 73861.3,
+      "msl_crossing_offset_m": 1.5,
+      "max_adjacent_jump_m": 1.392,
+      "source_jump_there_m": 1.404,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 63361.0,
+      "z": 73903.4,
+      "msl_crossing_offset_m": 0.5,
+      "max_adjacent_jump_m": 3.317,
+      "source_jump_there_m": 1.585,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 63249.3,
+      "z": 73881.0,
+      "msl_crossing_offset_m": 4.5,
+      "max_adjacent_jump_m": 1.236,
+      "source_jump_there_m": 2.749,
+      "at_pier": true,
+      "exception": null
+     },
+     {
+      "x": 63269.7,
+      "z": 73952.6,
+      "msl_crossing_offset_m": 2.5,
+      "max_adjacent_jump_m": 1.262,
+      "source_jump_there_m": 1.277,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 63378.6,
+      "z": 73986.1,
+      "msl_crossing_offset_m": 1.5,
+      "max_adjacent_jump_m": 2.121,
+      "source_jump_there_m": 2.189,
+      "at_pier": false,
+      "exception": "seawall/step present in the 1 m source"
+     },
+     {
+      "x": 63375.6,
+      "z": 74048.6,
+      "msl_crossing_offset_m": -0.5,
+      "max_adjacent_jump_m": 5.687,
+      "source_jump_there_m": 2.598,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 63266.8,
+      "z": 74014.5,
+      "msl_crossing_offset_m": 0.5,
+      "max_adjacent_jump_m": 1.603,
+      "source_jump_there_m": 1.906,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 63190.8,
+      "z": 74054.1,
+      "msl_crossing_offset_m": 0.5,
+      "max_adjacent_jump_m": 4.351,
+      "source_jump_there_m": 0.053,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 63121.6,
+      "z": 74082.7,
+      "msl_crossing_offset_m": 0.5,
+      "max_adjacent_jump_m": 3.401,
+      "source_jump_there_m": 0.145,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 63085.4,
+      "z": 74153.8,
+      "msl_crossing_offset_m": 3.5,
+      "max_adjacent_jump_m": 0.617,
+      "source_jump_there_m": 1.832,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 63053.5,
+      "z": 74220.8,
+      "msl_crossing_offset_m": 2.5,
+      "max_adjacent_jump_m": 0.732,
+      "source_jump_there_m": 1.195,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62975.3,
+      "z": 74303.6,
+      "msl_crossing_offset_m": 2.5,
+      "max_adjacent_jump_m": 0.8,
+      "source_jump_there_m": 0.788,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62897.4,
+      "z": 74386.7,
+      "msl_crossing_offset_m": 1.5,
+      "max_adjacent_jump_m": 0.665,
+      "source_jump_there_m": 1.042,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62843.8,
+      "z": 74469.0,
+      "msl_crossing_offset_m": -12.5,
+      "max_adjacent_jump_m": 0.388,
+      "source_jump_there_m": 0.585,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62765.1,
+      "z": 74551.4,
+      "msl_crossing_offset_m": null,
+      "max_adjacent_jump_m": 0.131,
+      "source_jump_there_m": 0.016,
+      "at_pier": true,
+      "exception": null
+     },
+     {
+      "x": 62691.3,
+      "z": 74637.8,
+      "msl_crossing_offset_m": null,
+      "max_adjacent_jump_m": 0.127,
+      "source_jump_there_m": 0.035,
+      "at_pier": true,
+      "exception": null
+     },
+     {
+      "x": 62623.9,
+      "z": 74729.6,
+      "msl_crossing_offset_m": null,
+      "max_adjacent_jump_m": 0.1,
+      "source_jump_there_m": 0.028,
+      "at_pier": true,
+      "exception": null
+     },
+     {
+      "x": 62571.4,
+      "z": 74819.3,
+      "msl_crossing_offset_m": 6.5,
+      "max_adjacent_jump_m": 0.909,
+      "source_jump_there_m": 0.96,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62648.7,
+      "z": 74888.7,
+      "msl_crossing_offset_m": -6.5,
+      "max_adjacent_jump_m": 3.707,
+      "source_jump_there_m": 0.017,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 62728.8,
+      "z": 74965.3,
+      "msl_crossing_offset_m": -12.5,
+      "max_adjacent_jump_m": 5.229,
+      "source_jump_there_m": 0.126,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 62643.2,
+      "z": 74947.8,
+      "msl_crossing_offset_m": -8.5,
+      "max_adjacent_jump_m": 6.998,
+      "source_jump_there_m": 0.012,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 62551.2,
+      "z": 74880.7,
+      "msl_crossing_offset_m": -8.5,
+      "max_adjacent_jump_m": 2.253,
+      "source_jump_there_m": 0.011,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 62522.7,
+      "z": 74908.0,
+      "msl_crossing_offset_m": 2.5,
+      "max_adjacent_jump_m": 1.471,
+      "source_jump_there_m": 1.193,
+      "at_pier": true,
+      "exception": null
+     },
+     {
+      "x": 62566.0,
+      "z": 74960.5,
+      "msl_crossing_offset_m": 0.5,
+      "max_adjacent_jump_m": 6.176,
+      "source_jump_there_m": 0.008,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 62658.3,
+      "z": 75027.3,
+      "msl_crossing_offset_m": -0.5,
+      "max_adjacent_jump_m": 5.085,
+      "source_jump_there_m": 0.113,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 62598.0,
+      "z": 75034.7,
+      "msl_crossing_offset_m": -0.5,
+      "max_adjacent_jump_m": 4.437,
+      "source_jump_there_m": 0.013,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 62505.5,
+      "z": 74968.1,
+      "msl_crossing_offset_m": -0.5,
+      "max_adjacent_jump_m": 2.775,
+      "source_jump_there_m": 0.043,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 62436.4,
+      "z": 75008.2,
+      "msl_crossing_offset_m": 5.5,
+      "max_adjacent_jump_m": 0.406,
+      "source_jump_there_m": 1.903,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62368.7,
+      "z": 75086.0,
+      "msl_crossing_offset_m": 1.5,
+      "max_adjacent_jump_m": 1.349,
+      "source_jump_there_m": 2.429,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62315.3,
+      "z": 75162.2,
+      "msl_crossing_offset_m": 0.5,
+      "max_adjacent_jump_m": 2.025,
+      "source_jump_there_m": 2.303,
+      "at_pier": false,
+      "exception": "seawall/step present in the 1 m source"
+     },
+     {
+      "x": 62392.1,
+      "z": 75234.0,
+      "msl_crossing_offset_m": 6.5,
+      "max_adjacent_jump_m": 1.023,
+      "source_jump_there_m": 1.011,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62485.0,
+      "z": 75299.9,
+      "msl_crossing_offset_m": 5.5,
+      "max_adjacent_jump_m": 1.488,
+      "source_jump_there_m": 1.513,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62441.8,
+      "z": 75325.8,
+      "msl_crossing_offset_m": -0.5,
+      "max_adjacent_jump_m": 1.827,
+      "source_jump_there_m": 2.055,
+      "at_pier": false,
+      "exception": "seawall/step present in the 1 m source"
+     },
+     {
+      "x": 62348.6,
+      "z": 75260.3,
+      "msl_crossing_offset_m": 6.5,
+      "max_adjacent_jump_m": 3.079,
+      "source_jump_there_m": 0.586,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 62263.1,
+      "z": 75236.4,
+      "msl_crossing_offset_m": 0.5,
+      "max_adjacent_jump_m": 1.342,
+      "source_jump_there_m": 1.995,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62198.0,
+      "z": 75330.0,
+      "msl_crossing_offset_m": 1.5,
+      "max_adjacent_jump_m": 2.154,
+      "source_jump_there_m": 2.47,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
+     },
+     {
+      "x": 62131.8,
+      "z": 75422.7,
+      "msl_crossing_offset_m": 1.5,
+      "max_adjacent_jump_m": 2.077,
+      "source_jump_there_m": 2.63,
+      "at_pier": false,
+      "exception": "seawall/step present in the 1 m source"
+     },
+     {
+      "x": 62211.7,
+      "z": 75493.9,
+      "msl_crossing_offset_m": 6.5,
+      "max_adjacent_jump_m": 0.997,
+      "source_jump_there_m": 2.444,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62304.6,
+      "z": 75559.7,
+      "msl_crossing_offset_m": 7.5,
+      "max_adjacent_jump_m": 1.188,
+      "source_jump_there_m": 2.945,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62258.0,
+      "z": 75583.6,
+      "msl_crossing_offset_m": -22.5,
+      "max_adjacent_jump_m": 0.691,
+      "source_jump_there_m": 0.665,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62164.6,
+      "z": 75518.3,
+      "msl_crossing_offset_m": -18.5,
+      "max_adjacent_jump_m": 0.416,
+      "source_jump_there_m": 2.254,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62127.1,
+      "z": 75560.4,
+      "msl_crossing_offset_m": 9.5,
+      "max_adjacent_jump_m": 1.373,
+      "source_jump_there_m": 2.374,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62218.5,
+      "z": 75628.5,
+      "msl_crossing_offset_m": 6.5,
+      "max_adjacent_jump_m": 0.947,
+      "source_jump_there_m": 0.928,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62220.6,
+      "z": 75691.0,
+      "msl_crossing_offset_m": 6.5,
+      "max_adjacent_jump_m": 1.374,
+      "source_jump_there_m": 2.484,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62129.3,
+      "z": 75622.9,
+      "msl_crossing_offset_m": -0.5,
+      "max_adjacent_jump_m": 1.267,
+      "source_jump_there_m": 2.221,
+      "at_pier": false,
+      "exception": null
+     },
+     {
+      "x": 62032.3,
+      "z": 75569.3,
+      "msl_crossing_offset_m": -0.5,
+      "max_adjacent_jump_m": 2.417,
+      "source_jump_there_m": 2.413,
+      "at_pier": false,
+      "exception": "seawall/step present in the 1 m source"
+     },
+     {
+      "x": 62029.4,
+      "z": 75674.4,
+      "msl_crossing_offset_m": 7.5,
+      "max_adjacent_jump_m": 1.544,
+      "source_jump_there_m": 1.594,
+      "at_pier": false,
+      "exception": "seawall/step present in the 1 m source"
+     }
+    ]
+   },
+   "threshold": "max adjacent jump < 1.5 m except documented seawalls/piers",
+   "result": "pass",
+   "seam": {
+    "band_nodes": 26521,
+    "median_abs_3dep_minus_cudem_m": 0.934,
+    "p95_m": 4.489,
+    "max_merged_step_per_m_in_band": 6.051,
+    "share_steps_gt_0.5m_per_m": 0.2317,
+    "result": "fail",
+    "threshold": "median |d| <= 0.1 m and no step > 0.5 m (steps > 0.5 m/m are seawall/cliff slopes present in the 1 m source; see share)"
+   },
+   "water_cells_above_ground": {
+    "water_cells_with_ground_above_msl": 0,
+    "dry_cells_below_msl_not_water": 23277,
+    "note": "dry cells below MSL are diked/hydro-flattened land or OSM land; no water surface is drawn there"
+   }
+  },
+  "C12_buildings": {
+   "value": {
+    "max_base_vs_terrain_m": 0.001,
+    "share_within_0.5m": 1.0,
+    "thin_footprints_lt_1m": 4,
+    "coplanar_overlapping_roofs": 10,
+    "zfight_series": [
+     {
+      "camera_shift_m": 0.0015,
+      "distance_m": 10,
+      "flip_fraction": 0.00036458333333333335,
+      "flip_fraction_quarter_res": 0.0002777777777777778
+     },
+     {
+      "camera_shift_m": 0.0015,
+      "distance_m": 100,
+      "flip_fraction": 0.00014539930555555554,
+      "flip_fraction_quarter_res": 0.0001388888888888889
+     },
+     {
+      "camera_shift_m": 0.0015,
+      "distance_m": 1000,
+      "flip_fraction": 0.00019639756944444444,
+      "flip_fraction_quarter_res": 0.00022569444444444443
+     },
+     {
+      "camera_shift_m": 0.0015,
+      "distance_m": 3000,
+      "flip_fraction": 4.557291666666667e-05,
+      "flip_fraction_quarter_res": 5.208333333333334e-05
+     }
+    ]
+   },
+   "threshold": "every base within 0.5 m of the local terrain minimum; watertight (EditMode test); no z-fighting at 10 m-3 km",
+   "result": "pass",
+   "thin_bids": [
+    "osm:w406710839",
+    "osm:w1410037753",
+    "osm:w1410037754",
+    "osm:w1505735165"
+   ],
+   "skirt": "walls extend 2 m below base so the LOD terrain (max error 0.2 m) never shows a gap"
+  },
+  "C13_roads_faults": {
+   "value": {
+    "roads": 4131,
+    "with_width": 4131,
+    "classes": {
+     "service": 331,
+     "tertiary": 239,
+     "residential": 131,
+     "steps": 257,
+     "pedestrian": 80,
+     "secondary": 184,
+     "living_street": 2,
+     "primary": 99,
+     "unclassified": 24,
+     "path": 7,
+     "footway": 2598,
+     "motorway": 2,
+     "primary_link": 5,
+     "busway": 69,
+     "motorway_link": 5,
+     "cycleway": 33,
+     "platform": 32,
+     "tertiary_link": 5,
+     "secondary_link": 4,
+     "corridor": 12,
+     "elevator": 12
+    },
+    "bridges": 66,
+    "tunnels": 173,
+    "bay_bridge_segments_flagged_bridge": 2,
+    "faults_global": 3232,
+    "faults_global_fields_ok": true,
+    "faults_tile": 0,
+    "empty_by_design": true,
+    "nearest_faults": [
+     {
+      "distance_m": 11587.9,
+      "fault_name": "Golden Gate fault",
+      "nearest_feature": "qf:5:304",
+      "section": ""
+     },
+     {
+      "distance_m": 12713.4,
+      "fault_name": "Serra fault zone",
+      "nearest_feature": "qf:4:83177",
+      "section": ""
+     },
+     {
+      "distance_m": 13576.3,
+      "fault_name": "San Andreas fault zone",
+      "nearest_feature": "qf:5:306",
+      "section": "San Francisco section"
+     },
+     {
+      "distance_m": 13788.6,
+      "fault_name": "Hayward fault zone",
+      "nearest_feature": "qf:4:90503",
+      "section": "Northern Hayward section"
+     }
+    ]
+   },
+   "threshold": "roads with class/width; bridges/tunnels flagged (decks not draped on the ground); global faults baked; tile clip empty by design",
+   "result": "pass",
+   "rendering": "roads are painted into the terrain albedo (no coplanar geometry, no flicker); bridge and tunnel ways are not drawn at M0 (deck heights are not in the data; F-041)"
+  },
+  "C14_removal": {
+   "value": {
+    "requested": 20,
+    "removed_total": 20,
+    "others_changed": 0,
+    "terrain_identical": true,
+    "removal_seconds": 0.0158326
+   },
+   "threshold": "20 random buildings removed at runtime by bid; all others and the terrain identical in the export",
+   "result": "pass"
+  },
+  "C16_spec": {
+   "value": {
+    "samples": 2049,
+    "spacing_m": 1.0,
+    "origin": [
+     61440.0,
+     73728.0
+    ],
+    "origin_multiple_of_2048": true,
+    "level_field": 0,
+    "shape": [
+     2049,
+     2049
+    ],
+    "seam_with_L0_30_35_byte_identical": true,
+    "second_tile_L0_26_37_baked": true
+   },
+   "threshold": "2049^2 pixel-is-point, float64 origin multiple of 2048 m, LOD level field, shared edge rows byte-identical, second tile bakes",
+   "result": "pass"
+  },
+  "C17_floating_origin": {
+   "value": {
+    "max_delta_m": 0.00010000000000331966,
+    "max_abs_scene_position_m": 2194.097900390625,
+    "shifts": [
+     {
+      "max_abs_scene_position_m": 2074.958984375,
+      "max_anchor_delta_m": 0,
+      "max_terrain_delta_m": 0.00010000000000331966,
+      "origin_baytm": [
+       63488,
+       73728
+      ]
+     },
+     {
+      "max_abs_scene_position_m": 2194.097900390625,
+      "max_anchor_delta_m": 0,
+      "max_terrain_delta_m": 0.00010000000000021103,
+      "origin_baytm": [
+       61440,
+       75776
+      ]
+     },
+     {
+      "max_abs_scene_position_m": 2194.097900390625,
+      "max_anchor_delta_m": 0,
+      "max_terrain_delta_m": 0.00010000000000331966,
+      "origin_baytm": [
+       63488,
+       75776
+      ]
+     },
+     {
+      "max_abs_scene_position_m": 2058.486083984375,
+      "max_anchor_delta_m": 0,
+      "max_terrain_delta_m": 0,
+      "origin_baytm": [
+       61440,
+       73728
+      ]
+     }
+    ]
+   },
+   "threshold": "<= 1 mm; |scene position| <= 4096 m",
+   "result": "pass"
+  },
+  "C20_budgets": {
+   "value": {
+    "triangles_tile": 685685,
+    "triangles_terrain": 589457,
+    "triangles_buildings": 87924,
+    "triangles_water": 8304,
+    "draw_calls_max_view": 118,
+    "draw_call_target": 200,
+    "renderers": 118,
+    "memory_mb": 71.2,
+    "committed_tile_mb": 23.53,
+    "bake_seconds": 13.97,
+    "editor_build_seconds": 2.34,
+    "git_tracked_files": 14,
+    "extrapolation": {
+     "M1_70_tiles": {
+      "committed_gb": 1.65,
+      "bake_minutes": 16.3
+     },
+     "bay_4624_tiles": {
+      "committed_gb_if_all_L0": 108.8,
+      "bake_hours": 17.9,
+      "note": "Q-027 default: 1 m only for urban/shoreline tiles, 2 m (L1) elsewhere; streaming loads ~9 tiles around the focus"
+     }
+    }
+   },
+   "threshold": "<= 1.5 M triangles, <= 1,500 draw calls (target 200), <= 100 MB committed, bake <= 5 min, editor build <= 60 s (Assumed budgets)",
+   "result": "pass"
+  },
+  "C5_default_share_mitigation": {
+   "result": "reported",
+   "rule_in_use": "R-004 §1.4 (DataSF only if IoU > 0.6)",
+   "default_now": 334,
+   "would_be_default_with_containment_80pct": 160,
+   "share_now": 0.1334,
+   "share_with_mitigation": 0.0639,
+   "proposal": "Q-NEW (T-003): allow a DataSF match when >= 80 % of the OSM footprint lies inside one DataSF footprint (row houses split in OSM); not applied without founder approval"
+  },
+  "wading": {
+   "result": "reported",
+   "water_cells": 1570118,
+   "share_by_depth_m": {
+    "0-2": 0.0139,
+    "2-5": 0.082,
+    "5-10": 0.1196,
+    "10-20": 0.3369,
+    ">20": 0.4476
+   },
+   "max_depth_m": 30.45,
+   "deepest_baytm": [
+    63456.5,
+    74429.5
+   ],
+   "median_depth_m": 18.88,
+   "wadable_by_80m_mech_everywhere": true,
+   "plate": "evidence/T-003/plates/wading_depth.png"
+  }
+ },
+ "summary": {
+  "sub_measures": {
+   "M-005.1.a_vs_source": "pass",
+   "M-005.1.b_vs_reference": "pass",
+   "M-005.1.c_bridge_spans": "not_applicable_in_tile",
+   "M-005.1.out_of_tile_landmarks": "not_applicable_in_tile",
+   "M-005.1.d_heights": "pass",
+   "M-005.2.pipeline": "pass",
+   "M-005.2.ngs": "insufficient_marks",
+   "M-005.3.pipeline_rmse": "pass",
+   "M-005.3.tile_minimum": "pass",
+   "M-005.3.golden_gate": "not_applicable_in_tile",
+   "M-005.3.oakland_inner_harbor": "not_applicable_in_tile",
+   "M-005.3.san_pablo_shoal": "not_applicable_in_tile",
+   "M-005.3.bay_wide_shallowness": "not_applicable_in_tile",
+   "M-005.4.a_per_building": "pass",
+   "M-005.4.b_distribution": "pass",
+   "M-005.4.c_fallback_validation": "pass",
+   "M-005.4.default_share": "fail",
+   "M-005.5.area": "pass",
+   "M-005.5.count": "pass",
+   "M-005.5.no_invented_buildings": "pass",
+   "M-005.5.none_over_water": "pass",
+   "M-005.5.cross_source_osm_vs_datasf": "reported",
+   "M-005.6.horizontal": "pass",
+   "M-005.6.vertical_scale": "pass",
+   "M-005.6.unit_and_crs": "pass",
+   "M-005.7.V1": "not_applicable_in_tile",
+   "M-005.7.V2": "not_applicable_in_tile",
+   "M-005.7.V3": "not_applicable_in_tile",
+   "M-005.7.V4": "fail",
+   "M-005.7.V5": "fail",
+   "M-005.8.manifest_complete": "pass",
+   "M-005.8.attribution_diff": "pass"
+  },
+  "counts": {
+   "pass": 18,
+   "not_applicable_in_tile": 9,
+   "insufficient_marks": 1,
+   "fail": 3,
+   "reported": 1
+  },
+  "m005_overall": "fail",
+  "note": "M-005 passes only if every sub-measure passes (R-004 §6); not_applicable_in_tile items are due at M1 and are not passes."
+ }
+}
