@@ -1,0 +1,1196 @@
+{
+ "assumed_thresholds_decisive": [
+  "M-003.a.internal"
+ ],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [
+   "lavender_peach: 1 gameplay frames (< 12)",
+   "slate_crimson: 1 gameplay frames (< 12)",
+   "slate_teal: 1 gameplay frames (< 12)",
+   "warm_amber_haze: 1 gameplay frames (< 12)",
+   "warm_rust_sepia: 1 gameplay frames (< 12)",
+   "haze_cal sequence (M-003 c2)"
+  ],
+  "optional_not_provided": [],
+  "provided": [
+   "lavender_peach: 1 frames",
+   "slate_crimson: 1 frames",
+   "slate_teal: 1 frames",
+   "warm_amber_haze: 1 frames",
+   "warm_rust_sepia: 1 frames"
+  ],
+  "required": [
+   "lavender_peach >= 12 frames",
+   "slate_crimson >= 12 frames",
+   "slate_teal >= 12 frames",
+   "warm_amber_haze >= 12 frames",
+   "warm_rust_sepia >= 12 frames",
+   "haze_cal"
+  ]
+ },
+ "exit_code": 1,
+ "extra": {
+  "frames": [
+   {
+    "A2_int": 1.0,
+    "A2_out": 1.0,
+    "A3_out": 1.0,
+    "A5_out": 1.0,
+    "DIG": 0.357855691954,
+    "O": 0.9634091623,
+    "accent_share": 0.0,
+    "composition": {
+     "contrast": 26.5601435147,
+     "horizon": 0.353729215729,
+     "sky_share": 0.361579047309
+    },
+    "depth": {
+     "bands": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "max_drop": 9.9787014564,
+     "meanL": [
+      30.3828055411,
+      20.4041040847,
+      33.9507236125,
+      38.0934978554
+     ],
+     "rho": 0.8,
+     "span": 7.71069231428
+    },
+    "dither_evaluated": true,
+    "frame": "hero_1440p/lavender_peach/f000000",
+    "gradient_share": 0.460734049479,
+    "grid_uniform": 1.0,
+    "hue_families": 1,
+    "hue_peaks": [
+     [
+      279,
+      0.986293667041
+     ]
+    ],
+    "levels": 5,
+    "off_palette_px_out": 0,
+    "profile": "lavender_peach"
+   },
+   {
+    "A2_int": 1.0,
+    "A2_out": 1.0,
+    "A3_out": 1.0,
+    "A5_out": 1.0,
+    "DIG": 0.267562101729,
+    "O": 1.07329497597,
+    "accent_share": 0.0,
+    "composition": {
+     "contrast": 9.69893628707,
+     "horizon": 0.353729215729,
+     "sky_share": 0.361579047309
+    },
+    "depth": {
+     "bands": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "max_drop": 8.31569224537,
+     "meanL": [
+      29.4388705621,
+      21.1231783168,
+      29.670696439,
+      33.3258640956
+     ],
+     "rho": 0.8,
+     "span": 3.88699353346
+    },
+    "dither_evaluated": true,
+    "frame": "hero_1440p/slate_crimson/f000000",
+    "gradient_share": 0.355455186632,
+    "grid_uniform": 1.0,
+    "hue_families": 2,
+    "hue_peaks": [
+     [
+      17,
+      0.871471925978
+     ],
+     [
+      279,
+      0.128528074022
+     ]
+    ],
+    "levels": 5,
+    "off_palette_px_out": 0,
+    "profile": "slate_crimson"
+   },
+   {
+    "A2_int": 1.0,
+    "A2_out": 1.0,
+    "A3_out": 1.0,
+    "A5_out": 1.0,
+    "DIG": 0.352217761676,
+    "O": 0.880330531176,
+    "accent_share": null,
+    "composition": {
+     "contrast": 27.4877996792,
+     "horizon": 0.353729215729,
+     "sky_share": 0.361579047309
+    },
+    "depth": {
+     "bands": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "max_drop": 0.0,
+     "meanL": [
+      28.239430747,
+      33.8041640858,
+      47.2304552488,
+      48.497354843
+     ],
+     "rho": 1.0,
+     "span": 20.257924096
+    },
+    "dither_evaluated": true,
+    "frame": "hero_1440p/slate_teal/f000000",
+    "gradient_share": 0.346306694878,
+    "grid_uniform": 1.0,
+    "hue_families": 1,
+    "hue_peaks": [
+     [
+      269,
+      1.0
+     ]
+    ],
+    "levels": 6,
+    "off_palette_px_out": 0,
+    "profile": "slate_teal"
+   },
+   {
+    "A2_int": 1.0,
+    "A2_out": 1.0,
+    "A3_out": 1.0,
+    "A5_out": 1.0,
+    "DIG": 0.285136025605,
+    "O": 0.573728190216,
+    "accent_share": 0.0,
+    "composition": {
+     "contrast": 24.0151713565,
+     "horizon": 0.353729215729,
+     "sky_share": 0.361579047309
+    },
+    "depth": {
+     "bands": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "max_drop": 7.2705349351,
+     "meanL": [
+      46.7045288423,
+      39.4339939072,
+      57.5119883289,
+      60.7722274043
+     ],
+     "rho": 0.8,
+     "span": 14.067698562
+    },
+    "dither_evaluated": true,
+    "frame": "hero_1440p/warm_amber_haze/f000000",
+    "gradient_share": 0.360209147135,
+    "grid_uniform": 1.0,
+    "hue_families": 1,
+    "hue_peaks": [
+     [
+      44,
+      1.0
+     ]
+    ],
+    "levels": 7,
+    "off_palette_px_out": 0,
+    "profile": "warm_amber_haze"
+   },
+   {
+    "A2_int": 1.0,
+    "A2_out": 1.0,
+    "A3_out": 1.0,
+    "A5_out": 1.0,
+    "DIG": 0.27953122671,
+    "O": 0.659761865865,
+    "accent_share": 0.0,
+    "composition": {
+     "contrast": 22.0367019923,
+     "horizon": 0.353729215729,
+     "sky_share": 0.361579047309
+    },
+    "depth": {
+     "bands": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "max_drop": 4.45619244837,
+     "meanL": [
+      33.7007092288,
+      29.2445167804,
+      43.2973320479,
+      46.2474309873
+     ],
+     "rho": 0.8,
+     "span": 12.5467217585
+    },
+    "dither_evaluated": true,
+    "frame": "hero_1440p/warm_rust_sepia/f000000",
+    "gradient_share": 0.363986545139,
+    "grid_uniform": 1.0,
+    "hue_families": 1,
+    "hue_peaks": [
+     [
+      46,
+      1.0
+     ]
+    ],
+    "levels": 7,
+    "off_palette_px_out": 0,
+    "profile": "warm_rust_sepia"
+   }
+  ]
+ },
+ "failing_gating": [
+  "M-003.c1"
+ ],
+ "failures_suppressed": false,
+ "flags": [],
+ "headless_verdict": "FAIL",
+ "headless_verdict_label": "FAIL",
+ "images": [
+  "diag_M-003a_dE00_heatmap.png",
+  "diag_M-003b_dither_mask.png",
+  "diag_M-003d4_nonuniform_blocks.png"
+ ],
+ "inputs": [
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/lavender_peach/f000000.json",
+   "role": "style_capture@v1",
+   "sha256": "a15a9c68331a7ed57b201216808f26c7ab9651fb050afdecb082c20b471afffa"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/lavender_peach/f000000_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "70b9bc07074b8ee2639191a5a1685067f12e57922aba06e6613ac14aefae4f64"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/lavender_peach/f000000_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "2a5e72281389c7de9598a0714279e3950421557630e044cc984c612c29b8e019"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/lavender_peach/f000000_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "7c2d8e8487b49b5ca01a87dbd08bb587f2a116add08ca8e9fd9ee8189638bdd2"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/lavender_peach/f000000_index.png",
+   "role": "style_capture@v1",
+   "sha256": "5c1c94390c150daa8cb7dc509ebaa4576346739da6ce926591deb66dd84bf519"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/lavender_peach/f000000_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "0db2cfe97794fcc4c580df675074d0165119e6b9ba2c5c79a88be8374ed3ba16"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/lavender_peach/sequence.json",
+   "role": "style_capture@v1",
+   "sha256": "8a29d0d33f17e8e271a103278c5a3a360b3ed50f13d2513fe4aa93b9025c6439"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/slate_crimson/f000000.json",
+   "role": "style_capture@v1",
+   "sha256": "4ac2bf51181b36f9ac6d344707416f160dc81a4c9011556205550404a504069d"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/slate_crimson/f000000_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "86305b7b4e2d456110f6d465a2324f5e084ad533cf07d4c7f15d62b2d0622ec9"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/slate_crimson/f000000_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "9b92fa75caedf930a969ee30b8828249caa3d1fa3023b8826f34ef0ac82292fe"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/slate_crimson/f000000_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "7c2d8e8487b49b5ca01a87dbd08bb587f2a116add08ca8e9fd9ee8189638bdd2"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/slate_crimson/f000000_index.png",
+   "role": "style_capture@v1",
+   "sha256": "a9fa91fa2ea79a31ed5c60e00e84138ae15304b60d0d05a6ac4b8314f5af13a7"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/slate_crimson/f000000_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "0db2cfe97794fcc4c580df675074d0165119e6b9ba2c5c79a88be8374ed3ba16"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/slate_crimson/sequence.json",
+   "role": "style_capture@v1",
+   "sha256": "bb4ae29be7051b1a7112e3a26fdc314b8ab18f0edfc55697d370297c4f4a3862"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/slate_teal/f000000.json",
+   "role": "style_capture@v1",
+   "sha256": "7c11a83b0feb8426fe7e1df1f74b451643d530648c2695439e252dd6f6574d46"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/slate_teal/f000000_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "05054e7f692b41f7f8faaecc9ec2ebaa0202a72056815e1a230c09f733198e77"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/slate_teal/f000000_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "7af587a7f2b2e417a6ee4c4d77906b428d70bf71c92da55299ff497d11c5fa09"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/slate_teal/f000000_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "7c2d8e8487b49b5ca01a87dbd08bb587f2a116add08ca8e9fd9ee8189638bdd2"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/slate_teal/f000000_index.png",
+   "role": "style_capture@v1",
+   "sha256": "df2b7961ae5c69f871c099b61d9c41284bb8f07f49813c561f70fd4a2ba365ac"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/slate_teal/f000000_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "0db2cfe97794fcc4c580df675074d0165119e6b9ba2c5c79a88be8374ed3ba16"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/slate_teal/sequence.json",
+   "role": "style_capture@v1",
+   "sha256": "78080f782e138520b51990511884ce03d71d94cb0b24e9e3cd0ebc34e9bd300a"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/warm_amber_haze/f000000.json",
+   "role": "style_capture@v1",
+   "sha256": "24e80c6de53385d5290fc58948141d1fa64db1b7cfdd993741951bcbe0b0b2e7"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/warm_amber_haze/f000000_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "f93443057d12bef1b0269cead87b85a1c3dca2f8c976a2176f9a4873496fac54"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/warm_amber_haze/f000000_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "859c2321d0f1930a7cdeea6b9179b447e80144f1784d7b13cddc4f1740b0bd8f"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/warm_amber_haze/f000000_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "7c2d8e8487b49b5ca01a87dbd08bb587f2a116add08ca8e9fd9ee8189638bdd2"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/warm_amber_haze/f000000_index.png",
+   "role": "style_capture@v1",
+   "sha256": "a9c7128bc7370763e59bde79fd67feb00f2279d8271a2f869cb4d30774524066"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/warm_amber_haze/f000000_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "0db2cfe97794fcc4c580df675074d0165119e6b9ba2c5c79a88be8374ed3ba16"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/warm_amber_haze/sequence.json",
+   "role": "style_capture@v1",
+   "sha256": "6e31dfb2a26ef849c41523744eb5e931eedd7cb37dcf014570e170e317735d79"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/warm_rust_sepia/f000000.json",
+   "role": "style_capture@v1",
+   "sha256": "888afb40733058305c1b22d0d30a4efd5a89e82d0959d7decfd48b95aa8aaa6a"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/warm_rust_sepia/f000000_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "8a95704f9ebef96a6e19ae7aaa95979371b29abd92d356c7f2e45764a814e1b7"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/warm_rust_sepia/f000000_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "f6e252fd292f4d4560382b391c7a8d4c4b2deedffae2ca0d44ed06897c6922e5"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/warm_rust_sepia/f000000_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "7c2d8e8487b49b5ca01a87dbd08bb587f2a116add08ca8e9fd9ee8189638bdd2"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/warm_rust_sepia/f000000_index.png",
+   "role": "style_capture@v1",
+   "sha256": "1286366b8320bf1bed286efe9b12b644618460cf623febbb7ec0965abd98f167"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/warm_rust_sepia/f000000_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "0db2cfe97794fcc4c580df675074d0165119e6b9ba2c5c79a88be8374ed3ba16"
+  },
+  {
+   "path": "evidence/T-006/captures_local/hero_1440p/warm_rust_sepia/sequence.json",
+   "role": "style_capture@v1",
+   "sha256": "9db388a2a007ddafdb96aead945d62010a72ff287f885569705c5ff35381a0a9"
+  },
+  {
+   "path": "research/R-002/palettes.json",
+   "role": "palette_set@v1",
+   "sha256": "868527c5a439fb595732a1b002de3c69b2d4dc7ea81c5e711da7e10c4cd51649"
+  }
+ ],
+ "invocation": {
+  "command": "m003",
+  "inputs": [
+   "evidence/T-006/captures_local/hero_1440p"
+  ],
+  "label": "hero_1440p",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "hero_1440p",
+ "metric": "M-003",
+ "metric_version": "M-003@v1",
+ "normalisers": {},
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-003@v1.1.yaml",
+  "revision": "v1.1",
+  "sha256": "7a63afd06c6681ab3dc1480a407556dd499a53df0022c7eaf62256268bcc68a1",
+  "spec": "M-003@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "revw-172-31-218-200.rn.uwaterloo.ca",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-14T22:14:29Z",
+  "wall_time_s": 1.459
+ },
+ "submeasures": [
+  {
+   "decisive_part": "A_2 output worst frame hero_1440p/lavender_peach/f000000",
+   "diagnostics": {
+    "frame": "hero_1440p/lavender_peach/f000000",
+    "heat_map": "diag_M-003a_dE00_heatmap.png",
+    "per_frame": {
+     "hero_1440p/lavender_peach/f000000": 1.0,
+     "hero_1440p/slate_crimson/f000000": 1.0,
+     "hero_1440p/slate_teal/f000000": 1.0,
+     "hero_1440p/warm_amber_haze/f000000": 1.0,
+     "hero_1440p/warm_rust_sepia/f000000": 1.0
+    },
+    "where": "hero_1440p/lavender_peach/f000000 (0 output px beyond dE00 2.0)",
+    "worst_offenders": []
+   },
+   "id": "M-003.a.output",
+   "kind": "gating",
+   "margin": 0.05,
+   "margin_rel": 0.0526315789474,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.05,
+     "margin_rel": 0.0526315789474,
+     "name": "A_2 output worst frame hero_1440p/lavender_peach/f000000",
+     "off_palette_px": 0,
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.95,
+     "unit": "share",
+     "value": 1.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.95,
+   "threshold_status": "derived",
+   "title": "Palette adherence A_2 on color_output (share within dE00 <= T of the declared profile), worst frame",
+   "unit": "share",
+   "value": 1.0
+  },
+  {
+   "decisive_part": "A_2 internal worst frame hero_1440p/lavender_peach/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "hero_1440p/lavender_peach/f000000": 1.0,
+     "hero_1440p/slate_crimson/f000000": 1.0,
+     "hero_1440p/slate_teal/f000000": 1.0,
+     "hero_1440p/warm_amber_haze/f000000": 1.0,
+     "hero_1440p/warm_rust_sepia/f000000": 1.0
+    },
+    "where": "hero_1440p/lavender_peach/f000000"
+   },
+   "id": "M-003.a.internal",
+   "kind": "gating",
+   "margin": 0.005,
+   "margin_rel": 0.00502512562814,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.005,
+     "margin_rel": 0.00502512562814,
+     "name": "A_2 internal worst frame hero_1440p/lavender_peach/f000000",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.995,
+     "unit": "share",
+     "value": 1.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.995,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Palette adherence A_2 on color_internal, worst frame",
+   "unit": "share",
+   "value": 1.0
+  },
+  {
+   "diagnostics": {
+    "worst_frame": "hero_1440p/lavender_peach/f000000"
+   },
+   "id": "M-003.a.A3",
+   "kind": "info",
+   "note": null,
+   "parts": [],
+   "status": "REPORTED",
+   "threshold_status": "derived",
+   "title": "Palette adherence A_3 on color_output (informational), worst frame",
+   "unit": "share",
+   "value": 1.0
+  },
+  {
+   "diagnostics": {
+    "worst_frame": "hero_1440p/lavender_peach/f000000"
+   },
+   "id": "M-003.a.A5",
+   "kind": "info",
+   "note": null,
+   "parts": [],
+   "status": "REPORTED",
+   "threshold_status": "derived",
+   "title": "Palette adherence A_5 on color_output (informational), worst frame",
+   "unit": "share",
+   "value": 1.0
+  },
+  {
+   "decisive_part": "lavender_peach: share of evaluated frames with DIG >= dig_min",
+   "diagnostics": {
+    "dither_mask": "diag_M-003b_dither_mask.png",
+    "frame": "hero_1440p/slate_crimson/f000000",
+    "per_frame_DIG": {
+     "hero_1440p/lavender_peach/f000000": 0.357855691954,
+     "hero_1440p/slate_crimson/f000000": 0.267562101729,
+     "hero_1440p/slate_teal/f000000": 0.352217761676,
+     "hero_1440p/warm_amber_haze/f000000": 0.285136025605,
+     "hero_1440p/warm_rust_sepia/f000000": 0.27953122671
+    },
+    "where": ""
+   },
+   "id": "M-003.b.DIG",
+   "kind": "gating",
+   "margin": 0.2,
+   "margin_rel": 0.25,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "dig_min": 0.15,
+     "evaluated": 1,
+     "margin": 0.2,
+     "margin_rel": 0.25,
+     "name": "lavender_peach: share of evaluated frames with DIG >= dig_min",
+     "op": ">=",
+     "skipped": 0,
+     "status": "PASS",
+     "threshold": 0.8,
+     "unit": "share of frames",
+     "value": 1.0
+    },
+    {
+     "dig_min": 0.15,
+     "evaluated": 1,
+     "margin": 0.2,
+     "margin_rel": 0.25,
+     "name": "slate_crimson: share of evaluated frames with DIG >= dig_min",
+     "op": ">=",
+     "skipped": 0,
+     "status": "PASS",
+     "threshold": 0.8,
+     "unit": "share of frames",
+     "value": 1.0
+    },
+    {
+     "dig_min": 0.15,
+     "evaluated": 1,
+     "margin": 0.2,
+     "margin_rel": 0.25,
+     "name": "slate_teal: share of evaluated frames with DIG >= dig_min",
+     "op": ">=",
+     "skipped": 0,
+     "status": "PASS",
+     "threshold": 0.8,
+     "unit": "share of frames",
+     "value": 1.0
+    },
+    {
+     "dig_min": 0.15,
+     "evaluated": 1,
+     "margin": 0.2,
+     "margin_rel": 0.25,
+     "name": "warm_amber_haze: share of evaluated frames with DIG >= dig_min",
+     "op": ">=",
+     "skipped": 0,
+     "status": "PASS",
+     "threshold": 0.8,
+     "unit": "share of frames",
+     "value": 1.0
+    },
+    {
+     "dig_min": 0.15,
+     "evaluated": 1,
+     "margin": 0.2,
+     "margin_rel": 0.25,
+     "name": "warm_rust_sepia: share of evaluated frames with DIG >= dig_min",
+     "op": ">=",
+     "skipped": 0,
+     "status": "PASS",
+     "threshold": 0.8,
+     "unit": "share of frames",
+     "value": 1.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.8,
+   "threshold_status": "derived",
+   "title": "Dithering present in gradients, share of evaluated frames with DIG >= 0.15",
+   "unit": "share of frames",
+   "value": 1.0
+  },
+  {
+   "decisive_part": "max DIG hero_1440p/lavender_peach/f000000",
+   "diagnostics": {},
+   "id": "M-003.b.DIG_max",
+   "kind": "advisory",
+   "margin": 0.142144308046,
+   "margin_rel": 0.284288616091,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.142144308046,
+     "margin_rel": 0.284288616091,
+     "name": "max DIG hero_1440p/lavender_peach/f000000",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.5,
+     "unit": "DIG",
+     "value": 0.357855691954
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.5,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "DIG upper bound (a whole frame of dither reads as noise), worst frame",
+   "unit": "DIG",
+   "value": 0.357855691954
+  },
+  {
+   "diagnostics": {
+    "note": "Bayer/checker > 0.5, white noise ~ 0, clustered < 0 (advisory until Q-015)",
+    "per_frame_O": {
+     "hero_1440p/lavender_peach/f000000": 0.9634091623,
+     "hero_1440p/slate_crimson/f000000": 1.07329497597,
+     "hero_1440p/slate_teal/f000000": 0.880330531176,
+     "hero_1440p/warm_amber_haze/f000000": 0.573728190216,
+     "hero_1440p/warm_rust_sepia/f000000": 0.659761865865
+    }
+   },
+   "id": "M-003.b.O",
+   "kind": "advisory",
+   "note": null,
+   "parts": [],
+   "status": "REPORTED",
+   "threshold_status": "none",
+   "title": "Ordered index O = rho(lag 2) - rho(lag 1) (advisory without a threshold until Q-015), median over evaluated frames",
+   "unit": "O",
+   "value": 0.880330531176
+  },
+  {
+   "decisive_part": "hero_1440p/lavender_peach/f000000: max band-to-band drop",
+   "diagnostics": {
+    "frames_evaluated": 5,
+    "frames_skipped": 0,
+    "where": "hero_1440p/lavender_peach/f000000 bands [1, 2, 3, 4] mean L* [30.4, 20.4, 34.0, 38.1]; hero_1440p/slate_crimson/f000000 bands [1, 2, 3, 4] mean L* [29.4, 21.1, 29.7, 33.3]; hero_1440p/slate_teal/f000000 bands [1, 2, 3, 4] mean L* [28.2, 33.8, 47.2, 48.5]; hero_1440p/warm_amber_haze/f000000 bands [1, 2, 3, 4] mean L* [46.7, 39.4, 57.5, 60.8]; hero_1440p/warm_rust_sepia/f000000 bands [1, 2, 3, 4] mean L* [33.7, 29.2, 43.3, 46.2]"
+   },
+   "id": "M-003.c1",
+   "kind": "gating",
+   "margin": -7.9787014564,
+   "margin_rel": -3.9893507282,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": -7.9787014564,
+     "margin_rel": -3.9893507282,
+     "name": "hero_1440p/lavender_peach/f000000: max band-to-band drop",
+     "op": "<=",
+     "status": "FAIL",
+     "threshold": 2.0,
+     "unit": "L*",
+     "value": 9.9787014564
+    },
+    {
+     "margin": -0.1,
+     "margin_rel": -0.111111111111,
+     "name": "hero_1440p/lavender_peach/f000000: Spearman rho(band, L*)",
+     "op": ">=",
+     "status": "FAIL",
+     "threshold": 0.9,
+     "unit": "rho",
+     "value": 0.8
+    },
+    {
+     "margin": -7.28930768572,
+     "margin_rel": -0.485953845715,
+     "name": "hero_1440p/lavender_peach/f000000: far - near span",
+     "op": ">=",
+     "status": "FAIL",
+     "threshold": 15.0,
+     "unit": "L*",
+     "value": 7.71069231428
+    },
+    {
+     "margin": -6.31569224537,
+     "margin_rel": -3.15784612268,
+     "name": "hero_1440p/slate_crimson/f000000: max band-to-band drop",
+     "op": "<=",
+     "status": "FAIL",
+     "threshold": 2.0,
+     "unit": "L*",
+     "value": 8.31569224537
+    },
+    {
+     "margin": -0.1,
+     "margin_rel": -0.111111111111,
+     "name": "hero_1440p/slate_crimson/f000000: Spearman rho(band, L*)",
+     "op": ">=",
+     "status": "FAIL",
+     "threshold": 0.9,
+     "unit": "rho",
+     "value": 0.8
+    },
+    {
+     "margin": -11.1130064665,
+     "margin_rel": -0.740867097769,
+     "name": "hero_1440p/slate_crimson/f000000: far - near span",
+     "op": ">=",
+     "status": "FAIL",
+     "threshold": 15.0,
+     "unit": "L*",
+     "value": 3.88699353346
+    },
+    {
+     "margin": 2.0,
+     "margin_rel": 1.0,
+     "name": "hero_1440p/slate_teal/f000000: max band-to-band drop",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 2.0,
+     "unit": "L*",
+     "value": 0.0
+    },
+    {
+     "margin": 0.1,
+     "margin_rel": 0.111111111111,
+     "name": "hero_1440p/slate_teal/f000000: Spearman rho(band, L*)",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.9,
+     "unit": "rho",
+     "value": 1.0
+    },
+    {
+     "margin": 5.25792409602,
+     "margin_rel": 0.350528273068,
+     "name": "hero_1440p/slate_teal/f000000: far - near span",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 15.0,
+     "unit": "L*",
+     "value": 20.257924096
+    },
+    {
+     "margin": -5.2705349351,
+     "margin_rel": -2.63526746755,
+     "name": "hero_1440p/warm_amber_haze/f000000: max band-to-band drop",
+     "op": "<=",
+     "status": "FAIL",
+     "threshold": 2.0,
+     "unit": "L*",
+     "value": 7.2705349351
+    },
+    {
+     "margin": -0.1,
+     "margin_rel": -0.111111111111,
+     "name": "hero_1440p/warm_amber_haze/f000000: Spearman rho(band, L*)",
+     "op": ">=",
+     "status": "FAIL",
+     "threshold": 0.9,
+     "unit": "rho",
+     "value": 0.8
+    },
+    {
+     "margin": -0.932301437975,
+     "margin_rel": -0.0621534291983,
+     "name": "hero_1440p/warm_amber_haze/f000000: far - near span",
+     "op": ">=",
+     "status": "FAIL",
+     "threshold": 15.0,
+     "unit": "L*",
+     "value": 14.067698562
+    },
+    {
+     "margin": -2.45619244837,
+     "margin_rel": -1.22809622418,
+     "name": "hero_1440p/warm_rust_sepia/f000000: max band-to-band drop",
+     "op": "<=",
+     "status": "FAIL",
+     "threshold": 2.0,
+     "unit": "L*",
+     "value": 4.45619244837
+    },
+    {
+     "margin": -0.1,
+     "margin_rel": -0.111111111111,
+     "name": "hero_1440p/warm_rust_sepia/f000000: Spearman rho(band, L*)",
+     "op": ">=",
+     "status": "FAIL",
+     "threshold": 0.9,
+     "unit": "rho",
+     "value": 0.8
+    },
+    {
+     "margin": -2.45327824151,
+     "margin_rel": -0.163551882767,
+     "name": "hero_1440p/warm_rust_sepia/f000000: far - near span",
+     "op": ">=",
+     "status": "FAIL",
+     "threshold": 15.0,
+     "unit": "L*",
+     "value": 12.5467217585
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 2.0,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Value banding by depth monotonic on gameplay frames (drop, Spearman rho, span), worst frame",
+   "unit": "L*",
+   "value": 9.9787014564
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.c2",
+   "kind": "gating",
+   "note": "no haze_cal sequence in the capture set",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "derived",
+   "title": "Contrast decreasing with distance on the haze_cal scene (signed light - dark dL*)",
+   "unit": "",
+   "value": null
+  },
+  {
+   "decisive_part": "value levels hero_1440p/warm_amber_haze/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "hero_1440p/lavender_peach/f000000": 5,
+     "hero_1440p/slate_crimson/f000000": 5,
+     "hero_1440p/slate_teal/f000000": 6,
+     "hero_1440p/warm_amber_haze/f000000": 7,
+     "hero_1440p/warm_rust_sepia/f000000": 7
+    }
+   },
+   "id": "M-003.d-i",
+   "kind": "gating",
+   "margin": 5,
+   "margin_rel": 0.416666666667,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 5,
+     "margin_rel": 0.416666666667,
+     "name": "value levels hero_1440p/warm_amber_haze/f000000",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 12,
+     "unit": "levels",
+     "value": 7
+    }
+   ],
+   "status": "PASS",
+   "threshold": 12,
+   "threshold_status": "derived",
+   "title": "Value levels (distinct L* of entries >= 0.5 %, merged at dL* < 4), worst frame",
+   "unit": "levels",
+   "value": 7
+  },
+  {
+   "decisive_part": "hue families hero_1440p/slate_crimson/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "hero_1440p/lavender_peach/f000000": 1,
+     "hero_1440p/slate_crimson/f000000": 2,
+     "hero_1440p/slate_teal/f000000": 1,
+     "hero_1440p/warm_amber_haze/f000000": 1,
+     "hero_1440p/warm_rust_sepia/f000000": 1
+    }
+   },
+   "id": "M-003.d-ii",
+   "kind": "gating",
+   "margin": 1,
+   "margin_rel": 0.333333333333,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 1,
+     "margin_rel": 0.333333333333,
+     "name": "hue families hero_1440p/slate_crimson/f000000",
+     "op": "<=",
+     "peaks": [
+      [
+       17,
+       0.871471925978
+      ],
+      [
+       279,
+       0.128528074022
+      ]
+     ],
+     "status": "PASS",
+     "threshold": 3,
+     "unit": "families",
+     "value": 2
+    }
+   ],
+   "status": "PASS",
+   "threshold": 3,
+   "threshold_status": "derived",
+   "title": "Hue families (chroma-weighted circular hue peaks >= 10 % mass), worst frame",
+   "unit": "families",
+   "value": 2
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.d-iii",
+   "kind": "advisory",
+   "note": "no accent present in any frame (applies only when present)",
+   "parts": [],
+   "spec_clause": "R-002 §4 d-iii: the accent share is checked when the accent is present",
+   "status": "NOT_APPLICABLE",
+   "threshold_status": "derived",
+   "title": "Accent share when present, worst frame",
+   "unit": "",
+   "value": null
+  },
+  {
+   "decisive_part": "uniform blocks hero_1440p/lavender_peach/f000000",
+   "diagnostics": {
+    "block_map": "diag_M-003d4_nonuniform_blocks.png",
+    "frame": "hero_1440p/lavender_peach/f000000",
+    "nonuniform_blocks": 0,
+    "per_frame": {
+     "hero_1440p/lavender_peach/f000000": 1.0,
+     "hero_1440p/slate_crimson/f000000": 1.0,
+     "hero_1440p/slate_teal/f000000": 1.0,
+     "hero_1440p/warm_amber_haze/f000000": 1.0,
+     "hero_1440p/warm_rust_sepia/f000000": 1.0
+    },
+    "where": "hero_1440p/lavender_peach/f000000"
+   },
+   "id": "M-003.d-iv",
+   "kind": "gating",
+   "margin": 0.005,
+   "margin_rel": 0.00502512562814,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.005,
+     "margin_rel": 0.00502512562814,
+     "name": "uniform blocks hero_1440p/lavender_peach/f000000",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.995,
+     "unit": "share of blocks",
+     "value": 1.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.995,
+   "threshold_status": "derived",
+   "title": "Pixel-grid integrity on color_output (uniform s x s blocks at the declared offset), worst frame",
+   "unit": "share of blocks",
+   "value": 1.0
+  },
+  {
+   "decisive_part": "sky_share hero_1440p/lavender_peach/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "hero_1440p/lavender_peach/f000000": 0.361579047309,
+     "hero_1440p/slate_crimson/f000000": 0.361579047309,
+     "hero_1440p/slate_teal/f000000": 0.361579047309,
+     "hero_1440p/warm_amber_haze/f000000": 0.361579047309,
+     "hero_1440p/warm_rust_sepia/f000000": 0.361579047309
+    }
+   },
+   "id": "M-003.e.sky",
+   "kind": "advisory",
+   "margin": 0.138420952691,
+   "margin_rel": 0.276841905382,
+   "note": null,
+   "op": "in",
+   "parts": [
+    {
+     "margin": 0.138420952691,
+     "margin_rel": 0.276841905382,
+     "name": "sky_share hero_1440p/lavender_peach/f000000",
+     "op": "in",
+     "status": "PASS",
+     "threshold": 0.2,
+     "threshold_hi": 0.5,
+     "unit": "",
+     "value": 0.361579047309
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.2,
+   "threshold_hi": 0.5,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Sky share (z >= 0.99 far), worst frame",
+   "unit": "",
+   "value": 0.361579047309
+  },
+  {
+   "decisive_part": "horizon hero_1440p/lavender_peach/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "hero_1440p/lavender_peach/f000000": 0.353729215729,
+     "hero_1440p/slate_crimson/f000000": 0.353729215729,
+     "hero_1440p/slate_teal/f000000": 0.353729215729,
+     "hero_1440p/warm_amber_haze/f000000": 0.353729215729,
+     "hero_1440p/warm_rust_sepia/f000000": 0.353729215729
+    }
+   },
+   "id": "M-003.e.horizon",
+   "kind": "advisory",
+   "margin": 0.0962707842713,
+   "margin_rel": 0.213935076158,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.0962707842713,
+     "margin_rel": 0.213935076158,
+     "name": "horizon hero_1440p/lavender_peach/f000000",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.45,
+     "unit": "",
+     "value": 0.353729215729
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.45,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Geometric horizon height from pose, h = 0.5 + tan(pitch) / (2 tan(vfov/2)), worst frame",
+   "unit": "",
+   "value": 0.353729215729
+  },
+  {
+   "decisive_part": "contrast hero_1440p/slate_crimson/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "hero_1440p/lavender_peach/f000000": 26.5601435147,
+     "hero_1440p/slate_crimson/f000000": 9.69893628707,
+     "hero_1440p/slate_teal/f000000": 27.4877996792,
+     "hero_1440p/warm_amber_haze/f000000": 24.0151713565,
+     "hero_1440p/warm_rust_sepia/f000000": 22.0367019923
+    }
+   },
+   "id": "M-003.e.contrast",
+   "kind": "advisory",
+   "margin": -15.3010637129,
+   "margin_rel": -0.612042548517,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": -15.3010637129,
+     "margin_rel": -0.612042548517,
+     "name": "contrast hero_1440p/slate_crimson/f000000",
+     "op": ">=",
+     "status": "FAIL",
+     "threshold": 25.0,
+     "unit": "",
+     "value": 9.69893628707
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 25.0,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Silhouette contrast L*90 - L*10, worst frame",
+   "unit": "",
+   "value": 9.69893628707
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.f",
+   "kind": "gating",
+   "note": "no panel_ratings@v1 file given (the tool never defaults a score)",
+   "parts": [],
+   "status": "PENDING",
+   "threshold_status": "derived",
+   "title": "Blind panel style match (mean >= 8.0 over >= 12 captures, no profile mean < 7)",
+   "unit": "",
+   "value": null
+  }
+ ],
+ "tool": {
+  "git_commit": "a867e678b03deede3fad7edc9e2e630278017197",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "FAIL",
+ "verdict_label": "FAIL",
+ "warnings": [
+  "ADVISORY M-003.b.O reported without a threshold until Q-015: median O 0.880 (Bayer/checker > 0.5, white noise ~ 0, clustered < 0; the references are -0.34..+0.15)",
+  "ADVISORY M-003.e.contrast failed: value 9.699 vs >= 25"
+ ]
+}

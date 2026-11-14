@@ -1,0 +1,244 @@
+{
+ "anchors": {},
+ "captures": 10,
+ "metric": "M-001",
+ "pass_score": 8.0,
+ "proposals": [
+  {
+   "current": {
+    "cruise_tol": 0.03
+   },
+   "key": "cruise_tol",
+   "note": "band or multi-threshold: review the table by hand",
+   "submeasure": "M-001.1"
+  },
+  {
+   "current": {
+    "duty_hi": 0.72
+   },
+   "key": "duty_hi",
+   "note": "band or multi-threshold: review the table by hand",
+   "submeasure": "M-001.3"
+  },
+  {
+   "current": {
+    "steps_hi": 3.0,
+    "tstar_hi": 4.8
+   },
+   "key": "steps_hi,tstar_hi",
+   "note": "band or multi-threshold: review the table by hand",
+   "submeasure": "M-001.11"
+  },
+  {
+   "current": 0.3,
+   "current_false_fail": 0,
+   "current_false_pass": 10,
+   "false_fail": 0,
+   "false_pass": 0,
+   "key": "a_ref_g",
+   "op": ">=",
+   "proposed": 5.4000000054,
+   "submeasure": "M-001.12"
+  }
+ ],
+ "rater_agreement": [
+  {
+   "n": 10,
+   "raters": [
+    "founder_a",
+    "founder_b"
+   ],
+   "spearman": 0.414641854657
+  }
+ ],
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-001@v1.1.yaml",
+  "revision": "v1.1",
+  "sha256": "e18bdef7a8b54c168e15bb21b54b8e62cb6abc8396caeaa9d87579c14a53ad0e",
+  "spec": "M-001@v1"
+ },
+ "registry_diff": "--- registry/M-001@v1.1.yaml\n+++ registry/M-001@v1.2.yaml (proposed; review, then add as a new file)\n@@ -1,7 +1,7 @@\n registry_schema: metric_registry@v1\n metric: M-001\n spec: M-001@v1\n-revision: v1.1\n+revision: v1.2\n metric_status: registered        # draft | registered (orchestrator §4.4: a draft metric cannot fail anything)\n date: \"2026-11-14\"   # v1.1: fix cycle 2 (DEF-T002-arch-1): per-capture minimum evidence\n title: Feels heavy\n@@ -102,7 +102,7 @@\n     title: Time to stop, emergency >= max(v_cruise / a_ref, m v0 / F_brake,max)\n     kind: gating\n     thresholds:\n-      a_ref_g: {value: 0.30, unit: g, status: assumed_pending_calibration, source: \"R-001 §2/§4 (3.1 s = v/(0.30 g)); reconciled reading\"}\n+      a_ref_g: {value: 5.4, unit: g, status: calibrated, source: \"calibrated 2026-11-14 from checkpoints/M0/dryrun/M-001_dummy_ratings.json (previously: R-001 §2/§4 (3.1 s = v/(0.30 g)); reconciled reading)\"}\n   M-001.13:\n     title: Panel score \"feels like 10,000 t\"\n     kind: gating\n",
+ "table": [
+  {
+   "M-001.1": 0.0225820557242,
+   "M-001.10": null,
+   "M-001.11": 2.31174807595,
+   "M-001.12": 5.4,
+   "M-001.13": null,
+   "M-001.2": 0.266567766347,
+   "M-001.3": 0.329155281935,
+   "M-001.4": 2.49092061559,
+   "M-001.5": 2.47666164375,
+   "M-001.6": null,
+   "M-001.7": 11.8047793034,
+   "M-001.8": 85.655016148,
+   "M-001.9": null,
+   "capture": "WALK-01",
+   "rating": 3.2,
+   "rating_sd": 0.6
+  },
+  {
+   "M-001.1": 0.0225820557242,
+   "M-001.10": null,
+   "M-001.11": 2.31174807595,
+   "M-001.12": 5.4,
+   "M-001.13": null,
+   "M-001.2": 0.266567766347,
+   "M-001.3": 0.329155281935,
+   "M-001.4": 2.49092061559,
+   "M-001.5": 2.47666164375,
+   "M-001.6": null,
+   "M-001.7": 11.8047793034,
+   "M-001.8": 85.655016148,
+   "M-001.9": null,
+   "capture": "WALK-02",
+   "rating": 3.5,
+   "rating_sd": 0.1
+  },
+  {
+   "M-001.1": 0.0225820557242,
+   "M-001.10": null,
+   "M-001.11": 2.31174807595,
+   "M-001.12": 5.4,
+   "M-001.13": null,
+   "M-001.2": 0.266567766347,
+   "M-001.3": 0.329155281935,
+   "M-001.4": 2.49092061559,
+   "M-001.5": 2.47666164375,
+   "M-001.6": null,
+   "M-001.7": 11.8047793034,
+   "M-001.8": 85.655016148,
+   "M-001.9": null,
+   "capture": "WALK-03",
+   "rating": 3.45,
+   "rating_sd": 0.45
+  },
+  {
+   "M-001.1": 0.0225820557242,
+   "M-001.10": null,
+   "M-001.11": 2.31174807595,
+   "M-001.12": 5.4,
+   "M-001.13": null,
+   "M-001.2": 0.266567766347,
+   "M-001.3": 0.329155281935,
+   "M-001.4": 2.49092061559,
+   "M-001.5": 2.47666164375,
+   "M-001.6": null,
+   "M-001.7": 11.8047793034,
+   "M-001.8": 85.655016148,
+   "M-001.9": null,
+   "capture": "WALK-04",
+   "rating": 4.55,
+   "rating_sd": 0.25
+  },
+  {
+   "M-001.1": 0.0225820557242,
+   "M-001.10": null,
+   "M-001.11": 2.31174807595,
+   "M-001.12": 5.4,
+   "M-001.13": null,
+   "M-001.2": 0.266567766347,
+   "M-001.3": 0.329155281935,
+   "M-001.4": 2.49092061559,
+   "M-001.5": 2.47666164375,
+   "M-001.6": null,
+   "M-001.7": 11.8047793034,
+   "M-001.8": 85.655016148,
+   "M-001.9": null,
+   "capture": "WALK-05",
+   "rating": 3.85,
+   "rating_sd": 0.55
+  },
+  {
+   "M-001.1": 0.0225820557242,
+   "M-001.10": null,
+   "M-001.11": 2.31174807595,
+   "M-001.12": 5.4,
+   "M-001.13": null,
+   "M-001.2": 0.266567766347,
+   "M-001.3": 0.329155281935,
+   "M-001.4": 2.49092061559,
+   "M-001.5": 2.47666164375,
+   "M-001.6": null,
+   "M-001.7": 11.8047793034,
+   "M-001.8": 85.655016148,
+   "M-001.9": null,
+   "capture": "WALK-06",
+   "rating": 5.55,
+   "rating_sd": 0.45
+  },
+  {
+   "M-001.1": 0.0225820557242,
+   "M-001.10": null,
+   "M-001.11": 2.31174807595,
+   "M-001.12": 5.4,
+   "M-001.13": null,
+   "M-001.2": 0.266567766347,
+   "M-001.3": 0.329155281935,
+   "M-001.4": 2.49092061559,
+   "M-001.5": 2.47666164375,
+   "M-001.6": null,
+   "M-001.7": 11.8047793034,
+   "M-001.8": 85.655016148,
+   "M-001.9": null,
+   "capture": "WALK-07",
+   "rating": 3.85,
+   "rating_sd": 0.35
+  },
+  {
+   "M-001.1": 0.0225820557242,
+   "M-001.10": null,
+   "M-001.11": 2.31174807595,
+   "M-001.12": 5.4,
+   "M-001.13": null,
+   "M-001.2": 0.266567766347,
+   "M-001.3": 0.329155281935,
+   "M-001.4": 2.49092061559,
+   "M-001.5": 2.47666164375,
+   "M-001.6": null,
+   "M-001.7": 11.8047793034,
+   "M-001.8": 85.655016148,
+   "M-001.9": null,
+   "capture": "WALK-08",
+   "rating": 5.0,
+   "rating_sd": 0.7
+  },
+  {
+   "M-001.1": 0.0225820557242,
+   "M-001.10": null,
+   "M-001.11": 2.31174807595,
+   "M-001.12": 5.4,
+   "M-001.13": null,
+   "M-001.2": 0.266567766347,
+   "M-001.3": 0.329155281935,
+   "M-001.4": 2.49092061559,
+   "M-001.5": 2.47666164375,
+   "M-001.6": null,
+   "M-001.7": 11.8047793034,
+   "M-001.8": 85.655016148,
+   "M-001.9": null,
+   "capture": "WALK-09",
+   "rating": 3.7,
+   "rating_sd": 0.4
+  },
+  {
+   "M-001.1": 0.0225820557242,
+   "M-001.10": null,
+   "M-001.11": 2.31174807595,
+   "M-001.12": 5.4,
+   "M-001.13": null,
+   "M-001.2": 0.266567766347,
+   "M-001.3": 0.329155281935,
+   "M-001.4": 2.49092061559,
+   "M-001.5": 2.47666164375,
+   "M-001.6": null,
+   "M-001.7": 11.8047793034,
+   "M-001.8": 85.655016148,
+   "M-001.9": null,
+   "capture": "WALK-10",
+   "rating": 3.5,
+   "rating_sd": 0.2
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+$ /opt/miniconda3/envs/kaiju/bin/python Tools/Metrics/metrics.py calibrate --ratings .wt/T-006/kaiju/checkpoints/M0/dryrun/M-003_dummy_ratings.json --reports .wt/T-006/kaiju/checkpoints/M0/bulk/dryrun_reports/M-003 --out .wt/T-006/kaiju/checkpoints/M0/dryrun/calibrate_M-003
+exit 0
+--- stdout
+calibrate M-003 from registry v1.1 on 10 captures (pass = rating >= 8.0)
+rater agreement: 1 pairs, mean Spearman 0.930
+anchors (median): {'negative:M003-A1': 2.0, 'positive:M003-A2': 10.0, 'negative:M003-A3': 2.0, 'positive:M003-A4': 10.0}
+registry diff (NOT applied; review, then add the new revision file by hand):
+--- registry/M-003@v1.1.yaml
++++ registry/M-003@v1.2.yaml (proposed; review, then add as a new file)
+@@ -1,7 +1,7 @@
+ registry_schema: metric_registry@v1
+ metric: M-003
+ spec: M-003@v1
+-revision: v1.1
++revision: v1.2
+ metric_status: registered
+ date: "2026-11-14"   # v1.1: fix cycle 2 (DEF-T002-arch-6: b.O advisory)
+ title: Matches the style references
+
+
+--- stderr
