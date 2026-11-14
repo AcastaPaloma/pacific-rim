@@ -7,7 +7,7 @@ Generated from `pytest --collect-only`; known = known-answer / control reproduct
 | M-001.1 | test_M001_1_known_froude_non_axis_heading | test_M001_1_boundary_band[0.098-FAIL]<br>test_M001_1_boundary_band[0.102-PASS]<br>test_M001_1_boundary_band[0.294-PASS]<br>test_M001_1_boundary_band[0.306-FAIL] (+2) | test_M001_negative_fails_only_that_id[M-001.1] | 4 | gen_gait.py (spec_walk/start/stop/estop/turn/curve) |
 | M-001.2 | test_M001_2_known_stride_ratio | test_M001_2_boundary[0.833-FAIL]<br>test_M001_2_boundary[0.867-PASS]<br>test_M001_2_boundary[1.127-PASS]<br>test_M001_2_boundary[1.1729999999999998-FAIL] | test_M001_negative_fails_only_that_id[M-001.2] | 2 | gen_gait.py (spec_walk/start/stop/estop/turn/curve) |
 | M-001.3 | test_M001_3_known_duty | test_M001_3_boundary[0.588-FAIL]<br>test_M001_3_boundary[0.612-PASS]<br>test_M001_3_boundary[0.7056-PASS]<br>test_M001_3_boundary[0.7344-FAIL] | test_M001_negative_fails_only_that_id[M-001.3] | 2 | gen_gait.py (spec_walk/start/stop/estop/turn/curve) |
-| M-001.4 | test_M001_4_known_peak_decel | test_M001_4_boundary[0.98-PASS]<br>test_M001_4_boundary[1.02-FAIL] | test_M001_negative_fails_only_that_id[M-001.4] | 1 | gen_gait.py (spec_walk/start/stop/estop/turn/curve) |
+| M-001.4 | test_M001_4_known_peak_decel<br>test_feel3_estop_exactly_at_limit_passes_M001_4 | test_M001_4_boundary[0.98-PASS]<br>test_M001_4_boundary[1.02-FAIL] | test_M001_negative_fails_only_that_id[M-001.4] | 1 | gen_gait.py (spec_walk/start/stop/estop/turn/curve) |
 | M-001.5 | test_M001_5_hand_computed_left_handed_frame<br>test_M001_5_known_lateral_curve | test_M001_5_boundary[0.98-PASS]<br>test_M001_5_boundary[1.02-FAIL] | test_M001_negative_fails_only_that_id[M-001.5] | 1 | gen_gait.py (spec_walk/start/stop/estop/turn/curve) |
 | M-001.6 | test_M001_6_known_net_start_accel | test_M001_6_boundary[0.98-PASS]<br>test_M001_6_boundary[1.02-FAIL] | test_M001_negative_fails_only_that_id[M-001.6] | 2 | gen_gait.py (spec_walk/start/stop/estop/turn/curve) |
 | M-001.7 | test_M001_7_8_known_yaw_trapezoid | test_M001_7_boundary[0.98-PASS]<br>test_M001_7_boundary[1.02-FAIL] | test_M001_negative_fails_only_that_id[M-001.7] | 1 | gen_gait.py (spec_walk/start/stop/estop/turn/curve) |
@@ -52,4 +52,4 @@ Generated from `pytest --collect-only`; known = known-answer / control reproduct
 | M-004.C_px.T3 | test_M004_pass_set_known_answers | test_M004_S_px_translation_boundary[T3-1.0] | test_M004_screen_set_known_answers_and_R002_controls | 1 | gen_style.py (m004_sequence, m004_set) |
 | M-004.F.T3 | test_M004_pass_set_known_answers | test_M004_S_px_translation_boundary[T3-1.0] | test_M004_screen_set_known_answers_and_R002_controls | 1 | gen_style.py (m004_sequence, m004_set) |
 
-Collected tests: 364. Sub-measures without a named known or negative test: none.
+Collected tests: 386. Sub-measures without a named known or negative test: none.

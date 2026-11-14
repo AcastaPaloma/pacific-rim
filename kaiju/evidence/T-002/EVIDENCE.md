@@ -12,7 +12,7 @@ Rebuild everything: `$PY Tools/Metrics/fixtures/make_evidence.py` (commit `c6a6b
 ## Artifacts
 | File | Content |
 |---|---|
-| `pytest_full.txt` | full `pytest -v` run at commit `927590a` (fix cycle 2): 364 passed, 0 failed, 0 skipped, 300.6 s (cycle 1: 331 passed at `f63d74c`) |
+| `pytest_full.txt` | full `pytest -v` run at commit `dec5335` (fix cycle 3): 386 passed, 0 failed, 0 skipped, 272.3 s (cycle 2: 364 at `927590a`; cycle 1: 331 at `f63d74c`) |
 | `coverage_matrix.md` | sub-measure -> known / boundary / negative / flip tests -> fixture generator |
 | `fixture_reports_index.md`, `reports/<name>/` | report.json + summary.txt (+ diagnostic PNGs) for the positive, negative and boundary fixtures, with exit codes and failing IDs |
 | `validator_runs.txt` | validators on the good examples (exit 0) and on 7 gait mutants (exit 2, specific error each) |
