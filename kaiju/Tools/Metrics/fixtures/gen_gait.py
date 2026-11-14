@@ -400,13 +400,13 @@ def spec_stomp(**kw):
 def reference_specs(over=None):
     """The eight M-001 captures plus stomp, all passing. `over` = {capture: Spec} replaces entries."""
     s = {
-        "walk_fr010": spec_walk(0.10, strides=4),
+        "walk_fr010": spec_walk(0.11, strides=4, capture="walk_fr010"),
         "walk_fr020": spec_walk(0.20, strides=5),
-        "walk_fr030": spec_walk(0.30, strides=4),
+        "walk_fr030": spec_walk(0.29, strides=4, capture="walk_fr030"),
         "start": spec_start(),
         "stop": spec_stop(),
         "estop": spec_estop(),
-        "turn90_inplace": spec_turn_inplace(),
+        "turn90_inplace": spec_turn_inplace(peak_rate_dps=12.0, yaw_acc_dps2=3.0),
         "curve": spec_curve(),
         "stomp": spec_stomp(),
     }
