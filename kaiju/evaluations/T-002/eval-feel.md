@@ -60,12 +60,9 @@ that does not depend on sampling (Fr, Alexander ratio, beta, accelerations, yaw 
 agreement) matches to 2e-5 or better.
 
 ## Panel and calibration (C8, C16)
-- **M-001.13 (C8), set A.** Results by ratings file:
-  - No file: PENDING, verdict INCOMPLETE (exit 3), `headless_verdict` PASS.
-  - 2 blind raters: PENDING (exit 3).
-  - 3 raters, one not blind: PENDING (2 counted).
-  - 3 blind raters, overall 8 / 8 / 9: PASS, verdict `PASS (provisional: 7 assumed)`.
-  - Curve scenario median 6: M-001.13 FAIL, exit 1, `headless_verdict` still PASS.
+- **M-001.13 (C8), set A.** No file: PENDING, INCOMPLETE (exit 3), `headless_verdict` PASS. 2 blind raters, or 3
+  with one not blind: PENDING (exit 3). 3 blind raters at 8 / 8 / 9: PASS, `PASS (provisional: 7 assumed)`. Curve
+  scenario median 6: M-001.13 FAIL, exit 1, `headless_verdict` still PASS.
 - **M-003 f (C8, anchor exclusion).**
   - 8 good raters plus 1 rater who scores a negative anchor 7 and every capture 1: that rater is excluded
     ("scored a negative anchor >= 6"), mean 8.0, PASS. With the rater kept, the mean would be 7.2.
