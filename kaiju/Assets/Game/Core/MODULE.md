@@ -31,9 +31,9 @@ Other modules reference **`Game.Core.Contracts`** (and `Game.Core` only where th
 - **Same step.** `Publish` is synchronous. An event published inside a handler is queued FIFO (across all types) and delivered after the current event has reached all its handlers, but **before the outermost `Publish` returns**, so before the step ends. Never deferred to a later step, frame or coroutine.
 - **Re-entrancy.** A handler receives exactly the events *published after it subscribed and before it unsubscribed*: one removed mid-dispatch gets nothing more (not even the rest of the current event); one added mid-dispatch starts with the next published event (nested events published before its subscription are not delivered to it). Unsubscribing yourself or another handler during dispatch is safe. Subscribing the same handler twice throws.
 - **Runaway cap.** One outermost publish may cause at most `maxEventsPerCascade` events (`Config/CoreSettings.json`, 10,000). Beyond that the queued events are dropped, a `CascadeLimit` error is reported, and the outermost `Publish` throws `EventCascadeLimitException` naming the event types and counts. No stack overflow, no hang; the bus is usable afterwards.
-- **Exceptions.** A throwing handler is caught; the others and later events still run. Each exception goes to the `ICoreErrorSink` with event type and subscriber (`<handler type>#<slot>`), and `HandlerExceptionCount` counts it. Tests use `CollectingErrorSink` and assert on it; the Unity adapter logs once per (kind, event type, subscriber) and counts every one.
+- **Exceptions.** A throwing handler is caught; the others and later events still run. Each exception goes to the `ICoreErrorSink` with event type and subscriber (`<handler type>#<slot>`), and `HandlerExceptionCount` counts it. Tests use `CollectingErrorSink` and assert on it; the Unity adapter logs once per (kind, event type, subscriber) and counts every one. An `ICoreErrorSink` must not throw; if one does, the bus restores its state in a `finally`, drops the rest of that cascade, and the sink's exception propagates out of the outermost `Publish` (loud, never a silently dead bus; the bus works normally afterwards; `Bus_ThrowingErrorSink_*` tests). Clarification of contract v1, no version change.
 - **Thread.** The bus belongs to the thread that created it (the simulation thread). Use from another thread reports `WrongThread` and throws.
-- **Allocation.** Steady-state `Publish` allocates 0 bytes (measured: `evidence/T-001/alloc.txt`, both runtimes, 1/8/64 subscribers, 4-byte and 96-byte events, nested publish). `Subscribe`, `Unsubscribe`, the first publish of a new event type and buffer growth may allocate. Flag reads and clock reads allocate 0 bytes.
+- **Allocation.** Steady-state `Publish` allocates 0 bytes (measured: `evidence/T-001/alloc.txt`, both runtimes, 1/8/64 subscribers, 4-byte and 96-byte events, nested publish, and a repeated 5,000-event burst in one cascade, measured on the second burst). `Subscribe`, `Unsubscribe`, the first publish of a new event type and buffer growth (the first burst deeper than any before) may allocate. **The error path allocates:** every handler exception builds its message and subscriber strings, and `UnityLogErrorSink` builds a dedupe key per report, so a persistently throwing handler allocates on every publish. Tests fail on any handler exception, so this never hides in a green run. Flag reads and clock reads allocate 0 bytes.
 
 ### Registry rules
 `Register<TContract>(impl)` throws `DuplicateServiceException` (names the contract and both implementations); `Resolve<T>` throws `ServiceNotRegisteredException` (names the contract); `TryResolve` for optional services. `Dispose()` disposes `IDisposable` services once each, in reverse registration order. There is no static registry anywhere in Core.
@@ -55,14 +55,14 @@ Folder `Assets/Game/Config/FeatureFlags/`, **one JSON file per module** (Core's 
 - Core's flags: `core.verboseBoot` (adapter logs a boot summary).
 
 ### Clock
-`Config/CoreSettings.json` `fixedStepSeconds` is the single source of truth (**0.02 s, Assumed**; `research/R-005.md` R2 recommends 1/60 s, a one-value change). The adapter sets `Time.fixedDeltaTime` to it at boot and reports `FixedStepMismatch` if the project setting differed. `CoreClockDriver` (execution order −32000) calls `Clock.Advance()` once per `FixedUpdate`. Core never reads wall-clock time, `UnityEngine.Time` or unseeded randomness.
+`Config/CoreSettings.json` `fixedStepSeconds` is the single source of truth (Assumed 0.02 s in Core config; R-005 recommends 1/60 s, applied by T-005 as a config change). The adapter sets `Time.fixedDeltaTime` to it at boot and reports `FixedStepMismatch` if the project setting differed. `CoreClockDriver` (execution order −32000) calls `Clock.Advance()` once per `FixedUpdate`. Core never reads wall-clock time, `UnityEngine.Time` or unseeded randomness.
 
 ### Save
 - `SaveDocument` (envelope schema 1, writing build version) → named sections (one per module, each with the module's own version) → ID-keyed `SaveRecord`s → typed fields (`Int64`, `Float64` stored as IEEE-754 bits, `Bool`, `String`; anything else is kept verbatim as `Raw`).
 - `SaveCodec` writes canonical bytes: ordinal order everywhere, one record per line, `\n`, invariant culture. Same state → same bytes under any culture (`de-DE`, `tr-TR` tested).
-- `JsonFileSaveStore` writes `<path>.tmp`, flushes to disk, then `File.Replace`s the old file: a failed write leaves the previous save loadable. Load refuses a newer schema (`NewerSchema`, file untouched) and an unknown/missing schema (`UnknownSchema`); never loads silently wrong.
+- `JsonFileSaveStore` writes `<path>.tmp`, flushes to disk, then `File.Replace`s the old file: a failed write leaves the previous save loadable. The parent directory is created if missing. Durability is rename-only: the temp file is fsynced but the directory is not, so a power loss right after the rename may surface the previous save (never a torn one); crash safety is tested by an injected stream failure, not a killed process. Load refuses a newer schema (`NewerSchema`, file untouched) and an unknown/missing schema (`UnknownSchema`); never loads silently wrong.
 - `SaveSystem`: modules register an `ISaveParticipant` (own section) and `ISaveSectionMigration`s (vN→vN+1). `Restore` validates every section first (too new → `SectionTooNew`; gap in the chain → `MissingMigration`) and applies nothing unless all can be read. `Capture(loaded)` keeps sections no participant owns, unchanged. Core knows nothing about buildings.
-- Compatibility promise (Assumed, proposed Q below): every schema from v1 loads forever via migration.
+- Compatibility promise (Assumed, Q-032): every schema from v1 loads forever via migration.
 
 ## How to add an event and consume it (≤ 20 lines)
 ```csharp
@@ -99,15 +99,17 @@ Feature flags: `core.verboseBoot` (off).
 ## Tests
 - Shared NUnit sources `Tests/EditMode/*.cs`, run by Unity EditMode **and** `dotnet test DotnetTests/Core.Tests` (Core compiled as netstandard2.1 + C# 9 there, matching Unity 6000.6). Fixtures in `Tests/EditMode/Fixtures/`.
 - Unity-only: `Tests/UnityOnly/AdapterTests.cs` (config asset, boot from committed config, fixed-step reconcile, log sink, Play Mode re-entry without domain reload).
+- Play Mode: there is no PlayMode test assembly yet. Play Mode coverage is the `[UnityTest]` `Adapter_EnterPlayModeTwice_NoDomainReload_FreshStateEachTime` in `Tests/UnityOnly/AdapterTests.cs`, which runs in the EditMode run and enters/exits Play Mode twice; Core has no other Play-Mode-only behaviour. A PlayMode assembly arrives with the first module that needs scene/frame tests.
+- Temp directories made by `ProjectPaths.NewTempDir()` are deleted after the run (`TempDirCleanup` set-up fixture).
 - `BuildingId_NoCollisions_10M` is tagged `Slow`; `SuiteHygieneTests` re-runs every other shared test twice in shuffled order in one process.
 - Measurements: set `KAIJU_EVIDENCE_DIR` to collect `alloc.txt`, `bench.txt`, `trace-hashes.txt`, `save-baseline.txt` lines per runner. Golden fixtures are only rewritten with `KAIJU_WRITE_GOLDEN=1` (a deliberate act).
-- Metrics: proposed M-NEW (bus ns/publish, bytes/publish = 0); baseline in `evidence/T-001/bench.txt`.
+- Metrics: M-017 (bus ns/publish, bytes/publish = 0); baseline in `evidence/T-001/bench.txt`.
 
 Owner role: implementation/core (`impl-core`).
 
 ## Known limits / TODO
-- Fixed step 0.02 s is Assumed; R-005 recommends 1/60 s (proposed Q-NEW-step).
-- Save format is JSON: fine for M0 and the 100k-record baseline (`evidence/T-001/save-baseline.txt`); Bay-scale world saves may need chunked/binary per tile in the World task, behind the same `ISaveStore` contract (Q-NEW-d of draft B).
-- Save compatibility promise (proposed Q-NEW "save compatibility"): every schema from v1 loads forever via migration; pre-M3 dev saves dropped only by founder decision.
+- Fixed step: Assumed 0.02 s in Core config; R-005 recommends 1/60 s, applied by T-005 as a config change.
+- Save format is JSON: fine for M0 and the 100k-record baseline (`evidence/T-001/save-baseline.txt`); Bay-scale world saves may need chunked/binary per tile in the World task, behind the same `ISaveStore` contract (draft-B proposal; no ID assigned in `ledger/ID_MAP.md`).
+- Save compatibility promise (Q-032): every schema from v1 loads forever via migration; pre-M3 dev saves dropped only by founder decision.
 - Player builds: config loading through Resources is exercised in the editor only; no player build was made in T-001.
 - Threading: single simulation thread by design (reconciliation decision); no thread-safe publish.

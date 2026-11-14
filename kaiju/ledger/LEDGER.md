@@ -10,8 +10,8 @@
 |---|---|---|---|---|---|
 | D-001 | todo |  | | | 2026-11-14 |
 | D-002 | todo |  | | | 2026-11-14 |
-| D-003 | in-progress | T-001 | | | 2026-11-14 |
-| D-004 | in-progress | T-001 | | | 2026-11-14 |
+| D-003 | in-progress | T-001 (Core part done) | evaluations/T-001/eval-arch.md (PASS); evaluations/T-001/eval-perf.md (PASS); evidence/regression/T-001.md (merge 61aee09, dotnet 89/89, EditMode 94/94); evidence/T-001/EVIDENCE.md | | 2026-11-14 |
+| D-004 | in-progress | T-001 (Core part done) | evaluations/T-001/eval-arch.md (PASS); evaluations/T-001/eval-perf.md (PASS); evidence/regression/T-001.md (merge 61aee09, dotnet 89/89, EditMode 94/94); evidence/T-001/EVIDENCE.md | | 2026-11-14 |
 | D-005 | todo |  | | | 2026-11-14 |
 | D-006 | in-progress | T-004 | | | 2026-11-14 |
 | D-007 | in-progress | T-005 | | | 2026-11-14 |
@@ -43,7 +43,7 @@
 | F-006 | todo |  | | | 2026-11-14 |
 | F-007 | todo |  | | | 2026-11-14 |
 | F-008 | todo |  | | | 2026-11-14 |
-| F-009 | in-progress | T-001, T-005 | | | 2026-11-14 |
+| F-009 | in-progress | T-001 (Core part done), T-005 | evaluations/T-001/eval-arch.md (PASS); evaluations/T-001/eval-perf.md (PASS); evidence/regression/T-001.md (merge 61aee09, dotnet 89/89, EditMode 94/94); evidence/T-001/EVIDENCE.md | | 2026-11-14 |
 | F-010 | todo |  | | | 2026-11-14 |
 | F-011 | todo |  | | | 2026-11-14 |
 | F-012 | todo |  | | | 2026-11-14 |
@@ -57,7 +57,7 @@
 | F-040 | in-progress | R-004, T-003 | | | 2026-11-14 |
 | F-041 | todo |  | | | 2026-11-14 |
 | F-042 | todo |  | | | 2026-11-14 |
-| F-043 | in-progress | T-001 | | | 2026-11-14 |
+| F-043 | in-progress | T-001 (Core part done) | evaluations/T-001/eval-arch.md (PASS); evaluations/T-001/eval-perf.md (PASS); evidence/regression/T-001.md (merge 61aee09, dotnet 89/89, EditMode 94/94); evidence/T-001/EVIDENCE.md | | 2026-11-14 |
 | F-044 | todo |  | | | 2026-11-14 |
 | F-045 | todo |  | | | 2026-11-14 |
 | F-046 | in-progress | T-004 | | | 2026-11-14 |
@@ -74,7 +74,7 @@
 | M-005 | in-progress | R-004, T-003 | research/R-004.md §6 (M-005@v1) | | 2026-11-14 |
 | M-006 | in-progress | R-005, T-005 | research/R-005.md §8 (M-006@v1) | | 2026-11-14 |
 | M-007 | todo |  | | | 2026-11-14 |
-| M-008 | in-progress | R-003 | | | 2026-11-14 |
+| M-008 | in-progress | R-003, T-001 (Core part done) | evaluations/T-001/eval-arch.md (PASS); evaluations/T-001/eval-perf.md (PASS); evidence/regression/T-001.md (merge 61aee09, dotnet 89/89, EditMode 94/94); evidence/T-001/EVIDENCE.md | | 2026-11-14 |
 | M-009 | todo | R-001 | | | 2026-11-14 |
 | M-010 | todo | R-001 | | | 2026-11-14 |
 | M-011 | todo | R-002 | | | 2026-11-14 |
@@ -118,6 +118,15 @@
 | Q-032 | todo | | | | 2026-11-14 |
 | Q-033 | todo | | | | 2026-11-14 |
 | Q-034 | todo | | | | 2026-11-14 |
+| Q-035 | todo | | | | 2026-11-14 |
+| Q-036 | todo | | | | 2026-11-14 |
+| Q-037 | todo | | | | 2026-11-14 |
+| Q-038 | todo | | | | 2026-11-14 |
+| Q-039 | todo | | | | 2026-11-14 |
+| Q-040 | todo | | | | 2026-11-14 |
+| Q-041 | todo | | | | 2026-11-14 |
+| Q-042 | todo | | | | 2026-11-14 |
+| Q-043 | todo | | | | 2026-11-14 |
 
 ## Research findings (R-###)
 
@@ -131,15 +140,15 @@
 
 ## Tasks (T-###)
 
-| Task | Slice | Module(s) | Milestone | State | Branch | Cycle | Last update |
-|---|---|---|---|---|---|---|---|
-| T-001 | Core: events bus, service registry, IDs, feature flags | Core | M0 | eval (cycle 1) | task/T-001 | 0 | 2026-11-14 |
-| T-002 | Headless metric tools for M-001 to M-004 | Tools/Metrics | M0 | expectations | task/T-002 | 0 | 2026-11-14 |
-| T-003 | One real SF tile: terrain, bathymetry, OSM buildings, faults | Pipelines/geo, World.Geo | M0 | expectations | task/T-003 | 0 | 2026-11-14 |
-| T-004 | Pixel pipeline renderer features + third-person rig stabilisation | Rendering.Pixel, Camera | M0 | expectations | task/T-004 | 0 | 2026-11-14 |
-| T-005 | One mech body that walks with physics and intent control | Physics.Body, Control, Units.Mech | M0 | expectations | task/T-005 | 0 | 2026-11-14 |
-| T-006 | M0 style frame: SF tile + static mech through the pixel pipeline | integration of T-003/4/5/7 | M0 | planned | task/T-006 | 0 | 2026-11-14 |
-| T-007 | Original greybox mech asset at true scale + concept prompt sheets | Units.Mech (asset) | M0 | implementing (Phase A concept done, Phase B/C greybox) | task/T-007 | 0 | 2026-11-14 |
+| Task | Slice | Module(s) | Milestone | State | Branch | Cycle | Spec | Last update |
+|---|---|---|---|---|---|---|---|---|
+| T-001 | Core: events bus, service registry, IDs, feature flags | Core | M0 | integrated (cycle 1 PASS; fix cycle 1 in progress on task/T-001-fix1 for minor defects) | task/T-001 | 0 | expectations/T-001.md | 2026-11-14 |
+| T-002 | Headless metric tools for M-001 to M-004 | Tools/Metrics | M0 | implementing (task/T-002) | task/T-002 | 0 | expectations/T-002.md | 2026-11-14 |
+| T-003 | One real SF tile: terrain, bathymetry, OSM buildings, faults | Pipelines/geo, World.Geo | M0 | implementing (task/T-003) | task/T-003 | 0 | expectations/T-003.md | 2026-11-14 |
+| T-004 | Pixel pipeline renderer features + third-person rig stabilisation | Rendering.Pixel, Camera | M0 | implementing (task/T-004) | task/T-004 | 0 | expectations/T-004.md | 2026-11-14 |
+| T-005 | One mech body that walks with physics and intent control | Physics.Body, Control, Units.Mech | M0 | implementing (task/T-005) | task/T-005 | 0 | expectations/T-005.md | 2026-11-14 |
+| T-006 | M0 style frame: SF tile + static mech through the pixel pipeline | integration of T-003/4/5/7 | M0 | planned (after T-003, T-004, T-007) | task/T-006 | 0 | none yet (planned) | 2026-11-14 |
+| T-007 | Original greybox mech asset at true scale + concept prompt sheets | Units.Mech (asset) | M0 | implementing (task/T-007; concept phase done) | task/T-007 | 0 | expectations/T-007.md | 2026-11-14 |
 
 ## Defects
 
@@ -147,8 +156,14 @@ One line per evaluator defect until it is fixed and re-evaluated, or a founder r
 
 | Defect | Task | Severity | Summary | Evidence | State (open/fixed-pending-eval/closed/rejected) | Last update |
 |---|---|---|---|---|---|---|
-| DEF-T001-perf-1 | T-001 | minor | the allocation test never exercises a burst deeper than the warm-up (queue/ring growth after warm-up is not covered); a module that publishes 1,000 events in one step the first time will allocate once, which is stated but not measured. PASS would look like: one extra case with a burst of N events (for example 5,000 in one cascade) measured on the second burst, 0 bytes. | evaluations/T-001/eval-perf.md | open | 2026-11-14 |
-| DEF-T001-perf-2 | T-001 | minor | C12 in Unity is count-only (Mono reports no bytes) and I did not re-run it; a ProfilerRecorder count of 0 is accepted as the proof. PASS would look like: the same, plus a note in EVIDENCE.md (already present) - no code change needed. | evaluations/T-001/eval-perf.md | open | 2026-11-14 |
+| DEF-T001-perf-1 | T-001 | minor | the allocation test never exercises a burst deeper than the warm-up (queue/ring growth after warm-up is not covered); a module that publishes 1,000 events in one step the first time will allocate once, which is stated but not measured. PASS would look like: one extra case with a burst of N events (for example 5,000 in one cascade) measured on the second burst, 0 bytes. | evaluations/T-001/eval-perf.md | open (fix cycle 1) | 2026-11-14 |
+| DEF-T001-perf-2 | T-001 | minor | C12 in Unity is count-only (Mono reports no bytes) and I did not re-run it; a ProfilerRecorder count of 0 is accepted as the proof. PASS would look like: the same, plus a note in EVIDENCE.md (already present) - no code change needed. | evaluations/T-001/eval-perf.md | open (fix cycle 1) | 2026-11-14 |
+| DEF-T001-arch-1 | T-001 | minor | a throwing `ICoreErrorSink` permanently wedges the bus. | evaluations/T-001/eval-arch.md | open (fix cycle 1) | 2026-11-14 |
+| DEF-T001-arch-2 | T-001 | minor | tests leave temp directories behind. | evaluations/T-001/eval-arch.md | open (fix cycle 1) | 2026-11-14 |
+| DEF-T001-arch-3 | T-001 | minor | two assertions cannot fail meaningfully. | evaluations/T-001/eval-arch.md | open (fix cycle 1) | 2026-11-14 |
+| DEF-T001-arch-4 | T-001 | minor | error path allocates every time; MODULE.md claims are silent on it. | evaluations/T-001/eval-arch.md | open (fix cycle 1) | 2026-11-14 |
+| DEF-T001-arch-5 | T-001 | minor | no PlayMode assembly; MODULE.md "Tests" line omits PlayMode. | evaluations/T-001/eval-arch.md | open (fix cycle 1) | 2026-11-14 |
+| DEF-T001-arch-6 | T-001 | minor | save store assumes the directory exists and does not sync it. | evaluations/T-001/eval-arch.md | open (fix cycle 1) | 2026-11-14 |
 
 ## Founder questions raised by the swarm
 
@@ -185,3 +200,12 @@ Mirrors `GAME_BREAKDOWN.md` §11 for questions raised after the initial breakdow
 | Q-032 | Save compatibility promise | every schema from v1 loads forever via migration; pre-M3 development saves may be dropped only by founder decision. | T-001 | No |
 | Q-033 | Look of the Balanced chassis | industrial-naval (hull-plate armour, exposed hydraulics at knees and elbows, shipyard-built), gunmetal/slate primary with off-white secondary and one small accent, no emblems until a faction identity exists. | T-007 | No |
 | Q-034 | Chassis heights within D-007 | 76-80 m and wider so the two classes share sockets. Not needed for M0. | T-007 | No |
+| Q-035 | Do provisional passes count (T-002)? A PASS resting on Assumed thresholds before calibration | counts as provisional and is labelled so until the first calibration checkpoint. | T-002 | No |
+| Q-036 | Incomplete metrics at the M0 gate (T-002): panel scores and the optional non-flat-terrain walk pending | the gate uses the headless verdict plus the agent panel proxy; pending items are listed for the founders. | T-002 | No |
+| Q-037 | Calibration ratings procedure (T-002) | both founders rate the same ~10 captures per metric plus anchors, independently; the helper uses the median and reports disagreement. | T-002 | No |
+| Q-038 | Version bump on calibration (T-002) | the spec stays `@v1`, each registry change creates revision `v1.N`, and reports name the revision they used. | T-002 | No |
+| Q-039 | Recent buildings missing from the open data (T-003): add by hand? | no invented buildings at M0; candidates listed in `known_gaps.md`. | T-003 | No |
+| Q-040 | Roads at M0 (T-003) | ribbons on the terrain with bridge decks separate. | T-003 | No |
+| Q-041 | DataSF-derived heights shipped under PDDL with a City and County of San Francisco credit (T-003) | yes. | T-003 | No |
+| Q-042 | Camera impulse envelope and default framing (T-004) | impulse cap about 0.5° and 0.5 m, decay about 1.2 s; the 80 m mech fills about half the frame height, low horizon. | T-004 | No |
+| Q-043 | Outlines, light shafts and clustered smoke (T-004) | outlines optional and off in M0; shafts and smoke in a later slice. | T-004 | No |
