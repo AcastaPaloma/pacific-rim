@@ -15,7 +15,7 @@ namespace Game.World.Geo.Editor
 
         sealed class View
         {
-            public string Name; public Vector3 Pos; public Quaternion Rot; public float VFov; public int W, H; public bool Ortho; public float OrthoSize;
+            public string Name; public string Hide; public Vector3 Pos; public Quaternion Rot; public float VFov; public int W, H; public bool Ortho; public float OrthoSize;
         }
 
         static float VFov(float hfovDeg, int w, int h) => 2f * Mathf.Rad2Deg * Mathf.Atan(Mathf.Tan(hfovDeg * 0.5f * Mathf.Deg2Rad) * h / w);
@@ -25,6 +25,7 @@ namespace Game.World.Geo.Editor
 
         public static void All(GeoTileInstance t, string outDir, Dictionary<string, object> stats, Action<string> log)
         {
+            _tile = t; _hidden = null;
             var cdir = Path.Combine(outDir, "captures");
             Directory.CreateDirectory(cdir);
             var lightGo = new GameObject("Sun");
@@ -66,13 +67,18 @@ namespace Game.World.Geo.Editor
                 double eye = GeoJson.Num(v, "eye_navd88_m");
                 float heading = (float)GeoJson.Num(v, "heading_deg");
                 string idv = GeoJson.Str(v, "id");
-                sky.Add(new View { Name = "skyline_" + idv, Pos = Scene(t, (double)p[0], eye, (double)p[1]), Rot = Quaternion.Euler(0, heading, 0), VFov = VFov(60, 1024, 576), W = 1024, H = 576 });
-                sky.Add(new View { Name = "skyline_" + idv + "_270rows", Pos = Scene(t, (double)p[0], eye, (double)p[1]), Rot = Quaternion.Euler(0, heading, 0), VFov = VFov(60, 480, 270), W = 480, H = 270 });
+                string hide = idv == "V5" ? "osm:w28824850" : null;   // the observer stands on Coit Tower: its own structure is not skyline
+                sky.Add(new View { Hide = hide, Name = "skyline_" + idv, Pos = Scene(t, (double)p[0], eye, (double)p[1]), Rot = Quaternion.Euler(0, heading, 0), VFov = VFov(60, 1024, 576), W = 1024, H = 576 });
+                sky.Add(new View { Hide = hide, Name = "skyline_" + idv + "_270rows", Pos = Scene(t, (double)p[0], eye, (double)p[1]), Rot = Quaternion.Euler(0, heading, 0), VFov = VFov(60, 480, 270), W = 480, H = 270 });
                 if (idv == "V4")
                     sky.Add(new View { Name = "skyline_V4_eye70", Pos = Scene(t, (double)p[0], 70.0, (double)p[1]), Rot = Quaternion.Euler(0, heading, 0), VFov = VFov(60, 1024, 576), W = 1024, H = 576 });
             }
             views.AddRange(sky);
 
+            // synchronous shader compilation, then a warm-up frame: async compilation would drop not-yet-compiled variants
+            ShaderUtil.allowAsyncCompilation = false;
+            Place(cam, views[0]);
+            UnityEngine.Object.DestroyImmediate(Render(cam, 64, 64));
             var viewStats = new List<object>();
             foreach (var v in views)
             {
@@ -97,6 +103,7 @@ namespace Game.World.Geo.Editor
                 UnityEngine.Object.DestroyImmediate(img);
             }
             foreach (var kv in saved) kv.Key.sharedMaterial = kv.Value;
+            if (_hidden != null) { t.SetRenderExclusion(null); _hidden = null; }
             cam.backgroundColor = Sky;
 
             // z-fighting distance series: two renders 1 mm apart; z-fighting shows as pixels that flip
@@ -133,8 +140,16 @@ namespace Game.World.Geo.Editor
             log("captures: " + views.Count + " views + " + sky.Count + " masks + z-fight series");
         }
 
+        static GeoTileInstance _tile;
+        static string _hidden;
+
         static void Place(Camera cam, View v)
         {
+            if (_tile != null && v.Hide != _hidden)
+            {
+                _tile.SetRenderExclusion(v.Hide == null ? null : new[] { BuildingsLayer.ParseBid(v.Hide) });
+                _hidden = v.Hide;
+            }
             cam.transform.SetPositionAndRotation(v.Pos, v.Rot);
             cam.orthographic = v.Ortho;
             if (v.Ortho) cam.orthographicSize = v.OrthoSize; else cam.fieldOfView = v.VFov;

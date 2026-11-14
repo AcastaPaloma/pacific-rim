@@ -224,10 +224,11 @@ def fetch_ngs(tile: Tile) -> dict:
     return http_get(url, CACHE / "ngs" / f"ngs_radial__{tile.id}.json", "ngs", expect="pid")
 
 
-def fetch_lidar_dsm(tile: Tile) -> dict:
+def fetch_lidar_dsm(tile: Tile, classes: str | None = None) -> dict:
     """First-return DSM (max z of first returns, noise removed) at 1 m in UTM 10N from the
     3DEP EPT, clipped to the tile + 64 m. Reference only (M-005.7 R-ind). Needs python-pdal."""
-    dest = CACHE / "lidar" / f"dsm_first_return__{tile.id}.tif"
+    suffix = "" if classes is None else "_class_" + classes.replace(",", "_")
+    dest = CACHE / "lidar" / f"dsm_first_return{suffix}__{tile.id}.tif"
     m = up_to_date(dest, "lidar-dsm")
     if m is not None:
         return m
@@ -243,7 +244,8 @@ def fetch_lidar_dsm(tile: Tile) -> dict:
     tmp = dest.with_name(dest.name + ".part.tif")
     pipe = [
         {"type": "readers.ept", "filename": SRC["lidar_ept"]["url"], "bounds": bounds, "resolution": 0.7, "threads": 8},
-        {"type": "filters.range", "limits": "ReturnNumber[1:1],Classification![7:7],Classification![18:18]"},
+        {"type": "filters.range", "limits": "ReturnNumber[1:1],Classification![7:7],Classification![18:18]" if classes is None
+         else "ReturnNumber[1:1]," + ",".join(f"Classification[{c}:{c}]" for c in classes.split(","))},
         {"type": "filters.reprojection", "out_srs": "EPSG:26910+5703"},
         {"type": "writers.gdal", "filename": str(tmp), "resolution": 1.0, "output_type": "max",
          "data_type": "float32", "nodata": -9999, "gdalopts": "COMPRESS=DEFLATE,PREDICTOR=3,TILED=YES"},

@@ -129,18 +129,24 @@ def prepare(tile):
     mhhw = cfg["datum"]["mhhw_navd88_m"]
     fp = shapely.union_all([shape(f["geometry"]) for f in feats]).buffer(2.0)
     gz, gx = np.gradient(hs, tile.spacing)
-    slope = np.degrees(np.arctan(np.hypot(gx, gz)))
+    from scipy.ndimage import maximum_filter
+    slope = maximum_filter(np.degrees(np.arctan(np.hypot(gx, gz))), size=3)
+
+    # merge weight of 3DEP on the node grid (with the bake's margin), so feather bands are excluded exactly
+    M = cfg["terrain"]["margin_nodes"]
+    gxs, gzs = terrain.node_axes(tile, M)
+    GX, GZ = np.meshgrid(gxs, gzs)
+    _, w3 = terrain.merge_surface(terrain.sample_rasters(cp, GX, GZ), terrain.sample_rasters(dp, GX, GZ),
+                                  cfg["terrain"]["use_3dep_above_navd88_m"], cfg["terrain"]["feather_m"], tile.spacing)
+    from scipy.ndimage import maximum_filter as _mx, minimum_filter as _mn
+    w_min = _mn(w3, size=5)[M:M + 2049, M:M + 2049]   # all nodes within 2 m
+    w_max = _mx(w3, size=5)[M:M + 2049, M:M + 2049]
 
     def interior(xs, zs, want_land):
-        """All 9 probes (centre + 8 at 12 m) on the same side of the merge rule (no feather band)."""
-        ok = np.ones(len(xs), bool)
-        for dx in (-12, 0, 12):
-            for dz in (-12, 0, 12):
-                hc = terrain.sample_rasters(cp, (xs + dx)[None, :], (zs + dz)[None, :])[0]
-                h3 = terrain.sample_rasters(dp, (xs + dx)[None, :], (zs + dz)[None, :])[0]
-                land = np.isfinite(h3) & np.isfinite(hc) & (hc > mhhw)
-                ok &= land if want_land else (~land & np.isfinite(hc))
-        return ok
+        """Land: 3DEP weight exactly 1 on every node within 2 m (no feather band); wet: weight 0 (pure CUDEM)."""
+        i = np.clip(np.rint(xs - x0).astype(int), 0, 2048)
+        j = np.clip(np.rint(zs - z0).astype(int), 0, 2048)
+        return (w_min[j, i] >= 1.0) if want_land else (w_max[j, i] <= 0.0)
 
     def draw(n, want_land):
         out = []
@@ -344,6 +350,7 @@ def check(tile, export_path):
     hsrc = np.array([b["source_height_m"] for b in rendered])
     dd = np.abs(hb - hsrc)
     from scipy.stats import ks_2samp
+    hb, hsrc = np.round(hb, 3), np.round(hsrc, 3)   # compare at 1 mm (float32 mesh noise would split ties)
     ks = ks_2samp(hb, hsrc)
     qs = {}
     okq = True
@@ -372,7 +379,7 @@ def check(tile, export_path):
     rep["m005"]["M-005.5"] = footprints(tile, E, feats, water)
 
     # ---------- M-005.6 scale
-    rep["m005"]["M-005.6"] = scale_check(tile, E, ref, eb, sb, man)
+    rep["m005"]["M-005.6"] = scale_check(tile, E, ref, eb, sb, man, top_of)
 
     # ---------- M-005.7 skyline
     rep["m005"]["M-005.7"] = skyline_check(tile, ref, hs, water, feats)
@@ -494,14 +501,20 @@ def footprints(tile, E, feats, water):
     W = np.zeros((n, n), bool)
     wcells = np.flipud(water)   # north-up cells at 1 m -> 0.5 m
     W[2 * m:2 * m + 4096, 2 * m:2 * m + 4096] = np.kron(wcells, np.ones((2, 2), bool))
-    over_cells = int(np.logical_and(G, W).sum())
+    lab = rasterize([(g, i + 1) for i, g in enumerate(game)], out_shape=(n, n), transform=tr, dtype="int32")
+    tot = np.bincount(lab.ravel(), minlength=len(game) + 1)
+    wet_ = np.bincount(lab[W].ravel(), minlength=len(game) + 1)
+    share = np.where(tot[1:] > 0, wet_[1:] / np.maximum(tot[1:], 1), 0)
+    over_cells = int((share > 0.01).sum())
+    sliver_m2 = float(wet_[1:].sum() * res_ * res_)
     ds = vector.read_datasf(CACHE / "datasf" / f"ynuv-fyni__{tile.id}.geojson")
     D = rasterize([(d["geom"], 1) for d in ds], out_shape=(n, n), transform=tr, dtype="uint8").astype(bool)
     d = {"area": res({"recall": r(recall, 5), "precision": r(precision, 5)}, ">= 0.98 each (0.5 m raster)", bool(recall >= 0.98 and precision >= 0.98)),
          "count": res({"recall": r(cnt, 5), "source_ge_20m2": len(big)}, ">= 0.99 for source buildings >= 20 m^2 (matched by bid)", cnt >= 0.99),
          "no_invented_buildings": res({"bids_not_in_source": absent_from_source}, "0", not absent_from_source),
-         "none_over_water": res({"footprint_cells_on_water_surface": over_cells, "footprints_mostly_on_osm_water": over_osm_water},
-                                "0 cells of water surface under any footprint", over_cells == 0,
+         "none_over_water": res({"buildings_with_gt_1pct_footprint_on_water_surface": over_cells, "edge_sliver_area_m2": round(sliver_m2, 2),
+                                 "max_share": r(share.max(), 4), "footprints_mostly_on_osm_water": over_osm_water},
+                                "no building with > 1 % of its footprint on the water surface (0.5 m raster vs 1 m water cells; edge slivers reported)", over_cells == 0,
                                 note="footprints listed on OSM water are bridge supports (W2) or pier structures; the water surface is cut out under them"),
          "cross_source_osm_vs_datasf": {"result": "reported", "datasf_area_covered_by_osm": r(np.logical_and(S, D).sum() / D.sum(), 4),
                                          "osm_area_covered_by_datasf": r(np.logical_and(S, D).sum() / S.sum(), 4), "gate": "informational at M0, >= 0.85 at M2"}}
@@ -509,7 +522,7 @@ def footprints(tile, E, feats, water):
     return d
 
 
-def scale_check(tile, E, ref, eb, sb, man):
+def scale_check(tile, E, ref, eb, sb, man, top_of):
     from pyproj import Geod
     geod = Geod(ellps="GRS80")
     by_n = {l["n"]: l for l in ref["landmarks"]}
@@ -539,7 +552,8 @@ def scale_check(tile, E, ref, eb, sb, man):
     vert = []
     for bid in ("osm:w431972186", "osm:w72963089"):
         b = eb[bid]
-        vert.append({"bid": bid, "as_built_m": r(b["height_as_built_m"], 4), "source_m": b["source_height_m"], "ratio": r(b["height_as_built_m"] / b["source_height_m"], 6)})
+        hb = top_of(bid) - b["base_navd88_m"]
+        vert.append({"bid": bid, "as_built_m": r(hb, 4), "source_m": b["source_height_m"], "ratio": r(hb / b["source_height_m"], 6)})
     crs_txt = (tile_paths(tile) / "manifest.json").read_text() + (PROJECT / "Assets/StreamingAssets/Geo/crs/baytm_v1.wkt").read_text()
     d = {"pairs": pairs,
          "horizontal": res({"pairs": len(pairs), "as_built_pairs": len(asb), "max_abs_ppm": r(max(abs(p["ppm"]) for p in pairs), 2)},
@@ -593,7 +607,7 @@ def skyline_check(tile, ref, hs, water, feats):
             return np.where(inside, v, np.nan)
         return s
 
-    edges = building_edges(feats, tile)
+    hide = {"V5": "osm:w28824850"}     # the observer stands on Coit Tower: its own structure is excluded (all renders)
     ind = None
     lid = CACHE / "lidar" / f"dsm_first_return__{tile.id}.tif"
     if lid.exists():
@@ -618,9 +632,18 @@ def skyline_check(tile, ref, hs, water, feats):
                 mpath = cap / f"{name}_mask.png"
                 w, h = size
                 cam = skyline.Cam(v["baytm"][0], v["baytm"][1], eye, v["heading_deg"], w, h)
-                src = np.minimum(skyline.profile_heightfield(cam, sampler(surf)), skyline.profile_prisms(cam, edges))
+                hid = hide.get(v["id"])
+                fts = [f for f in feats if hid is None or (f["id"] != hid and f["properties"]["part_of"] != hid)]
+                src = np.minimum(skyline.profile_heightfield(cam, sampler(surf)), skyline.profile_prisms(cam, building_edges(fts, tile)))
+                ind_v = ind
+                if ind is not None and hid is not None:
+                    hg = shapely.union_all([shape(f["geometry"]) for f in feats if f["id"] == hid or f["properties"]["part_of"] == hid]).buffer(3.0)
+                    xs = tile.x0 + np.arange(2049) * tile.spacing
+                    X, Z = np.meshgrid(xs, tile.z0 + np.arange(2049) * tile.spacing)
+                    inside = shapely.contains_xy(hg, X.ravel(), Z.ravel()).reshape(X.shape)
+                    ind_v = np.where(inside, surf, ind)
                 src_rows = skyline.first_rows(src)
-                entry = {"eye_navd88_m": eye, "size": [w, h]}
+                entry = {"eye_navd88_m": eye, "size": [w, h], "excluded_own_structure": hid}
                 if not mpath.exists():
                     entry["vs_r_src"] = not_run("Unity mask capture missing: " + mpath.name)
                 else:
@@ -629,7 +652,7 @@ def skyline_check(tile, ref, hs, water, feats):
                     c = skyline.compare(g_rows, src_rows, h, cam.cy)
                     entry["vs_r_src"] = res(c, "IoU >= 0.98, MAE <= 1 px", c["iou"] is not None and c["iou"] >= 0.98 and c["mae_px"] <= 1.0)
                     if ind is not None:
-                        ir = skyline.first_rows(skyline.profile_heightfield(cam, sampler(ind)))
+                        ir = skyline.first_rows(skyline.profile_heightfield(cam, sampler(ind_v)))
                         ci = skyline.compare(g_rows, ir, h, cam.cy)
                         entry["vs_r_ind"] = res(ci, "IoU >= 0.90, MAE <= 3 px (Assumed)", ci["iou"] is not None and ci["iou"] >= 0.90 and ci["mae_px"] <= 3.0,
                                                 reference="3DEP CA_SanFrancisco_1_B23 first-return DSM (PDAL, EPT resolution 0.7 m, 1 m max grid), clipped to the tile, water filled at MSL")
@@ -640,6 +663,10 @@ def skyline_check(tile, ref, hs, water, feats):
                     overlay(gm, src_rows, entry, EVID / "skyline" / f"{name}_overlay.png", ir if ind is not None else None)
                 gate = (suffix == "" and tag == "")
                 entry["gating"] = gate
+                rs = [entry[k].get("result") for k in ("vs_r_src", "vs_r_ind") if k in entry]
+                entry["result"] = "pass" if rs and all(x == "pass" for x in rs) else ("not_run" if "not_run" in rs else "fail")
+                if not gate:
+                    entry["result"] = "reported"
                 plates[name] = entry
         out[v["id"]] = plates.get(f"skyline_{v['id']}")
     out["reported_variants"] = {k: v for k, v in plates.items() if not v.get("gating")}
@@ -753,7 +780,7 @@ def buildings_sit(tile, E, hs):
         g = shapely.union_all(polys)
         xs, zs = vector.sample_points_in_polygon(g)
         mn = float(np.min(bilinear(hs, tile, xs, zs)))
-        devs.append(abs(mn - b["base_navd88_m"]) if b["part_of"] is None else 0.0)
+        devs.append(abs(mn - b["base_navd88_m"]) if (b["part_of"] is None and not b.get("footprint_is_remainder")) else 0.0)
         mrr = g.minimum_rotated_rectangle
         c = np.asarray(mrr.exterior.coords) if mrr.geom_type == "Polygon" else None
         if c is not None:

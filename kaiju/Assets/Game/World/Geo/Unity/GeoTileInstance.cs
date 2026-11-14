@@ -127,6 +127,12 @@ namespace Game.World.Geo.Unity
             return removed;
         }
 
+        /// <summary>Capture-only: render chunks without the given structures (e.g. the observer's own tower), or restore with null. Model untouched.</summary>
+        public void SetRenderExclusion(ICollection<BuildingId> hide)
+        {
+            foreach (var kv in _buildingChunks) kv.Value.sharedMesh = GeoTileBuilder.ToMesh(Model.CombineChunk(kv.Key.Item1, kv.Key.Item2, hide));
+        }
+
         public bool HasObject(BuildingId id) => _objects.ContainsKey(id);
 
         /// <summary>Floating-origin rebase (F-042): new origin must be a tile corner; the root moves by an exact integer.</summary>
@@ -187,7 +193,7 @@ namespace Game.World.Geo.Unity
                 }
                 // footprint as built: float32 tile-local vertices placed by the root, back to float64 world
                 var polys = new List<object>();
-                foreach (var poly in b.Polygons)
+                foreach (var poly in b.RenderPolygons ?? b.Polygons)
                 {
                     var rings = new List<object>();
                     foreach (var ring in poly)
@@ -207,6 +213,7 @@ namespace Game.World.Geo.Unity
                     ["source_height_m"] = b.HeightM, ["top_navd88_m"] = top, ["mesh_min_y_m"] = minY,
                     ["height_as_built_m"] = b.Mesh != null ? top - b.BaseNavd88M : double.NaN,
                     ["anchor_baytm"] = new List<object> { Math.Round(ax, 4), Math.Round(az, 4) }, ["area_m2"] = b.AreaM2,
+                    ["footprint_is_remainder"] = b.RenderPolygons != null, ["outline_area_m2"] = b.AreaM2,
                     ["has_collider"] = _objects.TryGetValue(b.Id, out var go) && go.GetComponent<MeshCollider>() != null,
                     ["footprint"] = polys,
                 });

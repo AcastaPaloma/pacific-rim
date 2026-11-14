@@ -66,12 +66,13 @@ namespace Game.World.Geo
         }
 
         /// <summary>Combined render mesh of one building chunk, excluding removed buildings. Deterministic (sorted by id).</summary>
-        public GeoMeshData CombineChunk(int cx, int cz)
+        public GeoMeshData CombineChunk(int cx, int cz, ICollection<BuildingId> alsoHide = null)
         {
             var pos = new List<float>(); var nrm = new List<float>(); var idx = new List<int>();
             foreach (var b in Buildings)
             {
                 if (b.Mesh == null || b.ChunkX != cx || b.ChunkZ != cz || Removed.Contains(b.Id)) continue;
+                if (alsoHide != null && (alsoHide.Contains(b.Id) || (b.PartOf.IsValid && alsoHide.Contains(b.PartOf)))) continue;
                 int s = pos.Count / 3;
                 pos.AddRange(b.Mesh.Positions); nrm.AddRange(b.Mesh.Normals);
                 foreach (var i in b.Mesh.Indices) idx.Add(i + s);

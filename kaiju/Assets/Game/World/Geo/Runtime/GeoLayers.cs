@@ -62,19 +62,24 @@ namespace Game.World.Geo
                 {
                     int n = ring.Length / 2;
                     if (n > 1 && ring[0] == ring[2 * (n - 1)] && ring[1] == ring[2 * (n - 1) + 1]) n--;
-                    // shift for precision; signed: CCW outers positive, CW holes negative
-                    double x0 = ring[0], z0 = ring[1];
+                    // per ring, in coordinates shifted to its first vertex (precision); signed: CCW outers +, CW holes -
+                    double x0 = ring[0], z0 = ring[1], ra = 0, rx = 0, rz = 0;
                     for (int i = 0; i < n; i++)
                     {
                         double xa = ring[2 * i] - x0, za = ring[2 * i + 1] - z0;
                         double xb = ring[2 * ((i + 1) % n)] - x0, zb = ring[2 * ((i + 1) % n) + 1] - z0;
                         double c = xa * zb - xb * za;
-                        a += c; sx += (xa + xb + 2 * x0) * c; sz += (za + zb + 2 * z0) * c;
+                        ra += c; rx += (xa + xb) * c; rz += (za + zb) * c;
                     }
+                    ra /= 2;
+                    if (ra == 0) continue;
+                    a += ra;
+                    sx += ra * (rx / (6 * ra) + x0);
+                    sz += ra * (rz / (6 * ra) + z0);
                 }
-            area = a / 2;
-            cx = area != 0 ? sx / (6 * area) : 0;
-            cz = area != 0 ? sz / (6 * area) : 0;
+            area = a;
+            cx = a != 0 ? sx / a : 0;
+            cz = a != 0 ? sz / a : 0;
         }
     }
 
@@ -203,14 +208,24 @@ namespace Game.World.Geo
                 GeoGeom.Centroid(b.Polygons, out b.AnchorLocalX, out b.AnchorLocalZ, out b.AreaM2);
                 b.ChunkX = Clamp((int)Math.Floor(b.AnchorLocalX / chunkM), chunks);
                 b.ChunkZ = Clamp((int)Math.Floor(b.AnchorLocalZ / chunkM), chunks);
-                if (!b.HasParts)
+                var remGeom = GeoJson.Get(p, "remainder_geometry");
+                if (b.HasParts && remGeom != null)
+                    b.RenderPolygons = GeoGeom.Polygons(remGeom, ctx.OriginX, ctx.OriginZ);
+                if (!b.HasParts || b.RenderPolygons != null)
                 {
                     double bottom = b.MinHeightM > 0 ? b.BaseNavd88M + b.MinHeightM : b.BaseNavd88M - skirt;
                     double top = b.BaseNavd88M + b.HeightM;
                     double rh = GeoJson.Num(p, "roof_height_m", 0);
                     if (top - bottom > 0.05)
                     {
-                        b.Mesh = BuildingExtruder.Extrude(b, bottom, top, double.IsNaN(rh) ? 0 : rh, b.Bid);
+                        var shapeSrc = b;
+                        if (b.RenderPolygons != null)
+                        {
+                            shapeSrc = new GeoBuildingData { Polygons = b.RenderPolygons, ChunkX = b.ChunkX, ChunkZ = b.ChunkZ };
+                            GeoGeom.Centroid(shapeSrc.Polygons, out shapeSrc.AnchorLocalX, out shapeSrc.AnchorLocalZ, out shapeSrc.AreaM2);
+                            rh = 0;  // remainders are flat
+                        }
+                        b.Mesh = BuildingExtruder.Extrude(shapeSrc, bottom, top, double.IsNaN(rh) ? 0 : rh, b.Bid);
                         tris += b.Mesh.TriangleCount;
                     }
                     else degenerate++;

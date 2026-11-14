@@ -248,6 +248,20 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
                     best = b
         p["part_of"] = best["oid"] if best else None
     parent_ids = {p["part_of"] for p in parts if p["part_of"]}
+    parts_by_parent = {}
+    for p in parts:
+        if p["part_of"]:
+            parts_by_parent.setdefault(p["part_of"], []).append(p["geom"])
+
+    def remainder(b):
+        """Outline area not covered by its building:part ways (rendered with the outline's own height).
+        Slivers (< 4 m^2 or thinner than 0.6 m) are dropped."""
+        rem = b["geom"].difference(shapely.union_all(parts_by_parent[b["oid"]]))
+        keep = [q for q in getattr(rem, "geoms", [rem]) if q.geom_type == "Polygon" and q.area >= 4.0 and not q.buffer(-0.3).is_empty]
+        if not keep:
+            return None
+        g = vector.clean_polygonal(shapely.geometry.MultiPolygon(keep) if len(keep) > 1 else keep[0])
+        return mapping(g) if g is not None else None
 
     def owner_point(g):
         return g.point_on_surface()
@@ -279,6 +293,8 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
                  "name": tags.get("name"), "has_parts": (not is_part) and b["oid"] in parent_ids,
                  "roof_height_m": round(rh, 3) if rh is not None else None}
         props.update(extra)
+        if not is_part and b["oid"] in parent_ids:
+            props["remainder_geometry"] = remainder(b)
         return {"type": "Feature", "id": b["oid"], "properties": props, "geometry": mapping(b["geom"])}
 
     def job(args):
@@ -381,7 +397,9 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
          "count": len(bfeats), "count_structures": len(owned_outlines), "count_parts": len(owned_parts),
          "count_rendered": len(rendered), "height_source_counts": dict(sorted(hs.items())),
          "owner_rule": "a structure is owned by the tile containing its shapely point_on_surface; its parts follow it; geometry is not clipped",
-         "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal (apex at height_m)",
+         "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
+         "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
+         "extra_fields": ["has_parts", "roof_height_m", "remainder_geometry", "datasf_id", "datasf_iou"],
          "sources": [osm_src, source_entry("datasf", "ynuv-fyni", dsf)]},
         {"layer": "roads", "file": "roads.geojson", "sha256": sha256_bytes(files["roads.geojson"]), "count": len(rfeats),
          "clip_rule": "clipped to the tile square; wid is the global OSM way id", "sources": [osm_src]},

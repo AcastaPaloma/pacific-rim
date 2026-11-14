@@ -89,9 +89,11 @@ namespace Game.World.Geo
         public string HeightSource, RoofShape, Name;
         /// <summary>Footprint polygons, tile-local metres: Polygons[p][ring] = x0,z0,x1,z1,... (ring 0 outer CCW, holes CW).</summary>
         public List<List<double[]>> Polygons = new List<List<double[]>>();
+        /// <summary>Rendered footprint when it differs from Polygons: a structure with parts renders its outline remainder (outline minus parts). Null = Polygons.</summary>
+        public List<List<double[]>> RenderPolygons;
         public double AnchorLocalX, AnchorLocalZ;   // footprint area centroid, tile-local
         public double AreaM2;
-        public GeoMeshData Mesh;                    // null for structures that render through parts
+        public GeoMeshData Mesh;                    // null when nothing of this record is rendered (structure fully covered by its parts)
         public int ChunkX, ChunkZ;
     }
 
