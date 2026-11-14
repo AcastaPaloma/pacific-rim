@@ -233,3 +233,28 @@ def sample_points_in_polygon(g, spacing=1.0):
             pts += list(r.coords)
     a = np.asarray(pts, dtype=np.float64)
     return a[:, 0], a[:, 1]
+
+
+def exclusion_reason(tags):
+    """Features that are not surface buildings (DEF-T003-bay-1): kept as records, never extruded."""
+    if tags.get("building") == "ship":
+        return "ship"
+    if tags.get("location") in ("underground", "underwater"):
+        return "underground"
+    lay = parse_number(tags.get("layer"))
+    lvl = parse_number(tags.get("level"))
+    if lay is not None and lay < 0 and (tags.get("building:levels:underground") is not None or (lvl is not None and lvl < 0)):
+        return "underground"
+    return None
+
+
+def ring_points(g, step=1.0):
+    """Points every `step` metres along every exterior ring (deterministic)."""
+    xs, zs = [], []
+    for p in getattr(g, "geoms", [g]):
+        ring = p.exterior
+        n = max(int(math.ceil(ring.length / step)), 4)
+        for k in range(n):
+            q = ring.interpolate(k * ring.length / n)
+            xs.append(q.x); zs.append(q.y)
+    return np.asarray(xs), np.asarray(zs)

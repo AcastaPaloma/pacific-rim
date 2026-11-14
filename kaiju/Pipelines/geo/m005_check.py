@@ -28,6 +28,7 @@ from kaiju_geo.common import (CACHE, GLOBAL_ROOT, PIPE, PROJECT, TILES_ROOT, app
 EVID = PROJECT / "evidence" / "T-003"
 SEED = 20261114
 NA = "not_applicable_in_tile"
+REPORT_PATH = EVID / "m005_report.json"
 
 
 def J(p):
@@ -363,13 +364,19 @@ def check(tile, export_path):
     for b in E["buildings"]:
         shares[b["height_source"]] = shares.get(b["height_source"], 0) + 1
     n_all = len(E["buildings"])
+    surf_b = [b for b in E["buildings"] if not b.get("excluded")]
+    n_surf = len(surf_b)
+    def_surf = sum(1 for b in surf_b if b["height_source"] == "default")
     area_def = sum(b["area_m2"] for b in E["buildings"] if b["height_source"] == "default") / sum(b["area_m2"] for b in E["buildings"])
     m4 = {"a_per_building": res({"share_within_0.5m": r(np.mean(dd <= 0.5)), "n": len(dd), "max_abs_m": r(dd.max(), 3)}, ">= 99 %", bool(np.mean(dd <= 0.5) >= 0.99)),
           "b_distribution": res({"ks_d": r(ks.statistic, 5), "quantiles": qs}, "KS D <= 0.02; p50/p90/p99 within max(0.5 m, 1 %)", bool(ks.statistic <= 0.02 and okq)),
           "c_fallback_validation": fallback_validation(tile, cfg),
           "height_source_shares": {k: {"count": v, "share": r(v / n_all)} for k, v in sorted(shares.items())},
           "default_share": res(r(shares.get("default", 0) / n_all), "< 10 % of buildings (T-003 C5)", shares.get("default", 0) / n_all < 0.10,
-                               area_weighted_share=r(area_def), mitigation="see t003.C5_default_share_mitigation"),
+                               area_weighted_share=r(area_def), surface_buildings_only={"default": def_surf, "of": n_surf, "share": r(def_surf / n_surf)},
+                               excluded_records=sum(1 for b in E["buildings"] if b.get("excluded")),
+                               parts_capped_to_parent=sum(1 for f in feats if f["properties"].get("height_capped_to_parent")),
+                               mitigation="see t003.C5_default_share_mitigation"),
           "roof_rule": "as-built max(y) = base_navd88_m + height_m for every roof_shape; flat roofs except pyramidal/spire/cone with roof:height (apex at height_m). Parents with building:part render only through their parts and are excluded from (a)/(b).",
           "rendered_buildings": len(rendered), "structures_rendered_by_parts": sum(1 for b in E["buildings"] if b["has_parts"])}
     m4["result"] = "pass" if all(m4[k]["result"] == "pass" for k in ("a_per_building", "b_distribution")) else "fail"
@@ -411,7 +418,7 @@ def check(tile, export_path):
     rep["summary"] = {"sub_measures": dict(subs), "counts": counts,
                       "m005_overall": "fail" if any(s == "fail" for _, s in subs) else ("incomplete" if any(s in (NA, "not_run") for _, s in subs) else "pass"),
                       "note": "M-005 passes only if every sub-measure passes (R-004 §6); not_applicable_in_tile items are due at M1 and are not passes."}
-    out = EVID / "m005_report.json"
+    out = REPORT_PATH
     out.write_text(json.dumps(rep, indent=1, ensure_ascii=False) + "\n")
     print(json.dumps(rep["summary"]["counts"]), "->", out)
     for k, s in subs:
@@ -484,20 +491,21 @@ def footprints(tile, E, feats, water):
         return shapely.geometry.MultiPolygon(polys) if len(polys) > 1 else polys[0]
 
     game = [poly_of(b["footprint"]) for b in E["buildings"] if b["height_as_built_m"] is not None]
-    src = [shape(f["geometry"]) for f in feats]
+    surface = [f for f in feats if not f["properties"].get("excluded")]
+    src = [shape(f["geometry"]) for f in surface]
     G = rasterize([(g, 1) for g in game], out_shape=(n, n), transform=tr, dtype="uint8").astype(bool)
     S = rasterize([(g, 1) for g in src], out_shape=(n, n), transform=tr, dtype="uint8").astype(bool)
     inter = np.logical_and(G, S).sum()
     recall, precision = inter / S.sum(), inter / G.sum()
     ebids = {b["bid"] for b in E["buildings"]}
-    big = [f for f in feats if shape(f["geometry"]).area >= 20]
+    big = [f for f in surface if shape(f["geometry"]).area >= 20]
     present = [f for f in big if f["id"] in ebids]
     cnt = len(present) / len(big)
     absent_from_source = sorted(ebids - {f["id"] for f in feats})
     # buildings over water cells (water.png) and over OSM water polygons
     from kaiju_geo.bake import read_water_polygons
     wp = read_water_polygons(tile, 64.0)
-    over_osm_water = [f["id"] for f in feats if shape(f["geometry"]).intersection(wp).area > 0.5 * shape(f["geometry"]).area]
+    over_osm_water = [f["id"] for f in surface if shape(f["geometry"]).intersection(wp).area > 0.5 * shape(f["geometry"]).area]
     W = np.zeros((n, n), bool)
     wcells = np.flipud(water)   # north-up cells at 1 m -> 0.5 m
     W[2 * m:2 * m + 4096, 2 * m:2 * m + 4096] = np.kron(wcells, np.ones((2, 2), bool))
@@ -737,6 +745,12 @@ def t003(rep, tile, E, cps, man, hs, water, feats, samples, cfg):
                              "median offset <= 5 m between the terrain/water intersection and the OSM coastline", bool(cross) and np.median(cross) <= 5,
                              piers_dry=pier_dryness(tile, water))
     seam = seam_check(tile, cfg)
+    js_all = np.array(jumps)
+    seam["built_surface_steps_on_50_shoreline_profiles"] = {
+        "definition": "max adjacent 1 m step of the built physics surface per profile (-40..+40 m across the OSM coastline)",
+        "median_of_profile_max_m": r(np.median(js_all), 3), "max_m": r(js_all.max(), 3),
+        "profiles_ge_1.5m": int((js_all >= 1.5).sum()), "of_which_documented": sum(1 for it in items if it["exception"]),
+        "undocumented_ge_1.5m": len([it for it in items if it["max_adjacent_jump_m"] >= 1.5 and not it["exception"]])}
     T["C11_continuous_surface"] = res({"profiles": 50, "max_jump_m": r(max(jumps), 3), "undocumented_jumps_ge_1.5m": len(bad), "profiles_detail": items},
                                       "max adjacent jump < 1.5 m except documented seawalls/piers; seam median <= 0.1 m and no blend step > 0.5 m", not bad and seam["result"] == "pass", seam=seam,
                                       water_cells_above_ground=water_above_ground(hs, water, msl))
@@ -796,7 +810,7 @@ def seam_check(tile, cfg):
 
 def buildings_sit(tile, E, hs):
     from scipy.ndimage import map_coordinates  # noqa: F401
-    devs, thin, overlaps = [], [], 0
+    devs, thin, overlaps, floating = [], [], 0, []
     for b in E["buildings"]:
         if b["height_as_built_m"] is None:
             continue
@@ -804,9 +818,14 @@ def buildings_sit(tile, E, hs):
         g = shapely.union_all(polys)
         if not box(*tile.bounds).contains(g):
             continue   # straddler: base sampled on the bake's margin grid, outside this raster
+        rx, rz = vector.ring_points(g, 1.0)
+        ring_base = float(np.percentile(bilinear(hs, tile, rx, rz), 10))
         xs, zs = vector.sample_points_in_polygon(g)
-        mn = float(np.min(bilinear(hs, tile, xs, zs)))
-        devs.append(abs(mn - b["base_navd88_m"]) if (b["part_of"] is None and not b.get("footprint_is_remainder")) else 0.0)
+        gmin = float(np.min(bilinear(hs, tile, xs, zs)))
+        own = b["part_of"] is None and not b.get("footprint_is_remainder")
+        devs.append(abs(ring_base - b["base_navd88_m"]) if own else 0.0)
+        if b["mesh_min_y_m"] is not None and b["mesh_min_y_m"] > gmin + 1e-3 and b.get("min_height_m", 0) == 0:
+            floating.append(b["bid"])
         mrr = g.minimum_rotated_rectangle
         c = np.asarray(mrr.exterior.coords) if mrr.geom_type == "Polygon" else None
         if c is not None:
@@ -824,9 +843,11 @@ def buildings_sit(tile, E, hs):
                 overlaps += 1
     devs = np.array(devs)
     zf = J(EVID / "export" / "capture_views.json")["zfight"] if (EVID / "export" / "capture_views.json").exists() else None
-    return res({"max_base_vs_terrain_m": r(devs.max(), 3), "share_within_0.5m": r(np.mean(devs <= 0.5), 4), "thin_footprints_lt_1m": len(thin),
+    return res({"max_base_vs_terrain_m": r(devs.max(), 3), "share_within_0.5m": r(np.mean(devs <= 0.5), 4), "floating_buildings": len(floating),
+                "base_definition": "10th percentile of the surface along the footprint ring (DEF-T003-bay-4); walls reach the minimum under the footprint minus 2 m",
+                "thin_footprints_lt_1m": len(thin),
                 "coplanar_overlapping_roofs": overlaps, "zfight_series": zf},
-               "every base within 0.5 m of the local terrain minimum; watertight (EditMode test); no z-fighting at 10 m-3 km", bool(np.all(devs <= 0.5)),
+               "every base within 0.5 m of the local ground (ring p10); no building floats; watertight (EditMode test); no z-fighting at 10 m-3 km", bool(np.all(devs <= 0.5)) and not floating,
                thin_bids=thin[:30], skirt="walls extend 2 m below base so the LOD terrain (max error 0.2 m) never shows a gap")
 
 
@@ -893,20 +914,21 @@ def origin_check(E):
 
 def budgets(E, man, tile):
     st = E["stats"]
+    bake_s = json.loads((tile_paths(tile) / "build_info.json").read_text())["bake_seconds"]
     import subprocess
     files = subprocess.run(["git", "ls-files", "-s", "--", str(tile_paths(tile))], cwd=PROJECT, capture_output=True, text=True).stdout
     disk = sum((tile_paths(tile) / f["file"]).stat().st_size for f in man["layers"]) + (tile_paths(tile) / "manifest.json").stat().st_size
     views = J(EVID / "export" / "capture_views.json")["views"] if (EVID / "export" / "capture_views.json").exists() else []
     dc = max((v["draw_calls_visible_renderers"] for v in views), default=st["renderers"])
     tri = st["triangles.total"]
-    ok = tri <= 1.5e6 and dc <= 1500 and disk <= 100e6 and man["build"]["bake_seconds"] <= 300 and st.get("time.editor_build_s", 0) <= 60
+    ok = tri <= 1.5e6 and dc <= 1500 and disk <= 100e6 and bake_s <= 300 and st.get("time.editor_build_s", 0) <= 60
     m1 = 70
     return res({"triangles_tile": tri, "triangles_terrain": st.get("triangles.terrain"), "triangles_buildings": st.get("triangles.buildings"), "triangles_water": st.get("triangles.water"),
                 "draw_calls_max_view": dc, "draw_call_target": 200, "renderers": st["renderers"], "memory_mb": r(st.get("memory.bytes", 0) / 1e6, 1),
-                "committed_tile_mb": r(disk / 1e6, 2), "bake_seconds": man["build"]["bake_seconds"], "editor_build_seconds": r(st.get("time.editor_build_s"), 2),
+                "committed_tile_mb": r(disk / 1e6, 2), "bake_seconds": bake_s, "editor_build_seconds": r(st.get("time.editor_build_s"), 2),
                 "git_tracked_files": len(files.splitlines()),
-                "extrapolation": {"M1_70_tiles": {"committed_gb": r(70 * disk / 1e9, 2), "bake_minutes": r(70 * man["build"]["bake_seconds"] / 60, 1)},
-                                  "bay_4624_tiles": {"committed_gb_if_all_L0": r(4624 * disk / 1e9, 1), "bake_hours": r(4624 * man["build"]["bake_seconds"] / 3600, 1),
+                "extrapolation": {"M1_70_tiles": {"committed_gb": r(70 * disk / 1e9, 2), "bake_minutes": r(70 * bake_s / 60, 1)},
+                                  "bay_4624_tiles": {"committed_gb_if_all_L0": r(4624 * disk / 1e9, 1), "bake_hours": r(4624 * bake_s / 3600, 1),
                                                      "note": "Q-027 default: 1 m only for urban/shoreline tiles, 2 m (L1) elsewhere; streaming loads ~9 tiles around the focus"}}},
                "<= 1.5 M triangles, <= 1,500 draw calls (target 200), <= 100 MB committed, bake <= 5 min, editor build <= 60 s (Assumed budgets)", ok)
 
@@ -951,7 +973,11 @@ def main(argv=None):
     ap.add_argument("cmd", choices=["prepare", "check"])
     ap.add_argument("--tile", default="L0_30_36")
     ap.add_argument("--export", default=str(EVID / "export" / "geo_export.json"))
+    ap.add_argument("--out", default=None, help="report path (default evidence/T-003/m005_report.json)")
     a = ap.parse_args(argv)
+    global REPORT_PATH
+    if a.out:
+        REPORT_PATH = Path(a.out)
     apply_std(a)
     t = parse_tile(a.tile)
     if a.cmd == "prepare":

@@ -13,6 +13,10 @@ namespace Game.World.Geo
         public const string BuildingSkirtM = "buildingSkirtM";
         public const string BuildingChunkM = "buildingChunkM";
         public const string WaterChunkCells = "waterChunkCells";
+        public const string AlbedoDepthRampM = "albedoDepthRampM";
+        public const string AlbedoHeightRampM = "albedoHeightRampM";
+        public const string RoadMinHalfWidthM = "roadMinHalfWidthM";
+        public const string MaterialSmoothness = "materialSmoothness";
     }
 
     public static class GeoGeom
@@ -93,7 +97,7 @@ namespace Game.World.Geo
             int n = (int)GeoJson.Num(ctx.ManifestLayer("terrain"), "samples", 2049);
             double sp = GeoJson.Num(ctx.ManifestLayer("terrain"), "spacing_m", 1.0);
             var hf = GeoHeightField.FromR16(ctx.ReadBytes(GeoJson.Str(L, "file")), n, sp, GeoJson.Num(L, "h_min_m"), GeoJson.Num(L, "h_max_m"));
-            var rt = RtinMesher.Build(hf.Data, n, sp, (float)ctx.Setting(GeoSettingKeys.TerrainMaxErrorM, 0.5), (int)ctx.Setting(GeoSettingKeys.TerrainChunkCells, 256));
+            var rt = RtinMesher.Build(hf.Data, n, sp, (float)GeoSettings.Require(ctx, GeoSettingKeys.TerrainMaxErrorM), (int)GeoSettings.Require(ctx, GeoSettingKeys.TerrainChunkCells));
             hf.Render = rt.RenderHeights;
             c.Heights = hf;
             var o = new GeoLayerOutput { Layer = Name };
@@ -103,7 +107,7 @@ namespace Game.World.Geo
             o.Stats["terrain.chunks"] = rt.Chunks.Count;
             o.Stats["terrain.max_error_m"] = rt.MaxErrorM;
             o.Stats["terrain.rms_error_m"] = rt.RmsErrorM;
-            o.Stats["terrain.max_error_setting_m"] = ctx.Setting(GeoSettingKeys.TerrainMaxErrorM, 0.5);
+            o.Stats["terrain.max_error_setting_m"] = GeoSettings.Require(ctx, GeoSettingKeys.TerrainMaxErrorM);
             o.Stats["terrain.h_min_m"] = hf.HMin;
             o.Stats["terrain.h_max_m"] = hf.HMax;
             Attr(ctx, o, "terrain");
@@ -134,7 +138,7 @@ namespace Game.World.Geo
                 for (int x = 0; x < w; x++) cells[(h - 1 - r) * w + x] = png[r * w + x] >= 128;
             c.WaterCells = cells;
             float y = (float)ctx.WaterLevelNavd88;
-            int chunk = (int)ctx.Setting(GeoSettingKeys.WaterChunkCells, 512);
+            int chunk = (int)GeoSettings.Require(ctx, GeoSettingKeys.WaterChunkCells);
             var o = new GeoLayerOutput { Layer = Name };
             int tris = 0, wet = 0;
             foreach (var b in cells) if (b) wet++;
@@ -187,9 +191,9 @@ namespace Game.World.Geo
         {
             var o = new GeoLayerOutput { Layer = Name };
             var fc = GeoJson.Obj(GeoJson.Parse(ctx.ReadText(GeoJson.Str(ctx.ManifestLayer("buildings"), "file"))));
-            double skirt = ctx.Setting(GeoSettingKeys.BuildingSkirtM, 2.0), chunkM = ctx.Setting(GeoSettingKeys.BuildingChunkM, 256);
+            double skirt = GeoSettings.Require(ctx, GeoSettingKeys.BuildingSkirtM), chunkM = GeoSettings.Require(ctx, GeoSettingKeys.BuildingChunkM);
             int chunks = (int)Math.Round(ctx.Tile.SizeM / chunkM);
-            int tris = 0, degenerate = 0;
+            int tris = 0, degenerate = 0, excluded = 0;
             foreach (var fo in GeoJson.Arr(GeoJson.Get(fc, "features")))
             {
                 var f = GeoJson.Obj(fo);
@@ -200,9 +204,11 @@ namespace Game.World.Geo
                     HeightM = GeoJson.Num(p, "height_m"), MinHeightM = GeoJson.Num(p, "min_height_m", 0),
                     BaseNavd88M = GeoJson.Num(p, "base_navd88_m"), HeightSource = GeoJson.Str(p, "height_source"),
                     RoofShape = GeoJson.Str(p, "roof_shape"), Name = GeoJson.Str(p, "name"), HasParts = GeoJson.Bool(p, "has_parts"),
+                    Excluded = GeoJson.Str(p, "excluded"), HeightCappedToParent = GeoJson.Bool(p, "height_capped_to_parent"),
                     Polygons = GeoGeom.Polygons(GeoJson.Get(f, "geometry"), ctx.OriginX, ctx.OriginZ),
                 };
                 b.Id = ParseBid(b.Bid);
+                b.GroundMinNavd88M = GeoJson.Num(p, "ground_min_navd88_m", b.BaseNavd88M);
                 var po = GeoJson.Str(p, "part_of");
                 if (po != null) b.PartOf = ParseBid(po);
                 GeoGeom.Centroid(b.Polygons, out b.AnchorLocalX, out b.AnchorLocalZ, out b.AreaM2);
@@ -211,9 +217,11 @@ namespace Game.World.Geo
                 var remGeom = GeoJson.Get(p, "remainder_geometry");
                 if (b.HasParts && remGeom != null)
                     b.RenderPolygons = GeoGeom.Polygons(remGeom, ctx.OriginX, ctx.OriginZ);
-                if (!b.HasParts || b.RenderPolygons != null)
+                if (b.Excluded != null) excluded++;
+                else if (!b.HasParts || b.RenderPolygons != null)
                 {
-                    double bottom = b.MinHeightM > 0 ? b.BaseNavd88M + b.MinHeightM : b.BaseNavd88M - skirt;
+                    // walls reach below the lowest ground under the footprint, so no building floats on a slope or pit
+                    double bottom = b.MinHeightM > 0 ? b.BaseNavd88M + b.MinHeightM : Math.Min(b.BaseNavd88M, b.GroundMinNavd88M) - skirt;
                     double top = b.BaseNavd88M + b.HeightM;
                     double rh = GeoJson.Num(p, "roof_height_m", 0);
                     if (top - bottom > 0.05)
@@ -236,6 +244,7 @@ namespace Game.World.Geo
             o.Stats["buildings.count"] = o.Buildings.Count;
             o.Stats["buildings.triangles"] = tris;
             o.Stats["buildings.degenerate_skipped"] = degenerate;
+            o.Stats["buildings.excluded_not_extruded"] = excluded;
             TerrainLayer.Attr(ctx, o, "buildings");
             return o;
         }

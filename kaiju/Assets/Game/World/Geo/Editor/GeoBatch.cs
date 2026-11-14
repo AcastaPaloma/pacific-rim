@@ -79,6 +79,8 @@ namespace Game.World.Geo.Editor
             void L(string s) { Debug.Log("[GeoBatch] " + s); log.Add(s); }
 
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            GC.Collect(); GC.WaitForPendingFinalizers(); GC.Collect();
+            long alloc0 = Profiler.GetTotalAllocatedMemoryLong(), reserved0 = Profiler.GetTotalReservedMemoryLong(), gfx0 = Profiler.GetAllocatedMemoryForGraphicsDriver(), mono0 = Profiler.GetMonoUsedSizeLong();
             var sw = Stopwatch.StartNew();
             var inst = BuildTile(id, id.OriginX, id.OriginZ);
             Physics.SyncTransforms();
@@ -90,6 +92,12 @@ namespace Game.World.Geo.Editor
             var stats = (Dictionary<string, object>)export["stats"];
             stats["time.editor_build_s"] = buildS;
             stats["memory.bytes"] = MemoryBytes(inst);
+            GC.Collect(); GC.WaitForPendingFinalizers(); GC.Collect();
+            stats["memory.scope"] = "memory.bytes = runtime size of the tile's meshes, colliders, albedo and TerrainData; the deltas below are whole-process (Unity native allocator, graphics driver, managed heap) before vs after the build, after GC";
+            stats["memory.native_allocated_delta_bytes"] = Profiler.GetTotalAllocatedMemoryLong() - alloc0;
+            stats["memory.native_reserved_delta_bytes"] = Profiler.GetTotalReservedMemoryLong() - reserved0;
+            stats["memory.graphics_driver_delta_bytes"] = Profiler.GetAllocatedMemoryForGraphicsDriver() - gfx0;
+            stats["memory.managed_used_delta_bytes"] = Profiler.GetMonoUsedSizeLong() - mono0;
             stats["triangles.terrain"] = inst.TriangleCount("Terrain");
             stats["triangles.buildings"] = inst.TriangleCount("BuildingChunks");
             stats["triangles.water"] = inst.TriangleCount("Water");
@@ -143,7 +151,8 @@ namespace Game.World.Geo.Editor
             ((Dictionary<string, object>)after["stats"])["removal_seconds"] = remS;
             after["removed_bids"] = victims.Select(v => (object)inst.Model.ById[v].Bid).ToList();
             Write(Path.Combine(outDir, "export", "geo_export_after_removal.json"), after);
-            L($"removed {removed} buildings ({victims.Count} requested) in {remS * 1000:F1} ms without re-bake");
+            ((Dictionary<string, object>)after["stats"])["removal_ms_per_building"] = remS * 1000 / victims.Count;
+            L($"removed {removed} buildings ({victims.Count} requested) in {remS * 1000:F1} ms without re-bake (chunk rebuild included)");
 
             Write(Path.Combine(outDir, "export", "tile_stats_unity.json"), stats);
             File.WriteAllLines(Path.Combine(outDir, "logs", "unity_geobatch.log"), log);

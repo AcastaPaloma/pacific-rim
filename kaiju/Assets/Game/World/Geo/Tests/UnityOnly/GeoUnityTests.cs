@@ -128,6 +128,42 @@ namespace Game.World.Geo.Unity.Tests
         }
 
         [Test]
+        public void Remove20RandomBuildings_OthersAndTerrainIdenticalInExport()
+        {
+            var id = GeoTileId.From(0, 30, 36);
+            var t = GeoTileBuilder.Build(GeoTestData.M0Dir, new GeoBuildOptions { FloatingOriginX = id.OriginX, FloatingOriginZ = id.OriginZ, Settings = GeoTestData.Settings() });
+            try
+            {
+                Physics.SyncTransforms();
+                var rng = new System.Random(7);
+                var pts = new List<double[]>();
+                for (int i = 0; i < 300; i++) pts.Add(new[] { id.OriginX + rng.NextDouble() * 2048, id.OriginZ + rng.NextDouble() * 2048 });
+                var before = t.Export(pts);
+                // victims: buildings without parts (a structure would also take its parts)
+                var pool = t.Model.Buildings.Where(b => !b.HasParts).Select(b => b.Id).ToList();
+                var victims = new HashSet<BuildingId>();
+                while (victims.Count < 20) victims.Add(pool[rng.Next(pool.Count)]);
+                int removed = 0;
+                foreach (var v in victims) removed += t.RemoveBuilding(v).Count;
+                Physics.SyncTransforms();
+                var after = t.Export(pts);
+                Assert.AreEqual(20, removed);
+                var vb = new HashSet<string>(victims.Select(v => t.Model.ById[v].Bid));
+                var bmap = ((List<object>)before["buildings"]).Cast<Dictionary<string, object>>().ToDictionary(d => (string)d["bid"]);
+                var amap = ((List<object>)after["buildings"]).Cast<Dictionary<string, object>>().ToDictionary(d => (string)d["bid"]);
+                Assert.AreEqual(bmap.Count - 20, amap.Count);
+                foreach (var kv in bmap)
+                {
+                    if (vb.Contains(kv.Key)) { Assert.IsFalse(amap.ContainsKey(kv.Key)); continue; }
+                    Assert.AreEqual(GeoJson.Write(kv.Value), GeoJson.Write(amap[kv.Key]), kv.Key);
+                }
+                Assert.AreEqual(GeoJson.Write(before["terrain_samples"]), GeoJson.Write(after["terrain_samples"]));
+                foreach (var v in victims) Assert.IsFalse(t.HasObject(v));
+            }
+            finally { UnityEngine.Object.DestroyImmediate(t.gameObject); }
+        }
+
+        [Test]
         public void ModuleRules_AsmdefsReferenceOnlyCoreContractsAndOwnAssemblies()
         {
             var root = Path.Combine(Application.dataPath, "Game", "World", "Geo");

@@ -86,6 +86,12 @@ namespace Game.World.Geo
         public BuildingId PartOf;          // default when not a part
         public bool HasParts;              // structure rendered through its parts only
         public double HeightM, MinHeightM, BaseNavd88M;
+        /// <summary>Lowest ground under the footprint (walls reach below it).</summary>
+        public double GroundMinNavd88M;
+        /// <summary>Non-surface feature kept as a record and never extruded ("underground", "ship"), else null.</summary>
+        public string Excluded;
+        /// <summary>A part height from a fallback capped at its structure's known height.</summary>
+        public bool HeightCappedToParent;
         public string HeightSource, RoofShape, Name;
         /// <summary>Footprint polygons, tile-local metres: Polygons[p][ring] = x0,z0,x1,z1,... (ring 0 outer CCW, holes CW).</summary>
         public List<List<double[]>> Polygons = new List<List<double[]>>();

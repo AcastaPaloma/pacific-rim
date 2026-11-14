@@ -1,12 +1,26 @@
 {
   "schema": 1,
-  "_doc": "World.Geo import tuning (T-003). terrainMaxErrorM is the RTIN split threshold; the measured result on L0_30_36 is max 0.196 m, RMS 0.033 m vertical vs the 1 m geo_tile surface at 589,457 triangles (Pipelines/geo sweep in evidence/T-003). Physics uses the full-resolution surface.",
+  "_doc": "World.Geo import tuning (T-003): the single source of truth; the importer refuses to build if a key is missing. terrainMaxErrorM is the RTIN split threshold; RTIN accumulates per-split error, so the measured deviation from the 1 m geo_tile surface is about 2x the setting (L0_30_36: max 0.196 m, RMS 0.033 m, 589,457 triangles). Physics uses the full-resolution surface. Palette values are unstyled placeholders (T-004 restyles).",
   "settings": {
     "terrainMaxErrorM": 0.1,
     "terrainChunkCells": 256,
     "buildingSkirtM": 2.0,
     "buildingChunkM": 256,
-    "waterChunkCells": 512
+    "waterChunkCells": 512,
+    "albedoDepthRampM": 30.0,
+    "albedoHeightRampM": 100.0,
+    "roadMinHalfWidthM": 0.75,
+    "materialSmoothness": 0.1
+  },
+  "palette": {
+    "seabedShallow": [150, 140, 110],
+    "seabedDeep": [60, 60, 70],
+    "landLow": [176, 170, 140],
+    "landHigh": [126, 140, 90],
+    "roadDrivable": [70, 70, 75],
+    "roadOther": [120, 120, 125],
+    "building": [209, 204, 194],
+    "water": [51, 92, 122]
   },
   "tileRoot": "StreamingAssets/Geo/tiles/v1",
   "defaultTile": "L0_30_36"

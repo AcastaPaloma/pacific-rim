@@ -224,11 +224,23 @@ def fetch_ngs(tile: Tile) -> dict:
     return http_get(url, CACHE / "ngs" / f"ngs_radial__{tile.id}.json", "ngs", expect="pid")
 
 
-def fetch_lidar_dsm(tile: Tile, classes: str | None = None) -> dict:
-    """First-return DSM (max z of first returns, noise removed) at 1 m in UTM 10N from the
-    3DEP EPT, clipped to the tile + 64 m. Reference only (M-005.7 R-ind). Needs python-pdal."""
-    suffix = "" if classes is None else "_class_" + classes.replace(",", "_")
-    dest = CACHE / "lidar" / f"dsm_first_return{suffix}__{tile.id}.tif"
+LIDAR_FILTER = [
+    # first returns only; drop ASPRS noise classes 7 (low noise) and 18 (high noise). One expression, because
+    # filters.range ORs ranges on the same dimension (DEF-T003-bay-3: the old filter kept every class).
+    {"type": "filters.expression", "expression": "ReturnNumber == 1 && Classification != 7 && Classification != 18"},
+    # isolated points / outliers (birds, multipath spikes): statistical outlier removal marks class 7 ...
+    {"type": "filters.outlier", "method": "statistical", "mean_k": 8, "multiplier": 2.5},
+    # ... which is then dropped
+    {"type": "filters.expression", "expression": "Classification != 7"},
+]
+
+
+def fetch_lidar_dsm(tile: Tile) -> dict:
+    """First-return DSM v2 (max z of first returns per 1 m cell, noise classes and statistical outliers removed) in
+    UTM 10N + NAVD88 from the 3DEP EPT, clipped to the tile + 64 m. Reference only (M-005.7 R-ind).
+    Contains buildings, rooftop plant, vegetation, cranes, poles, bridges; water returns are sparse (nodata).
+    Needs python-pdal."""
+    dest = CACHE / "lidar" / f"dsm_first_return_v2__{tile.id}.tif"
     m = up_to_date(dest, "lidar-dsm")
     if m is not None:
         return m
@@ -242,19 +254,16 @@ def fetch_lidar_dsm(tile: Tile, classes: str | None = None) -> dict:
     bounds = f"([{min(xs):.2f},{max(xs):.2f}],[{min(ys):.2f},{max(ys):.2f}])"
     dest.parent.mkdir(parents=True, exist_ok=True)
     tmp = dest.with_name(dest.name + ".part.tif")
-    pipe = [
-        {"type": "readers.ept", "filename": SRC["lidar_ept"]["url"], "bounds": bounds, "resolution": 0.7, "threads": 8},
-        {"type": "filters.range", "limits": "ReturnNumber[1:1],Classification![7:7],Classification![18:18]" if classes is None
-         else "ReturnNumber[1:1]," + ",".join(f"Classification[{c}:{c}]" for c in classes.split(","))},
+    pipe = [{"type": "readers.ept", "filename": SRC["lidar_ept"]["url"], "bounds": bounds, "resolution": 0.7, "threads": 8}] + LIDAR_FILTER + [
         {"type": "filters.reprojection", "out_srs": "EPSG:26910+5703"},
         {"type": "writers.gdal", "filename": str(tmp), "resolution": 1.0, "output_type": "max",
          "data_type": "float32", "nodata": -9999, "gdalopts": "COMPRESS=DEFLATE,PREDICTOR=3,TILED=YES"},
     ]
     p = pdal.Pipeline(json.dumps(pipe))
     n = p.execute()
-    m = finish_fetch(dest, tmp, SRC["lidar_ept"]["url"], {"points": int(n), "ept_bounds_3857": bounds,
-                                                          "pdal_pipeline": pipe[:2]})
-    print(f"[lidar-dsm] {n} first-return points -> {dest.relative_to(PIPE)}")
+    m = finish_fetch(dest, tmp, SRC["lidar_ept"]["url"], {"points_kept": int(n), "ept_bounds_3857": bounds,
+                                                          "pdal_filters": LIDAR_FILTER})
+    print(f"[lidar-dsm] {n} first-return points kept -> {dest.relative_to(PIPE)}")
     return m
 
 

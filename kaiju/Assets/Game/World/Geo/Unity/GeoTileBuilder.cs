@@ -23,18 +23,9 @@ namespace Game.World.Geo.Unity
     {
         public const string ConfigFile = "Game/Config/WorldGeo.json";
 
-        /// <summary>Settings from Assets/Game/Config/WorldGeo.json (Editor) or defaults.</summary>
-        public static Dictionary<string, double> LoadSettings(string projectAssetsPath = null)
-        {
-            var d = new Dictionary<string, double>(StringComparer.Ordinal);
-            var path = Path.Combine(projectAssetsPath ?? Application.dataPath, ConfigFile);
-            if (File.Exists(path))
-            {
-                var s = GeoJson.Obj(GeoJson.Get(GeoJson.Obj(GeoJson.Parse(File.ReadAllText(path))), "settings"));
-                if (s != null) foreach (var kv in s) if (kv.Value is double v) d[kv.Key] = v;
-            }
-            return d;
-        }
+        /// <summary>Settings from Assets/Game/Config/WorldGeo.json; throws if the file or any key is missing (no code defaults).</summary>
+        public static Dictionary<string, double> LoadSettings(string projectAssetsPath = null) =>
+            GeoSettings.Load(Path.Combine(projectAssetsPath ?? Application.dataPath, ConfigFile));
 
         public static string TileDirectory(GeoTileId id) =>
             Path.Combine(Application.streamingAssetsPath, "Geo", "tiles", "v1", id.Folder.Replace('/', Path.DirectorySeparatorChar));
@@ -45,7 +36,9 @@ namespace Game.World.Geo.Unity
             if (opt.FloatingOriginX % GeoTileId.BaseSizeM != 0 || opt.FloatingOriginZ % GeoTileId.BaseSizeM != 0)
                 throw new ArgumentException("floating origin must be a tile corner (multiple of 2048 m)");
             var sw = System.Diagnostics.Stopwatch.StartNew();
-            var ctx = new GeoTileContext(tileDirectory, opt.Settings ?? LoadSettings(), opt.VerifyHashes);
+            var settings = opt.Settings ?? LoadSettings();
+            GeoMaterials.Configure(settings);
+            var ctx = new GeoTileContext(tileDirectory, settings, opt.VerifyHashes);
             var model = new GeoTileModel(ctx);
             var root = new GameObject("GeoTile_" + ctx.Tile);
             if (opt.Parent != null) root.transform.SetParent(opt.Parent, false);
@@ -80,10 +73,25 @@ namespace Game.World.Geo.Unity
         }
     }
 
-    /// <summary>Shared unstyled materials (URP Lit). The pixel pipeline (T-004) restyles them later.</summary>
+    /// <summary>Shared unstyled materials (URP Lit), palette and smoothness from WorldGeo.json. The pixel pipeline (T-004) restyles them.</summary>
     public static class GeoMaterials
     {
         static Material _building, _water;
+        static IReadOnlyDictionary<string, double> _cfg;
+
+        public static void Configure(IReadOnlyDictionary<string, double> settings)
+        {
+            _cfg = settings;
+            _building = null; _water = null;
+        }
+
+        static double Get(string k)
+        {
+            if (_cfg == null || !_cfg.TryGetValue(k, out var v)) throw new InvalidOperationException("[World.Geo] material setting '" + k + "' missing (GeoMaterials.Configure)");
+            return v;
+        }
+
+        public static Color Palette(string name) => new Color((float)(Get("palette." + name + ".0") / 255.0), (float)(Get("palette." + name + ".1") / 255.0), (float)(Get("palette." + name + ".2") / 255.0));
 
         static Shader Lit()
         {
@@ -98,12 +106,12 @@ namespace Game.World.Geo.Unity
             m.SetColor("_BaseColor", c);
             m.color = c;
             if (tex != null) { m.SetTexture("_BaseMap", tex); m.mainTexture = tex; }
-            m.SetFloat("_Smoothness", 0.1f);
+            m.SetFloat("_Smoothness", (float)Get(GeoSettingKeys.MaterialSmoothness));
             return m;
         }
 
-        public static Material Building => _building != null ? _building : (_building = Make(new Color(0.82f, 0.80f, 0.76f), null, "geo_building"));
-        public static Material Water => _water != null ? _water : (_water = Make(new Color(0.20f, 0.36f, 0.48f), null, "geo_water"));
+        public static Material Building => _building != null ? _building : (_building = Make(Palette("building"), null, "geo_building"));
+        public static Material Water => _water != null ? _water : (_water = Make(Palette("water"), null, "geo_water"));
     }
 
     /// <summary>Marks one building's addressable object (own collider; render goes through its chunk).</summary>

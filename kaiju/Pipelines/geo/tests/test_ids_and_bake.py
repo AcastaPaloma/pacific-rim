@@ -133,6 +133,9 @@ def test_rebake_is_byte_identical_and_order_independent(tmp_path):
     assert r.returncode == 0, r.stderr[-2000:]
     for f in ("terrain.tif", "terrain.r16", "water.png", "buildings.geojson", "roads.geojson", "faults.geojson"):
         assert sha(tmp_path / "L0" / "30_36" / f) == sha(M0 / f), f
+    from kaiju_geo import bake
+    new = json.loads((tmp_path / "L0" / "30_36" / "manifest.json").read_text())
+    assert bake.manifest_content(new) == bake.manifest_content(json.loads((M0 / "manifest.json").read_text()))
 
 
 def test_second_run_is_up_to_date_and_offline():

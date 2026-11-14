@@ -25,11 +25,8 @@ namespace Game.World.Geo.Tests
 
         public static string M0Dir => Path.Combine(ProjectRoot(), "Assets", "StreamingAssets", "Geo", "tiles", "v1", "L0", "30_36");
 
-        public static IReadOnlyDictionary<string, double> Settings() => new Dictionary<string, double>
-        {
-            [GeoSettingKeys.TerrainMaxErrorM] = 0.1, [GeoSettingKeys.TerrainChunkCells] = 256,
-            [GeoSettingKeys.BuildingSkirtM] = 2.0, [GeoSettingKeys.BuildingChunkM] = 256, [GeoSettingKeys.WaterChunkCells] = 512,
-        };
+        /// <summary>The real config file: tests use the same single source of truth as the game.</summary>
+        public static IReadOnlyDictionary<string, double> Settings() => GeoSettings.Load(Path.Combine(ProjectRoot(), "Assets", "Game", "Config", "WorldGeo.json"));
 
         static GeoTileModel _m0;
         public static GeoTileModel M0() => _m0 ?? (_m0 = new GeoTileModel(new GeoTileContext(M0Dir, Settings())));

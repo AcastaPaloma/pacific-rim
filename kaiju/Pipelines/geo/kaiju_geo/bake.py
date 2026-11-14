@@ -29,6 +29,22 @@ CONFIG_FILES = ["config/sources.json", "config/bake.json"]
 REQUIRED_SOURCE_FIELDS = ("product", "item", "url", "licence", "attribution", "fetched_utc", "source_sha256")
 
 
+VOLATILE_BUILD_KEYS = ("built_utc", "git", "git_dirty_pipeline")
+
+
+def manifest_content(man: dict) -> dict:
+    """Manifest without the volatile build metadata: identical for identical inputs (C15)."""
+    m = dict(man)
+    m["build"] = {k: v for k, v in man.get("build", {}).items() if k not in VOLATILE_BUILD_KEYS and k != "bake_seconds"}
+    return m
+
+
+def owns(tile: Tile, geom) -> bool:
+    """Owner rule (R-004 §3.1): a structure belongs to the tile containing its point_on_surface (half-open bounds)."""
+    p = geom.point_on_surface()
+    return tile.contains(p.x, p.y)
+
+
 def source_entry(kind, item, meta, extra=None):
     s = load_config("sources.json")[kind]
     e = {"product": s["product"], "item": item, "url": meta["url"], "licence": s["licence"],
@@ -266,45 +282,58 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     def owner_point(g):
         return g.point_on_surface()
 
-    def base_of(g):
-        bx, bz = vector.sample_points_in_polygon(g)
-        # bilinear on the extended node grid
-        fx = (bx - xs[0]) / tile.spacing
-        fz = (bz - zs[0]) / tile.spacing
+    def sample_h(bx, bz):
         from scipy.ndimage import map_coordinates
-        v = map_coordinates(h, [fz, fx], order=1, mode="nearest", prefilter=False)
-        return float(np.min(v))
+        return map_coordinates(h, [(bz - zs[0]) / tile.spacing, (bx - xs[0]) / tile.spacing], order=1, mode="nearest", prefilter=False)
 
-    owned_outlines = [b for b in outlines if tile.contains(*owner_point(b["geom"]).coords[0])]
+    def base_of(g):
+        """(base, ground_min): base = low percentile of the surface along the footprint ring (robust to pits in the
+        bare-earth DEM, DEF-T003-bay-4); ground_min = minimum surface under the footprint (walls reach below it)."""
+        rx, rz = vector.ring_points(g, 1.0)
+        base = float(np.percentile(sample_h(rx, rz), bcfg["base_ring_percentile"]))
+        bx, bz = vector.sample_points_in_polygon(g)
+        return base, float(np.min(sample_h(bx, bz)))
+
+    owned_outlines = [b for b in outlines if owns(tile, b["geom"])]
     owned_ids = {b["oid"] for b in owned_outlines}
-    owned_parts = [p for p in parts if (p["part_of"] in owned_ids) or (p["part_of"] is None and tile.contains(*owner_point(p["geom"]).coords[0]))]
+    owned_parts = [p for p in parts if (p["part_of"] in owned_ids) or (p["part_of"] is None and owns(tile, p["geom"]))]
 
-    def build_record(b, is_part, base_override=None):
+    def build_record(b, is_part, parent=None):
         tags = b["tags"]
         hm, hsrc, extra = vector.resolve_height(tags, b["geom"], dtree, datasf, bcfg)
         mh = vector.resolve_min_height(tags, bcfg)
         lv = vector.parse_number(tags.get("building:levels"))
-        base = base_override if base_override is not None else base_of(b["geom"])
+        if parent is not None:
+            base, gmin = parent["base_navd88_m"], parent["ground_min_navd88_m"]
+        else:
+            base, gmin = base_of(b["geom"])
+        excluded = vector.exclusion_reason(tags) or (parent["excluded"] if parent is not None else None)
+        capped = False
+        # DEF-T003-bay-2: a part whose height comes from a fallback never rises above its structure's known height
+        if parent is not None and hsrc != "osm_height" and parent["height_source"] in ("osm_height", "datasf") and hm > parent["height_m"]:
+            hm, capped = parent["height_m"], True
+            mh = min(mh, hm)
         rs = tags.get("roof:shape")
         rh = vector.parse_length_m(tags.get("roof:height"))
         props = {"bid": b["oid"], "part_of": b.get("part_of") if is_part else None,
                  "height_m": round(hm, 3), "min_height_m": round(mh, 3), "levels": lv,
-                 "roof_shape": rs, "base_navd88_m": round(base, 3), "height_source": hsrc,
+                 "roof_shape": rs, "base_navd88_m": round(base, 3), "ground_min_navd88_m": round(gmin, 3), "height_source": hsrc,
                  "name": tags.get("name"), "has_parts": (not is_part) and b["oid"] in parent_ids,
-                 "roof_height_m": round(rh, 3) if rh is not None else None}
+                 "roof_height_m": round(rh, 3) if rh is not None else None, "excluded": excluded,
+                 "height_capped_to_parent": capped}
         props.update(extra)
         if not is_part and b["oid"] in parent_ids:
-            props["remainder_geometry"] = remainder(b)
+            props["remainder_geometry"] = remainder(b) if not excluded else None
         return {"type": "Feature", "id": b["oid"], "properties": props, "geometry": mapping(b["geom"])}
 
     def job(args):
-        b, is_part, base = args
-        return build_record(b, is_part, base)
+        b, is_part, parent = args
+        return build_record(b, is_part, parent)
 
     recs = [(b, False, None) for b in owned_outlines]
     feats_outline = list(cf.ThreadPoolExecutor(threads).map(job, recs)) if threads > 1 else [job(a) for a in recs]
-    base_by_id = {f["id"]: f["properties"]["base_navd88_m"] for f in feats_outline}
-    recs = [(p, True, base_by_id.get(p["part_of"])) for p in owned_parts]
+    parent_props = {f["id"]: f["properties"] for f in feats_outline}
+    recs = [(p, True, parent_props.get(p["part_of"])) for p in owned_parts]
     feats_parts = list(cf.ThreadPoolExecutor(threads).map(job, recs)) if threads > 1 else [job(a) for a in recs]
     bfeats = sorted(feats_outline + feats_parts, key=lambda f: vector.oid_key(f["id"]))
 
@@ -314,7 +343,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     wm = rasterize([water_poly], tile, cells)
     hn = np.flipud(ht.astype(np.float64))  # north-up nodes
     cell_h = 0.25 * (hn[:-1, :-1] + hn[1:, :-1] + hn[:-1, 1:] + hn[1:, 1:])
-    solid = rasterize([pier_union] + [shapely.geometry.shape(f["geometry"]) for f in bfeats], tile, cells, all_touched=True)
+    solid = rasterize([pier_union] + [shapely.geometry.shape(f["geometry"]) for f in bfeats if not f["properties"]["excluded"]], tile, cells, all_touched=True)
     water = wm & (cell_h < msl) & ~solid
     water_u8 = np.where(water, 255, 0).astype(np.uint8)
 
@@ -378,7 +407,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     hs = {}
     for f in bfeats:
         hs[f["properties"]["height_source"]] = hs.get(f["properties"]["height_source"], 0) + 1
-    rendered = [f for f in bfeats if not f["properties"]["has_parts"]]
+    rendered = [f for f in bfeats if not f["properties"]["has_parts"] and not f["properties"]["excluded"]]
     layers = [
         {"layer": "terrain", "file": "terrain.tif", "sha256": sha256_bytes(files["terrain.tif"]),
          "format": "COG float32 2049x2049, pixel-is-point, row 0 = north, deflate + predictor 3",
@@ -398,8 +427,13 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
          "count_rendered": len(rendered), "height_source_counts": dict(sorted(hs.items())),
          "owner_rule": "a structure is owned by the tile containing its shapely point_on_surface; its parts follow it; geometry is not clipped",
          "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
+         "count_excluded": sum(1 for f in bfeats if f["properties"]["excluded"]),
+         "count_height_capped_to_parent": sum(1 for f in bfeats if f["properties"]["height_capped_to_parent"]),
+         "exclusion_rule": "kept as records, not extruded: location=underground, or layer<0 with building:levels:underground or level<0 (underground stations), building=ship; parts inherit their structure's exclusion",
+         "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
+         "base_rule": "base_navd88_m = 10th percentile of the surface along the footprint ring (1 m steps); ground_min_navd88_m = minimum under the footprint; walls reach ground_min - skirt",
          "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
-         "extra_fields": ["has_parts", "roof_height_m", "remainder_geometry", "datasf_id", "datasf_iou"],
+         "extra_fields": ["has_parts", "roof_height_m", "remainder_geometry", "datasf_id", "datasf_iou", "ground_min_navd88_m", "excluded", "height_capped_to_parent"],
          "sources": [osm_src, source_entry("datasf", "ynuv-fyni", dsf)]},
         {"layer": "roads", "file": "roads.geojson", "sha256": sha256_bytes(files["roads.geojson"]), "count": len(rfeats),
          "clip_rule": "clipped to the tile square; wid is the global OSM way id", "sources": [osm_src]},
@@ -415,12 +449,21 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
         "bounds_baytm": [x0, z0, x1, z1], "bounds_wgs84": bb,
         "unity_axes": "x = BayTM easting, y = NAVD88 height, z = BayTM northing; 1 unit = 1 m; tile-local = world - origin",
         "water_level_navd88_m": msl,
-        "build": dict({"script": "Pipelines/geo/bake_tile.py", "built_utc": utc_now(), "inputs_sha256": fingerprint,
-                       "bake_seconds": None}, **git_head()),
+        "build": dict({"script": "Pipelines/geo/bake_tile.py", "built_utc": utc_now(), "inputs_sha256": fingerprint}, **git_head()),
         "layers": layers,
     }
-    manifest["build"]["bake_seconds"] = round(time.time() - t_start, 2)
+    # DEF-T003-arch-1: the build block is metadata (VOLATILE_BUILD_KEYS); everything else in the manifest is a pure
+    # function of the inputs. A forced re-bake that reproduces the same content keeps the existing build block, and
+    # timing goes to build_info.json (not part of geo_tile@v1, not hashed).
+    if man_path.exists():
+        old = json.loads(man_path.read_text())
+        if manifest_content(old) == manifest_content(manifest):
+            manifest["build"] = old["build"]
+    bake_s = round(time.time() - t_start, 2)
     write_if_changed(man_path, (canonical_json(manifest, indent=1) + "\n").encode("utf-8"))
+    write_if_changed(out / "build_info.json", (canonical_json({"tile": tile.id, "bake_seconds": bake_s, "finished_utc": utc_now(),
+                                                               "manifest_sha256": sha256_file(man_path)}, indent=1) + "\n").encode("utf-8"))
+    manifest = dict(manifest, build=dict(manifest["build"], bake_seconds=bake_s))
     print(f"[bake] {tile.id}: {len(bfeats)} buildings ({len(owned_outlines)} structures, {len(owned_parts)} parts), "
           f"{len(rfeats)} roads, {len(ffeats)} fault pieces, water {water.mean() * 100:.1f} %, "
           f"h {np.min(ht):.2f}..{np.max(ht):.2f} m, {manifest['build']['bake_seconds']} s")

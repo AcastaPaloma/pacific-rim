@@ -134,6 +134,17 @@ namespace Game.World.Geo.Editor
                 log($"zfight {d} m: flips {flips} / {pa.Length}, quarter-res {lflips}");
                 UnityEngine.Object.DestroyImmediate(a); UnityEngine.Object.DestroyImmediate(b);
             }
+            // measured render statistics (DEF-T003-perf-1/3): engine counters around one render per view, shadows ON
+            light.shadows = LightShadows.Soft;
+            var measured = new List<object>();
+            foreach (var v in views)
+            {
+                if (v.Name.StartsWith("skyline") && v.Name.Contains("270")) continue;
+                Place(cam, v);
+                measured.Add(Measure(cam, v));
+            }
+            light.shadows = LightShadows.None;
+            stats["captures.measured_render_stats"] = measured;
             stats["captures.views"] = viewStats;
             stats["captures.zfight"] = zf;
             File.WriteAllText(Path.Combine(outDir, "export", "capture_views.json"), GeoJson.Write(new Dictionary<string, object> { ["views"] = viewStats, ["zfight"] = zf, ["camera"] = new Dictionary<string, object> { ["near_m"] = 0.5, ["far_m"] = 30000.0, ["reversed_z"] = SystemInfo.usesReversedZBuffer, ["graphics"] = SystemInfo.graphicsDeviceType.ToString() } }) + "\n");
@@ -170,6 +181,40 @@ namespace Game.World.Geo.Editor
             cam.targetTexture = null;
             RenderTexture.ReleaseTemporary(rt);
             return tex;
+        }
+
+        static readonly string[] Counters = { "Draw Calls Count", "Batches Count", "SetPass Calls Count", "Triangles Count", "Vertices Count", "Shadow Casters Count" };
+
+        /// <summary>Engine statistics for one view: Unity.Profiling render counters and UnityStats (via reflection, the
+        /// Editor API differs across versions), plus render + GPU readback time (median of 5, editor batch, this Mac).</summary>
+        static Dictionary<string, object> Measure(Camera cam, View v)
+        {
+            var d = new Dictionary<string, object> { ["view"] = v.Name, ["shadows"] = "soft (main light)" };
+            var recs = new List<global::Unity.Profiling.ProfilerRecorder>();
+            foreach (var c in Counters) recs.Add(global::Unity.Profiling.ProfilerRecorder.StartNew(global::Unity.Profiling.ProfilerCategory.Render, c));
+            UnityEngine.Object.DestroyImmediate(Render(cam, v.W, v.H));
+            for (int i = 0; i < Counters.Length; i++)
+            {
+                d["profiler." + Counters[i] + ".current"] = recs[i].CurrentValue;
+                d["profiler." + Counters[i] + ".last"] = recs[i].LastValue;
+                d["profiler." + Counters[i] + ".valid"] = recs[i].Valid;
+                recs[i].Dispose();
+            }
+            foreach (var name in new[] { "drawCalls", "batches", "setPassCalls", "triangles", "shadowCasters", "dynamicBatchedDrawCalls", "staticBatchedDrawCalls", "instancedBatchedDrawCalls" })
+            {
+                var pr = typeof(UnityStats).GetProperty(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                if (pr != null) d["unitystats." + name] = Convert.ToDouble(pr.GetValue(null));
+            }
+            var times = new List<double>();
+            for (int i = 0; i < 5; i++)
+            {
+                var sw = System.Diagnostics.Stopwatch.StartNew();
+                UnityEngine.Object.DestroyImmediate(Render(cam, v.W, v.H));
+                times.Add(sw.Elapsed.TotalMilliseconds);
+            }
+            times.Sort();
+            d["render_readback_ms_median"] = times[2];
+            return d;
         }
 
         /// <summary>Renderers whose bounds intersect the view frustum = unbatched draw calls (one material, one submesh each).</summary>

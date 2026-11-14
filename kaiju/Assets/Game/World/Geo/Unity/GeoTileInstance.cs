@@ -213,7 +213,8 @@ namespace Game.World.Geo.Unity
                     ["source_height_m"] = b.HeightM, ["top_navd88_m"] = top, ["mesh_min_y_m"] = minY,
                     ["height_as_built_m"] = b.Mesh != null ? top - b.BaseNavd88M : double.NaN,
                     ["anchor_baytm"] = new List<object> { Math.Round(ax, 4), Math.Round(az, 4) }, ["area_m2"] = b.AreaM2,
-                    ["footprint_is_remainder"] = b.RenderPolygons != null, ["outline_area_m2"] = b.AreaM2,
+                    ["footprint_is_remainder"] = b.RenderPolygons != null, ["excluded"] = b.Excluded, ["min_height_m"] = b.MinHeightM,
+                    ["ground_min_navd88_m"] = b.GroundMinNavd88M, ["height_capped_to_parent"] = b.HeightCappedToParent, ["outline_area_m2"] = b.AreaM2,
                     ["has_collider"] = _objects.TryGetValue(b.Id, out var go) && go.GetComponent<MeshCollider>() != null,
                     ["footprint"] = polys,
                 });

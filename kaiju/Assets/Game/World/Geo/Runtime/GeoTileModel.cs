@@ -48,7 +48,7 @@ namespace Game.World.Geo
                     if (!PartsOf.TryGetValue(b.PartOf, out var l)) PartsOf[b.PartOf] = l = new List<GeoBuildingData>();
                     l.Add(b);
                 }
-            BuildingChunks = (int)Math.Round(ctx.Tile.SizeM / ctx.Setting(GeoSettingKeys.BuildingChunkM, 256));
+            BuildingChunks = (int)Math.Round(ctx.Tile.SizeM / GeoSettings.Require(ctx, GeoSettingKeys.BuildingChunkM));
             Stats["time.import_s"] = sw.Elapsed.TotalSeconds;
         }
 
@@ -88,38 +88,36 @@ namespace Game.World.Geo
             var px = new byte[n * n * 4];
             var h = Heights.Data;
             double msl = Context.WaterLevelNavd88;
+            double depthRamp = GeoSettings.Require(Context, GeoSettingKeys.AlbedoDepthRampM), heightRamp = GeoSettings.Require(Context, GeoSettingKeys.AlbedoHeightRampM);
+            var sh = GeoSettings.Rgb(Context, "seabedShallow"); var sd = GeoSettings.Rgb(Context, "seabedDeep");
+            var ll = GeoSettings.Rgb(Context, "landLow"); var lh = GeoSettings.Rgb(Context, "landHigh");
             for (int r = 0; r < n; r++)
                 for (int c = 0; c < n; c++)
                 {
                     double hc = 0.25 * (h[r * (n + 1) + c] + h[r * (n + 1) + c + 1] + h[(r + 1) * (n + 1) + c] + h[(r + 1) * (n + 1) + c + 1]);
-                    byte R, G, B;
-                    if (hc < msl)
-                    {
-                        double t = Math.Min(1, (msl - hc) / 30.0);
-                        R = (byte)(150 - 90 * t); G = (byte)(140 - 80 * t); B = (byte)(110 - 40 * t);
-                    }
-                    else
-                    {
-                        double t = Math.Min(1, (hc - msl) / 100.0);
-                        R = (byte)(176 - 50 * t); G = (byte)(170 - 30 * t); B = (byte)(140 - 50 * t);
-                    }
+                    byte[] a, b; double t;
+                    if (hc < msl) { t = Math.Min(1, (msl - hc) / depthRamp); a = sh; b = sd; }
+                    else { t = Math.Min(1, (hc - msl) / heightRamp); a = ll; b = lh; }
                     int k = (r * n + c) * 4;
-                    px[k] = R; px[k + 1] = G; px[k + 2] = B; px[k + 3] = 255;
+                    for (int q = 0; q < 3; q++) px[k + q] = (byte)Math.Round(a[q] + (b[q] - a[q]) * t);
+                    px[k + 3] = 255;
                 }
             var roads = Layer("roads");
+            double minHalf = GeoSettings.Require(Context, GeoSettingKeys.RoadMinHalfWidthM);
+            var rd1 = GeoSettings.Rgb(Context, "roadDrivable"); var rd2 = GeoSettings.Rgb(Context, "roadOther");
             if (roads != null)
                 foreach (var rd in roads.Roads)
                 {
                     if (rd.Bridge || rd.Tunnel) continue;
-                    byte v = rd.Drivable ? (byte)70 : (byte)120;
-                    double half = Math.Max(rd.WidthM * 0.5, 0.75);
+                    var col = rd.Drivable ? rd1 : rd2;
+                    double half = Math.Max(rd.WidthM * 0.5, minHalf);
                     foreach (var l in rd.Lines)
-                        for (int i = 0; i + 3 < l.Length; i += 2) Capsule(px, n, l[i], l[i + 1], l[i + 2], l[i + 3], half, v);
+                        for (int i = 0; i + 3 < l.Length; i += 2) Capsule(px, n, l[i], l[i + 1], l[i + 2], l[i + 3], half, col);
                 }
             return px;
         }
 
-        static void Capsule(byte[] px, int n, double x0, double z0, double x1, double z1, double half, byte v)
+        static void Capsule(byte[] px, int n, double x0, double z0, double x1, double z1, double half, byte[] v)
         {
             int cx0 = Math.Max(0, (int)Math.Floor(Math.Min(x0, x1) - half)), cx1 = Math.Min(n - 1, (int)Math.Ceiling(Math.Max(x0, x1) + half));
             int cz0 = Math.Max(0, (int)Math.Floor(Math.Min(z0, z1) - half)), cz1 = Math.Min(n - 1, (int)Math.Ceiling(Math.Max(z0, z1) + half));
@@ -132,7 +130,7 @@ namespace Game.World.Geo
                     double ex = px0 - t * dx, ez = pz0 - t * dz;
                     if (ex * ex + ez * ez > half * half) continue;
                     int k = (r * n + c) * 4;
-                    px[k] = v; px[k + 1] = v; px[k + 2] = (byte)(v + 5);
+                    px[k] = v[0]; px[k + 1] = v[1]; px[k + 2] = v[2];
                 }
         }
     }
