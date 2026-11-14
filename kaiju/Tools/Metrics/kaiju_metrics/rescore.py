@@ -47,6 +47,7 @@ def rescore(report_path, registry=None, allow_different=False, out_dir=None):
     new, rep = run_metric(inv["command"], [resolve_path(p) for p in inv["inputs"]], registry=reg_path, out_dir=None,
                           label=inv["label"], ratings=resolve_path(inv["ratings"]) if inv.get("ratings") else None,
                           images=False, options=inv.get("options") or {})
+    new = json.loads(dump_json(new))           # same rounding as a written report
     same_reg = Registry(reg_path).sha256 == want
     if not same_reg:
         new["rescored_from"] = {"report": report_path, "registry": old["registry"]}
