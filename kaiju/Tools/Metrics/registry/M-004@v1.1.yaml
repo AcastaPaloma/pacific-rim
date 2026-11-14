@@ -3,7 +3,7 @@ metric: M-004
 spec: M-004@v1
 revision: v1.1
 metric_status: registered
-date: "2026-11-14"
+date: "2026-11-14"   # v1.1: fix cycle 2 (DEF-T002-arch-3: index vs colour check)
 title: Pixel stability (shimmer and crawl)
 source: research/R-002.md §5 M-004@v1 (capture contract §6)
 # Motion classes by nominal speed (internal px / frame; translation at the 600 m reference depth, yaw at screen
@@ -30,6 +30,8 @@ procedure:
   static_min_frames: {value: 60, unit: frames, status: derived, source: "R-002 §5 (S0 static: 60 frames)"}
   ref_depth_m:       {value: 600.0, unit: m, status: derived, source: "R-002 §5 reference depth"}
   sky_far_fraction:  {value: 0.99, unit: far, status: derived, source: "R-002 §5 (sky reprojects by direction)"}
+  index_colour_tol_de00: {value: 2.0, unit: dE00, status: derived, source: "M-003 a tolerance: palette_index vs color_internal cross-check (DEF-T002-arch-3)"}
+  crawl_min_interleaved_share: {value: 0.01, unit: share of valid pixels, status: assumed_pending_calibration, source: "fix cycle 2 audit: C_px needs dithered pixels to measure (spec silent); below = NOT_APPLICABLE with a warning"}
   window_px:         {value: 4, unit: px, status: derived, source: "M-003 b interleaved window (C_px)"}
   top_colour_max:    {value: 0.9, unit: share, status: derived, source: "M-003 b"}
   distinct_max:      {value: 4, unit: indices, status: derived, source: "M-003 b"}

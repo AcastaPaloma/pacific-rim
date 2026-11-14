@@ -127,3 +127,23 @@ def nearest_lab_rgb(rgb_px, pal_lab):
     ucol = np.stack([(uk >> 16) & 255, (uk >> 8) & 255, uk & 255], axis=1).astype(np.uint8)
     d, i = nearest_lab(srgb_u8_to_lab(ucol), pal_lab)
     return d[inv], i[inv]
+
+
+def index_colour_mismatch(rgb_img, pal_rgb, idx, tol):
+    """Pixels where palette_index and color_internal disagree: an index < n whose colour is more than tol dE00 from
+    that palette entry, or index 255 (not quantised) whose colour is within tol of some entry. Returns the count."""
+    rgb = np.asarray(rgb_img, dtype=np.uint8).reshape(-1, 3)
+    ix = np.asarray(idx).reshape(-1).astype(np.int64)
+    n = len(pal_rgb)
+    key = (((rgb[:, 0].astype(np.int64) << 16) | (rgb[:, 1].astype(np.int64) << 8) | rgb[:, 2]) << 9) | np.minimum(ix, 511)
+    uk, first = np.unique(key, return_index=True)
+    u_rgb, u_ix = rgb[first], ix[first]
+    lab_u = srgb_u8_to_lab(u_rgb)
+    pal_lab = srgb_u8_to_lab(np.asarray(pal_rgb, dtype=np.uint8))
+    d_all = ciede2000(lab_u[:, None, :], pal_lab[None, :, :])
+    bad_u = np.where(u_ix < n, d_all[np.arange(len(u_ix)), np.clip(u_ix, 0, n - 1)] > tol,
+                     np.where(u_ix == 255, d_all.min(1) <= tol, True))
+    bad_keys = set(uk[bad_u].tolist())
+    if not bad_keys:
+        return 0
+    return int(np.isin(key, np.fromiter(bad_keys, dtype=np.int64)).sum())

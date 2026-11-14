@@ -20,12 +20,47 @@ def png_header(path):
     return {"width": w, "height": h, "bit_depth": bd, "colour_type": COLOUR_TYPES.get(ct, f"unknown({ct})")}
 
 
+def png_integrity(path):
+    """Complete structural check without decoding pixels: every chunk complete with a matching CRC-32, IHDR first,
+    at least one IDAT, IEND last. Returns None when sound, else a message (truncated / corrupt)."""
+    with open(path, "rb") as f:
+        b = f.read()
+    if b[:8] != _SIG:
+        return "not a PNG file (bad signature)"
+    pos, seen, last = 8, [], None
+    while pos < len(b):
+        if pos + 12 > len(b):
+            return "PNG truncated (incomplete chunk header)"
+        n = struct.unpack(">I", b[pos:pos + 4])[0]
+        t = b[pos + 4:pos + 8]
+        if pos + 12 + n > len(b):
+            return f"PNG truncated inside chunk {t.decode('latin-1')}"
+        crc = struct.unpack(">I", b[pos + 8 + n:pos + 12 + n])[0]
+        if zlib.crc32(t + b[pos + 8:pos + 8 + n]) & 0xFFFFFFFF != crc:
+            return f"PNG corrupt: CRC mismatch in chunk {t.decode('latin-1')}"
+        seen.append(t)
+        last = t
+        pos += 12 + n
+        if t == b"IEND":
+            break
+    if not seen or seen[0] != b"IHDR":
+        return "PNG corrupt: IHDR is not the first chunk"
+    if b"IDAT" not in seen:
+        return "PNG corrupt: no IDAT chunk"
+    if last != b"IEND":
+        return "PNG truncated (no IEND chunk)"
+    return None
+
+
 def read_png(path):
-    """Decode a PNG without conversion. RGB returned in RGB order; grey as 2-D. dtype uint8 or uint16."""
+    """Decode a PNG without conversion. RGB returned in RGB order; grey as 2-D. dtype uint8 or uint16.
+    A file that cannot be decoded is a contract violation (InvalidInput), never a tool error."""
     import cv2  # local import: keeps package import light
     a = cv2.imread(path, cv2.IMREAD_UNCHANGED)
     if a is None:
-        raise ValueError("PNG could not be decoded (truncated or corrupt)")
+        from .common import ContractError, InvalidInput, rel_path
+        raise InvalidInput([ContractError(rel_path(path), "png", "PNG could not be decoded (truncated or corrupt)",
+                                          "a complete lossless PNG", "undecodable file")])
     if a.ndim == 3 and a.shape[2] == 3:
         a = a[..., ::-1]
     elif a.ndim == 3 and a.shape[2] == 4:

@@ -7,7 +7,7 @@ import os
 
 import numpy as np
 
-from ..colour import ciede2000, nearest_palette, srgb_u8_to_lab
+from ..colour import ciede2000, index_colour_mismatch, nearest_palette, srgb_u8_to_lab
 from ..common import ContractError, InvalidInput, S_NA, S_NOT_RUN, S_REPORTED, rel_path
 from ..contracts.palette_set import load_palette_set
 from ..contracts.style_capture import decode_depth, load_capture_set, load_image
@@ -101,12 +101,12 @@ def run(report, inputs, reg, ratings=None, out_dir=None, images=True, options=No
         r["A2_int"] = M.adherence(d["de_i"], keep_i, tol_i)
         r["off_palette_px_out"] = int(((d["de_o"] > tol_o) & (keep_o if keep_o is not None else True)).sum())
         if d["has_index"]:
-            n255 = int((d["idx"] == 255).sum())
-            nfail = int((d["de_i"] > tol_i).sum())
-            if n255 != nfail:
+            bad = index_colour_mismatch(d["ci"], prof.rgb, d["idx"], tol_i)
+            if bad:
                 raise InvalidInput([ContractError(rel_path(fr.sidecar_path), "files.palette_index",
-                                                  "palette_index 255 count differs from the color_internal pixels "
-                                                  "beyond the tolerance (inconsistent capture)", str(nfail), str(n255))])
+                                                  "palette_index and color_internal disagree (index names a palette "
+                                                  "entry the colour is not, or 255 on a palette colour)",
+                                                  "0 inconsistent pixels", f"{bad} pixels")])
         dm, inter = M.dither_metrics(d["idx"], d["L_idx"], P)
         r["gradient_share"] = dm["gradient_share"]
         r["dither_evaluated"] = dm["gradient_share"] >= reg.p("min_gradient_share")

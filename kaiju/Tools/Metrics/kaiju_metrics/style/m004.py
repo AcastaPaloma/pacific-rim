@@ -13,7 +13,7 @@ import os
 
 import numpy as np
 
-from ..colour import nearest_palette
+from ..colour import index_colour_mismatch, nearest_palette
 from ..common import ContractError, InvalidInput, S_NA, S_NOT_RUN, rel_path
 from ..contracts.palette_set import load_palette_set
 from ..contracts.style_capture import decode_depth, load_image
@@ -74,16 +74,21 @@ def reproject(dst_pose, dst_z, src_pose, src_z, occl, sky_lim):
 
 
 class FrameCache:
-    def __init__(self, seq, prof, interleave_p):
-        self.seq, self.prof, self.ip = seq, prof, interleave_p
+    def __init__(self, seq, prof, interleave_p, tol):
+        self.seq, self.prof, self.ip, self.tol = seq, prof, interleave_p, tol
         self.c = {}
 
     def get(self, t):
         if t not in self.c:
             fr = self.seq.frames[t]
             pi = load_image(fr, "palette_index")
+            ci = load_image(fr, "color_internal")
             if pi is None:
-                _, pi = nearest_palette(load_image(fr, "color_internal"), self.prof.rgb)
+                _, pi = nearest_palette(ci, self.prof.rgb)
+            elif index_colour_mismatch(ci, self.prof.rgb, pi, self.tol):
+                raise InvalidInput([ContractError(rel_path(fr.sidecar_path), "files.palette_index",
+                                                  "palette_index and color_internal disagree (DEF-T002-arch-3)",
+                                                  "consistent index and colour", "mismatching pixels")])
             idx = pi.astype(np.int32)
             cam = fr.meta["camera"]
             z = decode_depth(load_image(fr, "depth"), cam["near_m"], cam["far_m"])
@@ -138,13 +143,14 @@ def classify(seq, reg, E):
 def sequence_metrics(seq, prof, reg, cls):
     ip = (reg.p("window_px"), reg.p("top_colour_max"), reg.p("distinct_max"), reg.p("neighbour_diff_min"),
           reg.p("amp_min"))
-    fc = FrameCache(seq, prof, ip)
+    fc = FrameCache(seq, prof, ip, reg.p("index_colour_tol_de00", 2.0))
     n = len(seq.frames)
     occl = reg.p("occlusion_rel")
     sp = float(seq.motion["speed_internal_px_per_frame"])
     static = cls == "S0"
     lag = 1 if static or sp <= 0 else max(1, math.ceil(1.0 / sp - 1e-9))
     S, C, F, V = [], [], [], []
+    n_inter = n_valid = 0
     change_sum = None
     blank = False
     for t in range(n):
@@ -161,6 +167,7 @@ def sequence_metrics(seq, prof, reg, cls):
                 ch = (idx != i1) & v
                 S.append(ch.sum() / max(v.sum(), 1)); V.append(v.mean())
                 vi = v & inter
+                n_inter += int(vi.sum()); n_valid += int(v.sum())
                 C.append(((idx != i1) & vi).sum() / max(vi.sum(), 1))
                 change_sum += ch
             if t >= 2:
@@ -176,6 +183,7 @@ def sequence_metrics(seq, prof, reg, cls):
             ch = (idx != si[r, c]) & ok
             S.append(ch.sum() / max(ok.sum(), 1)); V.append(ok.mean())
             vi = ok & inter
+            n_inter += int(vi.sum()); n_valid += int(ok.sum())
             C.append(((idx != si[r, c]) & vi).sum() / max(vi.sum(), 1))
             change_sum += ch
         if t >= 2:
@@ -186,7 +194,10 @@ def sequence_metrics(seq, prof, reg, cls):
             both = o1 & o2 & ~anim & ~a1[r1, c1] & ~a2[r2, c2]
             F.append(((i2[r2, c2] == idx) & (i1[r1, c1] != idx) & both).sum() / max(both.sum(), 1))
     res = {"sequence": seq.id, "class": cls, "lag": lag, "frames": n,
-           "S": float(np.mean(S)) if S else float("nan"), "C": float(np.mean(C)) if C else float("nan"),
+           "S": float(np.mean(S)) if S else float("nan"),
+           "C": ((float(np.mean(C)) if C else float("nan"))
+                 if n_inter >= reg.p("crawl_min_interleaved_share", 0.01) * max(n_valid, 1) and n_inter else None),
+           "interleaved_px": n_inter, "interleaved_share": n_inter / max(n_valid, 1),
            "F": float(np.mean(F)) if F else float("nan"), "valid_share": float(np.mean(V)) if V else 0.0,
            "S_pair_p95": float(np.percentile(S, 95)) if S else float("nan"),
            "S_pair_max": float(np.max(S)) if S else float("nan"), "blank": blank,
@@ -304,6 +315,14 @@ def run(report, inputs, reg, ratings=None, out_dir=None, images=True, options=No
                     ps.append({"name": nm, "value": None, "status": S_NOT_RUN, "op": "<=", "threshold": None,
                                "margin": None, "margin_rel": None, "unit": "share",
                                "note": f"valid-pixel share {r['valid_share']:.3f} < {vmin}"})
+                    continue
+                if key == "C" and r["C"] is None:
+                    ps.append({"name": nm, "value": None, "status": S_NA, "op": "<=", "threshold": reg.t(sid, "max"),
+                               "margin": None, "margin_rel": None, "unit": "share",
+                               "note": f"dithered (interleaved) pixels {r['interleaved_share']:.4f} of valid pixels "
+                                       "(< crawl_min_interleaved_share): crawl not measurable"})
+                    report.warn(f"{sid}: {r['sequence']} has no dithered pixels to measure crawl on "
+                                f"({r['interleaved_px']} px); C_px NOT_APPLICABLE for it")
                     continue
                 ps.append(part(nm, r[key], "<=", reg.t(sid, "max"), unit="share", valid_share=r["valid_share"],
                                pair_p95=r["S_pair_p95"] if key == "S" else None))

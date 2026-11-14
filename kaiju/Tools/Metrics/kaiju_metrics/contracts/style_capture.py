@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 import numpy as np
 
 from ..common import ErrorList, InvalidInput, load_json_file, rel_path, sha256_file
-from ..png import png_header, read_png
+from ..png import png_header, png_integrity, read_png
 
 SCHEMA = "style_capture@v1"
 PURPOSES = ("M-003", "M-004", "haze_cal")
@@ -288,6 +288,10 @@ def _check_files(sc, E, w, d, palettes, inputs):
         except ValueError as e:
             E.add(f"{w}.files.{k}", str(e), "PNG", name)
             continue
+        bad = png_integrity(p)
+        if bad:
+            E.add(f"{w}.files.{k}", bad, "a complete lossless PNG", name)
+            continue
         res, ct, bd = FILE_FORMAT[k]
         if hd["colour_type"] != ct or hd["bit_depth"] != bd:
             E.add(f"{w}.files.{k}", "wrong PNG format", f"{bd}-bit {ct}", f"{hd['bit_depth']}-bit {hd['colour_type']}")
@@ -300,8 +304,8 @@ def _check_files(sc, E, w, d, palettes, inputs):
             if pid in palettes.profiles:
                 try:
                     a = read_png(p)
-                except ValueError as e:
-                    E.add(f"{w}.files.{k}", str(e), "decodable PNG", name)
+                except InvalidInput:
+                    E.add(f"{w}.files.{k}", "PNG could not be decoded", "decodable PNG", name)
                     continue
                 n = len(palettes.profiles[pid].hexes)
                 bad = (a >= n) & (a != 255)

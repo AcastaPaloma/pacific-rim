@@ -84,7 +84,8 @@ class Report:
         if parts:
             sts = [p["status"] for p in parts]
             if status is None:
-                status = S_FAIL if S_FAIL in sts else (S_NOT_RUN if S_NOT_RUN in sts else S_PASS)
+                status = (S_FAIL if S_FAIL in sts else S_NOT_RUN if S_NOT_RUN in sts else
+                          S_NA if all(x == S_NA for x in sts) else S_PASS)
             judged = [p for p in parts if p.get("margin_rel") is not None]
             if judged:
                 dec = min(judged, key=lambda p: p["margin_rel"])

@@ -124,9 +124,14 @@ def main(argv=None):
     except UsageError as e:
         print(f"error: {e}", file=sys.stderr)
         return EXIT_CODES[INVALID_INPUT]
-    except Exception:  # noqa: BLE001 - never a verdict: a tool bug
-        print("TOOL_ERROR (bug in kaiju_metrics, not a metric verdict):", file=sys.stderr)
-        traceback.print_exc(limit=5)
+    except Exception as e:  # noqa: BLE001 - never a verdict: a tool bug
+        print(f"TOOL_ERROR (bug in kaiju_metrics, not a metric verdict): {type(e).__name__}: {str(e)[:200]}",
+              file=sys.stderr)
+        if os.environ.get("KAIJU_METRICS_DEBUG"):
+            traceback.print_exc()
+        else:
+            print("  set KAIJU_METRICS_DEBUG=1 for the stack trace; please report it with the command line",
+                  file=sys.stderr)
         return EXIT_TOOL_ERROR
 
 
@@ -135,6 +140,8 @@ class UsageError(Exception):
 
 
 def _dispatch(args, argv):
+    if os.environ.get("KAIJU_METRICS_FORCE_BUG"):          # test hook: proves bugs stay distinct (exit 4)
+        raise RuntimeError("forced internal error (KAIJU_METRICS_FORCE_BUG)")
     if args.cmd == "validate":
         return _validate(args)
     if args.cmd == "list-metrics":
