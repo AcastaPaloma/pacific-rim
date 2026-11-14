@@ -453,11 +453,13 @@ def example_log(path):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print(__doc__)
-        sys.exit(2)
-    if "--example" in sys.argv:
-        print(example_log(sys.argv[1]))
+    import argparse
+    ap = argparse.ArgumentParser(description="Synthetic gait_log@v1 fixtures with closed-form truth (deterministic).")
+    ap.add_argument("out", help="output directory for the nine captures (or the example file with --example)")
+    ap.add_argument("--example", action="store_true", help="write the small contract example file to OUT")
+    a = ap.parse_args()
+    if a.example:
+        print(example_log(a.out))
     else:
-        for k, p in write_set(sys.argv[1]).items():
+        for k, p in write_set(a.out).items():
             print(k, p)

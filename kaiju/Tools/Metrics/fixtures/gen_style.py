@@ -497,6 +497,8 @@ def _truth_m004(frames, motion_type, speed, W, H, pattern):
         return out.reshape(H, W), ok.reshape(H, W)
 
     S, C, F = [], [], []
+    if len(frames) <= lag:
+        return {"S_px": float("nan"), "C_px": None, "F": float("nan"), "lag": lag}
     for t in range(lag, len(frames)):
         qs, ok = src(t, lag)
         q = frames[t][1]
@@ -507,7 +509,8 @@ def _truth_m004(frames, motion_type, speed, W, H, pattern):
         q1, o1 = src(t, 1); q2, o2 = src(t, 2); q = frames[t][1]
         both = o1 & o2
         F.append((both & (q2 == q) & (q1 != q)).sum() / max(both.sum(), 1))
-    return {"S_px": float(np.mean(S)), "C_px": float(np.mean(C)) if C else None, "F": float(np.mean(F)), "lag": lag}
+    return {"S_px": float(np.mean(S)), "C_px": float(np.mean(C)) if C else None,
+            "F": float(np.mean(F)) if F else float("nan"), "lag": lag}
 
 
 def m004_set(root, set_id="m004_pass", anchor_t="surface", anchor_y="direction_bands", anchor_s="screen", n_frames=60,
@@ -581,12 +584,16 @@ def write_test_palettes(path, base=PALETTES):
 
 
 if __name__ == "__main__":
-    import sys
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    out = args[0] if args else os.path.join(HERE, "out")
-    if "--m003" in sys.argv:
-        print(m003_pass_set(out)[0])
-    elif "--m004" in sys.argv:
-        print(m004_set(out)[0])
+    import argparse
+    ap = argparse.ArgumentParser(description="Synthetic style_capture@v1 fixtures (deterministic).")
+    ap.add_argument("out_dir", help="directory to write into (required; nothing is written elsewhere)")
+    g = ap.add_mutually_exclusive_group()
+    g.add_argument("--m003", action="store_true", help="M-003 pass set (12 frames + haze_cal)")
+    g.add_argument("--m004", action="store_true", help="M-004 pass set (S0, T1, T2, T3, Y1, Y2; 60 frames)")
+    a = ap.parse_args()
+    if a.m003:
+        print(m003_pass_set(a.out_dir)[0])
+    elif a.m004:
+        print(m004_set(a.out_dir)[0])
     else:
-        print(example_capture_set(out))
+        print(example_capture_set(a.out_dir))

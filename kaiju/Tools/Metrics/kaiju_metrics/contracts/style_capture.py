@@ -217,6 +217,10 @@ def _check_sidecar(sc, E: ErrorList, w, seq_meta, palettes, idx_expected):
             E.add(f"{w}.conventions.{k}", "missing", "string", repr(cv.get(k)))
     if isinstance(cv.get("handedness"), str) and not cv["handedness"].lower().startswith("left"):
         E.add(f"{w}.conventions.handedness", "Unity world is left-handed", "left (Unity)", cv["handedness"])
+    for k, want, why in (("up", "+Y", "Unity up axis"), ("forward", "+Z", "Unity camera forward"),
+                         ("pixel_origin", "top-left", "the tool reads pixel (x, y) from the top-left, centre x + 0.5")):
+        if isinstance(cv.get(k), str) and not cv[k].strip().lower().startswith(want.lower()):
+            E.add(f"{w}.conventions.{k}", f"unsupported convention ({why})", want, cv[k])
     mo = sc["motion"]
     if mo.get("type") not in MOTION_TYPES:
         E.add(f"{w}.motion.type", "unknown motion type", MOTION_TYPES, repr(mo.get("type")))
