@@ -412,7 +412,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
         {"layer": "terrain", "file": "terrain.tif", "sha256": sha256_bytes(files["terrain.tif"]),
          "format": "COG float32 2049x2049, pixel-is-point, row 0 = north, deflate + predictor 3",
          "samples": SAMPLES, "spacing_m": tile.spacing, "sources": ter_sources,
-         "merge_rule": "3DEP 1 m where valid and CUDEM > +1.798 m NAVD88, CUDEM elsewhere, 10 m feather; piers raised to deck",
+         "merge_rule": "3DEP 1 m where valid and CUDEM > +1.798 m NAVD88, CUDEM elsewhere, linear feather of terrain.feather_m (" + str(cfg["terrain"]["feather_m"]) + " m); piers raised to deck",
          "h_min_m": round(float(np.min(ht)), 4), "h_max_m": round(float(np.max(ht)), 4)},
         {"layer": "terrain_r16", "file": "terrain.r16", "sha256": sha256_bytes(files["terrain.r16"]),
          "format": "uint16 LE RAW 2049x2049, row 0 = south, col 0 = west, h = h_min + v*(h_max-h_min)/65535",

@@ -7,9 +7,9 @@
     "mhhw_navd88_m": 1.798
   },
   "terrain": {
-    "_src": "R-004 §1.2 merge rule: 3DEP 1 m where valid and CUDEM > MHW(+1.80 m NAVD88 per R-004 text, i.e. MHHW), CUDEM elsewhere, feather 10 m",
+    "_src": "R-004 §1.2 merge rule: 3DEP 1 m where valid and CUDEM > MHW(+1.80 m NAVD88 per R-004 text, i.e. MHHW), CUDEM elsewhere, linear feather. feather_m 20 (R-004 said 10): with 10 m the blend added steps of p99 0.276 m (M-005@v1.1 M-005.9 limit 0.20 m, R-006 §1: L >= |delta| / 0.2); measured on L0_30_36: L 10 -> p99 0.276 / max 0.489, 20 -> 0.129 / 0.245, 30 -> 0.068 / 0.163, 40 -> 0.040 / 0.122 m; 20 is the narrowest width that passes, keeping 3DEP detail closest to the shore",
     "use_3dep_above_navd88_m": 1.798,
-    "feather_m": 10.0,
+    "feather_m": 20.0,
     "margin_nodes": 192
   },
   "water": {

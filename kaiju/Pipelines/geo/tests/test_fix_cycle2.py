@@ -8,7 +8,7 @@ import pytest
 import shapely
 
 from kaiju_geo import bake, common, terrain, vector
-from kaiju_geo.common import TILES_ROOT, Tile, transformer, baytm_to_lonlat
+from kaiju_geo.common import TILES_ROOT, Tile, transformer, baytm_to_lonlat, load_config
 
 M0 = TILES_ROOT / "L0" / "30_36"
 
@@ -49,7 +49,7 @@ def _synthetic_sources(tmp_path, tiles):
 def _surface(tile, cp, dp, margin=192):
     xs, zs = terrain.node_axes(tile, margin)
     X, Z = np.meshgrid(xs, zs)
-    h, _ = terrain.merge_surface(terrain.sample_rasters(cp, X, Z), terrain.sample_rasters(dp, X, Z), 1.798, 10.0, tile.spacing)
+    h, _ = terrain.merge_surface(terrain.sample_rasters(cp, X, Z), terrain.sample_rasters(dp, X, Z), 1.798, load_config("bake.json")["terrain"]["feather_m"], tile.spacing)
     return np.round(h, 4).astype(np.float32)[margin:margin + 2049, margin:margin + 2049]
 
 
