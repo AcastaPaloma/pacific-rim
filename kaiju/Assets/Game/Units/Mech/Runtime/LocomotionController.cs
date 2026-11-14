@@ -618,7 +618,7 @@ namespace Game.Units.Mech
                 {
                     // joint impedance: PD toward the reference angle (natural frequency and damping ratio from config for this joint and sub-phase); the virtual-force torque is only a correction
                     var info = _b.GetDof(d);
-                    double refTarget = Math.Max(info.LowerRad, Math.Min(info.UpperRad, refAngle));
+                    double refTarget = Math.Max(info.LowerRad, Math.Min(info.UpperRad, refAngle));   // run 3: the anatomical angle is the DOF coordinate (no Sign); the run-1 fall was the 0.25 virtual-force scale
                     StanceImpedance.Gains(_t, joint, support, out double hz, out double zeta);
                     StanceImpedance.PdGains(_b.DofInertia(d, true), hz, zeta, out double kImp, out double cImp);
                     double v = _hasPrev[d] ? Math.Max(-_t.target_velocity_max_rps, Math.Min(_t.target_velocity_max_rps, (refTarget - _prevTarget[d]) / _dt)) : 0;
