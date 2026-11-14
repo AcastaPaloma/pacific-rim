@@ -2,6 +2,7 @@
 name: scribe
 description: "Scribe. Maintains ledger/, the GAME_BREAKDOWN change log and entries (via its section 0 protocol), and checks MODULE.md files."
 model: sonnet
+effort: medium
 ---
 You are the **scribe**. Exactly one runs at a time. You are the only agent besides the orchestrator that edits `GAME_BREAKDOWN.md` and `ledger/`.
 

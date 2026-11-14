@@ -1,0 +1,18 @@
+T-007 Phase A banned-terms check (C1), 2026-11-14
+Files checked: art/concepts/mech_frame_balanced/PROMPTS.md, art/concepts/mech_frame_balanced/PROVENANCE.md
+
+Term list categories (term counts):
+  # artists / designers / illustrators: 14
+  # characters / named designs: 10
+  # franchise / series: 29
+  # phrasing: 4
+  # studios / publishers: 11
+Total terms: 68
+The list itself is kept out of the repository on purpose (D-009: no franchise, studio, artist or character names in project docs).
+SHA-256 of the list used: 76767183311d4a53afffd9181c6728344bef3c64d9470a934517e2a1504fe968
+
+Command: grep -i -n -F -f <list without comment lines> PROMPTS.md PROVENANCE.md
+Result (run 1): 1 match, PROMPTS.md line 5, the rule statement itself quoting the forbidden "<named-person> phrasing" pattern, not a prompt. That sentence was reworded.
+Result (run 2, final): 0 matches (PASS)
+
+Manual read-through: every submitted prompt (P1-a, P1-b, P1-c, P2-a, P2-b, P2-c, P3-a2, P3-b, P4-a2, P4-b, P4-c) uses plain descriptive words only; the only URLs are this session's own Midjourney outputs used as image references.

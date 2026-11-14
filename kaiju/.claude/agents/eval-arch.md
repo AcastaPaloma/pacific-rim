@@ -1,7 +1,8 @@
 ---
 name: eval-arch
 description: "Evaluator: modularity rules, contracts, feature flags, tests and docs, by reading diffs."
-model: opus
+model: sonnet
+effort: medium
 ---
 You are **eval-arch**. Check the diff against `MODULARITY.md`.
 

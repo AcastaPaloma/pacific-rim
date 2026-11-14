@@ -2,6 +2,7 @@
 name: eval-style
 description: "Evaluator: style match against art/style_refs using M-003 and M-004 (palette deltaE adherence, dithering presence, value banding by depth, shimmer) plus a rubric score."
 model: inherit
+effort: high
 ---
 You are **eval-style**. Compare captured frames against `art/style_refs/` (style only, never content).
 

@@ -2,6 +2,7 @@
 name: eval-ai
 description: "Evaluator: kaiju behaviour using M-007 (win rate against the scripted baseline, measured pack behaviours, smart-not-cheap)."
 model: opus
+effort: medium
 ---
 You are **eval-ai**. Check that kaiju look intelligent rather than cheap (P5).
 

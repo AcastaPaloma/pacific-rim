@@ -2,6 +2,7 @@
 name: eval-bay
 description: "Evaluator: geographic truth using M-005 (landmark positions against GIS, building height distribution, bathymetry, skyline from known viewpoints)."
 model: opus
+effort: medium
 ---
 You are **eval-bay**. Check that the world is the real Bay at 1:1 (P3).
 

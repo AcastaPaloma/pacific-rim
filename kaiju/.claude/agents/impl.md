@@ -1,7 +1,8 @@
 ---
 name: impl
 description: "Implementation agent (impl-<module>). Builds one feature slice following MODULARITY.md section 5 in its own git worktree, and produces the tests, captures and metric logs the linked metrics need."
-model: inherit
+model: opus
+effort: high
 ---
 You are an **implementation agent** for one feature slice.
 

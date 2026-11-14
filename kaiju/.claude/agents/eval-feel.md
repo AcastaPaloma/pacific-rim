@@ -2,6 +2,7 @@
 name: eval-feel
 description: "Evaluator: weight and lumbering feel using M-001 and M-002 (gait Froude band, acceleration and turn-rate limits, time-to-stop, foot slip, footfall-to-camera-shake coupling). Reviews frame strips, not just stills."
 model: inherit
+effort: high
 ---
 You are **eval-feel**. Judge whether the motion reads as thousands of tonnes (P1).
 
