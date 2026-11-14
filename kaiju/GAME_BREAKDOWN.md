@@ -246,6 +246,40 @@ roughly one tonne of TNT. Falls damage the mech, crater the ground and strain th
 | M-007 | Kaiju look intelligent | Win rate vs scripted baseline. Measured pack behaviours (flank rate, focus fire). Human panel rates them "smart, not cheap" |
 | M-008 | Performance | 60 fps on the target PC. Host simulation budget met with 2 mechs + 3 kaiju + destruction |
 
+
+### §10a. Metric specs (versioned), appended 2026-11-14
+
+Registered by research agents; the seed rows above are unchanged. All status `Assumed, pending founder calibration` (the numbers are derived where a source is cited, but thresholds marked Assumed in the source files need founder taste). Evaluators cite the version used (`M-003@v1`).
+
+| Spec | Sub-measures | Headline thresholds | Source | Status |
+|---|---|---|---|---|
+| M-001@v1 | 13 (M-001.1 to .13; PASS needs all) | Walking Fr in [0.10, 0.30], cruise 0.20 ±0.03, never > 0.35; CoM acceleration ≤ 0.30 g fore-aft, ≤ 0.085 g lateral, net start ≤ 0.14 g; yaw ≤ 26.7 °/s and ≤ 4.0 °/s²; start 2-4 steps, normal stop 1.5-3 steps; panel median ≥ 8/10, n ≥ 3. Log contract `gait_log@v1` | R-001 §9 (`research/R-001.md`) | Assumed, pending founder calibration |
+| M-002@v1 | 5 (M-002.1 to .5) | Max slip per contact < 0.5 % of foot length (< 0.098 m at the reference foot, L_f = 19.6 m); p95 < 0.25 % (reported) | R-001 §9 | Assumed, pending founder calibration |
+| M-003@v1 | 6 gated groups (a, b, c1, c2, d, f) + (e) advisory | CIEDE2000 ≤ 2.0, ≥ 95 % of output pixels (≥ 99.5 % internal) in the declared profile; dither interleave share DIG ≥ 0.15 on ≥ 80 % of gradient frames; depth-band mean L* monotonic; ≤ 12 value levels, ≤ 3 hue families, grid integrity ≥ 0.995; blind panel mean ≥ 8.0. Five district profiles, `palette_set@v1` | R-002 §4 (`research/R-002.md`) | Assumed, pending founder calibration |
+| M-004@v1 | 3 measures (S_px, C_px, F) over capture sequences S0, T1-T3, Y1-Y2 | Static change = 0; yaw S_px ≤ 0.01, C_px ≤ 0.01, F ≤ 0.001; translation S_px ≤ 0.12, C_px ≤ 0.15, F ≤ 0.005. Capture contract `style_capture@v1` | R-002 §5 | Assumed, pending founder calibration |
+| M-005@v1 | 8 (M-005.1 to .8) | Landmark position ≤ 0.5 m vs source (p95 ≤ 5 m vs reference); NGS terrain median abs. error ≤ 0.5 m; Golden Gate depth -113 ± 4 m, Oakland harbour -15.2 ± 1 m, 66 ± 3 % of the Bay < 5 m; building-height KS D ≤ 0.02; area recall ≥ 0.98; scale ≤ 60 ppm; skyline IoU ≥ 0.98 same-source, ≥ 0.90 independent; attribution 100 %. Proposed to replace the seed text of M-005 (founder decision; seed row kept) | R-004 §6 (`research/R-004.md`) | Assumed, pending founder calibration |
+| M-006@v1 | 8 (M-006.1 to .8; PASS needs all in one commit) | Totals within 0.1 %; energy drift passive drop ≤ Δt/t + 0.5 %; momentum error ≤ 0.5 % linear, ≤ 2 % angular; single-stance pressure 654 kPa ± 2 %; fall energy 3.6 GJ ± 10 %; mean walking power 30-120 MW, peak ≤ 450 MW; link speed ≤ 60 m/s, zero NaN; CoM divergence ≤ 1 cm at 60 s. Log contract `physics_log@v1` | R-005 §8 (`research/R-005.md`) | Assumed, pending founder calibration |
+
+M-007 and M-008 have no versioned spec yet (M-NEW-derived sub-metrics for M-008 are proposed below as M-013 and M-014).
+
+### §10b. Proposed new metrics (M-009 to M-017), appended 2026-11-14
+
+Each carries the four no-fluff fields of §0 rule 2. Status `Proposed` unless marked incomplete.
+
+| ID | Metric | Pillar | Measurable change / metric link | Source | Cost | Status |
+|---|---|---|---|---|---|---|
+| M-009 | Footfall sync (F-009): camera impulse in the same physics step as `contact_begin` in ≥ 99 % of contacts (≤ 1 step always, ≤ 1 render frame); one impulse per contact; amplitude vs vertical impact momentum log-log r ≥ 0.90, slope in [0.5, 1.0] (Assumed); footstep audio onset within +45 / -125 ms | P1 | Links to M-001 and F-009 | R-001 §6 (R-001 M-NEW-a) | Logging only | Proposed |
+| M-010 | Log contract `gait_log@v1` as a versioned data spec (R-001 §8), owned by `Tools/` metric capture; mech and kaiju implementations emit it for every locomotion capture | P1, P2 | Input to M-001 and M-002 | R-001 §8 (R-001 M-NEW-b) | Not stated | Proposed (incomplete: missing cost) |
+| M-011 | Output motion smoothness: with sub-pixel compensation on, per-frame displacement of `color_output` (phase correlation) during T1/Y1 matches the commanded camera motion within ±1 output px | P4 | Extends M-004 | R-002 (R-002 M-NEW-a) | One extra analysis pass | Proposed (not validated in source) |
+| M-012 | Palette ramp L* uniformity: coefficient of variation of consecutive haze-ramp ΔL* ≤ 0.35 (Assumed); extracted quantile ramps score 0.33-1.18, `ramp_uniform_L` scores 0 | P4 | Supports M-003 (c2) | R-002 (R-002 M-NEW-b) | None at runtime | Proposed |
+| M-013 | Render GPU budget (sub-metric of M-008): GPU time of passes named `Pixel.*` ≤ 0.5 ms p95 and whole frame ≤ 16.7 ms p95, Windows player, target PC, 1080p, 60 s flythrough with 2 mechs + 3 kaiju | P4, P1 | Sub-metric of M-008 | R-003 §9 / §11 (R-003 M-NEW-a) | One capture tool | Proposed (Assumed, pending calibration) |
+| M-014 | ABA flicker rate: share of valid internal texels whose palette index goes A-B-A over three frames after reprojection ≤ 1.0 % per frame translation, ≤ 2.0 % rotation, and ≥ 50 % lower than with stabilisation off. R-002 owns the M-004 spec; reconcile | Not stated (P4 implied) | Input to M-004 | R-003 §7 (R-003 M-NEW-b) | Not stated (internal RT capture and analysis) | Proposed (incomplete: missing pillar, cost) |
+| M-015 | Floating-origin precision (F-042): Unity position of every simulated body ≤ 4096 m at all times (float32 ulp ≤ 0.49 mm), runtime probe over a 10 min traversal | P2, P3 | Supports M-005 / F-042 | R-004 §2.4 (R-004 M-NEW-a) | Negligible | Proposed |
+| M-016 | Power plausibility: mean positive mechanical power at Fr 0.25 walking within 30-120 MW, peak ≤ 450 MW at the 80 m / 10,000 t reference (scales with M·H^½); folded into M-006.6, split out if a Power subsystem owns it | P1, P2 | Measured from `physics_log@v1` power columns; links M-006 | R-005 §3.3 (R-005 M-NEW-a) | None beyond M-006 logging | Proposed |
+| M-017 | Core bus cost: ns per publish per subscriber and bytes per publish (target 0 bytes); informational until registered | Not stated | Links to M-008 (implied) | `expectations/T-001.md` (draft A M-NEW-a); no R-### | Not stated | Proposed (incomplete: missing pillar, R-### source, cost) |
+
+Merged duplicates among M proposals: none (nine distinct proposals).
+
 ---
 
 ## §11. Open questions
@@ -257,9 +291,60 @@ roughly one tonne of TNT. Falls damage the mech, crater the ground and strain th
 | Q-003 | How many kaiju can be active at once in the open world? | Yes, for the performance budget |
 | Q-004 | Story framing: how much narrative, if any? | No |
 | Q-005 | Pilot representation: on-foot pilots ever, or always inside the cockpit? | No |
+| Q-006 | Cruise Froude number for the reference mech (R-001 Q-NEW-c, T-005 cruise pace). R-001 and T-005 use Fr 0.20 (9.1 m/s, stride 6.6 s); R-005 sizes torque and power at Fr 0.25 (10.15 m/s). Both recorded; not reconciled. Default in use (Assumed): Fr 0.20, founders calibrate with the M-001 Froude-sweep captures. | No |
+| Q-007 | Foot shape and size (R-001 Q-NEW-a, T-005 foot shape; see also Q-013). Both sources give 150 m² but disagree on shape: 19.6 × 7.65 m (R-001, 0.245 H, 2.9× the human-proportioned ≈ 52 m² foot) versus 15 × 10 m (R-005). Keep the oversized heroic feet? Default in use (Assumed): yes, 150 m², 15 × 10 m (T-005); M-002 scales with L_f from the log header. | No |
+| Q-008 | Reactor power for the reference mech (R-001 Q-NEW-b, R-005 Q-NEW-b; D-019, F-008). Sources disagree: R-001 200 MW mechanical (20 W/kg); R-005 300 MW continuous electrical plus 1.5 GJ peak buffer (≈ 150 MW for 10 s), scaled with M·H^½. Default in use (Assumed): not reconciled; M0 walking needs ≈ 50-100 MW mean and ≈ 400 MW peak (R-005), so neither figure blocks M0. | Yes, for F-004 and the Power subsystem (not M0 walking), per R-005 |
+| Q-009 | Minimum mass versus height (R-005 Q-NEW-a, T-005 minimum mass). At 80 m / 6,000 t the hull is lighter than sea water (739 kg/m³) so the mech would float in the Golden Gate channel. Allow it, or require M ≥ 8,500 t × (H/80)³? Default in use (Assumed): lower bound M ≥ 8,500 t × (H/80)³; the 6,000 t corner loads with a warning. | No |
+| Q-010 | Start, stop and turn feel ceilings (R-001 Q-NEW-d, T-005 sluggishness). 4 steps to start (7-13 s), 3 to stop, 90° turn in ≥ 6.7 s, 5.3 °/s turning at cruise, first visible response to the stick ≤ 1.5 s (unregistered) trade P1 against responsiveness. Are the derived limits fun? Default in use (Assumed): keep the derived limits; decide from the calibration captures. | No |
+| Q-011 | Foot-ground friction coefficient on Bay soils and pavement (R-001 Q-NEW-e). Default in use (Assumed): μ = 0.4, to be replaced by a follow-up R-task on soil bearing and shear (also needed for the §4 ground-pressure claims). | No |
+| Q-012 | Heel-strike harshness (R-005 Q-NEW-c): touchdown vertical speed target trades a heavier thud (P1) against impulse and pressure spikes (M-006.4 peak ≤ 2 BW). Default in use (Assumed): ≤ 1.0 m/s, tune with the feel evaluator. | No |
+| Q-013 | Mech proportions in `mech_frame_balanced.json` (shoulder breadth 0.34 H, head 0.11 H; foot, see Q-007) are a heroic default chosen by research (R-005 Q-NEW-d). Confirm, or let the concept-art pass revise under `mech_frame@v2`. Default in use (Assumed): as published. | No |
+| Q-014 | Assisted balance (T-005): if full dynamic balance cannot be reached, is a small declared stabilising assist acceptable? The two expectation drafts disagree (A: yes if flagged and reported; B: at most 1 % of m·g or ankle torque limit, never silent); this touches P2. Default in use: the gate is judged with assistance off. | No |
+| Q-015 | Dither type (R-002 Q-NEW-a). The references show clustered or irregular dithering (ordered index O = -0.34…+0.15) while §9 specifies ordered Bayer (O ≈ 1.1). Bayer 4×4, blue-noise or clustered mask for v1? Default in use (Assumed): Bayer 4×4 as §9 says, O advisory, the M-003 (f) panel compares a blue-noise variant. | No |
+| Q-016 | Translation stability (R-002 Q-NEW-b): direction-locked dither cannot get below ≈ 0.245 changed pixels per pixel of lateral motion under perspective. Is surface-anchored dither for near geometry in scope for v1? Default in use (Assumed): yes for terrain, buildings and giants; direction-locked for sky and fog; M-004 translation threshold stays 0.12. | No |
+| Q-017 | Style profile set (R-002 Q-NEW-c): accept five v1 profiles (warm_rust_sepia, warm_amber_haze, slate_teal, lavender_peach, slate_crimson) where §9 lists four. Default in use (Assumed): yes; ref_04B and ref_06A stay excluded. | No |
+| Q-018 | Internal resolution rule (R-002 Q-NEW-d, R-003 Q-NEW-b). R-002: 480×270 at 1080p (scale 4) and integer scale 8 at 4K, 320×180 as the coarse bound. R-003: constant ≈ 270 lines (k up to 8 at 4K) or the §9 range k in [4, 6]; its default k = clamp(round(H/270), 4, 6), which gives scale 6 at 4K. The two defaults differ at 4K; not reconciled. Default in use (Assumed): 480×270 at 1080p, 4K undecided. | No |
+| Q-019 | Target PC and test hardware for M-008 (R-003 Q-NEW-a, Q-NEW-d). Default in use (Assumed): Windows 10/11 x64, RTX 3060 12 GB / RX 6600 class, 6-core CPU, 16 GB RAM, SSD, 1080p60 (1440p recommended tier). No Windows test hardware is listed in STACK.md (dev is an M5 Pro Mac): Mac numbers are relative regressions only and M-008 stays unverified until target-class hardware or a cloud GPU exists. | Blocking for M-008 sign-off only (not development) |
+| Q-020 | Placement of `PixelStabilisationHints` / `IPixelStabilisationSource` in `Rendering.Pixel.Contracts` (L1) with the Camera rig as provider, to respect MODULARITY §3 layering (R-003 Q-NEW-c). Default in use (Assumed): yes. | No |
+| Q-021 | Accept camera rotation quantisation (turns step in ≈ 0.2° increments at slow speeds) as part of the heavy-mech camera feel (R-003 Q-NEW-e)? Default in use (Assumed): on, behind `Pixel.RotationQuantise`, re-judged by the M-004 and feel panels. | No |
+| Q-022 | `art/style_refs/ref_01.png` and `ref_02.png` are byte-identical (R-003 Q-NEW-f). Was a different sixth reference intended? Default in use: treat the set as 5 references. | No |
+| Q-023 | Is shipped OSM-derived tile data a Produced Work or a Derivative Database under ODbL (R-004 Q-NEW-a)? Default in use (Assumed): treat cooked OSM layers as a Derivative Database, publish those layers (geometry and tags only) under ODbL, credit OpenStreetMap contributors on the splash and in the credits, get legal review before the Steam release. | Blocking for release, not M0 |
+| Q-024 | Render Earth curvature (R-004 Q-NEW-b)? The flat world hides a 196 m drop at Mt Diablo seen from SF. Default in use: visual-only curvature drop in the far-terrain/LOD vertex shader beyond 2 km (R_eff = 7/6 R); physics stays flat. | No |
+| Q-025 | Maximum separation between co-op players under host-authoritative PhysX (R-004 Q-NEW-c; F-063, F-042). Default in use: one `PhysicsScene` per activity region with its own tile-corner origin whenever players are more than 4 km apart. | No |
+| Q-026 | OSM snapshot policy for persistent building IDs (R-004 Q-NEW-d; F-043). Default in use: pin one OSM replication timestamp per release; on update keep an ID remap table (old `bid` to new) from footprint IoU > 0.6. | No |
+| Q-027 | Install-size budget (R-004 Q-NEW-e): 1 m terrain everywhere is ≈ 39 GB raw. Default in use: 1 m for urban and shoreline tiles, 2 m elsewhere, zstd-compressed. | No |
+| Q-028 | Static water level or tides (R-004 Q-NEW-f)? Tidal range MLLW +0.018 to MHHW +1.798 m. Default in use: static MSL +0.969 m NAVD88 for v1; tides become a later module. | No |
+| Q-029 | Add `pdal` and `python-pdal` (conda-forge) to `environment.yml` for the lidar first-return DSM used as the independent skyline reference (R-004 Q-NEW-g; M-005.7)? Default in use: add when M-005.7 is first run. | No |
+| Q-030 | M1 district tile sets and whether any fictional fault splay may cross a district (R-004 Q-NEW-h). Default in use: GG = i 25-27, j 36-38; SoMa = i 29-31, j 35-36; no fictional faults; emergences on the real offshore San Andreas / Golden Gate fault and the Hayward fault. | No |
+| Q-031 | Bay Bridge west-span tower height conflict: 143 m vs 158 m vs 160 m in OSM (R-004 Q-NEW-i). Default in use: exclude these towers from M-005.1(d) until Caltrans drawings are sourced; F-041 modelling uses 160 m (Assumed). | No |
+| Q-032 | Save compatibility promise (`expectations/T-001.md`, draft B Q-c): how far back must saves load? Default in use: every schema from v1 loads forever via migration; pre-M3 development saves may be dropped only by founder decision. | No |
+| Q-033 | Look of the Balanced chassis (`expectations/T-007.md`): Default in use: industrial-naval (hull-plate armour, exposed hydraulics at knees and elbows, shipyard-built), gunmetal/slate primary with off-white secondary and one small accent, no emblems until a faction identity exists. | No |
+| Q-034 | Chassis heights within D-007 (`expectations/T-007.md`): Balanced at 80 m (both drafts). Drafts disagree on the later Heavy Brawler (A: 84-88 m and wider; B: 76-80 m but wider). Recommended: 76-80 m and wider so the two classes share sockets. Not needed for M0. | No |
+
+Q-006 to Q-034 were raised by research and expectation agents; every default listed is `Assumed` and must be confirmed. Source placeholders are mapped in `ledger/ID_MAP.md`. Seven duplicates were merged (cruise Froude, foot shape, reactor power, minimum mass, start/stop/turn feel, internal resolution, target PC/test hardware).
+
+---
+
+## §11a. Research findings
+
+Research output is agent output: all rows are `Proposed` until the founders accept them. Detail stays in the files.
+
+| ID | Finding (headline numbers) | File | Status |
+|---|---|---|---|
+| R-001 | Weight and gait specs for M-001/M-002. Reference mech l = 42.4 m, h_com = 44.8 m, L_f = 19.6 m; walking Fr band [0.10, 0.30], nominal 0.20 (9.12 m/s, stride 60 m, T 6.6 s); CoM acceleration ≤ 0.30 g fore-aft, ≤ 0.085 g lateral; yaw ≤ 26.7 °/s; start 2-4 steps, stop 1.5-3 steps; slip < 0.098 m per contact. Note: §4 says CoM height ≈ 40 m, the anthropometric 0.56 H is 44.8 m (fall energy 4.4 GJ); R-001 proposes §4 cite it (no edit made, founders decide) | [research/R-001.md](research/R-001.md) | Proposed |
+| R-002 | Style specs for M-003/M-004 and reference palettes. Tolerance CIEDE2000 ≤ 2.0; native pixel grid 3.1-4.6 px (150-500 px wide), so 480×270 at 1080p; five district profiles of 11-24 colours; references show clustered, not Bayer, dithering (DIG 0.09-0.33); yaw shimmer 0.0025 with direction-locked dither versus 0.51 screen-locked, translation needs surface-anchored dither (0.095 versus 0.245) | [research/R-002.md](research/R-002.md) | Proposed |
+| R-003 | Pixel-pipeline survey for URP 17.6 / Unity 6000.6.9f1: Render Graph only, separate reorderable renderer features, dedicated low-res RT with integer k, per-band 32³ palette LUT with Bayer dithering, haze bands at equal transmittance steps; pixel chain ≤ 0.5 ms GPU, geometry is the M-008 risk | [research/R-003.md](research/R-003.md) | Proposed |
+| R-004 | GIS sources, CRS, tile scheme, M-005@v1: NOAA CUDEM 1/9″ topobathy with 3DEP 1 m overlay (median seam 0.02 m), OSM NorCal PBF, USGS Qfaults, BayTM CRS (0 to +55 ppm vs UTM -400 ppm), water at MSL +0.969 m NAVD88, 2048 m tiles (`geo_tile@v1`), M0 tile `L0_30_36`; eight M-005 sub-measures | [research/R-004.md](research/R-004.md) | Proposed |
+| R-005 | Articulated biped at 10,000 t: 15-link 23-DOF frame (CoM 42.5 m = 0.53 H, hull 1,232 kg/m³), force-type drives with phase-scheduled gains 1e8-1e12 N·m/rad, walking at Fr 0.25 needs ≈ 50-100 MW mean and ≈ 400 MW peak, SIMBICON + DCM control, TGS 1/60 s; §4 checks hold (654 kPa single stance, 4.17 GJ ≈ 1 t TNT); eight M-006 sub-measures | [research/R-005.md](research/R-005.md) | Proposed |
+
+Disagreements between R files are recorded in the relevant Q entries, not resolved: cruise Froude 0.20 (R-001) versus 0.25 (R-005) in Q-006; foot shape in Q-007; reactor power in Q-008; internal resolution at 4K in Q-018.
 
 ---
 
 ## §12. Change log
 
 - 2026-11-14 · founders + Claude (interview) · D-001 to D-027, F-001 to F-064, M-001 to M-008, Q-001 to Q-005 · initial breakdown
+- 2026-11-14 · scribe · R-001 to R-005 (§11a) · registered the five research findings as Proposed, links to files
+- 2026-11-14 · scribe · M-001@v1 to M-006@v1 (§10a) · registered versioned metric specs from R-001, R-002, R-004, R-005 as Assumed pending founder calibration; M-007, M-008 have none yet
+- 2026-11-14 · scribe · M-009 to M-017 (§10b) · numbered the nine M-NEW proposals from research and T-001 expectations as Proposed (3 marked incomplete); no duplicates
+- 2026-11-14 · scribe · Q-006 to Q-034 (§11) · numbered 36 Q-NEW proposals from R-001..R-005 and expectations T-001/T-005/T-007, 7 duplicates merged, disagreements between sources recorded in the entries; mapping in `ledger/ID_MAP.md`
