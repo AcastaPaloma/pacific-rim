@@ -31,10 +31,15 @@ namespace Game.Rendering.Pixel
         public float hazeStartM = 60f;
         [Tooltip("Distance (m) beyond which everything is pure airlight (the last band).")]
         public float hazeFullM = 20000f;
-        [Tooltip("Number of haze bands. The last band is pure airlight.")]
-        public int hazeBands = 8;
-        [Tooltip("Width of the dithered seam between bands, in bands.")]
-        public float hazeSeamWidth = 0.75f;
+        [Tooltip("Number of haze bands; 0 = one band per ladder rung. The last band is pure airlight.")]
+        public int hazeBands = 0;
+
+        /// <summary>The number of haze bands in use: hazeBands, or one per ladder rung when hazeBands is 0.</summary>
+        public int HazeBandCount => hazeBands > 0 ? hazeBands : Mathf.Max(2, ladder != null && ladder.Length >= 2 ? ladder.Length : 8);
+        [Tooltip("Half width of the dithered seam at a band boundary, in texels measured along the surface. A face at one distance gets no seam.")]
+        public float hazeSeamTexels = 3f;
+        [Tooltip("Largest width of a seam in bands (keeps a seam inside its two bands where distance changes fast).")]
+        public float hazeSeamWidth = 0.7f;
         [Tooltip("Scene-space value (sRGB grey, 0..1) of the airlight; 1 grades to the light end of the ramp.")]
         public float airlightValue = 1f;
 
@@ -53,7 +58,19 @@ namespace Game.Rendering.Pixel
 
         [Header("Dither")]
         [Tooltip("1 = dither across the whole step between two palette colours, 0 = hard nearest colour.")]
-        [Range(0f, 1f)] public float ditherSpread = 0.6f;
+        [Range(0f, 1f)] public float ditherSpread = 0.4f;
+        [Tooltip("Smallest step of scene value (sRGB units) between neighbouring texels of one surface that counts as a gradient. Faces flatter than this take one palette colour.")]
+        public float ditherGradientMin = 0.001f;
+        [Tooltip("Weight of chroma against lightness when the LUT picks palette entries (1 = plain OKLab). Above 1 keeps neutral scene tones on the ramp's own hue.")]
+        public float lutChromaWeight = 1f;
+        [Tooltip("Value ladder for neutral tones: smallest L* step between two rungs (0 = no ladder, every palette entry may be used).")]
+        public float ladderMinStepL = 0f;
+        [Tooltip("Value ladder: how far (CIELAB a*, b*) an entry may sit from the haze ramp's colour of the same lightness and still be a rung.")]
+        public float ladderHueTolerance = 12f;
+        [Tooltip("Value ladder: lightness (L*) of the top rung; 0 = the light end of the haze ramp.")]
+        public float ladderTopL = 0f;
+        [Tooltip("Palette indices of the ladder rungs, dark to light. Written by Bake.")]
+        public int[] ladder = Array.Empty<int>();
         public float pairPenalty = 0.25f;
         public int lutCandidates = 5;
 
@@ -89,7 +106,8 @@ namespace Game.Rendering.Pixel
             Colours = ColourList(), ValueRamp = HazeRampList(), AccentIndex = accentIndex, Size = lutSize,
             ValueScale = valueScale, ValueBias = valueBias, ValueGamma = valueGamma,
             AccentChromaStart = accentChromaStart, AccentChromaFull = accentChromaFull,
-            PairPenalty = pairPenalty, Candidates = lutCandidates,
+            PairPenalty = pairPenalty, Candidates = lutCandidates, ChromaWeight = lutChromaWeight,
+            LadderMinStepL = ladderMinStepL, LadderHueTolerance = ladderHueTolerance, LadderTopL = ladderTopL,
         };
 
         /// <summary>Copies the colour data of a palette_set@v1 profile into this asset (tuning fields are left alone).</summary>
@@ -109,7 +127,9 @@ namespace Game.Rendering.Pixel
         [ContextMenu("Bake LUT")]
         public void Bake()
         {
-            lut = PaletteLutBaker.Bake(ToLutInput());
+            var input = ToLutInput();
+            lut = PaletteLutBaker.Bake(input);
+            ladder = PaletteLutBaker.Ladder(input, ColourMath.ToLab(input.Colours), ColourMath.ToLab(input.ValueRamp));
             paletteSha256 = ColourMath.PaletteSha256(ColourList());
             using (var sha = System.Security.Cryptography.SHA256.Create())
                 lutSha256 = BitConverter.ToString(sha.ComputeHash(lut)).Replace("-", "").ToLowerInvariant();

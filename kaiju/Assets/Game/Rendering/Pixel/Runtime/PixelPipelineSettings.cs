@@ -19,9 +19,10 @@ namespace Game.Rendering.Pixel
         public int supersample = 2;
         // Dither
         public string ditherMask = "bayer4";
-        public string ditherAnchor = "hybrid";
+        public string ditherAnchor = "direction";
         public float hybridFarStartM = 1500f;
         public float surfaceCellTexels = 1f;
+        public float gradientDepthTolerance = 0.03f;   // neighbours within this relative depth are the same surface (gradient mask)
         // Outline (optional stage)
         public float outlineDepthThreshold = 0.08f;
         public float outlineMaxDistanceM = 400f;

@@ -1,6 +1,10 @@
-// Dither stage: writes the ordered-dither threshold of every internal texel. The mask (Bayer, clustered, blue noise)
-// and the anchoring mode are data. Modes: 0 screen, 1 direction (origin follows whole-texel rotation steps),
-// 2 hybrid (surface-anchored within _PixelDitherParams.z metres, direction beyond it and in the sky).
+// Dither stage: writes, per internal texel, the ordered-dither threshold (R) and the gradient mask (G).
+// Threshold: the mask (Bayer, clustered, blue noise) and the anchoring mode are data. Modes: 0 screen, 1 direction
+// (origin follows whole-texel rotation steps), 2 hybrid (surface-anchored within _PixelDitherParams.z metres,
+// direction beyond it and in the sky).
+// Gradient mask: 1 where the scene value differs from a neighbour on the same surface by more than
+// _PixelDitherGradient.x (a shading gradient) and in the sky, 0 on flat faces. The Quantise stage mixes two palette
+// entries only where the mask is 1, so flat faces stay flat and dither appears where value actually changes.
 Shader "Hidden/Game/Pixel/Dither"
 {
     SubShader
@@ -18,6 +22,30 @@ Shader "Hidden/Game/Pixel/Dither"
             TEXTURE2D(_PixelMask);
             float4 _PixelDitherParams;  // x = mask size, y = anchor mode, z = hybrid far start (m), w = surface cell size in texels
             float4 _PixelDitherOrigin;  // xy = origin in texels (whole numbers)
+            float4 _PixelDitherGradient;// x = smallest value step per texel that counts as a gradient (sRGB units), y = relative depth tolerance for "same surface", z = 1 when the sky is a gradient (Haze on)
+
+            float3 ValueAt(int2 pix)
+            {
+                return PixelLinearToSrgb(saturate(PixelLoadSource(clamp(pix, int2(0, 0), int2(_PixelTargetSize.xy) - 1)).rgb));
+            }
+
+            // Largest value step to a 4-neighbour that lies on the same surface (depth within tolerance).
+            float SurfaceGradient(int2 pix, float z, float3 value)
+            {
+                static const int2 offsets[4] = { int2(1, 0), int2(-1, 0), int2(0, 1), int2(0, -1) };
+                float g = 0.0;
+                for (int i = 0; i < 4; i++)
+                {
+                    int2 q = pix + offsets[i];
+                    float zn = PixelEyeDepth(clamp(q, int2(0, 0), int2(_PixelTargetSize.xy) - 1));
+                    if (zn > 0.0 && abs(zn - z) < _PixelDitherGradient.y * z)
+                    {
+                        float3 d = abs(ValueAt(q) - value);
+                        g = max(g, max(d.r, max(d.g, d.b)));
+                    }
+                }
+                return g;
+            }
 
             float MaskAt(int2 cell)
             {
@@ -52,7 +80,9 @@ Shader "Hidden/Game/Pixel/Dither"
 
                 float dist = z * length(viewRay);
                 if (mode == 2 && z > 0.0 && dist < _PixelDitherParams.z) threshold = surfaceThreshold;
-                return float4(threshold, 0, 0, 1);
+
+                float gradient = z > 0.0 ? step(_PixelDitherGradient.x, SurfaceGradient(pix, z, ValueAt(pix))) : _PixelDitherGradient.z;
+                return float4(threshold, gradient, 0, 1);
             }
             ENDHLSL
         }

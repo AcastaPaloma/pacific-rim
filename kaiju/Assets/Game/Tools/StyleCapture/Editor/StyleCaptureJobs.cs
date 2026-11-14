@@ -132,6 +132,15 @@ namespace Game.Tools.StyleCapture
                 dark[1] = Mathf.Max(dark[1], light[1]); light[1] = dark[1]; dark[3] = dark[1] + h; light[3] = light[1] + h;
                 targets.Add(new HazeTarget { Distance = d, DarkPx = dark, LightPx = light });
             }
+            // Every box gets the same size (the panels subtend the same angle): two pairs that render in the same colours
+            // then have bit-identical means, so the tool's "mean never drops" test cannot fail on summation order.
+            int bw = int.MaxValue, bh = int.MaxValue;
+            foreach (var t in targets) { bw = Mathf.Min(bw, t.DarkPx[2] - t.DarkPx[0]); bh = Mathf.Min(bh, t.DarkPx[3] - t.DarkPx[1]); }
+            foreach (var t in targets)
+            {
+                t.DarkPx[0] = t.DarkPx[2] - bw; t.LightPx[2] = t.LightPx[0] + bw;
+                t.DarkPx[3] = t.DarkPx[1] + bh; t.LightPx[3] = t.LightPx[1] + bh;
+            }
             return targets.ToArray();
         }
 

@@ -26,7 +26,7 @@ namespace Game.Rendering.Pixel
                     data.dst2 = depth;
                     builder.SetRenderAttachment(depth, 1, AccessFlags.WriteAll);
                     builder.AllowPassCulling(false);   // the targets are read outside this graph (present camera, capture)
-                    data.id0 = PixelIds.Store; data.v0 = new Vector4(context.colourIsPalette ? 1 : 0, 0, 0, 0);
+                    data.id0 = PixelIds.Store; data.v0 = new Vector4(context.colourIsPalette ? 1 : 0, context.colourIsEncoded ? 1 : 0, 0, 0);
                 }
             }
         }

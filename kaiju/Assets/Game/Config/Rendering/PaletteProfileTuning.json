@@ -2,10 +2,11 @@
   "schema": 1,
   "comment": "Per-profile renderer parameters that palette_set@v1 does not carry. 'defaults' applies to every profile; 'profiles.<id>' overrides. Keys are PaletteProfile field names. Values are Assumed, pending calibration by the style panel.",
   "defaults": {
-    "hazeStartM": 60.0,
-    "hazeFullM": 20000.0,
-    "hazeBands": 8,
-    "hazeSeamWidth": 0.75,
+    "hazeStartM": 50.0,
+    "hazeFullM": 15000.0,
+    "hazeBands": 0,
+    "hazeSeamTexels": 5.0,
+    "hazeSeamWidth": 0.7,
     "airlightValue": 1.0,
     "skyHorizonValue": 1.0,
     "skyZenithValue": 0.6,
@@ -15,16 +16,21 @@
     "valueGamma": 1.0,
     "accentChromaStart": 12.0,
     "accentChromaFull": 35.0,
-    "ditherSpread": 0.4,
+    "ditherSpread": 0.6,
+    "ditherGradientMin": 0.001,
+    "lutChromaWeight": 2.0,
+    "ladderMinStepL": 4.5,
+    "ladderHueTolerance": 12.0,
+    "ladderTopL": 0.0,
     "pairPenalty": 0.25,
     "lutCandidates": 5,
     "lutSize": 32
   },
   "profiles": {
-    "warm_rust_sepia": {},
-    "warm_amber_haze": {},
-    "slate_teal": {},
-    "lavender_peach": {},
-    "slate_crimson": {}
+    "warm_rust_sepia": { "hazeStartM": 44.0, "hazeFullM": 10750.0 },
+    "warm_amber_haze": { "hazeStartM": 48.0, "hazeFullM": 12000.0 },
+    "slate_teal": { "hazeStartM": 44.0, "hazeFullM": 10750.0 },
+    "lavender_peach": { "hazeStartM": 48.0, "hazeFullM": 12000.0 },
+    "slate_crimson": { "hazeStartM": 42.0, "hazeFullM": 12000.0, "ladderTopL": 50.0 }
   }
 }

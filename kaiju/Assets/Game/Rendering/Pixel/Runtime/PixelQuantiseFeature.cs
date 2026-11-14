@@ -26,10 +26,10 @@ namespace Game.Rendering.Pixel
                 {
                     data.texId0 = PixelIds.Lut; data.tex0 = profile.LutTexture;
                     data.texId1 = PixelIds.Palette; data.tex1 = profile.PaletteTexture;
-                    data.id0 = PixelIds.Quantise; data.v0 = new Vector4(profile.lutSize, profile.ditherSpread, binder.controlTemporalNoiseSeed, 0);
+                    data.id0 = PixelIds.Quantise; data.v0 = new Vector4(profile.lutSize, profile.ditherSpread, binder.controlTemporalNoiseSeed, binder.controlContinuousTone ? 1 : 0);
                 }
                 resources.cameraColor = dst;
-                context.colourIsPalette = true; context.downsampled = true;
+                context.colourIsPalette = !binder.controlContinuousTone; context.colourIsEncoded = binder.controlContinuousTone; context.downsampled = true;
             }
         }
     }

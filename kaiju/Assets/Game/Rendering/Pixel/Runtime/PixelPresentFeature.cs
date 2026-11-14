@@ -36,7 +36,7 @@ namespace Game.Rendering.Pixel
             PixelCameraBinder m_Binder; PixelPresentCamera m_Present; Material m_Material; Camera m_Camera;
             readonly MaterialPropertyBlock m_Block = new MaterialPropertyBlock();
 
-            public Pass() { profilingSampler = new ProfilingSampler("Pixel.Present"); requiresIntermediateTexture = false; }
+            public Pass() { profilingSampler = PixelProfiling.Get("Pixel.Present"); requiresIntermediateTexture = false; }
             public void Setup(PixelCameraBinder binder, PixelPresentCamera present, Material material, Camera camera) { m_Binder = binder; m_Present = present; m_Material = material; m_Camera = camera; }
 
             public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)

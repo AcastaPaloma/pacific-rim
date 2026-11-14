@@ -17,10 +17,11 @@ namespace Game.Rendering.Pixel
         public TextureHandle threshold;
         public bool colourIsPalette;   // the colour texture holds sRGB-encoded palette bytes with the index in alpha
         public bool downsampled;       // the colour texture is at the internal resolution although the camera supersamples
+        public bool colourIsEncoded;   // the colour texture holds sRGB-encoded bytes that are not palette colours (continuous-tone control)
 
         public override void Reset()
         {
-            executedMask = 0; hasThreshold = false; threshold = TextureHandle.nullHandle; colourIsPalette = false; downsampled = false;
+            executedMask = 0; hasThreshold = false; threshold = TextureHandle.nullHandle; colourIsPalette = false; downsampled = false; colourIsEncoded = false;
         }
     }
 
@@ -52,6 +53,7 @@ namespace Game.Rendering.Pixel
         public static readonly int Mask = Shader.PropertyToID("_PixelMask");
         public static readonly int DitherParams = Shader.PropertyToID("_PixelDitherParams");
         public static readonly int DitherOrigin = Shader.PropertyToID("_PixelDitherOrigin");
+        public static readonly int DitherGradient = Shader.PropertyToID("_PixelDitherGradient");
         public static readonly int Haze = Shader.PropertyToID("_PixelHaze");
         public static readonly int Haze2 = Shader.PropertyToID("_PixelHaze2");
         public static readonly int Sky = Shader.PropertyToID("_PixelSky");
@@ -64,6 +66,18 @@ namespace Game.Rendering.Pixel
         public static readonly int Present = Shader.PropertyToID("_PixelPresent");
         public static readonly int PresentSize = Shader.PropertyToID("_PixelPresentSize");
         public static readonly int PresentMode = Shader.PropertyToID("_PixelPresentMode");
+    }
+
+    /// <summary>One profiling sampler per pass name (Pixel.Dither, Pixel.Haze, ...), shared by every renderer, so tools can read CPU and GPU time per pass.</summary>
+    public static class PixelProfiling
+    {
+        static readonly Dictionary<string, ProfilingSampler> s_Samplers = new Dictionary<string, ProfilingSampler>();
+        public static ProfilingSampler Get(string name)
+        {
+            if (!s_Samplers.TryGetValue(name, out var sampler)) { sampler = new ProfilingSampler(name); s_Samplers[name] = sampler; }
+            return sampler;
+        }
+        public static IEnumerable<KeyValuePair<string, ProfilingSampler>> All => s_Samplers;
     }
 
     public static class PixelLog
@@ -125,7 +139,7 @@ namespace Game.Rendering.Pixel
         {
             m_Stage = stage;
             m_PassName = "Pixel." + stage;
-            profilingSampler = new ProfilingSampler(m_PassName);
+            profilingSampler = PixelProfiling.Get(m_PassName);
             requiresIntermediateTexture = true;   // never read or write the camera target directly
             ConfigureInput(inputs);
         }

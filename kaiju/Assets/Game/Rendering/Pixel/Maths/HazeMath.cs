@@ -22,12 +22,26 @@ namespace Game.Rendering.Pixel
             return (bands - 1) * (t > 1 ? 1 : t);
         }
 
-        /// <summary>Band index in [0, bands - 1]: floor(level + seamWidth * (threshold - 0.5)), clamped.</summary>
-        public static int Band(double distanceMetres, double startMetres, double fullMetres, int bands, double seamWidth = 0, double threshold = 0.5)
+        /// <summary>
+        /// Band index in [0, bands - 1] with a dithered seam. The seam reaches <paramref name="seamTexels"/> texels to
+        /// each side of a band boundary, measured along the surface: its half width in bands is
+        /// min(seamTexels * levelGradient, seamWidthMax / 2), where levelGradient is the change of level to the next
+        /// texel of the same surface. Inside the seam the threshold picks the upper band with a probability that rises
+        /// linearly across it; outside, and on a face at one distance (gradient 0), the band is floor(level).
+        /// </summary>
+        public static int Band(double level, int bands, double levelGradient = 0, double seamTexels = 0, double seamWidthMax = 0, double threshold = 0.5)
         {
-            int b = (int)Math.Floor(Level(distanceMetres, startMetres, fullMetres, bands) + seamWidth * (threshold - 0.5));
+            double boundary = Math.Floor(level + 0.5);
+            double halfWidth = Math.Min(seamTexels * levelGradient, 0.5 * seamWidthMax);
+            double band = Math.Floor(level);
+            if (halfWidth > 1e-5 && Math.Abs(level - boundary) < halfWidth)
+                band = threshold < 0.5 + (level - boundary) / (2.0 * halfWidth) ? boundary : boundary - 1.0;
+            int b = (int)band;
             return b < 0 ? 0 : (b > bands - 1 ? bands - 1 : b);
         }
+
+        /// <summary>Band index of a distance without a seam.</summary>
+        public static int Band(double distanceMetres, double startMetres, double fullMetres, int bands) => Band(Level(distanceMetres, startMetres, fullMetres, bands), bands);
 
         /// <summary>Haze amount in [0, 1] of a band: band / (bands - 1). Band 0 is unhazed, the last band is pure airlight.</summary>
         public static double Amount(int band, int bands) => bands <= 1 ? 0 : band / (double)(bands - 1);

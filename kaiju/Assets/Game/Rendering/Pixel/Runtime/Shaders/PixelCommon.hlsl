@@ -73,4 +73,12 @@ float PixelThreshold(int2 pix)
     return LOAD_TEXTURE2D(_PixelThresholdTex, pix / int(_PixelThresholdInfo.y)).r;
 }
 
+// 1 where the scene value changes locally (a shading gradient, the sky), 0 on flat faces: only gradients are dithered
+// between palette entries; a flat face takes its nearest entry. 0 when the Dither stage is off.
+float PixelGradientMask(int2 pix)
+{
+    if (_PixelThresholdInfo.x < 0.5) return 0.0;
+    return LOAD_TEXTURE2D(_PixelThresholdTex, pix / int(_PixelThresholdInfo.y)).g;
+}
+
 #endif

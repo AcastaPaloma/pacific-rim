@@ -343,19 +343,32 @@ namespace Game.Rendering.Pixel.Tests
             for (int b = 1; b < 8; b++)
             {
                 double d = HazeMath.BandStart(b, 60, 20000, 8);
-                Assert.AreEqual(b - 1, HazeMath.Band(d * 0.999, 60, 20000, 8)); Assert.AreEqual(b, HazeMath.Band(d * 1.001, 60, 20000, 8));
+                Assert.AreEqual(b - 1, HazeMath.Band(d * 0.999, 60.0, 20000.0, 8)); Assert.AreEqual(b, HazeMath.Band(d * 1.001, 60.0, 20000.0, 8));
             }
             Assert.AreEqual(20000.0, HazeMath.BandStart(7, 60, 20000, 8), 1e-6);
         }
 
         [Test]
-        public void HazeSeam_ThresholdOnlyMovesPixelsBetweenAdjacentBands()
+        public void HazeSeam_MixesOnlyTheTwoBandsAtABoundary_AndAFlatFaceGetsNoSeam()
         {
-            for (double d = 10; d <= 30000; d *= 1.07)
+            for (double level = 0; level <= 7; level += 0.013)
             {
-                int centre = HazeMath.Band(d, 60, 20000, 8);
-                for (double t = 0.03; t < 1; t += 0.0625) Assert.LessOrEqual(Math.Abs(HazeMath.Band(d, 60, 20000, 8, 0.75, t) - centre), 1);
+                int hard = HazeMath.Band(level, 8);
+                Assert.AreEqual(hard, HazeMath.Band(level, 8, 0.0, 3, 0.7, 0.01), "no change of level along the surface: one band, whatever the threshold");
+                foreach (double gradient in new[] { 0.01, 0.05, 0.3, 2.0 })
+                {
+                    int boundary = (int)Math.Floor(level + 0.5);
+                    for (double t = 0.03; t < 1; t += 0.0625)
+                    {
+                        int b = HazeMath.Band(level, 8, gradient, 3, 0.7, t);
+                        Assert.LessOrEqual(Math.Abs(b - hard), 1);
+                        Assert.IsTrue(b == Math.Min(7, boundary) || b == Math.Max(0, boundary - 1) || b == hard, "level " + level + ": only the two bands that meet at the nearest boundary");
+                    }
+                }
             }
+            // Three texels to each side: with a gradient of 0.05 bands per texel the seam is 0.15 bands to each side.
+            Assert.AreEqual(2, HazeMath.Band(2.84, 8, 0.05, 3, 0.7, 0.99)); Assert.AreEqual(3, HazeMath.Band(2.9, 8, 0.05, 3, 0.7, 0.01));
+            Assert.AreEqual(3, HazeMath.Band(3.16, 8, 0.05, 3, 0.7, 0.01)); Assert.AreEqual(2, HazeMath.Band(3.1, 8, 0.05, 3, 0.7, 0.99));
         }
 
         [Test]

@@ -40,6 +40,7 @@ namespace Game.Rendering.Pixel
         /// <summary>Negative controls for the metric evidence; never set by game code.</summary>
         [NonSerialized] public bool controlReversedHaze;
         [NonSerialized] public int controlTemporalNoiseSeed;
+        [NonSerialized] public bool controlContinuousTone;
 
         PixelPipelineSettings m_Settings;
         PixelFlagState m_Flags;

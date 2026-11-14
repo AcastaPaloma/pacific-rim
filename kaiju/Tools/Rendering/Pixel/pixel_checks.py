@@ -193,6 +193,55 @@ def cmd_scale(a):
     return res
 
 
+def ground_mask(z, sky, f):
+    """Texels of the ground plane (reconstructed height within 0.5 m of zero, and the texel above too)."""
+    c = f["camera"]; H, W = z.shape
+    ys = np.arange(H)[:, None]
+    tv = math.tan(math.radians(c["vfov_deg"]) / 2)
+    pitch = math.radians(-c["yaw_pitch_roll_deg"][1])
+    height = c["position_local_m"][1] + z * (math.sin(pitch) + (1 - (ys + 0.5) / H * 2) * tv * math.cos(pitch))
+    g = (~sky) & (np.abs(height) < 0.5)
+    g[1:, :] &= g[:-1, :].copy()
+    return g, height
+
+
+def seam_purity(idx, L, ground, dist):
+    """Seam purity on the ground (DEF-T004-style-1): every 4x4 window that lies wholly on the ground must hold at most
+    two palette indices, and two only if they are neighbours in the lightness order of the indices the ground uses.
+    Also: the most common index per distance bin must not get darker with distance (DEF-T004-style-6)."""
+    from numpy.lib.stride_tricks import sliding_window_view
+    res = {"ground_texels": int(ground.sum())}
+    if ground.sum() < 200: return res
+    used = np.unique(idx[ground])
+    meanL = {int(i): float(L[ground & (idx == i)].mean()) for i in used}
+    order = sorted(meanL, key=lambda i: meanL[i]); rank = np.full(256, -1); rank[order] = np.arange(len(order))
+    w_idx = sliding_window_view(idx, (4, 4)).reshape(idx.shape[0] - 3, idx.shape[1] - 3, 16)
+    w_gnd = sliding_window_view(ground, (4, 4)).reshape(idx.shape[0] - 3, idx.shape[1] - 3, 16).all(axis=2)
+    srt = np.sort(w_idx, axis=2); distinct = 1 + (np.diff(srt, axis=2) != 0).sum(axis=2)
+    r = rank[w_idx]; rmin, rmax = r.min(axis=2), r.max(axis=2)
+    mixed = w_gnd & (distinct >= 2)
+    bad = w_gnd & ((distinct >= 3) | ((distinct == 2) & (rmax - rmin != 1)))
+    def cover(win):   # texels covered by at least one flagged window
+        m = np.zeros(idx.shape, bool)
+        for dy in range(4):
+            for dx in range(4): m[dy:dy + win.shape[0], dx:dx + win.shape[1]] |= win
+        return m
+    seam_tex, bad_tex = cover(mixed) & ground, cover(bad) & ground
+    res["seam_texels"] = int(seam_tex.sum()); res["seam_share_of_ground"] = float(seam_tex.sum() / ground.sum())
+    res["impure_seam_texels"] = int(bad_tex.sum())
+    res["pure_share_of_seam_texels"] = float(1.0 - bad_tex.sum() / max(1, seam_tex.sum()))
+    res["three_or_more_index_window_share_of_ground"] = float((cover(w_gnd & (distinct >= 3)) & ground).sum() / ground.sum())
+    # Most common index per log-distance bin (20 bins from 30 m to 30 km); its lightness must not fall with distance.
+    edges = np.logspace(math.log10(30), math.log10(30000), 21); modal = []
+    for k in range(20):
+        sel = ground & (dist >= edges[k]) & (dist < edges[k + 1])
+        if sel.sum() >= 30:
+            vals, cnt = np.unique(idx[sel], return_counts=True); modal.append(int(vals[cnt.argmax()]))
+    ml = [meanL[i] for i in modal]
+    res["modal_index_by_distance"] = modal; res["modal_lightness_never_falls"] = bool(all(b >= a - 0.01 for a, b in zip(ml[:-1], ml[1:])))
+    return res
+
+
 def cmd_layers(a):
     _, frames = load_seq(a.sequence_dir); d = a.sequence_dir; rows = []
     for f in frames[: a.max_frames]:
@@ -229,25 +278,15 @@ def cmd_layers(a):
         if near.any():
             row["near_field_mean_L"] = float(L[near].mean()); row["rest_min_band_mean_L"] = float(min(means[1:])) if len(means) > 1 else None
             row["near_field_darkest"] = bool(row["near_field_mean_L"] <= min(means[1:]) if len(means) > 1 else True)
-        # Seams: ground pixels in the dithered zone between haze levels k and k+1 use only indices of the two bands.
-        st, fu, nb, sw = a.haze_start, a.haze_full, a.haze_bands, a.haze_seam
-        level = (nb - 1) * np.clip(np.log(np.maximum(dist, st) / st) / math.log(fu / st), 0, 1)
-        ground = (~sky) & (np.abs(height) < 0.5)
-        ground[1:, :] &= ground[:-1, :]          # the texel above is ground too (keeps wall bases out)
-        seam_ok, seam_n = 0, 0
-        # band = floor(level + sw * (threshold - 0.5)): purely band k for level in [k + sw/2, k + 1 - sw/2), mixed around k + 1.
-        for k in range(nb - 1):
-            pure_a = ground & (level >= k + sw / 2 + 0.01) & (level < k + 1 - sw / 2 - 0.01)
-            pure_b = ground & (level >= k + 1 + sw / 2 + 0.01) & (level < k + 2 - sw / 2 - 0.01)
-            seam = ground & (level > k + 1 - sw / 2 + 0.01) & (level < k + 1 + sw / 2 - 0.01)
-            if pure_a.sum() < 20 or pure_b.sum() < 20 or seam.sum() < 20: continue
-            allowed = set(int(v) for v in np.unique(idx[pure_a])) | set(int(v) for v in np.unique(idx[pure_b]))
-            used = set(int(v) for v in np.unique(idx[seam])); seam_n += 1; seam_ok += int(used <= allowed)
-        row["ground_seams_checked"] = seam_n; row["ground_seams_only_adjacent_bands"] = seam_ok
+        gmask, _ = ground_mask(z, sky, f)
+        row["seams"] = seam_purity(idx, L, gmask, dist)
         rows.append(row)
-    return {"sequence": os.path.relpath(d), "frames": rows,
-            "pass": bool(all(r["successively_lighter"] and r.get("near_field_darkest", True) and r["ground_seams_checked"] == r["ground_seams_only_adjacent_bands"] for r in rows)),
-            "criterion": "C6: upright layers at 1, 3, 10 and 30 km are successively lighter; the farthest matches the sky at the horizon; the near field is darkest; ground pixels in a haze seam use only the indices of the two adjacent bands"}
+    seam_tex = sum(r["seams"].get("seam_texels", 0) for r in rows); impure = sum(r["seams"].get("impure_seam_texels", 0) for r in rows)
+    pure = 1.0 - impure / max(1, seam_tex)
+    return {"sequence": os.path.relpath(d), "frames": rows, "seam_texels": seam_tex, "impure_seam_texels": impure, "pure_share_of_seam_texels": pure,
+            "modal_lightness_never_falls_frames": sum(1 for r in rows if r["seams"].get("modal_lightness_never_falls", True)),
+            "pass": bool(all(r["successively_lighter"] and r.get("near_field_darkest", True) and r["seams"].get("modal_lightness_never_falls", True) for r in rows) and pure >= 0.99),
+            "criterion": "C6: upright layers at 1, 3, 10 and 30 km are successively lighter; the farthest matches the sky at the horizon; the near field is darkest; at least 99 % of ground seam texels lie in 4x4 windows of two palette indices that are lightness neighbours (DEF-T004-style-1); the most common ground index never gets darker with distance (DEF-T004-style-6)"}
 
 
 def cmd_depth(a):
@@ -275,9 +314,12 @@ def block_contrast(L, z, sky, f, top, bottom, half_width_m=15.0):
     rows_ = (ys > by_top + 2) & (ys < min(by_bot, H) - 2)
     on = np.abs(z - bz) < 0.06 * bz
     blk = on & (np.abs(xs - bx) < max(1.0, hw - 2)) & rows_
-    ring = (np.abs(xs - bx) > hw + 1) & (np.abs(xs - bx) < hw + 25) & rows_ & ((z > bz * 1.15) | sky)
-    if blk.sum() < 10 or ring.sum() < 10: return None
-    return {"distance_m": float(bz), "height_px": float(by_bot - by_top), "block_L": float(L[blk].mean()), "background_L": float(L[ring].mean()), "dL": float(abs(L[blk].mean() - L[ring].mean()))}
+    farther = (z > bz * 1.15) | sky
+    ring = (np.abs(xs - bx) > hw + 1) & (np.abs(xs - bx) < hw + 25) & rows_ & farther
+    ring3 = (np.abs(xs - bx) > hw + 0.5) & (np.abs(xs - bx) < hw + 3.5) & rows_ & farther   # three texels beside the silhouette
+    if blk.sum() < 10 or ring.sum() < 10 or ring3.sum() < 6: return None
+    return {"distance_m": float(bz), "height_px": float(by_bot - by_top), "block_L": float(L[blk].mean()), "background_L": float(L[ring].mean()), "dL": float(abs(L[blk].mean() - L[ring].mean())),
+            "background3_L": float(L[ring3].mean()), "dL_ring3": float(abs(L[blk].mean() - L[ring3].mean()))}
 
 
 def cmd_blocks(a):
@@ -291,11 +333,12 @@ def cmd_blocks(a):
     res = {"sequence": os.path.relpath(d)}
     ok = True
     for key, rows in out.items():
-        dl = [r["dL"] for r in rows]
-        res[key] = {"frames_in_view": len(rows), "dL_min": min(dl) if dl else None, "dL_median": float(np.median(dl)) if dl else None, "frames_dL_ge_4": sum(1 for v in dl if v >= 4.0), "frames": rows}
+        dl = [r["dL_ring3"] for r in rows]; wide = [r["dL"] for r in rows]
+        res[key] = {"frames_in_view": len(rows), "dL_min": min(dl) if dl else None, "dL_median": float(np.median(dl)) if dl else None, "frames_dL_ge_4": sum(1 for v in dl if v >= 4.0),
+                    "wide_ring_dL_min": min(wide) if wide else None, "wide_ring_dL_median": float(np.median(wide)) if wide else None, "wide_ring_frames_dL_ge_4": sum(1 for v in wide if v >= 4.0), "frames": rows}
         ok &= bool(dl) and min(dl) >= 4.0
     res["pass"] = bool(ok)
-    res["criterion"] = "C7: the 80 m block differs from its background by at least one value band at about 150 m and 1 km; one value band is read as 4 L* (M-003 d-i merges levels closer than 4 L*)"
+    res["criterion"] = "C7: the 80 m block differs from its background by at least one value band at about 150 m and 1 km; one value band is read as 4 L* (M-003 d-i merges levels closer than 4 L*). dL = block face against the three texels beside its silhouette that show strictly farther surfaces or sky (the evaluator's measure); wide_ring = the same over 25 texels"
     return res
 
 
@@ -308,7 +351,6 @@ def main():
     p = sub.add_parser("grid"); p.add_argument("sequence_dir")
     p = sub.add_parser("scale"); p.add_argument("sequence_dir")
     p = sub.add_parser("layers"); p.add_argument("sequence_dir"); p.add_argument("--max-frames", type=int, default=12)
-    p.add_argument("--haze-start", type=float, default=60.0); p.add_argument("--haze-full", type=float, default=20000.0); p.add_argument("--haze-bands", type=int, default=8); p.add_argument("--haze-seam", type=float, default=0.75)
     p = sub.add_parser("depth"); p.add_argument("sequence_dir"); p.add_argument("--frame", type=int, default=5)
     p = sub.add_parser("blocks"); p.add_argument("sequence_dir")
     for q in sub.choices.values(): q.add_argument("--out")

@@ -16,8 +16,14 @@ Shader "Hidden/Game/Pixel/Haze"
             #pragma fragment Frag
             #include "PixelCommon.hlsl"
 
-            float4 _PixelHaze;  // x = start distance (m), y = band count, z = seam width (bands), w = airlight value (sRGB grey)
-            float4 _PixelHaze2; // x = 1 / ln(full distance / start distance)
+            float4 _PixelHaze;  // x = start distance (m), y = band count, z = largest seam width (bands), w = airlight value (sRGB grey)
+            float4 _PixelHaze2; // x = 1 / ln(full distance / start distance), y = seam half width in texels, w = relative depth tolerance for "same surface"
+
+            // Continuous haze level in [0, bands - 1] at a radial distance (HazeMath.Level).
+            float HazeLevel(float dist)
+            {
+                return (_PixelHaze.y - 1.0) * saturate(log(max(dist, _PixelHaze.x) / _PixelHaze.x) * _PixelHaze2.x);
+            }
             float4 _PixelSky;  // x = horizon value, y = zenith value, z = elevation (rad) of the zenith value, w = direction (+1 normal, -1 reversed control)
 
             float4 Frag(Varyings input) : SV_Target
@@ -35,9 +41,23 @@ Shader "Hidden/Game/Pixel/Haze"
                     return float4(PixelSrgbToLinear(float3(v, v, v)), 1);
                 }
                 float bands = _PixelHaze.y;
-                float dist = z * length(viewRay);
-                float level = (bands - 1.0) * saturate(log(max(dist, _PixelHaze.x) / _PixelHaze.x) * _PixelHaze2.x);
-                float band = clamp(floor(level + _PixelHaze.z * (threshold - 0.5)), 0.0, bands - 1.0);
+                float level = HazeLevel(z * length(viewRay));
+                // Seam: the band boundary is dithered over a few texels on each side, measured along the surface, so a
+                // receding surface gets a dithered edge of constant width and a face at one distance takes one band.
+                static const int2 offsets[4] = { int2(1, 0), int2(-1, 0), int2(0, 1), int2(0, -1) };
+                float gradient = 0.0;   // largest change of level to a neighbouring texel on the same surface
+                for (int i = 0; i < 4; i++)
+                {
+                    int2 q = clamp(pix + offsets[i], int2(0, 0), int2(_PixelTargetSize.xy) - 1);
+                    float zn = PixelEyeDepth(q);
+                    if (zn > 0.0 && abs(zn - z) < _PixelHaze2.w * z) gradient = max(gradient, abs(HazeLevel(zn * length(PixelViewRay(q))) - level));
+                }
+                float boundary = floor(level + 0.5);                                   // nearest band boundary
+                float halfWidth = min(_PixelHaze2.y * gradient, 0.5 * _PixelHaze.z);   // seam half width in bands
+                float band = floor(level);
+                if (_PixelThresholdInfo.x > 0.5 && halfWidth > 1e-5 && abs(level - boundary) < halfWidth)
+                    band = threshold < 0.5 + (level - boundary) / (2.0 * halfWidth) ? boundary : boundary - 1.0;
+                band = clamp(band, 0.0, bands - 1.0);
                 float amount = bands > 1.0 ? band / (bands - 1.0) : 0.0;
                 if (_PixelSky.w < 0.0) amount = 1.0 - amount; // reversed-haze negative control (near light, far dark)
                 float3 s = PixelLinearToSrgb(saturate(colour));
