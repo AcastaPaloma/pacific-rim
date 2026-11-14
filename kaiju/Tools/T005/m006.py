@@ -140,15 +140,17 @@ def main():
         R.add("M-006.6", name + ": mean sum positive P (MW), t > 20 s", sum(pos) / len(pos) / 1e6, "[30, 120]", within(sum(pos) / len(pos) / 1e6, 30, 120), "physics/" + name, "measured at the speed actually reached, not at Fr 0.25")
         R.add("M-006.6", name + ": peak sum positive P (MW)", max(pos) / 1e6, "<= 450", max(pos) / 1e6 <= 450, "physics/" + name)
 
-    falls = ("shove_060", "topple_locked", "topple_limp", "intent_over_limit")
+    # "outside falls": every record before a capture's fall_start event; the passive topple scenes are falls from their first step
+    passive_falls = ("topple_locked", "topple_limp")
     worst = {"link": (0, ""), "leg": (0, ""), "arm": (0, ""), "nan": 0, "jump": (0, "")}
     pdir = os.path.join(ev, "physics"); scanned = []
     for fn in sorted(os.listdir(pdir)) if os.path.isdir(pdir) else []:
         name = fn.split(".physics")[0]
         p = rows(os.path.join(pdir, fn))
         if not p: continue
-        fall = name in falls; scanned.append(name); prev = None
+        fall = name in passive_falls; scanned.append(name); prev = None
         for r in p:
+            if r.get("event") == "fall_start": fall = True
             if "e_total" not in r: continue
             if r.get("nan"): worst["nan"] += 1
             if not fall:
