@@ -1,0 +1,17 @@
+{
+ "tool": "Game.Tools.StyleCapture.StyleTiming.Run",
+ "method": "wall time of render + one-pixel readback (GPU finished), configurations interleaved per frame, stage cost = paired difference to the M0 frame",
+ "hardware": {"gpu": "Apple M5 Pro", "graphics_api": "Metal", "cpu": "Apple M5 Pro", "os": "Mac OS X 26.6.2", "unity": "6000.6.9f1", "batch_mode": true},
+ "note": "Relative regression numbers on the development Mac. M-008 (60 fps on the target PC) is NOT verified by this: no target-class Windows hardware exists (Q-019).",
+ "frames_per_configuration": 300,
+ "resolutions": [
+  {"output": "1920x1080", "internal": "480x270", "integer_scale": 4, "csv": "frame_timing_1920x1080.csv",
+   "frame_ms": {"m0_world_and_present": {"mean": 1.2691, "p50": 1.1762, "p95": 1.6708, "max": 7.6003}, "m0_world": {"mean": 0.8338, "p50": 0.7888, "p95": 1.1325, "max": 1.5947}, "world_no_dither": {"mean": 0.6963, "p50": 0.6651, "p95": 0.9674, "max": 1.1715}, "world_no_haze": {"mean": 0.7599, "p50": 0.7232, "p95": 1.0388, "max": 1.6571}, "world_no_quantise": {"mean": 0.7277, "p50": 0.6976, "p95": 0.975, "max": 1.5135}, "world_store_only": {"mean": 0.582, "p50": 0.559, "p95": 0.7475, "max": 1.3897}},
+   "paired_cost_ms": {"Pixel.Present (world+present minus world)": {"mean": 0.4354, "p50": 0.3832, "p95": 0.7411, "max": 6.0056}, "Pixel.Dither": {"mean": 0.1375, "p50": 0.1326, "p95": 0.3516, "max": 0.4773}, "Pixel.Haze": {"mean": 0.0739, "p50": 0.0819, "p95": 0.3349, "max": 0.5139}, "Pixel.Quantise": {"mean": 0.1061, "p50": 0.0968, "p95": 0.3797, "max": 0.7559}, "Pixel.Dither+Haze+Quantise (M0 world minus store only)": {"mean": 0.2517, "p50": 0.2368, "p95": 0.5152, "max": 0.9842}},
+   "gc_alloc_samples_per_100_frames": {"m0_world_and_present": 0, "m0_world": 0, "world_store_only": 0}},
+  {"output": "2560x1440", "internal": "512x288", "integer_scale": 5, "csv": "frame_timing_2560x1440.csv",
+   "frame_ms": {"m0_world_and_present": {"mean": 1.0666, "p50": 1.051, "p95": 1.3101, "max": 1.9311}, "m0_world": {"mean": 0.6087, "p50": 0.6022, "p95": 0.8681, "max": 1.3259}, "world_no_dither": {"mean": 0.4707, "p50": 0.4553, "p95": 0.609, "max": 0.863}, "world_no_haze": {"mean": 0.4501, "p50": 0.4361, "p95": 0.5688, "max": 0.7467}, "world_no_quantise": {"mean": 0.48, "p50": 0.455, "p95": 0.6571, "max": 0.9917}, "world_store_only": {"mean": 0.4087, "p50": 0.397, "p95": 0.5164, "max": 0.6373}},
+   "paired_cost_ms": {"Pixel.Present (world+present minus world)": {"mean": 0.4578, "p50": 0.4639, "p95": 0.601, "max": 0.9403}, "Pixel.Dither": {"mean": 0.138, "p50": 0.1405, "p95": 0.3087, "max": 0.7913}, "Pixel.Haze": {"mean": 0.1586, "p50": 0.1477, "p95": 0.3509, "max": 0.8182}, "Pixel.Quantise": {"mean": 0.1288, "p50": 0.1344, "p95": 0.3646, "max": 0.8685}, "Pixel.Dither+Haze+Quantise (M0 world minus store only)": {"mean": 0.2, "p50": 0.1887, "p95": 0.3985, "max": 0.9205}},
+   "gc_alloc_samples_per_100_frames": {"m0_world_and_present": 0, "m0_world": 0, "world_store_only": 0}}
+ ]
+}
