@@ -36,11 +36,10 @@ PASS
 **Only the M-001.12 floors moved**, as the ruling intends. Every other value is identical to cycle 1.
 
 ## Registry v1.1 vs v1.0
-- **Thresholds:** every threshold value is identical in M-001 and M-002.
-- **Additions in v1.1:** `steady_captures` (walks + curve) and `min_contacts_per_foot` 1 (derived).
+- **Thresholds:** every threshold value is identical in M-001 and M-002. **Additions in v1.1:** `steady_captures` (walks + curve) and `min_contacts_per_foot` 1 (derived).
 - **M-001.12 floor:** changed by its formula, not by its registry value (a_ref 0.30 g is unchanged).
 
-## New defects
+**New defect:**
 - **DEF-T002-feel-3 (minor; pre-existing, also present at `0db318e`): M-001.4 fails a capture at exactly the limit.**
   - What happens: `estop300` brakes at exactly a = 0.30 g = 2.943 m/s^2, which the spec allows (<= 0.30 g). The
     smoothed peak comes out as 2.943 + 2.6e-14, so the margin is -2.6e-14 and M-001.4 is FAIL. The capture therefore

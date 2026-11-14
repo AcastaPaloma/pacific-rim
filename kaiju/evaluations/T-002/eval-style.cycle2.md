@@ -38,13 +38,11 @@ PASS
 **No value moved.** The new pooling gives the correct worst member and per-profile parts on my two-profile input.
 
 ## Registry v1.1 vs v1.0
-- **Thresholds:** every threshold value is identical in M-003 and M-004.
-- **Additions in M-004 v1.1:** procedure entry `index_colour_tol_de00` 2.0 (palette_index cross-check) and threshold
+- **Thresholds:** every threshold value is identical in M-003 and M-004. **Additions in M-004 v1.1:** procedure entry `index_colour_tol_de00` 2.0 (palette_index cross-check) and threshold
   `crawl_min_interleaved_share` 0.01 (assumed_pending_calibration; below it, C_px is NOT_APPLICABLE). None of my inputs
   falls below it.
 - **M-003.b.O:** kind changed from `info` to `advisory`. It has no threshold and cannot flip a verdict.
 - **Cross-check in action:** it correctly rejected my first two-profile attempt, where 300 px marked 255 actually lay
   within dE00 2 of a warm_rust_sepia colour. I fixed the input; this was not a tool defect.
 
-## New defects
-None.
+**New defects:** none.
