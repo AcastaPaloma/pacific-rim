@@ -338,6 +338,20 @@ namespace Game.Rendering.Pixel.Tests
         }
 
         [Test]
+        public void HazeCurveGamma_OneIsTheLogCurve_BelowOneLiftsNearLevels()
+        {
+            for (double d = 70; d <= 20000; d *= 1.5)
+            {
+                double t = Math.Log(d / 60) / Math.Log(20000.0 / 60);
+                Assert.AreEqual(7 * t, HazeMath.Level(d, 60, 20000, 8), 1e-12);
+                Assert.AreEqual(HazeMath.Level(d, 60, 20000, 8), HazeMath.Level(d, 60, 20000, 8, 1.0), 1e-12);
+                Assert.Greater(HazeMath.Level(d, 60, 20000, 8, 0.7), HazeMath.Level(d, 60, 20000, 8, 1.0));
+            }
+            Assert.AreEqual(7.0, HazeMath.Level(20000, 60, 20000, 8, 0.7), 1e-9, "full distance still ends at the last band");
+            Assert.AreEqual(0.0, HazeMath.Level(60, 60, 20000, 8, 0.7), 1e-12);
+        }
+
+        [Test]
         public void BandStart_IsTheInverseOfBand()
         {
             for (int b = 1; b < 8; b++)

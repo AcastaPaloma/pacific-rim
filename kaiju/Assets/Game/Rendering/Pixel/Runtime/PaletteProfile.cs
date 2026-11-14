@@ -31,6 +31,8 @@ namespace Game.Rendering.Pixel
         public float hazeStartM = 60f;
         [Tooltip("Distance (m) beyond which everything is pure airlight (the last band).")]
         public float hazeFullM = 20000f;
+        [Tooltip("Shape of the haze curve: level = pow(t, gamma) with t the log-distance fraction. 1 = pure log spacing; below 1 lifts near levels.")]
+        public float hazeCurveGamma = 1f;
         [Tooltip("Number of haze bands; 0 = one band per ladder rung. The last band is pure airlight.")]
         public int hazeBands = 0;
 

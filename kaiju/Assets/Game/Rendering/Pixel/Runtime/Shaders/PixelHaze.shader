@@ -17,12 +17,12 @@ Shader "Hidden/Game/Pixel/Haze"
             #include "PixelCommon.hlsl"
 
             float4 _PixelHaze;  // x = start distance (m), y = band count, z = largest seam width (bands), w = airlight value (sRGB grey)
-            float4 _PixelHaze2; // x = 1 / ln(full distance / start distance), y = seam half width in texels, w = relative depth tolerance for "same surface"
+            float4 _PixelHaze2; // x = 1 / ln(full distance / start distance), y = seam half width in texels, z = curve gamma, w = relative depth tolerance for "same surface"
 
             // Continuous haze level in [0, bands - 1] at a radial distance (HazeMath.Level).
             float HazeLevel(float dist)
             {
-                return (_PixelHaze.y - 1.0) * saturate(log(max(dist, _PixelHaze.x) / _PixelHaze.x) * _PixelHaze2.x);
+                return (_PixelHaze.y - 1.0) * pow(saturate(log(max(dist, _PixelHaze.x) / _PixelHaze.x) * _PixelHaze2.x), _PixelHaze2.z);
             }
             float4 _PixelSky;  // x = horizon value, y = zenith value, z = elevation (rad) of the zenith value, w = direction (+1 normal, -1 reversed control)
 

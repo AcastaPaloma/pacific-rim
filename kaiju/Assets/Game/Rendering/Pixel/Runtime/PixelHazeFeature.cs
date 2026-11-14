@@ -26,7 +26,7 @@ namespace Game.Rendering.Pixel
                     data.v0 = new Vector4(Mathf.Max(0.01f, profile.hazeStartM), profile.HazeBandCount, profile.hazeSeamWidth, profile.airlightValue);
                     data.id1 = PixelIds.Sky;
                     data.v1 = new Vector4(profile.skyHorizonValue, profile.skyZenithValue, profile.skyZenithElevationDeg * Mathf.Deg2Rad, binder.controlReversedHaze ? -1f : 1f);
-                    data.id2 = PixelIds.Haze2; data.v2 = new Vector4(1f / Mathf.Log(Mathf.Max(1.0001f, profile.hazeFullM / Mathf.Max(0.01f, profile.hazeStartM))), profile.hazeSeamTexels, 0, binder.Settings.gradientDepthTolerance);
+                    data.id2 = PixelIds.Haze2; data.v2 = new Vector4(1f / Mathf.Log(Mathf.Max(1.0001f, profile.hazeFullM / Mathf.Max(0.01f, profile.hazeStartM))), profile.hazeSeamTexels, Mathf.Max(0.05f, profile.hazeCurveGamma), binder.Settings.gradientDepthTolerance);
                 }
                 resources.cameraColor = dst;
             }
