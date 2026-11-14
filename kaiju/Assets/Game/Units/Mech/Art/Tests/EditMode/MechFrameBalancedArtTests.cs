@@ -153,15 +153,35 @@ namespace Game.Units.Mech.Art.Tests
             Assert.IsNotNull(socket, "elbow socket");
             var before = m.parts.Where(p => p.segmentId != "forearm_L").ToDictionary(p => p.segmentId, p => m.ResolvePart(r, p.segmentId).position);
 
-            // stand-in limb: any mesh, mounted on the socket of the upper arm
+            var hardpoint = m.ResolveSocket(r, "hardpoint", "L");
+            Assert.IsNotNull(hardpoint, "hardpoint socket");
+            var hardpointLocal = hardpoint.localPosition;
+            var hardpointRot = hardpoint.localRotation;
+
+            // stand-in limb: an independent mesh (Unity's built-in cube primitive, not a mech part), mounted on
+            // the elbow socket of the upper arm; it takes over the hand and the hardpoint mount
+            var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
             var standIn = new GameObject("StandIn_forearm_L");
-            standIn.AddComponent<MeshFilter>().sharedMesh = m.ResolvePart(r, "forearm_R").GetComponent<MeshFilter>().sharedMesh;
+            standIn.AddComponent<MeshFilter>().sharedMesh = cube.GetComponent<MeshFilter>().sharedMesh;
             standIn.AddComponent<MeshRenderer>();
+            Object.DestroyImmediate(cube);
             standIn.transform.SetParent(socket.parent, false);
             standIn.transform.position = socket.position;
             hand.SetParent(standIn.transform, true);
+            hardpoint.SetParent(standIn.transform, false);       // same local mount geometry on the new limb
+            hardpoint.localPosition = hardpointLocal;
+            hardpoint.localRotation = hardpointRot;
             Object.DestroyImmediate(old.gameObject);
             m.Remap("forearm_L", MechPartMap.PathOf(r, standIn.transform), standIn.name);
+
+            var newHardpoint = m.ResolveSocket(r, "hardpoint", "L");
+            Assert.AreEqual(hardpoint, newHardpoint, "hardpoint socket re-rooted under the stand-in by Remap");
+            Assert.AreEqual(standIn.transform, newHardpoint.parent);
+            // moving the new limb carries its hardpoint (and hand) with it
+            var hpBefore = newHardpoint.position;
+            standIn.transform.position += new Vector3(0f, 0f, 3f);
+            Assert.That(Vector3.Distance(newHardpoint.position, hpBefore + new Vector3(0f, 0f, 3f)), Is.LessThan(1e-4f));
+            standIn.transform.position -= new Vector3(0f, 0f, 3f);
 
             Assert.AreEqual(standIn.transform, m.ResolvePart(r, "forearm_L"));
             Assert.That(Vector3.Distance(standIn.transform.position, cfg.FindSegment("forearm_L").ProximalJoint), Is.LessThan(0.01f));
@@ -178,6 +198,45 @@ namespace Game.Units.Mech.Art.Tests
             Assert.AreEqual(15, m.parts.Count(p => m.ResolvePart(r, p.segmentId) != null));
             Object.DestroyImmediate(m);
             Object.DestroyImmediate(instance);
+        }
+
+        [Test]
+        public void Prefab_HoldsOnly15PartsAnd8MapSockets()
+        {
+            var parts = new HashSet<Transform>(map.parts.Select(p => Part(p.segmentId)));
+            var sockets = new HashSet<Transform>(map.sockets.Select(x => root.transform.Find(x.path)));
+            Assert.AreEqual(15, parts.Count);
+            Assert.AreEqual(8, map.sockets.Count);
+            Assert.AreEqual(8, sockets.Count);
+            Assert.IsFalse(sockets.Contains(null), "a map socket does not resolve");
+            foreach (var t in root.GetComponentsInChildren<Transform>(true))
+            {
+                if (t == root.transform) continue;
+                Assert.IsTrue(parts.Contains(t) || sockets.Contains(t), "unexpected transform in prefab: " + t.name);
+                if (sockets.Contains(t))
+                {
+                    Assert.IsTrue(t.name.StartsWith(MechFrameImport.SocketPrefix), t.name);
+                    Assert.AreEqual(0, t.childCount, t.name + " must be an empty helper");
+                    Assert.AreEqual(1, t.GetComponents<Component>().Length, t.name + " must hold only its Transform");
+                }
+            }
+        }
+
+        [Test]
+        public void Remap_RejectsUnknownSegment_AndReRootsOnlyExactPrefix()
+        {
+            var m = ScriptableObject.CreateInstance<MechPartMap>();
+            m.parts.Add(new MechPartMap.Part { segmentId = "forearm_L", partName = "A", path = "a/forearm_L" });
+            m.parts.Add(new MechPartMap.Part { segmentId = "hand_L", partName = "B", path = "a/forearm_L/hand_L" });
+            m.parts.Add(new MechPartMap.Part { segmentId = "x", partName = "C", path = "a/forearm_L2/hand" });
+            m.sockets.Add(new MechPartMap.Socket { socketName = "s", kind = "hardpoint", side = "L", path = "a/forearm_L/s" });
+            Assert.Throws<KeyNotFoundException>(() => m.Remap("no_such_segment", "z", "z"));
+            m.Remap("forearm_L", "a/new", "N");
+            Assert.AreEqual("a/new", m.parts[0].path);
+            Assert.AreEqual("a/new/hand_L", m.parts[1].path);
+            Assert.AreEqual("a/forearm_L2/hand", m.parts[2].path, "a sibling sharing the name prefix must not be re-rooted");
+            Assert.AreEqual("a/new/s", m.sockets[0].path);
+            Object.DestroyImmediate(m);
         }
 
         [Test]
