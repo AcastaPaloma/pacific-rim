@@ -12,7 +12,9 @@ namespace Game.Rendering.Pixel.Editor
     /// </summary>
     public sealed class PixelPipelineScope : IDisposable
     {
-        static RenderPipelineAsset s_Previous;   // static: keeps the object reachable for the unused-asset scan
+        // Static: keeps the previous assets reachable for the unused-asset scan while scopes are open (scopes may nest).
+        static readonly System.Collections.Generic.List<RenderPipelineAsset> s_KeepAlive = new System.Collections.Generic.List<RenderPipelineAsset>();
+        readonly RenderPipelineAsset m_Previous;
         readonly string m_PreviousPath;
         readonly bool m_HadPrevious;
         bool m_Disposed;
@@ -20,9 +22,10 @@ namespace Game.Rendering.Pixel.Editor
         public PixelPipelineScope(RenderPipelineAsset pipeline)
         {
             if (pipeline == null) throw new ArgumentNullException(nameof(pipeline));
-            s_Previous = QualitySettings.renderPipeline;
-            m_HadPrevious = s_Previous != null;
-            m_PreviousPath = m_HadPrevious ? AssetDatabase.GetAssetPath(s_Previous) : null;
+            m_Previous = QualitySettings.renderPipeline;
+            m_HadPrevious = m_Previous != null;
+            m_PreviousPath = m_HadPrevious ? AssetDatabase.GetAssetPath(m_Previous) : null;
+            if (m_HadPrevious) s_KeepAlive.Add(m_Previous);
             QualitySettings.renderPipeline = pipeline;
         }
 
@@ -30,13 +33,13 @@ namespace Game.Rendering.Pixel.Editor
         {
             if (m_Disposed) return;
             m_Disposed = true;
-            RenderPipelineAsset previous = s_Previous;
+            RenderPipelineAsset previous = m_Previous;
             if (m_HadPrevious && previous == null && !string.IsNullOrEmpty(m_PreviousPath))
                 previous = AssetDatabase.LoadAssetAtPath<RenderPipelineAsset>(m_PreviousPath);
             if (m_HadPrevious && previous == null)
                 Debug.LogError("[Pixel] could not restore the previous render pipeline asset (" + m_PreviousPath + ")");
             QualitySettings.renderPipeline = previous;
-            s_Previous = null;
+            if (m_HadPrevious) s_KeepAlive.Remove(m_Previous);
         }
     }
 }

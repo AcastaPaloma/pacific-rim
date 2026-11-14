@@ -61,7 +61,7 @@ namespace Game.Tools.StyleCapture
             if (m_Output != null && m_Output.width == width && m_Output.height == height) return;
             if (m_Output != null) { m_Output.Release(); UnityEngine.Object.DestroyImmediate(m_Output); }
             // UNorm (not sRGB): the present stage writes the palette bytes unchanged, so the PNG holds exact palette values.
-            m_Output = new RenderTexture(width, height, 0, GraphicsFormat.R8G8B8A8_UNorm) { name = "PixelCaptureOutput", filterMode = FilterMode.Point, hideFlags = HideFlags.HideAndDontSave };
+            m_Output = new RenderTexture(width, height, 24, GraphicsFormat.R8G8B8A8_UNorm) { name = "PixelCaptureOutput", filterMode = FilterMode.Point, hideFlags = HideFlags.HideAndDontSave };
             m_Output.Create();
         }
 

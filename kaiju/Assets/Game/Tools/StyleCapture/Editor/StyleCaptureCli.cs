@@ -60,14 +60,25 @@ namespace Game.Tools.StyleCapture
 
         /// <summary>
         /// Writes style_capture@v1 capture sets. Arguments: -captureOut &lt;dir&gt; (default evidence/T-004/captures),
-        /// -captureJobs &lt;list&gt; (stills,hazecal,m004,m004ab,controls,stages,cut,orbit,dolly; default all),
+        /// -captureJobs &lt;list&gt; (stills,hazecal,m004,m004ab,subpixel,controls,stages,cut,orbit,dolly; default all), -captureProfiles &lt;list&gt;,
         /// -captureCommit &lt;hash&gt; (default: git rev-parse HEAD).
         /// </summary>
         public static void Run()
         {
             string outRoot = Arg("-captureOut", "evidence/T-004/captures");
-            var jobs = new System.Collections.Generic.HashSet<string>(Arg("-captureJobs", "stills,hazecal,m004,m004ab,controls,stages,cut,orbit,dolly").Split(','));
+            var jobs = new System.Collections.Generic.HashSet<string>(Arg("-captureJobs", "stills,hazecal,m004,m004ab,subpixel,controls,stages,cut,orbit,dolly").Split(','));
             var watch = System.Diagnostics.Stopwatch.StartNew();
+            // Count every error and warning Unity logs during the capture: the evidence must show a clean log.
+            int errors = 0, warnings = 0; var firstMessages = new System.Collections.Generic.List<string>();
+            Application.LogCallback onLog = (message, stack, type) =>
+            {
+                if (type == LogType.Log) return;
+                if (type == LogType.Warning) warnings++; else errors++;
+                if (firstMessages.Count < 8) firstMessages.Add(type + ": " + message);
+            };
+            Application.logMessageReceived += onLog;
+            try
+            {
             if (jobs.Contains("hazecal"))
                 using (var s = new StyleCaptureSession(StyleTestScenes.HazeCalPath, outRoot)) StyleCaptureJobs.HazeCal(s);
             using (var s = new StyleCaptureSession(StyleTestScenes.StylePath, outRoot))
@@ -78,10 +89,16 @@ namespace Game.Tools.StyleCapture
                 if (jobs.Contains("cut")) StyleCaptureJobs.Cut(s);
                 if (jobs.Contains("m004")) StyleCaptureJobs.M004(s);
                 if (jobs.Contains("m004ab")) StyleCaptureJobs.M004Ab(s);
+                if (jobs.Contains("subpixel")) StyleCaptureJobs.SubPixel(s);
                 if (jobs.Contains("orbit")) StyleCaptureJobs.Orbit(s);
                 if (jobs.Contains("dolly")) StyleCaptureJobs.Dolly(s);
             }
-            Debug.Log("[StyleCapture] jobs " + string.Join(",", jobs) + " written to " + outRoot + " in " + watch.Elapsed.TotalSeconds.ToString("F1") + " s");
+            }
+            finally { Application.logMessageReceived -= onLog; }
+            string summary = "[StyleCapture] jobs " + string.Join(",", jobs) + " written to " + outRoot + " in " + watch.Elapsed.TotalSeconds.ToString("F1") + " s; log: " + errors + " errors, " + warnings + " warnings";
+            Debug.Log(summary);
+            File.WriteAllText(Path.Combine(outRoot, "capture_log_summary.txt"), summary + "\n" + string.Join("\n", firstMessages) + (firstMessages.Count > 0 ? "\n" : ""));
+            if (errors > 0) throw new InvalidOperationException("capture logged " + errors + " errors; first: " + firstMessages[0]);
         }
     }
 }

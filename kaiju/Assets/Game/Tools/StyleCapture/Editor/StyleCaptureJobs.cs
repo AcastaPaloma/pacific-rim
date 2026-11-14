@@ -37,12 +37,8 @@ namespace Game.Tools.StyleCapture
 
         static CameraPose Station(Viewpoint v, int i) => v.Pose((i - 5.5f) * 22f, (i % 3) * 15f, (i - 5.5f) * 1.6f);
 
-        /// <summary>Renders a pose once and returns the pose the stabiliser rendered, so a still can be taken exactly on the grid (zero remainder).</summary>
-        static CameraPose OnGrid(StyleCaptureSession s, CameraPose pose)
-        {
-            for (int i = 0; i < 3; i++) { s.Rig.SetScriptedPose(pose, ReferenceDepth); s.Rig.Tick(StyleCaptureSession.Dt); pose = s.Rig.RenderedPose; }
-            return pose;
-        }
+        /// <summary>A still is taken right after a cut: the rig then renders exactly the wanted pose, with zero remainder.</summary>
+        static CameraPose OnGrid(StyleCaptureSession s, CameraPose pose) { s.Rig.Cut(); return pose; }
 
         static readonly MotionSpec Static = new MotionSpec();
         static MotionSpec Scripted(string notes) => new MotionSpec { Type = "scripted", Axis = "stations", Notes = notes };
@@ -167,6 +163,7 @@ namespace Game.Tools.StyleCapture
                 if (m.Type == "yaw") { spec.SpeedSiKey = "deg_per_s"; spec.SpeedSi = m.Speed * degreesPerTexel / StyleCaptureSession.Dt; }
                 var w = s.Begin(set, v.Name + "_" + m.Id, "M-004", spec, m.Frames, v.Name, writeOutput);
                 float yawRad = v.YawDeg * Mathf.Deg2Rad;
+                s.Rig.Cut();   // every sequence starts from the same state
                 for (int i = 0; i < m.Frames; i++)
                 {
                     CameraPose pose = v.Pose();
@@ -182,42 +179,64 @@ namespace Game.Tools.StyleCapture
             }
         }
 
-        public static void M004(StyleCaptureSession s, string fullOutputProfile = MainProfile)
+        /// <summary>
+        /// The M-004 sets: six sequences from two viewpoints per profile. Sub-pixel compensation is off here, so the
+        /// applied output offset is zero and constant: the T-002 validator requires one resolution block per sequence.
+        /// The internal image, index and depth do not depend on that flag (the present stage is the only reader);
+        /// the compensated output is captured by <see cref="SubPixel"/>.
+        /// </summary>
+        public static void M004(StyleCaptureSession s)
         {
+            var baseFlags = s.Flags;
+            s.Flags = baseFlags.With(PixelFlags.SubPixelPresent, false);
             foreach (string profile in AllProfiles)
             {
                 s.SetProfile(profile); s.Apply();
                 foreach (var v in MotionViewpoints)
                     MotionSet(s, "m004_" + profile, v, true);
             }
+            s.Flags = baseFlags; s.Apply();
+        }
+
+        /// <summary>C11: T1 and Y1 with sub-pixel compensation on (the M0 configuration) and off, with output, for the smoothness check.</summary>
+        public static void SubPixel(StyleCaptureSession s)
+        {
+            s.SetProfile(MainProfile);
+            var baseFlags = s.Flags;
+            s.Flags = baseFlags.With(PixelFlags.SubPixelPresent, true); s.Apply();
+            MotionSet(s, "c11_subpixel_on", Eye70, true, "T1+Y1");
+            s.Flags = baseFlags.With(PixelFlags.SubPixelPresent, false); s.Apply();
+            MotionSet(s, "c11_subpixel_off", Eye70, true, "T1+Y1");
+            s.Flags = baseFlags; s.Apply();
         }
 
         /// <summary>A/B evidence (C12): each anchoring mode and each stabiliser switched off, same sequences, one profile and viewpoint.</summary>
         public static void M004Ab(StyleCaptureSession s)
         {
             s.SetProfile(MainProfile);
-            var baseSettings = s.Settings.Clone(); var baseFlags = s.Flags;
-            void Variant(string name, string anchor, bool snap, bool rotq, bool subPixel, string only = null, bool output = false)
+            var baseSettings = s.Settings.Clone(); var baseFlags = s.Flags.With(PixelFlags.SubPixelPresent, false);
+            void Variant(string name, string anchor, bool snap, bool rotq)
             {
                 s.Settings = baseSettings.Clone(); s.Settings.ditherAnchor = anchor;
-                s.Flags = baseFlags.With(CameraFlags.SnapPosition, snap).With(CameraFlags.QuantiseRotation, rotq).With(PixelFlags.SubPixelPresent, subPixel);
+                s.Flags = baseFlags.With(CameraFlags.SnapPosition, snap).With(CameraFlags.QuantiseRotation, rotq);
                 s.Apply();
-                MotionSet(s, "m004ab_" + name, Eye70, output, only);
+                MotionSet(s, "m004ab_" + name, Eye70, true);
             }
-            Variant("hybrid", "hybrid", true, true, true);
-            Variant("direction", "direction", true, true, true);
-            Variant("screen", "screen", true, true, true);
-            Variant("hybrid_nosnap", "hybrid", false, true, true);
-            Variant("hybrid_norotq", "hybrid", true, false, true);
-            Variant("direction_norotq", "direction", true, false, true);
-            Variant("screen_nostab", "screen", false, false, true);
-            Variant("hybrid_nosubpixel", "hybrid", true, true, false, "T1+Y1", true);   // C11 control: snapping without compensation
+            Variant("hybrid", "hybrid", true, true);
+            Variant("direction", "direction", true, true);
+            Variant("screen", "screen", true, true);
+            Variant("hybrid_nosnap", "hybrid", false, true);
+            Variant("hybrid_norotq", "hybrid", true, false);
+            Variant("direction_nosnap", "direction", false, true);
+            Variant("direction_norotq", "direction", true, false);
+            Variant("screen_nostab", "screen", false, false);
             // Temporal-noise control (C8): the static sequence with a dither that changes every frame.
             s.Settings = baseSettings.Clone(); s.Flags = baseFlags; s.Apply();
-            var w = s.Begin("m004ab_control_frame_noise", Eye70.Name + "_S0", "M-004", new MotionSpec(), 60, Eye70.Name, false);
+            var w = s.Begin("m004ab_control_frame_noise", Eye70.Name + "_S0", "M-004", new MotionSpec(), 60, Eye70.Name, true);
+            s.Rig.Cut();
             for (int i = 0; i < 60; i++) { s.Capture.Binder.controlTemporalNoiseSeed = i + 1; w.FrameScripted(i, Eye70.Pose(), ReferenceDepth); }
             s.Capture.Binder.controlTemporalNoiseSeed = 0; w.End();
-            s.Settings = baseSettings; s.Flags = baseFlags; s.Apply();
+            s.Settings = baseSettings; s.Flags = baseFlags.With(PixelFlags.SubPixelPresent, true); s.Apply();
         }
 
         // ---- negative controls and stage toggles ---------------------------------------------------------------------
@@ -242,7 +261,9 @@ namespace Game.Tools.StyleCapture
             // A sub-pixel-shifted frame: the declared block offset is non-zero (grid integrity must pass with it and fail without).
             s.Grid(ReferenceDepth, out float metresPerTexel, out _);
             var w = s.Begin("control_subpixel_offset", MainProfile + "_eye70", "M-003", new MotionSpec(), 1, Eye70.Name);
-            var pose = OnGrid(s, Eye70.Pose()); pose.Position.X += 0.3f * metresPerTexel; pose.Position.Y += 0.3f * metresPerTexel;
+            // Start on the pose (cut), then move 0.3 texel right and up: the rig keeps the rendered pose and reports the remainder.
+            var pose = Eye70.Pose(); s.Rig.Cut(); s.Rig.SetScriptedPose(pose, ReferenceDepth); s.Rig.Tick(StyleCaptureSession.Dt);
+            pose.Position.X += 0.3f * metresPerTexel; pose.Position.Y += 0.3f * metresPerTexel;
             w.FrameScripted(0, pose, ReferenceDepth); w.End();
         }
 
@@ -282,6 +303,7 @@ namespace Game.Tools.StyleCapture
             s.Grid(ReferenceDepth, out float metresPerTexel, out float degreesPerTexel);
             CameraPose b = Street.Pose(137.3f, 40.2f, 31.7f, 1.3f);
             var w = s.Begin("cut_check", "moving_then_cut", "M-004", Scripted("eleven frames of a moving, turning camera at one place, then a cut to another pose"), 12, "cut");
+            s.Rig.Cut();
             for (int i = 0; i < 11; i++) w.FrameScripted(i, Eye70.Pose(i * 0.37f * metresPerTexel, 0, i * 0.41f * degreesPerTexel), ReferenceDepth);
             s.Rig.Cut(); w.FrameScripted(11, b, ReferenceDepth); w.End();
             var w2 = s.Begin("cut_check", "static_at_new_pose", "M-004", new MotionSpec(), 1, "cut");
@@ -332,6 +354,7 @@ namespace Game.Tools.StyleCapture
             const float metresPerFrame = 6f;
             var motion = new MotionSpec { Type = "dolly", Axis = "camera_forward", SpeedPxPerFrame = 0.25f, SpeedSiKey = "m_per_s", SpeedSi = metresPerFrame / StyleCaptureSession.Dt, Notes = "dolly toward the 10 km layer; 0.25 px/frame is the lateral image speed 10 degrees off axis at 1.4 km" };
             var w = s.Begin("dolly_" + profile, "eye70_D1", "M-004", motion, 180, Eye70.Name, false);
+            s.Rig.Cut();
             for (int i = 0; i < 180; i++) w.FrameScripted(i, Eye70.Pose(0, i * metresPerFrame), ReferenceDepth);
             w.End();
         }

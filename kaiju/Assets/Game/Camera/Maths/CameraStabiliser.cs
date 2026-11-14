@@ -16,19 +16,30 @@ namespace Game.Cameras
         public PixelStabilisationHints Hints;
     }
 
+    /// <summary>The snapped position carried from frame to frame (the only history the stabiliser keeps).</summary>
+    public struct SnapState
+    {
+        public bool Valid;
+        public double X, Y, Z;
+    }
+
     /// <summary>
-    /// Texel snapping for a perspective camera (GAME_BREAKDOWN §9; R-003 §7). A pure function of the wanted pose and the
-    /// pixel grid: no history, so the first frame after a cut is identical to a static frame of the same pose.
-    /// Rotation is quantised to whole texel angles; the position is snapped, in the frame of the quantised rotation,
-    /// to a grid of one texel at the reference depth (the forward axis stays continuous). The remainders are returned
-    /// in texels so the present stage can shift the image by whole output pixels.
+    /// Texel snapping for a perspective camera (GAME_BREAKDOWN §9; R-003 §7). Rotation is quantised to whole texel
+    /// angles (a pure function of the wanted rotation). The position is snapped incrementally: the rendered position
+    /// stays where it is until the wanted position has moved more than half a texel (at the reference depth) along the
+    /// camera's right or up axis, then it steps by whole texels along that axis; the forward axis is continuous.
+    /// Stepping from the previous snapped position, instead of rounding to a lattice fixed in the camera frame, keeps
+    /// the camera exactly still while it only turns (a lattice in the camera frame turns with the camera and makes the
+    /// position jump on every rotation step, which measured as yaw shimmer). A cut restarts from the wanted position,
+    /// so the first frame after a cut is identical to a static frame of the same pose. The remainders are returned in
+    /// texels so the present stage can shift the image by whole output pixels.
     /// </summary>
     public static class CameraStabiliser
     {
         /// <summary>Dither origins are reduced modulo this (a multiple of every mask size) to stay exact in a float.</summary>
         public const int DitherOriginPeriod = 1024;
 
-        public static StabilisedPose Stabilise(CameraPose wanted, PixelGrid grid, StabiliserSettings settings, bool cut)
+        public static StabilisedPose Stabilise(CameraPose wanted, PixelGrid grid, StabiliserSettings settings, bool cut, ref SnapState state)
         {
             double theta = grid.TexelAngle;
             double yaw = wanted.YawDeg * Math.PI / 180.0, pitch = wanted.PitchDeg * Math.PI / 180.0;
@@ -42,21 +53,30 @@ namespace Game.Cameras
             }
 
             Basis(renderedYaw, renderedPitch, out var right, out var up, out var forward);
-            double px = Dot(wanted.Position, right), py = Dot(wanted.Position, up), pz = Dot(wanted.Position, forward);
+            double wx = wanted.Position.X, wy = wanted.Position.Y, wz = wanted.Position.Z;
             double gridSize = 0;
             if (settings.SnapPosition && settings.ReferenceDepth > 0 && grid.InternalHeight > 0)
             {
                 gridSize = 2.0 * settings.ReferenceDepth * grid.TanHalfVerticalFov / grid.InternalHeight;
-                double sx = Math.Floor(px / gridSize + 0.5) * gridSize, sy = Math.Floor(py / gridSize + 0.5) * gridSize;
-                subX += (px - sx) / gridSize; subY += (py - sy) / gridSize;
-                px = sx; py = sy;
+                if (cut || !state.Valid) { state.X = wx; state.Y = wy; state.Z = wz; state.Valid = true; }
+                else
+                {
+                    double dx = wx - state.X, dy = wy - state.Y, dz = wz - state.Z;
+                    double alongRight = dx * right[0] + dy * right[1] + dz * right[2];
+                    double alongUp = dx * up[0] + dy * up[1] + dz * up[2];
+                    double alongForward = dx * forward[0] + dy * forward[1] + dz * forward[2];
+                    double stepRight = Math.Floor(alongRight / gridSize + 0.5) * gridSize, stepUp = Math.Floor(alongUp / gridSize + 0.5) * gridSize;
+                    state.X += right[0] * stepRight + up[0] * stepUp + forward[0] * alongForward;
+                    state.Y += right[1] * stepRight + up[1] * stepUp + forward[1] * alongForward;
+                    state.Z += right[2] * stepRight + up[2] * stepUp + forward[2] * alongForward;
+                    subX += (alongRight - stepRight) / gridSize; subY += (alongUp - stepUp) / gridSize;
+                }
+                wx = state.X; wy = state.Y; wz = state.Z;
             }
+            else state.Valid = false;
 
             var result = new StabilisedPose();
-            result.Rendered.Position = new CameraVec3(
-                (float)(right[0] * px + up[0] * py + forward[0] * pz),
-                (float)(right[1] * px + up[1] * py + forward[1] * pz),
-                (float)(right[2] * px + up[2] * py + forward[2] * pz));
+            result.Rendered.Position = new CameraVec3((float)wx, (float)wy, (float)wz);
             result.Rendered.YawDeg = (float)(renderedYaw * 180.0 / Math.PI);
             result.Rendered.PitchDeg = (float)(renderedPitch * 180.0 / Math.PI);
 
@@ -93,6 +113,5 @@ namespace Game.Cameras
             x = (float)(cy * sx); y = (float)(sy * cx); z = (float)(-sy * sx); w = (float)(cy * cx);
         }
 
-        static double Dot(CameraVec3 p, double[] axis) => p.X * axis[0] + p.Y * axis[1] + p.Z * axis[2];
     }
 }

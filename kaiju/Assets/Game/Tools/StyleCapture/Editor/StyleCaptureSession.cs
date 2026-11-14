@@ -191,6 +191,8 @@ namespace Game.Tools.StyleCapture
                 var s = m_S; var binder = s.Capture.Binder; var layout = binder.Layout; var cam = s.Capture.World; var rig = s.Rig;
                 var profile = binder.profile; var hints = binder.Hints; bool hasHints = binder.HasHints;
                 Vector2Int shift = binder.PresentShift();
+                // The offset the present stage applied: zero when sub-pixel compensation is off, whatever the rig's remainder is.
+                bool applied = hasHints && s.Flags.IsOn(PixelFlags.SubPixelPresent);
                 int k = layout.Scale;
                 // Output pixel o shows texel floor((o + shift) / k) (bottom-left origin). In PNG coordinates (top-left
                 // origin) the k x k blocks therefore start at x = -shift.x (mod k) and y = +shift.y (mod k).
@@ -214,7 +216,7 @@ namespace Game.Tools.StyleCapture
                 j.Append(", \"antialiasing\": \"none\", \"post_processing\": false}},\n");
                 j.Append(" \"style\": {\"palette_set\": \"").Append(PixelContractVersions.PaletteSet).Append("\", \"palette_profile_id\": ").Append(Str(profile.profileId)).Append(", \"palette_sha256\": ").Append(Str(profile.paletteSha256)).Append(", \"district_id\": \"style_test_scene\", \"time_of_day\": \"fixed_v1\"},\n");
                 j.Append(" \"resolution\": {\"internal_wh\": [").Append(layout.Width).Append(", ").Append(layout.Height).Append("], \"output_wh\": [").Append(layout.OutputWidth).Append(", ").Append(layout.OutputHeight).Append("], \"integer_scale\": ").Append(k);
-                j.Append(", \"output_block_offset_px\": [").Append(ox).Append(", ").Append(oy).Append("], \"subpixel_offset_internal_px\": [").Append(Sub(hasHints ? hints.SubTexelX : 0f)).Append(", ").Append(Sub(hasHints ? hints.SubTexelY : 0f)).Append("]},\n");
+                j.Append(", \"output_block_offset_px\": [").Append(ox).Append(", ").Append(oy).Append("], \"subpixel_offset_internal_px\": [").Append(Sub(applied ? hints.SubTexelX : 0f)).Append(", ").Append(Sub(applied ? hints.SubTexelY : 0f)).Append("]},\n");
                 j.Append(" \"camera\": {\"rig\": ").Append(Str(rig.RigId)).Append(", \"projection\": \"perspective\", \"hfov_deg\": ").Append(Num(hfov)).Append(", \"vfov_deg\": ").Append(Num(cam.fieldOfView)).Append(", \"near_m\": ").Append(Num(cam.nearClipPlane)).Append(", \"far_m\": ").Append(Num(cam.farClipPlane));
                 j.Append(", \"origin_offset_m\": [0, 0, 0], \"position_local_m\": ").Append(Vec(p.x, p.y, p.z)).Append(", \"rotation_xyzw\": [").Append(Num(q.x)).Append(", ").Append(Num(q.y)).Append(", ").Append(Num(q.z)).Append(", ").Append(Num(q.w)).Append("]");
                 j.Append(", \"yaw_pitch_roll_deg\": ").Append(Vec(rendered.YawDeg, -rendered.PitchDeg, 0f));
@@ -222,6 +224,7 @@ namespace Game.Tools.StyleCapture
                 j.Append(",\n  \"snap\": {\"enabled\": ").Append(snapOn ? "true" : "false").Append(", \"position_snap\": ").Append(hasHints && rig.SnapPosition ? "true" : "false").Append(", \"rotation_quantise\": ").Append(hasHints && rig.QuantiseRotation ? "true" : "false");
                 j.Append(", \"reference_depth_m\": ").Append(Num(rig.ReferenceDepth)).Append(", \"position_grid_m\": ").Append(Num(hasHints ? hints.PositionGrid : 0f)).Append(", \"yaw_step_deg\": ").Append(Num(stepDeg)).Append(", \"pitch_step_deg\": ").Append(Num(stepDeg));
                 j.Append(", \"snapped_position_local_m\": ").Append(Vec(p.x, p.y, p.z)).Append(", \"snapped_yaw_pitch_roll_deg\": ").Append(Vec(rendered.YawDeg, -rendered.PitchDeg, 0f));
+                j.Append(", \"remainder_internal_px\": [").Append(Sub(hasHints ? hints.SubTexelX : 0f)).Append(", ").Append(Sub(hasHints ? hints.SubTexelY : 0f)).Append("]");
                 j.Append(", \"dither_origin_texels\": [").Append(hasHints ? hints.DitherOriginX : 0).Append(", ").Append(hasHints ? hints.DitherOriginY : 0).Append("], \"present_shift_output_px\": [").Append(shift.x).Append(", ").Append(shift.y).Append("], \"cut\": ").Append(hasHints && hints.Cut ? "true" : "false");
                 j.Append(", \"dither_anchor\": ").Append(Str(anchor)).Append("}},\n");
                 j.Append(" \"conventions\": {\"handedness\": \"left (Unity)\", \"up\": \"+Y\", \"forward\": \"+Z\", \"pixel_origin\": \"top-left; pixel centre at (x+0.5, y+0.5)\", \"rotation\": \"camera-to-world quaternion of the camera transform used for rendering this frame (after snapping)\", \"yaw_pitch_roll\": \"Unity Euler angles in degrees: yaw about +Y (0 = +Z, positive right), pitch about +X (positive looks down, as in the R-002 horizon formula), roll about +Z\", \"subpixel_offset\": \"wanted view minus rendered view in internal texels, +x right, +y up\"},\n");

@@ -18,40 +18,49 @@ namespace Game.Cameras.Tests
         static readonly StabiliserSettings Both = new StabiliserSettings { SnapPosition = true, QuantiseRotation = true, ReferenceDepth = 600f };
         static CameraPose Pose(float x, float y, float z, float yaw, float pitch) => new CameraPose { Position = new CameraVec3(x, y, z), YawDeg = yaw, PitchDeg = pitch };
 
+        static StabilisedPose Fresh(CameraPose pose, StabiliserSettings settings, bool cut = false) { var state = new SnapState(); return CameraStabiliser.Stabilise(pose, Grid(), settings, cut, ref state); }
+
         [Test]
         public void TexelGrid_MatchesTheCaptureProtocolNumbers()
         {
             var g = Grid();
             Assert.AreEqual(0.1378, g.TexelAngle * 180.0 / Math.PI, 2e-4, "degrees per internal texel at the screen centre");
-            var r = CameraStabiliser.Stabilise(Pose(0, 70, 0, 0, 0), g, Both, false);
-            Assert.AreEqual(1.4434, r.Hints.PositionGrid, 1e-3, "one texel at the 600 m reference depth, in metres");
+            Assert.AreEqual(1.4434, Fresh(Pose(0, 70, 0, 0, 0), Both).Hints.PositionGrid, 1e-3, "one texel at the 600 m reference depth, in metres");
         }
 
         [Test]
-        public void Stabilise_IsAPureFunction_SoACutEqualsAStaticFrame()
+        public void ACut_RendersTheWantedPosition_SoItEqualsAStaticFrame()
         {
-            var wanted = Pose(12.34f, 70.2f, -150.7f, 23.4f, -3.3f);
-            var a = CameraStabiliser.Stabilise(wanted, Grid(), Both, false);
-            var b = CameraStabiliser.Stabilise(wanted, Grid(), Both, true);
-            Assert.AreEqual(a.Rendered.Position.X, b.Rendered.Position.X); Assert.AreEqual(a.Rendered.Position.Y, b.Rendered.Position.Y); Assert.AreEqual(a.Rendered.Position.Z, b.Rendered.Position.Z);
-            Assert.AreEqual(a.Rendered.YawDeg, b.Rendered.YawDeg); Assert.AreEqual(a.Rendered.PitchDeg, b.Rendered.PitchDeg);
-            Assert.AreEqual(a.Hints.SubTexelX, b.Hints.SubTexelX); Assert.AreEqual(a.Hints.DitherOriginX, b.Hints.DitherOriginX); Assert.AreEqual(a.Hints.DitherOriginY, b.Hints.DitherOriginY);
-            Assert.IsFalse(a.Hints.Cut); Assert.IsTrue(b.Hints.Cut);
+            var a = Pose(0, 70, -150, 0, 3); var b = Pose(127.3f, 1.7f, -109.8f, 31.7f, 7.3f);
+            var state = new SnapState();
+            for (int i = 0; i < 40; i++) { a.Position.X += 0.4f; a.YawDeg += 0.07f; CameraStabiliser.Stabilise(a, Grid(), Both, i == 0, ref state); }
+            var cut = CameraStabiliser.Stabilise(b, Grid(), Both, true, ref state);
+            var held = CameraStabiliser.Stabilise(b, Grid(), Both, false, ref state);
+            var fresh = Fresh(b, Both, true);
+            foreach (var r in new[] { held, fresh })
+            {
+                Assert.AreEqual(cut.Rendered.Position.X, r.Rendered.Position.X); Assert.AreEqual(cut.Rendered.Position.Y, r.Rendered.Position.Y); Assert.AreEqual(cut.Rendered.Position.Z, r.Rendered.Position.Z);
+                Assert.AreEqual(cut.Rendered.YawDeg, r.Rendered.YawDeg); Assert.AreEqual(cut.Rendered.PitchDeg, r.Rendered.PitchDeg);
+                Assert.AreEqual(cut.Hints.SubTexelX, r.Hints.SubTexelX, 1e-6); Assert.AreEqual(cut.Hints.SubTexelY, r.Hints.SubTexelY, 1e-6);
+                Assert.AreEqual(cut.Hints.DitherOriginX, r.Hints.DitherOriginX); Assert.AreEqual(cut.Hints.DitherOriginY, r.Hints.DitherOriginY);
+            }
+            Assert.AreEqual(b.Position.X, cut.Rendered.Position.X, 1e-4, "a cut starts from the wanted position: no carried remainder");
+            Assert.IsTrue(cut.Hints.Cut); Assert.IsFalse(held.Hints.Cut);
         }
 
         [Test]
         public void LateralTranslation_RendersInWholeTexelJumps_AndTheRemainderRestoresTheMotion()
         {
-            var g = Grid(); float grid = CameraStabiliser.Stabilise(Pose(0, 70, 0, 0, 0), g, Both, false).Hints.PositionGrid;
-            float previousX = float.NaN; int jumps = 0;
+            var g = Grid(); float grid = Fresh(Pose(0, 70, 0, 0, 0), Both).Hints.PositionGrid;
+            var state = new SnapState(); float previousX = float.NaN; int jumps = 0;
             for (int i = 0; i < 200; i++)
             {
                 float x = i * 0.1f * grid;   // 0.1 internal px per frame at the reference depth (sequence T1)
-                var r = CameraStabiliser.Stabilise(Pose(x, 70, 0, 0, 0), g, Both, false);
-                Assert.AreEqual(0.0, Math.IEEERemainder(r.Rendered.Position.X, grid), 1e-3, "rendered position is on the grid");
+                var r = CameraStabiliser.Stabilise(Pose(x, 70, 0, 0, 0), g, Both, i == 0, ref state);
+                Assert.AreEqual(0.0, Math.IEEERemainder(r.Rendered.Position.X, grid), 1e-3, "rendered position moves in whole texels from where it started");
                 Assert.LessOrEqual(Math.Abs(r.Hints.SubTexelX), 0.5 + 1e-3);
                 Assert.AreEqual(x, r.Rendered.Position.X + r.Hints.SubTexelX * grid, 2e-3, "rendered position plus remainder is the wanted position");
-                Assert.AreEqual(0f, r.Rendered.Position.Z, 1e-4, "the forward axis is not snapped");
+                Assert.AreEqual(0f, r.Rendered.Position.Z, 1e-4, "no drift along the forward axis");
                 if (!float.IsNaN(previousX) && r.Rendered.Position.X != previousX) { jumps++; Assert.AreEqual(grid, r.Rendered.Position.X - previousX, 1e-3); }
                 previousX = r.Rendered.Position.X;
             }
@@ -59,22 +68,50 @@ namespace Game.Cameras.Tests
         }
 
         [Test]
+        public void TurningOnTheSpot_NeverMovesTheCamera()
+        {
+            var g = Grid(); double thetaDeg = g.TexelAngle * 180.0 / Math.PI; var state = new SnapState();
+            var first = CameraStabiliser.Stabilise(Pose(12.34f, 70.2f, -150.7f, 0, 3), g, Both, true, ref state);
+            for (int i = 1; i < 400; i++)
+            {
+                var r = CameraStabiliser.Stabilise(Pose(12.34f, 70.2f, -150.7f, (float)(i * 0.25 * thetaDeg), 3), g, Both, false, ref state);
+                Assert.AreEqual(first.Rendered.Position.X, r.Rendered.Position.X); Assert.AreEqual(first.Rendered.Position.Y, r.Rendered.Position.Y); Assert.AreEqual(first.Rendered.Position.Z, r.Rendered.Position.Z);
+            }
+        }
+
+        [Test]
+public void ForwardMotion_IsContinuous_AtAnyHeading()
+        {
+            var g = Grid(); var state = new SnapState();
+            float yawDeg = (float)(218 * g.TexelAngle * 180.0 / Math.PI);   // about 30 degrees, a whole number of rotation steps
+            double yaw = 218 * (double)g.TexelAngle, sin = Math.Sin(yaw), cos = Math.Cos(yaw);
+            CameraStabiliser.Stabilise(Pose(0, 70, 0, yawDeg, 0), g, Both, true, ref state);
+            for (int i = 1; i < 100; i++)
+            {
+                float d = i * 0.37f;   // along the camera's forward axis: the rendered position follows exactly
+                var r = CameraStabiliser.Stabilise(Pose((float)(sin * d), 70, (float)(cos * d), yawDeg, 0), g, Both, false, ref state);
+                Assert.AreEqual(sin * d, r.Rendered.Position.X, 2e-3); Assert.AreEqual(cos * d, r.Rendered.Position.Z, 2e-3);
+                Assert.AreEqual(0f, r.Hints.SubTexelX, 5e-3);
+            }
+        }
+
+        [Test]
         public void Yaw_TurnsInWholeTexelSteps_AndTheDitherOriginFollows()
         {
             var g = Grid(); double thetaDeg = g.TexelAngle * 180.0 / Math.PI;
-            int previousOrigin = -1; float previousYaw = float.NaN;
+            int previousOrigin = -1; float previousYaw = float.NaN; var state = new SnapState();
             for (int i = 0; i < 100; i++)
             {
                 float yaw = (float)(i * 0.25 * thetaDeg);   // sequence Y1
-                var r = CameraStabiliser.Stabilise(Pose(0, 70, 0, yaw, 0), g, Both, false);
+                var r = CameraStabiliser.Stabilise(Pose(0, 70, 0, yaw, 0), g, Both, i == 0, ref state);
                 Assert.AreEqual(0.0, Math.IEEERemainder(r.Rendered.YawDeg, thetaDeg), 1e-4);
                 Assert.AreEqual(yaw, r.Rendered.YawDeg + r.Hints.SubTexelX * thetaDeg, 1e-4);
                 if (previousOrigin >= 0 && r.Rendered.YawDeg != previousYaw) Assert.AreEqual(previousOrigin + 1, r.Hints.DitherOriginX, "one texel of pattern per step to the right");
                 previousOrigin = r.Hints.DitherOriginX; previousYaw = r.Rendered.YawDeg;
             }
-            var up = CameraStabiliser.Stabilise(Pose(0, 70, 0, 0, (float)(3 * thetaDeg)), g, Both, false);
+            var up = Fresh(Pose(0, 70, 0, 0, (float)(3 * thetaDeg)), Both);
             Assert.AreEqual(3, up.Hints.DitherOriginY); Assert.AreEqual(3 * thetaDeg, up.Rendered.PitchDeg, 1e-4);
-            var left = CameraStabiliser.Stabilise(Pose(0, 70, 0, (float)(-2 * thetaDeg), 0), g, Both, false);
+            var left = Fresh(Pose(0, 70, 0, (float)(-2 * thetaDeg), 0), Both);
             Assert.AreEqual(CameraStabiliser.DitherOriginPeriod - 2, left.Hints.DitherOriginX, "origins wrap without going negative");
         }
 
@@ -82,23 +119,24 @@ namespace Game.Cameras.Tests
         public void WithStabilisersOff_ThePoseIsUntouched()
         {
             var wanted = Pose(12.34f, 70.2f, -150.7f, 23.4f, -3.3f);
-            var r = CameraStabiliser.Stabilise(wanted, Grid(), new StabiliserSettings { ReferenceDepth = 600f }, false);
+            var r = Fresh(wanted, new StabiliserSettings { ReferenceDepth = 600f });
             Assert.AreEqual(wanted.Position.X, r.Rendered.Position.X, 1e-4); Assert.AreEqual(wanted.Position.Y, r.Rendered.Position.Y, 1e-4); Assert.AreEqual(wanted.Position.Z, r.Rendered.Position.Z, 1e-4);
             Assert.AreEqual(wanted.YawDeg, r.Rendered.YawDeg, 1e-5); Assert.AreEqual(0f, r.Hints.SubTexelX); Assert.AreEqual(0f, r.Hints.SubTexelY);
             Assert.AreEqual(0, r.Hints.DitherOriginX); Assert.AreEqual(0f, r.Hints.PositionGrid); Assert.AreEqual(0f, r.Hints.RotationStep);
         }
 
         [Test]
-        public void Remainders_StayInsideOneTexel_ForAnyPose()
+        public void Remainders_StayInsideOneTexel_AlongAnyPath()
         {
-            var g = Grid(); uint s = 99;
-            for (int i = 0; i < 2000; i++)
+            var g = Grid(); uint s = 99; var state = new SnapState();
+            float x = 0, y = 70, z = 0, yaw = 0, pitch = 0;
+            for (int i = 0; i < 4000; i++)
             {
-                float x = Next(ref s) * 4000 - 2000, y = Next(ref s) * 400, z = Next(ref s) * 4000 - 2000, yaw = Next(ref s) * 720 - 360, pitch = Next(ref s) * 60 - 30;
-                var r = CameraStabiliser.Stabilise(Pose(x, y, z, yaw, pitch), g, Both, false);
+                x += (Next(ref s) - 0.5f) * 3f; y += (Next(ref s) - 0.5f) * 1f; z += (Next(ref s) - 0.5f) * 3f; yaw += (Next(ref s) - 0.5f) * 0.6f; pitch = Math.Max(-30, Math.Min(30, pitch + (Next(ref s) - 0.5f) * 0.3f));
+                var r = CameraStabiliser.Stabilise(Pose(x, y, z, yaw, pitch), g, Both, i == 0, ref state);
                 Assert.LessOrEqual(Math.Abs(r.Hints.SubTexelX), 1.0 + 0.02); Assert.LessOrEqual(Math.Abs(r.Hints.SubTexelY), 1.0 + 0.02);
                 double moved = Math.Sqrt(Math.Pow(r.Rendered.Position.X - x, 2) + Math.Pow(r.Rendered.Position.Y - y, 2) + Math.Pow(r.Rendered.Position.Z - z, 2));
-                Assert.LessOrEqual(moved, r.Hints.PositionGrid * 0.7072 + 2e-3, "the snap moves the camera by at most half a texel per axis");
+                Assert.LessOrEqual(moved, r.Hints.PositionGrid * 0.7072 + 2e-3, "the rendered camera stays within half a texel per axis of the wanted one");
             }
         }
 

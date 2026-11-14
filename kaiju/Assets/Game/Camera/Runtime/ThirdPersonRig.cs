@@ -35,6 +35,7 @@ namespace Game.Cameras
         double m_FocusX, m_FocusY, m_FocusZ;
         float m_OrbitYawDeg, m_ReferenceDepth;
         PixelStabilisationHints m_Hints;
+        SnapState m_Snap;
 
         public string RigId => Id;
         public CameraPose WantedPose => m_Wanted;
@@ -156,10 +157,10 @@ namespace Game.Cameras
             if (hasGrid)
             {
                 var settings = new StabiliserSettings { SnapPosition = m_SnapPosition, QuantiseRotation = m_QuantiseRotation, ReferenceDepth = m_ReferenceDepth };
-                StabilisedPose result = CameraStabiliser.Stabilise(wanted, grid, settings, cut);
+                StabilisedPose result = CameraStabiliser.Stabilise(wanted, grid, settings, cut, ref m_Snap);
                 m_Rendered = result.Rendered; m_Hints = result.Hints; m_HasHints = true;
             }
-            else { m_Rendered = wanted; m_Hints = default; m_HasHints = false; }
+            else { m_Rendered = wanted; m_Hints = default; m_HasHints = false; m_Snap = default; }
 
             transform.SetPositionAndRotation(new Vector3(m_Rendered.Position.X, m_Rendered.Position.Y, m_Rendered.Position.Z), Quaternion.Euler(-m_Rendered.PitchDeg, m_Rendered.YawDeg, 0f));
         }

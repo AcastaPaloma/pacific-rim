@@ -1,0 +1,29 @@
+{
+    "name": "Game.Camera.Unity.Tests",
+    "rootNamespace": "Game.Cameras.Tests",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Game.Core.Contracts",
+        "Game.Core",
+        "Game.Camera.Contracts",
+        "Game.Camera.Maths",
+        "Game.Camera",
+        "Game.Rendering.Pixel.Contracts"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
