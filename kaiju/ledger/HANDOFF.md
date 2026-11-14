@@ -34,7 +34,8 @@ See `ledger/LEDGER.md` § Tasks for live state. Update this list at every phase 
 
 ## Blockers / founder decisions pending
 - Style-frame approval, feel approval and metric calibration need the founders (§8). Thresholds are `Assumed, pending calibration` until then.
-- Midjourney concept layers (D-023) and paid/credit 3D generation are deferred to a founder-run prompt sheet unless a logged-in session is available at no cost.
+- Midjourney (D-023): a founder said on 2026-11-14 that Midjourney is already open in one of the Chrome browsers and may be used. T-007 Phase A drives it through the Chrome tools: no purchases, no settings changes, at most 16 generations, no reference-image uploads.
+- Paid or credit-based 3D generation (Hunyuan3D / Meshy) is not used without a founder decision; T-007 Phase B models the greybox by Blender script instead.
 
 ## Next actions
 1. Launch R-001 to R-005. Brief T-001 and run its expectation pair meanwhile.
