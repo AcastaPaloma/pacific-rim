@@ -1,0 +1,11 @@
+{
+  "schema": "mech_palette_roles@v1",
+  "id": "mech_balanced_v0",
+  "note": "Flat material colours by palette role for the Balanced chassis greybox (T-007, C24). Every colour is an entry of research/R-002/palettes.json (palette_set@v1); source gives profile, role and hex. Primary/joint/accent follow the slate_crimson family with a warm accent (DESIGN_NOTE: gunmetal, off-white, dark steel, one small safety-orange panel).",
+  "roles": {
+    "primary":   {"hex": "#4c5a63", "source": "slate_crimson ramp_4", "use": "gunmetal / slate body plates"},
+    "secondary": {"hex": "#adbad8", "source": "slate_teal body", "use": "off-white shoulder blocks, thigh slabs, forearm hardpoint plates"},
+    "joint":     {"hex": "#1f3134", "source": "slate_crimson ramp_1", "use": "dark steel drums, balls, rams, collars"},
+    "accent":    {"hex": "#de6647", "source": "warm_rust_sepia body", "use": "one small panel on the left chest, under 1% of the surface"}
+  }
+}

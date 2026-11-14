@@ -1,0 +1,1258 @@
+{
+ "schema": "mech_dimensions@v1",
+ "model": "art/models/mech_frame_balanced/mech_frame_balanced.blend",
+ "config": "research/R-005/mech_frame_balanced.json",
+ "frame": "x right, y up, z forward (Unity world, left-handed)",
+ "script": "Pipelines/blender/mech_frame_balanced/measure.py",
+ "commit_at_run": "d2a2249",
+ "parts": {
+  "MechBalanced_foot_L": {
+   "segment_id": "foot_L",
+   "parent": "MechBalanced_shank_L",
+   "bbox_min": [
+    -11.5,
+    0.0,
+    -5.25
+   ],
+   "bbox_max": [
+    -1.5,
+    6.318,
+    9.75
+   ],
+   "origin": [
+    -6.5,
+    4.0,
+    -0.0
+   ],
+   "config_proximal_joint": [
+    -6.5,
+    4.0,
+    0
+   ],
+   "origin_deviation_m": 0.0,
+   "closed_manifold": true,
+   "non_manifold_edges": 0,
+   "volume_m3": 363.81,
+   "centroid": [
+    -6.5,
+    1.856,
+    1.477
+   ],
+   "convex_hull_ratio": 1.542,
+   "triangles": 84,
+   "materials": [
+    "mech_primary",
+    "mech_joint"
+   ],
+   "segment_length": {
+    "measured_m": 15.0,
+    "config_m": 15.0,
+    "deviation_pct": 0.0,
+    "method": "sole length heel to toe"
+   }
+  },
+  "MechBalanced_foot_R": {
+   "segment_id": "foot_R",
+   "parent": "MechBalanced_shank_R",
+   "bbox_min": [
+    1.5,
+    0.0,
+    -5.25
+   ],
+   "bbox_max": [
+    11.5,
+    6.318,
+    9.75
+   ],
+   "origin": [
+    6.5,
+    4.0,
+    -0.0
+   ],
+   "config_proximal_joint": [
+    6.5,
+    4.0,
+    0
+   ],
+   "origin_deviation_m": 0.0,
+   "closed_manifold": true,
+   "non_manifold_edges": 0,
+   "volume_m3": 363.81,
+   "centroid": [
+    6.5,
+    1.856,
+    1.477
+   ],
+   "convex_hull_ratio": 1.542,
+   "triangles": 84,
+   "materials": [
+    "mech_primary",
+    "mech_joint"
+   ],
+   "segment_length": {
+    "measured_m": 15.0,
+    "config_m": 15.0,
+    "deviation_pct": 0.0,
+    "method": "sole length heel to toe"
+   }
+  },
+  "MechBalanced_forearm_L": {
+   "segment_id": "forearm_L",
+   "parent": "MechBalanced_upper_arm_L",
+   "bbox_min": [
+    -15.75,
+    40.25,
+    -5.2
+   ],
+   "bbox_max": [
+    -10.65,
+    53.318,
+    2.318
+   ],
+   "origin": [
+    -13.5,
+    51.0,
+    -0.0
+   ],
+   "config_proximal_joint": [
+    -13.5,
+    51.0,
+    0
+   ],
+   "origin_deviation_m": 0.0,
+   "closed_manifold": true,
+   "non_manifold_edges": 0,
+   "volume_m3": 332.71,
+   "centroid": [
+    -13.137,
+    46.786,
+    -1.644
+   ],
+   "convex_hull_ratio": 1.236,
+   "triangles": 162,
+   "materials": [
+    "mech_primary",
+    "mech_secondary",
+    "mech_joint"
+   ],
+   "segment_length": {
+    "measured_m": 13.0,
+    "config_m": 13.0,
+    "deviation_pct": 0.0,
+    "method": "joint-to-joint"
+   }
+  },
+  "MechBalanced_forearm_R": {
+   "segment_id": "forearm_R",
+   "parent": "MechBalanced_upper_arm_R",
+   "bbox_min": [
+    10.65,
+    40.25,
+    -5.2
+   ],
+   "bbox_max": [
+    15.75,
+    53.318,
+    2.318
+   ],
+   "origin": [
+    13.5,
+    51.0,
+    -0.0
+   ],
+   "config_proximal_joint": [
+    13.5,
+    51.0,
+    0
+   ],
+   "origin_deviation_m": 0.0,
+   "closed_manifold": true,
+   "non_manifold_edges": 0,
+   "volume_m3": 332.71,
+   "centroid": [
+    13.137,
+    46.786,
+    -1.644
+   ],
+   "convex_hull_ratio": 1.236,
+   "triangles": 162,
+   "materials": [
+    "mech_primary",
+    "mech_secondary",
+    "mech_joint"
+   ],
+   "segment_length": {
+    "measured_m": 13.0,
+    "config_m": 13.0,
+    "deviation_pct": 0.0,
+    "method": "joint-to-joint"
+   }
+  },
+  "MechBalanced_hand_L": {
+   "segment_id": "hand_L",
+   "parent": "MechBalanced_forearm_L",
+   "bbox_min": [
+    -15.6,
+    30.5,
+    -3.1
+   ],
+   "bbox_max": [
+    -11.0,
+    39.835,
+    1.835
+   ],
+   "origin": [
+    -13.5,
+    38.0,
+    -0.0
+   ],
+   "config_proximal_joint": [
+    -13.5,
+    38.0,
+    0
+   ],
+   "origin_deviation_m": 0.0,
+   "closed_manifold": true,
+   "non_manifold_edges": 0,
+   "volume_m3": 160.97,
+   "centroid": [
+    -13.3,
+    34.704,
+    -0.67
+   ],
+   "convex_hull_ratio": 1.105,
+   "triangles": 72,
+   "materials": [
+    "mech_primary",
+    "mech_joint"
+   ],
+   "segment_length": {
+    "measured_m": 7.5,
+    "config_m": 7.5,
+    "deviation_pct": 0.0,
+    "method": "wrist joint to knuckle face"
+   }
+  },
+  "MechBalanced_hand_R": {
+   "segment_id": "hand_R",
+   "parent": "MechBalanced_forearm_R",
+   "bbox_min": [
+    11.0,
+    30.5,
+    -3.1
+   ],
+   "bbox_max": [
+    15.6,
+    39.835,
+    1.835
+   ],
+   "origin": [
+    13.5,
+    38.0,
+    -0.0
+   ],
+   "config_proximal_joint": [
+    13.5,
+    38.0,
+    0
+   ],
+   "origin_deviation_m": 0.0,
+   "closed_manifold": true,
+   "non_manifold_edges": 0,
+   "volume_m3": 160.97,
+   "centroid": [
+    13.3,
+    34.704,
+    -0.67
+   ],
+   "convex_hull_ratio": 1.105,
+   "triangles": 72,
+   "materials": [
+    "mech_primary",
+    "mech_joint"
+   ],
+   "segment_length": {
+    "measured_m": 7.5,
+    "config_m": 7.5,
+    "deviation_pct": 0.0,
+    "method": "wrist joint to knuckle face"
+   }
+  },
+  "MechBalanced_head": {
+   "segment_id": "head",
+   "parent": "MechBalanced_torso",
+   "bbox_min": [
+    -3.2,
+    70.1,
+    -3.2
+   ],
+   "bbox_max": [
+    3.2,
+    80.0,
+    2.6
+   ],
+   "origin": [
+    -0.0,
+    71.0,
+    -0.0
+   ],
+   "config_proximal_joint": [
+    0,
+    71.0,
+    0
+   ],
+   "origin_deviation_m": 0.0,
+   "closed_manifold": true,
+   "non_manifold_edges": 0,
+   "volume_m3": 225.27,
+   "centroid": [
+    -0.0,
+    76.205,
+    -0.374
+   ],
+   "convex_hull_ratio": 1.272,
+   "triangles": 92,
+   "materials": [
+    "mech_primary",
+    "mech_joint"
+   ],
+   "segment_length": {
+    "measured_m": 9.0,
+    "config_m": 9.0,
+    "deviation_pct": 0.0,
+    "method": "neck joint to head top"
+   }
+  },
+  "MechBalanced_pelvis": {
+   "segment_id": "pelvis",
+   "parent": null,
+   "bbox_min": [
+    -8.0,
+    39.0,
+    -8.9
+   ],
+   "bbox_max": [
+    8.0,
+    48.5,
+    4.5
+   ],
+   "origin": [
+    -0.0,
+    39.0,
+    -0.0
+   ],
+   "config_proximal_joint": [
+    0,
+    39.0,
+    0
+   ],
+   "origin_deviation_m": 0.0,
+   "closed_manifold": true,
+   "non_manifold_edges": 0,
+   "volume_m3": 916.58,
+   "centroid": [
+    0.0,
+    43.689,
+    -4.548
+   ],
+   "convex_hull_ratio": 1.569,
+   "triangles": 270,
+   "materials": [
+    "mech_primary"
+   ],
+   "segment_length": {
+    "measured_m": 9.5,
+    "config_m": 9.5,
+    "deviation_pct": 0.0,
+    "method": "root to waist joint"
+   }
+  },
+  "MechBalanced_shank_L": {
+   "segment_id": "shank_L",
+   "parent": "MechBalanced_thigh_L",
+   "bbox_min": [
+    -9.9,
+    6.8,
+    -2.705
+   ],
+   "bbox_max": [
+    -3.1,
+    25.705,
+    6.4
+   ],
+   "origin": [
+    -6.5,
+    23.0,
+    -0.0
+   ],
+   "config_proximal_joint": [
+    -6.5,
+    23.0,
+    0
+   ],
+   "origin_deviation_m": 0.0,
+   "closed_manifold": true,
+   "non_manifold_edges": 0,
+   "volume_m3": 687.81,
+   "centroid": [
+    -6.494,
+    16.557,
+    2.255
+   ],
+   "convex_hull_ratio": 1.48,
+   "triangles": 166,
+   "materials": [
+    "mech_primary",
+    "mech_joint"
+   ],
+   "segment_length": {
+    "measured_m": 19.0,
+    "config_m": 19.0,
+    "deviation_pct": 0.0,
+    "method": "joint-to-joint"
+   }
+  },
+  "MechBalanced_shank_R": {
+   "segment_id": "shank_R",
+   "parent": "MechBalanced_thigh_R",
+   "bbox_min": [
+    3.1,
+    6.8,
+    -2.705
+   ],
+   "bbox_max": [
+    9.9,
+    25.705,
+    6.4
+   ],
+   "origin": [
+    6.5,
+    23.0,
+    -0.0
+   ],
+   "config_proximal_joint": [
+    6.5,
+    23.0,
+    0
+   ],
+   "origin_deviation_m": 0.0,
+   "closed_manifold": true,
+   "non_manifold_edges": 0,
+   "volume_m3": 687.81,
+   "centroid": [
+    6.494,
+    16.557,
+    2.255
+   ],
+   "convex_hull_ratio": 1.48,
+   "triangles": 166,
+   "materials": [
+    "mech_primary",
+    "mech_joint"
+   ],
+   "segment_length": {
+    "measured_m": 19.0,
+    "config_m": 19.0,
+    "deviation_pct": 0.0,
+    "method": "joint-to-joint"
+   }
+  },
+  "MechBalanced_thigh_L": {
+   "segment_id": "thigh_L",
+   "parent": "MechBalanced_pelvis",
+   "bbox_min": [
+    -10.3,
+    25.3,
+    -3.578
+   ],
+   "bbox_max": [
+    -2.3,
+    45.8,
+    5.8
+   ],
+   "origin": [
+    -6.5,
+    42.0,
+    -0.0
+   ],
+   "config_proximal_joint": [
+    -6.5,
+    42.0,
+    0
+   ],
+   "origin_deviation_m": 0.0,
+   "closed_manifold": true,
+   "non_manifold_edges": 0,
+   "volume_m3": 1018.57,
+   "centroid": [
+    -6.316,
+    34.887,
+    0.959
+   ],
+   "convex_hull_ratio": 1.228,
+   "triangles": 270,
+   "materials": [
+    "mech_primary",
+    "mech_secondary",
+    "mech_joint"
+   ],
+   "segment_length": {
+    "measured_m": 19.0,
+    "config_m": 19.0,
+    "deviation_pct": 0.0,
+    "method": "joint-to-joint"
+   }
+  },
+  "MechBalanced_thigh_R": {
+   "segment_id": "thigh_R",
+   "parent": "MechBalanced_pelvis",
+   "bbox_min": [
+    2.3,
+    25.3,
+    -3.578
+   ],
+   "bbox_max": [
+    10.3,
+    45.8,
+    5.8
+   ],
+   "origin": [
+    6.5,
+    42.0,
+    -0.0
+   ],
+   "config_proximal_joint": [
+    6.5,
+    42.0,
+    0
+   ],
+   "origin_deviation_m": 0.0,
+   "closed_manifold": true,
+   "non_manifold_edges": 0,
+   "volume_m3": 1018.57,
+   "centroid": [
+    6.316,
+    34.887,
+    0.959
+   ],
+   "convex_hull_ratio": 1.228,
+   "triangles": 270,
+   "materials": [
+    "mech_primary",
+    "mech_secondary",
+    "mech_joint"
+   ],
+   "segment_length": {
+    "measured_m": 19.0,
+    "config_m": 19.0,
+    "deviation_pct": 0.0,
+    "method": "joint-to-joint"
+   }
+  },
+  "MechBalanced_torso": {
+   "segment_id": "torso",
+   "parent": "MechBalanced_pelvis",
+   "bbox_min": [
+    -15.8,
+    45.5,
+    -5.5
+   ],
+   "bbox_max": [
+    15.8,
+    77.0,
+    6.0
+   ],
+   "origin": [
+    -0.0,
+    48.5,
+    -0.0
+   ],
+   "config_proximal_joint": [
+    0,
+    48.5,
+    0
+   ],
+   "origin_deviation_m": 0.0,
+   "closed_manifold": true,
+   "non_manifold_edges": 0,
+   "volume_m3": 2991.86,
+   "centroid": [
+    -0.001,
+    64.184,
+    -0.907
+   ],
+   "convex_hull_ratio": 1.57,
+   "triangles": 598,
+   "materials": [
+    "mech_primary",
+    "mech_secondary",
+    "mech_joint",
+    "mech_accent"
+   ],
+   "segment_length": {
+    "measured_m": 22.5,
+    "config_m": 22.5,
+    "deviation_pct": 0.0,
+    "method": "waist to neck joint"
+   }
+  },
+  "MechBalanced_upper_arm_L": {
+   "segment_id": "upper_arm_L",
+   "parent": "MechBalanced_torso",
+   "bbox_min": [
+    -15.666,
+    53.75,
+    -4.8
+   ],
+   "bbox_max": [
+    -11.2,
+    68.3,
+    2.166
+   ],
+   "origin": [
+    -13.5,
+    66.0,
+    -0.0
+   ],
+   "config_proximal_joint": [
+    -13.5,
+    66.0,
+    0
+   ],
+   "origin_deviation_m": 0.0,
+   "closed_manifold": true,
+   "non_manifold_edges": 0,
+   "volume_m3": 292.87,
+   "centroid": [
+    -13.411,
+    59.918,
+    -1.112
+   ],
+   "convex_hull_ratio": 1.177,
+   "triangles": 234,
+   "materials": [
+    "mech_primary",
+    "mech_joint"
+   ],
+   "segment_length": {
+    "measured_m": 15.0,
+    "config_m": 15.0,
+    "deviation_pct": 0.0,
+    "method": "joint-to-joint"
+   }
+  },
+  "MechBalanced_upper_arm_R": {
+   "segment_id": "upper_arm_R",
+   "parent": "MechBalanced_torso",
+   "bbox_min": [
+    11.2,
+    53.75,
+    -4.8
+   ],
+   "bbox_max": [
+    15.666,
+    68.3,
+    2.166
+   ],
+   "origin": [
+    13.5,
+    66.0,
+    -0.0
+   ],
+   "config_proximal_joint": [
+    13.5,
+    66.0,
+    0
+   ],
+   "origin_deviation_m": 0.0,
+   "closed_manifold": true,
+   "non_manifold_edges": 0,
+   "volume_m3": 292.87,
+   "centroid": [
+    13.411,
+    59.918,
+    -1.112
+   ],
+   "convex_hull_ratio": 1.177,
+   "triangles": 234,
+   "materials": [
+    "mech_primary",
+    "mech_joint"
+   ],
+   "segment_length": {
+    "measured_m": 15.0,
+    "config_m": 15.0,
+    "deviation_pct": 0.0,
+    "method": "joint-to-joint"
+   }
+  }
+ },
+ "joints": [
+  {
+   "id": "waist",
+   "parent": "MechBalanced_pelvis",
+   "child": "MechBalanced_torso",
+   "config": [
+    0,
+    48.5,
+    0
+   ],
+   "measured": [
+    -0.0,
+    48.5,
+    -0.0
+   ],
+   "deviation_m": 0.0,
+   "pivot_inside": [
+    "MechBalanced_torso"
+   ]
+  },
+  {
+   "id": "neck",
+   "parent": "MechBalanced_torso",
+   "child": "MechBalanced_head",
+   "config": [
+    0,
+    71.0,
+    0
+   ],
+   "measured": [
+    -0.0,
+    71.0,
+    -0.0
+   ],
+   "deviation_m": 0.0,
+   "pivot_inside": [
+    "MechBalanced_head"
+   ]
+  },
+  {
+   "id": "shoulder_L",
+   "parent": "MechBalanced_torso",
+   "child": "MechBalanced_upper_arm_L",
+   "config": [
+    -13.5,
+    66.0,
+    0
+   ],
+   "measured": [
+    -13.5,
+    66.0,
+    -0.0
+   ],
+   "deviation_m": 0.0,
+   "pivot_inside": [
+    "MechBalanced_upper_arm_L"
+   ]
+  },
+  {
+   "id": "elbow_L",
+   "parent": "MechBalanced_upper_arm_L",
+   "child": "MechBalanced_forearm_L",
+   "config": [
+    -13.5,
+    51.0,
+    0
+   ],
+   "measured": [
+    -13.5,
+    51.0,
+    -0.0
+   ],
+   "deviation_m": 0.0,
+   "pivot_inside": [
+    "MechBalanced_forearm_L"
+   ]
+  },
+  {
+   "id": "wrist_L",
+   "parent": "MechBalanced_forearm_L",
+   "child": "MechBalanced_hand_L",
+   "config": [
+    -13.5,
+    38.0,
+    0
+   ],
+   "measured": [
+    -13.5,
+    38.0,
+    -0.0
+   ],
+   "deviation_m": 0.0,
+   "pivot_inside": [
+    "MechBalanced_hand_L"
+   ]
+  },
+  {
+   "id": "hip_L",
+   "parent": "MechBalanced_pelvis",
+   "child": "MechBalanced_thigh_L",
+   "config": [
+    -6.5,
+    42.0,
+    0
+   ],
+   "measured": [
+    -6.5,
+    42.0,
+    -0.0
+   ],
+   "deviation_m": 0.0,
+   "pivot_inside": [
+    "MechBalanced_thigh_L"
+   ]
+  },
+  {
+   "id": "knee_L",
+   "parent": "MechBalanced_thigh_L",
+   "child": "MechBalanced_shank_L",
+   "config": [
+    -6.5,
+    23.0,
+    0
+   ],
+   "measured": [
+    -6.5,
+    23.0,
+    -0.0
+   ],
+   "deviation_m": 0.0,
+   "pivot_inside": [
+    "MechBalanced_shank_L"
+   ]
+  },
+  {
+   "id": "ankle_L",
+   "parent": "MechBalanced_shank_L",
+   "child": "MechBalanced_foot_L",
+   "config": [
+    -6.5,
+    4.0,
+    0
+   ],
+   "measured": [
+    -6.5,
+    4.0,
+    -0.0
+   ],
+   "deviation_m": 0.0,
+   "pivot_inside": [
+    "MechBalanced_foot_L"
+   ]
+  },
+  {
+   "id": "shoulder_R",
+   "parent": "MechBalanced_torso",
+   "child": "MechBalanced_upper_arm_R",
+   "config": [
+    13.5,
+    66.0,
+    0
+   ],
+   "measured": [
+    13.5,
+    66.0,
+    -0.0
+   ],
+   "deviation_m": 0.0,
+   "pivot_inside": [
+    "MechBalanced_upper_arm_R"
+   ]
+  },
+  {
+   "id": "elbow_R",
+   "parent": "MechBalanced_upper_arm_R",
+   "child": "MechBalanced_forearm_R",
+   "config": [
+    13.5,
+    51.0,
+    0
+   ],
+   "measured": [
+    13.5,
+    51.0,
+    -0.0
+   ],
+   "deviation_m": 0.0,
+   "pivot_inside": [
+    "MechBalanced_forearm_R"
+   ]
+  },
+  {
+   "id": "wrist_R",
+   "parent": "MechBalanced_forearm_R",
+   "child": "MechBalanced_hand_R",
+   "config": [
+    13.5,
+    38.0,
+    0
+   ],
+   "measured": [
+    13.5,
+    38.0,
+    -0.0
+   ],
+   "deviation_m": 0.0,
+   "pivot_inside": [
+    "MechBalanced_hand_R"
+   ]
+  },
+  {
+   "id": "hip_R",
+   "parent": "MechBalanced_pelvis",
+   "child": "MechBalanced_thigh_R",
+   "config": [
+    6.5,
+    42.0,
+    0
+   ],
+   "measured": [
+    6.5,
+    42.0,
+    -0.0
+   ],
+   "deviation_m": 0.0,
+   "pivot_inside": [
+    "MechBalanced_thigh_R"
+   ]
+  },
+  {
+   "id": "knee_R",
+   "parent": "MechBalanced_thigh_R",
+   "child": "MechBalanced_shank_R",
+   "config": [
+    6.5,
+    23.0,
+    0
+   ],
+   "measured": [
+    6.5,
+    23.0,
+    -0.0
+   ],
+   "deviation_m": 0.0,
+   "pivot_inside": [
+    "MechBalanced_shank_R"
+   ]
+  },
+  {
+   "id": "ankle_R",
+   "parent": "MechBalanced_shank_R",
+   "child": "MechBalanced_foot_R",
+   "config": [
+    6.5,
+    4.0,
+    0
+   ],
+   "measured": [
+    6.5,
+    4.0,
+    -0.0
+   ],
+   "deviation_m": 0.0,
+   "pivot_inside": [
+    "MechBalanced_foot_R"
+   ]
+  }
+ ],
+ "whole": {
+  "height_H_m": 80.0,
+  "sole_min_y_m": 0.0,
+  "shoulder_line_chest_top_m": 69.5,
+  "deck_marker_m": 67.0,
+  "deck_marker_crosses_torso": true,
+  "head_bottom_m": 70.1,
+  "shoulder_width_m": 31.6,
+  "shoulder_band_y_from": 60.0,
+  "hip_width_m": 20.6,
+  "stance_outer_m": 23.0,
+  "head_height_m": 6.2,
+  "head_width_m": 6.4,
+  "neck_collar_top_m": 73.8,
+  "upper_arm_max_width_m": 4.45,
+  "forearm_max_width_m": 5.1,
+  "fist_width_m": 4.6,
+  "fist_knuckle_face_m2": 13.68,
+  "leg_length_sole_to_hip_m": 42.0,
+  "thigh_min_width_m": 8.0,
+  "thigh_mid_width_m": 8.0,
+  "hip_ball_width_m": 7.2,
+  "shank_min_width_m": 6.4,
+  "shank_mid_width_m": 6.8,
+  "knee_drum_width_m": 6.8,
+  "ankle_drum_width_m": 6.8,
+  "foot_length_m": 15.0,
+  "foot_width_m": 10.0,
+  "total_volume_m3": 9847.2,
+  "volume_centroid": [
+   -0.0,
+   42.838,
+   -0.284
+  ],
+  "config_com": [
+   0.0,
+   42.5405,
+   0.135
+  ],
+  "lr_volume_diff_pct": 0.0,
+  "torso_centroid_x_m": -0.001,
+  "implied_mass_t": {
+   "config_density_1232.3": 12134.7,
+   "rho_1000": 9847.2,
+   "rho_2500": 24618.0
+  },
+  "triangles_total": 2936,
+  "material_slots": [
+   "mech_accent",
+   "mech_joint",
+   "mech_primary",
+   "mech_secondary"
+  ],
+  "textures": 0,
+  "human_height_m": 1.8,
+  "foot_length_over_human": 8.33
+ },
+ "ratios": {
+  "shoulder_width_over_H": 0.395,
+  "shoulder_over_hip": 1.534,
+  "head_height_over_H": 0.0775,
+  "head_width_over_shoulder": 0.203,
+  "forearm_over_upper_arm_width": 1.146,
+  "forearm_over_fist_width": 1.109,
+  "fist_width_over_H": 0.0575,
+  "leg_length_over_H": 0.525,
+  "thigh_min_over_H": 0.1,
+  "shank_min_over_H": 0.08,
+  "foot_length_over_H": 0.1875,
+  "foot_width_over_H": 0.125,
+  "foot_width_over_shank": 1.562,
+  "stance_over_shoulder": 0.728,
+  "com_height_over_H": 0.5355,
+  "com_minus_config_over_H": 0.0037
+ },
+ "feet": {
+  "foot_L": {
+   "sole_area_m2": 148.56,
+   "sole_y_min": 0.0,
+   "sole_y_max": 0.0,
+   "sole_centroid_xz": [
+    -6.5,
+    2.181
+   ],
+   "ankle_xz": [
+    -6.5,
+    0
+   ],
+   "ankle_offset_m": 2.181,
+   "ankle_offset_pct_foot_length": 14.54,
+   "length_m": 15.0,
+   "width_m": 10.0,
+   "length_over_width": 1.5,
+   "static_pressure_full_mass_one_foot_kPa": 660.3,
+   "static_pressure_two_feet_kPa": 330.2
+  },
+  "foot_R": {
+   "sole_area_m2": 148.56,
+   "sole_y_min": 0.0,
+   "sole_y_max": 0.0,
+   "sole_centroid_xz": [
+    6.5,
+    2.181
+   ],
+   "ankle_xz": [
+    6.5,
+    0
+   ],
+   "ankle_offset_m": 2.181,
+   "ankle_offset_pct_foot_length": 14.54,
+   "length_m": 15.0,
+   "width_m": 10.0,
+   "length_over_width": 1.5,
+   "static_pressure_full_mass_one_foot_kPa": 660.3,
+   "static_pressure_two_feet_kPa": 330.2
+  }
+ },
+ "checks": {
+  "C10_height": true,
+  "C10_shoulder_line": true,
+  "C10_foot_ge_7_humans": true,
+  "C11_shoulder_over_H": true,
+  "C11_shoulder_over_hip": true,
+  "C11_head_h": true,
+  "C11_head_w": true,
+  "C11_forearm": true,
+  "C11_fist": true,
+  "C12_leg": true,
+  "C12_thigh_min": true,
+  "C12_shank_min": true,
+  "C12_no_hourglass": true,
+  "C12_foot": true,
+  "C12_stance": true,
+  "C13_com": true,
+  "C13_midplane": true,
+  "C14_area": true,
+  "C14_flat": true,
+  "C14_ratio": true,
+  "C14_ankle": true,
+  "C18_joints": true,
+  "C18_lengths": true,
+  "C18_mirror": true,
+  "C19_closed": true,
+  "C19_volume": true,
+  "C19_mass": true,
+  "C19_fractions": true,
+  "C20_parts": true,
+  "C23_hull": true,
+  "C24_tris": true,
+  "C24_slots": true,
+  "C15_pivots_housed": true
+ },
+ "volume_fractions": {
+  "pelvis": {
+   "volume_m3": 916.6,
+   "volume_fraction": 0.0931,
+   "mass_fraction": 0.11,
+   "ratio": 0.846,
+   "exempt_under_2pct": false,
+   "within_30pct": true
+  },
+  "torso": {
+   "volume_m3": 2991.9,
+   "volume_fraction": 0.3038,
+   "mass_fraction": 0.33,
+   "ratio": 0.921,
+   "exempt_under_2pct": false,
+   "within_30pct": true
+  },
+  "head": {
+   "volume_m3": 225.3,
+   "volume_fraction": 0.0229,
+   "mass_fraction": 0.02,
+   "ratio": 1.144,
+   "exempt_under_2pct": false,
+   "within_30pct": true
+  },
+  "upper_arm_L": {
+   "volume_m3": 292.9,
+   "volume_fraction": 0.0297,
+   "mass_fraction": 0.032,
+   "ratio": 0.929,
+   "exempt_under_2pct": false,
+   "within_30pct": true
+  },
+  "forearm_L": {
+   "volume_m3": 332.7,
+   "volume_fraction": 0.0338,
+   "mass_fraction": 0.028,
+   "ratio": 1.207,
+   "exempt_under_2pct": false,
+   "within_30pct": true
+  },
+  "hand_L": {
+   "volume_m3": 161.0,
+   "volume_fraction": 0.0163,
+   "mass_fraction": 0.01,
+   "ratio": 1.635,
+   "exempt_under_2pct": true,
+   "within_30pct": false
+  },
+  "thigh_L": {
+   "volume_m3": 1018.6,
+   "volume_fraction": 0.1034,
+   "mass_fraction": 0.115,
+   "ratio": 0.899,
+   "exempt_under_2pct": false,
+   "within_30pct": true
+  },
+  "shank_L": {
+   "volume_m3": 687.8,
+   "volume_fraction": 0.0698,
+   "mass_fraction": 0.055,
+   "ratio": 1.27,
+   "exempt_under_2pct": false,
+   "within_30pct": true
+  },
+  "foot_L": {
+   "volume_m3": 363.8,
+   "volume_fraction": 0.0369,
+   "mass_fraction": 0.03,
+   "ratio": 1.232,
+   "exempt_under_2pct": false,
+   "within_30pct": true
+  },
+  "upper_arm_R": {
+   "volume_m3": 292.9,
+   "volume_fraction": 0.0297,
+   "mass_fraction": 0.032,
+   "ratio": 0.929,
+   "exempt_under_2pct": false,
+   "within_30pct": true
+  },
+  "forearm_R": {
+   "volume_m3": 332.7,
+   "volume_fraction": 0.0338,
+   "mass_fraction": 0.028,
+   "ratio": 1.207,
+   "exempt_under_2pct": false,
+   "within_30pct": true
+  },
+  "hand_R": {
+   "volume_m3": 161.0,
+   "volume_fraction": 0.0163,
+   "mass_fraction": 0.01,
+   "ratio": 1.635,
+   "exempt_under_2pct": true,
+   "within_30pct": false
+  },
+  "thigh_R": {
+   "volume_m3": 1018.6,
+   "volume_fraction": 0.1034,
+   "mass_fraction": 0.115,
+   "ratio": 0.899,
+   "exempt_under_2pct": false,
+   "within_30pct": true
+  },
+  "shank_R": {
+   "volume_m3": 687.8,
+   "volume_fraction": 0.0698,
+   "mass_fraction": 0.055,
+   "ratio": 1.27,
+   "exempt_under_2pct": false,
+   "within_30pct": true
+  },
+  "foot_R": {
+   "volume_m3": 363.8,
+   "volume_fraction": 0.0369,
+   "mass_fraction": 0.03,
+   "ratio": 1.232,
+   "exempt_under_2pct": false,
+   "within_30pct": true
+  }
+ },
+ "mirror": {
+  "upper_arm": {
+   "origin_mirror_dev_m": 0.0,
+   "vertex_mirror_max_dev_m": 0.0
+  },
+  "forearm": {
+   "origin_mirror_dev_m": 0.0,
+   "vertex_mirror_max_dev_m": 0.0
+  },
+  "hand": {
+   "origin_mirror_dev_m": 0.0,
+   "vertex_mirror_max_dev_m": 0.0
+  },
+  "thigh": {
+   "origin_mirror_dev_m": 0.0,
+   "vertex_mirror_max_dev_m": 0.0
+  },
+  "shank": {
+   "origin_mirror_dev_m": 0.0,
+   "vertex_mirror_max_dev_m": 0.0
+  },
+  "foot": {
+   "origin_mirror_dev_m": 0.0,
+   "vertex_mirror_max_dev_m": 0.0
+  }
+ }
+}
