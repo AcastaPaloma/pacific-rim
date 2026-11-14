@@ -75,3 +75,23 @@ ps ax -o command | grep -i "[U]nity.app/Contents/MacOS/Unity .*-batchmode" | gre
 ```
 
 Use exactly this form. The `[U]` keeps the check from counting your own shell, and asset-import workers are excluded. An earlier form of this rule (`pgrep -fl "Unity.*-batchmode" | …`) counted the caller's own shells and made agents wait for nothing: do not use it. The founders' interactive editor (not batch mode) is never counted and never driven.
+
+## 10. Usage rules (founder instruction, 2026-11-14 afternoon; these override §8 where they differ)
+The account's usage limit was hit three times during M0. From now on:
+
+| Work | Model | Effort |
+|---|---|---|
+| Orchestration and expectation reconciliation | lead session | as it runs |
+| New implementation of a hard slice | opus | high |
+| Fix cycles on listed defects; other implementation; research; asset work | opus | medium |
+| `eval-style`, `eval-feel` judging captures | opus | high |
+| Other evaluators; expectation drafts; re-checks of listed defects | sonnet | medium |
+| Integration, scribe, evidence regeneration, test and metric runs | sonnet | low |
+| Log triage, file moves, ledger row updates, mechanical edits, status checks | haiku | low |
+
+- **Fresh agent over a resumed one.** Resume an agent only while its report is recent and the follow-up is small. For anything else start a fresh agent with a narrow brief that names the exact files to read: an old agent re-reads its whole history at full price once its cache has expired (about an hour).
+- **Narrow briefs.** Name the files and sections to read; forbid re-reading; cap output length; ask for numbers, not narration.
+- **Fewer orchestrator wake-ups.** Chain mechanical steps (re-check → integrate → ledger) in one workflow or one agent instead of one orchestrator turn per step.
+- **Stop rules in every implementation brief** (an effort bound and "stop and report" conditions), and no open-ended tuning.
+- **No speculative work on the strongest model.** Work that is gated on a founder decision waits for it.
+- **New session for new phases.** `ledger/HANDOFF.md` is the resume file: a fresh session that reads it is cheaper than continuing a very long one.
