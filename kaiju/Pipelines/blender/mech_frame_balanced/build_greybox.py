@@ -197,7 +197,7 @@ def recipe_upper_arm(s):
     ax = AX_ARM
     bx = xr(s, ax - 2.3, ax + 2.3)      # armoured upper arm, 4.6 m
     pieces = [
-        (sphere((s * ax, Y_SH, 0), R_SHOULDER_BALL), "joint"),
+        (sphere((s * ax, Y_SH, 0), R_SHOULDER_BALL, 12, 8), "joint"),   # even ring count: a true equator ring
         (chamfer_box(bx[0], bx[1], Y_EL + R_ELBOW_DRUM + GAP, Y_SH - 1.6, -3.8, 1.2, 0.3), "primary"),
     ]
     for a, b in ((ax - 1.9, ax - 0.9), (ax + 0.3, ax + 1.3)):   # elbow rams, upper half (back side)

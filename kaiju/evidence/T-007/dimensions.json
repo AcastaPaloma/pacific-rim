@@ -4,7 +4,7 @@
  "config": "research/R-005/mech_frame_balanced.json",
  "frame": "x right, y up, z forward (Unity world, left-handed)",
  "script": "Pipelines/blender/mech_frame_balanced/measure.py",
- "commit_at_run": "234a74c",
+ "commit_at_run": "510a6f0",
  "parts": {
   "MechBalanced_foot_L": {
    "segment_id": "foot_L",
@@ -600,14 +600,14 @@
    "segment_id": "upper_arm_L",
    "parent": "MechBalanced_torso",
    "bbox_min": [
-    -15.854,
+    -15.915,
     53.75,
     -5.0
    ],
    "bbox_max": [
-    -11.146,
+    -11.085,
     68.5,
-    2.354
+    2.415
    ],
    "origin": [
     -13.5,
@@ -622,14 +622,14 @@
    "origin_deviation_m": 0.0,
    "closed_manifold": true,
    "non_manifold_edges": 0,
-   "volume_m3": 315.68,
+   "volume_m3": 316.25,
    "centroid": [
     -13.482,
-    60.243,
-    -1.26
+    60.254,
+    -1.258
    ],
-   "convex_hull_ratio": 1.182,
-   "triangles": 238,
+   "convex_hull_ratio": 1.191,
+   "triangles": 250,
    "materials": [
     "mech_primary",
     "mech_joint"
@@ -645,14 +645,14 @@
    "segment_id": "upper_arm_R",
    "parent": "MechBalanced_torso",
    "bbox_min": [
-    11.146,
+    11.085,
     53.75,
     -5.0
    ],
    "bbox_max": [
-    15.854,
+    15.915,
     68.5,
-    2.354
+    2.415
    ],
    "origin": [
     13.5,
@@ -667,14 +667,14 @@
    "origin_deviation_m": 0.0,
    "closed_manifold": true,
    "non_manifold_edges": 0,
-   "volume_m3": 315.68,
+   "volume_m3": 316.25,
    "centroid": [
     13.482,
-    60.243,
-    -1.26
+    60.254,
+    -1.258
    ],
-   "convex_hull_ratio": 1.182,
-   "triangles": 238,
+   "convex_hull_ratio": 1.191,
+   "triangles": 250,
    "materials": [
     "mech_primary",
     "mech_joint"
@@ -969,7 +969,7 @@
   "head_height_m": 5.0,
   "head_width_m": 6.4,
   "neck_collar_top_m": 75.0,
-  "upper_arm_max_width_m": 4.7,
+  "upper_arm_max_width_m": 4.8,
   "forearm_max_width_m": 5.4,
   "fist_width_m": 4.75,
   "fist_knuckle_face_m2": 10.27,
@@ -983,10 +983,10 @@
   "ankle_drum_width_m": 6.8,
   "foot_length_m": 15.0,
   "foot_width_m": 10.0,
-  "total_volume_m3": 9720.2,
+  "total_volume_m3": 9721.3,
   "volume_centroid": [
    -0.0,
-   43.52,
+   43.523,
    0.169
   ],
   "config_com": [
@@ -997,11 +997,11 @@
   "lr_volume_diff_pct": 0.0,
   "torso_centroid_x_m": -0.001,
   "implied_mass_t": {
-   "config_density_1232.3": 11978.2,
-   "rho_1000": 9720.2,
-   "rho_2500": 24300.5
+   "config_density_1232.3": 11979.6,
+   "rho_1000": 9721.3,
+   "rho_2500": 24303.3
   },
-  "triangles_total": 3056,
+  "triangles_total": 3080,
   "material_slots": [
    "mech_accent",
    "mech_joint",
@@ -1020,7 +1020,7 @@
   "shoulder_over_hip": 1.415,
   "head_height_over_H": 0.0625,
   "head_width_over_shoulder": 0.226,
-  "forearm_over_upper_arm_width": 1.149,
+  "forearm_over_upper_arm_width": 1.125,
   "forearm_over_fist_width": 1.137,
   "fist_width_over_H": 0.0594,
   "leg_length_over_H": 0.525,
@@ -1031,7 +1031,7 @@
   "foot_width_over_shank": 1.562,
   "stance_over_shoulder": 0.813,
   "com_height_over_H": 0.544,
-  "com_minus_config_over_H": 0.0122
+  "com_minus_config_over_H": 0.0123
  },
  "feet": {
   "foot_L": {
@@ -1121,7 +1121,7 @@
   },
   "torso": {
    "volume_m3": 3267.6,
-   "volume_fraction": 0.3362,
+   "volume_fraction": 0.3361,
    "mass_fraction": 0.33,
    "ratio": 1.019,
    "exempt_under_2pct": false,
@@ -1136,10 +1136,10 @@
    "within_30pct": true
   },
   "upper_arm_L": {
-   "volume_m3": 315.7,
+   "volume_m3": 316.2,
    "volume_fraction": 0.0325,
    "mass_fraction": 0.032,
-   "ratio": 1.015,
+   "ratio": 1.017,
    "exempt_under_2pct": false,
    "within_30pct": true
   },
@@ -1179,15 +1179,15 @@
    "volume_m3": 363.8,
    "volume_fraction": 0.0374,
    "mass_fraction": 0.03,
-   "ratio": 1.248,
+   "ratio": 1.247,
    "exempt_under_2pct": false,
    "within_30pct": true
   },
   "upper_arm_R": {
-   "volume_m3": 315.7,
+   "volume_m3": 316.2,
    "volume_fraction": 0.0325,
    "mass_fraction": 0.032,
-   "ratio": 1.015,
+   "ratio": 1.017,
    "exempt_under_2pct": false,
    "within_30pct": true
   },
@@ -1227,7 +1227,7 @@
    "volume_m3": 363.8,
    "volume_fraction": 0.0374,
    "mass_fraction": 0.03,
-   "ratio": 1.248,
+   "ratio": 1.247,
    "exempt_under_2pct": false,
    "within_30pct": true
   }

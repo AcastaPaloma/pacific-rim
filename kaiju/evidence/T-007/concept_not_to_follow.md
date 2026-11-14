@@ -13,5 +13,8 @@ Plate-to-segment grouping is the table in `DESIGN_NOTE.md` ("Plate-to-segment pl
 | `layer2_turnaround_4d4eda80…_1.jpg` | nothing beyond the final turnaround | mast rods on the head and the shoulder blocks; earlier head shape |
 | `layer3_joints_b1c655d7…_3.jpg` | drum housings, paired rams across knees and elbows | thin linkages and exposed rods thinner than 1 m |
 | `layer3_plate-breakup_77faf417…_2.jpg` | plate seams as straight welded lines, plate sizes ≥ 1 m | its head and shoulders (a different design), the two orange coil dampers at the knees (the only accent is one chest panel), mast rods; it does not mark plate-to-segment grouping (use `DESIGN_NOTE.md`) |
-| `layer4_mood-cold_6ba8d2aa…_1.png` | being redone by the concept agent (C28) | mid-stride pose, raised arms, the taller turret head with rods |
+| `layer4_mood-cold_6ba8d2aa…_1.png` | superseded by mood frame v2 | mid-stride pose, raised arms, the taller turret head with rods |
 | `layer4_mood-warm_c3ce3ab4…_2.png` | scale cues and sky banding only | the mech: it shows the earlier design |
+| `layer4_mood-v2_af67b340…_0.png` (current mood frame, C28) | composition, value structure, cold slate-teal family, water at mid-shin, scale objects on the near pier | thin masts on the deck and blocks (one tall, central); the head shown as a low deck between the blocks (the design has a distinct cap); warm cream as a body colour |
+
+The same list is merged into `art/concepts/mech_frame_balanced/DESIGN_NOTE.md` § "Do not follow".
