@@ -1,14 +1,14 @@
 {
- "tool": "Tools/T005/m006.py v1",
- "commit": "3a0f3ca",
+ "tool": "Tools/PhysicsMetrics/m006.py v1",
+ "commit": "bedecf4",
  "R5_latency_s": {
   "stick_to_first_com_motion_0.05mps": 0.016666666666666607,
   "stick_to_first_foot_lift": 2.5,
-  "stick_to_90pct_of_steady_speed": 5.1499999999999995,
-  "steady_speed_mps": 2.9503847968166665,
+  "stick_to_90pct_of_steady_speed": 5.216666666666666,
+  "steady_speed_mps": 3.0485846946166664,
   "status": "proposed metric, unregistered: cannot fail",
-  "release_to_below_0.3mps_for_2s": 5.666666666666664,
-  "release_to_stand_phase": 3.299999999999997
+  "release_to_below_0.3mps_for_2s": 4.783333333333331,
+  "release_to_stand_phase": 3.0333333333333314
  },
  "C13_walk_to_target": {
   "target": [
@@ -17,24 +17,24 @@
    130
   ],
   "final_com_xz": [
-   118.71453620147705,
-   127.29097402191162
+   118.269461227417,
+   126.84498834991454
   ],
-  "distance_m": 11.60605509627323,
-  "final_phase": "Stand",
+  "distance_m": 12.14741282772789,
+  "final_phase": "SingleSupport",
   "limit": "one step length"
  },
  "C14_limit_causes_step_counts": {
   "None": 181,
-  "EffortRange": 3434,
+  "EffortRange": 3324,
   "Accel": 362,
-  "StepReach": 3434,
+  "StepReach": 3324,
   "Decel": 136,
   "YawAccel": 528,
-  "LateralAccel": 305,
+  "LateralAccel": 299,
   "TurnBeforeWalk": 739,
-  "YawRate": 412,
-  "Fallen": 3886
+  "YawRate": 418,
+  "Fallen": 3996
  },
  "C10_max_external_force_N_per_capture": {
   "curve": 0,

@@ -1,7 +1,7 @@
 {
  "metric": "M-006@v1",
- "tool": "Tools/T005/m006.py v1",
- "commit": "3a0f3ca",
+ "tool": "Tools/PhysicsMetrics/m006.py v1",
+ "commit": "bedecf4",
  "verdict": "FAIL",
  "sub_measure_verdicts": {
   "M-006.1": true,
@@ -260,17 +260,17 @@
   },
   {
    "sub_measure": "M-006.4",
-   "name": "walk_fr020: worst |stride impulse / (m g T) - 1| over 6 strides",
-   "value": 0.024821714661669714,
+   "name": "walk_fr020: worst |stride impulse / (m g T) - 1| over 5 strides",
+   "value": 0.018764839668563127,
    "threshold": "<= 0.02",
-   "pass": false,
+   "pass": true,
    "source": "gait/walk_fr020",
    "note": ""
   },
   {
    "sub_measure": "M-006.4",
    "name": "walk_fr020: peak single-foot Fn (body weights), whole capture",
-   "value": 5.752572884811417,
+   "value": 4.026571090723751,
    "threshold": "[1.0, 2.0]",
    "pass": false,
    "source": "gait/walk_fr020",
@@ -324,7 +324,7 @@
   {
    "sub_measure": "M-006.6",
    "name": "walk_fr025: worst |tau| / forceLimit",
-   "value": 1.00000008625,
+   "value": 1.0000000875,
    "threshold": "<= 1",
    "pass": true,
    "source": "physics/walk_fr025",
@@ -333,7 +333,7 @@
   {
    "sub_measure": "M-006.6",
    "name": "walk_fr025: most saturated joint, share of steps",
-   "value": 0.014017455699550383,
+   "value": 0.0076699285903200215,
    "threshold": "<= 0.05",
    "pass": true,
    "source": "physics/walk_fr025",
@@ -342,7 +342,7 @@
   {
    "sub_measure": "M-006.6",
    "name": "walk_fr025: ankle peak torque (N m)",
-   "value": 791444864,
+   "value": 623528900.0,
    "threshold": "<= 1.0e9",
    "pass": true,
    "source": "physics/walk_fr025",
@@ -351,7 +351,7 @@
   {
    "sub_measure": "M-006.6",
    "name": "walk_fr025: mean sum positive P (MW), walking part (t >= 3 s)",
-   "value": 105.01995778340152,
+   "value": 97.50508085859737,
    "threshold": "[30, 120]",
    "pass": true,
    "source": "physics/walk_fr025",
@@ -360,7 +360,7 @@
   {
    "sub_measure": "M-006.6",
    "name": "walk_fr025: peak sum positive P (MW), whole capture",
-   "value": 2012.3590187895327,
+   "value": 2026.6731884467956,
    "threshold": "<= 450",
    "pass": false,
    "source": "physics/walk_fr025",
@@ -369,7 +369,7 @@
   {
    "sub_measure": "M-006.6",
    "name": "walk_fr020: worst |tau| / forceLimit",
-   "value": 1.00000008625,
+   "value": 1.0000000875,
    "threshold": "<= 1",
    "pass": true,
    "source": "physics/walk_fr020",
@@ -378,7 +378,7 @@
   {
    "sub_measure": "M-006.6",
    "name": "walk_fr020: most saturated joint, share of steps",
-   "value": 0.014017455699550383,
+   "value": 0.0076699285903200215,
    "threshold": "<= 0.05",
    "pass": true,
    "source": "physics/walk_fr020",
@@ -387,7 +387,7 @@
   {
    "sub_measure": "M-006.6",
    "name": "walk_fr020: ankle peak torque (N m)",
-   "value": 791444864,
+   "value": 623528900.0,
    "threshold": "<= 1.0e9",
    "pass": true,
    "source": "physics/walk_fr020",
@@ -396,7 +396,7 @@
   {
    "sub_measure": "M-006.6",
    "name": "walk_fr020: mean sum positive P (MW), walking part (t >= 3 s)",
-   "value": 105.01995778340152,
+   "value": 97.50508085859737,
    "threshold": "[30, 120]",
    "pass": true,
    "source": "physics/walk_fr020",
@@ -405,7 +405,7 @@
   {
    "sub_measure": "M-006.6",
    "name": "walk_fr020: peak sum positive P (MW), whole capture",
-   "value": 2012.3590187895327,
+   "value": 2026.6731884467956,
    "threshold": "<= 450",
    "pass": false,
    "source": "physics/walk_fr020",
@@ -441,11 +441,11 @@
   {
    "sub_measure": "M-006.7",
    "name": "max arm / waist joint speed outside falls (rad/s)",
-   "value": 0.7769,
+   "value": 0.724,
    "threshold": "<= 10",
    "pass": true,
    "source": "physics/*",
-   "note": "intent_over_limit:elbow_L"
+   "note": "shove_060:shoulder_R"
   },
   {
    "sub_measure": "M-006.7",
@@ -467,7 +467,7 @@
   },
   {
    "sub_measure": "M-006.8",
-   "name": "identical footfall step indices and order (42 events)",
+   "name": "identical footfall step indices and order (44 events)",
    "value": 1.0,
    "threshold": "= 1",
    "pass": true,

@@ -25,29 +25,29 @@ M-006.4   double stance: foot L pressure (kPa)                 325.62         32
 M-006.4   double stance: foot R pressure (kPa)                 328.43         327 +/- 5 %                        PASS
 M-006.6   standing still: mean sum |P| (MW), t >= 10 s         0.86488        <= 5 (A)                           PASS
 M-006.4   single stance: pressure (kPa), last 2 s of a 16.0 s  653.66         654 +/- 2 %                        PASS
-M-006.4   walk_fr020: worst |stride impulse / (m g T) - 1| ove 0.024822       <= 0.02                            FAIL
-M-006.4   walk_fr020: peak single-foot Fn (body weights), whol 5.7526         [1.0, 2.0]                         FAIL
+M-006.4   walk_fr020: worst |stride impulse / (m g T) - 1| ove 0.018765       <= 0.02                            PASS
+M-006.4   walk_fr020: peak single-foot Fn (body weights), whol 4.0266         [1.0, 2.0]                         FAIL
 M-006.5   locked topple: KE at impact / dPE to impact          0.98493        1 +/- 0.03                         PASS
 M-006.5   locked topple: angular speed at impact (rad/s)       0.57458        0.57 +/- 5 %                       PASS
 M-006.5   locked topple: time to first non-foot contact (s)    8.0333         8.2 +/- 10 %                       PASS
 M-006.5   locked topple: energy released to rest (GJ)          3.5907         3.6 +/- 10 % (inside 3.6..4.4 per T-005 spec table) PASS
 M-006.5   limp topple: (KE + drive dissipation) / dPE at impac 0.91315        1 +/- 0.05 (A)                     FAIL
 M-006.6   walk_fr025: worst |tau| / forceLimit                 1              <= 1                               PASS
-M-006.6   walk_fr025: most saturated joint, share of steps     0.014017       <= 0.05                            PASS
-M-006.6   walk_fr025: ankle peak torque (N m)                  7.9144e+08     <= 1.0e9                           PASS
-M-006.6   walk_fr025: mean sum positive P (MW), walking part ( 105.02         [30, 120]                          PASS
-M-006.6   walk_fr025: peak sum positive P (MW), whole capture  2012.4         <= 450                             FAIL
+M-006.6   walk_fr025: most saturated joint, share of steps     0.0076699      <= 0.05                            PASS
+M-006.6   walk_fr025: ankle peak torque (N m)                  6.2353e+08     <= 1.0e9                           PASS
+M-006.6   walk_fr025: mean sum positive P (MW), walking part ( 97.505         [30, 120]                          PASS
+M-006.6   walk_fr025: peak sum positive P (MW), whole capture  2026.7         <= 450                             FAIL
 M-006.6   walk_fr020: worst |tau| / forceLimit                 1              <= 1                               PASS
-M-006.6   walk_fr020: most saturated joint, share of steps     0.014017       <= 0.05                            PASS
-M-006.6   walk_fr020: ankle peak torque (N m)                  7.9144e+08     <= 1.0e9                           PASS
-M-006.6   walk_fr020: mean sum positive P (MW), walking part ( 105.02         [30, 120]                          PASS
-M-006.6   walk_fr020: peak sum positive P (MW), whole capture  2012.4         <= 450                             FAIL
+M-006.6   walk_fr020: most saturated joint, share of steps     0.0076699      <= 0.05                            PASS
+M-006.6   walk_fr020: ankle peak torque (N m)                  6.2353e+08     <= 1.0e9                           PASS
+M-006.6   walk_fr020: mean sum positive P (MW), walking part ( 97.505         [30, 120]                          PASS
+M-006.6   walk_fr020: peak sum positive P (MW), whole capture  2026.7         <= 450                             FAIL
 M-006.7   NaN records in 17 physics logs                       0              = 0                                PASS
 M-006.7   max link speed outside falls (m/s)                   24.947         <= 60                              PASS
 M-006.7   max leg joint speed outside falls (rad/s)            2.1898         <= 3                               PASS
-M-006.7   max arm / waist joint speed outside falls (rad/s)    0.7769         <= 10                              PASS
+M-006.7   max arm / waist joint speed outside falls (rad/s)    0.724          <= 10                              PASS
 M-006.7   largest one-step energy gain without external work ( 3.2178e+07     <= 7.8e7 (0.01 m g H)              PASS
 M-006.8   3 runs of the 60 s sequence: CoM divergence at 60 s  0              <= 0.01                            PASS
-M-006.8   identical footfall step indices and order (42 events 1              = 1                                PASS
+M-006.8   identical footfall step indices and order (44 events 1              = 1                                PASS
 M-006@v1 verdict: FAIL {'M-006.1': 'pass', 'M-006.2': 'pass', 'M-006.3': 'pass', 'M-006.4': 'FAIL', 'M-006.5': 'FAIL', 'M-006.6': 'FAIL', 'M-006.7': 'pass', 'M-006.8': 'pass'} not measured: []
-footfall latency: 498 contacts, same-step share 1.0000
+footfall latency: 525 contacts, same-step share 1.0000
