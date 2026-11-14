@@ -1,90 +1,95 @@
-[exit 3] [  0.73 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/gait_ref --out evidence/T-002/reports/M-001_reference_no_panel
-[exit 0] [  0.70 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/gait_ref --out evidence/T-002/reports/M-001_reference_with_panel --ratings $SCRATCH/m001_ratings.json
+[exit 3] [  0.66 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/gait_ref --out evidence/T-002/reports/M-001_reference_no_panel
+[exit 0] [  0.66 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/gait_ref --out evidence/T-002/reports/M-001_reference_with_panel --ratings $SCRATCH/m001_ratings.json
 [exit 0] [  0.60 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/gait_ref --out evidence/T-002/reports/M-002_reference
-[exit 1] [  0.63 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.1 --out evidence/T-002/reports/M-001.1_negative --ratings $SCRATCH/r_M-001.1.json
-[exit 1] [  0.66 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.2 --out evidence/T-002/reports/M-001.2_negative --ratings $SCRATCH/r_M-001.2.json
-[exit 1] [  0.65 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.3 --out evidence/T-002/reports/M-001.3_negative --ratings $SCRATCH/r_M-001.3.json
-[exit 1] [  0.65 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.4 --out evidence/T-002/reports/M-001.4_negative --ratings $SCRATCH/r_M-001.4.json
-[exit 1] [  0.65 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.5 --out evidence/T-002/reports/M-001.5_negative --ratings $SCRATCH/r_M-001.5.json
-[exit 1] [  0.67 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.6 --out evidence/T-002/reports/M-001.6_negative --ratings $SCRATCH/r_M-001.6.json
-[exit 1] [  0.70 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.7 --out evidence/T-002/reports/M-001.7_negative --ratings $SCRATCH/r_M-001.7.json
-[exit 1] [  0.68 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.8 --out evidence/T-002/reports/M-001.8_negative --ratings $SCRATCH/r_M-001.8.json
-[exit 1] [  0.67 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.9 --out evidence/T-002/reports/M-001.9_negative --ratings $SCRATCH/r_M-001.9.json
-[exit 1] [  0.69 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.10 --out evidence/T-002/reports/M-001.10_negative --ratings $SCRATCH/r_M-001.10.json
-[exit 1] [  0.71 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.11 --out evidence/T-002/reports/M-001.11_negative --ratings $SCRATCH/r_M-001.11.json
-[exit 1] [  0.75 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.12 --out evidence/T-002/reports/M-001.12_negative --ratings $SCRATCH/r_M-001.12.json
-[exit 1] [  0.77 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/neg_M-002.1 --out evidence/T-002/reports/M-002.1_negative
-[exit 1] [  0.77 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/neg_M-002.3 --out evidence/T-002/reports/M-002.3_negative
-[exit 1] [  0.87 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/neg_M-002.4 --out evidence/T-002/reports/M-002.4_negative
-[exit 1] [  0.96 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/neg_M-002.5 --out evidence/T-002/reports/M-002.5_negative
-[exit 3] [  0.52 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/bd_M-001.4_0.98 --out evidence/T-002/reports/M-001.4_boundary_0.98
-[exit 1] [  0.64 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/bd_M-001.10_0.98 --out evidence/T-002/reports/M-001.10_boundary_0.98
-[exit 1] [  0.45 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/bd_M-001.12_0.98 --out evidence/T-002/reports/M-001.12_boundary_0.98
-[exit 3] [  0.40 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/bd_M-002.1_0.98 --out evidence/T-002/reports/M-002.1_boundary_0.98
-[exit 1] [  0.42 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/bd_M-001.4_1.02 --out evidence/T-002/reports/M-001.4_boundary_1.02
-[exit 3] [  0.41 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/bd_M-001.10_1.02 --out evidence/T-002/reports/M-001.10_boundary_1.02
-[exit 3] [  0.39 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/bd_M-001.12_1.02 --out evidence/T-002/reports/M-001.12_boundary_1.02
-[exit 1] [  0.36 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/bd_M-002.1_1.02 --out evidence/T-002/reports/M-002.1_boundary_1.02
-[exit 3] [  0.90 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/style/m003_pass --out evidence/T-002/reports/M-003_pass_set --profiles slate_teal
-[exit 1] [  0.84 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.a_unquantised_offpalette --out evidence/T-002/reports/M-003.a_unquantised_offpalette --profiles slate_teal
-[exit 1] [  0.84 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.a.internal_negative --out evidence/T-002/reports/M-003.a.internal_negative --profiles slate_teal
-[exit 1] [  0.83 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.b_posterised_negative --out evidence/T-002/reports/M-003.b_posterised_negative --profiles slate_teal
-[exit 1] [  0.86 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.c1_inverted_negative --out evidence/T-002/reports/M-003.c1_inverted_negative --profiles slate_teal
-[exit 1] [  0.86 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.c1_nohaze_negative --out evidence/T-002/reports/M-003.c1_nohaze_negative --profiles slate_teal
-[exit 1] [  0.86 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.c2_flat_negative --out evidence/T-002/reports/M-003.c2_flat_negative --profiles slate_teal
-[exit 1] [  0.92 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.d-iv_bilinear_negative --out evidence/T-002/reports/M-003.d-iv_bilinear_negative --profiles slate_teal
-[exit 1] [  0.86 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.d-iv_offset_undeclared_negative --out evidence/T-002/reports/M-003.d-iv_offset_undeclared_negative --profiles slate_teal
-[exit 0] [  2.19 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/style/m004_pass --out evidence/T-002/reports/M-004_pass_set --profiles slate_teal --viewpoints eye --fixture
-[exit 1] [  2.22 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/style/m004_screen --out evidence/T-002/reports/M-004_screen_dither_and_temporal_noise_negative --profiles slate_teal --viewpoints eye --fixture
-[exit 0] [  0.10 s] $PY Tools/Metrics/metrics.py validate gait_log Tools/Metrics/examples/gait_log_example.gait.jsonl
-[exit 0] [  0.18 s] $PY Tools/Metrics/metrics.py validate style_capture Tools/Metrics/examples/example_set
-[exit 0] [  0.09 s] $PY Tools/Metrics/metrics.py validate palette_set research/R-002/palettes.json
-[exit 0] [  0.08 s] $PY Tools/Metrics/metrics.py validate palette_set Tools/Metrics/examples/palette_set_example.json
-[exit 2] [  0.10 s] $PY Tools/Metrics/metrics.py validate gait_log $SCRATCH/mut_gap_in_n.gait.jsonl
-[exit 2] [  0.09 s] $PY Tools/Metrics/metrics.py validate gait_log $SCRATCH/mut_wrong_schema.gait.jsonl
-[exit 2] [  0.09 s] $PY Tools/Metrics/metrics.py validate gait_log $SCRATCH/mut_non_unit_quaternion.gait.jsonl
-[exit 2] [  0.09 s] $PY Tools/Metrics/metrics.py validate gait_log $SCRATCH/mut_g_in_ft_s2.gait.jsonl
-[exit 2] [  0.09 s] $PY Tools/Metrics/metrics.py validate gait_log $SCRATCH/mut_dangling_cam_impulse.gait.jsonl
-[exit 2] [  0.10 s] $PY Tools/Metrics/metrics.py validate gait_log $SCRATCH/mut_com_v_in_kmh.gait.jsonl
-[exit 2] [  0.09 s] $PY Tools/Metrics/metrics.py validate gait_log $SCRATCH/mut_truncated_file.gait.jsonl
-[exit 0] [  0.45 s] $PY Tools/Metrics/metrics.py rescore evidence/T-002/reports/M-002_reference/report.json
-[exit 2] [  0.05 s] $PY Tools/Metrics/metrics.py rescore evidence/T-002/reports/M-002_reference/report.json --registry $SCRATCH/M-002@v1.1.yaml
-[exit 0] [  0.44 s] $PY Tools/Metrics/metrics.py rescore evidence/T-002/reports/M-002_reference/report.json --registry $SCRATCH/M-002@v1.1.yaml --allow-different-registry
-[exit 3] [  0.16 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/flip --out $SCRATCH/flip_out0 --no-images
-[exit 1] [  0.16 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/flip --out $SCRATCH/flip_out1 --no-images --registry $SCRATCH/M-001@v1.yaml
-[exit 0] [  0.78 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/gait_ref --out $SCRATCH/det_m001_0 --ratings $SCRATCH/m001_ratings.json
-[exit 0] [  0.73 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/gait_ref --out $SCRATCH/det_m001_1 --ratings $SCRATCH/m001_ratings.json
-[exit 0] [  0.69 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/gait_ref --out $SCRATCH/det_m002_0
-[exit 0] [  0.71 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/gait_ref --out $SCRATCH/det_m002_1
-[exit 3] [  0.87 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/style/m003_pass --out $SCRATCH/det_m003_0 --profiles slate_teal
-[exit 3] [  0.88 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/style/m003_pass --out $SCRATCH/det_m003_1 --profiles slate_teal
-[exit 0] [  2.14 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/style/m004_pass --out $SCRATCH/det_m004_0 --profiles slate_teal --viewpoints eye --fixture
-[exit 0] [  2.13 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/style/m004_pass --out $SCRATCH/det_m004_1 --profiles slate_teal --viewpoints eye --fixture
-[exit 0] [  0.75 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/gait_ref --ratings $SCRATCH/m001_ratings.json --out $SCRATCH/ec_m001_0 --quiet
-[exit 1] [  0.71 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.12 --ratings $SCRATCH/r_M-001.12.json --out $SCRATCH/ec_m001_1 --quiet
-[exit 2] [  0.10 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/ec_broken --out $SCRATCH/ec_m001_2 --quiet
-[exit 3] [  0.72 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/gait_ref --out $SCRATCH/ec_m001_3 --quiet
-[exit 0] [  0.68 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/gait_ref --out $SCRATCH/ec_m002_0 --quiet
-[exit 1] [  0.66 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/ec_bad --out $SCRATCH/ec_m002_1 --quiet
-[exit 2] [  0.10 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/ec_broken --out $SCRATCH/ec_m002_2 --quiet
-[exit 3] [  0.37 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/ec_part --out $SCRATCH/ec_m002_3 --quiet
-[exit 0] [  0.84 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/style/m003_pass --profiles slate_teal --ratings $SCRATCH/m003_ratings.json --out $SCRATCH/ec_m003_0 --quiet
-[exit 1] [  0.86 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.c1_inverted_negative --profiles slate_teal --out $SCRATCH/ec_m003_1 --quiet
-[exit 2] [  0.56 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/ec_broken --out $SCRATCH/ec_m003_2 --quiet
-[exit 3] [  0.87 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/style/m003_pass --profiles slate_teal --out $SCRATCH/ec_m003_3 --quiet
-[exit 0] [  2.16 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/style/m004_pass --profiles slate_teal --viewpoints eye --fixture --out $SCRATCH/ec_m004_0 --quiet
-[exit 1] [  2.37 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/style/m004_screen --profiles slate_teal --viewpoints eye --fixture --out $SCRATCH/ec_m004_1 --quiet
-[exit 2] [  0.56 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/ec_broken --out $SCRATCH/ec_m004_2 --quiet
-[exit 3] [  0.85 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/style/m004_pass --profiles slate_teal --viewpoints eye --out $SCRATCH/ec_m004_3 --quiet
-[exit 3] [  0.14 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal0 --out $SCRATCH/cal_reports/cap0 --label cap0 --no-images
-[exit 3] [  0.13 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal1 --out $SCRATCH/cal_reports/cap1 --label cap1 --no-images
-[exit 3] [  0.14 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal2 --out $SCRATCH/cal_reports/cap2 --label cap2 --no-images
-[exit 3] [  0.13 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal3 --out $SCRATCH/cal_reports/cap3 --label cap3 --no-images
-[exit 3] [  0.14 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal4 --out $SCRATCH/cal_reports/cap4 --label cap4 --no-images
-[exit 3] [  0.13 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal5 --out $SCRATCH/cal_reports/cap5 --label cap5 --no-images
-[exit 3] [  0.14 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal6 --out $SCRATCH/cal_reports/cap6 --label cap6 --no-images
+[exit 1] [  0.61 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.1 --out evidence/T-002/reports/M-001.1_negative --ratings $SCRATCH/r_M-001.1.json
+[exit 1] [  0.60 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.2 --out evidence/T-002/reports/M-001.2_negative --ratings $SCRATCH/r_M-001.2.json
+[exit 1] [  0.61 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.3 --out evidence/T-002/reports/M-001.3_negative --ratings $SCRATCH/r_M-001.3.json
+[exit 1] [  0.61 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.4 --out evidence/T-002/reports/M-001.4_negative --ratings $SCRATCH/r_M-001.4.json
+[exit 1] [  0.61 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.5 --out evidence/T-002/reports/M-001.5_negative --ratings $SCRATCH/r_M-001.5.json
+[exit 1] [  0.61 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.6 --out evidence/T-002/reports/M-001.6_negative --ratings $SCRATCH/r_M-001.6.json
+[exit 1] [  0.61 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.7 --out evidence/T-002/reports/M-001.7_negative --ratings $SCRATCH/r_M-001.7.json
+[exit 1] [  0.62 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.8 --out evidence/T-002/reports/M-001.8_negative --ratings $SCRATCH/r_M-001.8.json
+[exit 1] [  0.62 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.9 --out evidence/T-002/reports/M-001.9_negative --ratings $SCRATCH/r_M-001.9.json
+[exit 1] [  0.64 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.10 --out evidence/T-002/reports/M-001.10_negative --ratings $SCRATCH/r_M-001.10.json
+[exit 1] [  0.66 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.11 --out evidence/T-002/reports/M-001.11_negative --ratings $SCRATCH/r_M-001.11.json
+[exit 1] [  0.66 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.12 --out evidence/T-002/reports/M-001.12_negative --ratings $SCRATCH/r_M-001.12.json
+[exit 1] [  0.65 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/neg_M-002.1 --out evidence/T-002/reports/M-002.1_negative
+[exit 1] [  0.63 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/neg_M-002.3 --out evidence/T-002/reports/M-002.3_negative
+[exit 1] [  0.66 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/neg_M-002.4 --out evidence/T-002/reports/M-002.4_negative
+[exit 1] [  0.59 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/neg_M-002.5 --out evidence/T-002/reports/M-002.5_negative
+[exit 3] [  0.35 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/bd_M-001.4_0.98 --out evidence/T-002/reports/M-001.4_boundary_0.98
+[exit 1] [  0.35 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/bd_M-001.10_0.98 --out evidence/T-002/reports/M-001.10_boundary_0.98
+[exit 1] [  0.35 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/bd_M-001.12_0.98 --out evidence/T-002/reports/M-001.12_boundary_0.98
+[exit 3] [  0.34 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/bd_M-002.1_0.98 --out evidence/T-002/reports/M-002.1_boundary_0.98
+[exit 1] [  0.35 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/bd_M-001.4_1.02 --out evidence/T-002/reports/M-001.4_boundary_1.02
+[exit 3] [  0.36 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/bd_M-001.10_1.02 --out evidence/T-002/reports/M-001.10_boundary_1.02
+[exit 3] [  0.36 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/bd_M-001.12_1.02 --out evidence/T-002/reports/M-001.12_boundary_1.02
+[exit 1] [  0.32 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/bd_M-002.1_1.02 --out evidence/T-002/reports/M-002.1_boundary_1.02
+[exit 3] [  0.73 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/style/m003_pass --out evidence/T-002/reports/M-003_pass_set --profiles slate_teal
+[exit 1] [  0.72 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.a_unquantised_offpalette --out evidence/T-002/reports/M-003.a_unquantised_offpalette --profiles slate_teal
+[exit 1] [  0.72 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.a.internal_negative --out evidence/T-002/reports/M-003.a.internal_negative --profiles slate_teal
+[exit 1] [  0.72 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.b_posterised_negative --out evidence/T-002/reports/M-003.b_posterised_negative --profiles slate_teal
+[exit 1] [  0.76 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.c1_inverted_negative --out evidence/T-002/reports/M-003.c1_inverted_negative --profiles slate_teal
+[exit 1] [  0.73 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.c1_nohaze_negative --out evidence/T-002/reports/M-003.c1_nohaze_negative --profiles slate_teal
+[exit 1] [  0.74 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.c2_flat_negative --out evidence/T-002/reports/M-003.c2_flat_negative --profiles slate_teal
+[exit 1] [  0.78 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.d-iv_bilinear_negative --out evidence/T-002/reports/M-003.d-iv_bilinear_negative --profiles slate_teal
+[exit 1] [  0.74 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.d-iv_offset_undeclared_negative --out evidence/T-002/reports/M-003.d-iv_offset_undeclared_negative --profiles slate_teal
+[exit 0] [  1.78 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/style/m004_pass --out evidence/T-002/reports/M-004_pass_set --profiles slate_teal --viewpoints eye --fixture
+[exit 1] [  1.76 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/style/m004_screen --out evidence/T-002/reports/M-004_screen_dither_and_temporal_noise_negative --profiles slate_teal --viewpoints eye --fixture
+[exit 0] [  0.08 s] $PY Tools/Metrics/metrics.py validate gait_log Tools/Metrics/examples/gait_log_example.gait.jsonl
+[exit 0] [  0.14 s] $PY Tools/Metrics/metrics.py validate style_capture Tools/Metrics/examples/example_set
+[exit 0] [  0.08 s] $PY Tools/Metrics/metrics.py validate palette_set research/R-002/palettes.json
+[exit 0] [  0.07 s] $PY Tools/Metrics/metrics.py validate palette_set Tools/Metrics/examples/palette_set_example.json
+[exit 2] [  0.07 s] $PY Tools/Metrics/metrics.py validate gait_log $SCRATCH/mut_gap_in_n.gait.jsonl
+[exit 2] [  0.07 s] $PY Tools/Metrics/metrics.py validate gait_log $SCRATCH/mut_wrong_schema.gait.jsonl
+[exit 2] [  0.08 s] $PY Tools/Metrics/metrics.py validate gait_log $SCRATCH/mut_non_unit_quaternion.gait.jsonl
+[exit 2] [  0.07 s] $PY Tools/Metrics/metrics.py validate gait_log $SCRATCH/mut_g_in_ft_s2.gait.jsonl
+[exit 2] [  0.07 s] $PY Tools/Metrics/metrics.py validate gait_log $SCRATCH/mut_dangling_cam_impulse.gait.jsonl
+[exit 2] [  0.08 s] $PY Tools/Metrics/metrics.py validate gait_log $SCRATCH/mut_com_v_in_kmh.gait.jsonl
+[exit 2] [  0.07 s] $PY Tools/Metrics/metrics.py validate gait_log $SCRATCH/mut_truncated_file.gait.jsonl
+[exit 0] [  0.37 s] $PY Tools/Metrics/metrics.py rescore evidence/T-002/reports/M-002_reference/report.json
+[exit 2] [  0.04 s] $PY Tools/Metrics/metrics.py rescore evidence/T-002/reports/M-002_reference/report.json --registry $SCRATCH/M-002@v1.1.yaml
+[exit 0] [  0.39 s] $PY Tools/Metrics/metrics.py rescore evidence/T-002/reports/M-002_reference/report.json --registry $SCRATCH/M-002@v1.1.yaml --allow-different-registry
+[exit 3] [  0.15 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/flip --out $SCRATCH/flip_out0 --no-images
+[exit 1] [  0.14 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/flip --out $SCRATCH/flip_out1 --no-images --registry $SCRATCH/M-001@v1.yaml
+[exit 0] [  0.64 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/gait_ref --out $SCRATCH/det_m001_0 --ratings $SCRATCH/m001_ratings.json
+[exit 0] [  0.69 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/gait_ref --out $SCRATCH/det_m001_1 --ratings $SCRATCH/m001_ratings.json
+[exit 0] [  0.58 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/gait_ref --out $SCRATCH/det_m002_0
+[exit 0] [  0.58 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/gait_ref --out $SCRATCH/det_m002_1
+[exit 3] [  0.79 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/style/m003_pass --out $SCRATCH/det_m003_0 --profiles slate_teal
+[exit 3] [  0.73 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/style/m003_pass --out $SCRATCH/det_m003_1 --profiles slate_teal
+[exit 0] [  1.80 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/style/m004_pass --out $SCRATCH/det_m004_0 --profiles slate_teal --viewpoints eye --fixture
+[exit 0] [  1.79 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/style/m004_pass --out $SCRATCH/det_m004_1 --profiles slate_teal --viewpoints eye --fixture
+[exit 0] [  0.61 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/gait_ref --ratings $SCRATCH/m001_ratings.json --out $SCRATCH/ec_m001_0 --quiet
+[exit 1] [  0.60 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/neg_M-001.12 --ratings $SCRATCH/r_M-001.12.json --out $SCRATCH/ec_m001_1 --quiet
+[exit 2] [  0.09 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/ec_broken --out $SCRATCH/ec_m001_2 --quiet
+[exit 3] [  0.61 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/gait_ref --out $SCRATCH/ec_m001_3 --quiet
+[exit 0] [  0.57 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/gait_ref --out $SCRATCH/ec_m002_0 --quiet
+[exit 1] [  0.56 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/ec_bad --out $SCRATCH/ec_m002_1 --quiet
+[exit 2] [  0.08 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/ec_broken --out $SCRATCH/ec_m002_2 --quiet
+[exit 3] [  0.32 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/ec_part --out $SCRATCH/ec_m002_3 --quiet
+[exit 0] [  0.72 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/style/m003_pass --profiles slate_teal --ratings $SCRATCH/m003_ratings.json --out $SCRATCH/ec_m003_0 --quiet
+[exit 1] [  0.76 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/M-003.c1_inverted_negative --profiles slate_teal --out $SCRATCH/ec_m003_1 --quiet
+[exit 2] [  0.49 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/ec_broken --out $SCRATCH/ec_m003_2 --quiet
+[exit 3] [  0.73 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/style/m003_pass --profiles slate_teal --out $SCRATCH/ec_m003_3 --quiet
+[exit 0] [  1.82 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/style/m004_pass --profiles slate_teal --viewpoints eye --fixture --out $SCRATCH/ec_m004_0 --quiet
+[exit 1] [  1.91 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/style/m004_screen --profiles slate_teal --viewpoints eye --fixture --out $SCRATCH/ec_m004_1 --quiet
+[exit 2] [  0.47 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/ec_broken --out $SCRATCH/ec_m004_2 --quiet
+[exit 3] [  0.79 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/style/m004_pass --profiles slate_teal --viewpoints eye --out $SCRATCH/ec_m004_3 --quiet
+[exit 3] [  0.13 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal0 --out $SCRATCH/cal_reports/cap0 --label cap0 --no-images
+[exit 3] [  0.12 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal1 --out $SCRATCH/cal_reports/cap1 --label cap1 --no-images
+[exit 3] [  0.13 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal2 --out $SCRATCH/cal_reports/cap2 --label cap2 --no-images
+[exit 3] [  0.12 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal3 --out $SCRATCH/cal_reports/cap3 --label cap3 --no-images
+[exit 3] [  0.13 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal4 --out $SCRATCH/cal_reports/cap4 --label cap4 --no-images
+[exit 3] [  0.12 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal5 --out $SCRATCH/cal_reports/cap5 --label cap5 --no-images
+[exit 3] [  0.13 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal6 --out $SCRATCH/cal_reports/cap6 --label cap6 --no-images
 [exit 3] [  0.13 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal7 --out $SCRATCH/cal_reports/cap7 --label cap7 --no-images
-[exit 3] [  0.14 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal8 --out $SCRATCH/cal_reports/cap8 --label cap8 --no-images
-[exit 3] [  0.14 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal9 --out $SCRATCH/cal_reports/cap9 --label cap9 --no-images
-[exit 0] [  0.76 s] $PY Tools/Metrics/metrics.py calibrate --ratings evidence/T-002/calibration/synthetic_ratings.json --reports $SCRATCH/cal_reports --out evidence/T-002/calibration
-[exit 1] [  0.69 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/diag_slip --out evidence/T-002/reports/diag_M-002_slip
+[exit 3] [  0.13 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal8 --out $SCRATCH/cal_reports/cap8 --label cap8 --no-images
+[exit 3] [  0.13 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/cal9 --out $SCRATCH/cal_reports/cap9 --label cap9 --no-images
+[exit 0] [  0.63 s] $PY Tools/Metrics/metrics.py calibrate --ratings evidence/T-002/calibration/synthetic_ratings.json --reports $SCRATCH/cal_reports --out evidence/T-002/calibration
+[exit 1] [  0.68 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/diag_slip --out evidence/T-002/reports/diag_M-002_slip
+[exit 3] [  0.39 s] $PY Tools/Metrics/metrics.py m001 $SCRATCH/gait_ref --out $SCRATCH/t1 --no-images
+[exit 0] [  0.39 s] $PY Tools/Metrics/metrics.py m002 $SCRATCH/gait_ref --out $SCRATCH/t2 --no-images
+[exit 1] [  2.15 s] $PY Tools/Metrics/metrics.py m003 $SCRATCH/t3/m003_480 --profiles slate_teal --out $SCRATCH/t3o
+[exit 0] [ 27.76 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/t4/m004_one --profiles slate_teal --viewpoints eye --out $SCRATCH/t4o --no-images
+[exit 0] [ 42.97 s] $PY Tools/Metrics/metrics.py m004 $SCRATCH/t4/m004_full --out $SCRATCH/t4f --no-images --jobs 8

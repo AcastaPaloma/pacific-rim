@@ -247,7 +247,7 @@
  ],
  "inputs": [
   {
-   "path": "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_vv9ktmll/bd_M-002.1_1.02/walk_fr020.gait.jsonl",
+   "path": "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_dqbnmrek/bd_M-002.1_1.02/walk_fr020.gait.jsonl",
    "role": "gait_log@v1 walk_fr020",
    "sha256": "0c0175ebfaaf15a858c6f00dd816e248abcd76716092103c0cae99e165594436"
   }
@@ -255,7 +255,7 @@
  "invocation": {
   "command": "m002",
   "inputs": [
-   "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_vv9ktmll/bd_M-002.1_1.02"
+   "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_dqbnmrek/bd_M-002.1_1.02"
   ],
   "label": "bd_M-002.1_1.02",
   "mode": "standard",
@@ -295,8 +295,8 @@
  "run": {
   "host": "Kuans-MacBook-Pro.local",
   "python": "3.12.16",
-  "timestamp_utc": "2026-11-14T17:26:40Z",
-  "wall_time_s": 0.279
+  "timestamp_utc": "2026-11-14T17:56:44Z",
+  "wall_time_s": 0.25
  },
  "submeasures": [
   {
@@ -552,8 +552,13 @@
   }
  ],
  "tool": {
-  "git_commit": "a175d2f47fbc7eb18501cd6c54a1bca7453c7b63",
+  "git_commit": "8f41766cdb4960201af36c70cb14f1800075f99d",
   "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
   "version": "1.0.0"
  },
  "verdict": "FAIL",
