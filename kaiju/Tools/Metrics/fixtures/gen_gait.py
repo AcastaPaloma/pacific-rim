@@ -85,6 +85,7 @@ class Spec:
     vel_dir: Profile | None = None    # velocity direction (None = heading); constant != heading gives a crab walk
     sway_amp_mps: float = 0.0         # lateral velocity amplitude (sinusoid) along right(vel_dir)
     sway_period_s: float = 6.6
+    lat_speed: Profile | None = None  # closed-form lateral velocity along right(vel_dir) (hand-computed cases)
     stride_s: float = 6.60            # stride period while stepping (rounded to whole samples)
     duty: float = 0.66
     step_window: tuple = (0.0, 1e9)   # [start, end) of stepping; both feet planted outside
@@ -117,6 +118,8 @@ def build(spec: Spec):
         f = np.stack([np.sin(ph), np.zeros_like(ph), np.cos(ph)], -1)
         r = np.stack([np.cos(ph), np.zeros_like(ph), -np.sin(ph)], -1)
         u = spec.sway_amp_mps * np.sin(2 * math.pi * tt / spec.sway_period_s)
+        if spec.lat_speed is not None:
+            u = u + spec.lat_speed.v(tt)
         return f * s[..., None] + r * u[..., None]
     com_v = vel(t)
     sub = 8
