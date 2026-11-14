@@ -1,0 +1,126 @@
+{
+ "sequence": "evidence/T-004/captures_local/m003_stills/warm_rust_sepia_eye70",
+ "near_150m": {
+  "frames_in_view": 4,
+  "dL_min": 10.500849453562854,
+  "dL_median": 12.954866048939406,
+  "frames_dL_ge_4": 4,
+  "frames": [
+   {
+    "distance_m": 123.902331530224,
+    "height_px": 277.0928280688045,
+    "block_L": 26.65173125577186,
+    "background_L": 41.11539172532002,
+    "dL": 14.463660469548163,
+    "frame": 4
+   },
+   {
+    "distance_m": 110.204996580844,
+    "height_px": 312.74120534348884,
+    "block_L": 24.40182864064401,
+    "background_L": 39.371312904790074,
+    "dL": 14.969484264146065,
+    "frame": 5
+   },
+   {
+    "distance_m": 140.159872527244,
+    "height_px": 244.0727688152496,
+    "block_L": 28.01414925311977,
+    "background_L": 39.46022088145042,
+    "dL": 11.44607162833065,
+    "frame": 6
+   },
+   {
+    "distance_m": 123.902331530224,
+    "height_px": 277.0928280688045,
+    "block_L": 26.63603444432651,
+    "background_L": 37.13688389788936,
+    "dL": 10.500849453562854,
+    "frame": 7
+   }
+  ]
+ },
+ "far_1km": {
+  "frames_in_view": 9,
+  "dL_min": 3.8394024233394717,
+  "dL_median": 6.074771423413658,
+  "frames_dL_ge_4": 8,
+  "frames": [
+   {
+    "distance_m": 926.810871178394,
+    "height_px": 36.07603923441698,
+    "block_L": 40.85503487090256,
+    "background_L": 46.04406481768228,
+    "dL": 5.189029946779726,
+    "frame": 1
+   },
+   {
+    "distance_m": 925.3208664297119,
+    "height_px": 36.134369410713674,
+    "block_L": 40.89591797377321,
+    "background_L": 45.96168939856632,
+    "dL": 5.0657714247931125,
+    "frame": 2
+   },
+   {
+    "distance_m": 955.755738743324,
+    "height_px": 34.97922938270483,
+    "block_L": 40.706519158902125,
+    "background_L": 44.5459215822416,
+    "dL": 3.8394024233394717,
+    "frame": 5
+   },
+   {
+    "distance_m": 992.052100660764,
+    "height_px": 33.69463901523065,
+    "block_L": 40.83339087526516,
+    "background_L": 46.32214782586011,
+    "dL": 5.488756950594947,
+    "frame": 6
+   },
+   {
+    "distance_m": 980.984393800664,
+    "height_px": 34.076230759626185,
+    "block_L": 40.64741283867709,
+    "background_L": 46.72218426209075,
+    "dL": 6.074771423413658,
+    "frame": 7
+   },
+   {
+    "distance_m": 968.3383660760301,
+    "height_px": 34.52296496191741,
+    "block_L": 40.78808588081266,
+    "background_L": 46.95426807172488,
+    "dL": 6.166182190912224,
+    "frame": 8
+   },
+   {
+    "distance_m": 998.399712800292,
+    "height_px": 33.47962119374685,
+    "block_L": 40.83339087526515,
+    "background_L": 47.3423622940069,
+    "dL": 6.508971418741744,
+    "frame": 9
+   },
+   {
+    "distance_m": 981.631612716154,
+    "height_px": 34.05367987025417,
+    "block_L": 40.544804266766434,
+    "background_L": 47.205998789260676,
+    "dL": 6.661194522494242,
+    "frame": 10
+   },
+   {
+    "distance_m": 963.006122991314,
+    "height_px": 34.71485338571961,
+    "block_L": 40.29761593896645,
+    "background_L": 47.27247305127244,
+    "dL": 6.97485711230599,
+    "frame": 11
+   }
+  ]
+ },
+ "pass": false,
+ "criterion": "C7: the 80 m block differs from its background by at least one value band at about 150 m and 1 km; one value band is read as 4 L* (M-003 d-i merges levels closer than 4 L*)",
+ "tool": "Tools/Rendering/Pixel/pixel_checks.py blocks"
+}

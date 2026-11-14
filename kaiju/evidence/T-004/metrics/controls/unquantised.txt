@@ -1,0 +1,24 @@
+M-003@v1  [control_unquantised]  registry v1.1 sha256:7a63afd06c66  tool 1.0.0
+VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 3
+  FAIL           [G] M-003.a.output   0 share  >= 0.95  margin -0.95
+      where: control_unquantised/slate_teal_eye70/f000000 (2073600 output px beyond dE00 2.0)
+  FAIL           [G] M-003.a.internal 0 share  >= 0.995  margin -0.995 seed-threshold
+      where: control_unquantised/slate_teal_eye70/f000000
+  FAIL           [G] M-003.b.DIG      0 share of frames  >= 0.8  margin -0.8
+      where: control_unquantised/slate_teal_eye70/f000000 DIG 0.000; control_unquantised/slate_teal_eye70/f000001 DIG 0.000; control_unquantised/slate_teal_eye70/f000002 DIG 0.000
+  PASS           [G] M-003.c1         1 rho  >= 0.9  margin 0.1 seed-threshold
+  PASS           [G] M-003.c2         0 L*  <= 0  margin 0
+  PASS           [G] M-003.d-i        0 levels  <= 12  margin 12
+  PASS           [G] M-003.d-ii       1 families  <= 3  margin 2
+  PASS           [G] M-003.d-iv       1 share of blocks  >= 0.995  margin 0.005
+  PENDING        [G] M-003.f          -   (no panel_ratings@v1 file given (the tool never defaults a score))
+  REPORTED       [i] M-003.a.A3       0 share
+  REPORTED       [i] M-003.a.A5       0 share
+  PASS           [A] M-003.b.DIG_max  0 DIG  <= 0.5  margin 0.5 seed-threshold
+  NOT_RUN        [A] M-003.b.O        -   (O undefined: no frame has enough interleaved windows (R-002: '-'))
+  NOT_APPLICABLE [A] M-003.d-iii      -   (no accent present in any frame (applies only when present))
+  PASS           [A] M-003.e.sky      0.4213   in [0.2, 0.5]  margin 0.07869 seed-threshold
+  PASS           [A] M-003.e.horizon  0.4184   <= 0.45  margin 0.03156 seed-threshold
+  PASS           [A] M-003.e.contrast 41.3   >= 25  margin 16.3 seed-threshold
+  inputs: 109 files hashed; report.json holds every value, threshold and hash
+report: evidence/T-004/metrics/controls/unquantised/report.json

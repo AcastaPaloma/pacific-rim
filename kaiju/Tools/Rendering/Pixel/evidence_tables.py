@@ -87,10 +87,11 @@ def main():
         r = load(p); v = {x["id"]: x for x in r["submeasures"]}
         g = lambda k: fmt(v[k].get("value")) + " (" + v[k]["status"] + ")" if k in v else "-"
         print("| %s | %s | %s | %s | %s | %s | %s | %s |" % (os.path.basename(os.path.dirname(p)), r["headless_verdict"], ", ".join(r["failing_gating"]) or "none", g("M-003.a.internal"), g("M-003.a.output"), g("M-003.b.DIG"), g("M-003.c1"), g("M-003.d-iv")))
-    r = load(os.path.join(M, "m004", "report.json"))
-    if r:
-        print("\n### M-004@v1, five profiles × two viewpoints, configured default anchoring (`hybrid`), position snap and rotation quantisation on")
-        sub_table(r, "M-004@v1, `m004_<profile>`"); m004_sequences(r)
+    for folder, heading in (("m004", "configured default anchoring (`hybrid`)"), ("m004_direction", "`direction` anchoring (same sequences, same stabilisers)")):
+        r = load(os.path.join(M, folder, "report.json"))
+        if not r: continue
+        print("\n### M-004@v1, five profiles × two viewpoints, %s, position snap and rotation quantisation on" % heading)
+        sub_table(r, "M-004@v1, `%s_<profile>`" % folder.replace("m004_direction", "m004direction")); m004_sequences(r)
         print("\nWorst value per profile and threshold group (S_px / C_px / F; limits: S0 0 / 0 / 0, Y 0.01 / 0.01 / 0.001, T12 0.12 / 0.15 / 0.005, T3 0.12 / 0.15 / 0.08):\n")
         print("| Profile | S0 | Y1–Y2 | T1–T2 | T3 | Sub-measures passed |"); print("|---|---|---|---|---|---|")
         for p in sorted({q["profile"] for q in r["extra"]["sequences"]}):

@@ -1,0 +1,24 @@
+M-003@v1  [control_bilinear]  registry v1.1 sha256:7a63afd06c66  tool 1.0.0
+VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 2
+  FAIL           [G] M-003.a.output   0.8065 share  >= 0.95  margin -0.1435
+      where: control_bilinear/slate_teal_eye70/f000010 (401156 output px beyond dE00 2.0)
+  FAIL           [G] M-003.d-iv       0.4486 share of blocks  >= 0.995  margin -0.5464
+      where: control_bilinear/slate_teal_eye70/f000007
+  FAIL           [A] M-003.b.DIG_max  0.5128 DIG  <= 0.5  margin -0.01281 seed-threshold
+  PASS           [G] M-003.a.internal 1 share  >= 0.995  margin 0.005 seed-threshold
+  PASS           [G] M-003.b.DIG      1 share of frames  >= 0.8  margin 0.2
+  PASS           [G] M-003.c1         1 rho  >= 0.9  margin 0.1 seed-threshold
+  PASS           [G] M-003.c2         0 L*  <= 0  margin 0
+  PASS           [G] M-003.d-i        6 levels  <= 12  margin 6
+  PASS           [G] M-003.d-ii       1 families  <= 3  margin 2
+  PENDING        [G] M-003.f          -   (no panel_ratings@v1 file given (the tool never defaults a score))
+  REPORTED       [i] M-003.a.A3       0.9018 share
+  REPORTED       [i] M-003.a.A5       0.9916 share
+  REPORTED       [A] M-003.b.O        0.9484 O
+  NOT_APPLICABLE [A] M-003.d-iii      -   (no accent present in any frame (applies only when present))
+  PASS           [A] M-003.e.sky      0.4213   in [0.2, 0.5]  margin 0.07869 seed-threshold
+  PASS           [A] M-003.e.horizon  0.4184   <= 0.45  margin 0.03156 seed-threshold
+  PASS           [A] M-003.e.contrast 27.61   >= 25  margin 2.605 seed-threshold
+  warning: ADVISORY M-003.b.O reported without a threshold until Q-015: median O 0.948 (Bayer/checker > 0.5, white noise ~ 0, clustered < 0; the references are -0.34..+0.15)
+  warning: ADVISORY M-003.b.DIG_max failed: value 0.5128 vs <= 0.5
+  inputs: 109 files hashed; report.json holds every value, threshold and hash

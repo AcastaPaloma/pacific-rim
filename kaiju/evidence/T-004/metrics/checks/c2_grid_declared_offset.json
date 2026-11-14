@@ -1,0 +1,22 @@
+{
+ "sequence": "evidence/T-004/captures_local/control_subpixel_offset/slate_teal_eye70",
+ "frames": [
+  {
+   "frame": 0,
+   "scale": 4,
+   "declared_offset": [
+    3,
+    0
+   ],
+   "uniform_blocks_declared": 1.0,
+   "uniform_blocks_offset_ignored": 0.7401311728395061,
+   "subpixel_offset_internal_px": [
+    0.3,
+    0.0652
+   ]
+  }
+ ],
+ "pass": true,
+ "criterion": "M-003 d-iv: >= 99.5 % of s x s output blocks uniform at the declared offset",
+ "tool": "Tools/Rendering/Pixel/pixel_checks.py grid"
+}

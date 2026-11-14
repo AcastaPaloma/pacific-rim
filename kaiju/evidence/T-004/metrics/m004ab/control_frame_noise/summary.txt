@@ -1,0 +1,19 @@
+M-004@v1  [m004ab_control_frame_noise]  registry v1.1 sha256:5f39e5531f9e  tool 1.0.0
+VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 3
+  FAIL           [G] M-004.S0         0.1571 share  <= 0  margin -0.1571
+      where: eye70_S0 (S0, slate_teal/eye70, lag 1)
+  FAIL           [G] M-004.C_px.S0    0.2856 share  <= 0  margin -0.2856
+      where: eye70_S0 (S0, slate_teal/eye70, lag 1)
+  FAIL           [G] M-004.F.S0       0.07888 share  <= 0  margin -0.07888
+      where: eye70_S0 (S0, slate_teal/eye70, lag 1)
+  NOT_RUN        [G] M-004.S_px.Y     -   (no Y sequence)
+  NOT_RUN        [G] M-004.C_px.Y     -   (no Y sequence)
+  NOT_RUN        [G] M-004.F.Y        -   (no Y sequence)
+  NOT_RUN        [G] M-004.S_px.T12   -   (no T12 sequence)
+  NOT_RUN        [G] M-004.C_px.T12   -   (no T12 sequence)
+  NOT_RUN        [G] M-004.F.T12      -   (no T12 sequence)
+  NOT_RUN        [G] M-004.S_px.T3    -   (no T3 sequence)
+  NOT_RUN        [G] M-004.C_px.T3    -   (no T3 sequence)
+  NOT_RUN        [G] M-004.F.T3       -   (no T3 sequence)
+  missing inputs: slate_teal/eye70: incomplete class set
+  inputs: 362 files hashed; report.json holds every value, threshold and hash

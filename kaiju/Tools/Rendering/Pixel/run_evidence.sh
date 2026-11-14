@@ -33,6 +33,10 @@ done
 # 3. M-004@v1: the five profiles x two viewpoints (hybrid anchoring, the configured default), then every
 #    anchoring mode and stabiliser variant on slate_teal / eye70, and the per-frame-noise control.
 $PY "$T2/metrics.py" m004 $C/m004_warm_rust_sepia $C/m004_warm_amber_haze $C/m004_slate_teal $C/m004_lavender_peach $C/m004_slate_crimson --palettes $PAL --out $M/m004 --jobs 6 > $M/m004.txt 2>&1
+# The same five-profile run with direction anchoring, when those sets have been captured (-captureJobs m004direction).
+if [ -d $C/m004direction_slate_teal ]; then
+  $PY "$T2/metrics.py" m004 $C/m004direction_warm_rust_sepia $C/m004direction_warm_amber_haze $C/m004direction_slate_teal $C/m004direction_lavender_peach $C/m004direction_slate_crimson --palettes $PAL --out $M/m004_direction --no-images --jobs 6 > $M/m004_direction.txt 2>&1
+fi
 for d in $C/m004ab_*/; do n=$(basename $d); n=${n#m004ab_}
   $PY "$T2/metrics.py" m004 $d --palettes $PAL --profiles slate_teal --viewpoints eye70 --out $M/m004ab/$n --no-images --jobs 6 > $M/m004ab/$n.txt 2>&1
 done

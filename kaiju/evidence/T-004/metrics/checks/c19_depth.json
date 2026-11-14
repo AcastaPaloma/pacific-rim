@@ -1,0 +1,39 @@
+{
+ "frame": "evidence/T-004/captures_local/m003_stills/slate_teal_eye70/f000005",
+ "points": [
+  {
+   "point": "Block80_Near front face",
+   "expected_eye_depth_m": 109.147019394204,
+   "decoded_m": 109.14924617842202,
+   "relative_error": 2.0401695166605568e-05
+  },
+  {
+   "point": "Block80_Far front face",
+   "expected_eye_depth_m": 954.697761556684,
+   "decoded_m": 954.6436810498691,
+   "relative_error": 5.6646730507377895e-05
+  },
+  {
+   "point": "Layer_3km_B front face",
+   "expected_eye_depth_m": 3114.344077618284,
+   "decoded_m": 3114.4288864855325,
+   "relative_error": 2.7231694743760436e-05
+  },
+  {
+   "point": "Layer_10km_A front face",
+   "expected_eye_depth_m": 9485.284695201684,
+   "decoded_m": 9484.168189352971,
+   "relative_error": 0.0001177092606696284
+  },
+  {
+   "point": "Layer_30km_B front face",
+   "expected_eye_depth_m": 28654.973419847083,
+   "decoded_m": 28655.627848346616,
+   "relative_error": 2.283821694558761e-05
+  }
+ ],
+ "sky_pixels": 50256,
+ "pass": true,
+ "criterion": "C19: depth PNG16 (log) decodes to known scene distances within 1 %",
+ "tool": "Tools/Rendering/Pixel/pixel_checks.py depth"
+}

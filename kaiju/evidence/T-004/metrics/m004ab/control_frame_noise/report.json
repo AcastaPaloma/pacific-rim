@@ -1,0 +1,2108 @@
+{
+ "assumed_thresholds_decisive": [],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [
+   "slate_teal/eye70: incomplete class set"
+  ],
+  "optional_not_provided": [],
+  "provided": [
+   "slate_teal/eye70: S0"
+  ],
+  "required": [
+   "slate_teal x eye70"
+  ]
+ },
+ "exit_code": 1,
+ "extra": {
+  "no_verdict_sequences": [],
+  "sequences": [
+   {
+    "C": 0.285620206517,
+    "F": 0.0788803746275,
+    "S": 0.157111058799,
+    "S_pair_max": 0.158425925926,
+    "S_pair_p95": 0.158119598765,
+    "blank": false,
+    "class": "S0",
+    "frames": 60,
+    "interleaved_px": 3261717,
+    "interleaved_share": 0.426568973635,
+    "lag": 1,
+    "profile": "slate_teal",
+    "sequence": "eye70_S0",
+    "valid_share": 1.0,
+    "viewpoint": "eye70"
+   }
+  ]
+ },
+ "failing_gating": [
+  "M-004.S0",
+  "M-004.C_px.S0",
+  "M-004.F.S0"
+ ],
+ "failures_suppressed": false,
+ "flags": [],
+ "headless_verdict": "FAIL",
+ "headless_verdict_label": "FAIL",
+ "images": [],
+ "inputs": [
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000000.json",
+   "role": "style_capture@v1",
+   "sha256": "b5f35317f49e6e2260da01d825484b43f2f70eaaaf37df979d1151b912eb599e"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000000_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "9ab438404d34db8c2cc8197f33bbe8b8c8cb97e16b882e25ba37474963d6dd4b"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000000_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "c2d85ffec361df65669df7d77edc2ed9322ff074bb05a880d6ab526dfdef4a7d"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000000_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000000_index.png",
+   "role": "style_capture@v1",
+   "sha256": "bede85cc2e37cbecfe10c6b6055a9e986c453ae6d6e93bf746939e21714c2037"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000000_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000001.json",
+   "role": "style_capture@v1",
+   "sha256": "05abc4bea9b67c2a328831fd7542aadaf0640a55ea537e45c0eaac35e4b3c568"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000001_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "0e22c145abd21e766673d335d07fbb72a813592bd968351be8d674bb1497bc5f"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000001_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "44162430ce088f1cc40c0d45fe6878673ecaed88d99f618b0434168e5809e33f"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000001_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000001_index.png",
+   "role": "style_capture@v1",
+   "sha256": "60fb9ba4a3e65312f4eae510fb953be4c2f8547bbf8263bec2bc95e37e8b7b2b"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000001_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000002.json",
+   "role": "style_capture@v1",
+   "sha256": "d53b0c2960d7015d88bd661cde469e1cf3cb01003c0caa50ffb6fe28e4261523"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000002_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "cdbe4e2d9cca6c015a75e444da26c30073817c65ebd539363043397c32e76586"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000002_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "f045a3da63a835425f8a2beef11949307d0604338b865de5c69fbb5a29f66a2b"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000002_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000002_index.png",
+   "role": "style_capture@v1",
+   "sha256": "f01c8f039f35b12a3a3f5e4d8fcd6f367b2a7327b30c2c28e47026210ac21c89"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000002_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000003.json",
+   "role": "style_capture@v1",
+   "sha256": "58a7ab77c67711437b8d502388e75226be3d45820fe261732624ac60938076a0"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000003_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "8ea25376fc4dc15856b9b7b6e0f488c19ce62d8b255a50085dcb2fc60a4417ec"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000003_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "7c296ff3371697b0fdca7fd8fe1f2468d21f1f604e662b83ad37853ad623a61c"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000003_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000003_index.png",
+   "role": "style_capture@v1",
+   "sha256": "9f030cbbab6d8d1683b3bf4b00705966aa742d4f91c6cc3f5cd606f7de03ed9f"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000003_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000004.json",
+   "role": "style_capture@v1",
+   "sha256": "8eed839b58e98a616194f4410ec2ab5281b39c8a819c2fe722bab17a95038759"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000004_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "35ee17f881a54f6eb6d68c3d222a4bd930fb09e2bff463445a1a818c6bf791bf"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000004_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "c5611fa2635ec25707181b790752299f3778c08a075ae0dc3a114508aeb56d42"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000004_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000004_index.png",
+   "role": "style_capture@v1",
+   "sha256": "946ba927f2a6507e321361af1b9abf6a9539770c880a617af5513b06887db88b"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000004_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000005.json",
+   "role": "style_capture@v1",
+   "sha256": "cb5d2ab904813bd60fa2317d908437301cba71c361598b2bbe6604fedcfaaf7c"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000005_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "ee0d6043dc4666a5fb7cd4ed2d2ce84b24f469fefbdcfe8b2327eccc26916a10"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000005_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "a064dacc363d71cf872bdddf9886d2e4498b46077925985a71b0c3f6a55c2d85"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000005_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000005_index.png",
+   "role": "style_capture@v1",
+   "sha256": "6bab125f039a44d9afe3dc8e8d067145e682af72c98745710f35958b0df9d229"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000005_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000006.json",
+   "role": "style_capture@v1",
+   "sha256": "6cd92fb28dd8018a1516ba6a57bacd2192c99aea3bea7ec59406bf965fa907ef"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000006_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "54b0e3dfdd7a31288f4da2b0be4dec5183233d17953a541ef548209cd4a619f2"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000006_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "2f5309b9f2e618e1865a2916d6a914ece2a682d3eda2079c6a0a8c0272d620c0"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000006_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000006_index.png",
+   "role": "style_capture@v1",
+   "sha256": "d9c854076329b44ad844621518e3dd3ec2f8c65615776a737e449d0f3b34d84e"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000006_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000007.json",
+   "role": "style_capture@v1",
+   "sha256": "0869f04fca8f7ebf0235f7f29d29cb4eccfd0ce38a075a2c7a58d284b025389b"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000007_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "7f5df5121c8613af8e3f5501a910af0c084b958c322db22ddf94b5010d28866e"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000007_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "0a4153c4be987a0f9a1a6001f9827e9bbcff26c5181e4cf2fcf3c9217b83407f"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000007_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000007_index.png",
+   "role": "style_capture@v1",
+   "sha256": "e57a507161de2c8d3b2f72b486b1b638737a9bef61ba458e1ca059740db946bd"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000007_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000008.json",
+   "role": "style_capture@v1",
+   "sha256": "2c4f08dc2d5a092ced2d9501e71ef9a9cb27a6f417678e8f47573916e3ccd3cd"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000008_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "911af5847250ff6a433b6c0fa900bc697bf1f87a6be2f4e872426bd86e87ea6d"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000008_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "414211c754d01639887d47c25cddefe68b5f77298805f41ee58c8e732416ae73"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000008_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000008_index.png",
+   "role": "style_capture@v1",
+   "sha256": "746d8fc6b34157596070dba248952b94214ca39ae18af62c9f2e3b76b7c881b6"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000008_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000009.json",
+   "role": "style_capture@v1",
+   "sha256": "0ce28af97bdd31d2bbe0989628af7dc584f6847baa57d353b8e618bc72d7a2fc"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000009_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "9c34a13a821c2c39921614d7582bfed62d8ec2240715f28110ce546ad0abb0e3"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000009_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "c4995d1ff2113590d80336f83b2db287e6f826568fef15a4c0f8eddd99e405aa"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000009_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000009_index.png",
+   "role": "style_capture@v1",
+   "sha256": "7567060cf1b869abddbc31aa6a417a6290fd4f4ef05da2edb695cfc8f0f3ca2f"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000009_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000010.json",
+   "role": "style_capture@v1",
+   "sha256": "473eeb9f1875a6e5d8beb4d4db9e7f0429e66e6f32c69e20080bc0e69d7f99ff"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000010_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "a76e0bf626bb532d708f4410b113bfbd672c55b77d841815f4035810fcd783f9"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000010_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "b794490172f4e6bc361111054f1ec0221cbe2ba3e5c9c397879830d95bff4030"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000010_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000010_index.png",
+   "role": "style_capture@v1",
+   "sha256": "05a33b0f62fdff8bd8a64669d97b7f44676e554705285558dc7ffc3c65919bbf"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000010_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000011.json",
+   "role": "style_capture@v1",
+   "sha256": "716b6d50e8fea7a678ba2a82fcad1f39c9550e84550622210db45ab3f2a170de"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000011_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "7adf4b1902ec87b4045d690983b0bf513514512e54082cb86c969af8ba76c379"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000011_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "d5eab1e39b4e34a8b78e805f48e99bbb3df75ce6946c24c460440ab81bb80b9a"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000011_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000011_index.png",
+   "role": "style_capture@v1",
+   "sha256": "f18c47edeab3e9a7422b8531e9b5ad8ccffba1fc86810696438ca83a2d9a4215"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000011_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000012.json",
+   "role": "style_capture@v1",
+   "sha256": "9eb8e3b69057bc09a263a0c81863a50d818e41006f9e3640e0728ba9b4b5192f"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000012_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "4571fc6cb62c411b04a066b685552448a023c25a03ed1bf5e11c609e37fe9a72"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000012_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "744f2e4a7f3a450cffd8d8a0f6e176066e4e07f01cf7bda6f81dec8f0cf659c4"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000012_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000012_index.png",
+   "role": "style_capture@v1",
+   "sha256": "c0999b2d2bd9f7ac28c6e34a4eb357f87bac5fb9148ed1938fa8de67c8ec1763"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000012_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000013.json",
+   "role": "style_capture@v1",
+   "sha256": "f208387f72edfc044fb51685a6d2fdc0823e0bf91feec7ed193932ffa309b511"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000013_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "bb67e38a5feaa584657ff3fd29d22df38a88ce3796ec5c676a0fda31918302df"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000013_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "f81baf0b1880be6d9edda9f3b2f8fbedbc39100102608b316dddd0bc55f86dac"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000013_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000013_index.png",
+   "role": "style_capture@v1",
+   "sha256": "bafda147f5d44c4bf7e91ccbb4eafd52b23abf3ed0d46a9076b0eff5b73c7930"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000013_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000014.json",
+   "role": "style_capture@v1",
+   "sha256": "139f2eec1b4c6f974c15970d0834fa1345ec241a4a045f0afb8332688208c7ae"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000014_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "7cb8ffcd4095f09b6e58afda07bf786619b6d9d403abf64c3e35595a04f64e3c"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000014_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "f702cece801e6e3059f49292270ca14d59d3116b7dde02b1a8493939fdbd188e"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000014_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000014_index.png",
+   "role": "style_capture@v1",
+   "sha256": "34e4a3d41304949818a505f4ec169160e9dd835addc709e2508627ae1d7dd2e9"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000014_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000015.json",
+   "role": "style_capture@v1",
+   "sha256": "3ce45b8f9e422ad0ea4f71a134e45c51781e2c194166c1387dfe7a6f7ce57e75"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000015_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "7ab8c03ea764ba0dfb6d140df960bf45d64e2960d251052af25881cdae575050"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000015_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "069df77f4bd55774226824ff356518fd75caa93ad5f3aa6c4ebec5c8600877bd"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000015_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000015_index.png",
+   "role": "style_capture@v1",
+   "sha256": "71e6c842480f430f8cae53587c114a6e026a44a2aa8b1bd8d537e64b5792bdc1"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000015_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000016.json",
+   "role": "style_capture@v1",
+   "sha256": "3f88a5c8d142168809750aca86bc0d5144c72213772169df88a54d8e530a7ebd"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000016_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "96393ae43eb993be6325b9f69910e523b98b1cfdd30e27a0f5909a338d340c1c"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000016_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "ce6bb97e4eec524f0eaa495fd5d072be7980e9c5e910275ba45c7c6743f0be91"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000016_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000016_index.png",
+   "role": "style_capture@v1",
+   "sha256": "bfc6e8dbbbf9deee2c64a719ae4c2616b6cdd48346b000dbfba4dad7b03a1861"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000016_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000017.json",
+   "role": "style_capture@v1",
+   "sha256": "bc33c7b015d05c38a7db61e154ac59ecf18bb1852071a93ca7447e0cac801033"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000017_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "03f2de4b003694a2338d66e5f5759996d2dc8e499814a66780e4252b0323ff63"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000017_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "f58951f59ee45afdc82845a5ad7e22bb7d87115ec0f328090bfd2dcbb7414061"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000017_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000017_index.png",
+   "role": "style_capture@v1",
+   "sha256": "9dddf9ea24e251f20cab0868a804b46884ea6358f09179fc1769c74534cce190"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000017_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000018.json",
+   "role": "style_capture@v1",
+   "sha256": "d214628e8548b29cdc2b384370d97ce87cf3f70701583a027380aa5efc847c28"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000018_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "5d7ce89389e55739ec65c2c21589eb1664e284203757c9a9b335e4b0b3faaad9"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000018_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "016c1eff652314f3e066ea6de5a4cc68ba2cfe6c9dbf10db44ccd77b812c0855"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000018_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000018_index.png",
+   "role": "style_capture@v1",
+   "sha256": "bffd8a7e6ea1426faf49cc83230278fb27fb103b618226085d06b3e12a8e091a"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000018_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000019.json",
+   "role": "style_capture@v1",
+   "sha256": "0c22203685ff945a095207273db0f0df523c18ba08744af46866816bda09786f"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000019_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "f340a989c58fa3da10b1bd9a64e446b94eff09c25c3e1ffeb21914568e078991"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000019_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "c9e58830051a759290176c8efddbc6a681e312e25216127fda1f7daa44a09288"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000019_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000019_index.png",
+   "role": "style_capture@v1",
+   "sha256": "84ecce4ede3019995fdc287c1f9c5e1d698c7d6be23eccf8b8285e88fa5c07fb"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000019_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000020.json",
+   "role": "style_capture@v1",
+   "sha256": "edb7211193da3a3e1a374f5befbbb0b28542d49887e0a83a7115cd44ac6a4714"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000020_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "32d7e840ba9dad110719d3a6ae5b167a0b9fea67aec68addc11fcadf3714f234"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000020_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "ed89558da79bad9fdbdf5292c545b2a462989285ce55397da8851d240d87329c"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000020_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000020_index.png",
+   "role": "style_capture@v1",
+   "sha256": "a9c0b7cf9bf0ec1b223e9c06f6be0689354188963c9d25cc2fcf18f133ef20b1"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000020_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000021.json",
+   "role": "style_capture@v1",
+   "sha256": "b9c6859989f4b90be78a96072b37e5af5cf9e16649c01cd98c8388f7a616ce6e"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000021_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "6bb418519c643218475ece0230c379166e6a88de0f9d606712d6e09341ca6150"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000021_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "39042c33af5bfc5e8ce7b1dc2f9f05ef7d50a336f44591604272e21342f90b3f"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000021_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000021_index.png",
+   "role": "style_capture@v1",
+   "sha256": "ea55023d62babc627be34a22d903b67c91bbae8c3aaf8405d17eacc67ddb97b0"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000021_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000022.json",
+   "role": "style_capture@v1",
+   "sha256": "d889999084b0f0a1a45353e87460707dffccbf9016be796e05034aa9c7d020eb"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000022_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "5a1d2a12d1f3f92fcff618757e6f0bc3f45d57187316b5189cf000e0d6d05c8b"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000022_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "daf7350f097047b6d1eea986f66860ba40405dab760ff43eeef6c0498935a61d"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000022_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000022_index.png",
+   "role": "style_capture@v1",
+   "sha256": "f5da88060c78df04a5bbd5efd35430e2b472064d3cdd016dbac7493f70ba149f"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000022_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000023.json",
+   "role": "style_capture@v1",
+   "sha256": "3aaca4fb7900cfa512e683c7a0c9f25a17280e4faa3de0f7295502d1799841a5"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000023_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "cc14513904abb19459abd710d61e374de5995477495731f2443d04231abd7a9a"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000023_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "c98e1d1362bcf9d9527b3c9b693fd1a288f378d235301c28b6a02985b3dd244b"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000023_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000023_index.png",
+   "role": "style_capture@v1",
+   "sha256": "9c7e6a53e9e269c571f67f7f7cf769fac0a2108d4847c4bd913e037ba96093d7"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000023_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000024.json",
+   "role": "style_capture@v1",
+   "sha256": "080fa528d77f1e9e373b8bfb9a838623432daee8d00c4b17020612526200a729"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000024_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "b79e6b5523a34e6f8e33d4abaca58c8409e7465c9799318c44cdd6b280084b9d"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000024_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "18c1531cd3b4149583c28b366ba36e2546c2e763b29949d96ea9f17e40969bbf"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000024_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000024_index.png",
+   "role": "style_capture@v1",
+   "sha256": "82eeb001291e2b5f840215b3fc19961884a0d42571b9c8180fa15f26bd2fe675"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000024_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000025.json",
+   "role": "style_capture@v1",
+   "sha256": "9299881ff26662ddd3c89ab106d7822d6ac2a9e1a94615abfd75c016ad2ba979"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000025_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "33ae7516f6f7dc988ff2ebb1ef1d7cb426f4cac9855de0c304b2c75589da52b4"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000025_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "764fcdc57ebbe8855fc500ff73fd19f8b135cea0c2c126311a72c71a5752648a"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000025_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000025_index.png",
+   "role": "style_capture@v1",
+   "sha256": "f05ad56bc64ee4b35edba12a33044454bf673590ac173e0957651b462016b292"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000025_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000026.json",
+   "role": "style_capture@v1",
+   "sha256": "d69eaf204c112c8716f24047108b35ce16927833a87773bb68488825b6d9fc73"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000026_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "00c99d35010e2d2db4d108556f4db4fb172a31b1d3d822b2bfc1ca3d79f7e8b3"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000026_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "7961696294fe0aa582e1901c2447b3cdcdfdbc9b151790d19eeb758e6fc102ee"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000026_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000026_index.png",
+   "role": "style_capture@v1",
+   "sha256": "b0219f71e6df899060c54a6b8be71544062b801ea45127d69cac252938100452"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000026_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000027.json",
+   "role": "style_capture@v1",
+   "sha256": "2ebb97f14e4f500c9245522965f99bef877caca3b1849f07cea49af914a94ab9"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000027_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "47c4da5038bb911ecd1a66ff05b868227b9d36322a6a83b0c153b1a3fe707b5e"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000027_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "a5839e7662dec3826acb3f7b73b345fe7ff283b2de4c45996ef150c9f0d57709"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000027_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000027_index.png",
+   "role": "style_capture@v1",
+   "sha256": "443dcf3b3acee6e1e3786675ac720b67697179e86fead84b2faf10096652dc8b"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000027_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000028.json",
+   "role": "style_capture@v1",
+   "sha256": "71dbd26893cf1ff1b98ba6ddb320e0603b1c872ef49bf88161de24f6a1a473e0"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000028_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "79840dc48c967b265082891940d9b9eef3cb5a203b8dc530ae2ad1d9a26a7f94"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000028_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "48fa2ecc65fa51d7894a5be53b5c22b28e0a80800c56cfa38297f4556de3d592"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000028_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000028_index.png",
+   "role": "style_capture@v1",
+   "sha256": "1c884a3694eae1f4224af7e8c183e905033f5be5331ee4032c583c1cb9be9016"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000028_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000029.json",
+   "role": "style_capture@v1",
+   "sha256": "63491238cabd8b816341b913975b49ae48933a4fb93db2d64a2e5c8a833396c6"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000029_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "2c4ba70d32cfbcc73ff2ae081b144a1e746fd62fe1172ad3876d09f5d09fbbc4"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000029_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "33697886663c21bba22a71eed6f9f41be5ef9c7fee2010488d829f2d980c0484"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000029_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000029_index.png",
+   "role": "style_capture@v1",
+   "sha256": "dff0aa6aaef5e73c213ab4f5bc782db24fd938cb1737b5ef25dcf4b79fce55a1"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000029_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000030.json",
+   "role": "style_capture@v1",
+   "sha256": "73439d2ac417155cc1cde605829327635f22ce291e556a724d2c4403a5b7cf48"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000030_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "aa069fc4e924e309e41930fcb11344eb86e62072f092bd6d8b51966de88b8427"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000030_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "c95ee0c6e30547768152a4a0ebd84d3a2e3e3f8c5ab6dbc4cc05a4c12ac3337d"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000030_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000030_index.png",
+   "role": "style_capture@v1",
+   "sha256": "3255cc95a2e91f196dff2ae57439cda168b9db3badf9b4a1c58e856d37189659"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000030_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000031.json",
+   "role": "style_capture@v1",
+   "sha256": "cf8a5074b0c49bd86586800dc8205e6a78be2b6ba945c5d330d6f870bb82e439"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000031_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "3351df4d7d565d27444f988994e424aa717e96038b2c117c27edb502b844e28c"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000031_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "5b4cf79eaa7f9e0792ca3add35a9cf1c1f0747b04bbc23fde22a803a94e48790"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000031_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000031_index.png",
+   "role": "style_capture@v1",
+   "sha256": "f0d63a6e16e915c4a7dfc636451bea589b0a489370e744ef6e4fbb33dc7ca0cb"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000031_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000032.json",
+   "role": "style_capture@v1",
+   "sha256": "aefca63b23b927017b1f59fd36021e01da92e066e01f787266d41ab3974f553a"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000032_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "036a44aa69a3b1f8818dc35f03e0c68dfc63966a99a65c0f9c25f474e043ee29"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000032_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "cbd6f5ba2a81b05403a589b36dbe750a679553cb2d8e290fdc540957a945605e"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000032_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000032_index.png",
+   "role": "style_capture@v1",
+   "sha256": "03311ee50fb380bc6b4f5c0378fb1686bf3066a5f5e11abab14012b51c9fee24"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000032_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000033.json",
+   "role": "style_capture@v1",
+   "sha256": "1b00f598be1513b0b7c75d1ab11a40926a8bbd8f65ab0f1d985d0fa3e589c827"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000033_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "52fd90866262a925ae02a4b1db505adf3f4299ad4f6b9bbd0833551f724840ef"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000033_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "1e02673f0ed8b01a072aa3ae6aee79be705522e60d4cd9de887739e02e779967"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000033_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000033_index.png",
+   "role": "style_capture@v1",
+   "sha256": "bd18a2c28d3dd593210e252f5dccd875f4a5bd3090a32b40960e9ea81b09545a"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000033_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000034.json",
+   "role": "style_capture@v1",
+   "sha256": "afb193a6496b0ec62f85fde5cc9b006396c32b4ab17392a1423e1ca928a7fc10"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000034_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "613e97d8d371aa97c89c128db96c29bb473030288cf9d5e4a726d8d154d8ed69"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000034_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "230c8341383e32d930739864fef0aa4c018643b522c722d2fae305265c74eaf5"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000034_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000034_index.png",
+   "role": "style_capture@v1",
+   "sha256": "2831f2a01bf19d1cf31a539a3e10b31a8fc9386e6e71f55fe2a1d5c0c5eb93ae"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000034_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000035.json",
+   "role": "style_capture@v1",
+   "sha256": "22a4ff299325899fb42d379b85d055ffcd06e16994ea477b2d0aceef00590244"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000035_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "7af20b74a3dd63dcb1520e4f684a245f2457313bc426289e5e20b1b40da80fab"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000035_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "61279e46d3186eaa57c33a8c2afe1e85ffba5961d29b9bc3676709fb24ce0df6"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000035_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000035_index.png",
+   "role": "style_capture@v1",
+   "sha256": "d698f7829bdb63300a64dcb313bc3cce042e2a0c32bb4da815bdcf863ee78e80"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000035_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000036.json",
+   "role": "style_capture@v1",
+   "sha256": "ee007404af0a4f5aba4ab4ab9a1511b78cd024aca5487997dfa7c38bfa67e293"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000036_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "3f833a644428a4162a1be4b35e445a0ca3e70eb8744f3f145080c84ae4c5b080"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000036_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "aad41560cb4355610bf6e061cd9b63136b2b058fb42976458c3fcee56a1ff9a0"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000036_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000036_index.png",
+   "role": "style_capture@v1",
+   "sha256": "c04fcd26d165ff20ddd3fded2a52685f5fe90f8a3a7e73e9a92ccedd2d7df74c"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000036_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000037.json",
+   "role": "style_capture@v1",
+   "sha256": "f9a2646c54bfd91e742e82250a18fccf754f2e4423fcbc27ca1200444278415c"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000037_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "e8d1775490b623bc2fe19dfb1a2f2e419ea0d3a91b62ea5c4bcedf5f98bdc54a"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000037_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "7d24b1f0428f43e6fd85362d2f347bf6b4cfeaf03e87393bde9252ffdb6d97f4"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000037_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000037_index.png",
+   "role": "style_capture@v1",
+   "sha256": "3801370ce8348ef3e5502809c0384a9367566f35419f732b90d22487b6538982"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000037_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000038.json",
+   "role": "style_capture@v1",
+   "sha256": "1be46269684395549fc315579e3af64a614f8f087a505300d028f408d068f4cf"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000038_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "2118bd3ad4751b3e7e503d7a5f1984cf1eb65d39ca1bf928e684079bc4c33871"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000038_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "08a22b8dec07d6019530590162be5db50e407bca300d23ac004a785e742b23a8"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000038_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000038_index.png",
+   "role": "style_capture@v1",
+   "sha256": "7d569bba79078131a8289970b7fe18cab52371f2a2785dbd259230f5219d3cec"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000038_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000039.json",
+   "role": "style_capture@v1",
+   "sha256": "5993fe924e0c168814cf2c1f428830e7c90f31d7e26d4c34c9052687976bf7e2"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000039_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "81033eec4aac547ce108b0d27fb3a8e2e63c760d94920ddf70a27bcb70965398"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000039_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "3af1f6340e4b226bac4f8d1bcf163ba182b637a32115207a220bddbeed9c8205"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000039_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000039_index.png",
+   "role": "style_capture@v1",
+   "sha256": "9eb57b6efbee0edd7fdb11e1ec013fd9c66f01a68bc2f1809876019f85fdb15d"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000039_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000040.json",
+   "role": "style_capture@v1",
+   "sha256": "7ca7cac2e02f108fc05faa38ed60fa5d8bea1d758f23cb3d167bf5a6d75f8254"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000040_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "379392f7bad0e65bab2f530a054718d8f3a72b6a88197a39e676cf70472cfb74"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000040_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "62f78294f206d83e97e2d9e617b4da76a3cd3cbff19dd473b5646078a0b3b833"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000040_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000040_index.png",
+   "role": "style_capture@v1",
+   "sha256": "b9c44e17e247ad9b054fa2a911b748c78356ebbc400e549131c34dd34f6a1670"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000040_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000041.json",
+   "role": "style_capture@v1",
+   "sha256": "edb0941c307c8a30516b07b1d61d94a4d7601f67732ad9d88ebc827a20647d9b"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000041_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "09fb350af7058a73cf4ad4be8411d18fa98ce67d78e1ccc7e5b2997a41b21a38"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000041_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "f17da8df2bbe34a045aac187df7dfc432020666702c3fa131fc215d4c609a5ac"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000041_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000041_index.png",
+   "role": "style_capture@v1",
+   "sha256": "14923dd22db8f66e4dba3a8650bec5af219861715f0b9ddea1bd56002cc8cf3b"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000041_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000042.json",
+   "role": "style_capture@v1",
+   "sha256": "37a8e72121df1fba78f8388c6bd7643119ab12a171e5bed72306ae7668218ed1"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000042_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "ea2dc55e1760d504f357ef80714bb63cebc3619a59f837f462d2169d505153eb"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000042_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "1fb7efbf0cda1dd2071f416e0b50a1ded8f302141ed64314d9c46c4b12774338"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000042_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000042_index.png",
+   "role": "style_capture@v1",
+   "sha256": "03c359f51ef02ffdc1ae7ef80387ea64ee90f1e5e07bb4cbdd3bef5c2bf2e493"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000042_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000043.json",
+   "role": "style_capture@v1",
+   "sha256": "1013b468ba5ca664e30246e4c3739e0f3cbb1e59fef23882bc1c9f005c6ed603"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000043_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "21101f016bd3ec5bba0383433cb5742de75d98dfa63a2da4610ceead445d07bd"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000043_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "033a98c792ddcb4484dc494d07fe06bba73a0217c46b5a555797054886ad712b"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000043_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000043_index.png",
+   "role": "style_capture@v1",
+   "sha256": "69e950aedc566fffdaed38f9cd15d43534d1e0af62312742f10a25acdd19d7ea"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000043_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000044.json",
+   "role": "style_capture@v1",
+   "sha256": "5cc4929de38302b60bb4c45f82b3ec15f0af5a3c85e6bf45f9cb1c6782d5fa88"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000044_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "75358f970c14805863d06bab65f3a8868fcba0f8e857969a90bbfe251b51a4ec"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000044_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "2b298136b51ae741246b41963e5deb0ee61fec6eb3f34a31c20f5ad10e386cc0"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000044_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000044_index.png",
+   "role": "style_capture@v1",
+   "sha256": "83612be678c97583bfe8ec5fe20d215b42ef0740103cb5db72e072ec269c4b23"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000044_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000045.json",
+   "role": "style_capture@v1",
+   "sha256": "44cb25c5432162806b42ecd6052d7167baef3dd01d1598f7c838fbcada30686f"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000045_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "4bdc129fab8662e384a55a938efacefa046216b63db416bfe4bd899e2052a8e0"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000045_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "276e9b2d03ebdc5433165259eca6c1907693c6a2672a4785d7d7539a4e313c9c"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000045_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000045_index.png",
+   "role": "style_capture@v1",
+   "sha256": "8fa6ce132196f56d57a326ed62ce63bb7792401ac039df59d4ab0b83884e02be"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000045_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000046.json",
+   "role": "style_capture@v1",
+   "sha256": "c79af8c22a38da710ec14705260984cccc3c81759e81c3777c8fdd09a7496d01"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000046_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "5aac95b55a0211aaaa799542addf9e5e8fff1b397fdf30716f57eba852a50d1d"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000046_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "bc5b3572a78da7299eddd7139c86bf37a3a4f90d38ec08c01c3c7c2d5f676cce"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000046_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000046_index.png",
+   "role": "style_capture@v1",
+   "sha256": "b7a409878f6fa6b394fefd427e9e6e60a2c4a583faff7921e9d1745bf2b8fc45"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000046_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000047.json",
+   "role": "style_capture@v1",
+   "sha256": "ef83836ac53e2bfc8ab2649b3f246211ddb5ff5bf044a31db5a7191cfe846be0"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000047_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "65e8323759e44d8e00a34052a110b4597a512a96241af7fd52806971e1c8b3d5"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000047_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "c0bbfe1fa56386d62e4ca95917905b3c19443d0ad3b015e7a5cfb985ffca89c7"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000047_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000047_index.png",
+   "role": "style_capture@v1",
+   "sha256": "6d7eba2199cb6036e682ffc514e760ec597d47542a5316e2295d20ddfef5df64"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000047_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000048.json",
+   "role": "style_capture@v1",
+   "sha256": "1d0a7404f613b1cfaed1e5dcab6c89dcdff9e8fc88ed4c6b6c779285f0e8a93a"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000048_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "f990981410d231c27f5006318ee9ee175a2ddce9e7e9dd87e290b85812b3d373"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000048_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "233f5035ae1d5e99b4b2433bfd479633a220af3f0b9c44344026cb02b049ae03"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000048_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000048_index.png",
+   "role": "style_capture@v1",
+   "sha256": "3adb9b6d6553e74dc56c4bc450c443e2d753ea76735436cea1b7fbf78d89b037"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000048_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000049.json",
+   "role": "style_capture@v1",
+   "sha256": "5395ffbbdca48b6d6078d9508b68187c1a128c54c7112b756f5fb6785023af22"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000049_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "de71ae6f51488e706530ebc4137a5e373b41364acb2743e5e1bd95530cb5b2a8"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000049_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "d59f515078999fde0abfae84d6bd4347a8bdc1f226a6cd5dcfaeab7387ffe845"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000049_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000049_index.png",
+   "role": "style_capture@v1",
+   "sha256": "94377f3fc55d5f548dd5ebcda078529d951afa27c3a777e66f61eb3e2a9a49f2"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000049_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000050.json",
+   "role": "style_capture@v1",
+   "sha256": "8940ee4bcf1e2fe549a405e29d1a10691d70b11bcd6c8320156be25f7d5317d2"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000050_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "35d3b18a92a2b1d05305b53deb26edb44747ae3b37881b5a475e468a43f5042a"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000050_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "33efff549879fe1db510d3dde2c52eea540a3085c4d5b33ccb235876c794ebaa"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000050_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000050_index.png",
+   "role": "style_capture@v1",
+   "sha256": "b87989529614696015df4e28144e7fdd8a4f932106cc4d809028b0079a8550d2"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000050_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000051.json",
+   "role": "style_capture@v1",
+   "sha256": "20443d809c2a985bd0c3002a20569db771d12f9d54fbab41a0e583756104ccaa"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000051_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "80e75445be16cee33bc6f9e2883726504f59f2897c412dbe2ce28b05539a9fba"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000051_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "1189c15d241c9200d7e3fa9948176587c20d1388be04cbea016dc9553ece1ac2"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000051_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000051_index.png",
+   "role": "style_capture@v1",
+   "sha256": "ab36c88138555ba4bed0fd08c11ca6a19a45a0cccff4431ce29f6b004ffdccf2"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000051_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000052.json",
+   "role": "style_capture@v1",
+   "sha256": "1c4695b121926cf105584ba854b829e2cc97c107d086a117d07ca55e840cdfe3"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000052_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "80396fe53dbfdb759939d8d2f7aa6359b77ec6ca4bc584bc763e4cd37fafd360"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000052_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "000e2bce1dd89284652a6e845b00487a2723d3fa4ea10aece39372a505afa50d"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000052_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000052_index.png",
+   "role": "style_capture@v1",
+   "sha256": "4e703f8544073a35fee783cac0459fe4804d921eb2445a9c4b0b3bb8b69b1270"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000052_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000053.json",
+   "role": "style_capture@v1",
+   "sha256": "d6f13476fa684404fd6c6341c86cf25e29e9af7e665b6c94bff86dbd073cd9ee"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000053_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "acefbbb9fe4b5c44fa4032ff6f67d2a7d70237276fbf98620e690cf02c4bc53d"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000053_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "b1c87589d6bb5dbd553df86ac478667bc756109538602ec67bd44a62fab942bc"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000053_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000053_index.png",
+   "role": "style_capture@v1",
+   "sha256": "998caef3901a4122fb4a0d7a4637ab88b2cbd554839bddb6045094cf54a7e97c"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000053_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000054.json",
+   "role": "style_capture@v1",
+   "sha256": "7e9760bdd96b7f93e9753e72d31fc306f46d737ca1ddb702884514eee2c79117"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000054_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "d7b88fbd648d124416df43ac2be203fabd5583c019b295740b2c187508eb71ad"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000054_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "f7ce6eb444186881b5787e16476a44be21b6dfffd44a969e9234e71088f300fd"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000054_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000054_index.png",
+   "role": "style_capture@v1",
+   "sha256": "739f91550b638d71af046d9130f6e3625171dfb4df6eb4654fff27a21f79dba8"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000054_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000055.json",
+   "role": "style_capture@v1",
+   "sha256": "4f7c04f39080bb6e6dea7f906edb0b5f6351a4f3f282108501d8512baf803401"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000055_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "3f1f55effbdfa00b16d188863a908c4f7901626a95ce16872d617bfa1320194c"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000055_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "189f6460895fd640f0372c452700a01a05ba211879a5b9a9069f173f5ccb0713"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000055_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000055_index.png",
+   "role": "style_capture@v1",
+   "sha256": "4f728d1658b678ac6d39ba2a165260783755e2b63d64ce8bc1a879e6139e2eed"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000055_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000056.json",
+   "role": "style_capture@v1",
+   "sha256": "1f897a30c4ed3d48d59e6421bc6956aa31b1d7b2e35942f490b872de7c952e3b"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000056_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "4832a15f1161b457cd33319ff54dcee6ac88668eb87419b9bea58ee674c934a3"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000056_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "bdaf732bf741647270f8a460bf03a1d34dce393ee8c59af222ed6914a6e82dde"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000056_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000056_index.png",
+   "role": "style_capture@v1",
+   "sha256": "e24cbf4f978461149b3b23d1d2e1cf94c92ff4f3a8c50e6304ca47e584f5fda3"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000056_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000057.json",
+   "role": "style_capture@v1",
+   "sha256": "c1be6230c3235ae481e5af641234301d3bf1ca383af7c7c59aff062666f7b45b"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000057_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "0913f7776930de46e2cbd621a62484d4f7852893ecc0aae4c1ed15daf061bcbd"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000057_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "9080b7ca951f3916086e2f57baddaf6421feaf9687829736d27d3f2393112684"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000057_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000057_index.png",
+   "role": "style_capture@v1",
+   "sha256": "1ae3218e1dd07e7643e7f4e91376bf36832155eaf252976b5005be65a1b499af"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000057_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000058.json",
+   "role": "style_capture@v1",
+   "sha256": "1873e15ab1417cdcae7f2402037ddb5d464dad749ff305c078e523e3dfce62db"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000058_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "9f207945b0648717b24560069c9ed2e269a791e2c3bea84567f996b6198a3542"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000058_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "9d1b809a43ff3194ea19c2e443c7b1f7ecc7accfdfb9579d4ae0f12afe465029"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000058_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000058_index.png",
+   "role": "style_capture@v1",
+   "sha256": "a0639d2f98f0f68ef18f19925e1fd7edbdcb828ced5abebf0ff7dee1653a558c"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000058_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000059.json",
+   "role": "style_capture@v1",
+   "sha256": "8dbf0c8724deaf2cb38b28f5a92ea778ed9b454ee56dab9395e39c28259947d5"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000059_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "312d5ffbefc960e9c8f4ec58f539a954073a867119b13ed25792b73303ce1b85"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000059_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "a2281ce74a56ddf05a183a05b8b05148537a023f4320f0487404ea833b4bc2c0"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000059_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "9835417fcbdeab701eada903e5fef321302db8d37fc4af9ff5c2e2aed981d660"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000059_index.png",
+   "role": "style_capture@v1",
+   "sha256": "080acb7af5983ec02af52bfb08eb2c19020b07c724fdf7d1905f5ce87d9557e9"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/f000059_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise/eye70_S0/sequence.json",
+   "role": "style_capture@v1",
+   "sha256": "d6e1420f200e5ecd36f11d3e10a1c5e1c01df8eb4f3a6b733fd89d3e18a74ca4"
+  },
+  {
+   "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/research/R-002/palettes.json",
+   "role": "palette_set@v1",
+   "sha256": "868527c5a439fb595732a1b002de3c69b2d4dc7ea81c5e711da7e10c4cd51649"
+  }
+ ],
+ "invocation": {
+  "command": "m004",
+  "inputs": [
+   "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-004/kaiju/evidence/T-004/captures_local/m004ab_control_frame_noise"
+  ],
+  "label": "m004ab_control_frame_noise",
+  "mode": "standard",
+  "options": {
+   "jobs": 6,
+   "palettes": "research/R-002/palettes.json",
+   "profiles": "slate_teal",
+   "viewpoints": "eye70"
+  },
+  "ratings": null
+ },
+ "label": "m004ab_control_frame_noise",
+ "metric": "M-004",
+ "metric_version": "M-004@v1",
+ "normalisers": {},
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-004@v1.1.yaml",
+  "revision": "v1.1",
+  "sha256": "5f39e5531f9eb95e0ab713f2e70cf1c53e987672d2767e48848e85a73a3ebdab",
+  "spec": "M-004@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "Kuans-MacBook-Pro.local",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-14T17:29:14Z",
+  "wall_time_s": 1.935
+ },
+ "submeasures": [
+  {
+   "decisive_part": "eye70_S0 (S0, slate_teal/eye70, lag 1)",
+   "diagnostics": {
+    "where": "eye70_S0 (S0, slate_teal/eye70, lag 1)"
+   },
+   "id": "M-004.S0",
+   "kind": "gating",
+   "margin": -0.157111058799,
+   "margin_rel": -0.157111058799,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": -0.157111058799,
+     "margin_rel": -0.157111058799,
+     "name": "eye70_S0 (S0, slate_teal/eye70, lag 1)",
+     "op": "<=",
+     "pair_p95": 0.158119598765,
+     "status": "FAIL",
+     "threshold": 0.0,
+     "unit": "share",
+     "valid_share": 1.0,
+     "value": 0.157111058799
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 0.0,
+   "threshold_status": "derived",
+   "title": "Static shimmer S0 (plain frame difference), worst static sequence",
+   "unit": "share",
+   "value": 0.157111058799
+  },
+  {
+   "decisive_part": "eye70_S0 (S0, slate_teal/eye70, lag 1)",
+   "diagnostics": {
+    "where": "eye70_S0 (S0, slate_teal/eye70, lag 1)"
+   },
+   "id": "M-004.C_px.S0",
+   "kind": "gating",
+   "margin": -0.285620206517,
+   "margin_rel": -0.285620206517,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": -0.285620206517,
+     "margin_rel": -0.285620206517,
+     "name": "eye70_S0 (S0, slate_teal/eye70, lag 1)",
+     "op": "<=",
+     "pair_p95": null,
+     "status": "FAIL",
+     "threshold": 0.0,
+     "unit": "share",
+     "valid_share": 1.0,
+     "value": 0.285620206517
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 0.0,
+   "threshold_status": "derived",
+   "title": "Static crawl (plain difference on interleaved pixels)",
+   "unit": "share",
+   "value": 0.285620206517
+  },
+  {
+   "decisive_part": "eye70_S0 (S0, slate_teal/eye70, lag 1)",
+   "diagnostics": {
+    "where": "eye70_S0 (S0, slate_teal/eye70, lag 1)"
+   },
+   "id": "M-004.F.S0",
+   "kind": "gating",
+   "margin": -0.0788803746275,
+   "margin_rel": -0.0788803746275,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": -0.0788803746275,
+     "margin_rel": -0.0788803746275,
+     "name": "eye70_S0 (S0, slate_teal/eye70, lag 1)",
+     "op": "<=",
+     "pair_p95": null,
+     "status": "FAIL",
+     "threshold": 0.0,
+     "unit": "share",
+     "valid_share": 1.0,
+     "value": 0.0788803746275
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 0.0,
+   "threshold_status": "derived",
+   "title": "Static flicker (A -> B -> A)",
+   "unit": "share",
+   "value": 0.0788803746275
+  },
+  {
+   "diagnostics": {},
+   "id": "M-004.S_px.Y",
+   "kind": "gating",
+   "note": "no Y sequence",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Shimmer per pixel of motion, yaw Y1-Y2, worst sequence",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-004.C_px.Y",
+   "kind": "gating",
+   "note": "no Y sequence",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Dither crawl, yaw Y1-Y2",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-004.F.Y",
+   "kind": "gating",
+   "note": "no Y sequence",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Flicker A -> B -> A, yaw Y1-Y2",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-004.S_px.T12",
+   "kind": "gating",
+   "note": "no T12 sequence",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Shimmer per pixel of motion, translation T1-T2",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-004.C_px.T12",
+   "kind": "gating",
+   "note": "no T12 sequence",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Dither crawl, translation T1-T2",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-004.F.T12",
+   "kind": "gating",
+   "note": "no T12 sequence",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Flicker A -> B -> A, translation T1-T2",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-004.S_px.T3",
+   "kind": "gating",
+   "note": "no T3 sequence",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Shimmer per pixel of motion, translation T3",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-004.C_px.T3",
+   "kind": "gating",
+   "note": "no T3 sequence",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Dither crawl, translation T3",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-004.F.T3",
+   "kind": "gating",
+   "note": "no T3 sequence",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Flicker A -> B -> A, translation T3",
+   "unit": "",
+   "value": null
+  }
+ ],
+ "tool": {
+  "git_commit": "a9949acb98c5341985443601bf8297fe9d4bd2b9",
+  "name": "kaiju_metrics",
+  "version": "1.0.0"
+ },
+ "verdict": "FAIL",
+ "verdict_label": "FAIL",
+ "warnings": []
+}
