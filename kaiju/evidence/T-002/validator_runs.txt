@@ -1,0 +1,50 @@
+$ $PY Tools/Metrics/metrics.py validate gait_log Tools/Metrics/examples/gait_log_example.gait.jsonl
+# exit 0
+VALID: 1 input(s) conform to gait_log@v1
+
+$ $PY Tools/Metrics/metrics.py validate style_capture Tools/Metrics/examples/example_set
+# exit 0
+VALID: 1 input(s) conform to style_capture@v1
+
+$ $PY Tools/Metrics/metrics.py validate palette_set research/R-002/palettes.json
+# exit 0
+VALID: 1 input(s) conform to palette_set@v1
+
+$ $PY Tools/Metrics/metrics.py validate palette_set Tools/Metrics/examples/palette_set_example.json
+# exit 0
+VALID: 1 input(s) conform to palette_set@v1
+
+$ $PY Tools/Metrics/metrics.py validate gait_log <mutant gap_in_n>
+# exit 2
+INVALID: 1 error(s) in 1 input(s) [gait_log@v1]
+  $SCRATCH/mut_gap_in_n.gait.jsonl:line 19 step.n: step index not contiguous (gap or reorder) (expected 5; found 6)
+
+$ $PY Tools/Metrics/metrics.py validate gait_log <mutant wrong_schema>
+# exit 2
+INVALID: 1 error(s) in 1 input(s) [gait_log@v1]
+  $SCRATCH/mut_wrong_schema.gait.jsonl:line 1 header.schema: wrong schema string (expected gait_log@v1; found gait_log@v0)
+
+$ $PY Tools/Metrics/metrics.py validate gait_log <mutant non_unit_quaternion>
+# exit 2
+INVALID: 1 error(s) in 1 input(s) [gait_log@v1]
+  $SCRATCH/mut_non_unit_quaternion.gait.jsonl:line 2 step.root_q: quaternion not unit length (expected |q| = 1 +- 1e-3; found 0.707107)
+
+$ $PY Tools/Metrics/metrics.py validate gait_log <mutant g_in_ft_s2>
+# exit 2
+INVALID: 1 error(s) in 1 input(s) [gait_log@v1]
+  $SCRATCH/mut_g_in_ft_s2.gait.jsonl:line 1 header.g_mps2: g must be 9.81 m/s^2 (SI units, physics truth) (expected 9.81; found 32.2)
+
+$ $PY Tools/Metrics/metrics.py validate gait_log <mutant dangling_cam_impulse>
+# exit 2
+INVALID: 1 error(s) in 1 input(s) [gait_log@v1]
+  $SCRATCH/mut_dangling_cam_impulse.gait.jsonl:line 4 cam_impulse.source_n: does not reference a contact_begin of that foot (expected n of an existing contact_begin; found 99999)
+
+$ $PY Tools/Metrics/metrics.py validate gait_log <mutant com_v_in_kmh>
+# exit 2
+INVALID: 1 error(s) in 1 input(s) [gait_log@v1]
+  $SCRATCH/mut_com_v_in_kmh.gait.jsonl:steps.*.com_v: com_v is not the time derivative of com_p (units or frame mismatch) (expected median |dp/dt - v| <= 1.65 m/s; found 23.7 m/s)
+
+$ $PY Tools/Metrics/metrics.py validate gait_log <mutant truncated_file>
+# exit 2
+INVALID: 1 error(s) in 1 input(s) [gait_log@v1]
+  $SCRATCH/mut_truncated_file.gait.jsonl:line 447: not a valid JSON record (truncated file or NaN/Infinity?) (expected one JSON object; found Unterminated string starting at: line 1 column 665 (char 664))

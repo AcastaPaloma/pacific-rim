@@ -1,0 +1,16 @@
+M-004@v1  [m004_pass]  registry v1.0 sha256:e601a1ab9c4e  tool 1.0.0
+VERDICT: PASS (provisional: 9 assumed) [fixture mode: not a gating run]   headless: PASS (provisional: 9 assumed) [fixture mode: not a gating run]   exit 0   failing gating: 0
+  PASS           [G] M-004.S0         0 share  <= 0  margin 0
+  PASS           [G] M-004.C_px.S0    0 share  <= 0  margin 0
+  PASS           [G] M-004.F.S0       0 share  <= 0  margin 0
+  PASS           [G] M-004.S_px.Y     0.004446 share  <= 0.01  margin 0.005554 seed-threshold
+  PASS           [G] M-004.C_px.Y     0 share  <= 0.01  margin 0.01 seed-threshold
+  PASS           [G] M-004.F.Y        0.0005784 share  <= 0.001  margin 0.0004216 seed-threshold
+  PASS           [G] M-004.S_px.T12   0 share  <= 0.12  margin 0.12 seed-threshold
+  PASS           [G] M-004.C_px.T12   0 share  <= 0.15  margin 0.15 seed-threshold
+  PASS           [G] M-004.F.T12      0 share  <= 0.005  margin 0.005 seed-threshold
+  PASS           [G] M-004.S_px.T3    0 share  <= 0.12  margin 0.12 seed-threshold
+  PASS           [G] M-004.C_px.T3    0 share  <= 0.15  margin 0.15 seed-threshold
+  PASS           [G] M-004.F.T3       0 share  <= 0.08  margin 0.08 seed-threshold
+  warning: fixture mode: 60-frame sequences accepted; not a gating run
+  inputs: 2167 files hashed; report.json holds every value, threshold and hash

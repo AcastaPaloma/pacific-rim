@@ -1,0 +1,6 @@
+SHA-256 of report.json with the declared run block stripped; DISPLAY unset in both runs.
+m001: run A (OMP 1, LC_ALL=C) f3ec424b8f198344  run B (OMP 8, de_DE) f3ec424b8f198344  IDENTICAL
+m002: run A (OMP 1, LC_ALL=C) 6f11ca2c89a960c6  run B (OMP 8, de_DE) 6f11ca2c89a960c6  IDENTICAL
+m003: run A (OMP 1, LC_ALL=C) fd7f9e3cca6f1302  run B (OMP 8, de_DE) fd7f9e3cca6f1302  IDENTICAL
+m004: run A (OMP 1, LC_ALL=C) 217b7e55a94bf5e0  run B (OMP 8, de_DE) 217b7e55a94bf5e0  IDENTICAL
+Fixture regeneration bit-identity: tests/test_tools.py::test_fixtures_regenerate_bit_identically.

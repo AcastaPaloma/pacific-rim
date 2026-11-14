@@ -1,0 +1,1 @@
+Synthetic ratings: capture i has uniform slip s_i on every contact (m): [0.005, 0.01, 0.015, 0.02, 0.03, 0.035, 0.045, 0.05, 0.06, 0.07]; rated 9 iff s_i < 0.04 m else 5. Known cut on M-002.2 (p95 slip / L_f) lies in (0.001786, 0.002296).

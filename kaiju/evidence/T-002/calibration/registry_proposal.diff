@@ -1,0 +1,20 @@
+--- registry/M-002@v1.yaml
++++ registry/M-002@v1.1.yaml (proposed; review, then add as a new file)
+@@ -1,7 +1,7 @@
+ registry_schema: metric_registry@v1
+ metric: M-002
+ spec: M-002@v1
+-revision: v1.0
++revision: v1.1
+ metric_status: registered
+ date: "2026-11-14"
+ title: No foot sliding
+@@ -32,7 +32,7 @@
+     title: p95 slip s_c / L_f (regression guard; reported)
+     kind: advisory
+     thresholds:
+-      p95_frac: {value: 0.0025, unit: L_f, status: assumed_pending_calibration, source: "R-001 §9 Assumed"}
++      p95_frac: {value: 0.00204082, unit: L_f, status: calibrated, source: "R-001 §9 Assumed"}
+   M-002.3:
+     title: Sampling validity (fixed_dt <= 0.02 s, every step logged, float64 positions)
+     kind: gating

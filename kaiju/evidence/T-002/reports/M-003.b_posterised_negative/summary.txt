@@ -1,0 +1,21 @@
+M-003@v1  [M-003.b_posterised_negative]  registry v1.0 sha256:c6fc21b8b22b  tool 1.0.0
+VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 1
+  FAIL           [G] M-003.b.DIG      0 share of frames  >= 0.8  margin -0.8
+      where: M-003.b_posterised_negative/gameplay/f000008 DIG 0.004; M-003.b_posterised_negative/gameplay/f000002 DIG 0.006; M-003.b_posterised_negative/gameplay/f000005 DIG 0.008
+  PASS           [G] M-003.a.output   1 share  >= 0.95  margin 0.05
+  PASS           [G] M-003.a.internal 1 share  >= 0.995  margin 0.005 seed-threshold
+  PASS           [G] M-003.c1         1 rho  >= 0.9  margin 0.1 seed-threshold
+  PASS           [G] M-003.c2         0 L*  <= 0  margin 0
+  PASS           [G] M-003.d-i        5 levels  <= 12  margin 7
+  PASS           [G] M-003.d-ii       1 families  <= 3  margin 2
+  PASS           [G] M-003.d-iv       1 share of blocks  >= 0.995  margin 0.005
+  PENDING        [G] M-003.f          -   (no panel_ratings@v1 file given (the tool never defaults a score))
+  REPORTED       [i] M-003.a.A3       1 share
+  REPORTED       [i] M-003.a.A5       1 share
+  PASS           [A] M-003.b.DIG_max  0.02202 DIG  <= 0.5  margin 0.478 seed-threshold
+  REPORTED       [i] M-003.b.O        -0.1392 O
+  NOT_APPLICABLE [A] M-003.d-iii      -   (no accent present in any frame (applies only when present))
+  PASS           [A] M-003.e.sky      0.4872   in [0.2, 0.5]  margin 0.01285 seed-threshold
+  PASS           [A] M-003.e.horizon  0.4462   <= 0.45  margin 0.003764 seed-threshold
+  PASS           [A] M-003.e.contrast 34.35   >= 25  margin 9.352 seed-threshold
+  inputs: 81 files hashed; report.json holds every value, threshold and hash

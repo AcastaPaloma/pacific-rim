@@ -1,0 +1,520 @@
+{
+ "assumed_thresholds_decisive": [
+  "M-001.1",
+  "M-001.3",
+  "M-001.9"
+ ],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [
+   "walk_fr010",
+   "walk_fr020",
+   "walk_fr030",
+   "start",
+   "stop",
+   "turn90_inplace",
+   "curve"
+  ],
+  "optional_not_provided": [],
+  "provided": [
+   "estop"
+  ],
+  "required": [
+   "walk_fr010",
+   "walk_fr020",
+   "walk_fr030",
+   "start",
+   "stop",
+   "estop",
+   "turn90_inplace",
+   "curve"
+  ]
+ },
+ "exit_code": 1,
+ "extra": {
+  "smoothing_window_samples": {
+   "estop.gait.jsonl": 17
+  }
+ },
+ "failing_gating": [
+  "M-001.12"
+ ],
+ "flags": [],
+ "headless_verdict": "FAIL",
+ "headless_verdict_label": "FAIL",
+ "images": [
+  "diag_gait.png"
+ ],
+ "inputs": [
+  {
+   "path": "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_yk0bkgyh/bd_M-001.12_0.98/estop.gait.jsonl",
+   "role": "gait_log@v1 estop",
+   "sha256": "985befe58f362d3a2eb7572c8f9c7606438112f05d345e8263ef4b84c01c5117"
+  }
+ ],
+ "invocation": {
+  "command": "m001",
+  "inputs": [
+   "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_yk0bkgyh/bd_M-001.12_0.98"
+  ],
+  "label": "bd_M-001.12_0.98",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "bd_M-001.12_0.98",
+ "metric": "M-001",
+ "metric_version": "M-001@v1",
+ "normalisers": {
+  "estop.gait.jsonl": {
+   "F_off_N_header": 981000.0,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000.0,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 19.6,
+   "P_W": 200000000.0,
+   "T_nom_s": 6.6,
+   "W_f_m": 7.65,
+   "capture": "estop",
+   "fr_cruise_nom": 0.2,
+   "g": 9.81,
+   "h_m": 44.8,
+   "l_m": 42.4,
+   "m_kg": 10000000.0,
+   "unit_id": "mech_ref_synth"
+  }
+ },
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-001@v1.yaml",
+  "revision": "v1.0",
+  "sha256": "786778529ef7effe6ada487ec9320ac3de7b4c2abb74584595b38a4f38e4e1b3",
+  "spec": "M-001@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "Kuans-MacBook-Pro.local",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-14T15:37:45Z",
+  "wall_time_s": 0.276
+ },
+ "submeasures": [
+  {
+   "decisive_part": "estop:Fr band",
+   "diagnostics": {
+    "steady": {
+     "estop:estop.gait.jsonl": {
+      "Fr": 0.2,
+      "steady_strides_min_per_foot": 3,
+      "v_bar_mps": 9.12078943952
+     }
+    }
+   },
+   "id": "M-001.1",
+   "kind": "gating",
+   "margin": 0.1,
+   "margin_rel": 0.333333333333,
+   "note": null,
+   "op": "in",
+   "parts": [
+    {
+     "margin": 0.1,
+     "margin_rel": 0.333333333333,
+     "name": "estop:Fr band",
+     "op": "in",
+     "status": "PASS",
+     "threshold": 0.1,
+     "threshold_hi": 0.3,
+     "unit": "Fr",
+     "value": 0.2
+    },
+    {
+     "margin": 0.15,
+     "margin_rel": 0.428571428571,
+     "name": "max stride Fr, all captures",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.35,
+     "unit": "Fr",
+     "value": 0.2,
+     "where": "estop stride n=495..825"
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.1,
+   "threshold_hi": 0.3,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Froude number of steady walking, Fr = v_bar^2 / (g l)",
+   "unit": "Fr",
+   "value": 0.2
+  },
+  {
+   "decisive_part": "estop:T ratio",
+   "diagnostics": {},
+   "id": "M-001.2",
+   "kind": "gating",
+   "margin": 0.149600020749,
+   "margin_rel": 0.130086974565,
+   "note": null,
+   "op": "in",
+   "parts": [
+    {
+     "T_alexander_s": 6.59736119241,
+     "T_meas_s": 6.6,
+     "margin": 0.149600020749,
+     "margin_rel": 0.130086974565,
+     "name": "estop:T ratio",
+     "op": "in",
+     "status": "PASS",
+     "threshold": 0.85,
+     "threshold_hi": 1.15,
+     "unit": "-",
+     "value": 1.00039997925
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.85,
+   "threshold_hi": 1.15,
+   "threshold_status": "derived",
+   "title": "Stride period versus Alexander, T_meas / (2.3 Fr^-0.2 sqrt(l/g))",
+   "unit": "-",
+   "value": 1.00039997925
+  },
+  {
+   "decisive_part": "estop:duty foot L",
+   "diagnostics": {},
+   "id": "M-001.3",
+   "kind": "gating",
+   "margin": 0.0593939393939,
+   "margin_rel": 0.0824915824916,
+   "note": null,
+   "op": "in",
+   "parts": [
+    {
+     "double_support": 0.321212121212,
+     "margin": 0.0593939393939,
+     "margin_rel": 0.0824915824916,
+     "name": "estop:duty foot L",
+     "op": "in",
+     "status": "PASS",
+     "threshold": 0.6,
+     "threshold_hi": 0.72,
+     "unit": "-",
+     "value": 0.660606060606
+    },
+    {
+     "double_support": 0.321212121212,
+     "margin": 0.0593939393939,
+     "margin_rel": 0.0824915824916,
+     "name": "estop:duty foot R",
+     "op": "in",
+     "status": "PASS",
+     "threshold": 0.6,
+     "threshold_hi": 0.72,
+     "unit": "-",
+     "value": 0.660606060606
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.6,
+   "threshold_hi": 0.72,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Duty factor beta (mean per foot over steady strides); double support = 2 beta - 1",
+   "unit": "-",
+   "value": 0.660606060606
+  },
+  {
+   "decisive_part": "estop:peak |a_fore|",
+   "diagnostics": {
+    "unsmoothed_peak_m_s2": 2.904284866,
+    "where": "estop:peak |a_fore| at {'capture': 'estop', 'file': 'estop.gait.jsonl', 'n': 1369, 't_s': 27.38, 'stride_samples': None}"
+   },
+   "id": "M-001.4",
+   "kind": "gating",
+   "margin": 0.0387151339955,
+   "margin_rel": 0.013154989465,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "at": {
+      "capture": "estop",
+      "file": "estop.gait.jsonl",
+      "n": 1369,
+      "stride_samples": null,
+      "t_s": 27.38
+     },
+     "margin": 0.0387151339955,
+     "margin_rel": 0.013154989465,
+     "name": "estop:peak |a_fore|",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 2.943,
+     "unit": "m/s^2",
+     "unsmoothed_peak": 2.904284866,
+     "value": 2.904284866
+    }
+   ],
+   "status": "PASS",
+   "threshold": 2.943,
+   "threshold_status": "derived",
+   "title": "Peak fore-aft CoM acceleration (smoothed), all captures",
+   "unit": "m/s^2",
+   "value": 2.904284866
+  },
+  {
+   "decisive_part": "estop:peak |a_lat|",
+   "diagnostics": {
+    "unsmoothed_peak_m_s2": 2.13162820728e-14,
+    "where": "estop:peak |a_lat| at {'capture': 'estop', 'file': 'estop.gait.jsonl', 'n': 1495, 't_s': 29.9, 'stride_samples': None}"
+   },
+   "id": "M-001.5",
+   "kind": "gating",
+   "margin": 0.833850041856,
+   "margin_rel": 1.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "at": {
+      "capture": "estop",
+      "file": "estop.gait.jsonl",
+      "n": 1495,
+      "stride_samples": null,
+      "t_s": 29.9
+     },
+     "margin": 0.833850041856,
+     "margin_rel": 1.0,
+     "name": "estop:peak |a_lat|",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.833850041856,
+     "unit": "m/s^2",
+     "unsmoothed_peak": 2.13162820728e-14,
+     "value": 1.02140518266e-14
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.833850041856,
+   "threshold_status": "derived",
+   "title": "Peak lateral CoM acceleration (smoothed), all captures",
+   "unit": "m/s^2",
+   "value": 1.02140518266e-14
+  },
+  {
+   "diagnostics": {},
+   "id": "M-001.6",
+   "kind": "gating",
+   "note": "no start capture",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Net start acceleration (command to 90 % of cruise) and the power limit (P - c m g v)/(m v)",
+   "unit": "",
+   "value": null
+  },
+  {
+   "decisive_part": "estop:peak |yaw rate|",
+   "diagnostics": {
+    "where": "estop:peak |yaw rate| at {'capture': 'estop', 'file': 'estop.gait.jsonl', 'n': 0, 't_s': 0.0, 'stride_samples': None}"
+   },
+   "id": "M-001.7",
+   "kind": "gating",
+   "margin": 26.7,
+   "margin_rel": 1.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "at": {
+      "capture": "estop",
+      "file": "estop.gait.jsonl",
+      "n": 0,
+      "stride_samples": null,
+      "t_s": 0.0
+     },
+     "margin": 26.7,
+     "margin_rel": 1.0,
+     "name": "estop:peak |yaw rate|",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 26.7,
+     "unit": "deg/s",
+     "unsmoothed_peak": 0.0,
+     "value": 0.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 26.7,
+   "threshold_status": "derived",
+   "title": "Peak yaw rate (smoothed), all captures",
+   "unit": "deg/s",
+   "value": 0.0
+  },
+  {
+   "decisive_part": "estop:peak |yaw acc|",
+   "diagnostics": {
+    "where": "estop:peak |yaw acc| at {'capture': 'estop', 'file': 'estop.gait.jsonl', 'n': 0, 't_s': 0.0, 'stride_samples': None}"
+   },
+   "id": "M-001.8",
+   "kind": "gating",
+   "margin": 4.0,
+   "margin_rel": 1.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "at": {
+      "capture": "estop",
+      "file": "estop.gait.jsonl",
+      "n": 0,
+      "stride_samples": null,
+      "t_s": 0.0
+     },
+     "margin": 4.0,
+     "margin_rel": 1.0,
+     "name": "estop:peak |yaw acc|",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 4.0,
+     "unit": "deg/s^2",
+     "value": 0.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 4.0,
+   "threshold_status": "derived",
+   "title": "Peak yaw acceleration (smoothed), all captures",
+   "unit": "deg/s^2",
+   "value": 0.0
+  },
+  {
+   "decisive_part": "estop:|yaw rate| * v_bar",
+   "diagnostics": {
+    "where": "estop:|yaw rate| * v_bar at {'capture': 'estop', 'file': 'estop.gait.jsonl', 'n': 0, 't_s': 0.0, 'stride_samples': None}"
+   },
+   "id": "M-001.9",
+   "kind": "gating",
+   "margin": 0.833850041856,
+   "margin_rel": 1.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "at": {
+      "capture": "estop",
+      "file": "estop.gait.jsonl",
+      "n": 0,
+      "stride_samples": null,
+      "t_s": 0.0
+     },
+     "limit_dps": 5.23815273469,
+     "margin": 0.833850041856,
+     "margin_rel": 1.0,
+     "name": "estop:|yaw rate| * v_bar",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.833850041856,
+     "unit": "m/s^2",
+     "v_bar_mps": 9.12078943952,
+     "value": 0.0,
+     "yaw_rate_dps": 0.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.833850041856,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Yaw rate while v_bar > 0.5 v_cruise, limit a_lat / v_bar",
+   "unit": "m/s^2",
+   "value": 0.0
+  },
+  {
+   "diagnostics": {},
+   "id": "M-001.10",
+   "kind": "gating",
+   "note": "no start capture",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Time to start (command to 90 % of cruise) in steps (step = T_nom / 2)",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-001.11",
+   "kind": "gating",
+   "note": "no stop capture",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Time to stop, normal (cruise to < 0.3 m/s), in steps and t* = t / sqrt(l/g)",
+   "unit": "",
+   "value": null
+  },
+  {
+   "decisive_part": "estop:time to stop",
+   "diagnostics": {},
+   "id": "M-001.12",
+   "info": {
+    "mass_variants": {
+     "note": "mass-variant clause (>= 2 mass variants) is non-gating until variant logs exist",
+     "status": "PENDING",
+     "variants": [
+      {
+       "file": "estop.gait.jsonl",
+       "mass_kg": 10000000.0,
+       "t_star": 1.46226188192
+      }
+     ]
+    }
+   },
+   "kind": "gating",
+   "margin": -0.0591469383339,
+   "margin_rel": -0.019084909335,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "floor_brake_s": 3.09914693833,
+     "floor_cruise_s": 3.09914693833,
+     "margin": -0.0591469383339,
+     "margin_rel": -0.019084909335,
+     "name": "estop:time to stop",
+     "op": ">=",
+     "status": "FAIL",
+     "threshold": 3.09914693833,
+     "unit": "s",
+     "v0_mps": 9.12078943952,
+     "value": 3.04
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 3.09914693833,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Time to stop, emergency >= max(v_cruise / a_ref, m v0 / F_brake,max)",
+   "unit": "s",
+   "value": 3.04
+  },
+  {
+   "diagnostics": {},
+   "id": "M-001.13",
+   "kind": "gating",
+   "note": "no panel_ratings@v1 file given (the tool never defaults a score)",
+   "parts": [],
+   "status": "PENDING",
+   "threshold_status": "derived",
+   "title": "Panel score \"feels like 10,000 t\"",
+   "unit": "",
+   "value": null
+  }
+ ],
+ "tool": {
+  "git_commit": "633643779adaed64cd1c98e8cb0494b141e36c1a",
+  "name": "kaiju_metrics",
+  "version": "1.0.0"
+ },
+ "verdict": "FAIL",
+ "verdict_label": "FAIL",
+ "warnings": []
+}

@@ -1,0 +1,142 @@
+{
+ "anchors": {
+  "negative:negA": 2.0,
+  "positive:posA": 9.0
+ },
+ "captures": 10,
+ "metric": "M-002",
+ "pass_score": 8.0,
+ "proposals": [
+  {
+   "current": 0.0025,
+   "current_false_fail": 0,
+   "current_false_pass": 1,
+   "false_fail": 0,
+   "false_pass": 0,
+   "key": "p95_frac",
+   "op": "<",
+   "proposed": 0.00204081632653,
+   "submeasure": "M-002.2"
+  }
+ ],
+ "rater_agreement": [
+  {
+   "n": 10,
+   "raters": [
+    "founder_a",
+    "founder_b"
+   ],
+   "spearman": 1.0
+  }
+ ],
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-002@v1.yaml",
+  "revision": "v1.0",
+  "sha256": "d7671017f46d6fe0fb7d6efede47407ff598a0c93e52e0c72099f38ff0477f45",
+  "spec": "M-002@v1"
+ },
+ "registry_diff": "--- registry/M-002@v1.yaml\n+++ registry/M-002@v1.1.yaml (proposed; review, then add as a new file)\n@@ -1,7 +1,7 @@\n registry_schema: metric_registry@v1\n metric: M-002\n spec: M-002@v1\n-revision: v1.0\n+revision: v1.1\n metric_status: registered\n date: \"2026-11-14\"\n title: No foot sliding\n@@ -32,7 +32,7 @@\n     title: p95 slip s_c / L_f (regression guard; reported)\n     kind: advisory\n     thresholds:\n-      p95_frac: {value: 0.0025, unit: L_f, status: assumed_pending_calibration, source: \"R-001 §9 Assumed\"}\n+      p95_frac: {value: 0.00204082, unit: L_f, status: calibrated, source: \"R-001 §9 Assumed\"}\n   M-002.3:\n     title: Sampling validity (fixed_dt <= 0.02 s, every step logged, float64 positions)\n     kind: gating\n",
+ "table": [
+  {
+   "M-002.1": 0.000255102040822,
+   "M-002.2": 0.000255102040822,
+   "M-002.3": 0.02,
+   "M-002.4": 1.0,
+   "M-002.5": 0,
+   "capture": "cap0",
+   "rating": 9.0,
+   "rating_sd": 0.0
+  },
+  {
+   "M-002.1": 0.000510204081644,
+   "M-002.2": 0.000510204081644,
+   "M-002.3": 0.02,
+   "M-002.4": 1.0,
+   "M-002.5": 0,
+   "capture": "cap1",
+   "rating": 9.0,
+   "rating_sd": 0.0
+  },
+  {
+   "M-002.1": 0.000765306122466,
+   "M-002.2": 0.000765306122466,
+   "M-002.3": 0.02,
+   "M-002.4": 1.0,
+   "M-002.5": 0,
+   "capture": "cap2",
+   "rating": 9.0,
+   "rating_sd": 0.0
+  },
+  {
+   "M-002.1": 0.00102040816329,
+   "M-002.2": 0.00102040816329,
+   "M-002.3": 0.02,
+   "M-002.4": 1.0,
+   "M-002.5": 0,
+   "capture": "cap3",
+   "rating": 9.0,
+   "rating_sd": 0.0
+  },
+  {
+   "M-002.1": 0.00153061224488,
+   "M-002.2": 0.00153061224488,
+   "M-002.3": 0.02,
+   "M-002.4": 1.0,
+   "M-002.5": 0,
+   "capture": "cap4",
+   "rating": 9.0,
+   "rating_sd": 0.0
+  },
+  {
+   "M-002.1": 0.00178571428571,
+   "M-002.2": 0.00178571428571,
+   "M-002.3": 0.02,
+   "M-002.4": 1.0,
+   "M-002.5": 0,
+   "capture": "cap5",
+   "rating": 9.0,
+   "rating_sd": 0.0
+  },
+  {
+   "M-002.1": 0.00229591836735,
+   "M-002.2": 0.00229591836735,
+   "M-002.3": 0.02,
+   "M-002.4": 1.0,
+   "M-002.5": 0,
+   "capture": "cap6",
+   "rating": 5.0,
+   "rating_sd": 0.0
+  },
+  {
+   "M-002.1": 0.00255102040817,
+   "M-002.2": 0.00255102040817,
+   "M-002.3": 0.02,
+   "M-002.4": 1.0,
+   "M-002.5": 0,
+   "capture": "cap7",
+   "rating": 5.0,
+   "rating_sd": 0.0
+  },
+  {
+   "M-002.1": 0.00306122448982,
+   "M-002.2": 0.00306122448982,
+   "M-002.3": 0.02,
+   "M-002.4": 1.0,
+   "M-002.5": 0,
+   "capture": "cap8",
+   "rating": 5.0,
+   "rating_sd": 0.0
+  },
+  {
+   "M-002.1": 0.00357142857141,
+   "M-002.2": 0.00357142857141,
+   "M-002.3": 0.02,
+   "M-002.4": 1.0,
+   "M-002.5": 0,
+   "capture": "cap9",
+   "rating": 5.0,
+   "rating_sd": 0.0
+  }
+ ]
+}
