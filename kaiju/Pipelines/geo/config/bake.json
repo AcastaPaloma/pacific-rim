@@ -1,0 +1,42 @@
+{
+  "_doc": "Tuning for the geo_tile@v1 bake (T-003). Every value cites its source; changing any value changes the bake fingerprint.",
+  "datum": {
+    "_src": "NOAA CO-OPS 9414290 datums (R-004 §2.3); values recomputed from the fetched datums file at bake time and checked against these",
+    "msl_navd88_m": 0.969,
+    "mhw_navd88_m": 1.612,
+    "mhhw_navd88_m": 1.798
+  },
+  "terrain": {
+    "_src": "R-004 §1.2 merge rule: 3DEP 1 m where valid and CUDEM > MHW(+1.80 m NAVD88 per R-004 text, i.e. MHHW), CUDEM elsewhere, feather 10 m",
+    "use_3dep_above_navd88_m": 1.798,
+    "feather_m": 10.0,
+    "margin_nodes": 192
+  },
+  "water": {
+    "_src": "R-004 §1.5: OSM water polygons AND surface < MSL; piers and building footprints are never water",
+    "pier_deck_rule": "piers (OSM man_made=pier) are solid: inside a pier polygon the surface is raised (never lowered) to a flat deck = the median of 3DEP samples above MHHW on the pier when >= pier_min_deck_samples exist, else the 75th percentile of dry 3DEP land within 40 m of the pier (its root)",
+    "pier_min_deck_samples": 50,
+    "pier_root_search_m": 40.0,
+    "pier_deck_percentile": 75
+  },
+  "buildings": {
+    "_src": "R-004 §1.4 height fallback order",
+    "metres_per_level": 4.22,
+    "default_levels": 3,
+    "datasf_min_iou": 0.6,
+    "datasf_min_relief_m": 3.0,
+    "min_area_m2": 0.05
+  },
+  "roads": {
+    "_src": "R-004 §1.5: width = lanes x 3.5 m, else a class default (Assumed values: typical US lane/sidewalk widths)",
+    "metres_per_lane": 3.5,
+    "class_width_m": {
+      "motorway": 14.0, "trunk": 14.0, "primary": 14.0, "secondary": 10.5, "tertiary": 10.5,
+      "motorway_link": 7.0, "trunk_link": 7.0, "primary_link": 7.0, "secondary_link": 7.0, "tertiary_link": 7.0,
+      "residential": 7.0, "unclassified": 7.0, "living_street": 6.0, "service": 4.0, "pedestrian": 6.0,
+      "footway": 2.0, "path": 2.0, "cycleway": 2.0, "steps": 2.0, "track": 3.0, "_default": 3.0
+    },
+    "drivable": ["motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", "residential",
+                 "motorway_link", "trunk_link", "primary_link", "secondary_link", "tertiary_link", "living_street", "service"]
+  }
+}

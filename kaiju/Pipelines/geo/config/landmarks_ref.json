@@ -1,0 +1,33 @@
+{
+  "_doc": "M-005 reference landmark set, transcribed from research/R-004.md §5 (positions = OSM footprint centre via Overpass `out center`, cross-checked with Wikidata P625; heights cited per row). height_ref_m is ABOVE BASE (structural height above the footprint base); for towers standing in water the base is the seabed (min terrain under the footprint). gate_height: whether M-005.1(d) gates the row (T-003 C2: Salesforce, Transamerica, Millennium, Coit; 555 California and W2 reported only while sources conflict, Q-031).",
+  "landmarks": [
+    {"n": 1, "name": "Golden Gate Bridge south tower", "osm": null, "lat": 37.814014, "lon": -122.477891, "height_ref_m": 227, "height_basis": "above water [R-004 ref 29]", "pos_tol_m": 5, "gate_height": false},
+    {"n": 2, "name": "Golden Gate Bridge north tower", "osm": null, "lat": 37.825502, "lon": -122.479233, "height_ref_m": 227, "height_basis": "above water", "pos_tol_m": 5, "gate_height": false},
+    {"n": 3, "name": "Bay Bridge W2 tower", "osm": "osm:w432712476", "lat": 37.790753, "lon": -122.385823, "height_ref_m": 160, "height_basis": "OSM 160 vs 143 [R-004 ref 30]: conflict Q-031, not gated", "pos_tol_m": 5, "gate_height": false},
+    {"n": 4, "name": "Bay Bridge W6 tower", "osm": "osm:w432712479", "lat": 37.805622, "lon": -122.369900, "height_ref_m": null, "height_basis": "as W2", "pos_tol_m": 5, "gate_height": false},
+    {"n": 5, "name": "Bay Bridge east span SAS tower", "osm": "osm:w237735191", "lat": 37.815265, "lon": -122.358506, "height_ref_m": 160, "height_basis": "Wikidata Q771404; OSM", "pos_tol_m": 5, "gate_height": false},
+    {"n": 6, "name": "Salesforce Tower", "osm": "osm:w431972186", "lat": 37.789775, "lon": -122.396914, "height_ref_m": 326, "height_basis": "Wikidata Q14684154; OSM", "pos_tol_m": 5, "gate_height": true},
+    {"n": 7, "name": "Transamerica Pyramid", "osm": "osm:w24222973", "lat": 37.795166, "lon": -122.402786, "height_ref_m": 260, "height_basis": "Wikidata Q216865; OSM (spire included)", "pos_tol_m": 5, "gate_height": true},
+    {"n": 8, "name": "555 California Street", "osm": "osm:w288511106", "lat": 37.792116, "lon": -122.403714, "height_ref_m": 226, "height_basis": "OSM 226 vs commonly cited 237: conflict, reported only", "pos_tol_m": 5, "gate_height": false},
+    {"n": 9, "name": "Millennium Tower", "osm": "osm:w72963089", "lat": 37.790405, "lon": -122.396187, "height_ref_m": 197, "height_basis": "OSM", "pos_tol_m": 5, "gate_height": true},
+    {"n": 10, "name": "Ferry Building", "osm": "osm:w558731934", "lat": 37.795538, "lon": -122.393430, "height_ref_m": 15, "height_basis": "main hall, OSM; clock tower unsourced: reported only", "pos_tol_m": 5, "gate_height": false},
+    {"n": 11, "name": "Coit Tower", "osm": "osm:w28824850", "lat": 37.802377, "lon": -122.405834, "height_ref_m": 64, "height_basis": "Wikidata Q1107297; OSM", "pos_tol_m": 5, "gate_height": true},
+    {"n": 12, "name": "Sutro Tower", "osm": "osm:r3829019", "lat": 37.755241, "lon": -122.452903, "height_ref_m": 298, "height_basis": "Wikidata Q650097", "pos_tol_m": 5, "gate_height": false},
+    {"n": 13, "name": "Alcatraz lighthouse", "osm": "osm:w99202294", "lat": 37.826254, "lon": -122.422295, "height_ref_m": 26, "height_basis": "Wikidata Q4712967", "pos_tol_m": 5, "gate_height": false},
+    {"n": 14, "name": "Ordway Building, Oakland", "osm": "osm:w27808521", "lat": 37.809977, "lon": -122.264107, "height_ref_m": 123, "height_basis": "OSM", "pos_tol_m": 5, "gate_height": false},
+    {"n": 15, "name": "SFO control tower", "osm": "osm:w554547693", "lat": 37.615900, "lon": -122.383806, "height_ref_m": 67.36, "height_basis": "OSM", "pos_tol_m": 5, "gate_height": false},
+    {"n": 17, "name": "Mount Davidson summit", "osm": "osm:n358806322", "lat": 37.738264, "lon": -122.453304, "height_ref_m": null, "height_basis": "summit 277.8 m NAVD88", "pos_tol_m": 15, "gate_height": false},
+    {"n": 18, "name": "Mt Tamalpais East Peak", "osm": "osm:n312912379", "lat": 37.929037, "lon": -122.577721, "height_ref_m": null, "height_basis": "summit 782.4 m NAVD88", "pos_tol_m": 15, "gate_height": false},
+    {"n": 19, "name": "Mount Diablo summit", "osm": "osm:n358764706", "lat": 37.881695, "lon": -121.914147, "height_ref_m": null, "height_basis": "summit 1170.9 m NAVD88", "pos_tol_m": 15, "gate_height": false}
+  ],
+  "scale_pairs_doc": "M-005.6 pairs (R-004 §6.6): in-tile pairs use as-built float64 anchors; out-of-tile pairs use the projection maths (geo_tile placement) and are labelled as such.",
+  "scale_pairs": [[6, 7], [6, 9], [7, 11], [3, 6], [6, 10], [7, 8], [9, 10], [3, 11], [8, 11], [10, 11], [1, 2], [1, 3], [12, 19], [18, 15], [11, 13]],
+  "viewpoints": [
+    {"id": "V1", "name": "Treasure Island SW shore", "lat": 37.8195, "lon": -122.3720, "eye": "10 m", "heading_deg": 235},
+    {"id": "V2", "name": "Twin Peaks summit", "lat": 37.7524, "lon": -122.4476, "eye": "ground + 1.7 m", "heading_deg": 45},
+    {"id": "V3", "name": "Vista Point, Marin", "lat": 37.8324, "lon": -122.4807, "eye": "ground + 1.7 m", "heading_deg": 160},
+    {"id": "V4", "name": "Bay east of Ferry Building", "baytm": [63300.0, 74900.0], "eye_navd88_m": 10.0, "heading_deg": 270},
+    {"id": "V5", "name": "Coit Tower deck", "baytm": [61591.4, 75450.7], "eye_navd88_m": 146.0, "heading_deg": 170}
+  ],
+  "skyline_camera": {"hfov_deg": 60.0, "width": 1024, "height": 576, "low_rows": 270}
+}

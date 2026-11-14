@@ -1,0 +1,85 @@
+{
+  "_doc": "Per-layer source products, endpoints, licences and attribution (R-004 §1). Bound by T-003. Licence ids are SPDX or US-Gov-PD. Changing a product here changes the bake fingerprint.",
+  "cudem": {
+    "product": "NOAA NCEI CUDEM 1/9 arc-second topobathy (2022v1)",
+    "url_template": "https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/CA/ncei19_n{lat}_w{lon}_2022v1.tif",
+    "doi": "10.25921/ds9v-ky35",
+    "licence": "US-Gov-PD",
+    "licence_note": "Not subject to copyright protection within the United States (NCEI metadata).",
+    "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
+    "commercial_use": "yes"
+  },
+  "dep3_1m": {
+    "product": "USGS 3DEP 1 m DEM",
+    "tnm_api": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Digital%20Elevation%20Model%20(DEM)%201%20meter&bbox={w},{s},{e},{n}&outputFormat=JSON&max=200",
+    "licence": "US-Gov-PD",
+    "licence_note": "USGS data are in the U.S. public domain.",
+    "attribution": "U.S. Geological Survey 3D Elevation Program",
+    "commercial_use": "yes"
+  },
+  "osm": {
+    "product": "OpenStreetMap (Geofabrik Northern California extract)",
+    "url": "https://download.geofabrik.de/north-america/us/california/norcal-latest.osm.pbf",
+    "licence": "ODbL-1.0",
+    "licence_note": "Open Database License 1.0. Credit required; derivative databases share-alike (Q-023).",
+    "attribution": "© OpenStreetMap contributors (ODbL)",
+    "attribution_notice": "Map data © OpenStreetMap contributors, available under the Open Database License (ODbL) 1.0: https://www.openstreetmap.org/copyright",
+    "commercial_use": "yes (with attribution; share-alike on derivative databases)",
+    "derivative_database_candidate": true
+  },
+  "osm_water": {
+    "product": "OSM water polygons (osmdata.openstreetmap.de, split, EPSG:4326)",
+    "url": "https://osmdata.openstreetmap.de/download/water-polygons-split-4326.zip",
+    "licence": "ODbL-1.0",
+    "licence_note": "Derived from OpenStreetMap coastline data; ODbL 1.0.",
+    "attribution": "© OpenStreetMap contributors (ODbL)",
+    "commercial_use": "yes (with attribution; share-alike on derivative databases)",
+    "derivative_database_candidate": true
+  },
+  "datasf": {
+    "product": "DataSF Building Footprints ynuv-fyni",
+    "url_template": "https://data.sfgov.org/resource/ynuv-fyni.geojson?$where=within_box(shape,{n},{w},{s},{e})&$order=sf16_bldgid&$limit=50000",
+    "meta_url": "https://data.sfgov.org/api/views/ynuv-fyni.json",
+    "licence": "PDDL-1.0",
+    "licence_note": "Open Data Commons Public Domain Dedication and License 1.0 (verified from api/views/ynuv-fyni.json, R-004 §1.4).",
+    "attribution": "City and County of San Francisco",
+    "commercial_use": "yes"
+  },
+  "qfaults": {
+    "product": "USGS Quaternary Fault and Fold Database (2020 release), ArcGIS REST haz/Qfaults layers 4 (CA) and 5 (CA offshore)",
+    "url_template": "https://earthquake.usgs.gov/arcgis/rest/services/haz/Qfaults/MapServer/{layer}/query?where=1%3D1&geometry={w},{s},{e},{n}&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=*&outSR=4326&orderByFields=OBJECTID&resultOffset={offset}&resultRecordCount=2000&f=geojson",
+    "licence": "US-Gov-PD",
+    "licence_note": "USGS data are in the U.S. public domain.",
+    "attribution": "U.S. Geological Survey Quaternary Fault and Fold Database",
+    "commercial_use": "yes"
+  },
+  "tides": {
+    "product": "NOAA CO-OPS station 9414290 San Francisco datums (NTDE 1983-2001)",
+    "url": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/9414290/datums.json?units=metric",
+    "licence": "US-Gov-PD",
+    "attribution": "NOAA CO-OPS",
+    "commercial_use": "yes"
+  },
+  "ngs": {
+    "product": "NOAA NGS NDE radial benchmark query (NAVD88 heights)",
+    "url_template": "https://geodesy.noaa.gov/api/nde/radial?lat={lat}&lon={lon}&radius={radius_mi}",
+    "licence": "US-Gov-PD",
+    "attribution": "NOAA National Geodetic Survey",
+    "commercial_use": "yes",
+    "use": "reference only (M-005.2), not shipped"
+  },
+  "lidar_ept": {
+    "product": "USGS 3DEP lidar point cloud CA_SanFrancisco_1_B23 (Entwine EPT on AWS usgs-lidar-public)",
+    "url": "https://s3-us-west-2.amazonaws.com/usgs-lidar-public/CA_SanFrancisco_1_B23/ept.json",
+    "licence": "US-Gov-PD",
+    "attribution": "U.S. Geological Survey 3D Elevation Program",
+    "commercial_use": "yes",
+    "use": "reference only (M-005.7 R-ind first-return DSM), not shipped"
+  },
+  "unused": {
+    "_doc": "Evaluated and not used at M0 (R-004 §1.4): licence fine but adds no better SF heights, or bulk-only.",
+    "microsoft_footprints": "ODbL, no heights: not used",
+    "overture_buildings": "ODbL + per-source credits: not used at M0",
+    "coned_sfbay_tbdem": "US-Gov-PD but a single 12.39 GB zip (no windowed access): not used"
+  }
+}
