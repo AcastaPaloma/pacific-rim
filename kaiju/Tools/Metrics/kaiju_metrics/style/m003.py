@@ -337,7 +337,8 @@ def _add_d(rep, reg, rows):
         w = min(ps, key=lambda p: p["margin_rel"])
         rep.add("M-003.d-iii", parts=[w], diagnostics={"per_frame": _per_frame(acc, "accent_share")})
     else:
-        rep.add("M-003.d-iii", S_NA, note="no accent present in any frame (applies only when present)")
+        rep.add("M-003.d-iii", S_NA, note="no accent present in any frame (applies only when present)",
+                spec_clause="R-002 §4 d-iii: the accent share is checked when the accent is present")
     w = _worst(rows, "grid_uniform")
     thr = reg.t("M-003.d-iv", "min_share")
     ps = _nan_parts(rows, "grid_uniform", "uniform blocks", ">=", thr, "every block touches the UI mask")

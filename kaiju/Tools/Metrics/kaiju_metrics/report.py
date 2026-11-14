@@ -3,7 +3,8 @@
 Verdict rules (C2, C7, C8, C11):
 - any contract error -> INVALID_INPUT (exit 2);
 - any gating sub-measure FAIL -> FAIL (exit 1);
-- else any gating sub-measure NOT_RUN / PENDING, or a required input missing -> INCOMPLETE (exit 3);
+- else any gating sub-measure NOT_RUN / PENDING, or NOT_APPLICABLE without a research-spec clause (`spec_clause`),
+  or a required input missing -> INCOMPLETE (exit 3) (fix cycle 3, DEF-T002-arch-8: one rule for every metric);
 - else PASS (exit 0), labelled "PASS (provisional: n assumed)" when n gating sub-measures rest on thresholds
   still `assumed_pending_calibration`.
 Advisory FAILs never flip the verdict; they appear as warnings. `headless_verdict` applies the same rules with the
@@ -111,7 +112,8 @@ class Report:
         self.mode = invocation.get("mode", "standard")
 
     # ------------------------------------------------------------------ building
-    def add(self, sid, status=None, parts=None, value=None, unit="", diagnostics=None, note=None, info=None):
+    def add(self, sid, status=None, parts=None, value=None, unit="", diagnostics=None, note=None, info=None,
+            spec_clause=None):
         """Record a sub-measure. With parts: status = FAIL if any part fails, NOT_RUN if any part NOT_RUN,
         else PASS; value / threshold / margin are the decisive (smallest relative margin) part."""
         if sid not in self.reg.ids():
@@ -121,11 +123,18 @@ class Report:
              "note": note, "value": value, "unit": unit}
         if info is not None:
             d["info"] = info
+        if spec_clause:
+            d["spec_clause"] = spec_clause
         if parts:
             sts = [p["status"] for p in parts]
             if status is None:
                 status = (S_FAIL if S_FAIL in sts else S_NOT_RUN if S_NOT_RUN in sts else
                           S_NA if all(x == S_NA for x in sts) else S_PASS)
+            # DEF-T002-arch-8: a gating item is PASS only if every member passes; a NOT_APPLICABLE member without a
+            # research-spec clause (`spec_clause`) counts as not measured
+            if d["kind"] == "gating" and status != S_FAIL and any(p["status"] == S_NA and not p.get("spec_clause")
+                                                                  for p in parts):
+                status = S_NOT_RUN
             judged = [p for p in parts if p.get("margin_rel") is not None]
             if judged:
                 dec = min(judged, key=lambda p: p["margin_rel"])
@@ -155,7 +164,8 @@ class Report:
         gating = [d for s, d in self.sms.items() if d["kind"] == "gating" and s not in exclude]
         if any(d["status"] == S_FAIL for d in gating):
             v = FAIL
-        elif any(d["status"] in (S_NOT_RUN, S_PENDING) for d in gating) or self.coverage["missing"] or not gating:
+        elif any(d["status"] in (S_NOT_RUN, S_PENDING) or (d["status"] == S_NA and not d.get("spec_clause"))
+                 for d in gating) or self.coverage["missing"] or not gating:
             v = INCOMPLETE
         else:
             v = PASS

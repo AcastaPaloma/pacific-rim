@@ -126,14 +126,15 @@ def test_arch1_audit_m003_fully_masked_frame_not_hidden(tmp_path):
 
 
 def test_arch1_audit_m004_sequence_without_dithered_pixels_reported(tmp_path):
-    """C_px on a sequence with no interleaved pixel is not a silent 0: NOT_APPLICABLE part plus a warning."""
-    sd, _ = GS.m004_set(str(tmp_path))
+    """C_px on a sequence with no interleaved pixel is not a silent 0 (cycle 2); since cycle 3 it is NOT_RUN and
+    the verdict INCOMPLETE (DEF-T002-arch-8)."""
+    sd, _ = GS.m004_set(str(tmp_path), anchor_y="direction_bands")
     rep, _ = run_metric("m004", [sd], images=False, options={"profiles": "slate_teal", "viewpoints": "eye",
                                                               "fixture": True})
     y = sm(rep, "M-004.C_px.Y")
-    assert all(p["status"] == "NOT_APPLICABLE" for p in y["parts"])
+    assert y["status"] == "NOT_RUN" and all(p["status"] == "NOT_RUN" for p in y["parts"])
     assert any("no dithered" in w for w in rep["warnings"])
-    assert sm(rep, "M-004.C_px.T3")["status"] == "PASS"
+    assert sm(rep, "M-004.C_px.T3")["status"] == "PASS" and rep["verdict"] == "INCOMPLETE"
 
 
 # ------------------------------------------------------------------ DEF-T002-arch-2

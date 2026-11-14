@@ -388,7 +388,7 @@ def px_angle_deg(W, hfov=60.0):
 def m004_sequence(set_dir, seq_id, motion_type, speed, anchor="screen", n_frames=60, W=160, H=90, scene="wall",
                   profile="slate_teal", snapped=True, viewpoint="eye", pattern="checker", declared_speed=None,
                   freeze=False, blank=False, mask_all=False, palettes=PALETTES, seed=0, origin=ORIGIN,
-                  checker_cols=None, patch_change=False):
+                  checker_cols=None, patch_change=False, hfov=60.0, block=1):
     """One M-004 sequence. scene 'wall' (frontal wall at the 600 m reference depth; translation only) or 'sky'
     (all sky; yaw) or 'city'. anchor: screen | direction | surface | temporal_noise | none.
     pattern 'checker' gives a two-level checker on every pixel (all interleaved); 'stripes' gives
@@ -401,11 +401,11 @@ def m004_sequence(set_dir, seq_id, motion_type, speed, anchor="screen", n_frames
     decl = speed if declared_speed is None else declared_speed
     motion = motion_block(motion_type, decl, "camera_right" if motion_type == "translate" else "world_up")
     write_sequence_json(d, set_id, seq_id, "M-004", n_frames, motion, viewpoint=viewpoint)
-    pw, pa = px_world(W), px_angle_deg(W)
+    pw, pa = px_world(W, hfov), px_angle_deg(W, hfov)
     base = origin + np.array([0.0, 70.0, 0.0])
     boxes = city_boxes() if scene == "city" else None
     frames = []
-    cam0 = Cam(base.copy(), 0.0, 0.0, W, H)
+    cam0 = Cam(base.copy(), 0.0, 0.0, W, H, hfov)
     for t in range(n_frames):
         ft = 0 if freeze else t
         k = math.floor(speed * ft + 1e-9) if snapped else speed * ft
@@ -415,7 +415,7 @@ def m004_sequence(set_dir, seq_id, motion_type, speed, anchor="screen", n_frames
             pos_c = base + np.array([pw * speed * t, 0, 0]); pos = base + np.array([pw * k, 0, 0])
         elif motion_type == "yaw":
             yaw_c = pa * speed * t; yaw = pa * k
-        cam = Cam(pos, yaw, 0.0, W, H)
+        cam = Cam(pos, yaw, 0.0, W, H, hfov)
         if scene == "wall":
             p, z, Pw = render_wall(cam, base[2] + 600.0)
         elif scene == "sky":
@@ -427,10 +427,10 @@ def m004_sequence(set_dir, seq_id, motion_type, speed, anchor="screen", n_frames
             yy, xx = np.indices((H, W)); par = (xx + yy) % 2
         elif anchor == "direction_bands":
             par = None
-        elif anchor == "direction":
+        elif anchor == "direction":          # direction-locked checker of block x block frame-0 pixels
             Dd = cam.rays().reshape(-1, 3)
             u0, v0, _ = cam0.project_dir(Dd)
-            par = ((np.floor(u0) + np.floor(v0)) % 2).reshape(H, W).astype(int)
+            par = ((np.floor(u0 / block) + np.floor(v0 / block)) % 2).reshape(H, W).astype(int)
         elif anchor == "surface":
             if Pw is None:
                 raise ValueError("surface anchor needs geometry")
@@ -513,9 +513,11 @@ def _truth_m004(frames, motion_type, speed, W, H, pattern):
             "F": float(np.mean(F)) if F else float("nan"), "lag": lag}
 
 
-def m004_set(root, set_id="m004_pass", anchor_t="surface", anchor_y="direction_bands", anchor_s="screen", n_frames=60,
-             W=160, H=90, viewpoints=("eye",), profiles=("slate_teal",), static_noise=False):
-    """The six required classes per profile and viewpoint (S0, T1, T2, T3, Y1, Y2)."""
+def m004_set(root, set_id="m004_pass", anchor_t="surface", anchor_y="direction", anchor_s="screen", n_frames=60,
+             W=160, H=90, viewpoints=("eye",), profiles=("slate_teal",), static_noise=False, y_hfov=20.0, y_block=2):
+    """The six required classes per profile and viewpoint (S0, T1, T2, T3, Y1, Y2). The yaw sequences use a
+    direction-locked 2 x 2-block checker on the sky (dithered, so C_px is really measured) at a 20 deg hfov, where
+    nearest-pixel reprojection stays within the yaw thresholds."""
     sd = os.path.join(root, set_id)
     truth = {}
     for pr in profiles:
@@ -529,7 +531,8 @@ def m004_set(root, set_id="m004_pass", anchor_t="surface", anchor_y="direction_b
                                                        n_frames=n_frames, W=W, H=H, profile=pr, viewpoint=vp)
             for name, sp in (("Y1", 0.25), ("Y2", 1.0)):
                 truth[f"{pre}_{name}"] = m004_sequence(sd, f"{pre}_{name}", "yaw", sp, anchor=anchor_y, scene="sky",
-                                                       n_frames=n_frames, W=W, H=H, profile=pr, viewpoint=vp)
+                                                       n_frames=n_frames, W=W, H=H, profile=pr, viewpoint=vp,
+                                                       hfov=y_hfov, block=y_block)
     return sd, truth
 
 

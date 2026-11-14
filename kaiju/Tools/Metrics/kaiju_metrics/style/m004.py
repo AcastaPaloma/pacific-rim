@@ -317,12 +317,13 @@ def run(report, inputs, reg, ratings=None, out_dir=None, images=True, options=No
                                "note": f"valid-pixel share {r['valid_share']:.3f} < {vmin}"})
                     continue
                 if key == "C" and r["C"] is None:
-                    ps.append({"name": nm, "value": None, "status": S_NA, "op": "<=", "threshold": reg.t(sid, "max"),
-                               "margin": None, "margin_rel": None, "unit": "share",
+                    # R-002 §5 does not declare C_px inapplicable without dither: not measured = NOT_RUN (Q-NEW-n)
+                    ps.append({"name": nm, "value": None, "status": S_NOT_RUN, "op": "<=",
+                               "threshold": reg.t(sid, "max"), "margin": None, "margin_rel": None, "unit": "share",
                                "note": f"dithered (interleaved) pixels {r['interleaved_share']:.4f} of valid pixels "
-                                       "(< crawl_min_interleaved_share): crawl not measurable"})
+                                       "(< crawl_min_interleaved_share): crawl not measured (verdict INCOMPLETE)"})
                     report.warn(f"{sid}: {r['sequence']} has no dithered pixels to measure crawl on "
-                                f"({r['interleaved_px']} px); C_px NOT_APPLICABLE for it")
+                                f"({r['interleaved_px']} px); C_px NOT_RUN, verdict INCOMPLETE")
                     continue
                 ps.append(part(nm, r[key], "<=", reg.t(sid, "max"), unit="share", valid_share=r["valid_share"],
                                pair_p95=r["S_pair_p95"] if key == "S" else None))
