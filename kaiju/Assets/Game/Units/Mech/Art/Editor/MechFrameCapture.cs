@@ -31,6 +31,10 @@ namespace Game.Units.Mech.Art.Editor
 
         static void Capture()
         {
+            // fresh import of the model so this run's log shows its import messages (C29: none expected)
+            Debug.Log("[MechFrameCapture] reimport begin " + MechFrameImport.ModelPath);
+            AssetDatabase.ImportAsset(MechFrameImport.ModelPath, ImportAssetOptions.ForceUpdate | ImportAssetOptions.ForceSynchronousImport);
+            Debug.Log("[MechFrameCapture] reimport end");
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(MechFrameImport.PrefabPath);
             var mech = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
