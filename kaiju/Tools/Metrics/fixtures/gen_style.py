@@ -384,7 +384,8 @@ def px_angle_deg(W, hfov=60.0):
 
 def m004_sequence(set_dir, seq_id, motion_type, speed, anchor="screen", n_frames=60, W=160, H=90, scene="wall",
                   profile="slate_teal", snapped=True, viewpoint="eye", pattern="checker", declared_speed=None,
-                  freeze=False, blank=False, mask_all=False, palettes=PALETTES, seed=0, origin=ORIGIN):
+                  freeze=False, blank=False, mask_all=False, palettes=PALETTES, seed=0, origin=ORIGIN,
+                  checker_cols=None, patch_change=False):
     """One M-004 sequence. scene 'wall' (frontal wall at the 600 m reference depth; translation only) or 'sky'
     (all sky; yaw) or 'city'. anchor: screen | direction | surface | temporal_noise | none.
     pattern 'checker' gives a two-level checker on every pixel (all interleaved); 'stripes' gives
@@ -445,6 +446,10 @@ def m004_sequence(set_dir, seq_id, motion_type, speed, anchor="screen", n_frames
             q = np.where(rng.random((H, W)) < 0.5, lo, hi)
         else:
             q = np.where(par == 1, hi, lo)
+        if checker_cols is not None:                  # only the first checker_cols columns carry the pattern
+            q = np.where(np.indices((H, W))[1] < checker_cols, q, ramp[5])
+        if patch_change:                              # a flat 10 x 10 patch changes colour once, halfway
+            q = q.copy(); q[:10, -10:] = ramp[7] if t >= n_frames // 2 else ramp[6]
         if scene == "wall" and Pw is not None:     # world-anchored bars (4 of every 32 px at 600 m): visible content
             bar = (np.floor((Pw[..., 0] - base[0]) / pw + 1e-6).astype(int) % 32) < 4
             q = np.where(bar, ramp[6], q)
