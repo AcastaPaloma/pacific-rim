@@ -1,0 +1,74 @@
+P1 defaults: linDamp=0.05 angDamp=0.05 jointFriction=0.05 maxDepen=10 maxAngVel=50 maxLinVel=100 maxJointVel=0 sleep=0.005 solverIt=6/1 cdm=Discrete
+P1 physics: defaultContactOffset=0.01 bounce=2 defDepen=10 sleep=0.005 improvedPatch=False
+P1 free fall 60 steps: y=95.01324 (analytic semi-implicit 100-0.5*9.81*(1+1/60)=95.01325) vy=-9.81000
+P2a revolute k=1.0857E+09 I=1.1E+08: first/abs max jointPosition=0.33530 (rad? 20deg=0.349) at t=1.000s (half period 1.0 s if k per rad, 0.13 s if per deg); driveForce step1=1.8896E+08 (k*10deg in rad=1.8948E+08)
+P2b target +10deg on xDrive, anchor identity: jointPosition=0.17434 child local rot angle=9.988deg axis=(0.999998,0,0) localEulerX=9.988
+P2c damping d=I: jointVelocity after 1 s from 1 rad/s = 0.37092 (expect 0.371 if N m s/rad)
+P2d jointForce=I*0.1 set once, 60 steps: jointVelocity=0.100000 (0.1 persistent, 0.00167 one-shot) worldAngVel=(0.0999999,0,0) jointForceReadback=1.1E+07
+P2e jointForce set every step: jointVelocity delta=0.100000
+P2f targetVelocity=0.5: steady jointVelocity=0.00873 rad/s (0.5 if rad/s, 0.00873 if deg/s)
+P2g forceLimit=1e6 with large error: driveForce=1E+06
+P2h dofStartIndices=[0,0] driveForces=[1000000] index root=0 child=1 dofCount=1
+P3a spherical jointForce on dof 0 at zero pose: worldAngVel=(0.05,0,0) jointVel=(0.0500,0.0000,0.0000) dofCount=3
+P3a spherical jointForce on dof 1 at zero pose: worldAngVel=(0,0.05,0) jointVel=(0.0000,0.0500,0.0000) dofCount=3
+P3a spherical jointForce on dof 2 at zero pose: worldAngVel=(0,0,0.05) jointVel=(0.0000,0.0000,0.0500) dofCount=3
+P3b twist 45 (angle=45.000deg axis=(1,0,0)) then jointForce dof 1: worldAngVel=(0.00170004,0.707107,0.707104) |w|=0.01; child-frame axis would be (5.38421E-10,0.707107,0.707106), parent-frame axis (0,1,0); jointPos=(0.7854,0.0006,0.0002)
+P3b twist 45 (angle=45.000deg axis=(1,0,0)) then jointForce dof 2: worldAngVel=(0.00170004,-0.707104,0.707107) |w|=0.01; child-frame axis would be (5.82077E-10,-0.707106,0.707107), parent-frame axis (0,0,1); jointPos=(0.7854,-0.0002,0.0006)
+P3c targets(x,y,z)=(0,10,0): localRot quat=(0.00000,0.08715,0.00000,0.99619) euler=(0,9.99978,0) angle=10.000deg axis=(0,1,0) jointPos=(0.0000,0.1745,0.0000)
+P3c targets(x,y,z)=(0,0,10): localRot quat=(0.00000,0.00000,0.08715,0.99619) euler=(0,0,9.99978) angle=10.000deg axis=(0,0,1) jointPos=(0.0000,0.0000,0.1745)
+P3c targets(x,y,z)=(30,0,10): localRot quat=(0.25848,0.00000,0.08616,0.96217) euler=(29.8287,2.94314,11.0183) angle=31.622deg axis=(0.948684,-5.24804E-09,0.316228) jointPos=(0.5236,0.0000,0.1745)
+P3c targets(x,y,z)=(30,10,0): localRot quat=(0.25848,0.08616,0.00000,0.96217) euler=(29.8287,11.0183,2.94314) angle=31.622deg axis=(0.948684,0.316228,5.24043E-09) jointPos=(0.5236,0.1745,0.0000)
+P3c targets(x,y,z)=(30,10,10): localRot quat=(0.25816,0.08605,0.08605,0.95841) euler=(28.6872,13.8082,13.8082) angle=33.166deg axis=(0.904535,0.301512,0.301512) jointPos=(0.5236,0.1745,0.1745)
+P4a ContactEvent fired 103 times in 180 steps (edit mode, Script sim). last step: points=0 sumImpulse=(0,0,0) expected normal m g dt=1.635E+06 minSep=1E+09 y=-42.39022
+P4a first point: pos=(5,-10,7.5) n=(0,-1,0) sep=0.03647 imp=(0,0,0) colliderIsFoot=foot/ground impulseSum=(0,0,0)
+P4b with +x force 0.3 m g: sumImpulse=(0,0,0) (x=-490500 if friction is included) vx=2.943 x=1.496
+P4b first point: pos=(5,-10,7.5) n=(0,-1,0) sep=0.03647 imp=(0,0,0) colliderIsFoot=foot/ground impulseSum=(0,0,0)
+P6 capture: mean rgb=(152,178,203) pixelsDifferentFromCorner=3024 of 230400 graphicsDevice=Metal file=/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Temp/probe_capture.png
+P7 overlapping parent/child/grandchild colliders after 60 steps: rootV=(0,0,0) childJointVel=0 grandJointVel=0 (all 0 => adjacent and grandparent pairs filtered)
+P4v0 AB collider after, auto inertia: step1 pts=4 sep=0 imp=(0,0,0); after 180: y=-42.3902 pts=0 sep=1E+09 sumImpulse=(0,0,0) (m g dt=1.635E+06)
+   push 0.3 m g: sumImpulse=(0,0,0) v=(2.943,-39.2401,0)
+P4v1 AB collider before, auto inertia: step1 pts=4 sep=0 imp=(0,0,0); after 180: y=-42.3902 pts=0 sep=1E+09 sumImpulse=(0,0,0) (m g dt=1.635E+06)
+   push 0.3 m g: sumImpulse=(0,0,0) v=(2.943,-39.2401,0)
+P4v2 Rigidbody: step1 pts=4 sep=0 imp=(0,1.63501E+06,0); after 180: y=2.0000 pts=4 sep=0 sumImpulse=(0,1.63499E+06,0) (m g dt=1.635E+06)
+   push 0.3 m g: sumImpulse=(0,1.63492E+06,0) v=(-0.00107613,-0.00217642,3.73456E-05)
+P4v3 AB dropped from 1 m: step1 pts=0 sep=1E+09 imp=(0,0,0); after 180: y=-41.3902 pts=0 sep=1E+09 sumImpulse=(0,0,0) (m g dt=1.635E+06)
+   push 0.3 m g: sumImpulse=(0,0,0) v=(2.943,-39.2401,0)
+P4v4 AB mass 1e3: step1 pts=4 sep=0 imp=(0,163.592,0); after 180: y=2.0000 pts=4 sep=-5.722E-06 sumImpulse=(0,163.523,0) (m g dt=163.5)
+   push 0.3 m g: sumImpulse=(0,163.477,0) v=(-0.000147306,-0.000427595,4.91919E-05)
+P4v5 AB collider before, manual inertia 2e8: step1 pts=4 sep=0 imp=(0,0,0); after 180: y=-42.3902 pts=0 sep=1E+09 sumImpulse=(0,0,0) (m g dt=1.635E+06)
+   push 0.3 m g: sumImpulse=(0,0,0) v=(2.943,-39.2401,0)
+DynamicsManager props: m_ObjectHideFlags=0 m_Gravity=? m_DefaultMaterial=? m_BounceThreshold=2 m_DefaultMaxDepenetrationVelocity=10 m_SleepThreshold=0.005 m_DefaultContactOffset=0.01 m_DefaultSolverIterations=6 m_DefaultSolverVelocityIterations=1 m_QueriesHitBackfaces=False m_QueriesHitTriggers=True m_EnableAdaptiveForce=False m_ClothInterCollisionDistance=0.1 m_ClothInterCollisionStiffness=0.2 m_LayerCollisionMatrix=? Array=? m_SimulationMode=2 m_ThreadingMode=0 m_AutoSyncTransforms=False m_ReuseCollisionCallbacks=True m_InvokeCollisionCallbacks=True m_ClothInterCollisionSettingsToggle=False m_ClothGravity=? m_ContactPairsMode=0 m_BroadphaseType=0 m_WorldBounds=? m_WorldSubdivisions=8 m_FrictionType=0 m_EnableEnhancedDeterminism=False m_ImprovedPatchFriction=False m_GenerateOnTriggerStayEvents=True m_SolverType=0 m_DefaultMaxAngularSpeed=50 m_ScratchBufferChunkCount=4 m_CurrentBackendId=-222762491 m_FastMotionThreshold=3.402823E+38 m_SceneBuffersReleaseInterval=0 m_ReleaseSceneBuffers=False m_LogVerbosity=2 m_IncrementalStaticBroadphase=True 
+settings: solverType=0 enhancedDeterminism=False improvedPatchFriction=False
+P4m mass=1 iters=6: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=-0.000145 Fn/mg=1.0000 peakFn/mg=21.45
+P4m mass=1 iters=24: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=0 Fn/mg=1.0000 peakFn/mg=19.98
+P4m mass=10 iters=6: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=-0.00015 Fn/mg=1.0000 peakFn/mg=21.45
+P4m mass=10 iters=24: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=0 Fn/mg=1.0000 peakFn/mg=19.98
+P4m mass=100 iters=6: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=-0.00013 Fn/mg=1.0002 peakFn/mg=21.46
+P4m mass=100 iters=24: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=-5.96E-10 Fn/mg=1.0000 peakFn/mg=19.98
+P4m mass=1E+03 iters=6: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=-0.000145 Fn/mg=1.0001 peakFn/mg=21.52
+P4m mass=1E+03 iters=24: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=0 Fn/mg=1.0000 peakFn/mg=19.99
+P4m mass=1E+04 iters=6: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=-0.000204 Fn/mg=1.0000 peakFn/mg=22.01
+P4m mass=1E+04 iters=24: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=0 Fn/mg=1.0000 peakFn/mg=20.05
+P4m mass=1E+05 iters=6: drop 0.5 m then rest: y=1.99935 (2.0 = on ground) minY=1.98225 vy=1.52E-06 Fn/mg=1.0000 peakFn/mg=20.89
+P4m mass=1E+05 iters=24: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=-1.84E-06 Fn/mg=1.0000 peakFn/mg=21.54
+P4m mass=1E+06 iters=6: drop 0.5 m then rest: y=-120.53380 (2.0 = on ground) minY=-120.53380 vy=-49.1 Fn/mg=0.0000 peakFn/mg=0.00
+P4m mass=1E+06 iters=24: drop 0.5 m then rest: y=-120.53380 (2.0 = on ground) minY=-120.53380 vy=-49.1 Fn/mg=0.0000 peakFn/mg=0.00
+P4m mass=1E+07 iters=6: drop 0.5 m then rest: y=-120.53380 (2.0 = on ground) minY=-120.53380 vy=-49.1 Fn/mg=0.0000 peakFn/mg=0.00
+P4m mass=1E+07 iters=24: drop 0.5 m then rest: y=-120.53380 (2.0 = on ground) minY=-120.53380 vy=-49.1 Fn/mg=0.0000 peakFn/mg=0.00
+settings: solverType=1 enhancedDeterminism=True improvedPatchFriction=True
+P4m mass=1 iters=6: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=-0.00193 Fn/mg=0.9999 peakFn/mg=21.50
+P4m mass=1 iters=24: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=-2.56E-06 Fn/mg=1.0000 peakFn/mg=19.98
+P4m mass=10 iters=6: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=-0.00193 Fn/mg=1.0000 peakFn/mg=21.50
+P4m mass=10 iters=24: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=-2.56E-06 Fn/mg=1.0000 peakFn/mg=19.98
+P4m mass=100 iters=6: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=-0.00196 Fn/mg=1.0000 peakFn/mg=21.51
+P4m mass=100 iters=24: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=-2.51E-06 Fn/mg=1.0000 peakFn/mg=19.98
+P4m mass=1E+03 iters=6: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=-0.00226 Fn/mg=1.0000 peakFn/mg=21.62
+P4m mass=1E+03 iters=24: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=-2.48E-06 Fn/mg=1.0000 peakFn/mg=19.99
+P4m mass=1E+04 iters=6: drop 0.5 m then rest: y=2.00002 (2.0 = on ground) minY=1.98225 vy=-0.00445 Fn/mg=1.0000 peakFn/mg=22.39
+P4m mass=1E+04 iters=24: drop 0.5 m then rest: y=2.00000 (2.0 = on ground) minY=1.98225 vy=-7.59E-05 Fn/mg=0.9997 peakFn/mg=20.07
+P4m mass=1E+05 iters=6: drop 0.5 m then rest: y=1.99995 (2.0 = on ground) minY=1.97092 vy=0.0375 Fn/mg=1.0001 peakFn/mg=21.44
+P4m mass=1E+05 iters=24: drop 0.5 m then rest: y=2.00001 (2.0 = on ground) minY=1.98225 vy=-0.00476 Fn/mg=1.0000 peakFn/mg=21.80
+P4m mass=1E+06 iters=6: drop 0.5 m then rest: y=1.99779 (2.0 = on ground) minY=1.82917 vy=0.0646 Fn/mg=0.9998 peakFn/mg=5.97
+P4m mass=1E+06 iters=24: drop 0.5 m then rest: y=2.00022 (2.0 = on ground) minY=1.95154 vy=0.0237 Fn/mg=0.9990 peakFn/mg=16.42
+P4m mass=1E+07 iters=6: drop 0.5 m then rest: y=-66.68250 (2.0 = on ground) minY=-66.68250 vy=-35 Fn/mg=0.0000 peakFn/mg=0.98
+P4m mass=1E+07 iters=24: drop 0.5 m then rest: y=-1.28718 (2.0 = on ground) minY=-1.28718 vy=-0.534 Fn/mg=1.0000 peakFn/mg=2.66
