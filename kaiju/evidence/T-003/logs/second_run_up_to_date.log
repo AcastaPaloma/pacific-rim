@@ -1,4 +1,4 @@
-# second run with a populated cache, network forbidden (--offline): 2026-11-14T15:23:35Z, commit 4227f5f
+# second run with a populated cache, network forbidden (--offline): 2026-11-14T16:34:35Z, commit 732f541
 $ python -I Pipelines/geo/fetch_cudem.py --tile L0_30_36 --offline
 [cudem] up to date: cache/cudem/ncei19_n38x00_w122x50_2022v1__L0_30_36.tif (sha256 b95bbd20e3e7, fetched 2026-11-14T12:06:03Z)
 exit 0
@@ -14,6 +14,10 @@ $ python -I Pipelines/geo/fetch_datasf.py --tile L0_30_36 --offline
 [datasf] up to date: cache/datasf/ynuv-fyni__L0_30_36.geojson (sha256 ccfdd93b3d02, fetched 2026-11-14T12:05:41Z)
 [datasf-licence] up to date: cache/datasf/ynuv-fyni.meta.json (sha256 df045b13f5ca, fetched 2026-11-14T12:05:42Z)
 exit 0
+$ python -I Pipelines/geo/fetch_refs.py --tile L0_30_36 --offline
+[ngs] up to date: cache/ngs/ngs_radial__L0_30_36.json (sha256 671d07c16291, fetched 2026-11-14T12:17:20Z)
+[lidar-dsm] up to date: cache/lidar/dsm_first_return_v2__L0_30_36.tif (sha256 dd821c6438f3, fetched 2026-11-14T16:33:19Z)
+exit 0
 $ python -I Pipelines/geo/fetch_water.py --offline
 [osm-water] up to date: cache/osm/water-polygons-split-4326.zip (sha256 22d97b206fd5, fetched 2026-11-14T12:14:47Z)
 [tides] up to date: cache/noaa/tides_9414290_datums.json (sha256 7b5d1b79efb7, fetched 2026-11-14T12:14:48Z)
@@ -27,11 +31,6 @@ $ python -I Pipelines/geo/bake_faults.py --offline
 [qfaults-5] up to date: cache/qfaults/qfaults_layer5.geojson (sha256 af059cffe6d8, fetched 2026-11-14T12:05:54Z)
 [faults] up to date: 3232 features, sha256 0dbc51ca628f
 exit 0
-$ python -I Pipelines/geo/fetch_refs.py --tile L0_30_36 --offline
-[ngs] up to date: cache/ngs/ngs_radial__L0_30_36.json (sha256 671d07c16291, fetched 2026-11-14T12:17:20Z)
-[lidar-dsm] up to date: cache/lidar/dsm_first_return__L0_30_36.tif (sha256 743f14ef8158, fetched 2026-11-14T12:21:05Z)
-exit 0
 $ python -I Pipelines/geo/bake_tile.py --tile L0_30_36 --offline
-[bake] L0_30_36 up to date (inputs 2d102a8d5e95); nothing written
+[bake] L0_30_36 up to date (inputs ad5c0f927c7f); nothing written
 {"tile": "L0_30_36", "status": "up_to_date"}
-exit 0

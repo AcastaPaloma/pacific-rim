@@ -2,26 +2,29 @@
  "tile": "L0_30_36",
  "budgets": {
   "value": {
-   "triangles_tile": 685685,
+   "triangles_tile": 684625,
    "triangles_terrain": 589457,
-   "triangles_buildings": 87924,
-   "triangles_water": 8304,
-   "draw_calls_max_view": 118,
+   "triangles_buildings": 87040,
+   "triangles_water": 8128,
+   "draw_calls_measured_max_view": 242,
+   "triangles_submitted_per_frame_measured_max": 1369256,
+   "draw_calls_renderer_estimate_max_view": 118,
    "draw_call_target": 200,
+   "measured_note": "Play-mode ProfilerRecorder frame totals (all passes incl. main-light shadow and depth), 1920x1080, soft shadows; export/render_stats_playmode.json",
    "renderers": 118,
-   "memory_mb": 71.2,
-   "committed_tile_mb": 23.53,
-   "bake_seconds": 13.97,
-   "editor_build_seconds": 2.63,
-   "git_tracked_files": 14,
+   "memory_mb": 71.1,
+   "committed_tile_mb": 23.72,
+   "bake_seconds": 14.61,
+   "editor_build_seconds": 2.55,
+   "git_tracked_files": 15,
    "extrapolation": {
     "M1_70_tiles": {
-     "committed_gb": 1.65,
-     "bake_minutes": 16.3
+     "committed_gb": 1.66,
+     "bake_minutes": 17.0
     },
     "bay_4624_tiles": {
-     "committed_gb_if_all_L0": 108.8,
-     "bake_hours": 17.9,
+     "committed_gb_if_all_L0": 109.7,
+     "bake_hours": 18.8,
      "note": "Q-027 default: 1 m only for urban/shoreline tiles, 2 m (L1) elsewhere; streaming loads ~9 tiles around the focus"
     }
    }
@@ -33,7 +36,8 @@
   "buildings": 2503,
   "structures": 2046,
   "parts": 457,
-  "rendered_records": 2423,
+  "excluded_not_extruded": 12,
+  "parts_height_capped_to_parent": 53,
   "height_source_counts": {
    "datasf": 281,
    "default": 334,
@@ -48,75 +52,107 @@
   "max_error_m": 0.19584274291992188,
   "rms_error_m": 0.03271921573028907,
   "triangles": 589457,
-  "note": "error = |rendered RTIN mesh - 1 m geo_tile surface| over all 2049^2 nodes; physics uses the full-resolution TerrainCollider"
+  "note": "RTIN accumulates per-split error, so the measured deviation from the 1 m surface is ~2x the split threshold; physics uses the full-resolution TerrainCollider"
  },
  "times": {
-  "bake_s": 13.97,
-  "editor_build_s": 2.6329857,
-  "import_s": 2.0909229
+  "bake_s": 14.61,
+  "editor_build_s": 2.5547343,
+  "import_s": 1.955282
  },
- "memory_mb": 71.2,
+ "memory": {
+  "memory.bytes": 71078116,
+  "memory.graphics_driver_delta_bytes": 16777216,
+  "memory.managed_used_delta_bytes": 94740480,
+  "memory.native_allocated_delta_bytes": 91547491,
+  "memory.native_reserved_delta_bytes": 269126000,
+  "memory.scope": "memory.bytes = runtime size of the tile's meshes, colliders, albedo and TerrainData; the deltas below are whole-process (Unity native allocator, graphics driver, managed heap) before vs after the build, after GC"
+ },
  "renderers": 118,
- "views": [
+ "render_stats_playmode": [
   {
-   "draw_calls_visible_renderers": 118,
-   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
-   "triangles_submitted": 685685,
-   "view": "topdown"
-  },
-  {
-   "draw_calls_visible_renderers": 118,
-   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
-   "triangles_submitted": 685685,
+   "Batches Count.max": 0,
+   "Batches Count.median": 0,
+   "Draw Calls Count.max": 242,
+   "Draw Calls Count.median": 242,
+   "SetPass Calls Count.max": 8,
+   "SetPass Calls Count.median": 8,
+   "Shadow Casters Count.max": 0,
+   "Shadow Casters Count.median": 0,
+   "Triangles Count.max": 1369256,
+   "Triangles Count.median": 1369256,
+   "Vertices Count.max": 1058084,
+   "Vertices Count.median": 1058084,
+   "frame_ms_median_editor_batch": 0.9602961945347488,
+   "hfov_deg": 60,
    "view": "oblique_270"
   },
   {
-   "draw_calls_visible_renderers": 118,
-   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
-   "triangles_submitted": 685685,
+   "Batches Count.max": 0,
+   "Batches Count.median": 0,
+   "Draw Calls Count.max": 242,
+   "Draw Calls Count.median": 242,
+   "SetPass Calls Count.max": 8,
+   "SetPass Calls Count.median": 8,
+   "Shadow Casters Count.max": 0,
+   "Shadow Casters Count.median": 0,
+   "Triangles Count.max": 1369256,
+   "Triangles Count.median": 1369256,
+   "Vertices Count.max": 1058084,
+   "Vertices Count.median": 1058084,
+   "frame_ms_median_editor_batch": 0.8812925079837441,
+   "hfov_deg": 60,
    "view": "oblique_235"
   },
   {
-   "draw_calls_visible_renderers": 118,
-   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
-   "triangles_submitted": 685685,
+   "Batches Count.max": 0,
+   "Batches Count.median": 0,
+   "Draw Calls Count.max": 242,
+   "Draw Calls Count.median": 242,
+   "SetPass Calls Count.max": 8,
+   "SetPass Calls Count.median": 8,
+   "Shadow Casters Count.max": 0,
+   "Shadow Casters Count.median": 0,
+   "Triangles Count.max": 1369256,
+   "Triangles Count.median": 1369256,
+   "Vertices Count.max": 1058084,
+   "Vertices Count.median": 1058084,
+   "frame_ms_median_editor_batch": 0.8986252942122519,
+   "hfov_deg": 60,
    "view": "oblique_305"
   },
   {
-   "draw_calls_visible_renderers": 55,
-   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
-   "triangles_submitted": 422650,
-   "view": "shoreline_embarcadero"
+   "Batches Count.max": 0,
+   "Batches Count.median": 0,
+   "Draw Calls Count.max": 206,
+   "Draw Calls Count.median": 206,
+   "SetPass Calls Count.max": 12,
+   "SetPass Calls Count.median": 12,
+   "Shadow Casters Count.max": 12,
+   "Shadow Casters Count.median": 12,
+   "Triangles Count.max": 1213387,
+   "Triangles Count.median": 1213387,
+   "Vertices Count.max": 963696,
+   "Vertices Count.median": 963696,
+   "frame_ms_median_editor_batch": 0.7947562262415886,
+   "hfov_deg": 75,
+   "view": "V4_v1.1"
   },
   {
-   "draw_calls_visible_renderers": 80,
-   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
-   "triangles_submitted": 531612,
-   "view": "skyline_V4"
-  },
-  {
-   "draw_calls_visible_renderers": 80,
-   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
-   "triangles_submitted": 531612,
-   "view": "skyline_V4_270rows"
-  },
-  {
-   "draw_calls_visible_renderers": 80,
-   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
-   "triangles_submitted": 531612,
-   "view": "skyline_V4_eye70"
-  },
-  {
-   "draw_calls_visible_renderers": 60,
-   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
-   "triangles_submitted": 438881,
-   "view": "skyline_V5"
-  },
-  {
-   "draw_calls_visible_renderers": 60,
-   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
-   "triangles_submitted": 438881,
-   "view": "skyline_V5_270rows"
+   "Batches Count.max": 0,
+   "Batches Count.median": 0,
+   "Draw Calls Count.max": 134,
+   "Draw Calls Count.median": 134,
+   "SetPass Calls Count.max": 12,
+   "SetPass Calls Count.median": 12,
+   "Shadow Casters Count.max": 8,
+   "Shadow Casters Count.median": 8,
+   "Triangles Count.max": 1053580,
+   "Triangles Count.median": 1053580,
+   "Vertices Count.max": 877984,
+   "Vertices Count.median": 877984,
+   "frame_ms_median_editor_batch": 1.5057043638080359,
+   "hfov_deg": 60,
+   "view": "V5"
   }
  ]
 }

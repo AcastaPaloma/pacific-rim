@@ -60,3 +60,66 @@ Main commands (in this order, each reproducible from a clean checkout once the f
 2. M-005.7 vs the independent lidar reference (Assumed thresholds): V4 IoU 0.845 / MAE 11.9 px, V5 IoU 0.635 / MAE 12.0 px.
 3. C11 seam median |3DEP - CUDEM| in the feather band 0.457 m > 0.1 m (no blend step > 0.5 m; all-land median 0.061 m).
 4. Out-of-tile sub-measures (9) are due at M1; M-005.2 NGS has 0 qualifying marks in this tile.
+
+## Fix cycle 2 (2026-11-14)
+**Read this section first:** the tables above give the cycle-1 values; the values below replace them where they differ.
+- Code: `d48c70c`..HEAD on `task/T-003`. Tile rebaked at `61aa55e` (`manifest.json` `build.git`, clean).
+- `m005_report.json` now holds two blocks side by side:
+  - `v1`: M-005@v1, R-004 §6, as before.
+  - `v1_1`: M-005@v1.1, `research/R-006.md` §5, Assumed pending founder calibration. Every row carries `metric_version`.
+  - `t003`: the acceptance checks outside M-005.
+- Tests: pytest 71/71 (`tests/pytest.xml`); dotnet 28/28 (`tests/dotnet_worldgeo.trx`); Unity EditMode 131/131 (`tests/unity_editmode.xml`); Unity PlayMode 1/1 (`tests/unity_playmode.xml`).
+- Unity launches waited on the machine queue (`logs/fix_cycle2_unity_queue.log`).
+
+| Defect | Change | Artifact | Measured value |
+|---|---|---|---|
+| DEF-T003-bay-1 (major) | `vector.exclusion_reason`: `location=underground`; `layer<0` with underground levels or negative `level`, unless the source also gives above-ground levels or a height; `building=ship`. Parts inherit. Records are kept with `excluded`, not extruded, not solid in the water mask. | `buildings.geojson`, manifest `count_excluded`, pytest `test_stations_and_ship_kept_flagged_not_surface`, EditMode `UndergroundStationsAndShip_AreRecordsWithoutGeometry`, `captures/topdown.png` | 12 records excluded: 3 stations + 3 Montgomery parts, 2 ships + 4 ship parts. Salesforce Transit Center (layer -1, 5 levels, 30 m) kept. Default share re-measured below. |
+| DEF-T003-bay-2 (major) | Fallback part heights (datasf/levels/default) are capped at their structure's `osm_height`/`datasf` height; `height_capped_to_parent` flag; R-004 order per part. | pytest `test_no_fallback_part_exceeds_its_structure`, EditMode `FallbackPartHeights_NeverExceedTheirStructure` | 53 parts capped; 0 fallback parts above their structure. Tagged-height parts are left as the source gives them (data conflicts, e.g. 555 California parts 237 m vs outline 226 m, reported). |
+| DEF-T003-bay-3 (major) | R-ind v2: one `filters.expression` (first return, not class 7/18), then a statistical outlier filter (`mean_k` 8, 2.5 sigma), then a drop of the marked points. Synthetic-point test: classes 7 and 18, second returns and a 300 m spike are all removed. v1.1 products follow the R-006 recipe (`lidar_ref_v11.py`). | `cache/lidar/dsm_first_return_v2__L0_30_36.tif` (meta), `m005_report.json` `v1.m005.M-005.7` reference text | DSM max 357.4 -> 335.4 m; 64.2 M of 66.1 M first returns kept. **v1 vs R-ind:** V4 IoU 0.911 / MAE 6.19 px (was 0.845 / 11.9); V5 IoU 0.797 / MAE 4.77 px (was 0.635 / 12.0). Both still fail the v1 gate (IoU >= 0.90 and MAE <= 3 px). The reference still contains vegetation, cranes and rooftop plant (written into the report). Overlays: `skyline/skyline_V4_overlay.png`, `skyline_V5_overlay.png`. |
+| DEF-T003-bay-4 (minor) | `base_navd88_m` = 10th percentile of the surface along the footprint ring. Walls reach `ground_min_navd88_m` - 2 m skirt. | `t003.C12_buildings`, EditMode `NoBuildingFloats_WallsReachBelowTheLowestGround` | Millennium base -0.71 m (was -1.21). w421816061 base 4.06 m (was -6.49). Bases within 0.5 m of the ring p10: pass. Floating buildings: 0. |
+| bay-6 (seam) | Surface and threshold unchanged. The built-surface step along the 50 shoreline profiles is reported beside the seam figure. | `t003.C11_continuous_surface.seam` | Seam median \|3DEP - CUDEM\| in the band 0.457 m (as defined, fail). Built-surface steps on the 50 profiles: max 7.0 m, 23 at >= 1.5 m, all documented, 0 undocumented. v1.1 M-005.9 below. |
+| DEF-T003-arch-1 | `bake_seconds` moved to `build_info.json`. A forced in-place re-bake with identical content keeps the build block. Determinism hashes the manifest minus `build.{built_utc,git,git_dirty_pipeline}`. | `logs/determinism_hashes.md`, pytest `test_rebake_is_byte_identical_and_order_independent`, `test_manifest_content_is_input_determined` | 6 data files + the manifest content identical across committed / 1 thread / 4 threads with shuffled input. |
+| DEF-T003-arch-2 | Unity test: export, remove 20 random no-part buildings, export again; compare. | `Remove20RandomBuildings_OthersAndTerrainIdenticalInExport` | Exactly 20 removed; every other record and all 300 terrain samples byte-identical. |
+| DEF-T003-arch-3 | Cache-free tests added: a synthetic-neighbour seam from generated CUDEM-like and 3DEP-like rasters (with nodata holes); the owner rule on 200 synthetic straddlers; a real refused connection (127.0.0.1:9). `m005_check.py --out` added. | `tests/test_fix_cycle2.py` | All pass with no cache. |
+| DEF-T003-arch-4 | `WorldGeo.json` is the single source of truth: missing file or key throws. Palette, albedo ramps, road minimum width and smoothness moved there. `GeoSettings.Require` replaces the code defaults. | EditMode `Config_MissingKey_FailsLoudly`, `Importer_WithoutSettings_RefusesInsteadOfUsingCodeDefaults` | The 0.5 m fallback is gone; the importer refuses to build without the config. |
+| DEF-T003-arch-5 | MODULE.md uses the §6 labelled lines, states the wiring status (`GeoModule.Install` is called by tests only) and links Q-IDs instead of implementer files. | `Assets/Game/World/Geo/MODULE.md` | — |
+| DEF-T003-perf-1 | Draw calls come from the engine's Rendering profiler counters in Play mode: Unity Test Framework PlayMode, Metal device, 1920x1080, soft-shadow main light, 30 warm-up + 120 recorded frames per view. Explicit `Camera.Render` calls inside a batch method read 0 on every counter, so they are not used. | `export/render_stats_playmode.json`, PlayMode test `TileRenderStats_FromProfilerCounters`, pipeline in `export/capture_views.json` (PC_RPAsset, SRP Batcher on, shadow distance 50, 4 cascades) | Draw calls (max over views): obliques 242, V4 v1.1 206, V5 134 (renderer-count estimate was 118). SetPass 8–12. Triangles submitted per frame, all passes: 1.37 M (tile geometry 0.685 M). Within the 1,500 budget, **above the 200 target**. RTIN error is about 2x its setting because the split error accumulates (MODULE.md). |
+| DEF-T003-perf-2 | Rendering is per 256 m chunk; every building has its own GameObject and collider; a removal rebuilds one chunk. | `export/geo_export_after_removal.json` stats | 10.2 ms for 20 removals = 0.51 ms per building, chunk rebuild included. |
+| DEF-T003-perf-3 | Whole-process memory deltas before vs after the build, after GC; frame time. | `export/tile_stats_unity.json`, `export/render_stats_playmode.json` | Tile objects 71.1 MB. Native allocated +91.5 MB, reserved +269 MB, graphics driver +16.8 MB, managed +94.7 MB. Editor-batch frame 0.8–1.5 ms median on the M5 Pro (not the target PC). |
+| DEF-T003-perf-4 | Target PC still undefined (Q-019); all timings are dev-Mac numbers. | — | — |
+
+### M-005@v1 vs M-005@v1.1 (`m005_report.json` `v1.summary` / `v1_1.summary`)
+| Sub-measure | v1 | v1.1 | v1.1 value |
+|---|---|---|---|
+| .1 landmarks | pass (a, b, d) | carried | unchanged (p95 1.12 m vs reference) |
+| .2 terrain | pipeline pass, NGS insufficient (0 qualify) | carried | unchanged |
+| .3 bathymetry | pass in tile, 4 n/a | carried | unchanged |
+| .4 (a–c) heights | pass (100 % within 0.5 m, KS 0.000, fallback validation pass) | carried | — |
+| .4 default share | **fail**: 13.3 % by count (13.1 % surface only) | .4(d) **pass** | Area share over structures 6.07 % (count 13.9 %, perimeter 9.4 %; 1,988 structures; excluded: 39 roof, 13 < 20 m², 3 underground, 2 ship, 1 base below MSL in water). If R-006's inheritance + DataSF containment were applied (not in the build): 3.63 %. Adding the cached lidar fill as well: 0.07 %. Assessor storeys: not applied (not cached). |
+| .5 footprints | pass (area recall 0.9997, precision 1.000, count 1.000) | pass (R-006 exclusions on both sides) | recall 0.9997 / precision 1.000 / count 1.000 |
+| .6 scale | pass | carried | — |
+| .7 V4 | **fail** vs R-ind (IoU 0.911, MAE 6.19 px); R-src pass (0.997 / 0.17) | **pass** | Heading 257.6°, hFOV 75°. R-src: IoU 0.996, MAE 0.26 px. R-ind: IoU 0.901, MAE 6.50 px (9.7 mrad), shift 0. Noise floor F_v (R-ind vs R-ind2): IoU 0.804, MAE 12.3 px. Gate: IoU >= 0.784 and >= 0.80; MAE <= 13.3 px. |
+| .7 V5 | **fail** vs R-ind (IoU 0.797, MAE 4.77 px) | **pass** | R-src: 0.995 / 0.23 px. R-ind: IoU 0.828, MAE 5.99 px (6.8 mrad). F_v: IoU 0.552, MAE 14.1 px. Skyline columns 43.8 % (>= 25 %, so V5 gates). |
+| .7 V4m (70 m eye) | — | reported | R-ind: IoU 0.857, MAE 6.03 px |
+| .8 attribution | pass | carried | — |
+| .9 shoreline continuity | (C11 seam: 0.457 m, fail) | **fail** | p99 excess step E = 0.276 m (> 0.20); max 0.4895 m (<= 0.50); 181,042 node pairs. Information: D median 0.457 m, p95 4.41 m against a 0.98 m envelope; 31 % of band nodes have \|Δ\|/L > 0.2 (a wider feather would help: R-006 §1). |
+| C20 draw calls | renderer estimate 118 | measured | 242 max (Play-mode counters) |
+| **Counts** | 18 pass, 3 fail, 9 n/a, 1 insufficient, 1 reported | 21 pass, 1 fail, 9 n/a, 1 insufficient, 2 reported | |
+
+**Caveats on v1.1 .7. Read these before reading those passes as strong:**
+1. **The change mask removes 72 structures from both renders**, Transamerica, 181 Fremont and One Market Plaza among them (`skyline_v11_spec.json`).
+   - R-006's rule is |lidar p90 − build p90| > 10 m.
+   - Many of those structures differ because of the vegetation step, not because of change.
+2. **The return-count vegetation test does not separate canopy from roofs in B23.**
+   - It flags 40 % of Pioneer Park and 38 % of Redwood Park cells, but also 8.2 % of all roof cells, and about 30 % on tower roofs (`v1_1.m005.M-005.7.recipe.vegetation_calibration`).
+   - A diagnostic variant that applies the test only outside footprints gives V4 IoU 0.910 / MAE 5.92 px and V5 0.857 / 5.00 px, with a 53-structure change mask.
+3. **The noise floor is weak.** R-ind2 (DataSF 2010 extrusions) agrees with R-ind only at IoU 0.55–0.80, which makes the floor-relative gate lenient.
+4. Within-reference noise (V4): p95 vs max cell IoU 0.998; 0.5 vs 1 m cells IoU 0.973; eye ±1.5 m IoU 0.986–0.987.
+
+All of these are R-006 calibration questions (its Q-NEW-d). Overlays: `skyline/skyline_v11_*_overlay_rind.png` (grey = game mask, red = R-ind, blue = R-ind2) and `skyline_v11_*_overlay_rsrc.png`.
+
+### Not fixed in this cycle
+- v1 default share 13.3 % by count. This is a rule question for research and the founders (DEF-bay-5). Under v1.1 it passes by area.
+- v1 skylines vs R-ind still fail at MAE 6.19 / 4.77 px. Research owns the thresholds, band and viewpoints (DEF-bay-7); this cycle changed only the reference.
+- v1.1 M-005.9 p99 0.276 m. The surface was not changed, per this cycle's instruction (the feather width is a pipeline parameter: R-006 §1 suggests L >= |Δ| / 0.2).
+- The measured draw calls (242) are above the 200 target. That target is a proposal, not a budget.

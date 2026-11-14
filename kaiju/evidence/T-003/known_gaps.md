@@ -5,7 +5,7 @@ No building was invented at M0 (brief, D-021 default: "no invented buildings"). 
 missing or simplified, with the evidence that found it. Candidates for F-041 hand-crafting go to the founders.
 
 ## 1. Structures seen by lidar but not covered by any OSM footprint
-Method (`Pipelines/geo/known_gaps.py`, output `known_gaps_candidates.json`, 54 candidates): 3DEP CA_SanFrancisco_B23
+Method (`Pipelines/geo/known_gaps.py`, output `known_gaps_candidates.json`; 54 candidates with the cycle-1 DSM, 25 with the noise-filtered DSM v2 of fix cycle 2): 3DEP CA_SanFrancisco_B23
 first-return DSM minus the bare surface > 15 m, connected area >= 300 m^2 with median > 15 m, more than 6 m from every
 OSM footprint, not over water. Candidates include trees (Pioneer Park on Telegraph Hill), cranes, construction, the
 Bay Bridge structure, and parts of towers whose OSM footprints are drawn smaller than the lidar outline. Not checked
@@ -32,6 +32,11 @@ by hand; a reviewer should look at each before anything is modelled.
 These differences are also why the independent skyline check (M-005.7 vs R-ind) fails: see `m005_report.json`.
 
 ## 2. Simplified at M0 (by rule, documented)
+- **Non-surface features (fix cycle 2, DEF-T003-bay-1)**: 12 records kept in `buildings.geojson` with `excluded` and
+  never extruded: Montgomery St, Union Square/Market St and Embarcadero stations (`location=underground`) and the
+  Montgomery concourse/platform parts; the moored ships Santa Rosa and San Francisco Belle and 4 ship parts.
+- **Part heights (DEF-T003-bay-2)**: 53 parts whose height came from a fallback were capped at their structure's
+  tagged height (`height_capped_to_parent`).
 - **Bridge decks and tunnels**: 66 OSM bridge ways (including the Bay Bridge, `osm:w8921938`) are flagged `bridge = 1`
   and not drawn: the data has no deck heights. The W2 tower stands alone in the water. F-041 hand-crafts the bridge.
 - **Roof shapes**: flat roofs except pyramidal/spire/cone with `roof:height`; max(y) always equals base + `height_m`.

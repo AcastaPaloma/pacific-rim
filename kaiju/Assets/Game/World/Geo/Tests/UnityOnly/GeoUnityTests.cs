@@ -168,6 +168,7 @@ namespace Game.World.Geo.Unity.Tests
         {
             var root = Path.Combine(Application.dataPath, "Game", "World", "Geo");
             var allowed = new HashSet<string> { "Game.Core.Contracts", "Game.World.Geo.Contracts", "Game.World.Geo", "Game.World.Geo.Unity", "Game.World.Geo.Tests",
+                "nunit.framework.dll",
                 "UnityEngine.TestRunner", "UnityEditor.TestRunner" };
             foreach (var f in Directory.GetFiles(root, "*.asmdef", SearchOption.AllDirectories))
             {

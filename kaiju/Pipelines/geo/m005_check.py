@@ -500,8 +500,12 @@ def check_v11(tile, E, man, hs, water, feats, cfg, ref, v1):
     B["M-005.7"] = sky
     B["M-005.9 shoreline continuity"] = V.shoreline_continuity(tile, cfg, *source_rasters(tile), piers_union(tile)[0])
     cv = J(EVID / "export" / "capture_views.json") if (EVID / "export" / "capture_views.json").exists() else {}
+    pm = EVID / "export" / "render_stats_playmode.json"
+    pmj = J(pm) if pm.exists() else None
     B["C20 support (draw calls, R-006 §4)"] = {"metric_version": "M-005@v1.1", "result": "reported",
-                                               "measured": cv.get("measured_render_stats"), "pipeline": cv.get("pipeline")}
+                                               "play_mode_profiler_counters": pmj, "pipeline": cv.get("pipeline"),
+                                               "edit_mode_explicit_renders": "ProfilerRecorder Render counters read 0 for explicit Camera.Render calls in a batch method (no player-loop frame); kept in export/capture_views.json, not used",
+                                               "renderer_count_estimate_informational": J(EVID / "export" / "tile_stats_unity.json").get("renderers")}
     return {"metric_version": "M-005@v1.1", "source": "research/R-006.md §5 (Assumed, pending founder calibration)", "m005": B, "summary": summarise(B)}
 
 
@@ -1124,11 +1128,17 @@ def budgets(E, man, tile):
     disk = sum((tile_paths(tile) / f["file"]).stat().st_size for f in man["layers"]) + (tile_paths(tile) / "manifest.json").stat().st_size
     views = J(EVID / "export" / "capture_views.json")["views"] if (EVID / "export" / "capture_views.json").exists() else []
     dc = max((v["draw_calls_visible_renderers"] for v in views), default=st["renderers"])
+    pm = EVID / "export" / "render_stats_playmode.json"
+    measured = J(pm)["views"] if pm.exists() else []
+    dc_meas = max((v["Draw Calls Count.max"] for v in measured), default=None)
+    tri_meas = max((v["Triangles Count.max"] for v in measured), default=None)
     tri = st["triangles.total"]
-    ok = tri <= 1.5e6 and dc <= 1500 and disk <= 100e6 and bake_s <= 300 and st.get("time.editor_build_s", 0) <= 60
+    ok = tri <= 1.5e6 and (dc_meas if dc_meas is not None else dc) <= 1500 and disk <= 100e6 and bake_s <= 300 and st.get("time.editor_build_s", 0) <= 60
     m1 = 70
     return res({"triangles_tile": tri, "triangles_terrain": st.get("triangles.terrain"), "triangles_buildings": st.get("triangles.buildings"), "triangles_water": st.get("triangles.water"),
-                "draw_calls_max_view": dc, "draw_call_target": 200, "renderers": st["renderers"], "memory_mb": r(st.get("memory.bytes", 0) / 1e6, 1),
+                "draw_calls_measured_max_view": dc_meas, "triangles_submitted_per_frame_measured_max": tri_meas,
+                "draw_calls_renderer_estimate_max_view": dc, "draw_call_target": 200,
+                "measured_note": "Play-mode ProfilerRecorder frame totals (all passes incl. main-light shadow and depth), 1920x1080, soft shadows; export/render_stats_playmode.json", "renderers": st["renderers"], "memory_mb": r(st.get("memory.bytes", 0) / 1e6, 1),
                 "committed_tile_mb": r(disk / 1e6, 2), "bake_seconds": bake_s, "editor_build_seconds": r(st.get("time.editor_build_s"), 2),
                 "git_tracked_files": len(files.splitlines()),
                 "extrapolation": {"M1_70_tiles": {"committed_gb": r(70 * disk / 1e9, 2), "bake_minutes": r(70 * bake_s / 60, 1)},
