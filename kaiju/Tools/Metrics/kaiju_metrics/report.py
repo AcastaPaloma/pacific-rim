@@ -20,24 +20,64 @@ from .common import (EXIT_CODES, FAIL, INCOMPLETE, INVALID_INPUT, PASS, S_FAIL, 
                      S_REPORTED, dump_json, git_commit)
 
 REPORT_SCHEMA = "metric_report@v1"
+# Tool semantics version: bumped whenever a behaviour change can alter a verdict on unchanged inputs and registry.
+# Reports without `tool.semantics` were produced by semantics 1 (cycle 1). See SEMANTIC_CHANGES.
+SEMANTICS = 3
+SEMANTIC_CHANGES = {
+    2: {"all": "fix cycle 2: minimum evidence per capture / profile / frame (an empty member is NOT_RUN, verdict "
+               "INCOMPLETE); undecodable PNG is INVALID_INPUT",
+        "M-001": "M-001.12 floor is the time to the measurement's end speed (0.3 m/s); curve needs cruise samples "
+                 "and steady strides",
+        "M-003": "DIG and c1 judged per profile; O undefined (null) instead of 0.0; tie-safe Spearman; "
+                 "palette_index vs color_internal cross-check",
+        "M-004": "C_px with < 1 % dithered pixels not measured (was 0.0); palette_index vs color_internal cross-check"},
+    3: {"all": "fix cycle 3: a gating sub-measure that is NOT_APPLICABLE without a spec clause makes the verdict "
+               "INCOMPLETE; threshold comparisons treat values within 1e-9 x |threshold| as equal",
+        "M-004": "C_px not measurable (no dithered pixels) is NOT_RUN, verdict INCOMPLETE",
+        "M-003": "d-iv reads each frame's own output_block_offset_px (per-frame offsets now valid)"},
+}
 PANEL_IDS = ("M-001.13", "M-003.f")
 
 
+_SETTINGS = {}
+
+
+def tool_settings():
+    """registry/tool_settings.yaml (cached): tool-wide numerical settings, recorded in every report."""
+    if not _SETTINGS:
+        import yaml
+        from .common import REGISTRY_DIR, sha256_file
+        p = os.path.join(REGISTRY_DIR, "tool_settings.yaml")
+        with open(p, encoding="utf-8") as f:
+            d = yaml.safe_load(f)
+        _SETTINGS.update(d)
+        _SETTINGS["_sha256"] = sha256_file(p)
+    return _SETTINGS
+
+
+def _cmp(value, thr):
+    """-1 / 0 / +1: value below / equal to / above thr, equality within compare_rel_tol x |thr| (DEF-T002-feel-3)."""
+    tol = tool_settings()["compare_rel_tol"] * abs(thr)
+    d = value - thr
+    return 0 if abs(d) <= tol else (1 if d > 0 else -1)
+
+
 def judge(value, op, thr, thr_hi=None):
-    """Return (status, margin) with margin > 0 on the passing side. op: <, <=, >=, >, in (closed band)."""
+    """Return (status, margin) with margin > 0 on the passing side. op: <, <=, >=, >, in (closed band).
+    Comparisons use the uniform tool tolerance of _cmp; the margin is reported unrounded."""
     if value is None or (isinstance(value, float) and not math.isfinite(value)):
         return S_NOT_RUN, None
     if op == "<":
-        return (S_PASS if value < thr else S_FAIL), thr - value
+        return (S_PASS if _cmp(value, thr) < 0 else S_FAIL), thr - value
     if op == "<=":
-        return (S_PASS if value <= thr else S_FAIL), thr - value
+        return (S_PASS if _cmp(value, thr) <= 0 else S_FAIL), thr - value
     if op == ">=":
-        return (S_PASS if value >= thr else S_FAIL), value - thr
+        return (S_PASS if _cmp(value, thr) >= 0 else S_FAIL), value - thr
     if op == ">":
-        return (S_PASS if value > thr else S_FAIL), value - thr
+        return (S_PASS if _cmp(value, thr) > 0 else S_FAIL), value - thr
     if op == "in":
         m = min(value - thr, thr_hi - value)
-        return (S_PASS if thr <= value <= thr_hi else S_FAIL), m
+        return (S_PASS if _cmp(value, thr) >= 0 and _cmp(value, thr_hi) <= 0 else S_FAIL), m
     raise ValueError(op)
 
 
@@ -158,7 +198,10 @@ class Report:
             "report_schema": REPORT_SCHEMA,
             "metric": self.metric, "metric_version": self.reg.spec, "label": self.label,
             "registry": self.reg.describe(),
-            "tool": {"name": TOOL_NAME, "version": __version__, "git_commit": git_commit()},
+            "tool": {"name": TOOL_NAME, "version": __version__, "git_commit": git_commit(),
+                     "semantics": SEMANTICS,
+                     "settings": {"compare_rel_tol": tool_settings()["compare_rel_tol"],
+                                  "sha256": tool_settings()["_sha256"]}},
             "invocation": self.invocation,
             "inputs": sorted(self.inputs, key=lambda x: x["path"]),
             "normalisers": self.normalisers,

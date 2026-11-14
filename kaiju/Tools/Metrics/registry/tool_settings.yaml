@@ -1,0 +1,7 @@
+# Tool-wide settings (not a metric registry; applies identically to every metric and revision).
+settings_schema: tool_settings@v1
+# Numerical comparison tolerance (DEF-T002-feel-3): a value within compare_rel_tol x |threshold| of a threshold
+# compares as EQUAL to it (so "<=" and ">=" pass, "<" and ">" fail). Absorbs float rounding of the measurement
+# pipeline (~1e-14 relative), never loosens a threshold: 1e-9 of 2.943 m/s^2 is 2.9e-9 m/s^2. A threshold of 0 stays
+# exact (S0 static is a hard rule).
+compare_rel_tol: 1.0e-9
