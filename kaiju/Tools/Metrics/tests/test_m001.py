@@ -218,7 +218,7 @@ NEG = {
     "M-001.2": {"walk_fr020": None},
     "M-001.3": {"walk_fr020": G.spec_walk(0.20, strides=5, duty=0.76)},
     "M-001.4": {"estop": G.spec_stop(capture="estop", steps_to_stop=(VC - 0.3) / 2.5 / STEP, spike=(1.0, 1.0, 0.6))},
-    "M-001.5": {"walk_fr020": G.spec_walk(0.20, strides=5, sway_amp_mps=1.3, sway_period_s=None)},
+    "M-001.5": {"walk_fr020": None},
     "M-001.6": {"start": G.spec_start(header={"reactor_power_W": 3.0e7})},
     "M-001.7": {"turn90_inplace": G.spec_turn_inplace(peak_rate_dps=30.0, yaw_acc_dps2=3.8, total_deg=400.0)},
     "M-001.8": {"turn90_inplace": G.spec_turn_inplace(peak_rate_dps=12.0, yaw_acc_dps2=5.0, total_deg=180.0)},
@@ -237,7 +237,6 @@ def _neg(sid):
         o["walk_fr020"] = sp
     if sid == "M-001.5":
         sp = G.spec_walk(0.20, strides=5)
-        sp.sway_amp_mps = 1.3 * sp.stride_s / (2 * math.pi) * 1.0 / 1.0 * (2 * math.pi) / sp.stride_s * sp.stride_s / (2 * math.pi)
         sp.sway_amp_mps = 1.3 / (2 * math.pi / (round(sp.stride_s / 0.02) * 0.02))   # peak a_lat ~ 1.3 m/s^2
         sp.sway_period_s = round(sp.stride_s / 0.02) * 0.02
         o["walk_fr020"] = sp
