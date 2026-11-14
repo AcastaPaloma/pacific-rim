@@ -125,19 +125,15 @@ def cmd_cut(a):
 
 
 def cmd_identical(a):
-    def table(root):
-        t = {}
-        for p in sorted(glob.glob(os.path.join(root, "**", "*.png"), recursive=True)):
-            t[os.path.relpath(p, root)] = hashlib.sha256(open(p, "rb").read()).hexdigest()
-        return t
-    ta, tb = table(a.dir_a), table(a.dir_b)
-    diff = [k for k in ta if tb.get(k) != ta[k]] + [k for k in tb if k not in ta]
-    sc = 0; scdiff = []
-    for p in sorted(glob.glob(os.path.join(a.dir_a, "**", "f??????.json"), recursive=True)):
-        rel = os.path.relpath(p, a.dir_a); q = os.path.join(a.dir_b, rel); sc += 1
-        if not os.path.isfile(q) or open(p, "rb").read() != open(q, "rb").read(): scdiff.append(rel)
-    return {"dir_a": os.path.relpath(a.dir_a), "dir_b": os.path.relpath(a.dir_b), "png_files": len(ta), "png_differing": len(diff), "first_differing": diff[:5],
-            "sidecars": sc, "sidecars_differing": len(scdiff), "pass": bool(len(ta) > 0 and not diff and not scdiff)}
+    """Every PNG and sidecar of the re-run (dir_b) must exist byte-identical in the first run (dir_a)."""
+    pngs = sorted(glob.glob(os.path.join(a.dir_b, "**", "*.png"), recursive=True))
+    jsons = sorted(glob.glob(os.path.join(a.dir_b, "**", "*.json"), recursive=True))
+    diff = []
+    for p in pngs + jsons:
+        rel = os.path.relpath(p, a.dir_b); q = os.path.join(a.dir_a, rel)
+        if not os.path.isfile(q) or hashlib.sha256(open(p, "rb").read()).digest() != hashlib.sha256(open(q, "rb").read()).digest(): diff.append(rel)
+    return {"first_run": os.path.relpath(a.dir_a), "second_run": os.path.relpath(a.dir_b), "png_files": len(pngs), "json_files": len(jsons), "differing": len(diff), "first_differing": diff[:5],
+            "pass": bool(len(pngs) > 0 and not diff), "criterion": "C19: two runs of the same capture are bit-identical (images, sidecars and sequence.json)"}
 
 
 def grid_share(out, s, ox, oy):
@@ -284,7 +280,7 @@ def main():
     if a.out:
         os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
         open(a.out, "w").write(text + "\n")
-    summary = {k: v for k, v in res.items() if k in ("pass", "png_files", "png_differing")} if a.cmd != "smooth" else {k: (v["pass_within_1px"], round(v["max_abs_displacement_error_px"], 2), round(v["max_abs_step_error_px"], 2)) for k, v in res.items() if isinstance(v, dict)}
+    summary = {k: v for k, v in res.items() if k in ("pass", "png_files", "json_files", "differing")} if a.cmd != "smooth" else {k: (v["pass_within_1px"], round(v["max_abs_displacement_error_px"], 2), round(v["max_abs_step_error_px"], 2)) for k, v in res.items() if isinstance(v, dict)}
     print(a.cmd, summary)
     return 0
 
