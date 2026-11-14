@@ -248,6 +248,7 @@ public void ForwardMotion_IsContinuous_AtAnyHeading()
             foreach (string file in Directory.GetFiles(dir, "*.asmdef", SearchOption.AllDirectories))
             {
                 string text = File.ReadAllText(file);
+                StringAssert.DoesNotContain("GUID:", text, file + ": reference assemblies by name");
                 foreach (string banned in new[] { "Game.Units", "Game.Mech", "Game.Combat", "Game.Control", "Game.World", "Game.AI" })
                     StringAssert.DoesNotContain("\"" + banned, text, file);
                 if (!file.Contains("Tests")) StringAssert.DoesNotContain("\"Game.Rendering.Pixel\"", text, file + ": only Game.Rendering.Pixel.Contracts is allowed");
@@ -258,6 +259,20 @@ public void ForwardMotion_IsContinuous_AtAnyHeading()
                 if (file.Contains("Tests")) continue;
                 StringAssert.DoesNotContain("using Game.Units", text, file); StringAssert.DoesNotContain("FootContact", text.Replace("foot contact", ""), file);
             }
+        }
+
+        [Test]
+        public void CameraFlagFile_AllFalse_AndMatchesCameraFlagsAll()
+        {
+            string text = File.ReadAllText(Path.Combine(Root(), "Assets", "Game", "Config", "FeatureFlags", "Camera.json"));
+            var found = new System.Collections.Generic.List<string>();
+            foreach (System.Text.RegularExpressions.Match m in System.Text.RegularExpressions.Regex.Matches(text, "\"(camera\\.[^\"]+)\"\\s*:\\s*(\\w+)"))
+            {
+                found.Add(m.Groups[1].Value);
+                Assert.AreEqual("false", m.Groups[2].Value, m.Groups[1].Value + " must ship false");
+            }
+            CollectionAssert.AreEquivalent(CameraFlags.All, found, "Camera.json keys drifted from CameraFlags.All");
+            StringAssert.DoesNotContain("true", text);
         }
 
         [Test]

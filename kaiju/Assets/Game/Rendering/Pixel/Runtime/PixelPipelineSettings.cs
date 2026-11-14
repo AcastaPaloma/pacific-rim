@@ -33,6 +33,10 @@ namespace Game.Rendering.Pixel
         {
             var s = JsonUtility.FromJson<PixelPipelineSettings>(json);
             if (s == null) throw new FormatException("PixelPipeline.json: empty");
+            // Code defaults duplicate the config; a missing or misspelt key would silently fall back to them (DEF-T004-arch-5).
+            foreach (var f in typeof(PixelPipelineSettings).GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+                if (json.IndexOf("\"" + f.Name + "\"", StringComparison.Ordinal) < 0)
+                    Debug.LogWarning("PixelPipeline.json: key '" + f.Name + "' is missing; using the code default " + f.GetValue(s));
             if (s.schema != PixelContractVersions.PipelineSettings) throw new FormatException("PixelPipeline.json: schema " + s.schema + " is not " + PixelContractVersions.PipelineSettings);
             if (s.targetLines < 1 || s.minScale < 1 || s.maxScale < s.minScale || s.guardTexels < 0 || s.supersample < 1) throw new FormatException("PixelPipeline.json: value out of range");
             ParseAnchor(s.ditherAnchor);

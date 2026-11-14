@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using UnityEngine;
 
 namespace Game.Rendering.Pixel
 {
@@ -9,12 +10,27 @@ namespace Game.Rendering.Pixel
     /// </summary>
     public static class PaletteProfileTuning
     {
+        /// <summary>Keys the shipped "defaults" object is expected to carry; the PaletteProfile code defaults duplicate them (DEF-T004-arch-5).</summary>
+        static readonly string[] ExpectedDefaults =
+        {
+            "hazeStartM", "hazeFullM", "hazeBands", "hazeSeamTexels", "hazeSeamWidth", "airlightValue", "skyHorizonValue", "skyZenithValue",
+            "skyZenithElevationDeg", "valueScale", "valueBias", "valueGamma", "accentChromaStart", "accentChromaFull", "ditherSpread",
+            "ditherGradientMin", "lutChromaWeight", "ladderMinStepL", "ladderHueTolerance", "ladderTopL", "pairPenalty", "lutCandidates", "lutSize",
+        };
+
         public static void Apply(PaletteProfile profile, string tuningJson)
         {
             if (string.IsNullOrEmpty(tuningJson)) return;
             var root = MiniJson.Parse(tuningJson) as MiniJson.Obj ?? throw new FormatException("palette tuning: root is not an object");
             if (!root.Has("schema") || (int)root.Num("schema") != 1) throw new FormatException("palette tuning: schema must be 1");
-            if (root.Has("defaults")) ApplyObject(profile, root.Object("defaults"));
+            if (root.Has("defaults"))
+            {
+                var defaults = root.Object("defaults");
+                foreach (string key in ExpectedDefaults)
+                    if (!defaults.ContainsKey(key)) Debug.LogWarning("PaletteProfileTuning.json: defaults has no '" + key + "'; PaletteProfile uses its code default");
+                ApplyObject(profile, defaults);
+            }
+            else Debug.LogWarning("PaletteProfileTuning.json: no 'defaults' object; PaletteProfile uses its code defaults");
             if (root.Has("profiles") && root.Object("profiles").Has(profile.profileId)) ApplyObject(profile, root.Object("profiles").Object(profile.profileId));
         }
 

@@ -25,6 +25,11 @@ namespace Game.Cameras
         public static ThirdPersonRigSettings FromJson(string json)
         {
             var s = JsonUtility.FromJson<ThirdPersonRigSettings>(json);
+            if (s != null)
+                // Code defaults duplicate the config; a missing or misspelt key would silently fall back to them (DEF-T004-arch-5).
+                foreach (var f in typeof(ThirdPersonRigSettings).GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+                    if (json.IndexOf("\"" + f.Name + "\"", StringComparison.Ordinal) < 0)
+                        Debug.LogWarning("ThirdPersonRig.json: key '" + f.Name + "' is missing; using the code default " + f.GetValue(s));
             if (s == null || s.schema != CameraContractVersions.RigSettings) throw new FormatException("ThirdPersonRig.json: schema must be " + CameraContractVersions.RigSettings);
             if (s.horizontalFovDeg <= 1f || s.horizontalFovDeg >= 170f || s.distanceInTargetHeights <= 0f) throw new FormatException("ThirdPersonRig.json: value out of range");
             return s;
