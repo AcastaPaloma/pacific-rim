@@ -84,15 +84,16 @@ def gait_sets(tmp_path_factory):
 def style_sets(tmp_path_factory):
     root = tmp_path_factory.mktemp("styleflip")
     sd3, _ = GS.m003_pass_set(str(root))
-    GS.m003_gameplay_frames(sd3, profile="warm_amber_haze", seq_id="gameplay_amber")    # brings an accent
+    sd3a, _ = GS.m003_pass_set(str(root), set_id="m003_amber")
+    GS.m003_gameplay_frames(sd3a, profile="warm_amber_haze", seq_id="gameplay_amber")   # brings an accent
     _, roles, _ = GS.load_profile("warm_amber_haze")
-    da = os.path.join(sd3, "gameplay_amber")
+    da = os.path.join(sd3a, "gameplay_amber")
     for k in range(12):                                   # 2 % accent pixels so d-iii applies
         idx = GS.read_index(da, k)
         idx.reshape(-1)[:288] = roles.index("accent")
         GS.repaint(da, k, idx)
     sd4, _ = GS.m004_set(str(root))
-    return sd3, sd4
+    return sd3, sd3a, sd4
 
 
 _BASE = {}
@@ -124,15 +125,19 @@ def test_registry_flip_gait(tmp_path, gait_sets, sid, key):
 
 @pytest.mark.parametrize("sid,key", _keys("M-003") + _keys("M-004"))
 def test_registry_flip_style(tmp_path, style_sets, sid, key):
-    sd3, sd4 = style_sets
+    sd3, sd3a, sd4 = style_sets
     metric = sid[:5]
-    cmd, sd, opts = ("m003", sd3, {"profiles": "slate_teal,warm_amber_haze"}) if metric == "M-003" else \
+    if sid == "M-003.d-iii":
+        sd3, prof = sd3a, "slate_teal,warm_amber_haze"
+    else:
+        prof = "slate_teal"
+    cmd, sd, opts = ("m003", sd3, {"profiles": prof}) if metric == "M-003" else \
         ("m004", sd4, {"profiles": "slate_teal", "viewpoints": "eye", "fixture": True})
     ratings = None
     if sid == "M-003.f":
         from stylekit import m003_ratings
         ratings = m003_ratings(str(tmp_path / "r.json"), os.path.basename(sd3))
-    kb = (cmd, ratings is not None)
+    kb = (cmd, sd, ratings is not None)
     base = _BASE.get(kb)
     if base is None:
         base = _BASE[kb] = run_metric(cmd, [sd], ratings=ratings, images=False, options=opts)[0]
