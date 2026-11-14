@@ -13,7 +13,7 @@ Breakdown IDs: F-002, F-003 (M0 part), F-009 (consumer side: footfall probe), D-
 | `Game.Units.Mech.Editor` | `Editor/` | editor | `ScenarioCli` |
 | `Game.Units.Mech.Tests` / `.PlayTests` | `Tests/` | test | below |
 
-The runtime assemblies reference other modules only through `*.Contracts` (`ArchitectureTests`). `Scenarios`, `Editor` and the test assemblies are composition roots and may construct implementations.
+The runtime assemblies reference other modules only through `*.Contracts` (`ArchitectureTests`). `Scenarios`, `Editor` and the test assemblies are composition roots and may construct implementations; `Scenarios` is compiled only where tests are (`UNITY_INCLUDE_TESTS`), never into a player. The locomotion controller is a biped controller (`MechContractVersions.BipedFeet` = 2). Every tuning number of the controller and the limiter is in `walk_tuning.json` (a test scans the two files for literals).
 
 ## How the mech moves (all of it through `IArticulatedBody` drives and joint torques)
 1. **Intent to command** (`IntentLimiter`): speed limited to the Froude band top and to what the step reach allows, ramped by the start / stop / emergency-stop accelerations, heading by yaw rate, yaw acceleration and lateral acceleration, a large heading change by slowing, turning on the spot, then walking, a walk target by the stopping-distance rule. Every difference between intent and command is a `LimitCause`, logged per step and published as `IntentLimited`.
@@ -28,7 +28,7 @@ Hook points for later tasks: `MoveId` values and a branch in `LocomotionControll
 
 Consumes events: `FootContact`, `FootLiftOff` (logging and the footfall probe). Emits events: `MechFallStarted`, `MechFallEnded`, `IntentLimited`.
 Config assets: `Config/Mech/walk_tuning.json` (dimensionless: leg lengths, t* = sqrt(l/g), g, body weights), `Config/Mech/body_tuning.json`, `Config/Mech/mech_frame_balanced.json`.
-Feature flags (`Config/FeatureFlags/UnitsMech.json`, default off): `units.mech.enabled`, `units.mech.gaitLog`. There is no assistance flag because there is no assistance code.
+Feature flags (`Config/FeatureFlags/UnitsMech.json`, default off): `units.mech.enabled` (`MechUnit` refuses to be constructed while it is off), `units.mech.gaitLog` (no gait log while off). Headless runs and tests switch them on in their own snapshot (`MechSimulation.RunFlags`). There is no assistance flag because there is no assistance code. Gait options that exist but are off in `walk_tuning.json`: `vault` (near-straight stance knee with hip height from leg geometry, R-007 change 1) and `swing_toe_up_deg` / `heel_strike_deg`: both made the walk fall in fix cycle 2.
 
 ## Headless runs
 `unity run <project> --no-tail --log-file <log> -- -executeMethod Game.Units.Mech.Editor.ScenarioCli.Run -scenarios <a,b|all> -out <dir> [-strips] [-repeat n] [-height m -mass kg] [-variants file]`
@@ -41,8 +41,9 @@ Scenarios (intent timelines only): `stand`, `walk_fr010/020/025/030`, `start`, `
 Owner role: implementation/mech (`impl-mech`).
 
 ## Known limits / TODO (state at T-005 hand-off; values in `evidence/T-005/EVIDENCE.md`)
-- **The walk is stable only at about 3 m/s (Froude about 0.02), with steps of about 10 m. The M-001 Froude band (0.10 to 0.30) is not reached.** Longer steps (above about 0.3 leg lengths) fall within 20 to 40 s. Diagnosis in `tasks/T-005.impl.md`.
-- A 180 degree turn on the spot ends in a fall (`intent_over_limit`); 90 degrees works.
+- **The walk is stable only at about 3 m/s (Froude about 0.02), with steps of about 10 m. The M-001 Froude band (0.10 to 0.30) is not reached.** Longer steps (above about 0.3 leg lengths) fall within 20 to 45 s, in fix cycle 2 as in cycle 1. Diagnosis in `tasks/T-005.impl.md`.
+- A 180 degree turn on the spot ends in a fall (`intent_over_limit`); 90 degrees and curve walking work.
+- Planted feet slide (p95 0.8 m per contact); touchdown peaks reach 5.7 body weights; the first step draws 2 GW.
 - Contact chatter: some touchdowns produce two `contact_begin` events within a few steps.
 - The biped controller needs exactly two legs; other body plans need their own controller.
 - `height_hz` is 0.5 Hz where R-005 suggests 0.3 Hz (0.3 Hz was less stable).

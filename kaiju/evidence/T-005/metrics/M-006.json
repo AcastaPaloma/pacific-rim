@@ -1,7 +1,7 @@
 {
  "metric": "M-006@v1",
  "tool": "Tools/T005/m006.py v1",
- "commit": "955a865",
+ "commit": "3a0f3ca",
  "verdict": "FAIL",
  "sub_measure_verdicts": {
   "M-006.1": true,
@@ -10,7 +10,7 @@
   "M-006.4": false,
   "M-006.6": false,
   "M-006.5": false,
-  "M-006.7": false,
+  "M-006.7": true,
   "M-006.8": true
  },
  "not_measured": [],
@@ -216,7 +216,7 @@
   {
    "sub_measure": "M-006.4",
    "name": "double stance: sum Fn / (m g), t = 8..10 s",
-   "value": 1.000134287801563,
+   "value": 1.000076097519538,
    "threshold": "1 +/- 0.01",
    "pass": true,
    "source": "gait/stand",
@@ -225,7 +225,7 @@
   {
    "sub_measure": "M-006.4",
    "name": "double stance: foot L pressure (kPa)",
-   "value": 325.6544502222222,
+   "value": 325.6213808888889,
    "threshold": "327 +/- 5 %",
    "pass": true,
    "source": "gait/stand",
@@ -234,7 +234,7 @@
   {
    "sub_measure": "M-006.4",
    "name": "double stance: foot R pressure (kPa)",
-   "value": 328.433374,
+   "value": 328.4283868888889,
    "threshold": "327 +/- 5 %",
    "pass": true,
    "source": "gait/stand",
@@ -243,7 +243,7 @@
   {
    "sub_measure": "M-006.6",
    "name": "standing still: mean sum |P| (MW), t >= 10 s",
-   "value": 0.8691803898193022,
+   "value": 0.8648823878055842,
    "threshold": "<= 5 (A)",
    "pass": true,
    "source": "physics/stand",
@@ -251,8 +251,8 @@
   },
   {
    "sub_measure": "M-006.4",
-   "name": "single stance: pressure (kPa), last 2 s of a 16.1 s hold",
-   "value": 653.6511767493113,
+   "name": "single stance: pressure (kPa), last 2 s of a 16.0 s hold",
+   "value": 653.6643941597797,
    "threshold": "654 +/- 2 %",
    "pass": true,
    "source": "gait/single_stance",
@@ -260,17 +260,17 @@
   },
   {
    "sub_measure": "M-006.4",
-   "name": "walk_fr020: worst |stride impulse / (m g T) - 1| over 4 strides",
-   "value": 0.000658071563374385,
+   "name": "walk_fr020: worst |stride impulse / (m g T) - 1| over 6 strides",
+   "value": 0.024821714661669714,
    "threshold": "<= 0.02",
-   "pass": true,
+   "pass": false,
    "source": "gait/walk_fr020",
    "note": ""
   },
   {
    "sub_measure": "M-006.4",
-   "name": "walk_fr020: peak single-foot Fn (body weights), t > 25 s",
-   "value": 4.486196738022426,
+   "name": "walk_fr020: peak single-foot Fn (body weights), whole capture",
+   "value": 5.752572884811417,
    "threshold": "[1.0, 2.0]",
    "pass": false,
    "source": "gait/walk_fr020",
@@ -324,7 +324,7 @@
   {
    "sub_measure": "M-006.6",
    "name": "walk_fr025: worst |tau| / forceLimit",
-   "value": 1.000000048,
+   "value": 1.00000008625,
    "threshold": "<= 1",
    "pass": true,
    "source": "physics/walk_fr025",
@@ -333,16 +333,16 @@
   {
    "sub_measure": "M-006.6",
    "name": "walk_fr025: most saturated joint, share of steps",
-   "value": 0.05813953488372093,
+   "value": 0.014017455699550383,
    "threshold": "<= 0.05",
-   "pass": false,
+   "pass": true,
    "source": "physics/walk_fr025",
-   "note": "waist.flexion"
+   "note": "hip_L.flexion"
   },
   {
    "sub_measure": "M-006.6",
    "name": "walk_fr025: ankle peak torque (N m)",
-   "value": 749312100.0,
+   "value": 791444864,
    "threshold": "<= 1.0e9",
    "pass": true,
    "source": "physics/walk_fr025",
@@ -350,17 +350,17 @@
   },
   {
    "sub_measure": "M-006.6",
-   "name": "walk_fr025: mean sum positive P (MW), t > 20 s",
-   "value": 131.8895554962405,
+   "name": "walk_fr025: mean sum positive P (MW), walking part (t >= 3 s)",
+   "value": 105.01995778340152,
    "threshold": "[30, 120]",
-   "pass": false,
+   "pass": true,
    "source": "physics/walk_fr025",
    "note": "measured at the speed actually reached, not at Fr 0.25"
   },
   {
    "sub_measure": "M-006.6",
-   "name": "walk_fr025: peak sum positive P (MW)",
-   "value": 2485.1945737069595,
+   "name": "walk_fr025: peak sum positive P (MW), whole capture",
+   "value": 2012.3590187895327,
    "threshold": "<= 450",
    "pass": false,
    "source": "physics/walk_fr025",
@@ -369,7 +369,7 @@
   {
    "sub_measure": "M-006.6",
    "name": "walk_fr020: worst |tau| / forceLimit",
-   "value": 1.000000048,
+   "value": 1.00000008625,
    "threshold": "<= 1",
    "pass": true,
    "source": "physics/walk_fr020",
@@ -378,16 +378,16 @@
   {
    "sub_measure": "M-006.6",
    "name": "walk_fr020: most saturated joint, share of steps",
-   "value": 0.05813953488372093,
+   "value": 0.014017455699550383,
    "threshold": "<= 0.05",
-   "pass": false,
+   "pass": true,
    "source": "physics/walk_fr020",
-   "note": "waist.flexion"
+   "note": "hip_L.flexion"
   },
   {
    "sub_measure": "M-006.6",
    "name": "walk_fr020: ankle peak torque (N m)",
-   "value": 749312100.0,
+   "value": 791444864,
    "threshold": "<= 1.0e9",
    "pass": true,
    "source": "physics/walk_fr020",
@@ -395,17 +395,17 @@
   },
   {
    "sub_measure": "M-006.6",
-   "name": "walk_fr020: mean sum positive P (MW), t > 20 s",
-   "value": 131.8895554962405,
+   "name": "walk_fr020: mean sum positive P (MW), walking part (t >= 3 s)",
+   "value": 105.01995778340152,
    "threshold": "[30, 120]",
-   "pass": false,
+   "pass": true,
    "source": "physics/walk_fr020",
    "note": "measured at the speed actually reached, not at Fr 0.25"
   },
   {
    "sub_measure": "M-006.6",
-   "name": "walk_fr020: peak sum positive P (MW)",
-   "value": 2485.1945737069595,
+   "name": "walk_fr020: peak sum positive P (MW), whole capture",
+   "value": 2012.3590187895327,
    "threshold": "<= 450",
    "pass": false,
    "source": "physics/walk_fr020",
@@ -423,7 +423,7 @@
   {
    "sub_measure": "M-006.7",
    "name": "max link speed outside falls (m/s)",
-   "value": 26.813245500635386,
+   "value": 24.946530955992284,
    "threshold": "<= 60",
    "pass": true,
    "source": "physics/*",
@@ -432,29 +432,29 @@
   {
    "sub_measure": "M-006.7",
    "name": "max leg joint speed outside falls (rad/s)",
-   "value": 3.028,
+   "value": 2.18982,
    "threshold": "<= 3",
-   "pass": false,
+   "pass": true,
    "source": "physics/*",
-   "note": "intent_over_limit:ankle_L"
+   "note": "shove_060:knee_L"
   },
   {
    "sub_measure": "M-006.7",
    "name": "max arm / waist joint speed outside falls (rad/s)",
-   "value": 1.52039,
+   "value": 0.7769,
    "threshold": "<= 10",
    "pass": true,
    "source": "physics/*",
-   "note": "curve:shoulder_L"
+   "note": "intent_over_limit:elbow_L"
   },
   {
    "sub_measure": "M-006.7",
    "name": "largest one-step energy gain without external work (J)",
-   "value": 51149194.860126495,
+   "value": 32178289.851795197,
    "threshold": "<= 7.8e7 (0.01 m g H)",
    "pass": true,
    "source": "physics/*",
-   "note": "curve t=48.57; actuator work is not external work, so walking steps count here"
+   "note": "shove_060 t=12.33; actuator work is not external work, so walking steps count here"
   },
   {
    "sub_measure": "M-006.8",
@@ -467,7 +467,7 @@
   },
   {
    "sub_measure": "M-006.8",
-   "name": "identical footfall step indices and order (30 events)",
+   "name": "identical footfall step indices and order (42 events)",
    "value": 1.0,
    "threshold": "= 1",
    "pass": true,

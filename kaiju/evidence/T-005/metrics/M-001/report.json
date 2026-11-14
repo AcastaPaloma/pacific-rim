@@ -45,12 +45,10 @@
   "M-001.1",
   "M-001.2",
   "M-001.3",
-  "M-001.4",
   "M-001.5",
-  "M-001.7",
-  "M-001.8",
-  "M-001.9"
+  "M-001.8"
  ],
+ "failures_suppressed": false,
  "flags": [
   {
    "code": "NON_REFERENCE_NORMALISERS",
@@ -334,42 +332,42 @@
   {
    "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/evidence/T-005/gait/curve.gait.jsonl",
    "role": "gait_log@v1 curve",
-   "sha256": "8fecbf7acdcc5dc47cbf80b276a469d520f281d4d8a4be2ed4edbb2b36d60ae0"
+   "sha256": "0c846c407795f56129cc36c2adc88eb9c1502df0fecade8f8f7673d047306518"
   },
   {
    "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/evidence/T-005/gait/estop.gait.jsonl",
    "role": "gait_log@v1 estop",
-   "sha256": "59a6fb10666b9250bad6c590989bfb59ccc8b54b707778603f046fedf5a10e8d"
+   "sha256": "b2ccc25f53477a8abe1f7ba191e74a8778365a34a5c2765447f0599dc078bfe6"
   },
   {
    "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/evidence/T-005/gait/start.gait.jsonl",
    "role": "gait_log@v1 start",
-   "sha256": "84469e7527ddc6c35c694f0c206385bf6c2f68f0b552779a27c7ee5fb407e622"
+   "sha256": "1d498acc4bcc3a631421ddcf23e7a38181fbe020be0d11998c8b4b01b48ccb7f"
   },
   {
    "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/evidence/T-005/gait/stop.gait.jsonl",
    "role": "gait_log@v1 stop",
-   "sha256": "372649658a1aa60993d5ba336eb29c6527c4df96a936c4a15dad041e7361ff14"
+   "sha256": "f166ff4fcb916fd6c9a9daa4bd0603c8b1e256c430a701efc2d84cf3f2fb253c"
   },
   {
    "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/evidence/T-005/gait/turn90_inplace.gait.jsonl",
    "role": "gait_log@v1 turn90_inplace",
-   "sha256": "613c5ea56e00d3d16943e3116509f812129cb74e6435f31824725356a5b6566d"
+   "sha256": "b0b39ab5c5b85a2e904806881068bb6c57e7e2b6438b93eb52e47471be7edeeb"
   },
   {
    "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/evidence/T-005/gait/walk_fr010.gait.jsonl",
    "role": "gait_log@v1 walk_fr010",
-   "sha256": "f6da0d210331f3b0d50adb113ddfd2ec465aac9f811949df2d7418fb85918f1f"
+   "sha256": "4b20e7b95a772625cf54b9753781d86517c3981ea2fc8abd8e2b7a24d5fcf776"
   },
   {
    "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/evidence/T-005/gait/walk_fr020.gait.jsonl",
    "role": "gait_log@v1 walk_fr020",
-   "sha256": "1765f87c6f55cfdfc8d5184dabbcaf7d5709d831871fe35a3719399430b2f690"
+   "sha256": "d5c42a1356d101aac04faa13bdb2318a610424a2d8a276f3a65b898b9c870931"
   },
   {
    "path": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/evidence/T-005/gait/walk_fr030.gait.jsonl",
    "role": "gait_log@v1 walk_fr030",
-   "sha256": "afed2a0d76e9fbeb97c9d599f44b0ec03b89d0096be10127db3b0ae367c32f95"
+   "sha256": "60b47226d9b33f49e5b8dce7fd6c92cdadbbdd1d2942da55b38a2875c545c84f"
   }
  ],
  "invocation": {
@@ -532,17 +530,17 @@
  },
  "registry": {
   "metric_status": "registered",
-  "path": "Tools/Metrics/registry/M-001@v1.yaml",
-  "revision": "v1.0",
-  "sha256": "786778529ef7effe6ada487ec9320ac3de7b4c2abb74584595b38a4f38e4e1b3",
+  "path": "Tools/Metrics/registry/M-001@v1.1.yaml",
+  "revision": "v1.1",
+  "sha256": "e18bdef7a8b54c168e15bb21b54b8e62cb6abc8396caeaa9d87579c14a53ad0e",
   "spec": "M-001@v1"
  },
  "report_schema": "metric_report@v1",
  "run": {
   "host": "Kuans-MacBook-Pro.local",
   "python": "3.12.16",
-  "timestamp_utc": "2026-11-14T16:21:05Z",
-  "wall_time_s": 1.139
+  "timestamp_utc": "2026-11-14T16:51:02Z",
+  "wall_time_s": 1.559
  },
  "submeasures": [
   {
@@ -550,163 +548,152 @@
    "diagnostics": {
     "steady": {
      "curve:curve.gait.jsonl": {
-      "Fr": 0.0198851051969,
-      "steady_strides_min_per_foot": 3,
-      "v_bar_mps": 2.86235236182
+      "Fr": 0.0206714869283,
+      "steady_strides_min_per_foot": 13,
+      "v_bar_mps": 2.91840128224
      },
      "estop:estop.gait.jsonl": {
-      "Fr": 0.0199465400777,
-      "steady_strides_min_per_foot": 4,
-      "v_bar_mps": 2.86677055985
+      "Fr": 0.021212804921,
+      "steady_strides_min_per_foot": 7,
+      "v_bar_mps": 2.95636599282
      },
      "start:start.gait.jsonl": {
-      "Fr": 0.0198441401132,
-      "steady_strides_min_per_foot": 5,
-      "v_bar_mps": 2.85940249168
+      "Fr": 0.020713512437,
+      "steady_strides_min_per_foot": 8,
+      "v_bar_mps": 2.92136635743
      },
      "stop:stop.gait.jsonl": {
-      "Fr": 0.0199465400777,
-      "steady_strides_min_per_foot": 4,
-      "v_bar_mps": 2.86677055985
+      "Fr": 0.021212804921,
+      "steady_strides_min_per_foot": 7,
+      "v_bar_mps": 2.95636599282
      },
      "turn90_inplace:turn90_inplace.gait.jsonl": {
-      "Fr": 0.000551027689677,
-      "steady_strides_min_per_foot": 4,
-      "v_bar_mps": 0.476481299424
+      "Fr": 0.000420153207423,
+      "steady_strides_min_per_foot": 2,
+      "v_bar_mps": 0.416066730853
      },
      "walk_fr010:walk_fr010.gait.jsonl": {
-      "Fr": 0.0199847606243,
-      "steady_strides_min_per_foot": 7,
-      "v_bar_mps": 2.86951582543
+      "Fr": 0.0212833330462,
+      "steady_strides_min_per_foot": 14,
+      "v_bar_mps": 2.96127656285
      },
      "walk_fr020:walk_fr020.gait.jsonl": {
-      "Fr": 0.0199847606243,
-      "steady_strides_min_per_foot": 7,
-      "v_bar_mps": 2.86951582543
+      "Fr": 0.0212833330462,
+      "steady_strides_min_per_foot": 14,
+      "v_bar_mps": 2.96127656285
      },
      "walk_fr030:walk_fr030.gait.jsonl": {
-      "Fr": 0.0199847606243,
-      "steady_strides_min_per_foot": 7,
-      "v_bar_mps": 2.86951582543
+      "Fr": 0.0212833330462,
+      "steady_strides_min_per_foot": 14,
+      "v_bar_mps": 2.96127656285
      }
     }
    },
    "id": "M-001.1",
    "kind": "gating",
-   "margin": -0.150015239376,
-   "margin_rel": -0.652240171199,
+   "margin": -0.148716666954,
+   "margin_rel": -0.646594204147,
    "note": null,
    "op": "in",
    "parts": [
     {
-     "margin": -0.0800152393757,
-     "margin_rel": -0.266717464586,
+     "margin": -0.0787166669538,
+     "margin_rel": -0.262388889846,
      "name": "walk_fr010:Fr band",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.1,
      "threshold_hi": 0.3,
      "unit": "Fr",
-     "value": 0.0199847606243
+     "value": 0.0212833330462
     },
     {
-     "margin": -0.0800152393757,
-     "margin_rel": -0.266717464586,
+     "margin": -0.0787166669538,
+     "margin_rel": -0.262388889846,
      "name": "walk_fr020:Fr band",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.1,
      "threshold_hi": 0.3,
      "unit": "Fr",
-     "value": 0.0199847606243
+     "value": 0.0212833330462
     },
     {
-     "margin": -0.0800152393757,
-     "margin_rel": -0.266717464586,
+     "margin": -0.0787166669538,
+     "margin_rel": -0.262388889846,
      "name": "walk_fr030:Fr band",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.1,
      "threshold_hi": 0.3,
      "unit": "Fr",
-     "value": 0.0199847606243
+     "value": 0.0212833330462
     },
     {
-     "margin": -0.0801558598868,
-     "margin_rel": -0.267186199623,
+     "margin": -0.079286487563,
+     "margin_rel": -0.264288291877,
      "name": "start:Fr band",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.1,
      "threshold_hi": 0.3,
      "unit": "Fr",
-     "value": 0.0198441401132
+     "value": 0.020713512437
     },
     {
-     "margin": -0.0800534599223,
-     "margin_rel": -0.266844866408,
+     "margin": -0.078787195079,
+     "margin_rel": -0.262623983597,
      "name": "stop:Fr band",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.1,
      "threshold_hi": 0.3,
      "unit": "Fr",
-     "value": 0.0199465400777
+     "value": 0.021212804921
     },
     {
-     "margin": -0.0800534599223,
-     "margin_rel": -0.266844866408,
+     "margin": -0.078787195079,
+     "margin_rel": -0.262623983597,
      "name": "estop:Fr band",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.1,
      "threshold_hi": 0.3,
      "unit": "Fr",
-     "value": 0.0199465400777
+     "value": 0.021212804921
     },
     {
-     "margin": -0.0994489723103,
-     "margin_rel": -0.331496574368,
-     "name": "turn90_inplace:Fr band",
-     "op": "in",
-     "status": "FAIL",
-     "threshold": 0.1,
-     "threshold_hi": 0.3,
-     "unit": "Fr",
-     "value": 0.000551027689677
-    },
-    {
-     "margin": -0.0801148948031,
-     "margin_rel": -0.267049649344,
+     "margin": -0.0793285130717,
+     "margin_rel": -0.264428376906,
      "name": "curve:Fr band",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.1,
      "threshold_hi": 0.3,
      "unit": "Fr",
-     "value": 0.0198851051969
+     "value": 0.0206714869283
     },
     {
-     "margin": -0.150015239376,
-     "margin_rel": -0.652240171199,
+     "margin": -0.148716666954,
+     "margin_rel": -0.646594204147,
      "name": "walk_fr020:cruise vs fr_cruise_nom",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.17,
      "threshold_hi": 0.23,
      "unit": "Fr",
-     "value": 0.0199847606243
+     "value": 0.0212833330462
     },
     {
-     "margin": 0.0615303774431,
-     "margin_rel": 0.175801078409,
+     "margin": 0.324543328381,
+     "margin_rel": 0.927266652516,
      "name": "max stride Fr, all captures",
      "op": "<=",
      "status": "PASS",
      "threshold": 0.35,
      "unit": "Fr",
-     "value": 0.288469622557,
-     "where": "curve stride n=3196..3332"
+     "value": 0.0254566716193,
+     "where": "curve stride n=2808..2818"
     }
    ],
    "status": "FAIL",
@@ -715,121 +702,108 @@
    "threshold_status": "assumed_pending_calibration",
    "title": "Froude number of steady walking, Fr = v_bar^2 / (g l)",
    "unit": "Fr",
-   "value": 0.0199847606243
+   "value": 0.0212833330462
   },
   {
-   "decisive_part": "turn90_inplace:T ratio",
+   "decisive_part": "start:T ratio",
    "diagnostics": {},
    "id": "M-001.2",
    "kind": "gating",
-   "margin": -0.695392468215,
-   "margin_rel": -0.604689102796,
+   "margin": -0.832259158856,
+   "margin_rel": -0.723703616396,
    "note": null,
    "op": "in",
    "parts": [
     {
-     "T_alexander_s": 10.408261317,
-     "T_meas_s": 7.58333333333,
-     "margin": -0.121412092535,
-     "margin_rel": -0.105575732639,
+     "T_alexander_s": 10.2780339838,
+     "T_meas_s": 3.05833333333,
+     "margin": -0.552439850056,
+     "margin_rel": -0.48038247831,
      "name": "walk_fr010:T ratio",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.85,
      "threshold_hi": 1.15,
      "unit": "-",
-     "value": 0.728587907465
+     "value": 0.297560149944
     },
     {
-     "T_alexander_s": 10.408261317,
-     "T_meas_s": 7.58333333333,
-     "margin": -0.121412092535,
-     "margin_rel": -0.105575732639,
+     "T_alexander_s": 10.2780339838,
+     "T_meas_s": 3.05833333333,
+     "margin": -0.552439850056,
+     "margin_rel": -0.48038247831,
      "name": "walk_fr020:T ratio",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.85,
      "threshold_hi": 1.15,
      "unit": "-",
-     "value": 0.728587907465
+     "value": 0.297560149944
     },
     {
-     "T_alexander_s": 10.408261317,
-     "T_meas_s": 7.58333333333,
-     "margin": -0.121412092535,
-     "margin_rel": -0.105575732639,
+     "T_alexander_s": 10.2780339838,
+     "T_meas_s": 3.05833333333,
+     "margin": -0.552439850056,
+     "margin_rel": -0.48038247831,
      "name": "walk_fr030:T ratio",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.85,
      "threshold_hi": 1.15,
      "unit": "-",
-     "value": 0.728587907465
+     "value": 0.297560149944
     },
     {
-     "T_alexander_s": 10.4229707875,
-     "T_meas_s": 7.56666666667,
-     "margin": -0.124039348191,
-     "margin_rel": -0.107860302774,
+     "T_alexander_s": 10.3339707425,
+     "T_meas_s": 0.183333333333,
+     "margin": -0.832259158856,
+     "margin_rel": -0.723703616396,
      "name": "start:T ratio",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.85,
      "threshold_hi": 1.15,
      "unit": "-",
-     "value": 0.725960651809
+     "value": 0.0177408411443
     },
     {
-     "T_alexander_s": 10.4122470196,
-     "T_meas_s": 6.05,
-     "margin": -0.268953470024,
-     "margin_rel": -0.23387258263,
+     "T_alexander_s": 10.2848593739,
+     "T_meas_s": 0.183333333333,
+     "margin": -0.832174444329,
+     "margin_rel": -0.723629951591,
      "name": "stop:T ratio",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.85,
      "threshold_hi": 1.15,
      "unit": "-",
-     "value": 0.581046529976
+     "value": 0.0178255556706
     },
     {
-     "T_alexander_s": 10.4122470196,
-     "T_meas_s": 6.05,
-     "margin": -0.268953470024,
-     "margin_rel": -0.23387258263,
+     "T_alexander_s": 10.2848593739,
+     "T_meas_s": 0.183333333333,
+     "margin": -0.832174444329,
+     "margin_rel": -0.723629951591,
      "name": "estop:T ratio",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.85,
      "threshold_hi": 1.15,
      "unit": "-",
-     "value": 0.581046529976
+     "value": 0.0178255556706
     },
     {
-     "T_alexander_s": 21.3443676508,
-     "T_meas_s": 3.3,
-     "margin": -0.695392468215,
-     "margin_rel": -0.604689102796,
-     "name": "turn90_inplace:T ratio",
-     "op": "in",
-     "status": "FAIL",
-     "threshold": 0.85,
-     "threshold_hi": 1.15,
-     "unit": "-",
-     "value": 0.154607531785
-    },
-    {
-     "T_alexander_s": 10.4186727951,
-     "T_meas_s": 3.75,
-     "margin": -0.490069318449,
-     "margin_rel": -0.426147233434,
+     "T_alexander_s": 10.3381691598,
+     "T_meas_s": 0.216666666667,
+     "margin": -0.829042066026,
+     "margin_rel": -0.72090614437,
      "name": "curve:T ratio",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.85,
      "threshold_hi": 1.15,
      "unit": "-",
-     "value": 0.359930681551
+     "value": 0.0209579339743
     }
    ],
    "status": "FAIL",
@@ -838,209 +812,185 @@
    "threshold_status": "derived",
    "title": "Stride period versus Alexander, T_meas / (2.3 Fr^-0.2 sqrt(l/g))",
    "unit": "-",
-   "value": 0.154607531785
+   "value": 0.0177408411443
   },
   {
-   "decisive_part": "turn90_inplace:duty foot R",
+   "decisive_part": "stop:duty foot L",
    "diagnostics": {},
    "id": "M-001.3",
    "kind": "gating",
-   "margin": -0.195874113809,
-   "margin_rel": -0.27204738029,
+   "margin": -0.247781625785,
+   "margin_rel": -0.344141146924,
    "note": null,
    "op": "in",
    "parts": [
     {
-     "double_support": 0.187113954362,
-     "margin": -0.00644302281903,
-     "margin_rel": -0.00894864280421,
+     "double_support": -0.198940374364,
+     "margin": -0.199470187182,
+     "margin_rel": -0.277041926641,
      "name": "walk_fr010:duty foot L",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.6,
      "threshold_hi": 0.72,
      "unit": "-",
-     "value": 0.593556977181
+     "value": 0.400529812818
     },
     {
-     "double_support": 0.0699613582625,
-     "margin": -0.0650193208687,
-     "margin_rel": -0.0903046123177,
+     "double_support": -0.189811314095,
+     "margin": -0.194905657047,
+     "margin_rel": -0.270702301455,
      "name": "walk_fr010:duty foot R",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.6,
      "threshold_hi": 0.72,
      "unit": "-",
-     "value": 0.534980679131
+     "value": 0.405094342953
     },
     {
-     "double_support": 0.187113954362,
-     "margin": -0.00644302281903,
-     "margin_rel": -0.00894864280421,
+     "double_support": -0.198940374364,
+     "margin": -0.199470187182,
+     "margin_rel": -0.277041926641,
      "name": "walk_fr020:duty foot L",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.6,
      "threshold_hi": 0.72,
      "unit": "-",
-     "value": 0.593556977181
+     "value": 0.400529812818
     },
     {
-     "double_support": 0.0699613582625,
-     "margin": -0.0650193208687,
-     "margin_rel": -0.0903046123177,
+     "double_support": -0.189811314095,
+     "margin": -0.194905657047,
+     "margin_rel": -0.270702301455,
      "name": "walk_fr020:duty foot R",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.6,
      "threshold_hi": 0.72,
      "unit": "-",
-     "value": 0.534980679131
+     "value": 0.405094342953
     },
     {
-     "double_support": 0.187113954362,
-     "margin": -0.00644302281903,
-     "margin_rel": -0.00894864280421,
+     "double_support": -0.198940374364,
+     "margin": -0.199470187182,
+     "margin_rel": -0.277041926641,
      "name": "walk_fr030:duty foot L",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.6,
      "threshold_hi": 0.72,
      "unit": "-",
-     "value": 0.593556977181
+     "value": 0.400529812818
     },
     {
-     "double_support": 0.0699613582625,
-     "margin": -0.0650193208687,
-     "margin_rel": -0.0903046123177,
+     "double_support": -0.189811314095,
+     "margin": -0.194905657047,
+     "margin_rel": -0.270702301455,
      "name": "walk_fr030:duty foot R",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.6,
      "threshold_hi": 0.72,
      "unit": "-",
-     "value": 0.534980679131
+     "value": 0.405094342953
     },
     {
-     "double_support": 0.155281676028,
-     "margin": -0.022359161986,
-     "margin_rel": -0.0310543916472,
+     "double_support": -0.187613020478,
+     "margin": -0.193806510239,
+     "margin_rel": -0.269175708666,
      "name": "start:duty foot L",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.6,
      "threshold_hi": 0.72,
      "unit": "-",
-     "value": 0.577640838014
+     "value": 0.406193489761
     },
     {
-     "double_support": 0.036542171939,
-     "margin": -0.0817289140305,
-     "margin_rel": -0.113512380598,
+     "double_support": -0.145530870477,
+     "margin": -0.172765435238,
+     "margin_rel": -0.239951993387,
      "name": "start:duty foot R",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.6,
      "threshold_hi": 0.72,
      "unit": "-",
-     "value": 0.518271085969
+     "value": 0.427234564762
     },
     {
-     "double_support": 0.157497535287,
-     "margin": -0.0212512323563,
-     "margin_rel": -0.0295156004948,
+     "double_support": -0.29556325157,
+     "margin": -0.247781625785,
+     "margin_rel": -0.344141146924,
      "name": "stop:duty foot L",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.6,
      "threshold_hi": 0.72,
      "unit": "-",
-     "value": 0.578748767644
+     "value": 0.352218374215
     },
     {
-     "double_support": 0.00572951456151,
-     "margin": -0.0971352427192,
-     "margin_rel": -0.134910059332,
+     "double_support": -0.223733984137,
+     "margin": -0.211866992068,
+     "margin_rel": -0.294259711206,
      "name": "stop:duty foot R",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.6,
      "threshold_hi": 0.72,
      "unit": "-",
-     "value": 0.502864757281
+     "value": 0.388133007932
     },
     {
-     "double_support": 0.157497535287,
-     "margin": -0.0212512323563,
-     "margin_rel": -0.0295156004948,
+     "double_support": -0.29556325157,
+     "margin": -0.247781625785,
+     "margin_rel": -0.344141146924,
      "name": "estop:duty foot L",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.6,
      "threshold_hi": 0.72,
      "unit": "-",
-     "value": 0.578748767644
+     "value": 0.352218374215
     },
     {
-     "double_support": 0.00572951456151,
-     "margin": -0.0971352427192,
-     "margin_rel": -0.134910059332,
+     "double_support": -0.223733984137,
+     "margin": -0.211866992068,
+     "margin_rel": -0.294259711206,
      "name": "estop:duty foot R",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.6,
      "threshold_hi": 0.72,
      "unit": "-",
-     "value": 0.502864757281
+     "value": 0.388133007932
     },
     {
-     "double_support": 0.276794202779,
-     "margin": 0.0383971013894,
-     "margin_rel": 0.0533293074852,
-     "name": "turn90_inplace:duty foot L",
-     "op": "in",
-     "status": "PASS",
-     "threshold": 0.6,
-     "threshold_hi": 0.72,
-     "unit": "-",
-     "value": 0.638397101389
-    },
-    {
-     "double_support": -0.191748227618,
-     "margin": -0.195874113809,
-     "margin_rel": -0.27204738029,
-     "name": "turn90_inplace:duty foot R",
-     "op": "in",
-     "status": "FAIL",
-     "threshold": 0.6,
-     "threshold_hi": 0.72,
-     "unit": "-",
-     "value": 0.404125886191
-    },
-    {
-     "double_support": 0.131608435328,
-     "margin": -0.0341957823358,
-     "margin_rel": -0.0474941421331,
+     "double_support": -0.214021648211,
+     "margin": -0.207010824106,
+     "margin_rel": -0.28751503348,
      "name": "curve:duty foot L",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.6,
      "threshold_hi": 0.72,
      "unit": "-",
-     "value": 0.565804217664
+     "value": 0.392989175894
     },
     {
-     "double_support": 0.0691887280468,
-     "margin": -0.0654056359766,
-     "margin_rel": -0.0908411610786,
+     "double_support": -0.165661445389,
+     "margin": -0.182830722695,
+     "margin_rel": -0.253931559298,
      "name": "curve:duty foot R",
      "op": "in",
      "status": "FAIL",
      "threshold": 0.6,
      "threshold_hi": 0.72,
      "unit": "-",
-     "value": 0.534594364023
+     "value": 0.417169277305
     }
    ],
    "status": "FAIL",
@@ -1049,18 +999,18 @@
    "threshold_status": "assumed_pending_calibration",
    "title": "Duty factor beta (mean per foot over steady strides); double support = 2 beta - 1",
    "unit": "-",
-   "value": 0.404125886191
+   "value": 0.352218374215
   },
   {
-   "decisive_part": "curve:peak |a_fore|",
+   "decisive_part": "start:peak |a_fore|",
    "diagnostics": {
-    "unsmoothed_peak_m_s2": 25.293281069,
-    "where": "curve:peak |a_fore| at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 2921, 't_s': 48.6833, 'stride_samples': [2562, 3411]}"
+    "unsmoothed_peak_m_s2": 5.89641014156,
+    "where": "start:peak |a_fore| at {'capture': 'start', 'file': 'start.gait.jsonl', 'n': 461, 't_s': 7.6833, 'stride_samples': [1, 684]}"
    },
    "id": "M-001.4",
    "kind": "gating",
-   "margin": -5.37515825995,
-   "margin_rel": -1.8264214271,
+   "margin": 0.472591859473,
+   "margin_rel": 0.160581671585,
    "note": null,
    "op": "<=",
    "parts": [
@@ -1068,22 +1018,22 @@
      "at": {
       "capture": "walk_fr010",
       "file": "walk_fr010.gait.jsonl",
-      "n": 340,
+      "n": 342,
       "stride_samples": [
        1,
-       718
+       553
       ],
-      "t_s": 5.6667
+      "t_s": 5.7
      },
-     "margin": 0.485642568625,
-     "margin_rel": 0.165016163311,
+     "margin": 0.728080571608,
+     "margin_rel": 0.247394010061,
      "name": "walk_fr010:peak |a_fore|",
      "op": "<=",
      "status": "PASS",
      "threshold": 2.943,
      "unit": "m/s^2",
-     "unsmoothed_peak": 5.57063988583,
-     "value": 2.45735743138
+     "unsmoothed_peak": 6.05555177583,
+     "value": 2.21491942839
     },
     {
      "at": {
@@ -1092,19 +1042,19 @@
       "n": 340,
       "stride_samples": [
        1,
-       718
+       553
       ],
       "t_s": 5.6667
      },
-     "margin": 0.0547624738684,
-     "margin_rel": 0.0186077043386,
+     "margin": 0.509255520667,
+     "margin_rel": 0.17303959248,
      "name": "walk_fr020:peak |a_fore|",
      "op": "<=",
      "status": "PASS",
      "threshold": 2.943,
      "unit": "m/s^2",
-     "unsmoothed_peak": 5.57063988583,
-     "value": 2.88823752613
+     "unsmoothed_peak": 6.05555177583,
+     "value": 2.43374447933
     },
     {
      "at": {
@@ -1113,40 +1063,40 @@
       "n": 340,
       "stride_samples": [
        1,
-       718
+       553
       ],
       "t_s": 5.6667
      },
-     "margin": 0.0547624738684,
-     "margin_rel": 0.0186077043386,
+     "margin": 0.509255520667,
+     "margin_rel": 0.17303959248,
      "name": "walk_fr030:peak |a_fore|",
      "op": "<=",
      "status": "PASS",
      "threshold": 2.943,
      "unit": "m/s^2",
-     "unsmoothed_peak": 5.57063988583,
-     "value": 2.88823752613
+     "unsmoothed_peak": 6.05555177583,
+     "value": 2.43374447933
     },
     {
      "at": {
       "capture": "start",
       "file": "start.gait.jsonl",
-      "n": 460,
+      "n": 461,
       "stride_samples": [
        1,
-       839
+       684
       ],
-      "t_s": 7.6667
+      "t_s": 7.6833
      },
-     "margin": 0.0340850574723,
-     "margin_rel": 0.0115817388625,
+     "margin": 0.472591859473,
+     "margin_rel": 0.160581671585,
      "name": "start:peak |a_fore|",
      "op": "<=",
      "status": "PASS",
      "threshold": 2.943,
      "unit": "m/s^2",
-     "unsmoothed_peak": 5.61993643176,
-     "value": 2.90891494253
+     "unsmoothed_peak": 5.89641014156,
+     "value": 2.47040814053
     },
     {
      "at": {
@@ -1155,19 +1105,19 @@
       "n": 340,
       "stride_samples": [
        1,
-       718
+       553
       ],
       "t_s": 5.6667
      },
-     "margin": 0.0547624738684,
-     "margin_rel": 0.0186077043386,
+     "margin": 0.509255520667,
+     "margin_rel": 0.17303959248,
      "name": "stop:peak |a_fore|",
      "op": "<=",
      "status": "PASS",
      "threshold": 2.943,
      "unit": "m/s^2",
-     "unsmoothed_peak": 5.57063988583,
-     "value": 2.88823752613
+     "unsmoothed_peak": 6.05555177583,
+     "value": 2.43374447933
     },
     {
      "at": {
@@ -1176,80 +1126,80 @@
       "n": 340,
       "stride_samples": [
        1,
-       718
+       553
       ],
       "t_s": 5.6667
      },
-     "margin": 0.0547624738684,
-     "margin_rel": 0.0186077043386,
+     "margin": 0.509255520667,
+     "margin_rel": 0.17303959248,
      "name": "estop:peak |a_fore|",
      "op": "<=",
      "status": "PASS",
      "threshold": 2.943,
      "unit": "m/s^2",
-     "unsmoothed_peak": 5.57063988583,
-     "value": 2.88823752613
+     "unsmoothed_peak": 6.05555177583,
+     "value": 2.43374447933
     },
     {
      "at": {
       "capture": "turn90_inplace",
       "file": "turn90_inplace.gait.jsonl",
-      "n": 712,
+      "n": 998,
       "stride_samples": [
-       1,
-       877
+       874,
+       1334
       ],
-      "t_s": 11.8667
+      "t_s": 16.6333
      },
-     "margin": 0.367758770912,
-     "margin_rel": 0.124960506596,
+     "margin": 0.657015906421,
+     "margin_rel": 0.223246995046,
      "name": "turn90_inplace:peak |a_fore|",
      "op": "<=",
      "status": "PASS",
      "threshold": 2.943,
      "unit": "m/s^2",
-     "unsmoothed_peak": 5.48337855587,
-     "value": 2.57524122909
+     "unsmoothed_peak": 5.70408521415,
+     "value": 2.28598409358
     },
     {
      "at": {
       "capture": "curve",
       "file": "curve.gait.jsonl",
-      "n": 2921,
+      "n": 340,
       "stride_samples": [
-       2562,
-       3411
+       1,
+       553
       ],
-      "t_s": 48.6833
+      "t_s": 5.6667
      },
-     "margin": -5.37515825995,
-     "margin_rel": -1.8264214271,
+     "margin": 0.509255520667,
+     "margin_rel": 0.17303959248,
      "name": "curve:peak |a_fore|",
      "op": "<=",
-     "status": "FAIL",
+     "status": "PASS",
      "threshold": 2.943,
      "unit": "m/s^2",
-     "unsmoothed_peak": 25.293281069,
-     "value": 8.31815825995
+     "unsmoothed_peak": 6.65786268244,
+     "value": 2.43374447933
     }
    ],
-   "status": "FAIL",
+   "status": "PASS",
    "threshold": 2.943,
    "threshold_status": "derived",
    "title": "Peak fore-aft CoM acceleration (smoothed), all captures",
    "unit": "m/s^2",
-   "value": 8.31815825995
+   "value": 2.47040814053
   },
   {
    "decisive_part": "curve:peak |a_lat|",
    "diagnostics": {
-    "unsmoothed_peak_m_s2": 43.6199377833,
-    "where": "curve:peak |a_lat| at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 3187, 't_s': 53.1167, 'stride_samples': [2562, 3411]}"
+    "unsmoothed_peak_m_s2": 5.5978605681,
+    "where": "curve:peak |a_lat| at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 2987, 't_s': 49.7833, 'stride_samples': [2573, 3033]}"
    },
    "id": "M-001.5",
    "kind": "gating",
-   "margin": -7.67629603966,
-   "margin_rel": -6.68728406135,
+   "margin": -1.75332962631,
+   "margin_rel": -1.52743109486,
    "note": null,
    "op": "<=",
    "parts": [
@@ -1260,163 +1210,163 @@
       "n": 193,
       "stride_samples": [
        1,
-       718
+       553
       ],
       "t_s": 3.2167
      },
-     "margin": 0.281814462684,
-     "margin_rel": 0.245505560862,
+     "margin": 0.282471086433,
+     "margin_rel": 0.246077585379,
      "name": "walk_fr010:peak |a_lat|",
      "op": "<=",
      "status": "PASS",
      "threshold": 1.14789441711,
      "unit": "m/s^2",
-     "unsmoothed_peak": 2.6384882624,
-     "value": 0.866079954429
+     "unsmoothed_peak": 2.4509977348,
+     "value": 0.865423330679
     },
     {
      "at": {
       "capture": "walk_fr020",
       "file": "walk_fr020.gait.jsonl",
-      "n": 192,
+      "n": 191,
       "stride_samples": [
        1,
-       718
+       553
       ],
-      "t_s": 3.2
+      "t_s": 3.1833
      },
-     "margin": 0.242675457134,
-     "margin_rel": 0.211409214573,
+     "margin": 0.244144659822,
+     "margin_rel": 0.212689125569,
      "name": "walk_fr020:peak |a_lat|",
      "op": "<=",
      "status": "PASS",
      "threshold": 1.14789441711,
      "unit": "m/s^2",
-     "unsmoothed_peak": 2.6384882624,
-     "value": 0.905218959978
+     "unsmoothed_peak": 2.4509977348,
+     "value": 0.903749757291
     },
     {
      "at": {
       "capture": "walk_fr030",
       "file": "walk_fr030.gait.jsonl",
-      "n": 192,
+      "n": 191,
       "stride_samples": [
        1,
-       718
+       553
       ],
-      "t_s": 3.2
+      "t_s": 3.1833
      },
-     "margin": 0.242675457134,
-     "margin_rel": 0.211409214573,
+     "margin": 0.244144659822,
+     "margin_rel": 0.212689125569,
      "name": "walk_fr030:peak |a_lat|",
      "op": "<=",
      "status": "PASS",
      "threshold": 1.14789441711,
      "unit": "m/s^2",
-     "unsmoothed_peak": 2.6384882624,
-     "value": 0.905218959978
+     "unsmoothed_peak": 2.4509977348,
+     "value": 0.903749757291
     },
     {
      "at": {
       "capture": "start",
       "file": "start.gait.jsonl",
-      "n": 313,
+      "n": 920,
       "stride_samples": [
-       1,
-       839
+       859,
+       1302
       ],
-      "t_s": 5.2167
+      "t_s": 15.3333
      },
-     "margin": 0.28742365096,
-     "margin_rel": 0.250392062784,
+     "margin": -0.130755729021,
+     "margin_rel": -0.11390919502,
      "name": "start:peak |a_lat|",
      "op": "<=",
-     "status": "PASS",
+     "status": "FAIL",
      "threshold": 1.14789441711,
      "unit": "m/s^2",
-     "unsmoothed_peak": 2.02076795797,
-     "value": 0.860470766153
+     "unsmoothed_peak": 2.72045311705,
+     "value": 1.27865014613
     },
     {
      "at": {
       "capture": "stop",
       "file": "stop.gait.jsonl",
-      "n": 2245,
+      "n": 2246,
       "stride_samples": [
-       2087,
-       2315
+       2096,
+       2313
       ],
-      "t_s": 37.4167
+      "t_s": 37.4333
      },
-     "margin": -0.690875262704,
-     "margin_rel": -0.601863074168,
+     "margin": -0.664748945792,
+     "margin_rel": -0.579102865108,
      "name": "stop:peak |a_lat|",
      "op": "<=",
      "status": "FAIL",
      "threshold": 1.14789441711,
      "unit": "m/s^2",
-     "unsmoothed_peak": 3.27094450972,
-     "value": 1.83876967982
+     "unsmoothed_peak": 3.42659457825,
+     "value": 1.8126433629
     },
     {
      "at": {
       "capture": "estop",
       "file": "estop.gait.jsonl",
-      "n": 2320,
-      "stride_samples": null,
-      "t_s": 38.6667
+      "n": 2323,
+      "stride_samples": [
+       2096,
+       2325
+      ],
+      "t_s": 38.7167
      },
-     "margin": 0.00715688972389,
-     "margin_rel": 0.00623479791974,
+     "margin": 0.0249737978023,
+     "margin_rel": 0.0217561802114,
      "name": "estop:peak |a_lat|",
      "op": "<=",
      "status": "PASS",
      "threshold": 1.14789441711,
      "unit": "m/s^2",
-     "unsmoothed_peak": 2.73224015609,
-     "value": 1.14073752739
+     "unsmoothed_peak": 2.47804737712,
+     "value": 1.12292061931
     },
     {
      "at": {
       "capture": "turn90_inplace",
       "file": "turn90_inplace.gait.jsonl",
-      "n": 1837,
-      "stride_samples": [
-       1345,
-       1856
-      ],
-      "t_s": 30.6167
+      "n": 1817,
+      "stride_samples": null,
+      "t_s": 30.2833
      },
-     "margin": -0.750159603451,
-     "margin_rel": -0.653509235926,
+     "margin": -0.559561535471,
+     "margin_rel": -0.48746777328,
      "name": "turn90_inplace:peak |a_lat|",
      "op": "<=",
      "status": "FAIL",
      "threshold": 1.14789441711,
      "unit": "m/s^2",
-     "unsmoothed_peak": 4.3452739654,
-     "value": 1.89805402056
+     "unsmoothed_peak": 3.81090965875,
+     "value": 1.70745595258
     },
     {
      "at": {
       "capture": "curve",
       "file": "curve.gait.jsonl",
-      "n": 3187,
+      "n": 2987,
       "stride_samples": [
-       2562,
-       3411
+       2573,
+       3033
       ],
-      "t_s": 53.1167
+      "t_s": 49.7833
      },
-     "margin": -7.67629603966,
-     "margin_rel": -6.68728406135,
+     "margin": -1.75332962631,
+     "margin_rel": -1.52743109486,
      "name": "curve:peak |a_lat|",
      "op": "<=",
      "status": "FAIL",
      "threshold": 1.14789441711,
      "unit": "m/s^2",
-     "unsmoothed_peak": 43.6199377833,
-     "value": 8.82419045678
+     "unsmoothed_peak": 5.5978605681,
+     "value": 2.90122404342
     }
    ],
    "status": "FAIL",
@@ -1424,7 +1374,7 @@
    "threshold_status": "derived",
    "title": "Peak lateral CoM acceleration (smoothed), all captures",
    "unit": "m/s^2",
-   "value": 8.82419045678
+   "value": 2.90122404342
   },
   {
    "diagnostics": {},
@@ -1453,12 +1403,12 @@
   {
    "decisive_part": "curve:peak |yaw rate|",
    "diagnostics": {
-    "where": "curve:peak |yaw rate| at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 3626, 't_s': 60.4333, 'stride_samples': None}"
+    "where": "curve:peak |yaw rate| at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 2082, 't_s': 34.7, 'stride_samples': [1641, 2087]}"
    },
    "id": "M-001.7",
    "kind": "gating",
-   "margin": -273.236520737,
-   "margin_rel": -10.1851915751,
+   "margin": 11.9757085737,
+   "margin_rel": 0.446407697412,
    "note": null,
    "op": "<=",
    "parts": [
@@ -1466,184 +1416,187 @@
      "at": {
       "capture": "walk_fr010",
       "file": "walk_fr010.gait.jsonl",
-      "n": 779,
+      "n": 782,
       "stride_samples": [
-       720,
-       1175
+       733,
+       1177
       ],
-      "t_s": 12.9833
+      "t_s": 13.0333
      },
-     "margin": 21.9592669701,
-     "margin_rel": 0.818555807754,
+     "margin": 23.2989113701,
+     "margin_rel": 0.868492524926,
      "name": "walk_fr010:peak |yaw rate|",
      "op": "<=",
      "status": "PASS",
      "threshold": 26.8268415691,
      "unit": "deg/s",
-     "unsmoothed_peak": 17.1403596002,
-     "value": 4.86757459901
+     "unsmoothed_peak": 12.5860196149,
+     "value": 3.52793019895
     },
     {
      "at": {
       "capture": "walk_fr020",
       "file": "walk_fr020.gait.jsonl",
-      "n": 334,
+      "n": 784,
       "stride_samples": [
-       1,
-       718
+       733,
+       1177
       ],
-      "t_s": 5.5667
+      "t_s": 13.0667
      },
-     "margin": 20.9483007283,
-     "margin_rel": 0.780870930123,
+     "margin": 22.8635620751,
+     "margin_rel": 0.85226440154,
      "name": "walk_fr020:peak |yaw rate|",
      "op": "<=",
      "status": "PASS",
      "threshold": 26.8268415691,
      "unit": "deg/s",
-     "unsmoothed_peak": 17.1403596002,
-     "value": 5.87854084076
+     "unsmoothed_peak": 12.5860196149,
+     "value": 3.96327949399
     },
     {
      "at": {
       "capture": "walk_fr030",
       "file": "walk_fr030.gait.jsonl",
-      "n": 334,
+      "n": 784,
       "stride_samples": [
-       1,
-       718
+       733,
+       1177
       ],
-      "t_s": 5.5667
+      "t_s": 13.0667
      },
-     "margin": 20.9483007283,
-     "margin_rel": 0.780870930123,
+     "margin": 22.8635620751,
+     "margin_rel": 0.85226440154,
      "name": "walk_fr030:peak |yaw rate|",
      "op": "<=",
      "status": "PASS",
      "threshold": 26.8268415691,
      "unit": "deg/s",
-     "unsmoothed_peak": 17.1403596002,
-     "value": 5.87854084076
+     "unsmoothed_peak": 12.5860196149,
+     "value": 3.96327949399
     },
     {
      "at": {
       "capture": "start",
       "file": "start.gait.jsonl",
-      "n": 454,
+      "n": 925,
       "stride_samples": [
-       1,
-       839
+       859,
+       1302
       ],
-      "t_s": 7.5667
+      "t_s": 15.4167
      },
-     "margin": 20.9091690459,
-     "margin_rel": 0.779412253659,
+     "margin": 21.5360257561,
+     "margin_rel": 0.802779026397,
      "name": "start:peak |yaw rate|",
      "op": "<=",
      "status": "PASS",
      "threshold": 26.8268415691,
      "unit": "deg/s",
-     "unsmoothed_peak": 16.9221527493,
-     "value": 5.91767252318
+     "unsmoothed_peak": 13.7943477269,
+     "value": 5.29081581295
     },
     {
      "at": {
       "capture": "stop",
       "file": "stop.gait.jsonl",
-      "n": 334,
+      "n": 784,
       "stride_samples": [
-       1,
-       718
+       733,
+       1177
       ],
-      "t_s": 5.5667
+      "t_s": 13.0667
      },
-     "margin": 20.9483007283,
-     "margin_rel": 0.780870930123,
+     "margin": 22.8635620751,
+     "margin_rel": 0.85226440154,
      "name": "stop:peak |yaw rate|",
      "op": "<=",
      "status": "PASS",
      "threshold": 26.8268415691,
      "unit": "deg/s",
-     "unsmoothed_peak": 17.1403596002,
-     "value": 5.87854084076
+     "unsmoothed_peak": 12.5860196149,
+     "value": 3.96327949399
     },
     {
      "at": {
       "capture": "estop",
       "file": "estop.gait.jsonl",
-      "n": 334,
+      "n": 784,
       "stride_samples": [
-       1,
-       718
+       733,
+       1177
       ],
-      "t_s": 5.5667
+      "t_s": 13.0667
      },
-     "margin": 20.9483007283,
-     "margin_rel": 0.780870930123,
+     "margin": 22.8635620751,
+     "margin_rel": 0.85226440154,
      "name": "estop:peak |yaw rate|",
      "op": "<=",
      "status": "PASS",
      "threshold": 26.8268415691,
      "unit": "deg/s",
-     "unsmoothed_peak": 17.1403596002,
-     "value": 5.87854084076
+     "unsmoothed_peak": 12.5860196149,
+     "value": 3.96327949399
     },
     {
      "at": {
       "capture": "turn90_inplace",
       "file": "turn90_inplace.gait.jsonl",
-      "n": 1442,
+      "n": 1056,
       "stride_samples": [
-       1345,
-       1856
+       874,
+       1334
       ],
-      "t_s": 24.0333
+      "t_s": 17.6
      },
-     "margin": 15.7946336111,
-     "margin_rel": 0.588762324868,
+     "margin": 15.0220622656,
+     "margin_rel": 0.559963878975,
      "name": "turn90_inplace:peak |yaw rate|",
      "op": "<=",
      "status": "PASS",
      "threshold": 26.8268415691,
      "unit": "deg/s",
-     "unsmoothed_peak": 21.895404524,
-     "value": 11.032207958
+     "unsmoothed_peak": 15.2283587579,
+     "value": 11.8047793034
     },
     {
      "at": {
       "capture": "curve",
       "file": "curve.gait.jsonl",
-      "n": 3626,
-      "stride_samples": null,
-      "t_s": 60.4333
+      "n": 2082,
+      "stride_samples": [
+       1641,
+       2087
+      ],
+      "t_s": 34.7
      },
-     "margin": -273.236520737,
-     "margin_rel": -10.1851915751,
+     "margin": 11.9757085737,
+     "margin_rel": 0.446407697412,
      "name": "curve:peak |yaw rate|",
      "op": "<=",
-     "status": "FAIL",
+     "status": "PASS",
      "threshold": 26.8268415691,
      "unit": "deg/s",
-     "unsmoothed_peak": 396.027310727,
-     "value": 300.063362306
+     "unsmoothed_peak": 25.8835483038,
+     "value": 14.8511329954
     }
    ],
-   "status": "FAIL",
+   "status": "PASS",
    "threshold": 26.8268415691,
    "threshold_status": "derived",
    "title": "Peak yaw rate (smoothed), all captures",
    "unit": "deg/s",
-   "value": 300.063362306
+   "value": 14.8511329954
   },
   {
    "decisive_part": "curve:peak |yaw acc|",
    "diagnostics": {
-    "where": "curve:peak |yaw acc| at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 3636, 't_s': 60.6, 'stride_samples': None}"
+    "where": "curve:peak |yaw acc| at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 2409, 't_s': 40.15, 'stride_samples': [2095, 2563]}"
    },
    "id": "M-001.8",
    "kind": "gating",
-   "margin": -1043.15491887,
-   "margin_rel": -258.328458681,
+   "margin": -90.5308254945,
+   "margin_rel": -22.4191902758,
    "note": null,
    "op": "<=",
    "parts": [
@@ -1651,158 +1604,161 @@
      "at": {
       "capture": "walk_fr010",
       "file": "walk_fr010.gait.jsonl",
-      "n": 345,
+      "n": 463,
       "stride_samples": [
        1,
-       718
+       553
       ],
-      "t_s": 5.75
+      "t_s": 7.7167
      },
-     "margin": -53.3328537943,
-     "margin_rel": -13.207428416,
+     "margin": -34.5072012871,
+     "margin_rel": -8.54541541307,
      "name": "walk_fr010:peak |yaw acc|",
      "op": "<=",
      "status": "FAIL",
      "threshold": 4.0380952381,
      "unit": "deg/s^2",
-     "value": 57.3709490324
+     "value": 38.5452965252
     },
     {
      "at": {
       "capture": "walk_fr020",
       "file": "walk_fr020.gait.jsonl",
-      "n": 343,
+      "n": 484,
       "stride_samples": [
        1,
-       718
+       553
       ],
-      "t_s": 5.7167
+      "t_s": 8.0667
      },
-     "margin": -62.6313251554,
-     "margin_rel": -15.5101158993,
+     "margin": -41.7489703788,
+     "margin_rel": -10.3387780419,
      "name": "walk_fr020:peak |yaw acc|",
      "op": "<=",
      "status": "FAIL",
      "threshold": 4.0380952381,
      "unit": "deg/s^2",
-     "value": 66.6694203935
+     "value": 45.7870656169
     },
     {
      "at": {
       "capture": "walk_fr030",
       "file": "walk_fr030.gait.jsonl",
-      "n": 343,
+      "n": 484,
       "stride_samples": [
        1,
-       718
+       553
       ],
-      "t_s": 5.7167
+      "t_s": 8.0667
      },
-     "margin": -62.6313251554,
-     "margin_rel": -15.5101158993,
+     "margin": -41.7489703788,
+     "margin_rel": -10.3387780419,
      "name": "walk_fr030:peak |yaw acc|",
      "op": "<=",
      "status": "FAIL",
      "threshold": 4.0380952381,
      "unit": "deg/s^2",
-     "value": 66.6694203935
+     "value": 45.7870656169
     },
     {
      "at": {
       "capture": "start",
       "file": "start.gait.jsonl",
-      "n": 463,
+      "n": 617,
       "stride_samples": [
        1,
-       839
+       684
       ],
-      "t_s": 7.7167
+      "t_s": 10.2833
      },
-     "margin": -63.045966241,
-     "margin_rel": -15.6127982437,
+     "margin": -49.0901038617,
+     "margin_rel": -12.1567474186,
      "name": "start:peak |yaw acc|",
      "op": "<=",
      "status": "FAIL",
      "threshold": 4.0380952381,
      "unit": "deg/s^2",
-     "value": 67.0840614791
+     "value": 53.1281990998
     },
     {
      "at": {
       "capture": "stop",
       "file": "stop.gait.jsonl",
-      "n": 343,
+      "n": 484,
       "stride_samples": [
        1,
-       718
+       553
       ],
-      "t_s": 5.7167
+      "t_s": 8.0667
      },
-     "margin": -62.6313251554,
-     "margin_rel": -15.5101158993,
+     "margin": -41.7489703788,
+     "margin_rel": -10.3387780419,
      "name": "stop:peak |yaw acc|",
      "op": "<=",
      "status": "FAIL",
      "threshold": 4.0380952381,
      "unit": "deg/s^2",
-     "value": 66.6694203935
+     "value": 45.7870656169
     },
     {
      "at": {
       "capture": "estop",
       "file": "estop.gait.jsonl",
-      "n": 343,
+      "n": 484,
       "stride_samples": [
        1,
-       718
+       553
       ],
-      "t_s": 5.7167
+      "t_s": 8.0667
      },
-     "margin": -62.6313251554,
-     "margin_rel": -15.5101158993,
+     "margin": -41.7489703788,
+     "margin_rel": -10.3387780419,
      "name": "estop:peak |yaw acc|",
      "op": "<=",
      "status": "FAIL",
      "threshold": 4.0380952381,
      "unit": "deg/s^2",
-     "value": 66.6694203935
+     "value": 45.7870656169
     },
     {
      "at": {
       "capture": "turn90_inplace",
       "file": "turn90_inplace.gait.jsonl",
-      "n": 1453,
+      "n": 1073,
       "stride_samples": [
-       1345,
-       1856
+       874,
+       1334
       ],
-      "t_s": 24.2167
+      "t_s": 17.8833
      },
-     "margin": -76.5490760407,
-     "margin_rel": -18.9567287365,
+     "margin": -43.859784449,
+     "margin_rel": -10.8615032244,
      "name": "turn90_inplace:peak |yaw acc|",
      "op": "<=",
      "status": "FAIL",
      "threshold": 4.0380952381,
      "unit": "deg/s^2",
-     "value": 80.5871712788
+     "value": 47.8978796871
     },
     {
      "at": {
       "capture": "curve",
       "file": "curve.gait.jsonl",
-      "n": 3636,
-      "stride_samples": null,
-      "t_s": 60.6
+      "n": 2409,
+      "stride_samples": [
+       2095,
+       2563
+      ],
+      "t_s": 40.15
      },
-     "margin": -1043.15491887,
-     "margin_rel": -258.328458681,
+     "margin": -90.5308254945,
+     "margin_rel": -22.4191902758,
      "name": "curve:peak |yaw acc|",
      "op": "<=",
      "status": "FAIL",
      "threshold": 4.0380952381,
      "unit": "deg/s^2",
-     "value": 1047.1930141
+     "value": 94.5689207326
     }
    ],
    "status": "FAIL",
@@ -1810,50 +1766,33 @@
    "threshold_status": "derived",
    "title": "Peak yaw acceleration (smoothed), all captures",
    "unit": "deg/s^2",
-   "value": 1047.1930141
+   "value": 94.5689207326
   },
   {
-   "decisive_part": "curve:|yaw rate| * v_bar",
    "diagnostics": {
-    "where": "curve:|yaw rate| * v_bar at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 2928, 't_s': 48.8, 'stride_samples': [2562, 3411]}"
+    "where": "curve:|yaw rate| * v_bar at None"
    },
    "id": "M-001.9",
    "kind": "gating",
-   "margin": -0.363922480477,
-   "margin_rel": -0.317034803072,
    "note": null,
-   "op": "<=",
    "parts": [
     {
-     "at": {
-      "capture": "curve",
-      "file": "curve.gait.jsonl",
-      "n": 2928,
-      "stride_samples": [
-       2562,
-       3411
-      ],
-      "t_s": 48.8
-     },
-     "limit_dps": 9.15740158946,
-     "margin": -0.363922480477,
-     "margin_rel": -0.317034803072,
+     "margin": null,
+     "margin_rel": null,
      "name": "curve:|yaw rate| * v_bar",
-     "op": "<=",
-     "status": "FAIL",
-     "threshold": 1.14789441711,
-     "unit": "m/s^2",
-     "v_bar_mps": 7.18211435686,
-     "value": 1.51181689759,
-     "yaw_rate_dps": 12.060616599
+     "note": "curve never exceeds 0.5 v_cruise (vacuous: not a pass)",
+     "op": null,
+     "status": "NOT_RUN",
+     "threshold": null,
+     "unit": "",
+     "value": null
     }
    ],
-   "status": "FAIL",
-   "threshold": 1.14789441711,
+   "status": "NOT_RUN",
    "threshold_status": "assumed_pending_calibration",
    "title": "Yaw rate while v_bar > 0.5 v_cruise, limit a_lat / v_bar",
-   "unit": "m/s^2",
-   "value": 1.51181689759
+   "unit": "",
+   "value": null
   },
   {
    "diagnostics": {},
@@ -1884,34 +1823,34 @@
    "diagnostics": {},
    "id": "M-001.11",
    "kind": "gating",
-   "margin": 0.266162415122,
-   "margin_rel": 0.0554505031504,
+   "margin": 0.338656257225,
+   "margin_rel": 0.0705533869219,
    "note": null,
    "op": "in",
    "parts": [
     {
-     "margin": 0.180330694385,
-     "margin_rel": 0.0601102314615,
+     "margin": 0.226019444383,
+     "margin_rel": 0.0753398147943,
      "name": "stop:steps",
      "op": "in",
-     "seconds": 5.51666666667,
+     "seconds": 5.66666666667,
      "status": "PASS",
      "threshold": 1.5,
      "threshold_hi": 3.0,
      "unit": "steps",
-     "value": 1.68033069438
+     "value": 1.72601944438
     },
     {
-     "margin": 0.266162415122,
-     "margin_rel": 0.0554505031504,
+     "margin": 0.338656257225,
+     "margin_rel": 0.0705533869219,
      "name": "stop:t*",
      "op": "in",
-     "seconds": 5.51666666667,
+     "seconds": 5.66666666667,
      "status": "PASS",
      "threshold": 2.4,
      "threshold_hi": 4.8,
      "unit": "t/sqrt(l/g)",
-     "value": 2.66616241512
+     "value": 2.73865625723
     }
    ],
    "status": "PASS",
@@ -1920,7 +1859,7 @@
    "threshold_status": "assumed_pending_calibration",
    "title": "Time to stop, normal (cruise to < 0.3 m/s), in steps and t* = t / sqrt(l/g)",
    "unit": "t/sqrt(l/g)",
-   "value": 2.66616241512
+   "value": 2.73865625723
   },
   {
    "decisive_part": "estop:time to stop",
@@ -1934,29 +1873,29 @@
       {
        "file": "estop.gait.jsonl",
        "mass_kg": 10000000.0,
-       "t_star": 2.87558907009
+       "t_star": 2.94002804084
       }
      ]
     }
    },
    "kind": "gating",
-   "margin": 2.86550632077,
-   "margin_rel": 0.929003790821,
+   "margin": 2.9988396541,
+   "margin_rel": 0.972230766525,
    "note": null,
    "op": ">=",
    "parts": [
     {
-     "floor_brake_s": 0.984706881988,
+     "floor_brake_s": 1.08343206755,
      "floor_cruise_s": 3.08449367923,
-     "margin": 2.86550632077,
-     "margin_rel": 0.929003790821,
+     "margin": 2.9988396541,
+     "margin_rel": 0.972230766525,
      "name": "estop:time to stop",
      "op": ">=",
      "status": "PASS",
      "threshold": 3.08449367923,
      "unit": "s",
-     "v0_mps": 2.89799235369,
-     "value": 5.95
+     "v0_mps": 3.18854057481,
+     "value": 6.08333333333
     }
    ],
    "status": "PASS",
@@ -1964,7 +1903,7 @@
    "threshold_status": "assumed_pending_calibration",
    "title": "Time to stop, emergency >= max(v_cruise / a_ref, m v0 / F_brake,max)",
    "unit": "s",
-   "value": 5.95
+   "value": 6.08333333333
   },
   {
    "diagnostics": {},
@@ -1980,7 +1919,7 @@
   }
  ],
  "tool": {
-  "git_commit": "0f57e25c45b3f678b81b3b097934cc53e4a2b720",
+  "git_commit": "bd7d8d2f00ffae60945dbc06112b0d9b8e801578",
   "name": "kaiju_metrics",
   "version": "1.0.0"
  },

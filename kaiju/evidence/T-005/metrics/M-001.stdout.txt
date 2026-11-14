@@ -1,22 +1,19 @@
-M-001@v1  [T-005]  registry v1.0 sha256:786778529ef7  tool 1.0.0
-VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 8
-  FAIL           [G] M-001.1          0.01998 Fr  in [0.17, 0.23]  margin -0.15 seed-threshold
-  FAIL           [G] M-001.2          0.1546 -  in [0.85, 1.15]  margin -0.6954
-  FAIL           [G] M-001.3          0.4041 -  in [0.6, 0.72]  margin -0.1959 seed-threshold
-  FAIL           [G] M-001.4          8.318 m/s^2  <= 2.943  margin -5.375
-      where: curve:peak |a_fore| at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 2921, 't_s': 48.6833, 'stride_samples': [2562, 3411]}
-  FAIL           [G] M-001.5          8.824 m/s^2  <= 1.148  margin -7.676
-      where: curve:peak |a_lat| at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 3187, 't_s': 53.1167, 'stride_samples': [2562, 3411]}
-  FAIL           [G] M-001.7          300.1 deg/s  <= 26.83  margin -273.2
-      where: curve:peak |yaw rate| at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 3626, 't_s': 60.4333, 'stride_samples': None}
-  FAIL           [G] M-001.8          1047 deg/s^2  <= 4.038  margin -1043
-      where: curve:peak |yaw acc| at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 3636, 't_s': 60.6, 'stride_samples': None}
-  FAIL           [G] M-001.9          1.512 m/s^2  <= 1.148  margin -0.3639 seed-threshold
-      where: curve:|yaw rate| * v_bar at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 2928, 't_s': 48.8, 'stride_samples': [2562, 3411]}
+M-001@v1  [T-005]  registry v1.1 sha256:e18bdef7a8b5  tool 1.0.0
+VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 5
+  FAIL           [G] M-001.1          0.02128 Fr  in [0.17, 0.23]  margin -0.1487 seed-threshold
+  FAIL           [G] M-001.2          0.01774 -  in [0.85, 1.15]  margin -0.8323
+  FAIL           [G] M-001.3          0.3522 -  in [0.6, 0.72]  margin -0.2478 seed-threshold
+  FAIL           [G] M-001.5          2.901 m/s^2  <= 1.148  margin -1.753
+      where: curve:peak |a_lat| at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 2987, 't_s': 49.7833, 'stride_samples': [2573, 3033]}
+  FAIL           [G] M-001.8          94.57 deg/s^2  <= 4.038  margin -90.53
+      where: curve:peak |yaw acc| at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 2409, 't_s': 40.15, 'stride_samples': [2095, 2563]}
+  PASS           [G] M-001.4          2.47 m/s^2  <= 2.943  margin 0.4726
   NOT_RUN        [G] M-001.6          - 
+  PASS           [G] M-001.7          14.85 deg/s  <= 26.83  margin 11.98
+  NOT_RUN        [G] M-001.9          - 
   NOT_RUN        [G] M-001.10         - 
-  PASS           [G] M-001.11         2.666 t/sqrt(l/g)  in [2.4, 4.8]  margin 0.2662 seed-threshold
-  PASS           [G] M-001.12         5.95 s  >= 3.084  margin 2.866 seed-threshold
+  PASS           [G] M-001.11         2.739 t/sqrt(l/g)  in [2.4, 4.8]  margin 0.3387 seed-threshold
+  PASS           [G] M-001.12         6.083 s  >= 3.084  margin 2.999 seed-threshold
   PENDING        [G] M-001.13         -   (no panel_ratings@v1 file given (the tool never defaults a score))
   flag NON_REFERENCE_NORMALISERS: {'file': 'walk_fr010.gait.jsonl', 'differs': {'com_height_stand_m': {'header': 42.5405, 'reference': 44.8}, 'I_yaw_kgm2': {'header': 619689864, 'reference': 475
   flag NON_REFERENCE_NORMALISERS: {'file': 'walk_fr020.gait.jsonl', 'differs': {'com_height_stand_m': {'header': 42.5405, 'reference': 44.8}, 'I_yaw_kgm2': {'header': 619689864, 'reference': 475

@@ -1,5 +1,99 @@
 # T-005 evidence: one mech body that walks with physics and intent control
 
+**This file was rewritten at the end of fix cycle 2. Section 0 holds the current values (code and evidence commit 3a0f3ca). Sections 1 to 7 are the cycle-1 record (commit 955a865) and are kept for the commands, the criteria map and the history; where a number differs, section 0 is the current one.**
+
+## 0. Fix cycle 2: current state (commit 3a0f3ca)
+
+Every capture, log, strip, plot, metric report and test result in this folder was regenerated at **3a0f3ca** with the commands of section 1 (same entry points and arguments). T-002 tools: commit **bd7d8d2** of `.wt/T-002/kaiju` (its worktree had 8 uncommitted files at the time; tool 1.0.0, registry v1.0; the stage rows of `progress_cycle2.md` were measured earlier in the cycle at 0db318e, clean). `Tools/T005/m006.py` now reports **whole captures** (no time window; cycle 1's M-006 power value covered only t > 20 s, which hid the first step: 2,992 MW then). Progress table of the cycle: `progress_cycle2.md`.
+
+**Headline.** The gate is still not met. Steady walk 2.96 m/s, Froude 0.021 (cycle 1: 2.86, 0.020). `curve` and the 90 degree turn no longer fall; the 180 degree reversal still does. No assistance exists.
+
+### M-001@v1: FAIL (tool exit 1): 4 pass, 5 fail, 3 not run, 1 pending (cycle 1: 2 pass, 8 fail)
+| Sub-measure | Value | Threshold | Result |
+|---|---|---|---|
+| .1 Froude | 0.0213 (all three walk commands; capped by `StepReach`) | [0.17, 0.23] | **FAIL** |
+| .2 stride period / Alexander | 0.018 (decisive part: a capture with repeated short contacts; straight walking about 0.5 to 0.7) | [0.85, 1.15] | **FAIL** |
+| .3 duty factor | 0.352 (decisive part) | [0.60, 0.72] | **FAIL** |
+| .4 peak fore-aft acceleration | 2.47 m/s2 | <= 2.943 | pass |
+| .5 peak lateral acceleration | 2.90 m/s2 (`curve`, t = 49.8 s) | <= 1.148 | **FAIL** |
+| .6 net start acceleration | not run | | NOT RUN |
+| .7 peak yaw rate | 14.9 deg/s | <= 26.83 | pass |
+| .8 peak yaw acceleration | 94.6 deg/s2 (`curve`, t = 40.2 s) | <= 4.04 | **FAIL** |
+| .9 yaw rate x speed | not run (no capture above half cruise) | | NOT RUN |
+| .10 time to start | not run (5.15 s to 90 % of the 2.95 m/s reached, `metrics/reported.json`) | | NOT RUN |
+| .11 time to stop, normal | 2.74 t* | [2.4, 4.8] | pass |
+| .12 time to stop, emergency | 6.08 s | >= 3.08 | pass |
+| .13 panel | pending | | PENDING |
+
+### M-002@v1: FAIL (tool exit 1)
+| Sub-measure | Value | Threshold | Result |
+|---|---|---|---|
+| .1 max slip / foot length | 0.246 (3.69 m: `stomp` foot R contact 3, t = 9.0 s; then `curve` L contact 20, 2.05 m) | < 0.005 | **FAIL** (cycle 1 without the fallen capture: 0.091) |
+| .2 p95 slip / foot length (advisory) | 0.0528 (0.79 m) | < 0.0025 | **FAIL** (cycle 1: 0.0379; worse) |
+| .3 sampling | 0.01667 s | <= 0.02 | pass |
+| .4 contact flag consistency | 1.000 | >= 0.99 | pass |
+| .5 excluded contacts | 0 | 0 | pass |
+
+Slip got worse in this cycle: the trailing foot now stays loaded longer during weight transfer and is dragged, and the stomp's stance foot slides 3.7 m. This is a regression against cycle 1 and is not hidden.
+
+### M-006@v1: FAIL: .1, .2, .3, .7, .8 pass; .4, .5, .6 fail (cycle 1: .4, .5, .6, .7 failed). Every item: `metrics/M-006.json`, `metrics/M-006.txt`
+| Item | Value | Threshold | Result |
+|---|---|---|---|
+| .1 to .3 (mass, gravity, damping, drop, pendulum, impacts) | unchanged from the cycle-1 table in section 2 | | pass |
+| .4 double stance sum Fn / m g; pressures L / R | 1.0001; 325.6 / 328.4 kPa | 1 +/- 1 %; 327 +/- 5 % | pass |
+| .4 single stance pressure (16.0 s hold) | 653.7 kPa | 654 +/- 2 % | pass |
+| .4 walking stride impulse / (m g T), worst of 6 strides | 2.5 % | +/- 2 % | **FAIL** |
+| .4 walking peak single-foot force, whole capture | **5.75 body weights** (t = 13.1 s; 3.88 after t = 25 s) | 1.0 to 2.0 | **FAIL** |
+| .5 locked topple (KE/dPE 0.985, 0.575 rad/s, 8.03 s, 3.59 GJ) | unchanged | | pass |
+| .5 limp topple energy account | 0.913 | 1 +/- 5 % (A) | **FAIL** (foot friction and joint-limit work are not logged: DEF-T005-physics-8, needs the amended definition from research) |
+| .6 worst torque / forceLimit | 1.000 | <= 1 | pass |
+| .6 most saturated joint, share of steps | 1.4 % (hip_L flexion; cycle 1: waist 5.8 %) | <= 5 % | pass |
+| .6 ankle peak torque | 7.9e8 N m | <= 1.0e9 | pass |
+| .6 mean positive power, walking part | 105 MW (cost of transport about 0.36 at 2.96 m/s; cycle 1: 132 MW, 0.46) | 30 to 120 MW | pass (the cost of transport is still 4 to 7 times R-005's 0.05 to 0.1: DEF-T005-physics-3) |
+| .6 peak positive power, whole capture | **2,012 MW** (t = 7.9 s, the first step; 479 MW after t = 25 s) | <= 450 MW | **FAIL** |
+| .6 standing still | 0.86 MW | <= 5 MW | pass |
+| .7 NaN; link speed; leg joint speed; arm joint speed; one-step energy gain | 0; 24.9 m/s; 2.19 rad/s; 0.78 rad/s; 3.2e7 J | 0; 60; 3; 10; 7.8e7 | pass |
+| .7 joint-speed clamp count (new `clamps` field, engine read-back) | 0 in every capture, falls included | 0 outside falls | pass |
+| .8 three runs: CoM divergence; footfall steps | 0 m; identical (42 events) | 1 cm; identical | pass |
+
+Other values: footfall events 498 contacts in 22 captures, 100 % in the contact step, 0 missed, 0 duplicates. `gait_log@v1`: 22 / 22 VALID. `walk_scn` ends standing 11.6 m from its target (one step is about 10.5 m: C13 just missed; cycle 1: 7.0 m). Shoves: 0.05 and 0.15 m g absorbed, 0.30 m g capture steps and back to standing, 0.60 m g falls. Four mass and height corners stand, walk (2.90, 2.90, 3.12, 3.12 m/s) and stop without retuning.
+
+Tests at 3a0f3ca: `dotnet test` 40 / 40 (12 + 7 + 21); Unity EditMode 134 / 134; PlayMode 20 / 22 (the two failures are the C20 one-centimetre check, still `KnownFailing`: 2.7 cm with 2 mechs, 4.3 cm with 4 in the stored run).
+
+### Defects of the evaluations and what was done
+| Defect | Done in this cycle | Still open |
+|---|---|---|
+| physics-1 touchdown force (blocker) | weight transfer limited by measured load, passive ankle while settling, lower lift: steady-walk peak 4.49 -> 3.88 (2.74 in the variant that broke the turn), median foot v_y at contact -1.50 -> -1.07 m/s | **open**: 5.75 over the whole capture, 41 % of loaded contacts above 2 BW |
+| physics-2 swing-start power (blocker) | lower, later foot lift: 2,485 -> 479 MW after t = 25 s; whole-capture reporting | **open**: 2,012 MW at the first step |
+| physics-3 cost of transport | 0.46 -> 0.36 | open |
+| physics-4 waist saturation 5.8 % | now 1.4 % worst joint | closed by measurement |
+| physics-5 FootContact carries the crossing value | new follow-up event `FootLoaded` (same ContactId): peak normal force and impulse of the loading window (`body_tuning.contact_load_window_tstar`, 0.10 of the nominal stride); `footfall_loaded` in physics_log; test in `FootContact_IsPublishedOncePerContact_InTheContactStep` | the camera probe still fires on `FootContact` (same-step rule); T-004 should scale with `FootLoaded` |
+| physics-6 spurious footfalls with zero force | contact needs F > 0 as well as F >= F_on | closed |
+| physics-7 clamps never written | `IArticulatedBody.JointSpeedClampCount` / `DofSpeedClamped` from engine read-back; `clamps` and `clamped` in every physics_log step | closed (count is 0 in all captures; leg joint speed now 2.19 rad/s at most outside falls) |
+| physics-8 limp-fall account | none | open: needs the amended M-006.5 (research) |
+| physics-9 / arch-2 mech independence (C20) | diagnosed, not fixed: see below | **open** |
+| physics-10 / -11 mass unit | `SimMassUnit` and `IBodyWorld.MassUnit` in `Physics.Body.Contracts`; a body whose tuning names another unit than its world is refused; MODULE.md states the limit per solver | the Core-level D-entry and a mixed-body contact test are a founder / orchestrator decision; the TGS evidence is the test `MassUnit_InKilogramsTheBodySinks_InTheConfiguredUnitItRests` (15-link mech in SI kg under TGS sinks) and the `P4m` lines of the probe (single link: 1e6 kg rests with 24 iterations, 1e7 kg sinks) |
+| arch-1 literals | every tuning literal of `LocomotionController` and `IntentLimiter` moved to `walk_tuning.json` (45 new fields, same values; the reference leg length is `reference_leg_length_m`); test `BehaviourCode_KeepsItsTuningNumbersInConfig` | closed |
+| arch-3 inert flags | `MechUnit`, `BodyWorld.CreateBody`, the logs and `DevicePilotSource` read `IFeatureFlags` and refuse or no-op when off; tests `FeatureFlags_SwitchTheModulesOff_AsShipped`, `DevicePilot_IsNotCreated_WhileItsFlagIsOff_AsShipped` | closed |
+| arch-4 out-of-module data changes | none (Core's MODULE.md still says 0.02 s: not mine to edit; noted in `tasks/T-005.impl.md`) | orchestrator |
+| arch-5 `Tools/T005` | none | move after T-002 merges |
+| arch-6 composition root | `Game.Units.Mech.Scenarios` is compiled only where tests are (`UNITY_INCLUDE_TESTS`); test `CompositionRootAssemblies_AreNotCompiledIntoPlayers` | layer-table note (b) and (c) open |
+| arch-7 two-leg assumption | declared in the contract (`MechContractVersions.BipedFeet`) | probe statics unchanged |
+| arch-8 physics_log validator | none | T-002 |
+
+### C20 (mech independence): what the diagnostics show (`tests/unity_playmode.xml`, lines "C20 diagnostic")
+- Mech A walking alone and mech A walking with a **standing, controlled** mech 300 m away: bit-identical for 10 s (first differing step: none).
+- With an **inert rigid** mech 300 m away: bit-identical. With a rigid mech **dropped** 300 m away that lands at step 211 while A walks: bit-identical. So the engine does keep non-interacting bodies independent, including when another body makes contact with the shared ground.
+- With a controlled mech that **turns on the spot** from t = 2 s: the other mech leaves `Stand` at step 215, lifts a foot at step 365, and **mech A first differs at step 462**, while the other mech is in single support. The difference is 0.9 mm at 10 s and 2.7 cm (2 mechs) to 4.3 cm (4 mechs) after 20 s; it grows because walking amplifies any difference.
+- Not isolated: what happens at that step. No shared state was found in the three modules (bus handlers filter by unit ID, there are no statics, each body accumulates its own contacts). The remaining candidates are engine-side and specific to two articulations changing their contact sets with the shared ground in the same step. The two tests stay red (`KnownFailing`), the clause is not met, and the question is routed to research (DEF-T005-physics-9).
+
+### Is a data or threshold question involved?
+No joint range in `mech_frame_balanced.json` and no registered threshold was found to make the target unreachable, and R-007 says the same (Froude 0.20 reachable with the frame as it is). What blocks the gate is the controller: this cycle could not leave the stable basin around a 10.5 m step. The one specification point that needs a decision is C20's tolerance against what the engine does when several articulated mechs step at once.
+
+---
+
+## Cycle 1 record (commit 955a865)
+
 Code commit that produced every capture, log, strip and test result here: **955a865** (branch `task/T-005`). Config: 80 m, 10,000 t (`mech_frame_balanced.json`), rigid flat ground, dt 1/60 s, TGS solver, enhanced determinism on, **no assistance of any kind** (see section 3). T-002 metric tools used read-only from `.wt/T-002/kaiju` at commit **0f57e25** (that worktree had 2 uncommitted files at the time): tool 1.0.0, registry v1.0. M-006 has no T-002 tool: it is computed by `Tools/T005/m006.py` from R-005 section 8, thresholds copied unchanged.
 
 **Headline, stated plainly.** The mech stands, shifts weight, starts, walks, stops, turns 90 degrees on the spot, stomps, holds single stance, takes capture steps and falls under physics, all from `IntentFrame` only and with zero external force. **The walk is stable only at 2.86 m/s (Froude 0.020) with steps of about 10 m. The M0 gate is not met: M-001 FAIL, M-002 FAIL, M-006 FAIL.** Details and causes below; nothing was faked or assisted to hide it.

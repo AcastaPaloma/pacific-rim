@@ -19,7 +19,7 @@ Breakdown IDs: F-002, D-013, D-003 (several pilots later), D-004 (N players). Ex
 
 Consumes events: none. Emits events: none.
 Config assets: `Config/Control/control_tuning.json` (dead zone, target distance, emergency-stop hold time).
-Feature flags (`Config/FeatureFlags/Control.json`, default off): `control.devicePilot`.
+Feature flags (`Config/FeatureFlags/Control.json`, default off): `control.devicePilot` (`DevicePilotSource` refuses to be constructed while it is off).
 
 ## Tests
 - Engine-free (EditMode and `dotnet test DotnetTests/Control.Tests`): the contract's shape by reflection, single arbiter passes through, an empty seat stands, 2 and 3 pilots through a test-only arbiter, scripted timeline by clock step, stick mapping.
