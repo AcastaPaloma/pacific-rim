@@ -159,11 +159,54 @@ namespace Game.Core.Tests
 
         public static string Fixture(string name) => Of("Assets", "Game", "Core", "Tests", "EditMode", "Fixtures", name);
 
+        private static readonly List<string> TempDirs = new List<string>();
+
+        /// <summary>A fresh directory under $TMPDIR/kaiju-core-tests; deleted by DeleteTempDirs (run once after the suite).</summary>
         public static string NewTempDir()
         {
             var dir = Path.Combine(Path.GetTempPath(), "kaiju-core-tests", Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(dir);
+            lock (TempDirs) TempDirs.Add(dir);
             return dir;
+        }
+
+        /// <summary>Deletes every directory NewTempDir created in this process. Returns how many remain (0 unless locked).</summary>
+        public static int DeleteTempDirs()
+        {
+            lock (TempDirs)
+            {
+                var left = new List<string>();
+                foreach (var d in TempDirs)
+                {
+                    try { if (Directory.Exists(d)) Directory.Delete(d, true); }
+                    catch (IOException) { left.Add(d); }
+                    catch (UnauthorizedAccessException) { left.Add(d); }
+                }
+                TempDirs.Clear();
+                TempDirs.AddRange(left);
+                return left.Count;
+            }
+        }
+    }
+
+    /// <summary>Removes the suite's temp directories once all tests in this namespace have run (DEF-T001-arch-2).</summary>
+    [SetUpFixture]
+    public class TempDirCleanup
+    {
+        [OneTimeTearDown] public void DeleteAll() => ProjectPaths.DeleteTempDirs();
+    }
+
+    public class TestSupportTests
+    {
+        // DEF-T001-arch-2: temp directories are tracked and removed, not left in $TMPDIR.
+        [Test]
+        public void TempDirs_AreDeletedByCleanup()
+        {
+            string a = ProjectPaths.NewTempDir(), b = ProjectPaths.NewTempDir();
+            File.WriteAllText(Path.Combine(b, "x.txt"), "x");
+            Assert.That(Directory.Exists(a) && Directory.Exists(b), Is.True);
+            Assert.That(ProjectPaths.DeleteTempDirs(), Is.EqualTo(0));
+            Assert.That(Directory.Exists(a) || Directory.Exists(b), Is.False);
         }
     }
 }

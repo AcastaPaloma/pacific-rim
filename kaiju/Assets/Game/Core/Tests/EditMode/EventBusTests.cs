@@ -271,5 +271,57 @@ namespace Game.Core.Tests
             Assert.That(caught, Is.InstanceOf<InvalidOperationException>());
             Assert.That(_errors.CountOf(CoreErrorKind.WrongThread), Is.EqualTo(1));
         }
+    
+        // DEF-T001-arch-1: a throwing ICoreErrorSink must not wedge the bus.
+        private sealed class ThrowingSink : ICoreErrorSink
+        {
+            public int ThrowsLeft; public int Reports;
+            public void Report(CoreError error) { Reports++; if (ThrowsLeft > 0) { ThrowsLeft--; throw new InvalidOperationException("sink boom"); } }
+        }
+
+        [Test]
+        public void Bus_ThrowingErrorSink_FailsLoudly_ThenRecovers()
+        {
+            var sink = new ThrowingSink { ThrowsLeft = 1 };
+            var bus = new EventBus(sink, 10000);
+            bool fail = true;
+            var bad = new Handler<PingEvent>(e => { if (fail) throw new ArgumentException("handler boom"); });
+            var ok = new Handler<PingEvent>(null);
+            var pong = new Handler<PongEvent>(null);
+            var nested = new Handler<PingEvent>(e => bus.Publish(new PongEvent(e.Value)));
+            bus.Subscribe(nested); bus.Subscribe(bad); bus.Subscribe(ok); bus.Subscribe(pong);
+
+            var ex = Assert.Throws<InvalidOperationException>(() => bus.Publish(new PingEvent(1)));
+            Assert.That(ex.Message, Is.EqualTo("sink boom"), "the sink's failure surfaces; it is not swallowed");
+            Assert.That(pong.Calls, Is.EqualTo(0), "the rest of the faulted cascade is dropped");
+
+            fail = false;
+            bus.Publish(new PingEvent(2));
+            Assert.That(ok.Calls, Is.EqualTo(1), "the bus delivers again after the fault");
+            Assert.That(pong.Calls, Is.EqualTo(1), "nested events of the new cascade only; nothing stale from the faulted one");
+
+            fail = true;   // sink no longer throws: a throwing handler is reported and the cascade completes
+            bus.Publish(new PingEvent(3));
+            Assert.That(ok.Calls, Is.EqualTo(2));
+            Assert.That(pong.Calls, Is.EqualTo(2));
+            Assert.That(sink.Reports, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void Bus_ThrowingErrorSink_OnCascadeLimit_Recovers()
+        {
+            var sink = new ThrowingSink { ThrowsLeft = 2 };   // throws on the CascadeLimit report and on the handler report that follows
+            var bus = new EventBus(sink, 10);
+            var loop = new Handler<PingEvent>(e => bus.Publish(new PingEvent(e.Value + 1)));
+            bus.Subscribe(loop);
+            Assert.Throws<InvalidOperationException>(() => bus.Publish(new PingEvent(0)));
+            bus.Unsubscribe(loop);
+            var ok = new Handler<PingEvent>(null);
+            bus.Subscribe(ok);
+            bus.Publish(new PingEvent(0));
+            Assert.That(ok.Calls, Is.EqualTo(1), "cascade counters and the abort flag were reset");
+            for (int i = 0; i < 20; i++) bus.Publish(new PingEvent(i));
+            Assert.That(ok.Calls, Is.EqualTo(21), "no leftover cascade count: 20 more top-level publishes are under the cap");
+        }
     }
 }
