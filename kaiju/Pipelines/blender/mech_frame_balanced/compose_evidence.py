@@ -212,7 +212,13 @@ def silhouette_checks(m48, m24, side48):
     y2 = lambda r: H_M - (r + 0.5) * H_M / H2
     w2 = [int(m24[r].sum()) for r in range(H2)]
     out["24px_row_widths_top_to_bottom"] = w2
-    out["24px_widest_row_m"] = round(y2(int(np.argmax(w2))), 1)
+    out["24px_widest_row_m"] = round(y2(int(np.argmax(w2))), 1)   # by filled-pixel count (ties: topmost row)
+    ext2 = [(lambda c: int(c[-1] - c[0] + 1) if len(c) else 0)(np.where(m24[r])[0]) for r in range(H2)]
+    out["24px_row_extents_top_to_bottom"] = ext2
+    top_ext = max(ext2)
+    out["24px_widest_extent_px"] = top_ext
+    out["24px_widest_extent_first_row_m"] = round(y2(ext2.index(top_ext)), 1)
+    out["24px_top_mass_extent_px"] = ext2[1] if len(ext2) > 1 else 0
     out["24px_top_row_width_px"] = w2[0]
     out["24px_leg_rows_with_gap"] = sum(1 for r in range(H2) if 5 <= y2(r) <= 37 and len(runs(m24[r, m24.shape[1] // 3: 2 * m24.shape[1] // 3])) >= 2)
     # side 48: toe and heel project past the shank
