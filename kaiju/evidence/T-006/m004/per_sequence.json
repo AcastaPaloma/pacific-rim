@@ -1,0 +1,310 @@
+{
+ "tool_commit": "17ce5cf",
+ "registry": "M-004@v1.1",
+ "registry_sha256": "5f39e5531f9eb95e0ab713f2e70cf1c53e987672d2767e48848e85a73a3ebdab",
+ "modes": {
+  "direction": {
+   "hero_orbit": {
+    "class": "Y1",
+    "group": "Y",
+    "lag": 2,
+    "frames": 120,
+    "speed_px_per_frame": 0.605042207375526,
+    "note": "measured 0.6050 px/frame; nearest nominal Y1 (0.25), off by 142% (> 10 % class tolerance); threshold group Y",
+    "interleaved_px": 4404464,
+    "valid_share": 0.9905664757271396,
+    "S_pair_max": 0.10659026682696061,
+    "submeasures": {
+     "M-004.S_px.Y": {
+      "value": 0.07291767758416173,
+      "threshold_max": 0.01,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "MISS"
+     },
+     "M-004.C_px.Y": {
+      "value": 0.13884088560580846,
+      "threshold_max": 0.01,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "MISS"
+     },
+     "M-004.F.Y": {
+      "value": 0.013117366609928207,
+      "threshold_max": 0.001,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "MISS"
+     }
+    },
+    "profile": "slate_teal",
+    "viewpoint": "hero"
+   },
+   "hero_pushin": {
+    "class": "T1",
+    "group": "T12",
+    "lag": 8,
+    "frames": 120,
+    "speed_px_per_frame": 0.13859200595825688,
+    "note": "measured 0.1386 px/frame; nearest nominal T1 (0.1), off by 39% (> 10 % class tolerance); threshold group T12",
+    "interleaved_px": 4260014,
+    "valid_share": 0.9917551945546739,
+    "S_pair_max": 0.0996652012703578,
+    "submeasures": {
+     "M-004.S_px.T12": {
+      "value": 0.08741147989187996,
+      "threshold_max": 0.12,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "pass"
+     },
+     "M-004.C_px.T12": {
+      "value": 0.16379704167650644,
+      "threshold_max": 0.15,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "MISS"
+     },
+     "M-004.F.T12": {
+      "value": 0.004167385732113961,
+      "threshold_max": 0.005,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "pass"
+     }
+    },
+    "profile": "slate_teal",
+    "viewpoint": "hero"
+   },
+   "hero_static": {
+    "class": "S0",
+    "group": "S0",
+    "lag": 1,
+    "frames": 30,
+    "speed_px_per_frame": 0.0,
+    "note": null,
+    "interleaved_px": 1088747,
+    "valid_share": 1.0,
+    "S_pair_max": 0.0,
+    "submeasures": {
+     "M-004.S0": {
+      "value": 0.0,
+      "threshold_max": 0.0,
+      "threshold_status": "derived",
+      "result": "pass"
+     },
+     "M-004.C_px.S0": {
+      "value": 0.0,
+      "threshold_max": 0.0,
+      "threshold_status": "derived",
+      "result": "pass"
+     },
+     "M-004.F.S0": {
+      "value": 0.0,
+      "threshold_max": 0.0,
+      "threshold_status": "derived",
+      "result": "pass"
+     }
+    },
+    "profile": "slate_teal",
+    "viewpoint": "hero"
+   }
+  },
+  "hybrid": {
+   "hero_orbit": {
+    "class": "Y1",
+    "group": "Y",
+    "lag": 2,
+    "frames": 120,
+    "speed_px_per_frame": 0.605042207375526,
+    "note": "measured 0.6050 px/frame; nearest nominal Y1 (0.25), off by 142% (> 10 % class tolerance); threshold group Y",
+    "interleaved_px": 3552452,
+    "valid_share": 0.9905664757271396,
+    "S_pair_max": 0.06246053339362142,
+    "submeasures": {
+     "M-004.S_px.Y": {
+      "value": 0.05021544901448365,
+      "threshold_max": 0.01,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "MISS"
+     },
+     "M-004.C_px.Y": {
+      "value": 0.08512999746435328,
+      "threshold_max": 0.01,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "MISS"
+     },
+     "M-004.F.Y": {
+      "value": 0.015602563324546345,
+      "threshold_max": 0.001,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "MISS"
+     }
+    },
+    "profile": "slate_teal",
+    "viewpoint": "hero"
+   },
+   "hero_pushin": {
+    "class": "T1",
+    "group": "T12",
+    "lag": 8,
+    "frames": 120,
+    "speed_px_per_frame": 0.13859200595825688,
+    "note": "measured 0.1386 px/frame; nearest nominal T1 (0.1), off by 39% (> 10 % class tolerance); threshold group T12",
+    "interleaved_px": 3370907,
+    "valid_share": 0.9917551945546739,
+    "S_pair_max": 0.07790352879077204,
+    "submeasures": {
+     "M-004.S_px.T12": {
+      "value": 0.07443811826713957,
+      "threshold_max": 0.12,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "pass"
+     },
+     "M-004.C_px.T12": {
+      "value": 0.10853141546890817,
+      "threshold_max": 0.15,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "pass"
+     },
+     "M-004.F.T12": {
+      "value": 0.007954689373495841,
+      "threshold_max": 0.005,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "MISS"
+     }
+    },
+    "profile": "slate_teal",
+    "viewpoint": "hero"
+   },
+   "hero_static": {
+    "class": "S0",
+    "group": "S0",
+    "lag": 1,
+    "frames": 30,
+    "speed_px_per_frame": 0.0,
+    "note": null,
+    "interleaved_px": 879077,
+    "valid_share": 1.0,
+    "S_pair_max": 0.0,
+    "submeasures": {
+     "M-004.S0": {
+      "value": 0.0,
+      "threshold_max": 0.0,
+      "threshold_status": "derived",
+      "result": "pass"
+     },
+     "M-004.C_px.S0": {
+      "value": 0.0,
+      "threshold_max": 0.0,
+      "threshold_status": "derived",
+      "result": "pass"
+     },
+     "M-004.F.S0": {
+      "value": 0.0,
+      "threshold_max": 0.0,
+      "threshold_status": "derived",
+      "result": "pass"
+     }
+    },
+    "profile": "slate_teal",
+    "viewpoint": "hero"
+   }
+  },
+  "screen": {
+   "hero_orbit": {
+    "class": "Y1",
+    "group": "Y",
+    "lag": 2,
+    "frames": 120,
+    "speed_px_per_frame": 0.605042207375526,
+    "note": "measured 0.6050 px/frame; nearest nominal Y1 (0.25), off by 142% (> 10 % class tolerance); threshold group Y",
+    "interleaved_px": 4404889,
+    "valid_share": 0.9905664757271396,
+    "S_pair_max": 0.21457691469828524,
+    "submeasures": {
+     "M-004.S_px.Y": {
+      "value": 0.18008366876687174,
+      "threshold_max": 0.01,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "MISS"
+     },
+     "M-004.C_px.Y": {
+      "value": 0.5098378922061579,
+      "threshold_max": 0.01,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "MISS"
+     },
+     "M-004.F.Y": {
+      "value": 0.06790741826262092,
+      "threshold_max": 0.001,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "MISS"
+     }
+    },
+    "profile": "slate_teal",
+    "viewpoint": "hero"
+   },
+   "hero_pushin": {
+    "class": "T1",
+    "group": "T12",
+    "lag": 8,
+    "frames": 120,
+    "speed_px_per_frame": 0.13859200595825688,
+    "note": "measured 0.1386 px/frame; nearest nominal T1 (0.1), off by 39% (> 10 % class tolerance); threshold group T12",
+    "interleaved_px": 4262758,
+    "valid_share": 0.9917551945546739,
+    "S_pair_max": 0.1005021980944633,
+    "submeasures": {
+     "M-004.S_px.T12": {
+      "value": 0.08746515323386846,
+      "threshold_max": 0.12,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "pass"
+     },
+     "M-004.C_px.T12": {
+      "value": 0.16420908786678265,
+      "threshold_max": 0.15,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "MISS"
+     },
+     "M-004.F.T12": {
+      "value": 0.00425184391838787,
+      "threshold_max": 0.005,
+      "threshold_status": "assumed_pending_calibration",
+      "result": "pass"
+     }
+    },
+    "profile": "slate_teal",
+    "viewpoint": "hero"
+   },
+   "hero_static": {
+    "class": "S0",
+    "group": "S0",
+    "lag": 1,
+    "frames": 30,
+    "speed_px_per_frame": 0.0,
+    "note": null,
+    "interleaved_px": 1091792,
+    "valid_share": 1.0,
+    "S_pair_max": 0.3075925925925926,
+    "submeasures": {
+     "M-004.S0": {
+      "value": 0.010606641123882503,
+      "threshold_max": 0.0,
+      "threshold_status": "derived",
+      "result": "MISS"
+     },
+     "M-004.C_px.S0": {
+      "value": 0.0071698638568518545,
+      "threshold_max": 0.0,
+      "threshold_status": "derived",
+      "result": "MISS"
+     },
+     "M-004.F.S0": {
+      "value": 0.0,
+      "threshold_max": 0.0,
+      "threshold_status": "derived",
+      "result": "pass"
+     }
+    },
+    "profile": "slate_teal",
+    "viewpoint": "hero"
+   }
+  }
+ }
+}

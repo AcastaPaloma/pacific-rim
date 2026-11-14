@@ -1,4 +1,4 @@
-M-004 is INCOMPLETE in all three anchoring modes (direction, hybrid, screen): the tool cannot score any orbit or push-in sequence, and the static frame is bit-identical in direction and hybrid but not in screen.
+Per-sequence (library functions): static is exact in direction and hybrid but not screen, push-in and orbit each miss at least one Assumed threshold in every mode (orbit misses all three), and the full M-004 gate is INCOMPLETE because the set has one profile and one viewpoint by design (T-004 holds the full gate).
 - direction: INCOMPLETE (exit 3). No M-004 sub-measure was evaluated; the static frame is bit-identical (30/30 frames, one SHA-256).
 - hybrid: INCOMPLETE (exit 3). No M-004 sub-measure was evaluated; the static frame is bit-identical (30/30 frames, one SHA-256).
 - screen: INCOMPLETE (exit 3). No M-004 sub-measure was evaluated; the static frame is NOT bit-identical (frame 0 differs from frames 1-29).
@@ -66,3 +66,43 @@ Reports: `evidence/T-006/m004/{direction,hybrid,screen}/report.json.gz` (gzipped
 
 - The orbit and push-in values, the S_px/C_px/F sub-measures, and any pass/miss verdict need the S0/T1/T2/T3/Y1/Y2 sequences for 3 profiles x 2 viewpoints. These are not in the captures provided. Re-run `m004` once those captures exist.
 - The sequence-to-tool mapping (static→S0, push-in→T-type, orbit→Y-type) is a label only; the tool did not accept it.
+
+## Per-sequence values (library functions, not the full M-004 gate)
+
+Values come from `kaiju_metrics.style.m004.sequence_metrics` (called per sequence; no re-implemented maths) against the registry M-004@v1.1 thresholds (`max`, status assumed_pending_calibration for T/Y; derived for S0). hero_pushin is scored as a translation sequence (group T12), hero_orbit as a yaw sequence (group Y), hero_static as S0. A miss is shown as MISS.
+
+Fixed inputs, not in the sidecar: the sidecar speed is 0 for scripted sequences, so the speed is the library's own `measured_speed` (600 m reference depth): hero_pushin 0.1386 px/frame (nearest nominal T1 0.1, off by 39 %), hero_orbit 0.6050 px/frame (nearest nominal Y1 0.25, off by 142 %; Y2 is 1.0). Both are outside the library's +-10 % class tolerance, so the class is the nearest nominal; the threshold group is T12 and Y for either neighbour class. Lag k = ceil(1/speed) = 8 (push-in) and 2 (orbit). The viewpoint is the sidecar's `hero`; the profile is slate_teal. Static frames: 30 (below the 60 the full gate wants).
+
+| Mode | Sequence | Sub-measure | Value | Threshold (max) | Result |
+|---|---|---|---|---|---|
+| direction | hero_static | M-004.S0 | 0.000000 | 0.0 | pass |
+| direction | hero_static | M-004.C_px.S0 | 0.000000 | 0.0 | pass |
+| direction | hero_static | M-004.F.S0 | 0.000000 | 0.0 | pass |
+| direction | hero_pushin | M-004.S_px.T12 | 0.087411 | 0.12 | pass |
+| direction | hero_pushin | M-004.C_px.T12 | 0.163797 | 0.15 | MISS |
+| direction | hero_pushin | M-004.F.T12 | 0.004167 | 0.005 | pass |
+| direction | hero_orbit | M-004.S_px.Y | 0.072918 | 0.01 | MISS |
+| direction | hero_orbit | M-004.C_px.Y | 0.138841 | 0.01 | MISS |
+| direction | hero_orbit | M-004.F.Y | 0.013117 | 0.001 | MISS |
+| hybrid | hero_static | M-004.S0 | 0.000000 | 0.0 | pass |
+| hybrid | hero_static | M-004.C_px.S0 | 0.000000 | 0.0 | pass |
+| hybrid | hero_static | M-004.F.S0 | 0.000000 | 0.0 | pass |
+| hybrid | hero_pushin | M-004.S_px.T12 | 0.074438 | 0.12 | pass |
+| hybrid | hero_pushin | M-004.C_px.T12 | 0.108531 | 0.15 | pass |
+| hybrid | hero_pushin | M-004.F.T12 | 0.007955 | 0.005 | MISS |
+| hybrid | hero_orbit | M-004.S_px.Y | 0.050215 | 0.01 | MISS |
+| hybrid | hero_orbit | M-004.C_px.Y | 0.085130 | 0.01 | MISS |
+| hybrid | hero_orbit | M-004.F.Y | 0.015603 | 0.001 | MISS |
+| screen | hero_static | M-004.S0 | 0.010607 | 0.0 | MISS |
+| screen | hero_static | M-004.C_px.S0 | 0.007170 | 0.0 | MISS |
+| screen | hero_static | M-004.F.S0 | 0.000000 | 0.0 | pass |
+| screen | hero_pushin | M-004.S_px.T12 | 0.087465 | 0.12 | pass |
+| screen | hero_pushin | M-004.C_px.T12 | 0.164209 | 0.15 | MISS |
+| screen | hero_pushin | M-004.F.T12 | 0.004252 | 0.005 | pass |
+| screen | hero_orbit | M-004.S_px.Y | 0.180084 | 0.01 | MISS |
+| screen | hero_orbit | M-004.C_px.Y | 0.509838 | 0.01 | MISS |
+| screen | hero_orbit | M-004.F.Y | 0.067907 | 0.001 | MISS |
+
+Result: the static frame is exactly stable (S0, C_px.S0, F.S0 all 0) in direction and hybrid, and not in screen (S0 0.010607, C_px.S0 0.007170: MISS). Push-in: direction misses C_px.T12 only, hybrid misses F.T12 only, screen misses C_px.T12 only. Orbit misses all three Y sub-measures in every mode.
+
+Command: `/opt/miniconda3/envs/kaiju/bin/python evidence/T-006/tools/m004_per_sequence.py` (run from the repo root; writes `evidence/T-006/m004/per_sequence.json`). Tool commit: 17ce5cf (kaiju_metrics 1.0.0, registry M-004@v1.1 sha256:5f39e5531f9e).
