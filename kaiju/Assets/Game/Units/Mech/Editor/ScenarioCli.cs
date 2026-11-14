@@ -51,12 +51,17 @@ namespace Game.Units.Mech.Editor
             var mode = UnityEngine.Physics.simulationMode;
             try
             {
+                // tuning study: -variants <file> with lines "<name> <json object of walk_tuning fields>"; each scenario runs once per variant (never used for evidence captures)
+                var variants = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("", null) };
+                if (Arg("-variants") != null) { variants.Clear(); foreach (string line in File.ReadAllLines(Arg("-variants"))) { int sp = line.IndexOf(' '); if (sp > 0) variants.Add(new KeyValuePair<string, string>(line.Substring(0, sp), line.Substring(sp + 1))); } }
                 foreach (string name in names)
+                    foreach (var variant in variants)
                     for (int k = 0; k < repeat; k++)
                     {
                         EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-                        string capture = repeat > 1 ? name + "_run" + (k + 1) : name;
-                        try { var r = ScenarioRunner.Run(ScenarioLibrary.Find(name), config, dt, outDir, commit, engine, strips && k == 0, capture, Arg("-nophys") == null); summary.AppendLine(r.Line()); }
+                        string capture = (repeat > 1 ? name + "_run" + (k + 1) : name) + (variant.Key.Length > 0 ? "@" + variant.Key : "");
+                        var cfg = variant.Value == null ? config : config.WithWalk(w => JsonUtility.FromJsonOverwrite(variant.Value, w));
+                        try { var r = ScenarioRunner.Run(ScenarioLibrary.Find(name), cfg, dt, outDir, commit, engine, strips && k == 0, capture, Arg("-nophys") == null); summary.AppendLine(r.Line()); }
                         catch (Exception e) { summary.AppendLine(capture + " EXCEPTION " + e); }
                         File.WriteAllText(Path.Combine(outDir, "summary.txt"), summary.ToString());
                     }

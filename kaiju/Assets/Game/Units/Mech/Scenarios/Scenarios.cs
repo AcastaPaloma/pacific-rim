@@ -30,8 +30,8 @@ namespace Game.Units.Mech.Scenarios
     public sealed class ScenarioResult
     {
         public string Name; public double Seconds; public bool Fell; public double FellAt = -1; public LocoPhase FinalPhase; public Vector3 FinalCom; public double MeanSpeedLast10s; public int Footfalls; public double MaxExternalN, ExternalWorkJ; public double WallSeconds;
-        public int ProbeEvents, ProbeLate; public double MinComHeight = 1e9;
-        public string Line() => string.Format(CultureInfo.InvariantCulture, "{0,-22} t={1,5:F1}s fell={2} at={3:F1} phase={4} com=({5:F2},{6:F2},{7:F2}) v10={8:F2} m/s footfalls={9} probe={10}/{11}late minComH={12:F2} extMax={13:E2}N extWork={14:E2}J wall={15:F1}s", Name, Seconds, Fell, FellAt, FinalPhase, FinalCom.x, FinalCom.y, FinalCom.z, MeanSpeedLast10s, Footfalls, ProbeEvents, ProbeLate, MinComHeight, MaxExternalN, ExternalWorkJ, WallSeconds);
+        public int ProbeEvents, ProbeLate; public double MinComHeight = 1e9, MaxYawErrorDeg, MaxLateralM, PathLength;
+        public string Line() => string.Format(CultureInfo.InvariantCulture, "{0,-22} t={1,5:F1}s fell={2} at={3:F1} phase={4} com=({5:F2},{6:F2},{7:F2}) v10={8:F2} m/s path={16:F0}m yawErrMax={17:F1}deg footfalls={9} probe={10}/{11}late minComH={12:F2} extMax={13:E2}N extWork={14:E2}J wall={15:F1}s", Name, Seconds, Fell, FellAt, FinalPhase, FinalCom.x, FinalCom.y, FinalCom.z, MeanSpeedLast10s, Footfalls, ProbeEvents, ProbeLate, MinComHeight, MaxExternalN, ExternalWorkJ, WallSeconds, PathLength, MaxYawErrorDeg);
     }
 
     public static class ScenarioLibrary
@@ -116,6 +116,7 @@ namespace Game.Units.Mech.Scenarios
                     var b = unit.Body;
                     r.MaxExternalN = Math.Max(r.MaxExternalN, b.ExternalForceMagnitudeN);
                     r.MinComHeight = Math.Min(r.MinComHeight, b.Com.Y);
+                    if (!r.Fell) { r.PathLength += Math.Sqrt(b.ComVelocity.X * b.ComVelocity.X + b.ComVelocity.Z * b.ComVelocity.Z) * stepSeconds; b.GetLink(0, out var root); var fw = System.Numerics.Vector3.Transform(System.Numerics.Vector3.UnitZ, root.Rotation); double ye = Math.Abs(IntentLimiter.Wrap(Math.Atan2(fw.X, fw.Z) - unit.Command.Heading)) * 180 / Math.PI; if (ye > r.MaxYawErrorDeg) r.MaxYawErrorDeg = ye; }
                     if (!r.Fell && (unit.Phase == LocoPhase.Falling || unit.Phase == LocoPhase.Fallen)) { r.Fell = true; r.FellAt = sim.Time; }
                     if (!have10 && sim.Time >= spec.Seconds - 10) { com10 = new Vector3(b.Com.X, b.Com.Y, b.Com.Z); have10 = true; }
                     if (strip != null && sim.Time >= nextFrame && strip.Count < spec.StripFrames) { strip.Capture(sim.Time); nextFrame += spec.StripInterval; }
