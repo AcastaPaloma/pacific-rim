@@ -39,8 +39,18 @@ namespace Game.Tools.StyleCapture
 
         static CameraPose Station(Viewpoint v, int i) => v.Pose((i - 5.5f) * 22f, (i % 3) * 15f, (i - 5.5f) * 1.6f);
 
-        /// <summary>A still is taken right after a cut: the rig then renders exactly the wanted pose, with zero remainder.</summary>
-        static CameraPose OnGrid(StyleCaptureSession s, CameraPose pose) { s.Rig.Cut(); return pose; }
+        /// <summary>
+        /// The pose a still is taken from: the wanted pose with its rotation on the rotation grid. Rendered right after
+        /// a cut, the rig renders exactly this pose with zero remainder, so every still of a sequence declares the same
+        /// (zero) output offset.
+        /// </summary>
+        static CameraPose OnGrid(StyleCaptureSession s, CameraPose pose)
+        {
+            s.Rig.Cut(); s.Rig.SetScriptedPose(pose, ReferenceDepth); s.Rig.Tick(StyleCaptureSession.Dt);
+            pose = s.Rig.RenderedPose;
+            s.Rig.Cut();
+            return pose;
+        }
 
         static readonly MotionSpec Static = new MotionSpec();
         static MotionSpec Scripted(string notes) => new MotionSpec { Type = "scripted", Axis = "stations", Notes = notes };
@@ -364,10 +374,12 @@ namespace Game.Tools.StyleCapture
             s.SetProfile(profile); s.Apply();
             const float metresPerFrame = 6f;
             var motion = new MotionSpec { Type = "dolly", Axis = "camera_forward", SpeedPxPerFrame = 0.25f, SpeedSiKey = "m_per_s", SpeedSi = metresPerFrame / StyleCaptureSession.Dt, Notes = "dolly toward the 10 km layer; 0.25 px/frame is the lateral image speed 10 degrees off axis at 1.4 km" };
-            var w = s.Begin("dolly_" + profile, "eye70_D1", "M-004", motion, 180, Eye70.Name, false);
+            var baseFlags = s.Flags; s.Flags = baseFlags.With(PixelFlags.SubPixelPresent, false); s.Apply();   // one resolution block per sequence (see M004)
+            var w = s.Begin("dolly_" + profile, "eye70_D1", "M-004", motion, 180, Eye70.Name, true);
             s.Rig.Cut();
             for (int i = 0; i < 180; i++) w.FrameScripted(i, Eye70.Pose(0, i * metresPerFrame), ReferenceDepth);
             w.End();
+            s.Flags = baseFlags; s.Apply();
         }
     }
 }
