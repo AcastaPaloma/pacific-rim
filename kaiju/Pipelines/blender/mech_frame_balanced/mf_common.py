@@ -6,10 +6,12 @@ All geometry is authored in the mech_frame@v1 frame ("F"): x right, y up, z forw
 (Unity world, metres), origin on the ground midway between the feet, mech's left = -x.
 Blender is Z-up. The mapping used everywhere is
 
-    Blender (bx, by, bz) = (-Fx, -Fz, Fy)        F = (-bx, bz, -by)
+    Blender (bx, by, bz) = (Fx, Fz, Fy)          F = (bx, bz, by)
 
-so the mech faces Blender -Y (Blender's "front" view) and, after FBX export with
-forward -Z / up Y and Unity's X flip on import, faces Unity +Z with Unity == F.
+(a reflection: the frame is Unity's left-handed world, Blender is right-handed), so the mech
+faces Blender +Y with its left at Blender -X. The FBX is written Z-up (axis_forward Y, axis_up Z)
+and Unity's importer converts it with bakeAxisConversion, giving Unity world == F with identity
+rotations (verified by the EditMode test and evidence/T-007/unity_hierarchy.txt).
 
 Single source of dimensions: research/R-005/mech_frame_balanced.json (mech_frame@v1).
 """
@@ -57,12 +59,12 @@ def seg_of(name):
 
 def f2b(p):
     """frame -> Blender world"""
-    return (-p[0], -p[2], p[1])
+    return (p[0], p[2], p[1])
 
 
 def b2f(p):
     """Blender world -> frame"""
-    return (-p[0], p[2], -p[1])
+    return (p[0], p[2], p[1])
 
 
 def hex_to_linear(h):

@@ -459,7 +459,7 @@ def export_fbx(parts):
     bpy.ops.export_scene.fbx(
         filepath=C.FBX_PATH, use_selection=True, object_types={"MESH", "EMPTY"},
         apply_unit_scale=True, apply_scale_options="FBX_SCALE_ALL", global_scale=1.0,
-        bake_space_transform=True, axis_forward="-Z", axis_up="Y",
+        bake_space_transform=False, axis_forward="Y", axis_up="Z",
         mesh_smooth_type="FACE", use_mesh_modifiers=False, use_triangles=False,
         add_leaf_bones=False, bake_anim=False, use_custom_props=False,
         path_mode="STRIP", embed_textures=False, use_tspace=False)
