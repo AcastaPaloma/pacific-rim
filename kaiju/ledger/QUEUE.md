@@ -62,7 +62,7 @@ Brief `tasks/T-006.md`, spec `expectations/T-006.md` (19 criteria). Worktree `.w
 ### 6. Founders answered 2026-11-14: "defaults on all seven decisions, start T-005 round 2" (ledger, Founder answers)
 - **T-005 round 2 — IN PROGRESS** (brief `tasks/T-005.round2.md`, design `research/R-008.md`; branch `task/T-005` fast-forwarded to the WIP d8b6e57). No assist, no data change, no lower band. Steps:
   - 6.1 Corrected reference + M-NEW-c validity tests — DONE (task/T-005 dd936b9; `evidence/T-005/round2/step1.md`). Fr 0.10: joint margin 5.30° (≥5), LIPM 0.092 g (≤0.1), yaw use 0.14 (≤0.67); Fr 0.15: 5.30°, 0.081 g, 0.18. Above 0.15 the margin falls (0.175: 4.25°, 0.20: 0.62°, hip). dotnet 62/68: the 6 reds are the KnownGap tests on the legacy imp=0 reference (7 before). Carry into 6.2: the 5-row stance schedule is embedded in `ReferenceGait.cs` (move it to config/contract); `ref_waist_ff` 0.7→0.9 and `ref_waist_max_deg` 20→25 also change the legacy waist.
-  - NEXT: 6.2 (Sonnet medium; brief from the template; reads `step1.md`, `StancePosture.cs`, `LocomotionController.cs`, `ArticulatedBody.cs`, `walk_tuning.json`).
+  - Session 4 (orchestrator) started 2026-11-14. 6.2 RUNNING (Sonnet medium worker; writes `evidence/T-005/round2/step2.md`; new path behind `imp`=1, legacy imp=0 unchanged; ScenarioCli `-variants` switches `imp` per run).
   - 6.2 Stance-leg joint impedance around the reference (config gains per joint and phase), virtual forces as corrections only; dotnet tests.
   - 6.3 Trunk/arm yaw-momentum compensation (share ≥ 0.8 at Fr 0.10, waist 21–23°), yaw moment vs friction budget logged.
   - 6.4 Inverse-dynamics feed-forward if the ArticulationBody API offers it (verify against Unity docs).
