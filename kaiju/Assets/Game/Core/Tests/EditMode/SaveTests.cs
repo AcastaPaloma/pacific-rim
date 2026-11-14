@@ -279,5 +279,17 @@ namespace Game.Core.Tests
             var again = SaveCodec.Deserialize(resaved, "again");
             Assert.That(SaveCodec.Serialize(again.Document), Is.EqualTo(resaved));
         }
+    
+        // DEF-T001-arch-6
+        [Test]
+        public void Save_MissingParentDirectory_IsCreated()
+        {
+            string path = Path.Combine(_dir, "not", "yet", "world.save.json");
+            var store = new JsonFileSaveStore(path);
+            store.Save(BuildGoldenV1());
+            Assert.That(File.Exists(path), Is.True);
+            Assert.That(File.Exists(store.TempPath), Is.False);
+            Assert.That(store.Load().Status, Is.EqualTo(SaveLoadStatus.Ok));
+        }
     }
 }

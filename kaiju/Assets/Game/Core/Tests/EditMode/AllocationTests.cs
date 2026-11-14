@@ -127,5 +127,29 @@ namespace Game.Core.Tests
                 + " ns/delivery=" + (nsPerPublish / subscribers).ToString("F1", System.Globalization.CultureInfo.InvariantCulture) + " (n=" + n + ")");
             Assert.That(nsPerPublish, Is.GreaterThan(0));
         }
+    
+        // DEF-T001-perf-1: a burst deeper than the warm-up. The first burst grows the queue and ring; the second must not allocate.
+        private sealed class BurstPublisher : IEventHandler<PingEvent>
+        {
+            private readonly IEventBus _bus; private readonly int _n;
+            public BurstPublisher(IEventBus bus, int n) { _bus = bus; _n = n; }
+            public void Handle(in PingEvent e) { for (int i = 0; i < _n; i++) _bus.Publish(new PongEvent(i)); }
+        }
+
+        [TestCase(5000)]
+        public void Bus_Burst_SecondBurstAllocatesNothing(int burst)
+        {
+            var bus = new EventBus(new CollectingErrorSink(), 10000);
+            bus.Subscribe<PingEvent>(new BurstPublisher(bus, burst));
+            var pong = new Counter<PongEvent>();
+            bus.Subscribe(pong);
+            var first = AllocMeter.Measure(() => bus.Publish(new PingEvent(0)));
+            var second = AllocMeter.Measure(() => bus.Publish(new PingEvent(1)));
+            string scenario = "burst of " + burst + " nested events in one cascade";
+            Evidence.Line("alloc.txt", scenario + ": first burst -> " + first + "; second burst -> " + second);
+            Assert.That(pong.Calls, Is.EqualTo(2L * burst));
+            if (second.Bytes >= 0) Assert.That(second.Bytes, Is.EqualTo(0), scenario);
+            if (second.Count >= 0) Assert.That(second.Count, Is.EqualTo(0), scenario);
+        }
     }
 }

@@ -149,6 +149,8 @@ namespace Game.Core
             byte[] bytes = new UTF8Encoding(false).GetBytes(SaveCodec.Serialize(document));
             try
             {
+                string parent = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(Path));
+                if (!string.IsNullOrEmpty(parent)) Directory.CreateDirectory(parent);
                 using (var stream = _openWrite(TempPath))
                 {
                     stream.Write(bytes, 0, bytes.Length);
