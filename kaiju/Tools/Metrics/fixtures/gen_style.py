@@ -369,7 +369,7 @@ def m003_haze_cal(set_dir, profile="slate_teal", W=160, H=90, scale=4, dL_mode="
 def m003_pass_set(root, set_id="m003_pass", profile="slate_teal", **kw):
     sd = os.path.join(root, set_id)
     t = m003_gameplay_frames(sd, profile=profile, **kw)
-    h = m003_haze_cal(sd, profile=profile)
+    h = m003_haze_cal(sd, profile=profile, **({"palettes": kw["palettes"]} if "palettes" in kw else {}))
     return sd, {"gameplay": t, "haze_cal": h}
 
 
@@ -545,13 +545,13 @@ def repaint(seq_dir, k, index_img, palettes=PALETTES, out_override=None):
 
 
 def write_test_palettes(path, base=PALETTES):
-    """palette_set@v1 copy plus profile `test_many`: the slate_teal ramp, 12 neutral greys (L* 8..96, steps >= 8)
-    and 3 saturated hues (red, green, blue). Used to build d-i / d-ii negatives."""
+    """palette_set@v1 copy plus profile `test_many`: the slate_teal ramp, 13 neutral greys outside the ramp L* range
+    13 neutral greys and 3 saturated hues (red, green, blue). Used to build d-i / d-ii negatives."""
     from skimage.color import rgb2lab
     with open(base) as f:
         pj = json.load(f)
     cols = [c for c in pj["profiles"]["slate_teal"]["colours"] if c["role"].startswith("ramp_")]
-    greys = ["#%02x%02x%02x" % (v, v, v) for v in (14, 30, 52, 74, 96, 118, 140, 162, 184, 206, 228, 250)]
+    greys = ["#%02x%02x%02x" % (v, v, v) for v in (7, 24, 36, 121, 134, 147, 160, 174, 187, 201, 215, 232, 249)]
     hues = ["#c03020", "#20a040", "#2040c0"]
     for h in greys + hues:
         lab = rgb2lab(hex_rgb(h)[None, None, :] / 255.0)[0, 0]
