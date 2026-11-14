@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """T-005 plots from gait_log@v1: centre of mass against the feet (C6: the CoM leads each step and is caught by the landing foot), and speed against command.
-Usage: python Tools/T005/plots.py <evidence dir> <capture> [<capture> ...]   (kaiju conda env)"""
+Usage: python Tools/PhysicsMetrics/plots.py <evidence dir> <capture> [<capture> ...]   (kaiju conda env)"""
 import gzip, json, os, sys
 import matplotlib
 matplotlib.use("Agg")

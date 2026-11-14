@@ -491,9 +491,10 @@ namespace Game.Units.Mech
                 {
                     // tracked reference: arms against their own legs and the trunk against the limbs' angular momentum (R-007 change 4)
                     var smp = _ref.Sample((_stance == LeftLeg ? 0 : 0.5) + 0.5 * Math.Min(1, _time / _stepT));
-                    if (d == _armShoulderFlex[0]) target += (smp.ArmFlexionL - target) * _t.ref_track;
-                    if (d == _armShoulderFlex[1]) target += (smp.ArmFlexionR - target) * _t.ref_track;
-                    if (d == _waistYaw) { Track(d, -(smp.WaistYaw + smp.PelvisYaw) * _t.ref_track, Vector3.Zero, default, true); continue; }   // anatomical waist rotation is positive to the left; the reference yaw is positive to the right
+                    double trackUpper = _t.ref_track * _t.ref_track_upper;
+                    if (d == _armShoulderFlex[0]) target += (smp.ArmFlexionL - target) * trackUpper;
+                    if (d == _armShoulderFlex[1]) target += (smp.ArmFlexionR - target) * trackUpper;
+                    if (d == _waistYaw && trackUpper > 0) { Track(d, -(smp.WaistYaw + smp.PelvisYaw) * trackUpper, Vector3.Zero, default, true); continue; }   // anatomical waist rotation is positive to the left; the reference yaw is positive to the right
                 }
                 else if (d == _waistYaw && _t.trunk_counter_gain != 0)
                 {
@@ -589,11 +590,12 @@ namespace Game.Units.Mech
                 var a0 = _ref.Sample(duty + 1e-9).L; var a1 = _ref.Sample(1 - 1e-9).L; var au = _ref.Sample(duty + u * (1 - duty) * (1 - 1e-9)).L;
                 double T2 = 2 * _ref.StepTime, w0 = a0.Ankle.Z + _ref.Speed * duty * T2, w1 = a1.Ankle.Z + _ref.Speed * T2, wu = au.Ankle.Z + _ref.Speed * (duty + u * (1 - duty)) * T2;
                 double sRef = Math.Abs(w1 - w0) > 1e-6 ? Math.Max(0, Math.Min(1, (wu - w0) / (w1 - w0))) : s;
-                refPitch = au.FootPitch * _t.ref_track;
+                double trackSwing = _t.ref_track * _t.ref_track_swing;
+                refPitch = au.FootPitch * trackSwing * _t.ref_track_pitch;
                 // sole-centre height of the reference foot above the ground
                 double hRef = au.Ankle.Y - _ankleToSoleCentre * Math.Sin(au.FootPitch) - _ankleHeight * Math.Cos(au.FootPitch);
                 if (tau > 1) hRef = Math.Max(-_t.touchdown_overdrive_frac * _l, -(_t.touchdown_speed_tstar * _l / tStar) * (_swingTime - _tss));
-                s += (sRef - s) * _t.ref_track; height += (hRef - height) * _t.ref_track;
+                s += (sRef - s) * trackSwing; height += (hRef - height) * trackSwing;
             }
             Vector2 xz = XZ(_swingStart) + (_swingTarget - XZ(_swingStart)) * (float)s;
             float yaw = _swingStartYaw + Wrap(_swingYawTarget - _swingStartYaw) * (float)s;

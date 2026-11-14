@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """One progress-table row per gait log (fix-cycle staging): steady speed, Froude, slip (T-002 m002 on the single capture), peak foot force, peak and mean positive joint power.
-Usage: python Tools/T005/stage.py <T-002 kaiju dir> <label> <gait log> [...]   (kaiju conda env)"""
+Usage: python Tools/PhysicsMetrics/stage.py <T-002 kaiju dir> <label> <gait log> [...]   (kaiju conda env)"""
 import gzip, json, math, os, re, subprocess, sys, tempfile
 
 def rows(path):

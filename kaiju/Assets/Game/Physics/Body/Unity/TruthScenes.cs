@@ -13,7 +13,7 @@ namespace Game.Physics.Body.Unity
     /// <summary>
     /// Passive physics truth scenes for M-006@v1 (research/R-005 section 8): unit sanity, free drop, knee pendulum, two-body impact, toppling fall.
     /// No controller runs here. Initial conditions (a release height, a tilt, a pendulum angle, an approach velocity) are set once before the first step; after that only PhysX moves anything.
-    /// Each scene writes physics_log@v1 and returns scalars; thresholds are applied by Tools/T005/m006.py, not here.
+    /// Each scene writes physics_log@v1 and returns scalars; thresholds are applied by Tools/PhysicsMetrics/m006.py, not here.
     /// </summary>
     public static class TruthScenes
     {

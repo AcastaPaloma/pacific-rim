@@ -2,12 +2,12 @@
 """M-006@v1 (research/R-005 section 8) and the T-005 side tables, computed from physics_log@v1 / gait_log@v1 files and truth_scenes.json.
 
 Written for T-005 because T-002's Tools/Metrics covers M-001..M-004 only. Thresholds are copied from R-005 section 8 and are not adjustable here.
-Usage: python Tools/T005/m006.py <evidence dir> [--commit <hash>]     (kaiju conda env; reads .jsonl or .jsonl.gz)
+Usage: python Tools/PhysicsMetrics/m006.py <evidence dir> [--commit <hash>]     (kaiju conda env; reads .jsonl or .jsonl.gz)
 Writes <evidence dir>/metrics/M-006.json, footfall_latency.json, reported.json and prints one line per sub-measure.
 """
 import gzip, json, math, os, sys
 
-TOOL = "Tools/T005/m006.py v1"
+TOOL = "Tools/PhysicsMetrics/m006.py v1"
 
 def rows(path):
     if not os.path.exists(path) and os.path.exists(path + ".gz"): path += ".gz"

@@ -40,7 +40,7 @@ Every segment is a GameObject named by its segment id (`pelvis`, `thigh_L`, ...)
 ## Tests
 - Engine-free (Unity EditMode and `dotnet test DotnetTests/Physics.Body.Tests`): frame loads and validates, masses sum to the total, unknown schema refused, scaling rule, effective inertias against the R-005 table, gain rule, tuning scaling, contact hysteresis, rotation vectors, quaternion convention, JSON writer.
 - PlayMode: single-joint drive units and sign (R-005 R1), body built from config with read-back, passive drop energy bound, one `FootContact` per contact in the contact step, the mass-unit limit.
-- Metrics: M-006.1, .2, .3, .5 from `TruthScenesCli`; M-006.4, .6, .7, .8 from the unit's captures (`Tools/T005/m006.py`).
+- Metrics: M-006.1, .2, .3, .5 from `TruthScenesCli`; M-006.4, .6, .7, .8 from the unit's captures (`Tools/PhysicsMetrics/m006.py`).
 
 Owner role: implementation/mech (`impl-mech`).
 
