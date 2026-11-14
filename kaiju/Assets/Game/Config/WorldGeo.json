@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "_doc": "World.Geo import tuning (T-003). terrainMaxErrorM is the RTIN split threshold; the measured result on L0_30_36 is max 0.196 m, RMS 0.033 m vertical vs the 1 m geo_tile surface at 589,457 triangles (Pipelines/geo sweep in evidence/T-003). Physics uses the full-resolution surface.",
+  "settings": {
+    "terrainMaxErrorM": 0.1,
+    "terrainChunkCells": 256,
+    "buildingSkirtM": 2.0,
+    "buildingChunkM": 256,
+    "waterChunkCells": 512
+  },
+  "tileRoot": "StreamingAssets/Geo/tiles/v1",
+  "defaultTile": "L0_30_36"
+}
