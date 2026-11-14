@@ -74,14 +74,17 @@ def test_M002_3_boundary(tmp_path, dt, exp):
     assert sm(run_specs(tmp_path, [sp], metric="m002"), "M-002.3")["status"] == exp
 
 
-@pytest.mark.parametrize("every,exp", [(103, "PASS"), (98, "FAIL")])
+@pytest.mark.parametrize("every,exp", [(51, "PASS"), (49, "FAIL")])
 def test_M002_4_boundary(tmp_path, every, exp):
     """Threshold 0.99 agreement: boundary on the disagreement share 1 % (0.98 % pass / 1.02 % fail):
     flipping foot L on every k-th step disagrees on 1 / (2 k) of the foot-steps."""
     sp = walk()
-    sp.flag_flip_every = every // 2 if exp == "FAIL" else every
+    sp.flag_flip_every = every
+    recs, truth = G.build(sp)
+    dis = len(range(0, truth["N"], every)) / (2 * truth["N"])
+    assert abs(dis - 0.01 * (0.98 if exp == "PASS" else 1.02)) < 0.0003
     rep = run_specs(tmp_path, [sp], metric="m002")
-    assert sm(rep, "M-002.4")["status"] == exp
+    assert abs(sm(rep, "M-002.4")["value"] - (1 - dis)) < 1e-12 and sm(rep, "M-002.4")["status"] == exp
 
 
 def test_M002_4_known_agreement(tmp_path):

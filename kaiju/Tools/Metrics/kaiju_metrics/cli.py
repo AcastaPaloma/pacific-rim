@@ -100,6 +100,7 @@ def build_parser():
     pb = sub.add_parser("baseline", help="run the still-applicable M-003 measures on the 11 reference panels")
     pb.add_argument("--out", required=True)
     pb.add_argument("--registry")
+    pb.add_argument("--panels", help="comma-separated panel ids (default: all 11)")
     return ap
 
 

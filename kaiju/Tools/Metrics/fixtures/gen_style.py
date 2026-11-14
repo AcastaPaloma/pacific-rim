@@ -1,4 +1,7 @@
-"""Deterministic synthetic style_capture@v1 generator with construction-known truth (fixtures for M-003 / M-004).
+"""Deterministic synthetic style_capture@v1 generator
+
+Usage: python fixtures/gen_style.py <out_dir> [--m003 | --m004]   (default: the small contract example set)
+ with construction-known truth (fixtures for M-003 / M-004).
 
 Independent of kaiju_metrics (never imports it): own camera model (Unity conventions), own tiny ray-caster, own
 quantiser and dither masks, PIL for PNG writing, skimage only to turn Lab ramps into sRGB for unquantised controls.
@@ -536,12 +539,6 @@ def example_capture_set(root):
     return sd
 
 
-if __name__ == "__main__":
-    import sys
-    out = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "out")
-    print(example_capture_set(out))
-
-
 # ------------------------------------------------------------------------------------------------ editing helpers
 def read_index(seq_dir, k):
     return np.array(Image.open(os.path.join(seq_dir, f"f{k:06d}_index.png"))).astype(np.int32)
@@ -581,3 +578,15 @@ def write_test_palettes(path, base=PALETTES):
     with open(path, "w") as f:
         json.dump(pj, f)
     return path
+
+
+if __name__ == "__main__":
+    import sys
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    out = args[0] if args else os.path.join(HERE, "out")
+    if "--m003" in sys.argv:
+        print(m003_pass_set(out)[0])
+    elif "--m004" in sys.argv:
+        print(m004_set(out)[0])
+    else:
+        print(example_capture_set(out))

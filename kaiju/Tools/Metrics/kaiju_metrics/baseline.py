@@ -122,7 +122,7 @@ def _status(v, op, t, t2=None):
     return judge(v, op, t, t2)[0]
 
 
-def baseline(out_dir, registry=None):
+def baseline(out_dir, registry=None, panels=None):
     reg = load_registry("M-003", registry)
     pj = load_json_file(PANELS_JSON)["panels"]
     pal = load_json_file(PALETTES_JSON)
@@ -132,6 +132,8 @@ def baseline(out_dir, registry=None):
     os.makedirs(out_dir, exist_ok=True)
     rows = []
     for pid, info in pj.items():
+        if panels and pid not in panels:
+            continue
         m = panel_measures(pid, info, pal, reg)
         sm = {
             "M-003.a.output": {"status": _status(m.get("raw_vs_profile", m["raw_vs_own_palette"])["2"], ">=",
@@ -216,6 +218,6 @@ def comparison_table(rows):
 
 
 def baseline_cli(args):
-    rows, table = baseline(args.out, args.registry)
+    rows, table = baseline(args.out, args.registry, args.panels.split(",") if args.panels else None)
     print(table, end="")
     return 0
