@@ -1,0 +1,17 @@
+M-004@v1  [m004ab_direction_nosnap]  registry v1.1 sha256:5f39e5531f9e  tool 1.0.0
+VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 1
+  FAIL           [G] M-004.F.T12      0.005456 share  <= 0.005  margin -0.0004562 seed-threshold
+      where: eye70_T2 (T2, slate_teal/eye70, lag 4)
+  PASS           [G] M-004.S0         0 share  <= 0  margin 0
+  PASS           [G] M-004.C_px.S0    0 share  <= 0  margin 0
+  PASS           [G] M-004.F.S0       0 share  <= 0  margin 0
+  PASS           [G] M-004.S_px.Y     0.001225 share  <= 0.01  margin 0.008775 seed-threshold
+  PASS           [G] M-004.C_px.Y     0.002048 share  <= 0.01  margin 0.007952 seed-threshold
+  PASS           [G] M-004.F.Y        0.0001005 share  <= 0.001  margin 0.0008995 seed-threshold
+  PASS           [G] M-004.S_px.T12   0.02201 share  <= 0.12  margin 0.09799 seed-threshold
+  PASS           [G] M-004.C_px.T12   0.06331 share  <= 0.15  margin 0.08669 seed-threshold
+  PASS           [G] M-004.S_px.T3    0.02131 share  <= 0.12  margin 0.09869 seed-threshold
+  PASS           [G] M-004.C_px.T3    0.06658 share  <= 0.15  margin 0.08342 seed-threshold
+  PASS           [G] M-004.F.T3       0.01025 share  <= 0.08  margin 0.06975 seed-threshold
+  inputs: 5767 files hashed; report.json holds every value, threshold and hash
+report: evidence/T-004/metrics/m004ab/direction_nosnap/report.json

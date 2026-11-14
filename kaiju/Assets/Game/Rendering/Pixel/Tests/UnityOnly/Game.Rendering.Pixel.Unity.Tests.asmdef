@@ -1,0 +1,30 @@
+{
+    "name": "Game.Rendering.Pixel.Unity.Tests",
+    "rootNamespace": "Game.Rendering.Pixel.Tests",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Game.Core.Contracts",
+        "Game.Rendering.Pixel.Contracts",
+        "Game.Rendering.Pixel.Maths",
+        "Game.Rendering.Pixel",
+        "Game.Rendering.Pixel.Editor",
+        "Unity.RenderPipelines.Core.Runtime",
+        "Unity.RenderPipelines.Universal.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
