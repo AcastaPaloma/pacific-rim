@@ -4,16 +4,16 @@
 
 ![Hero frame: slate_teal, current hero framing](hero.png)
 
-Look at the board for all palettes and framings: [review board](../../evidence/T-006/boards/review_board.png). The wider framing passes the depth test: `M003/M003-12.png`.
+Look at the board for all palettes and framings: [review board](../../evidence/T-006/boards/review_board.png). The hero (slate_teal) and the wider framing both pass the depth test; the other four palettes do not yet (`M003/M003-12.png` is the wider framing).
 
 ## Decisions (default first; say "defaults" to accept all)
 
-1. **Approve the style frame as M0's look?** Default: approve, with the wider framing as hero (the current hero misses the depth-value span). Otherwise: the look stays open and the pipeline/palette work repeats until a framing passes.
-2. **Palette profile.** Default: `slate_teal`. Otherwise: another of the five (slate_crimson, warm_rust_sepia, warm_amber_haze, lavender_peach) becomes the base and all captures are redone.
+1. **Approve the style frame as M0's look?** Default: approve the hero as shown (slate_teal; it passes the depth-value span at 20.3 L*). Otherwise: the look stays open and pipeline/palette work repeats.
+2. **Palette profile.** Default: `slate_teal`. Otherwise: another of the five becomes the base; note the other four currently miss the depth-value span (c1) in this scene and need haze tuning first.
 3. **Dither look and anchoring.** Default: dither on, anchored to `direction` (the shipping mode from T-004 cycle 2). Hybrid passes translation but not yaw; screen mode is not stable (Q-060). Otherwise: hybrid or screen need more work before they can ship.
 4. **Internal resolution.** Default: 480x270 at 1080p, integer scale 4 (5 at 1440p). Otherwise: a finer grid looks less pixel-art and costs more per frame; a coarser one loses the mech silhouette.
 5. **Walk gate (Q-053).** Default: keep T-005 unmerged and approve round 2 with R-008's approach, no assists. Otherwise: merging now ships a walk below target pace (3.07 m/s versus 9 m/s gate), or the gate is relaxed.
-6. **Default framing for the first image.** Default: wider. Otherwise: closer also passes depth; the current hero and waterfront do not.
+6. **Default framing for the first image.** Default: the current hero (mech about half the frame, Salesforce Tower behind). Otherwise: closer or wider (both pass depth); the waterfront view fails depth and sky share.
 7. **Calibration ratings: now or later?** Default: now, about 40 minutes with the sheets. M-005 (city views) cannot be calibrated yet; the tool supports M-001 to M-004. Otherwise: later, and the style gates stay unconfirmed by human ratings.
 
 ## Files
