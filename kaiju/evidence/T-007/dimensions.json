@@ -4,7 +4,7 @@
  "config": "research/R-005/mech_frame_balanced.json",
  "frame": "x right, y up, z forward (Unity world, left-handed)",
  "script": "Pipelines/blender/mech_frame_balanced/measure.py",
- "commit_at_run": "d2a2249",
+ "commit_at_run": "d8c34e3",
  "parts": {
   "MechBalanced_foot_L": {
    "segment_id": "foot_L",
@@ -304,14 +304,14 @@
    "origin_deviation_m": 0.0,
    "closed_manifold": true,
    "non_manifold_edges": 0,
-   "volume_m3": 225.27,
+   "volume_m3": 207.9,
    "centroid": [
-    -0.0,
-    76.205,
-    -0.374
+    0.0,
+    76.423,
+    -0.396
    ],
-   "convex_hull_ratio": 1.272,
-   "triangles": 92,
+   "convex_hull_ratio": 1.257,
+   "triangles": 100,
    "materials": [
     "mech_primary",
     "mech_joint"
@@ -329,7 +329,7 @@
    "bbox_min": [
     -8.0,
     39.0,
-    -8.9
+    -9.4
    ],
    "bbox_max": [
     8.0,
@@ -349,14 +349,14 @@
    "origin_deviation_m": 0.0,
    "closed_manifold": true,
    "non_manifold_edges": 0,
-   "volume_m3": 916.58,
+   "volume_m3": 981.17,
    "centroid": [
-    0.0,
-    43.689,
-    -4.548
+    -0.0,
+    43.772,
+    -4.912
    ],
-   "convex_hull_ratio": 1.569,
-   "triangles": 270,
+   "convex_hull_ratio": 1.562,
+   "triangles": 234,
    "materials": [
     "mech_primary"
    ],
@@ -483,14 +483,14 @@
    "origin_deviation_m": 0.0,
    "closed_manifold": true,
    "non_manifold_edges": 0,
-   "volume_m3": 1018.57,
+   "volume_m3": 1009.84,
    "centroid": [
-    -6.316,
-    34.887,
-    0.959
+    -6.345,
+    34.898,
+    0.928
    ],
-   "convex_hull_ratio": 1.228,
-   "triangles": 270,
+   "convex_hull_ratio": 1.22,
+   "triangles": 278,
    "materials": [
     "mech_primary",
     "mech_secondary",
@@ -529,14 +529,14 @@
    "origin_deviation_m": 0.0,
    "closed_manifold": true,
    "non_manifold_edges": 0,
-   "volume_m3": 1018.57,
+   "volume_m3": 1009.84,
    "centroid": [
-    6.316,
-    34.887,
-    0.959
+    6.345,
+    34.898,
+    0.928
    ],
-   "convex_hull_ratio": 1.228,
-   "triangles": 270,
+   "convex_hull_ratio": 1.22,
+   "triangles": 278,
    "materials": [
     "mech_primary",
     "mech_secondary",
@@ -575,14 +575,14 @@
    "origin_deviation_m": 0.0,
    "closed_manifold": true,
    "non_manifold_edges": 0,
-   "volume_m3": 2991.86,
+   "volume_m3": 2877.2,
    "centroid": [
     -0.001,
-    64.184,
-    -0.907
+    63.848,
+    -0.797
    ],
-   "convex_hull_ratio": 1.57,
-   "triangles": 598,
+   "convex_hull_ratio": 1.578,
+   "triangles": 626,
    "materials": [
     "mech_primary",
     "mech_secondary",
@@ -983,11 +983,11 @@
   "ankle_drum_width_m": 6.8,
   "foot_length_m": 15.0,
   "foot_width_m": 10.0,
-  "total_volume_m3": 9847.2,
+  "total_volume_m3": 9762.3,
   "volume_centroid": [
    -0.0,
-   42.838,
-   -0.284
+   42.464,
+   -0.318
   ],
   "config_com": [
    0.0,
@@ -997,11 +997,11 @@
   "lr_volume_diff_pct": 0.0,
   "torso_centroid_x_m": -0.001,
   "implied_mass_t": {
-   "config_density_1232.3": 12134.7,
-   "rho_1000": 9847.2,
-   "rho_2500": 24618.0
+   "config_density_1232.3": 12030.1,
+   "rho_1000": 9762.3,
+   "rho_2500": 24405.7
   },
-  "triangles_total": 2936,
+  "triangles_total": 2952,
   "material_slots": [
    "mech_accent",
    "mech_joint",
@@ -1027,8 +1027,8 @@
   "foot_width_over_H": 0.125,
   "foot_width_over_shank": 1.562,
   "stance_over_shoulder": 0.728,
-  "com_height_over_H": 0.5355,
-  "com_minus_config_over_H": 0.0037
+  "com_height_over_H": 0.5308,
+  "com_minus_config_over_H": -0.001
  },
  "feet": {
   "foot_L": {
@@ -1109,122 +1109,122 @@
  },
  "volume_fractions": {
   "pelvis": {
-   "volume_m3": 916.6,
-   "volume_fraction": 0.0931,
+   "volume_m3": 981.2,
+   "volume_fraction": 0.1005,
    "mass_fraction": 0.11,
-   "ratio": 0.846,
+   "ratio": 0.914,
    "exempt_under_2pct": false,
    "within_30pct": true
   },
   "torso": {
-   "volume_m3": 2991.9,
-   "volume_fraction": 0.3038,
+   "volume_m3": 2877.2,
+   "volume_fraction": 0.2947,
    "mass_fraction": 0.33,
-   "ratio": 0.921,
+   "ratio": 0.893,
    "exempt_under_2pct": false,
    "within_30pct": true
   },
   "head": {
-   "volume_m3": 225.3,
-   "volume_fraction": 0.0229,
+   "volume_m3": 207.9,
+   "volume_fraction": 0.0213,
    "mass_fraction": 0.02,
-   "ratio": 1.144,
+   "ratio": 1.065,
    "exempt_under_2pct": false,
    "within_30pct": true
   },
   "upper_arm_L": {
    "volume_m3": 292.9,
-   "volume_fraction": 0.0297,
+   "volume_fraction": 0.03,
    "mass_fraction": 0.032,
-   "ratio": 0.929,
+   "ratio": 0.937,
    "exempt_under_2pct": false,
    "within_30pct": true
   },
   "forearm_L": {
    "volume_m3": 332.7,
-   "volume_fraction": 0.0338,
+   "volume_fraction": 0.0341,
    "mass_fraction": 0.028,
-   "ratio": 1.207,
+   "ratio": 1.217,
    "exempt_under_2pct": false,
    "within_30pct": true
   },
   "hand_L": {
    "volume_m3": 161.0,
-   "volume_fraction": 0.0163,
+   "volume_fraction": 0.0165,
    "mass_fraction": 0.01,
-   "ratio": 1.635,
+   "ratio": 1.649,
    "exempt_under_2pct": true,
    "within_30pct": false
   },
   "thigh_L": {
-   "volume_m3": 1018.6,
+   "volume_m3": 1009.8,
    "volume_fraction": 0.1034,
    "mass_fraction": 0.115,
-   "ratio": 0.899,
+   "ratio": 0.9,
    "exempt_under_2pct": false,
    "within_30pct": true
   },
   "shank_L": {
    "volume_m3": 687.8,
-   "volume_fraction": 0.0698,
+   "volume_fraction": 0.0705,
    "mass_fraction": 0.055,
-   "ratio": 1.27,
+   "ratio": 1.281,
    "exempt_under_2pct": false,
    "within_30pct": true
   },
   "foot_L": {
    "volume_m3": 363.8,
-   "volume_fraction": 0.0369,
+   "volume_fraction": 0.0373,
    "mass_fraction": 0.03,
-   "ratio": 1.232,
+   "ratio": 1.242,
    "exempt_under_2pct": false,
    "within_30pct": true
   },
   "upper_arm_R": {
    "volume_m3": 292.9,
-   "volume_fraction": 0.0297,
+   "volume_fraction": 0.03,
    "mass_fraction": 0.032,
-   "ratio": 0.929,
+   "ratio": 0.937,
    "exempt_under_2pct": false,
    "within_30pct": true
   },
   "forearm_R": {
    "volume_m3": 332.7,
-   "volume_fraction": 0.0338,
+   "volume_fraction": 0.0341,
    "mass_fraction": 0.028,
-   "ratio": 1.207,
+   "ratio": 1.217,
    "exempt_under_2pct": false,
    "within_30pct": true
   },
   "hand_R": {
    "volume_m3": 161.0,
-   "volume_fraction": 0.0163,
+   "volume_fraction": 0.0165,
    "mass_fraction": 0.01,
-   "ratio": 1.635,
+   "ratio": 1.649,
    "exempt_under_2pct": true,
    "within_30pct": false
   },
   "thigh_R": {
-   "volume_m3": 1018.6,
+   "volume_m3": 1009.8,
    "volume_fraction": 0.1034,
    "mass_fraction": 0.115,
-   "ratio": 0.899,
+   "ratio": 0.9,
    "exempt_under_2pct": false,
    "within_30pct": true
   },
   "shank_R": {
    "volume_m3": 687.8,
-   "volume_fraction": 0.0698,
+   "volume_fraction": 0.0705,
    "mass_fraction": 0.055,
-   "ratio": 1.27,
+   "ratio": 1.281,
    "exempt_under_2pct": false,
    "within_30pct": true
   },
   "foot_R": {
    "volume_m3": 363.8,
-   "volume_fraction": 0.0369,
+   "volume_fraction": 0.0373,
    "mass_fraction": 0.03,
-   "ratio": 1.232,
+   "ratio": 1.242,
    "exempt_under_2pct": false,
    "within_30pct": true
   }

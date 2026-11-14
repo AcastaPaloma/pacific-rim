@@ -106,9 +106,9 @@ def chamfer_box(x0, x1, y0, y1, z0, z1, c):
 def recipe_pelvis():
     pieces = [
         # central core between the thighs (keel of the chest continued down), bottom edges chamfered
-        (chamfer_box(-2.15, 2.15, Y_ROOT, Y_WAIST, -4.7, 4.5, 0.5), "primary"),
+        (box(-2.15, 2.15, Y_ROOT + 1.6, Y_WAIST, -4.7, 4.5) + box(-1.3, 1.3, Y_ROOT, Y_ROOT + 0.01, -4.0, 3.8), "primary"),
         # back plate (hip actuator housing behind the thigh balls, clear of hip flexion)
-        (chamfer_box(-8.0, 8.0, Y_HIP - 2.5, Y_WAIST, -8.9, -4.55, 0.4), "primary"),
+        (chamfer_box(-8.0, 8.0, Y_HIP - 2.5, Y_WAIST, -9.4, -4.55, 0.4), "primary"),
     ]
     cutters = [sphere((0, Y_WAIST, 0), R_WAIST_BALL + GAP, 16, 9)]
     for s in (-1, 1):
@@ -124,8 +124,8 @@ def recipe_torso():
         (chest, "primary"),
         (cyl_y(0, 0, R_WAIST_BALL, Y_WAIST, yb + 0.5), "joint"),            # waist column
         (sphere((0, Y_WAIST, 0), R_WAIST_BALL), "joint"),                   # waist ball (housing)
-        (box(-3.8, 3.8, yt - 0.5, Y_NECK + 2.8, -4.5, 1.2), "joint"),       # neck collar
-        (chamfer_box(-10.0, 10.0, yt - 0.5, 73.0, -5.5, -1.5, 0.3), "primary"),  # back yoke joining the shoulder blocks
+        (cyl_y(0, -0.3, 3.0, yt - 0.5, Y_NECK + 2.8), "joint"),            # neck collar ring
+        (chamfer_box(-10.0, 10.0, yt - 0.5, 72.0, -5.5, -1.5, 0.3), "primary"),  # back yoke joining the shoulder blocks
     ]
     for s in (-1, 1):
         a = xr(s, 8.0, AX_ARM - R_SHOULDER_BALL - 0.2 + 0.0)
@@ -150,14 +150,17 @@ def recipe_torso():
                 q = c + d * a + Vector((0, b, 0)) + n * e
                 acc.append(tuple(q))
     pieces.append((acc, "accent"))
-    cutters = [cyl_y(0, 0, 1.8 + GAP, yt - 0.01, Y_NECK + 3.5)]   # neck hole through the collar
+    cutters = [cyl_y(0, 0, 1.6 + GAP, yt - 0.01, Y_NECK + 3.5)]   # neck hole through the collar
+    for s_ in (-1, 1):   # bevel the outer-bottom edge of each shoulder block: clearance for 150 deg abduction
+        cutters.append([(s_ * x, y, z) for x, y in ((13.4, 71.0), (17.0, 71.0), (17.0, 76.4)) for z in (-6.0, 0.0)])
     return pieces, cutters
 
 
 def recipe_head():
     pieces = [
-        (cyl_y(0, 0, 1.8, Y_NECK - 0.9, 75.0), "joint"),   # neck (housing of the neck pivot)
-        ([(-3.2, 74.6, -3.2), (3.2, 74.6, -3.2), (3.2, 74.6, 2.6), (-3.2, 74.6, 2.6),
+        (cyl_y(0, 0, 1.6, Y_NECK - 0.9, 75.0), "joint"),   # neck (housing of the neck pivot)
+        ([(-2.6, 74.6, -2.4), (2.6, 74.6, -2.4), (2.6, 74.6, 1.8), (-2.6, 74.6, 1.8),
+          (-3.2, 75.6, -3.2), (3.2, 75.6, -3.2), (3.2, 75.6, 2.45), (-3.2, 75.6, 2.45),
           (-3.2, 78.6, -3.2), (3.2, 78.6, -3.2), (3.2, 78.6, 2.1), (-3.2, 78.6, 2.1),
           (-2.8, Y_TOP, -2.8), (2.8, Y_TOP, -2.8), (2.8, Y_TOP, 0.9), (-2.8, Y_TOP, 0.9)], "primary"),  # flat sensor cap
         (box(-2.4, 2.4, 76.6, 77.6, 1.9, 2.6), "joint"),   # one horizontal sensor slit band
@@ -221,7 +224,10 @@ def recipe_thigh(s):
         pieces.append((box(r[0], r[1], Y_KN + 2.3, Y_KN + 10.6, 4.4, 5.8), "joint"))
     # hamstring channel up the back (same reason as the calf channel)
     cx = xr(s, ax - 2.0, ax + 2.0)
-    return pieces, [box(cx[0], cx[1], Y_KN + 4.5, Y_HIP - 4.5, -3.7, -0.7)]
+    # bevel the medial-front vertical edge: clearance for the waist ball at 120 deg hip flexion
+    m = ax - 4.2
+    bev = [(s * x, y, z) for x, z in ((m - 0.5, 4.5 - 1.6), (m - 0.5, 6.0), (m + 1.6 + 0.6, 6.0)) for y in (Y_KN, Y_HIP + 1)]
+    return pieces, [box(cx[0], cx[1], Y_KN + 4.5, Y_HIP - 4.5, -3.7, -0.7), bev]
 
 
 def recipe_shank(s):
@@ -439,6 +445,7 @@ def main():
         e.location = Vector(C.f2b(pos)) - Vector(C.f2b(SEG[parent]["proximal_joint"]))
 
     os.makedirs(C.MODEL_DIR, exist_ok=True)
+    bpy.context.preferences.filepaths.save_version = 0   # no .blend1 backups next to the LFS asset
     bpy.ops.wm.save_as_mainfile(filepath=C.BLEND_PATH, compress=False)
     export_fbx(parts)
     tris = sum(sum(len(p.vertices) - 2 for p in o.data.polygons) for o in objs.values())
