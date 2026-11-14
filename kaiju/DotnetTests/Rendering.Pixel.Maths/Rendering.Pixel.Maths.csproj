@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Mirrors the Unity assembly Game.Rendering.Pixel.Maths: .NET Standard 2.1, C# 9, references only its Contracts. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>Game.Rendering.Pixel.Maths</AssemblyName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../Assets/Game/Rendering/Pixel/Maths/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Rendering.Pixel.Contracts/Rendering.Pixel.Contracts.csproj" />
+  </ItemGroup>
+</Project>

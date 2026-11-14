@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "comment": "Per-profile renderer parameters that palette_set@v1 does not carry. 'defaults' applies to every profile; 'profiles.<id>' overrides. Keys are PaletteProfile field names. Values are Assumed, pending calibration by the style panel.",
+  "defaults": {
+    "visibilityKm": 20.0,
+    "hazeBands": 8,
+    "hazeSeamWidth": 0.75,
+    "airlightValue": 1.0,
+    "skyHorizonValue": 1.0,
+    "skyZenithValue": 0.6,
+    "skyZenithElevationDeg": 30.0,
+    "valueScale": 1.0,
+    "valueBias": 0.0,
+    "valueGamma": 1.0,
+    "accentChromaStart": 25.0,
+    "accentChromaFull": 60.0,
+    "ditherSpread": 0.6,
+    "pairPenalty": 0.25,
+    "lutCandidates": 5,
+    "lutSize": 32
+  },
+  "profiles": {
+    "warm_rust_sepia": {},
+    "warm_amber_haze": {},
+    "slate_teal": {},
+    "lavender_peach": {},
+    "slate_crimson": {}
+  }
+}
