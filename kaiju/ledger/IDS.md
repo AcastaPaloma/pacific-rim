@@ -13,3 +13,4 @@ Only the scribe and the orchestrator allocate IDs. IDs never change and are neve
 
 Defects allocate themselves: `DEF-<task>-<evaluator>-<n>`.
 Metric specs are versioned: `M-003@v1`, `M-003@v2`, …; evaluators cite the version they used.
+Reserved for M1 walk-independent planning (plans/M1.md, 2026-11-14): T-020–T-039, R-020–R-029, Q-100–Q-129, M-050–M-069; allocate in these blocks only for M1 Tracks 1–6.
