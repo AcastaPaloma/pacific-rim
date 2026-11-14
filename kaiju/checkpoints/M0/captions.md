@@ -14,7 +14,8 @@ Captions name only what the image is. Branch, commit, tool, command, control/tog
 - M003-08: palette-quantised render, one frame, rate overall style quality.
 - M003-09: palette-quantised render, one frame, rate overall style quality.
 - M003-10: palette-quantised render, one frame, rate overall style quality.
-- M003-11, M003-12: reserved for the T-006 hero frames (TODO, not yet added).
+- M003-11: palette-quantised render, one frame, rate overall style quality.
+- M003-12: palette-quantised render, one frame, rate overall style quality.
 - M003-A1..A4 (anchors/): example frames for scale calibration; two are clearly good and two clearly bad (the key says which after rating).
 
 ## M-004 sequences (GIF, 60 frames at 50 fps, x2 integer scale; lossless frames in the git-ignored bulk/ folder)

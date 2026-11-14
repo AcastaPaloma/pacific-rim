@@ -497,11 +497,59 @@
  },
  "M003-11": {
   "set": "M-003",
-  "status": "TODO: reserved for the two T-006 hero frames (step later); no file yet; add with the same blind-ID scheme and append sheet rows"
+  "profile": "slate_teal",
+  "kind": "still",
+  "station_frame": 0,
+  "branch": "task/T-006",
+  "commit": "17ce5cfd8fa0aa0c418c25b47155176e23cdeb55",
+  "merged": "UNMERGED: on task/T-006 (in evaluation), not on the integration branch or main",
+  "control_or_toggle": "none (reference pipeline, defaults)",
+  "intended_rank": null,
+  "tool_command": "metrics.py m003 evidence/T-006/captures_local/<set> (tool 1.0.0, registry v1.1, git d10ec34); capture by Unity batch style-frame job",
+  "source": "evidence/T-006/captures_local/hero_1080p/slate_teal/f000000_color_output.png",
+  "report_path": "evidence/T-006/m003/hero_1080p/report.json",
+  "tag": "T-006 style frame, hero framing (80 m mech, 5.48 m water)",
+  "metric_values_frame": {
+   "M-003.a.output": 1.0,
+   "M-003.b.DIG": 0.388,
+   "M-003.d-i": 6,
+   "M-003.d-ii": 1,
+   "M-003.d-iii": null,
+   "M-003.d-iv": 1.0,
+   "M-003.e.sky": 0.364,
+   "M-003.c1.span_Lstar": 12.78
+  },
+  "set_level_gating_fail": [
+   "M-003.c1 (span 12.8 L* < 15)"
+  ],
+  "set_level_verdict": "FAIL"
  },
  "M003-12": {
   "set": "M-003",
-  "status": "TODO: reserved for the two T-006 hero frames (step later); no file yet; add with the same blind-ID scheme and append sheet rows"
+  "profile": "slate_teal",
+  "kind": "still",
+  "station_frame": 0,
+  "branch": "task/T-006",
+  "commit": "17ce5cfd8fa0aa0c418c25b47155176e23cdeb55",
+  "merged": "UNMERGED: on task/T-006 (in evaluation), not on the integration branch or main",
+  "control_or_toggle": "none (reference pipeline, defaults)",
+  "intended_rank": null,
+  "tool_command": "metrics.py m003 evidence/T-006/captures_local/<set> (tool 1.0.0, registry v1.1, git d10ec34); capture by Unity batch style-frame job",
+  "source": "evidence/T-006/captures_local/alt_1080p/slate_teal_wider/f000000_color_output.png",
+  "report_path": "evidence/T-006/m003/alt_1080p/report.json",
+  "tag": "T-006 style frame, wider framing",
+  "metric_values_frame": {
+   "M-003.a.output": 1.0,
+   "M-003.b.DIG": 0.413,
+   "M-003.d-i": 6,
+   "M-003.d-ii": 1,
+   "M-003.d-iii": null,
+   "M-003.d-iv": 1.0,
+   "M-003.e.sky": 0.42,
+   "M-003.c1": "PASS (per-frame span: see evidence/T-006/M003_TABLES.md)"
+  },
+  "set_level_gating_fail": [],
+  "set_level_verdict": "see evidence/T-006/M003_TABLES.md (pooled tool verdict FAIL only from missing inputs; c1 PASS for this frame)"
  },
  "M004-09": {
   "set": "M-004",
