@@ -151,25 +151,25 @@
   },
   {
    "name": "boat_1",
-   "kind": "small boat hull 8 x 1.5 x 2.4 m (length along local z, bow toward the camera)",
+   "kind": "small cabin boat 6.5 x 1.8 x 2.2 m (length along local z, bow toward the camera)",
    "size_m": [
-    2.4,
-    1.5,
-    8
+    2.2,
+    1.8,
+    6.5
    ],
    "distance_m": 355.3,
    "in_frame": true,
    "projected_internal_px": {
-    "width": 2.873,
-    "height": 2.084,
-    "max_dim": 2.873
+    "width": 2.633,
+    "height": 2.376,
+    "max_dim": 2.633
    },
    "in_1_to_3_px": true,
    "output_bbox_px": [
-    1129.5,
-    751.2,
-    1141.0,
-    759.5
+    1130.0,
+    749.9,
+    1140.5,
+    759.4
    ],
    "internal_cell_bbox": [
     282,
@@ -177,11 +177,45 @@
     286,
     190
    ],
-   "L_inside_mean": 44.21,
+   "L_inside_mean": 48.12,
    "L_surround_mean": 37.22,
-   "L_contrast_inside_minus_surround": 6.99,
+   "L_contrast_inside_minus_surround": 10.9,
    "caveat": "L* from color_internal over the projected bbox cells; sub-pixel props are blended with their surround, so the contrast is a lower bound on the box's own value contrast",
-   "analytic_expected_hero_1080p_max_px": 2.8735
+   "analytic_expected_hero_1080p_max_px": 2.6334
+  },
+  {
+   "name": "buoy_accent",
+   "kind": "channel-marker buoy 3.0 x 3.2 x 3.0 m (accent placeholder)",
+   "size_m": [
+    3,
+    3.2,
+    3
+   ],
+   "distance_m": 68.3,
+   "in_frame": true,
+   "projected_internal_px": {
+    "width": 18.98,
+    "height": 22.995,
+    "max_dim": 22.995
+   },
+   "in_1_to_3_px": false,
+   "output_bbox_px": [
+    1099.6,
+    915.0,
+    1175.5,
+    1007.0
+   ],
+   "internal_cell_bbox": [
+    274,
+    228,
+    294,
+    252
+   ],
+   "L_inside_mean": 37.38,
+   "L_surround_mean": 27.63,
+   "L_contrast_inside_minus_surround": 9.75,
+   "caveat": "L* from color_internal over the projected bbox cells; sub-pixel props are blended with their surround, so the contrast is a lower bound on the box's own value contrast",
+   "analytic_expected_hero_1080p_max_px": 22.9919
   },
   {
    "name": "mech",

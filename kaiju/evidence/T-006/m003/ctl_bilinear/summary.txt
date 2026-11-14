@@ -1,8 +1,8 @@
 M-003@v1  [ctl_bilinear]  registry v1.1 sha256:7a63afd06c66  tool 1.0.0
 VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 2
-  FAIL           [G] M-003.a.output   0.8638 share  >= 0.95  margin -0.08624
-      where: controls_hero_1080p/bilinear/f000000 (282502 output px beyond dE00 2.0)
-  FAIL           [G] M-003.d-iv       0.5956 share of blocks  >= 0.995  margin -0.3994
+  FAIL           [G] M-003.a.output   0.8636 share  >= 0.95  margin -0.0864
+      where: controls_hero_1080p/bilinear/f000000 (282831 output px beyond dE00 2.0)
+  FAIL           [G] M-003.d-iv       0.5949 share of blocks  >= 0.995  margin -0.4001
       where: controls_hero_1080p/bilinear/f000000
   PASS           [G] M-003.a.internal 1 share  >= 0.995  margin 0.005 seed-threshold
   PASS           [G] M-003.b.DIG      1 share of frames  >= 0.8  margin 0.2
@@ -13,12 +13,12 @@ VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 2
   PENDING        [G] M-003.f          -   (no panel_ratings@v1 file given (the tool never defaults a score))
   REPORTED       [i] M-003.a.A3       0.9131 share
   REPORTED       [i] M-003.a.A5       0.9988 share
-  PASS           [A] M-003.b.DIG_max  0.3509 DIG  <= 0.5  margin 0.1491 seed-threshold
-  REPORTED       [A] M-003.b.O        0.8652 O
+  PASS           [A] M-003.b.DIG_max  0.3488 DIG  <= 0.5  margin 0.1512 seed-threshold
+  REPORTED       [A] M-003.b.O        0.8601 O
   NOT_APPLICABLE [A] M-003.d-iii      -   (no accent present in any frame (applies only when present))
   PASS           [A] M-003.e.sky      0.3639   in [0.2, 0.5]  margin 0.1361 seed-threshold
   PASS           [A] M-003.e.horizon  0.3514   <= 0.45  margin 0.09861 seed-threshold
   PASS           [A] M-003.e.contrast 27.49   >= 25  margin 2.488 seed-threshold
-  warning: ADVISORY M-003.b.O reported without a threshold until Q-015: median O 0.865 (Bayer/checker > 0.5, white noise ~ 0, clustered < 0; the references are -0.34..+0.15)
+  warning: ADVISORY M-003.b.O reported without a threshold until Q-015: median O 0.860 (Bayer/checker > 0.5, white noise ~ 0, clustered < 0; the references are -0.34..+0.15)
   missing inputs: slate_teal: 1 gameplay frames (< 12), haze_cal sequence (M-003 c2)
   inputs: 8 files hashed; report.json holds every value, threshold and hash

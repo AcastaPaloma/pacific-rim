@@ -1,6 +1,7 @@
 {
  "assumed_thresholds_decisive": [
-  "M-003.a.internal"
+  "M-003.a.internal",
+  "M-003.c1"
  ],
  "contract_errors": [],
  "coverage": {
@@ -25,7 +26,7 @@
    "haze_cal"
   ]
  },
- "exit_code": 1,
+ "exit_code": 3,
  "extra": {
   "frames": [
    {
@@ -33,8 +34,8 @@
     "A2_out": 1.0,
     "A3_out": 1.0,
     "A5_out": 1.0,
-    "DIG": 0.297654400689,
-    "O": 0.812448373607,
+    "DIG": 0.291743080588,
+    "O": 0.810038768993,
     "accent_share": null,
     "composition": {
      "contrast": 27.4877996792,
@@ -49,20 +50,20 @@
       3,
       4
      ],
-     "max_drop": 0.0,
+     "max_drop": 0.38654685296,
      "meanL": [
-      26.841084169,
-      28.1267605715,
-      32.5484497325,
-      46.5704052144,
+      28.5346086405,
+      28.1480617876,
+      32.5546135251,
+      46.5725328533,
       48.7467435751
      ],
-     "rho": 1.0,
-     "span": 21.905659406
+     "rho": 0.9,
+     "span": 20.2121349345
     },
     "dither_evaluated": true,
     "frame": "alt_1080p/slate_teal_closer/f000000",
-    "gradient_share": 0.358564814815,
+    "gradient_share": 0.366041666667,
     "grid_uniform": 1.0,
     "hue_families": 1,
     "hue_peaks": [
@@ -80,13 +81,13 @@
     "A2_out": 1.0,
     "A3_out": 1.0,
     "A5_out": 1.0,
-    "DIG": 0.461151009785,
-    "O": 1.05083317045,
+    "DIG": 0.490443390882,
+    "O": 1.06105707067,
     "accent_share": null,
     "composition": {
      "contrast": 40.1089828059,
-     "horizon": 0.351393202705,
-     "sky_share": 0.533472222222
+     "horizon": 0.511111281568,
+     "sky_share": 0.459675925926
     },
     "depth": {
      "bands": [
@@ -95,24 +96,24 @@
       2,
       3
      ],
-     "max_drop": 1.91851959871,
+     "max_drop": 0.0,
      "meanL": [
-      31.2076104615,
-      29.2890908627,
-      35.5115871255,
-      43.0613175054
+      26.9218217189,
+      30.3140611868,
+      35.0484163017,
+      44.3001061643
      ],
-     "rho": 0.8,
-     "span": 11.853707044
+     "rho": 1.0,
+     "span": 17.3782844453
     },
     "dither_evaluated": true,
     "frame": "alt_1080p/slate_teal_waterfront/f000000",
-    "gradient_share": 0.320169753086,
+    "gradient_share": 0.258773148148,
     "grid_uniform": 1.0,
     "hue_families": 1,
     "hue_peaks": [
      [
-      269,
+      270,
       1.0
      ]
     ],
@@ -125,8 +126,8 @@
     "A2_out": 1.0,
     "A3_out": 1.0,
     "A5_out": 1.0,
-    "DIG": 0.412776169623,
-    "O": 1.04950127594,
+    "DIG": 0.412081000419,
+    "O": 1.04894322084,
     "accent_share": null,
     "composition": {
      "contrast": 25.7470400159,
@@ -143,8 +144,8 @@
      "max_drop": 0.0,
      "meanL": [
       30.4985451924,
-      34.7982947705,
-      44.8797121341,
+      34.8053657142,
+      44.8813475972,
       46.9397684598
      ],
      "rho": 1.0,
@@ -152,7 +153,7 @@
     },
     "dither_evaluated": true,
     "frame": "alt_1080p/slate_teal_wider/f000000",
-    "gradient_share": 0.311875,
+    "gradient_share": 0.312831790123,
     "grid_uniform": 1.0,
     "hue_families": 1,
     "hue_peaks": [
@@ -167,13 +168,11 @@
    }
   ]
  },
- "failing_gating": [
-  "M-003.c1"
- ],
+ "failing_gating": [],
  "failures_suppressed": false,
  "flags": [],
- "headless_verdict": "FAIL",
- "headless_verdict_label": "FAIL",
+ "headless_verdict": "INCOMPLETE",
+ "headless_verdict_label": "INCOMPLETE",
  "images": [
   "diag_M-003a_dE00_heatmap.png",
   "diag_M-003b_dither_mask.png",
@@ -183,27 +182,27 @@
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_closer/f000000.json",
    "role": "style_capture@v1",
-   "sha256": "a94bc7b09f7c6fcdcd8690fe8a7ebb5d6b78e376385c1e029b69e0df8fee070e"
+   "sha256": "4a26dd748fd57cd096ff0392fe34ad0f79fa505a5351bcec452346a2213dc7bb"
   },
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_closer/f000000_color_internal.png",
    "role": "style_capture@v1",
-   "sha256": "6493db795a891a565406027e78d7829fcb0214878119feab2980dccc80b1f989"
+   "sha256": "c89df4f20b89985b35d26a2a7d24b4f08d1039f9d215d69441d545194acee3bf"
   },
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_closer/f000000_color_output.png",
    "role": "style_capture@v1",
-   "sha256": "5ce3dc53f96736421b429661a3fe378688fd5a2713a200bedcb0722ddeb6208c"
+   "sha256": "00054b12e106b0ef6ae0e0dcb2fedbdee052acbe31dfa345807b379665247f88"
   },
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_closer/f000000_depth.png",
    "role": "style_capture@v1",
-   "sha256": "55df6735828ef49c20fa8248b40cd328300727f331e110d1072be36c17f473c7"
+   "sha256": "eafe7304e708aebaacc2728f3980691e7147cbd21716768bf2ee00cecd4d4027"
   },
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_closer/f000000_index.png",
    "role": "style_capture@v1",
-   "sha256": "2c88a2e8bceb8e7d999b07b561dd2853844e3974b734218d3a3b19d40021cf93"
+   "sha256": "5e35a4418255890075abd80c8b7289d76638275e76467bb14073bc778916241f"
   },
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_closer/f000000_mask_animated.png",
@@ -218,27 +217,27 @@
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_waterfront/f000000.json",
    "role": "style_capture@v1",
-   "sha256": "fd444df8df6d9924b5521d438a6cb20197a8863490d1eab713528cf82d76fe91"
+   "sha256": "6c5a0d675216b7d2b7a9a2339f65ce647ec3e75a98d3edfaf0c9560c25d198f9"
   },
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_waterfront/f000000_color_internal.png",
    "role": "style_capture@v1",
-   "sha256": "47ed2051f65152794bb38be11c48e91072f061668de8d641277052df383a1522"
+   "sha256": "e8bb6f215543c8694c4c8ed5e4c743992618e6510c445d717c7c2668a5ced564"
   },
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_waterfront/f000000_color_output.png",
    "role": "style_capture@v1",
-   "sha256": "09d5fa156ba0fbb4c344f0ff1edb93dcc7aaf8f5cca1c8367e6da60c641439d5"
+   "sha256": "bf0fcbd8ecc1d61e47ba61821e554c2cccef2e82c4c872ec9f4306e1ebee34f5"
   },
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_waterfront/f000000_depth.png",
    "role": "style_capture@v1",
-   "sha256": "c164bc26c59b4c1ecfaf6e23c258f6dcaa7f97d9f3f2281323df7daa9da2952c"
+   "sha256": "d9d74bc4ccbe0515324338f6f6d881dede90591418a7f7622cba26557394fbd5"
   },
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_waterfront/f000000_index.png",
    "role": "style_capture@v1",
-   "sha256": "a89dca91a13a02fd1a2fb316166a26970dcaed49451b2903ba0c0ce63ae6cfb6"
+   "sha256": "c1baa9e296e7ef52ee152f102f4dd6910603eb5fbae80195ba73cb22345d2f1c"
   },
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_waterfront/f000000_mask_animated.png",
@@ -253,27 +252,27 @@
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_wider/f000000.json",
    "role": "style_capture@v1",
-   "sha256": "3fa191c2cc9340a35b0f18095ec49df2cc7397cc9fb9e325fd342ed47902e24e"
+   "sha256": "c1935dc992fddb7f8420427bb4e2a510d04c1a825eaa2823b5746d97c4d260f3"
   },
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_wider/f000000_color_internal.png",
    "role": "style_capture@v1",
-   "sha256": "480abdd831c33c0cd88fca1550165a9e829073251dfb7e87bb91c90e165e02b6"
+   "sha256": "7d2e9833e34a45a2978a0f563289d95e1b9143eaf16f956429e573df6a7a0dae"
   },
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_wider/f000000_color_output.png",
    "role": "style_capture@v1",
-   "sha256": "79666ae09dc8810f4e79e091e026da80cc0318683d3a8e5d1d3648f8c2c9063d"
+   "sha256": "736a5a6ca083adb886aec8883b3cbcade4f019d8b184a7eac2f9c11d8781c611"
   },
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_wider/f000000_depth.png",
    "role": "style_capture@v1",
-   "sha256": "f04a0266bfbdaa71215b35f463bd715ff4390723481bb5f59a302d8b06e503ca"
+   "sha256": "a6b6cfad68e529eb2fba57dafde59e6beb3ec823c5a9f2dfc09c8e0660dc0c41"
   },
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_wider/f000000_index.png",
    "role": "style_capture@v1",
-   "sha256": "f5ebf212894a7772b957e9af211882a2037925b48f6c8754e7c89be7698c9cfd"
+   "sha256": "3fb67f1232aaa14aef4f4182dc975dd0a7127de9cac9affb780d285251529f56"
   },
   {
    "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_wider/f000000_mask_animated.png",
@@ -316,8 +315,8 @@
  "run": {
   "host": "revw-172-31-218-200.rn.uwaterloo.ca",
   "python": "3.12.16",
-  "timestamp_utc": "2026-11-14T21:55:01Z",
-  "wall_time_s": 0.916
+  "timestamp_utc": "2026-11-14T22:14:30Z",
+  "wall_time_s": 0.836
  },
  "submeasures": [
   {
@@ -428,9 +427,9 @@
     "dither_mask": "diag_M-003b_dither_mask.png",
     "frame": "alt_1080p/slate_teal_closer/f000000",
     "per_frame_DIG": {
-     "alt_1080p/slate_teal_closer/f000000": 0.297654400689,
-     "alt_1080p/slate_teal_waterfront/f000000": 0.461151009785,
-     "alt_1080p/slate_teal_wider/f000000": 0.412776169623
+     "alt_1080p/slate_teal_closer/f000000": 0.291743080588,
+     "alt_1080p/slate_teal_waterfront/f000000": 0.490443390882,
+     "alt_1080p/slate_teal_wider/f000000": 0.412081000419
     },
     "where": ""
    },
@@ -467,20 +466,20 @@
    "diagnostics": {},
    "id": "M-003.b.DIG_max",
    "kind": "advisory",
-   "margin": 0.0388489902155,
-   "margin_rel": 0.0776979804309,
+   "margin": 0.00955660911829,
+   "margin_rel": 0.0191132182366,
    "note": null,
    "op": "<=",
    "parts": [
     {
-     "margin": 0.0388489902155,
-     "margin_rel": 0.0776979804309,
+     "margin": 0.00955660911829,
+     "margin_rel": 0.0191132182366,
      "name": "max DIG alt_1080p/slate_teal_waterfront/f000000",
      "op": "<=",
      "status": "PASS",
      "threshold": 0.5,
      "unit": "DIG",
-     "value": 0.461151009785
+     "value": 0.490443390882
     }
    ],
    "status": "PASS",
@@ -488,15 +487,15 @@
    "threshold_status": "assumed_pending_calibration",
    "title": "DIG upper bound (a whole frame of dither reads as noise), worst frame",
    "unit": "DIG",
-   "value": 0.461151009785
+   "value": 0.490443390882
   },
   {
    "diagnostics": {
     "note": "Bayer/checker > 0.5, white noise ~ 0, clustered < 0 (advisory until Q-015)",
     "per_frame_O": {
-     "alt_1080p/slate_teal_closer/f000000": 0.812448373607,
-     "alt_1080p/slate_teal_waterfront/f000000": 1.05083317045,
-     "alt_1080p/slate_teal_wider/f000000": 1.04950127594
+     "alt_1080p/slate_teal_closer/f000000": 0.810038768993,
+     "alt_1080p/slate_teal_waterfront/f000000": 1.06105707067,
+     "alt_1080p/slate_teal_wider/f000000": 1.04894322084
     }
    },
    "id": "M-003.b.O",
@@ -507,59 +506,59 @@
    "threshold_status": "none",
    "title": "Ordered index O = rho(lag 2) - rho(lag 1) (advisory without a threshold until Q-015), median over evaluated frames",
    "unit": "O",
-   "value": 1.04950127594
+   "value": 1.04894322084
   },
   {
-   "decisive_part": "alt_1080p/slate_teal_waterfront/f000000: far - near span",
+   "decisive_part": "alt_1080p/slate_teal_closer/f000000: Spearman rho(band, L*)",
    "diagnostics": {
     "frames_evaluated": 3,
     "frames_skipped": 0,
-    "where": "alt_1080p/slate_teal_waterfront/f000000 bands [0, 1, 2, 3] mean L* [31.2, 29.3, 35.5, 43.1]"
+    "where": "alt_1080p/slate_teal_closer/f000000 bands [0, 1, 2, 3, 4] mean L* [28.5, 28.1, 32.6, 46.6, 48.7]"
    },
    "id": "M-003.c1",
    "kind": "gating",
-   "margin": -3.14629295604,
-   "margin_rel": -0.209752863736,
+   "margin": -2.22044604925e-16,
+   "margin_rel": -2.46716227694e-16,
    "note": null,
    "op": ">=",
    "parts": [
     {
-     "margin": 0.0814804012894,
-     "margin_rel": 0.0407402006447,
-     "name": "alt_1080p/slate_teal_waterfront/f000000: max band-to-band drop",
+     "margin": 1.61345314704,
+     "margin_rel": 0.80672657352,
+     "name": "alt_1080p/slate_teal_closer/f000000: max band-to-band drop",
      "op": "<=",
      "status": "PASS",
      "threshold": 2.0,
      "unit": "L*",
-     "value": 1.91851959871
+     "value": 0.38654685296
     },
     {
-     "margin": -0.1,
-     "margin_rel": -0.111111111111,
-     "name": "alt_1080p/slate_teal_waterfront/f000000: Spearman rho(band, L*)",
+     "margin": -2.22044604925e-16,
+     "margin_rel": -2.46716227694e-16,
+     "name": "alt_1080p/slate_teal_closer/f000000: Spearman rho(band, L*)",
      "op": ">=",
-     "status": "FAIL",
+     "status": "PASS",
      "threshold": 0.9,
      "unit": "rho",
-     "value": 0.8
+     "value": 0.9
     },
     {
-     "margin": -3.14629295604,
-     "margin_rel": -0.209752863736,
-     "name": "alt_1080p/slate_teal_waterfront/f000000: far - near span",
+     "margin": 5.21213493452,
+     "margin_rel": 0.347475662301,
+     "name": "alt_1080p/slate_teal_closer/f000000: far - near span",
      "op": ">=",
-     "status": "FAIL",
+     "status": "PASS",
      "threshold": 15.0,
      "unit": "L*",
-     "value": 11.853707044
+     "value": 20.2121349345
     }
    ],
-   "status": "FAIL",
-   "threshold": 15.0,
+   "status": "PASS",
+   "threshold": 0.9,
    "threshold_status": "assumed_pending_calibration",
    "title": "Value banding by depth monotonic on gameplay frames (drop, Spearman rho, span), worst frame",
-   "unit": "L*",
-   "value": 11.853707044
+   "unit": "rho",
+   "value": 0.9
   },
   {
    "diagnostics": {},
@@ -703,70 +702,70 @@
    "diagnostics": {
     "per_frame": {
      "alt_1080p/slate_teal_closer/f000000": 0.384166666667,
-     "alt_1080p/slate_teal_waterfront/f000000": 0.533472222222,
+     "alt_1080p/slate_teal_waterfront/f000000": 0.459675925926,
      "alt_1080p/slate_teal_wider/f000000": 0.420447530864
     }
    },
    "id": "M-003.e.sky",
    "kind": "advisory",
-   "margin": -0.0334722222222,
-   "margin_rel": -0.0669444444444,
+   "margin": 0.0403240740741,
+   "margin_rel": 0.0806481481481,
    "note": null,
    "op": "in",
    "parts": [
     {
-     "margin": -0.0334722222222,
-     "margin_rel": -0.0669444444444,
+     "margin": 0.0403240740741,
+     "margin_rel": 0.0806481481481,
      "name": "sky_share alt_1080p/slate_teal_waterfront/f000000",
      "op": "in",
-     "status": "FAIL",
+     "status": "PASS",
      "threshold": 0.2,
      "threshold_hi": 0.5,
      "unit": "",
-     "value": 0.533472222222
+     "value": 0.459675925926
     }
    ],
-   "status": "FAIL",
+   "status": "PASS",
    "threshold": 0.2,
    "threshold_hi": 0.5,
    "threshold_status": "assumed_pending_calibration",
    "title": "Sky share (z >= 0.99 far), worst frame",
    "unit": "",
-   "value": 0.533472222222
+   "value": 0.459675925926
   },
   {
-   "decisive_part": "horizon alt_1080p/slate_teal_wider/f000000",
+   "decisive_part": "horizon alt_1080p/slate_teal_waterfront/f000000",
    "diagnostics": {
     "per_frame": {
      "alt_1080p/slate_teal_closer/f000000": 0.298867755448,
-     "alt_1080p/slate_teal_waterfront/f000000": 0.351393202705,
+     "alt_1080p/slate_teal_waterfront/f000000": 0.511111281568,
      "alt_1080p/slate_teal_wider/f000000": 0.425868865053
     }
    },
    "id": "M-003.e.horizon",
    "kind": "advisory",
-   "margin": 0.0241311349466,
-   "margin_rel": 0.0536247443257,
+   "margin": -0.0611112815678,
+   "margin_rel": -0.135802847928,
    "note": null,
    "op": "<=",
    "parts": [
     {
-     "margin": 0.0241311349466,
-     "margin_rel": 0.0536247443257,
-     "name": "horizon alt_1080p/slate_teal_wider/f000000",
+     "margin": -0.0611112815678,
+     "margin_rel": -0.135802847928,
+     "name": "horizon alt_1080p/slate_teal_waterfront/f000000",
      "op": "<=",
-     "status": "PASS",
+     "status": "FAIL",
      "threshold": 0.45,
      "unit": "",
-     "value": 0.425868865053
+     "value": 0.511111281568
     }
    ],
-   "status": "PASS",
+   "status": "FAIL",
    "threshold": 0.45,
    "threshold_status": "assumed_pending_calibration",
    "title": "Geometric horizon height from pose, h = 0.5 + tan(pitch) / (2 tan(vfov/2)), worst frame",
    "unit": "",
-   "value": 0.425868865053
+   "value": 0.511111281568
   },
   {
    "decisive_part": "contrast alt_1080p/slate_teal_wider/f000000",
@@ -816,7 +815,7 @@
   }
  ],
  "tool": {
-  "git_commit": "d10ec3441771d9dd699a411a838377a2fc19a06f",
+  "git_commit": "a867e678b03deede3fad7edc9e2e630278017197",
   "name": "kaiju_metrics",
   "semantics": 3,
   "settings": {
@@ -825,10 +824,10 @@
   },
   "version": "1.0.0"
  },
- "verdict": "FAIL",
- "verdict_label": "FAIL",
+ "verdict": "INCOMPLETE",
+ "verdict_label": "INCOMPLETE",
  "warnings": [
-  "ADVISORY M-003.b.O reported without a threshold until Q-015: median O 1.050 (Bayer/checker > 0.5, white noise ~ 0, clustered < 0; the references are -0.34..+0.15)",
-  "ADVISORY M-003.e.sky failed: value 0.5335 vs in [0.2, 0.5]"
+  "ADVISORY M-003.b.O reported without a threshold until Q-015: median O 1.049 (Bayer/checker > 0.5, white noise ~ 0, clustered < 0; the references are -0.34..+0.15)",
+  "ADVISORY M-003.e.horizon failed: value 0.5111 vs <= 0.45"
  ]
 }

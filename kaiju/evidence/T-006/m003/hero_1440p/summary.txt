@@ -1,6 +1,6 @@
 M-003@v1  [hero_1440p]  registry v1.1 sha256:7a63afd06c66  tool 1.0.0
 VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 1
-  FAIL           [G] M-003.c1         10.01 L*  <= 2  margin -8.012 seed-threshold
+  FAIL           [G] M-003.c1         9.979 L*  <= 2  margin -7.979 seed-threshold
       where: hero_1440p/lavender_peach/f000000 bands [1, 2, 3, 4] mean L* [30.4, 20.4, 34.0, 38.1]; hero_1440p/slate_crimson/f000000 bands [1, 2, 3, 4] mean L* [29.4, 21.1, 29.7, 33.3]; hero_14
   FAIL           [A] M-003.e.contrast 9.699   >= 25  margin -15.3 seed-threshold
   PASS           [G] M-003.a.output   1 share  >= 0.95  margin 0.05
@@ -13,12 +13,12 @@ VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 1
   PENDING        [G] M-003.f          -   (no panel_ratings@v1 file given (the tool never defaults a score))
   REPORTED       [i] M-003.a.A3       1 share
   REPORTED       [i] M-003.a.A5       1 share
-  PASS           [A] M-003.b.DIG_max  0.3593 DIG  <= 0.5  margin 0.1407 seed-threshold
-  REPORTED       [A] M-003.b.O        0.8847 O
+  PASS           [A] M-003.b.DIG_max  0.3579 DIG  <= 0.5  margin 0.1421 seed-threshold
+  REPORTED       [A] M-003.b.O        0.8803 O
   NOT_APPLICABLE [A] M-003.d-iii      -   (no accent present in any frame (applies only when present))
   PASS           [A] M-003.e.sky      0.3616   in [0.2, 0.5]  margin 0.1384 seed-threshold
   PASS           [A] M-003.e.horizon  0.3537   <= 0.45  margin 0.09627 seed-threshold
-  warning: ADVISORY M-003.b.O reported without a threshold until Q-015: median O 0.885 (Bayer/checker > 0.5, white noise ~ 0, clustered < 0; the references are -0.34..+0.15)
+  warning: ADVISORY M-003.b.O reported without a threshold until Q-015: median O 0.880 (Bayer/checker > 0.5, white noise ~ 0, clustered < 0; the references are -0.34..+0.15)
   warning: ADVISORY M-003.e.contrast failed: value 9.699 vs >= 25
   missing inputs: lavender_peach: 1 gameplay frames (< 12), slate_crimson: 1 gameplay frames (< 12), slate_teal: 1 gameplay frames (< 12), warm_amber_haze: 1 gameplay frames (< 12), warm_rust_sepia:
   inputs: 36 files hashed; report.json holds every value, threshold and hash
