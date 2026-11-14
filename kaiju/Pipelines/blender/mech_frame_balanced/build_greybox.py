@@ -50,13 +50,14 @@ GAP = 0.35          # joint clearance between a housing and the neighbouring par
 N_CYL = 12          # facets on drums and columns (silhouette-first, low poly)
 
 # housing radii (design choices, see EVIDENCE.md C15/C21)
-R_SHOULDER_BALL = 2.3
+R_SHOULDER_BALL = 2.0
 R_ELBOW_DRUM = 2.4
 R_WRIST_DRUM = 1.9
-R_HIP_BALL = 3.8
+R_HIP_BALL = 3.5
 R_KNEE_DRUM = 2.8
 R_ANKLE_DRUM = 2.4
 R_WAIST_BALL = 3.0
+FOREARM_X_IN = 10.95   # |x| of the forearm and fist inner face (outer = FOREARM_PLATE x_out)
 
 
 # ---------------------------------------------------------------- primitives (frame coords)
@@ -105,10 +106,10 @@ def chamfer_box(x0, x1, y0, y1, z0, z1, c):
 # each recipe returns (pieces, cutters); piece = (points, role); cutter = points
 def recipe_pelvis():
     pieces = [
-        # central core between the thighs (keel of the chest continued down), bottom edges chamfered
-        (box(-2.15, 2.15, Y_ROOT + 1.6, Y_WAIST, -4.7, 4.5) + box(-1.3, 1.3, Y_ROOT, Y_ROOT + 0.01, -4.0, 3.8), "primary"),
+        # central keel core between the thighs (the chest keel continued down), bottom edges chamfered
+        (box(-1.7, 1.7, Y_ROOT + 1.6, Y_WAIST, -4.7, 4.5) + box(-1.0, 1.0, Y_ROOT, Y_ROOT + 0.01, -4.0, 3.8), "primary"),
         # back plate (hip actuator housing behind the thigh balls, clear of hip flexion)
-        (chamfer_box(-8.0, 8.0, Y_HIP - 2.5, Y_WAIST, -9.4, -4.55, 0.4), "primary"),
+        (chamfer_box(-7.2, 7.2, Y_HIP - 2.5, Y_WAIST, -9.4, -4.2, 0.4), "primary"),
     ]
     cutters = [sphere((0, Y_WAIST, 0), R_WAIST_BALL + GAP, 16, 9)]
     for s in (-1, 1):
@@ -116,93 +117,111 @@ def recipe_pelvis():
     return pieces, cutters
 
 
+# chest hull rings (y, half width, back-centre z, side-back z, side-front z, keel z): a ship's hull section,
+# pointed at the bow (keel) and at the back, so the side view is 16 m deep while the volume stays at the
+# R-005 torso fraction; deepest at 66 m
+CHEST_RINGS = [(50.0, 5.0, -4.0, -1.0, 1.5, 5.5), (56.0, 6.2, -5.0, -0.8, 2.0, 7.6),
+               (66.0, 10.0, -6.0, 0.0, 2.0, 10.0), (69.5, 10.0, -6.0, 0.0, 2.0, 8.0)]
+COWL_TOP = 75.0     # torso cowl around the neck: the head is sunk in it between the shoulder blocks
+BLOCK_X = (5.4, 11.4)   # |x| of the square shoulder blocks (inboard, next to the head)
+
+
+def chest_face_point(y, f):
+    """point on the mech's left (-x) front face of the chest at height y, fraction f from keel to side edge"""
+    for (y0, w0, _b0, _q0, s0, k0), (y1, w1, _b1, _q1, s1, k1) in zip(CHEST_RINGS, CHEST_RINGS[1:]):
+        if y0 <= y <= y1:
+            t = (y - y0) / (y1 - y0)
+            w, zs, zk = w0 + t * (w1 - w0), s0 + t * (s1 - s0), k0 + t * (k1 - k0)
+            return Vector((-w * f, y, zk + f * (zs - zk))), Vector((-w, 0, zs - zk))
+    raise ValueError(y)
+
+
 def recipe_torso():
-    yb, yt = 53.0, 69.5   # chest wedge bottom / top (shoulder line)
-    chest = [(-10, yt, -5), (10, yt, -5), (10, yt, 3), (-10, yt, 3), (0, yt, 6),
-             (-5, yb, -4), (5, yb, -4), (5, yb, 2), (-5, yb, 2), (0, yb, 4)]
+    yt = CHEST_RINGS[-1][0]   # shoulder line (top of the chest shell)
+    chest = []
+    for y, w, zb, zsb, zsf, zk in CHEST_RINGS:
+        chest += [(0, y, zb), (-w, y, zsb), (w, y, zsb), (w, y, zsf), (-w, y, zsf), (0, y, zk)]
     pieces = [
         (chest, "primary"),
-        (cyl_y(0, 0, R_WAIST_BALL, Y_WAIST, yb + 0.5), "joint"),            # waist column
         (sphere((0, Y_WAIST, 0), R_WAIST_BALL), "joint"),                   # waist ball (housing)
-        (cyl_y(0, -0.3, 3.0, yt - 0.5, Y_NECK + 2.8), "joint"),            # neck collar ring
-        (chamfer_box(-10.0, 10.0, yt - 0.5, 72.0, -5.5, -1.5, 0.3), "primary"),  # back yoke joining the shoulder blocks
+        (box(-4.2, 4.2, yt - 0.5, yt, -3.2, 2.4)
+         + [(x, y, z) for x in (-4.2, 4.2) for y, z in ((COWL_TOP, -3.2), (COWL_TOP, -0.6), (72.8, 2.4))], "primary"),  # neck cowl, top sloping down to the front
     ]
     for s in (-1, 1):
-        a = xr(s, 8.0, AX_ARM - R_SHOULDER_BALL - 0.2 + 0.0)
-        pieces.append((cyl_x(Y_SH, 0, 1.8, a[0], a[1]), "joint"))           # shoulder axle stub
-        p = xr(s, 9.0, 12.0)
-        pieces.append((box(p[0], p[1], yt - 1.0, 71.7, -4.2, -1.8), "primary"))  # block post
-        b = xr(s, 9.8, AX_ARM + R_SHOULDER_BALL)
-        pieces.append((chamfer_box(b[0], b[1], 71.5, 77.0, -5.5, -0.5, 0.35), "secondary"))  # shoulder block
+        cx = xr(s, 9.4, AX_ARM - R_SHOULDER_BALL - 0.05)
+        pieces.append((box(cx[0], cx[1], Y_SH - 1.0, yt + 0.1, -2.6, 2.6), "primary"))   # shoulder cup (housing seat)
+        p = xr(s, BLOCK_X[0] + 0.4, BLOCK_X[1] - 0.4)
+        pieces.append((box(p[0], p[1], yt - 0.5, 71.2, -4.2, 1.0), "primary"))          # block pedestal
+        b = xr(s, *BLOCK_X)
+        pieces.append((chamfer_box(b[0], b[1], 71.0, 77.0, -4.6, 1.4, 0.25), "secondary"))  # square shoulder block
     # accent: one small panel on the mech's left (-x) chest face, ~2.2 x 2.2 m
-    y = 64.0
-    t = (y - yb) / (yt - yb)
-    zk, w, zs = 4 + 2 * t, 5 + 5 * t, 2 + 1 * t
-    d = Vector((-w, 0, zs - zk)).normalized()
+    c, dvec = chest_face_point(62.0, 0.55)
+    d = dvec.normalized()
     n = Vector((-d.z, 0, d.x))
     if n.z < 0:
         n = -n
-    c = Vector((0, y, zk)) + d * (0.55 * Vector((-w, 0, zs - zk)).length)
     acc = []
     for a in (-1.1, 1.1):
         for b in (-1.1, 1.1):
             for e in (-0.4, 0.2):
-                q = c + d * a + Vector((0, b, 0)) + n * e
-                acc.append(tuple(q))
+                acc.append(tuple(c + d * a + Vector((0, b, 0)) + n * e))
     pieces.append((acc, "accent"))
-    cutters = [cyl_y(0, 0, 1.6 + GAP, yt - 0.01, Y_NECK + 3.5)]   # neck hole through the collar
-    for s_ in (-1, 1):   # bevel the outer-bottom edge of each shoulder block: clearance for 150 deg abduction
-        cutters.append([(s_ * x, y, z) for x, y in ((13.4, 71.0), (17.0, 71.0), (17.0, 76.4)) for z in (-6.0, 0.0)])
+    # neck opening: a cone, so the head can nod -30/+40 deg without touching the cowl
+    cone = [(r * math.cos(2 * math.pi * (i + 0.5) / 16), y, r * math.sin(2 * math.pi * (i + 0.5) / 16))
+            for y, r in ((yt - 0.1, 1.6 + GAP), (COWL_TOP + 0.2, 3.9)) for i in range(16)]
+    cutters = [cone]
+    for s in (-1, 1):
+        cutters.append(sphere((s * AX_ARM, Y_SH, 0), R_SHOULDER_BALL + GAP, 16, 9))   # cup around the shoulder ball
     return pieces, cutters
 
 
 def recipe_head():
     pieces = [
-        (cyl_y(0, 0, 1.6, Y_NECK - 0.9, 75.0), "joint"),   # neck (housing of the neck pivot)
-        ([(-2.6, 74.6, -2.4), (2.6, 74.6, -2.4), (2.6, 74.6, 1.8), (-2.6, 74.6, 1.8),
-          (-3.2, 75.6, -3.2), (3.2, 75.6, -3.2), (3.2, 75.6, 2.45), (-3.2, 75.6, 2.45),
-          (-3.2, 78.6, -3.2), (3.2, 78.6, -3.2), (3.2, 78.6, 2.1), (-3.2, 78.6, 2.1),
-          (-2.8, Y_TOP, -2.8), (2.8, Y_TOP, -2.8), (2.8, Y_TOP, 0.9), (-2.8, Y_TOP, 0.9)], "primary"),  # flat sensor cap
-        (box(-2.4, 2.4, 76.6, 77.6, 1.9, 2.6), "joint"),   # one horizontal sensor slit band
+        (cyl_y(0, 0, 1.6, Y_NECK - 0.9, 75.8), "joint"),   # neck (housing of the neck pivot), hidden in the cowl
+        ([(-2.2, 75.4, -1.6), (2.2, 75.4, -1.6), (2.2, 75.4, 1.4), (-2.2, 75.4, 1.4),
+          (-3.2, 76.4, -3.0), (3.2, 76.4, -3.0), (3.2, 76.4, 2.4), (-3.2, 76.4, 2.4),
+          (-3.2, 78.8, -3.0), (3.2, 78.8, -3.0), (3.2, 78.8, 2.0), (-3.2, 78.8, 2.0),
+          (-2.8, Y_TOP, -2.6), (2.8, Y_TOP, -2.6), (2.8, Y_TOP, 0.9), (-2.8, Y_TOP, 0.9)], "primary"),  # flat sensor cap
+        (box(-2.4, 2.4, 77.2, 78.2, 1.9, 2.5), "joint"),   # one horizontal sensor slit band
     ]
     return pieces, []
 
 
 def recipe_upper_arm(s):
     ax = AX_ARM
-    bx = xr(s, ax - 2.3, ax + 2.1)
+    bx = xr(s, ax - 1.5, ax + 1.7)      # slim strut: the forearm box is the heavy member
     pieces = [
         (sphere((s * ax, Y_SH, 0), R_SHOULDER_BALL), "joint"),
-        (chamfer_box(bx[0], bx[1], Y_EL + R_ELBOW_DRUM + GAP, Y_SH - 2.0, -3.5, 1.5, 0.3), "primary"),
+        (chamfer_box(bx[0], bx[1], Y_EL + R_ELBOW_DRUM + GAP, Y_SH - 1.6, -4.2, 1.4, 0.3), "primary"),
     ]
-    for a, b in ((ax - 1.9, ax - 0.7), (ax + 0.4, ax + 1.6)):   # elbow rams, upper half (back side)
+    for a, b in ((ax - 1.2, ax - 0.4), (ax + 0.5, ax + 1.3)):   # elbow rams, upper half (back side)
         r = xr(s, a, b)
-        pieces.append((box(r[0], r[1], Y_EL + 3.0, Y_EL + 11.0, -4.8, -3.3), "joint"))
+        pieces.append((box(r[0], r[1], Y_EL + 3.0, Y_EL + 11.0, -5.4, -4.0), "joint"))
     return pieces, []
 
 
 def recipe_forearm(s):
     ax = AX_ARM
     P = C.FOREARM_PLATE
-    bx = xr(s, ax - 2.85, P["x_in"])
+    bx = xr(s, FOREARM_X_IN, P["x_in"])
     pieces = [
         (cyl_x(Y_EL, 0, R_ELBOW_DRUM, bx[0], bx[1]), "joint"),
-        (chamfer_box(bx[0], bx[1], Y_WR + R_WRIST_DRUM + GAP, Y_EL, -4.2, 0.6, 0.3), "primary"),
+        (chamfer_box(bx[0], bx[1], Y_WR + R_WRIST_DRUM + GAP, Y_EL, -5.0, 0.6, 0.3), "primary"),
         # hardpoint plate on the outer face (off-white), slightly proud
         (box(*xr(s, P["x_in"] - 0.2, P["x_out"]), Y_EL + P["y0_rel"], Y_EL + P["y1_rel"], P["z0"], P["z1"]), "secondary"),
     ]
-    for a, b in ((ax - 1.9, ax - 0.7), (ax + 0.4, ax + 1.6)):   # elbow rams, lower half spanning the joint line
+    for a, b in ((ax - 1.9, ax - 0.9), (ax + 0.3, ax + 1.3)):   # elbow rams, lower half spanning the joint line
         r = xr(s, a, b)
-        pieces.append((box(r[0], r[1], Y_WR + 5.0, Y_EL + 1.5, -5.2, -4.0), "joint"))
+        pieces.append((box(r[0], r[1], Y_WR + 5.0, Y_EL + 1.5, -6.0, -4.8), "joint"))
     return pieces, []
 
 
 def recipe_hand(s):
     ax = AX_ARM
-    fx = xr(s, ax - 2.5, ax + 2.1)
-    dx = xr(s, ax - 2.2, ax + 1.8)
-    fist = (box(fx[0], fx[1], Y_HAND_END + 0.5, Y_WR - 1.5, -3.1, 1.3)
-            + box(fx[0] + 0.4, fx[1] - 0.4, Y_HAND_END, Y_HAND_END + 0.5, -2.7, 0.9))   # flat knuckle face down
+    fx = xr(s, FOREARM_X_IN, C.FOREARM_PLATE["x_out"])
+    dx = xr(s, FOREARM_X_IN + 0.45, C.FOREARM_PLATE["x_out"] - 0.45)
+    fist = (box(fx[0], fx[1], Y_HAND_END + 0.5, Y_WR - 1.5, -2.8, 1.0)
+            + box(fx[0] + 0.4, fx[1] - 0.4, Y_HAND_END, Y_HAND_END + 0.5, -2.4, 0.6))   # flat knuckle face down
     pieces = [
         (cyl_x(Y_WR, 0, R_WRIST_DRUM, dx[0], dx[1]), "joint"),   # wrist ring
         (fist, "primary"),
@@ -212,8 +231,8 @@ def recipe_hand(s):
 
 def recipe_thigh(s):
     ax = AX_LEG
-    bx = xr(s, ax - 4.2, ax + 3.8)
-    sx = xr(s, ax - 3.6, ax + 3.4)
+    bx = xr(s, ax - 4.5, ax + 3.5)      # 8 m column, set 0.5 m inboard of the hip joint for arm clearance
+    sx = xr(s, ax - 3.9, ax + 2.9)
     pieces = [
         (sphere((s * ax, Y_HIP, 0), R_HIP_BALL), "joint"),
         (chamfer_box(bx[0], bx[1], Y_KN + R_KNEE_DRUM + GAP, Y_HIP - 1.5, -3.5, 4.5, 0.4), "primary"),
@@ -223,11 +242,11 @@ def recipe_thigh(s):
         r = xr(s, a, b)
         pieces.append((box(r[0], r[1], Y_KN + 2.3, Y_KN + 10.6, 4.4, 5.8), "joint"))
     # hamstring channel up the back (same reason as the calf channel)
-    cx = xr(s, ax - 2.0, ax + 2.0)
+    cx = xr(s, ax - 3.0, ax + 2.0)
     # bevel the medial-front vertical edge: clearance for the waist ball at 120 deg hip flexion
-    m = ax - 4.2
-    bev = [(s * x, y, z) for x, z in ((m - 0.5, 4.5 - 1.6), (m - 0.5, 6.0), (m + 1.6 + 0.6, 6.0)) for y in (Y_KN, Y_HIP + 1)]
-    return pieces, [box(cx[0], cx[1], Y_KN + 4.5, Y_HIP - 4.5, -3.7, -0.7), bev]
+    m = ax - 4.5
+    bev = [(s * x, y, z) for x, z in ((m - 0.5, 4.5 - 2.4), (m - 0.5, 6.0), (m + 2.4 + 0.6, 6.0)) for y in (Y_KN, Y_HIP + 1)]
+    return pieces, [box(cx[0], cx[1], Y_KN + 4.2, Y_HIP - 4.2, -3.7, -0.2), bev]
 
 
 def recipe_shank(s):

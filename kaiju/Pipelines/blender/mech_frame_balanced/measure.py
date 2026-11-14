@@ -238,14 +238,15 @@ def main():
     head_w = float(head_v[:, 0].max() - head_v[:, 0].min())
     # head height: the cap (head part above the torso collar top)
     torso_v = frame_verts(bms["torso"])
-    collar_top = float(torso_v[np.abs(torso_v[:, 0]) <= 4.0][:, 1].max())
+    collar_top = float(torso_v[np.abs(torso_v[:, 0]) <= 4.5][:, 1].max())   # top of the neck cowl
     head_h = H - collar_top
     # chest shell top (shoulder line): primary-material torso vertices with |x| <= 8.5
     pm = P["torso"].data.materials
     prim = [i for i, m in enumerate(pm) if m.name == C.MAT_PREFIX + "primary"]
-    # shoulder line = top of the chest shell: first torso hit of a downward ray at x = +-7 m, z = +1 m
+    # shoulder line = top of the chest shell: first torso hit of a downward ray at x = +-4.8 m, z = +1 m
+    # (between the neck cowl and the shoulder-block pedestals)
     hits = []
-    for sx in (-7.0, 7.0):
+    for sx in (-4.8, 4.8):
         loc, _n, _i, _d = bvhs["torso"].ray_cast(Vector(C.f2b((sx, 120.0, 1.0))), Vector(C.f2b((0, -1, 0))))
         hits.append(C.b2f(loc)[1])
     chest_top = max(hits)
@@ -339,6 +340,17 @@ def main():
         "textures": len(bpy.data.images),
         "human_height_m": 1.8, "foot_length_over_human": round(foot_len / 1.8, 2),
     }
+    # side-view depth of the chest shell vs the pelvis (eval-style C16 companion metric), arm stand-off from the thigh
+    chest_band = torso_v[(torso_v[:, 1] >= 50.0) & (torso_v[:, 1] <= chest_top)]
+    pel_v = frame_verts(bms["pelvis"])
+    out["whole"]["chest_side_depth_m"] = round(float(chest_band[:, 2].max() - chest_band[:, 2].min()), 3)
+    out["whole"]["pelvis_side_depth_m"] = round(float(pel_v[:, 2].max() - pel_v[:, 2].min()), 3)
+    out["ratios"]["chest_side_depth_over_H"] = round(out["whole"]["chest_side_depth_m"] / H, 4)
+    arm_in = min(float(np.abs(frame_verts(bms[s_])[:, 0]).min()) for s_ in ("forearm_L", "hand_L"))
+    thigh_out = float(np.abs(frame_verts(bms["thigh_L"])[:, 0]).max())
+    out["whole"]["arm_to_thigh_clearance_m"] = round(arm_in - thigh_out, 3)
+    out["checks"]["C16_chest_deeper_than_pelvis_and_ge_0_20H"] = (out["whole"]["chest_side_depth_m"] >= 0.20 * H
+                                                                 and out["whole"]["chest_side_depth_m"] > out["whole"]["pelvis_side_depth_m"])
     out["volume_fractions"] = vol_rows
     out["mirror"] = mirror
     out["ratios"] = {
@@ -381,7 +393,7 @@ def main():
         json.dump(out, f, indent=1, default=lambda o: o.item() if hasattr(o, "item") else str(o))
     print("CHECKS", json.dumps({k: bool(v) for k, v in out["checks"].items()}))
     print("RATIOS", json.dumps(out["ratios"]))
-    print("WHOLE", json.dumps({k: out["whole"][k] for k in ("height_H_m", "shoulder_width_m", "hip_width_m", "total_volume_m3", "triangles_total", "head_height_m")}))
+    print("WHOLE", json.dumps({k: out["whole"][k] for k in ("height_H_m", "shoulder_width_m", "hip_width_m", "total_volume_m3", "triangles_total", "head_height_m", "chest_side_depth_m", "pelvis_side_depth_m", "arm_to_thigh_clearance_m", "forearm_max_width_m", "upper_arm_max_width_m", "fist_width_m")}))
     print("FRAC", json.dumps({k: v["ratio"] for k, v in vol_rows.items()}))
 
 

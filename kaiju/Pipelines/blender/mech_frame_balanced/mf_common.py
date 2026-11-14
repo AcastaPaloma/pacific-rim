@@ -95,5 +95,5 @@ def socket_specs(frame):
 
 
 # forearm outer hardpoint plate (|x| of outer face, centre height relative to elbow, centre z)
-FOREARM_PLATE = {"x_out": 15.75, "x_in": 15.5, "y0_rel": -9.0, "y1_rel": -2.0, "y_mid_rel": -5.5,
-                 "z0": -3.6, "z1": -0.4, "z_mid": -2.0}
+FOREARM_PLATE = {"x_out": 15.4, "x_in": 15.2, "y0_rel": -9.0, "y1_rel": -2.0, "y_mid_rel": -5.5,
+                 "z0": -4.4, "z1": -0.4, "z_mid": -2.4}
