@@ -148,7 +148,9 @@ namespace Game.Units.Mech.Art.Editor
             Set(() => imp.addCollider, v => imp.addCollider = v, false);
             Set(() => imp.meshCompression, v => imp.meshCompression = v, ModelImporterMeshCompression.Off);
             Set(() => imp.isReadable, v => imp.isReadable = v, false);
-            Set(() => imp.importNormals, v => imp.importNormals = v, ModelImporterNormals.Import);
+            // faceted normals recomputed from the triangle winding after the Z-up axis bake (flat-shaded greybox)
+            Set(() => imp.importNormals, v => imp.importNormals = v, ModelImporterNormals.Calculate);
+            Set(() => imp.normalSmoothingAngle, v => imp.normalSmoothingAngle = v, 0f);
             Set(() => imp.importTangents, v => imp.importTangents = v, ModelImporterTangents.None);
             Set(() => imp.weldVertices, v => imp.weldVertices = v, true);
             Set(() => imp.materialImportMode, v => imp.materialImportMode = v, ModelImporterMaterialImportMode.ImportStandard);

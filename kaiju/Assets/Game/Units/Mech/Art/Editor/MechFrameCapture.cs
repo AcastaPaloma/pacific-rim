@@ -42,7 +42,8 @@ namespace Game.Units.Mech.Art.Editor
             var sun = new GameObject("sun").AddComponent<Light>();
             sun.type = LightType.Directional;
             sun.intensity = 1.2f;
-            sun.transform.rotation = Quaternion.Euler(40f, -30f, 0f);
+            sun.shadows = LightShadows.None;   // capture shows forms and palette roles, not cast shadows
+            sun.transform.rotation = Quaternion.Euler(35f, 160f, 0f);   // light falls on the front-left
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
             RenderSettings.ambientLight = new Color(0.55f, 0.56f, 0.6f);
 
@@ -52,6 +53,7 @@ namespace Game.Units.Mech.Art.Editor
             UnityEngine.Object.DestroyImmediate(human.GetComponent<Collider>());
             human.transform.localScale = new Vector3(0.45f, 0.9f, 0.45f);
             human.transform.position = new Vector3(-13f, 0.9f, 9f);
+            ShaderUtil.allowAsyncCompilation = false;   // no placeholder shaders in the captured frames
             var hm = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
             hm.SetColor("_BaseColor", new Color(0.85f, 0.05f, 0.05f));
             human.GetComponent<MeshRenderer>().sharedMaterial = hm;
@@ -63,7 +65,8 @@ namespace Game.Units.Mech.Art.Editor
             cam.backgroundColor = new Color(0.93f, 0.93f, 0.92f);
             cam.nearClipPlane = 1f;
             cam.farClipPlane = 1000f;
-            var rt = new RenderTexture(W, H, 24, RenderTextureFormat.ARGB32) { antiAliasing = 4 };
+            var rt = new RenderTexture(W, H, 32, RenderTextureFormat.ARGB32) { antiAliasing = 1 };
+            rt.Create();
             cam.targetTexture = rt;
 
             var bounds = new Bounds();
@@ -94,7 +97,15 @@ namespace Game.Units.Mech.Art.Editor
                 var centre = new Vector3(0f, CentreY, 0f);
                 cam.transform.position = centre + dir * 300f;
                 cam.transform.rotation = Quaternion.LookRotation(-dir, Vector3.up);
-                cam.Render();
+                var req = new UnityEngine.Rendering.RenderPipeline.StandardRequest { destination = rt };
+                // the first frames after scene setup render before every material is ready: warm up 3 frames
+                for (int k = 0; k < (i == 0 ? 4 : 1); k++)
+                {
+                    if (UnityEngine.Rendering.RenderPipeline.SupportsRenderRequest(cam, req))
+                        UnityEngine.Rendering.RenderPipeline.SubmitRenderRequest(cam, req);
+                    else
+                        cam.Render();
+                }
                 RenderTexture.active = rt;
                 var tex = new Texture2D(W, H, TextureFormat.RGB24, false);
                 tex.ReadPixels(new Rect(0, 0, W, H), 0, 0);
