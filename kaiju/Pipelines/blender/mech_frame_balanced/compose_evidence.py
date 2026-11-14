@@ -73,7 +73,7 @@ def turnarounds():
         d.text((W - 330, py - 28), "80 m (H)", fill=(200, 40, 40), font=FONT)
         d.text((12, v["h"] - 34), f"T-007 Balanced greybox, {name} (orthographic). Red figure at the left toe = 1.8 m human.",
                fill=(60, 60, 60), font=FONT)
-        im.save(os.path.join(EV, f"turnaround_{name}.png"))
+        im.quantize(colors=96, method=Image.Quantize.MEDIANCUT).save(os.path.join(EV, f"turnaround_{name}.png"), optimize=True)
         ims.append(im.crop((W // 2 - 330, 0, W // 2 + 330, v["h"])))
     sheet = Image.new("RGB", (660 * 4, 1080), "white")
     for i, im in enumerate(ims):

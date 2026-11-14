@@ -69,6 +69,7 @@ def setup(scene, w, h, mode):
     scene.render.film_transparent = False
     scene.render.image_settings.file_format = "PNG"
     scene.render.image_settings.color_mode = "RGB"
+    scene.render.image_settings.compression = 100
     try:
         scene.view_settings.view_transform = "Standard"
     except Exception:

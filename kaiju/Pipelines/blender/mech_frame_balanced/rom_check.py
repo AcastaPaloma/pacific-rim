@@ -184,6 +184,7 @@ def render_pose(name):
     sc = bpy.context.scene
     sc.render.engine = "BLENDER_WORKBENCH"
     sc.render.resolution_x, sc.render.resolution_y = 640, 720
+    sc.render.image_settings.compression = 100
     sh = sc.display.shading
     sh.light, sh.color_type, sh.show_object_outline = "STUDIO", "MATERIAL", True
     if sc.world is None:
