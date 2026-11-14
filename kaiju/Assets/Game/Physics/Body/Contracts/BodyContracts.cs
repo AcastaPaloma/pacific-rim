@@ -5,7 +5,7 @@ namespace Game.Physics.Body.Contracts
 {
     public static class BodyContractVersions
     {
-        public const int ArticulatedBody = 1;
+        public const int ArticulatedBody = 2;   // 2: inverse-dynamics queries (round 2 of T-005)
         public const int FootContactEvent = 1;
         public const string PhysicsLog = "physics_log@v1";
         public const string FlagEnabled = "physics.body.enabled", FlagPhysicsLog = "physics.body.physicsLog";
@@ -132,6 +132,12 @@ namespace Game.Physics.Body.Contracts
         void GetDofGains(int dof, bool stanceSide, out double stiffnessNmPerRad, out double dampingNmsPerRad);
         double DofDriveTorque(int dof);
         double DofAppliedTorque(int dof);
+        /// <summary>Inverse dynamics from the body's own model in its present pose (engine: ArticulationBody.GetJointGravityForces): the joint torque that counteracts gravity on this DOF. Contact forces are not part of it.</summary>
+        double DofGravityTorque(int dof);
+        /// <summary>Inverse dynamics (engine: GetJointCoriolisCentrifugalForces): the joint torque that counteracts the Coriolis and centrifugal forces at the present joint velocities.</summary>
+        double DofCoriolisTorque(int dof);
+        /// <summary>Inverse dynamics (engine: GetJointForcesForAcceleration on the DOF's link): the joint torque that gives this DOF the acceleration (rad/s2) in the present pose. Gravity, velocity terms, drives and contacts are not part of it.</summary>
+        double DofTorqueForAcceleration(int dof, double accelerationRps2);
 
         double TotalMassKg { get; }
         Vector3 Com { get; }

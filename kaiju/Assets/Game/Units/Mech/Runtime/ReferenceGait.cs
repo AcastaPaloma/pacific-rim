@@ -9,6 +9,7 @@ namespace Game.Units.Mech
     public sealed class GaitGeometry
     {
         public double Thigh, Shank, HipHeight, HipHalfWidth, AnkleHeight, HeelZ, ToeZ, LegMass, ThighMass, ShankMass, FootMass, ArmMass, ArmLength, ShoulderHalfWidth, TrunkYawInertia, TotalMass;
+        public double ThighComFrac, ShankComFrac, ArmComFrac;   // centre of mass along the segment (thigh, shank) or along the whole hanging arm, from the frame's segment data
         public double[] HipFlexRom, KneeRom, AnkleRom;   // degrees, anatomical
 
         public static GaitGeometry From(MechFrameData f)
@@ -37,6 +38,15 @@ namespace Game.Units.Mech
                 else if (s.side != "R") g.TrunkYawInertia += s.inertia_principal_kgm2[1];
             }
             g.LegMass = g.ThighMass + g.ShankMass + g.FootMass;
+            double armMoment = 0;
+            foreach (var s in f.segments)
+            {
+                if (s.side != "L") continue;
+                if (s.kind == "thigh") g.ThighComFrac = (hip[1] - s.com[1]) / g.Thigh;
+                else if (s.kind == "shank") g.ShankComFrac = (knee[1] - s.com[1]) / g.Shank;
+                else if (s.kind != "foot" && shoulder != null) armMoment += s.mass_kg * (shoulder[1] - s.com[1]);
+            }
+            g.ArmComFrac = g.ArmMass > 0 && g.ArmLength > 0 ? armMoment / (g.ArmMass * g.ArmLength) : 0.5;
             return g;
         }
         static double[] Rom(JointData j, string dof) { foreach (var d in j.dofs) if (d.name == dof) return d.rom_deg; throw new InvalidOperationException(j.id + " has no DOF " + dof); }
@@ -56,7 +66,7 @@ namespace Game.Units.Mech
 
     public struct GaitSample
     {
-        public double Phase, HipHeight, PelvisSway, PelvisYaw, WaistYaw, ArmFlexionL, ArmFlexionR, LeadShare;
+        public double Phase, HipHeight, PelvisSway, PelvisYaw, PelvisTilt, WaistYaw, ArmFlexionL, ArmFlexionR, LeadShare;
         public LegSample L, R;
     }
 
@@ -98,6 +108,10 @@ namespace Game.Units.Mech
             StepWidth = _t.step_width_walk_frac * l;
             _legMax = LegLength(_t.knee_min_flex_deg * Math.PI / 180);
             _toeOffExtra = 0; _waist = null;
+            Tilt = _t.imp > 0 ? _t.imp_pelvis_tilt_deg * Math.PI / 180 * Rollover : 0;
+            HipTarget = _t.imp_hip_height_frac * l;
+            _hsPitch = 0; _toPitch = 0;
+            if (_t.imp > 0 && Speed > 1e-6) { _hsPitch = -Posture(-FrontReach).FootPitch; _toPitch = Posture(2 * StepLength * Duty - FrontReach).FootPitch; }
             if (Speed > 1e-6 && _t.ref_ankle_heel_rise > 0) { var end = Sample(Duty - 1e-6); _toeOffExtra = Math.Max(0, end.L.FootPitch); }
             // R-007 change 4: the trunk turns against the limbs. Waist yaw rate = -gain x (angular momentum of legs and arms about the vertical) / trunk yaw inertia, zero mean, bounded.
             const int K = 240; var table = new double[K + 1]; double T = 2 * StepTime, mean = 0, max = _t.ref_waist_max_deg * Math.PI / 180;
@@ -112,6 +126,13 @@ namespace Game.Units.Mech
             }
         }
         double[] _waist;
+        double _hsPitch, _toPitch;
+        /// <summary>Forward pelvic tilt of the pattern, rad (R-008 section 1: about 10 degrees at full rollover; the waist extends by the same angle so the trunk stays upright).</summary>
+        public double Tilt { get; private set; }
+        /// <summary>Hip height the stance posture is solved for, m (walk tall: the rockers, not a crouch, give the reach).</summary>
+        public double HipTarget { get; private set; }
+        /// <summary>R-008 corrected stance: the state-indexed posture for a hip <paramref name="x"/> m ahead of the foot's flat-ankle anchor, with this pattern's margins.</summary>
+        public StanceSolution Posture(double x, double pitchFloor = 0) => StancePosture.Solve(_g, x, HipTarget, _t.imp_knee_min_deg * Math.PI / 180, (_g.AnkleRom[0] + _t.imp_ankle_margin_deg) * Math.PI / 180, (_g.AnkleRom[1] - _t.imp_ankle_margin_deg) * Math.PI / 180, _t.imp_heel_strike_max_deg * Math.PI / 180, _t.imp_toe_off_max_deg * Math.PI / 180, pitchFloor);
         double WaistTable(double phase)
         {
             if (_waist == null) return 0;
@@ -126,10 +147,18 @@ namespace Game.Units.Mech
         double LegLength(double knee) => Math.Sqrt(_g.Thigh * _g.Thigh + _g.Shank * _g.Shank + 2 * _g.Thigh * _g.Shank * Math.Cos(knee));
 
         // ---- foot ----
-        void Foot(double psi, double extraHeelRise, out double zeta, out double y, out double pitch, out FootSupport support, out double progress)
+        void Foot(double psi, double extraHeelRise, double hipZ, out double zeta, out double y, out double pitch, out FootSupport support, out double progress)
         {
             double stride = 2 * StepLength, T = 2 * StepTime, hs = _t.ref_heel_strike_deg * Rollover * Math.PI / 180, to = _t.ref_toe_off_deg * Math.Max(Rollover, _t.ref_toe_off_floor) * Math.PI / 180;
             progress = 0;
+            if (psi < Duty && _t.imp > 0)
+            {
+                // corrected reference (R-008): the foot pitch is the one the stance posture needs for the hip's position over the foot, so the ankle demand holds over the whole stance
+                double flatZ = FrontReach - stride * psi;
+                var p = Posture(hipZ - flatZ);
+                pitch = p.FootPitch; support = p.Support; zeta = flatZ + p.AnkleX; y = p.AnkleY;
+                return;
+            }
             if (psi < Duty)
             {
                 double ps = psi / Duty, flatZ = FrontReach - stride * psi;   // where the ankle is while the foot is flat
@@ -143,6 +172,7 @@ namespace Game.Units.Mech
             double u = (psi - Duty) / (1 - Duty), tSwing = (1 - Duty) * T;
             progress = u;
             to = Math.Max(to, _toeOffExtra);
+            if (_t.imp > 0) { to = _toPitch; hs = _hsPitch; }
             ToePivot(FrontReach - stride * Duty, to, out double z0, out double y0);
             HeelPivot(FrontReach, -hs, out double z1, out double y1);
             double v = -Speed * tSwing;   // d(zeta)/du at both ends
@@ -204,9 +234,11 @@ namespace Game.Units.Mech
             double swayAmp = half * (1 - 1 / Math.Cosh(0.5 * w0 * StepTime)) * _t.ref_sway_scale;
             s.PelvisSway = -swayAmp * Math.Sin(2 * Math.PI * (phase - 0.25 * (2 * Duty - 1)));   // toward the left foot (-x) during left stance
 
-            Foot(phase, heelRiseL, out double zl, out double yl, out double pl, out FootSupport sl, out double ul);
+            double hipZL = -_g.HipHalfWidth * Math.Sin(s.PelvisYaw) * -1, hipZR = -hipZL;   // left hip forward for positive yaw
+            s.PelvisTilt = Tilt;
+            Foot(phase, heelRiseL, hipZL, out double zl, out double yl, out double pl, out FootSupport sl, out double ul);
             double pr0 = phase - 0.5; pr0 -= Math.Floor(pr0);
-            Foot(pr0, heelRiseR, out double zr, out double yr, out double prr, out FootSupport sr, out double ur);
+            Foot(pr0, heelRiseR, hipZR, out double zr, out double yr, out double prr, out FootSupport sr, out double ur);
             // share of the support taken by the leg that landed last, ramped over double support
             double ds = Duty - 0.5;
             double leadL = sl != FootSupport.Swing ? (sr == FootSupport.Swing ? 1 : Smooth(phase < 0.5 ? phase / ds : 1)) : 0;
@@ -214,12 +246,12 @@ namespace Game.Units.Mech
             if (sl != FootSupport.Swing && sr != FootSupport.Swing) { if (phase < ds) leadR = 1 - leadL; else leadL = 1 - leadR; }
             s.LeadShare = phase < 0.5 ? leadL : leadR;
             // hip height: each supporting leg at its knee profile, blended by the shares, never above what a supporting leg can reach
-            double hipZL = -_g.HipHalfWidth * Math.Sin(s.PelvisYaw) * -1, hipZR = -hipZL;   // left hip forward for positive yaw
-            double height = 0, limit = double.MaxValue;
+            double height = 0;
             if (sl != FootSupport.Swing) height += leadL * Height(yl, zl - hipZL, LegLength(StanceKnee(phase)));
             if (sr != FootSupport.Swing) height += leadR * Height(yr, zr - hipZR, LegLength(StanceKnee(pr0)));
             // both legs must reach their feet at every phase (the swing leg too: the hips are already low when its heel arrives). Smooth minimum: no kink in the hip height.
             double reachL = Height(yl, zl - hipZL, _legMax) - _t.ref_reach_margin_frac * _g.HipHeight, reachR = Height(yr, zr - hipZR, _legMax) - _t.ref_reach_margin_frac * _g.HipHeight;
+            if (_t.imp > 0) height = HipTarget;
             s.HipHeight = SoftMin(height, SoftMin(reachL, reachR));
             s.L = Leg(-1, zl, yl, pl, sl, ul, s, hipZL); s.R = Leg(1, zr, yr, prr, sr, ur, s, hipZR);
             return s;
@@ -239,8 +271,8 @@ namespace Game.Units.Mech
             double knee = Math.PI - Math.Acos(Math.Max(-1, Math.Min(1, (a * a + c * c - len * len) / (2 * a * c))));
             double alpha = Math.Acos(Math.Max(-1, Math.Min(1, (a * a + len * len - c * c) / (2 * a * len))));
             double lineAngle = Math.Atan2(dz, dy);                 // hip-to-ankle line from the downward vertical, positive forward
-            leg.Knee = knee; leg.HipFlexion = lineAngle + alpha;   // thigh forward of the line by alpha
-            double shank = leg.HipFlexion - knee;                  // shank angle from the vertical, positive = foot end forward
+            leg.Knee = knee; leg.HipFlexion = lineAngle + alpha + s.PelvisTilt;   // thigh forward of the line by alpha; the joint also takes up the pelvic tilt
+            double shank = lineAngle + alpha - knee;                  // shank angle from the vertical, positive = foot end forward
             leg.AnklePlantar = pitch + shank;                      // foot pitch relative to the shank
             if (support == FootSupport.Swing)
             {
@@ -268,7 +300,7 @@ namespace Game.Units.Mech
             // legs: thigh, shank and foot as point masses on the hip-knee-ankle chain; z velocity in the moving frame; lever arm = lateral offset
             L += LegMomentum(m.L, a.L, b.L, -1, h * T) + LegMomentum(m.R, a.R, b.R, 1, h * T);
             // arms: a pendulum from the shoulder, centre of mass at 0.45 of its length
-            double r = 0.45 * _g.ArmLength;
+            double r = _g.ArmComFrac * _g.ArmLength;
             L += -_g.ShoulderHalfWidth * _g.ArmMass * r * Math.Cos(m.ArmFlexionL) * (b.ArmFlexionL - a.ArmFlexionL) / (2 * h * T) * -1;
             L += _g.ShoulderHalfWidth * _g.ArmMass * r * Math.Cos(m.ArmFlexionR) * (b.ArmFlexionR - a.ArmFlexionR) / (2 * h * T) * -1;
             // trunk: yaw of the pelvis plus the waist
@@ -277,7 +309,7 @@ namespace Game.Units.Mech
         }
         double LimbMomentumY(double phase)
         {
-            double h = 1e-3, T = 2 * StepTime, r = 0.45 * _g.ArmLength;
+            double h = 1e-3, T = 2 * StepTime, r = _g.ArmComFrac * _g.ArmLength;
             var a = Sample(phase - h); var b = Sample(phase + h); var m = Sample(phase);
             double L = LegMomentum(m.L, a.L, b.L, -1, h * T) + LegMomentum(m.R, a.R, b.R, 1, h * T);
             L += _g.ShoulderHalfWidth * _g.ArmMass * r * (Math.Cos(m.ArmFlexionL) * (b.ArmFlexionL - a.ArmFlexionL) - Math.Cos(m.ArmFlexionR) * (b.ArmFlexionR - a.ArmFlexionR)) / (2 * h * T);
@@ -289,7 +321,7 @@ namespace Game.Units.Mech
             double x = side * _g.HipHalfWidth;
             Func<LegSample, double> kneeZ = q => _g.Thigh * Math.Sin(q.HipFlexion);
             double vAnkle = (b.Ankle.Z - a.Ankle.Z) / (2 * dt), vKnee = (kneeZ(b) - kneeZ(a)) / (2 * dt);
-            double vThigh = 0.45 * vKnee, vShank = vKnee + 0.45 * (vAnkle - vKnee), vFoot = vAnkle;
+            double vThigh = _g.ThighComFrac * vKnee, vShank = vKnee + _g.ShankComFrac * (vAnkle - vKnee), vFoot = vAnkle;
             return -x * (_g.ThighMass * vThigh + _g.ShankMass * vShank + _g.FootMass * vFoot);
         }
     }

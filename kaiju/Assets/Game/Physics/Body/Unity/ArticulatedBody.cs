@@ -251,6 +251,38 @@ namespace Game.Physics.Body.Unity
         }
         public double DofDriveTorque(int dof) => _tauDrive[dof];
         public double DofAppliedTorque(int dof) => _tauDrive[dof] + _tauFfApplied[dof];
+
+        // ---- inverse dynamics from the engine's own model (verified against the 6000.6.9f1 scripting API: GetJointGravityForces, GetJointCoriolisCentrifugalForces, GetJointForcesForAcceleration, GetDofStartIndices) ----
+        readonly List<float> _idGravity = new List<float>(), _idCoriolis = new List<float>(); readonly List<int> _idStart = new List<int>();
+        bool _idGravityFresh, _idCoriolisFresh, _idStartFresh;
+        int IdIndex(int dof)
+        {
+            if (!_idStartFresh) { _ab[0].GetDofStartIndices(_idStart); _idStartFresh = true; }
+            int link = _dof[dof].ChildLink, index = _ab[link].index;
+            return index >= 0 && index < _idStart.Count ? _idStart[index] + dof - _linkDofStart[link] : -1;
+        }
+        public double DofGravityTorque(int dof)
+        {
+            if (!_idGravityFresh) { _ab[0].GetJointGravityForces(_idGravity); _idGravityFresh = true; }
+            int i = IdIndex(dof);
+            return i >= 0 && i < _idGravity.Count ? _dof[dof].Sign * _idGravity[i] * _unit : 0;
+        }
+        public double DofCoriolisTorque(int dof)
+        {
+            if (!_idCoriolisFresh) { _ab[0].GetJointCoriolisCentrifugalForces(_idCoriolis); _idCoriolisFresh = true; }
+            int i = IdIndex(dof);
+            return i >= 0 && i < _idCoriolis.Count ? _dof[dof].Sign * _idCoriolis[i] * _unit : 0;
+        }
+        public double DofTorqueForAcceleration(int dof, double accelerationRps2)
+        {
+            var info = _dof[dof]; var ab = _ab[info.ChildLink];
+            int slots = ab.dofCount, k = dof - _linkDofStart[info.ChildLink];
+            if (slots <= k) return 0;
+            var acc = slots == 1 ? new ArticulationReducedSpace(0f) : slots == 2 ? new ArticulationReducedSpace(0f, 0f) : new ArticulationReducedSpace(0f, 0f, 0f);
+            acc[k] = (float)(info.Sign * accelerationRps2);
+            var force = ab.GetJointForcesForAcceleration(acc);
+            return force.dofCount > k ? info.Sign * force[k] * _unit : 0;
+        }
         public string FootId(int foot) => _frame.segments[_footLink[foot]].side ?? _frame.segments[_footLink[foot]].id;
         public void GetFoot(int foot, out FootState state) => state = _foot[foot];
         public Transform PartTransform(string segmentId) { int i = FindLink(segmentId); return i < 0 ? null : _tf[i]; }
@@ -369,6 +401,7 @@ namespace Game.Physics.Body.Unity
 
         void ReadState()
         {
+            _idGravityFresh = false; _idCoriolisFresh = false;
             double mx = 0, my = 0, mz = 0, vx = 0, vy = 0, vz = 0;
             for (int i = 0; i < _ab.Length; i++)
             {
