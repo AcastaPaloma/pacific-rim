@@ -238,6 +238,7 @@
  "failing_gating": [
   "M-002.1"
  ],
+ "failures_suppressed": false,
  "flags": [],
  "headless_verdict": "FAIL",
  "headless_verdict_label": "FAIL",
@@ -246,7 +247,7 @@
  ],
  "inputs": [
   {
-   "path": "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_yk0bkgyh/bd_M-002.1_1.02/walk_fr020.gait.jsonl",
+   "path": "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_ntula11q/bd_M-002.1_1.02/walk_fr020.gait.jsonl",
    "role": "gait_log@v1 walk_fr020",
    "sha256": "0c0175ebfaaf15a858c6f00dd816e248abcd76716092103c0cae99e165594436"
   }
@@ -254,7 +255,7 @@
  "invocation": {
   "command": "m002",
   "inputs": [
-   "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_yk0bkgyh/bd_M-002.1_1.02"
+   "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_ntula11q/bd_M-002.1_1.02"
   ],
   "label": "bd_M-002.1_1.02",
   "mode": "standard",
@@ -285,21 +286,21 @@
  },
  "registry": {
   "metric_status": "registered",
-  "path": "Tools/Metrics/registry/M-002@v1.yaml",
-  "revision": "v1.0",
-  "sha256": "d7671017f46d6fe0fb7d6efede47407ff598a0c93e52e0c72099f38ff0477f45",
+  "path": "Tools/Metrics/registry/M-002@v1.1.yaml",
+  "revision": "v1.1",
+  "sha256": "dd104137882d9d95ebfcdeaedc03f076cd546ae278068fa276db55db880b5745",
   "spec": "M-002@v1"
  },
  "report_schema": "metric_report@v1",
  "run": {
   "host": "Kuans-MacBook-Pro.local",
   "python": "3.12.16",
-  "timestamp_utc": "2026-11-14T15:37:47Z",
-  "wall_time_s": 0.256
+  "timestamp_utc": "2026-11-14T17:04:46Z",
+  "wall_time_s": 0.241
  },
  "submeasures": [
   {
-   "decisive_part": "max_c s_c/L_f",
+   "decisive_part": "walk_fr020:walk_fr020.gait.jsonl max s_c/L_f",
    "diagnostics": {
     "contacts_total": 12,
     "contacts_used": 12,
@@ -386,9 +387,12 @@
    "op": "<",
    "parts": [
     {
+     "contact_id": 2,
+     "foot": "R",
      "margin": -9.99999999866e-05,
      "margin_rel": -0.0199999999973,
-     "name": "max_c s_c/L_f",
+     "n_begin": 165,
+     "name": "walk_fr020:walk_fr020.gait.jsonl max s_c/L_f",
      "op": "<",
      "slip_m": 0.0999599999997,
      "status": "FAIL",
@@ -548,7 +552,7 @@
   }
  ],
  "tool": {
-  "git_commit": "633643779adaed64cd1c98e8cb0494b141e36c1a",
+  "git_commit": "ef3b834cc480825634bef7126a5814bdc7f5b901",
   "name": "kaiju_metrics",
   "version": "1.0.0"
  },

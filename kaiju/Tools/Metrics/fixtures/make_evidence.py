@@ -206,7 +206,7 @@ def boundary_gait():
     for f in (0.98, 1.02):
         out.append(("M-001.4", f, G.spec_estop(decel=f * 0.30 * g)))
         out.append(("M-001.10", f, G.spec_start(steps_to_90=2 * f)))
-        out.append(("M-001.12", f, G.spec_estop(decel=(VC - 0.3) / (f * VC / (0.30 * g)))))
+        out.append(("M-001.12", f, G.spec_estop(decel=(VC - 0.3) / (f * (VC - 0.3) / (0.30 * g)))))   # floor to 0.3 m/s
         s = f * 0.005 * G.REF["foot_length_m"]
         out.append(("M-002.1", f, G.spec_walk(0.2, strides=5, slips={(1, 1): (0.6 * s, 0.8 * s)})))
     return out

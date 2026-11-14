@@ -1,4 +1,4 @@
-M-003@v1  [M-003.d-iv_offset_undeclared_negative]  registry v1.0 sha256:c6fc21b8b22b  tool 1.0.0
+M-003@v1  [M-003.d-iv_offset_undeclared_negative]  registry v1.1 sha256:7a63afd06c66  tool 1.0.0
 VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 1
   FAIL           [G] M-003.d-iv       0.5169 share of blocks  >= 0.995  margin -0.4781
       where: M-003.d-iv_offset_undeclared_negative/gameplay/f000001
@@ -13,9 +13,10 @@ VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 1
   REPORTED       [i] M-003.a.A3       1 share
   REPORTED       [i] M-003.a.A5       1 share
   PASS           [A] M-003.b.DIG_max  0.4458 DIG  <= 0.5  margin 0.05416 seed-threshold
-  REPORTED       [i] M-003.b.O        1.328 O
+  REPORTED       [A] M-003.b.O        1.328 O
   NOT_APPLICABLE [A] M-003.d-iii      -   (no accent present in any frame (applies only when present))
   PASS           [A] M-003.e.sky      0.4872   in [0.2, 0.5]  margin 0.01285 seed-threshold
   PASS           [A] M-003.e.horizon  0.4462   <= 0.45  margin 0.003764 seed-threshold
   PASS           [A] M-003.e.contrast 34.35   >= 25  margin 9.352 seed-threshold
+  warning: ADVISORY M-003.b.O reported without a threshold until Q-015: median O 1.328 (Bayer/checker > 0.5, white noise ~ 0, clustered < 0; the references are -0.34..+0.15)
   inputs: 81 files hashed; report.json holds every value, threshold and hash

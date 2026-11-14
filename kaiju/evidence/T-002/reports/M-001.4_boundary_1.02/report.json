@@ -40,6 +40,7 @@
   "M-001.4",
   "M-001.12"
  ],
+ "failures_suppressed": false,
  "flags": [],
  "headless_verdict": "FAIL",
  "headless_verdict_label": "FAIL",
@@ -48,7 +49,7 @@
  ],
  "inputs": [
   {
-   "path": "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_yk0bkgyh/bd_M-001.4_1.02/estop.gait.jsonl",
+   "path": "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_ntula11q/bd_M-001.4_1.02/estop.gait.jsonl",
    "role": "gait_log@v1 estop",
    "sha256": "6e6728389167f2842045079881b49e3a36968d9ca9679d432c4ccc2070d8b99f"
   }
@@ -56,7 +57,7 @@
  "invocation": {
   "command": "m001",
   "inputs": [
-   "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_yk0bkgyh/bd_M-001.4_1.02"
+   "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_ntula11q/bd_M-001.4_1.02"
   ],
   "label": "bd_M-001.4_1.02",
   "mode": "standard",
@@ -87,17 +88,17 @@
  },
  "registry": {
   "metric_status": "registered",
-  "path": "Tools/Metrics/registry/M-001@v1.yaml",
-  "revision": "v1.0",
-  "sha256": "786778529ef7effe6ada487ec9320ac3de7b4c2abb74584595b38a4f38e4e1b3",
+  "path": "Tools/Metrics/registry/M-001@v1.1.yaml",
+  "revision": "v1.1",
+  "sha256": "e18bdef7a8b54c168e15bb21b54b8e62cb6abc8396caeaa9d87579c14a53ad0e",
   "spec": "M-001@v1"
  },
  "report_schema": "metric_report@v1",
  "run": {
   "host": "Kuans-MacBook-Pro.local",
   "python": "3.12.16",
-  "timestamp_utc": "2026-11-14T15:37:46Z",
-  "wall_time_s": 0.278
+  "timestamp_utc": "2026-11-14T17:04:44Z",
+  "wall_time_s": 0.263
  },
  "submeasures": [
   {
@@ -471,27 +472,28 @@
     }
    },
    "kind": "gating",
-   "margin": -0.159146938334,
-   "margin_rel": -0.0513518531069,
+   "margin": -0.0572101391494,
+   "margin_rel": -0.0190877971491,
    "note": null,
    "op": ">=",
    "parts": [
     {
-     "floor_brake_s": 3.09914693833,
-     "floor_cruise_s": 3.09914693833,
-     "margin": -0.159146938334,
-     "margin_rel": -0.0513518531069,
+     "end_speed_mps": 0.3,
+     "floor_brake_s": 2.99721013915,
+     "floor_cruise_s": 2.99721013915,
+     "margin": -0.0572101391494,
+     "margin_rel": -0.0190877971491,
      "name": "estop:time to stop",
      "op": ">=",
      "status": "FAIL",
-     "threshold": 3.09914693833,
+     "threshold": 2.99721013915,
      "unit": "s",
      "v0_mps": 9.12078943952,
      "value": 2.94
     }
    ],
    "status": "FAIL",
-   "threshold": 3.09914693833,
+   "threshold": 2.99721013915,
    "threshold_status": "assumed_pending_calibration",
    "title": "Time to stop, emergency >= max(v_cruise / a_ref, m v0 / F_brake,max)",
    "unit": "s",
@@ -511,7 +513,7 @@
   }
  ],
  "tool": {
-  "git_commit": "633643779adaed64cd1c98e8cb0494b141e36c1a",
+  "git_commit": "ef3b834cc480825634bef7126a5814bdc7f5b901",
   "name": "kaiju_metrics",
   "version": "1.0.0"
  },

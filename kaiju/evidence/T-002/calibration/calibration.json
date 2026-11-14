@@ -31,12 +31,12 @@
  ],
  "registry": {
   "metric_status": "registered",
-  "path": "Tools/Metrics/registry/M-002@v1.yaml",
-  "revision": "v1.0",
-  "sha256": "d7671017f46d6fe0fb7d6efede47407ff598a0c93e52e0c72099f38ff0477f45",
+  "path": "Tools/Metrics/registry/M-002@v1.1.yaml",
+  "revision": "v1.1",
+  "sha256": "dd104137882d9d95ebfcdeaedc03f076cd546ae278068fa276db55db880b5745",
   "spec": "M-002@v1"
  },
- "registry_diff": "--- registry/M-002@v1.yaml\n+++ registry/M-002@v1.1.yaml (proposed; review, then add as a new file)\n@@ -1,7 +1,7 @@\n registry_schema: metric_registry@v1\n metric: M-002\n spec: M-002@v1\n-revision: v1.0\n+revision: v1.1\n metric_status: registered\n date: \"2026-11-14\"\n title: No foot sliding\n@@ -32,7 +32,7 @@\n     title: p95 slip s_c / L_f (regression guard; reported)\n     kind: advisory\n     thresholds:\n-      p95_frac: {value: 0.0025, unit: L_f, status: assumed_pending_calibration, source: \"R-001 §9 Assumed\"}\n+      p95_frac: {value: 0.00204082, unit: L_f, status: calibrated, source: \"R-001 §9 Assumed\"}\n   M-002.3:\n     title: Sampling validity (fixed_dt <= 0.02 s, every step logged, float64 positions)\n     kind: gating\n",
+ "registry_diff": "--- registry/M-002@v1.1.yaml\n+++ registry/M-002@v1.2.yaml (proposed; review, then add as a new file)\n@@ -1,7 +1,7 @@\n registry_schema: metric_registry@v1\n metric: M-002\n spec: M-002@v1\n-revision: v1.1\n+revision: v1.2\n metric_status: registered\n date: \"2026-11-14\"   # v1.1: fix cycle 2 (DEF-T002-arch-1): per-capture minimum evidence\n title: No foot sliding\n@@ -33,7 +33,7 @@\n     title: p95 slip s_c / L_f (regression guard; reported)\n     kind: advisory\n     thresholds:\n-      p95_frac: {value: 0.0025, unit: L_f, status: assumed_pending_calibration, source: \"R-001 §9 Assumed\"}\n+      p95_frac: {value: 0.00204082, unit: L_f, status: calibrated, source: \"calibrated 2026-11-14 from evidence/T-002/calibration/synthetic_ratings.json (previously: R-001 §9 assumed then)\"}\n   M-002.3:\n     title: Sampling validity (fixed_dt <= 0.02 s, every step logged, float64 positions)\n     kind: gating\n",
  "table": [
   {
    "M-002.1": 0.000255102040822,

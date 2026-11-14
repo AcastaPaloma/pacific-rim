@@ -39,6 +39,7 @@
   }
  },
  "failing_gating": [],
+ "failures_suppressed": false,
  "flags": [],
  "headless_verdict": "INCOMPLETE",
  "headless_verdict_label": "INCOMPLETE",
@@ -47,7 +48,7 @@
  ],
  "inputs": [
   {
-   "path": "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_yk0bkgyh/bd_M-001.10_1.02/start.gait.jsonl",
+   "path": "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_ntula11q/bd_M-001.10_1.02/start.gait.jsonl",
    "role": "gait_log@v1 start",
    "sha256": "f1be0e28a219a71cb1af0a0ef98dd6a962b7b1274e9f08a15bfa48ca56441100"
   }
@@ -55,7 +56,7 @@
  "invocation": {
   "command": "m001",
   "inputs": [
-   "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_yk0bkgyh/bd_M-001.10_1.02"
+   "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_ntula11q/bd_M-001.10_1.02"
   ],
   "label": "bd_M-001.10_1.02",
   "mode": "standard",
@@ -86,17 +87,17 @@
  },
  "registry": {
   "metric_status": "registered",
-  "path": "Tools/Metrics/registry/M-001@v1.yaml",
-  "revision": "v1.0",
-  "sha256": "786778529ef7effe6ada487ec9320ac3de7b4c2abb74584595b38a4f38e4e1b3",
+  "path": "Tools/Metrics/registry/M-001@v1.1.yaml",
+  "revision": "v1.1",
+  "sha256": "e18bdef7a8b54c168e15bb21b54b8e62cb6abc8396caeaa9d87579c14a53ad0e",
   "spec": "M-001@v1"
  },
  "report_schema": "metric_report@v1",
  "run": {
   "host": "Kuans-MacBook-Pro.local",
   "python": "3.12.16",
-  "timestamp_utc": "2026-11-14T15:37:47Z",
-  "wall_time_s": 0.282
+  "timestamp_utc": "2026-11-14T17:04:45Z",
+  "wall_time_s": 0.265
  },
  "submeasures": [
   {
@@ -548,7 +549,7 @@
   }
  ],
  "tool": {
-  "git_commit": "633643779adaed64cd1c98e8cb0494b141e36c1a",
+  "git_commit": "ef3b834cc480825634bef7126a5814bdc7f5b901",
   "name": "kaiju_metrics",
   "version": "1.0.0"
  },

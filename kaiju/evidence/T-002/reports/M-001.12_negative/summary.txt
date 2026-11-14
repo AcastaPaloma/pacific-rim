@@ -1,10 +1,10 @@
-M-001@v1  [neg_M-001.12]  registry v1.0 sha256:786778529ef7  tool 1.0.0
+M-001@v1  [neg_M-001.12]  registry v1.1 sha256:e18bdef7a8b5  tool 1.0.0
 VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 1
-  FAIL           [G] M-001.12         3.06 s  >= 3.099  margin -0.03915 seed-threshold
+  FAIL           [G] M-001.12         3.54 s  >= 4.496  margin -0.9558 seed-threshold
   PASS           [G] M-001.1          0.29 Fr  in [0.1, 0.3]  margin 0.01 seed-threshold
   PASS           [G] M-001.2          0.9933 -  in [0.85, 1.15]  margin 0.1433
   PASS           [G] M-001.3          0.6613 -  in [0.6, 0.72]  margin 0.05871 seed-threshold
-  PASS           [G] M-001.4          2.9 m/s^2  <= 2.943  margin 0.043
+  PASS           [G] M-001.4          2.5 m/s^2  <= 2.943  margin 0.443
   PASS           [G] M-001.5          0.6367 m/s^2  <= 0.8339  margin 0.1971
   PASS           [G] M-001.6          0.8292 m/s^2  <= 1.373  margin 0.5442 seed-threshold
   PASS           [G] M-001.7          12 deg/s  <= 26.7  margin 14.7

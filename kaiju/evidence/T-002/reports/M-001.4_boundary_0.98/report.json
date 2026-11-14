@@ -1,6 +1,7 @@
 {
  "assumed_thresholds_decisive": [
   "M-001.1",
+  "M-001.12",
   "M-001.3",
   "M-001.9"
  ],
@@ -30,24 +31,23 @@
    "curve"
   ]
  },
- "exit_code": 1,
+ "exit_code": 3,
  "extra": {
   "smoothing_window_samples": {
    "estop.gait.jsonl": 17
   }
  },
- "failing_gating": [
-  "M-001.12"
- ],
+ "failing_gating": [],
+ "failures_suppressed": false,
  "flags": [],
- "headless_verdict": "FAIL",
- "headless_verdict_label": "FAIL",
+ "headless_verdict": "INCOMPLETE",
+ "headless_verdict_label": "INCOMPLETE",
  "images": [
   "diag_gait.png"
  ],
  "inputs": [
   {
-   "path": "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_yk0bkgyh/bd_M-001.4_0.98/estop.gait.jsonl",
+   "path": "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_ntula11q/bd_M-001.4_0.98/estop.gait.jsonl",
    "role": "gait_log@v1 estop",
    "sha256": "3b4b1cf9a28d2a2c05de407a00c5279caf74f0303b5cec370fe980889f1d987d"
   }
@@ -55,7 +55,7 @@
  "invocation": {
   "command": "m001",
   "inputs": [
-   "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_yk0bkgyh/bd_M-001.4_0.98"
+   "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_ntula11q/bd_M-001.4_0.98"
   ],
   "label": "bd_M-001.4_0.98",
   "mode": "standard",
@@ -86,17 +86,17 @@
  },
  "registry": {
   "metric_status": "registered",
-  "path": "Tools/Metrics/registry/M-001@v1.yaml",
-  "revision": "v1.0",
-  "sha256": "786778529ef7effe6ada487ec9320ac3de7b4c2abb74584595b38a4f38e4e1b3",
+  "path": "Tools/Metrics/registry/M-001@v1.1.yaml",
+  "revision": "v1.1",
+  "sha256": "e18bdef7a8b54c168e15bb21b54b8e62cb6abc8396caeaa9d87579c14a53ad0e",
   "spec": "M-001@v1"
  },
  "report_schema": "metric_report@v1",
  "run": {
   "host": "Kuans-MacBook-Pro.local",
   "python": "3.12.16",
-  "timestamp_utc": "2026-11-14T15:37:45Z",
-  "wall_time_s": 0.303
+  "timestamp_utc": "2026-11-14T17:04:43Z",
+  "wall_time_s": 0.261
  },
  "submeasures": [
   {
@@ -470,27 +470,28 @@
     }
    },
    "kind": "gating",
-   "margin": -0.0391469383339,
-   "margin_rel": -0.0126315205806,
+   "margin": 0.0627898608506,
+   "margin_rel": 0.0209494356203,
    "note": null,
    "op": ">=",
    "parts": [
     {
-     "floor_brake_s": 3.09914693833,
-     "floor_cruise_s": 3.09914693833,
-     "margin": -0.0391469383339,
-     "margin_rel": -0.0126315205806,
+     "end_speed_mps": 0.3,
+     "floor_brake_s": 2.99721013915,
+     "floor_cruise_s": 2.99721013915,
+     "margin": 0.0627898608506,
+     "margin_rel": 0.0209494356203,
      "name": "estop:time to stop",
      "op": ">=",
-     "status": "FAIL",
-     "threshold": 3.09914693833,
+     "status": "PASS",
+     "threshold": 2.99721013915,
      "unit": "s",
      "v0_mps": 9.12078943952,
      "value": 3.06
     }
    ],
-   "status": "FAIL",
-   "threshold": 3.09914693833,
+   "status": "PASS",
+   "threshold": 2.99721013915,
    "threshold_status": "assumed_pending_calibration",
    "title": "Time to stop, emergency >= max(v_cruise / a_ref, m v0 / F_brake,max)",
    "unit": "s",
@@ -510,11 +511,11 @@
   }
  ],
  "tool": {
-  "git_commit": "633643779adaed64cd1c98e8cb0494b141e36c1a",
+  "git_commit": "ef3b834cc480825634bef7126a5814bdc7f5b901",
   "name": "kaiju_metrics",
   "version": "1.0.0"
  },
- "verdict": "FAIL",
- "verdict_label": "FAIL",
+ "verdict": "INCOMPLETE",
+ "verdict_label": "INCOMPLETE",
  "warnings": []
 }

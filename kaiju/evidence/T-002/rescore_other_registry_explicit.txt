@@ -1,5 +1,5 @@
 $ $PY Tools/Metrics/metrics.py rescore evidence/T-002/reports/M-002_reference/report.json --registry $SCRATCH/M-002@v1.1.yaml --allow-different-registry
-# exit 0, 0.40 s
-rescore M-002@v1 [gait_ref] registry v1.0 -> v1.1-demo (DIFFERENT registry)
+# exit 0, 0.36 s
+rescore M-002@v1 [gait_ref] registry v1.1 -> v1.1-demo (DIFFERENT registry)
 old verdict PASS  new verdict PASS
 REPRODUCED: every verdict and sub-measure identical
