@@ -1,12 +1,15 @@
 #!/bin/bash
 # T-004: runs every metric and check on the committed and local capture sets and stores the outputs in
-# evidence/T-004/metrics. Usage (from the project root):  Tools/Rendering/Pixel/run_evidence.sh <path to T-002 Tools/Metrics> [rerun_dir]
+# evidence/T-004/metrics. Usage (from the project root):
+#   Tools/Rendering/Pixel/run_evidence.sh <path to T-002 Tools/Metrics> [rerun_dir [rerun_dir_2]]
+# rerun_dir holds a second run of haze_cal, cut_check, c11_subpixel_on and stages_ab; rerun_dir_2 one of m003_stills and the controls.
 # The T-002 tools are used read-only from their own checkout; their commit is recorded in metrics/tool_versions.txt.
 set -u
-T2="${1:?path to the T-002 Tools/Metrics directory}"; RERUN="${2:-}"
+T2="${1:?path to the T-002 Tools/Metrics directory}"; RERUN="${2:-}"; RERUN2="${3:-}"
 PY=/opt/miniconda3/envs/kaiju/bin/python
 E=evidence/T-004; C=$E/captures; M=$E/metrics; PAL=research/R-002/palettes.json; CH=Tools/Rendering/Pixel/pixel_checks.py; SH=Tools/Rendering/Pixel/pixel_sheets.py
-mkdir -p $M/validate $M/m004ab $M/controls $M/checks $E/sheets
+rm -rf $M/validate $M/m003* $M/m004* $M/controls
+mkdir -p $M/validate $M/m004ab $M/m004_by_profile $M/controls $M/checks $E/sheets
 { echo "T-002 metric tools: $(git -C "$T2" rev-parse HEAD) ($(git -C "$T2" log -1 --format=%s | cut -c1-80))"; $PY "$T2/metrics.py" --version; echo "T-004 checks: $(git rev-parse HEAD)"; $PY --version; } > $M/tool_versions.txt 2>&1
 profiles="warm_rust_sepia warm_amber_haze slate_teal lavender_peach slate_crimson"
 
@@ -29,6 +32,8 @@ for d in $C/m004ab_*/; do n=$(basename $d); n=${n#m004ab_}
   $PY "$T2/metrics.py" m004 $d --palettes $PAL --profiles slate_teal --viewpoints eye70 --out $M/m004ab/$n --no-images --jobs 6 > $M/m004ab/$n.txt 2>&1
 done
 $PY "$T2/metrics.py" m004 $C/dolly_slate_teal --palettes $PAL --profiles slate_teal --viewpoints eye70 --out $M/m004_dolly --no-images > $M/m004_dolly.txt 2>&1
+# The same M-004 run per profile (stored separately so each profile has its own report).
+for p in $profiles; do $PY "$T2/metrics.py" m004 $C/m004_$p --palettes $PAL --profiles $p --out $M/m004_by_profile/$p --no-images --jobs 6 > $M/m004_by_profile_$p.txt 2>&1; done
 
 # 4. Checks the metric tools do not cover.
 $PY $CH cut $C/cut_check --out $M/checks/c13_cut.json
@@ -41,7 +46,8 @@ for p in $profiles; do
   $PY $CH scale $C/m003_details/${p}_detail_scale --out $M/checks/c7_scale_$p.json
   $PY $CH layers $C/m003_stills/${p}_eye70 --out $M/checks/c6_layers_$p.json
 done
-[ -n "$RERUN" ] && for s in m003_stills haze_cal cut_check c11_subpixel_on stages_ab; do $PY $CH identical $C/$s $RERUN/$s --out $M/checks/c19_identical_$s.json; done
+[ -n "$RERUN" ] && for s in haze_cal cut_check c11_subpixel_on stages_ab; do $PY $CH identical $C/$s $RERUN/$s --out $M/checks/c19_identical_$s.json; done
+[ -n "$RERUN2" ] && for s in m003_stills control_unquantised control_reversed_haze; do $PY $CH identical $C/$s $RERUN2/$s --out $M/checks/c19_identical_$s.json; done
 
 # 5. Sheets: stage A/B strip, toggle combinations, swatches and depth ramps, sequence contact sheets, panel board.
 S=$C/stages_ab
