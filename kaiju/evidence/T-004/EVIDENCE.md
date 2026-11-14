@@ -5,26 +5,33 @@ Branch `task/T-004`. All paths are relative to the project root (`kaiju/`). Thre
 ## How the evidence was produced
 | Step | Command (from the project root) | Commit |
 |---|---|---|
-| Pipeline assets, palette profiles, test scenes (Editor script) | `unity run . --no-tail --log-file <log> --timeout 900 -- -executeMethod Game.Tools.StyleCapture.StyleCaptureCli.Setup` | 343fdba (stills, controls, dolly: c35ed9b) |
-| All capture sets (`evidence/T-004/captures/`) | `unity run . --no-tail --log-file <log> --timeout 5400 -- -executeMethod Game.Tools.StyleCapture.StyleCaptureCli.Run -captureOut evidence/T-004/captures` (batch mode, Metal, no `-nographics`) | 343fdba (stills, controls, dolly: c35ed9b) (in every sidecar, `build.git_commit`) |
-| Second run for bit-identity | same method with `-captureOut <scratch>/rerun -captureJobs stills,hazecal,cut,subpixel,stages -captureProfiles slate_teal -captureCommit 343fdba (stills, controls, dolly: c35ed9b)` | assets and renderer code of 343fdba (stills, controls, dolly: c35ed9b) |
-| Frame timing | `unity run . --no-tail --log-file <log> --timeout 1800 -- -executeMethod Game.Tools.StyleCapture.StyleTiming.Run -timingOut evidence/T-004/timing -timingFrames 300` | 343fdba (stills, controls, dolly: c35ed9b) + docs |
-| Metrics, checks, sheets | `Tools/Rendering/Pixel/run_evidence.sh <T-002 checkout>/kaiju/Tools/Metrics <scratch>/rerun` | T-002 tools at 2838924 (`metrics/tool_versions.txt`) |
+| Pipeline assets, palette profiles, test scenes (Editor script) | `unity run . --no-tail --log-file <log> --timeout 900 -- -executeMethod Game.Tools.StyleCapture.StyleCaptureCli.Setup` | 343fdba |
+| All capture sets (full output, git-ignored `evidence/T-004/captures_local/`) | `unity run . --no-tail --log-file <log> --timeout 5400 -- -executeMethod Game.Tools.StyleCapture.StyleCaptureCli.Run -captureOut evidence/T-004/captures_local` (batch mode, Metal, no `-nographics`; about 15 minutes) | 343fdba for the first run; stills, controls and dolly were recaptured at c35ed9b (`-captureJobs stills,controls,dolly`); each sidecar carries its commit in `build.git_commit` |
+| M-004 sets with `direction` anchoring for all profiles | same, with `-captureJobs m004direction` (about 8 minutes) | 3f95664 |
+| Second runs for bit-identity | same method with `-captureOut <scratch>/rerun -captureJobs stills,hazecal,cut,subpixel,stages -captureProfiles slate_teal -captureCommit 343fdbab64fe87446d903584746ab5cd38b48782`, and `-captureOut <scratch>/rerun2 -captureJobs stills,controls -captureProfiles slate_teal` at c35ed9b | same renderer code and assets |
+| Frame timing | `unity run . --no-tail --log-file <log> --timeout 1800 -- -executeMethod Game.Tools.StyleCapture.StyleTiming.Run -timingOut evidence/T-004/timing -timingFrames 300` | 124dae8 (renderer code of 343fdba) |
+| Metrics, checks, sheets | `Tools/Rendering/Pixel/run_evidence.sh <T-002 checkout>/kaiju/Tools/Metrics <scratch>/rerun <scratch>/rerun2` (reads `captures_local`; falls back to the committed `captures`) | T-002 tools at ef3b834 (branch `task/T-002`, registry v1.1); the `m004_direction` report at 927590a (`metrics/tool_versions.txt`) |
 | Tables below | `/opt/miniconda3/envs/kaiju/bin/python Tools/Rendering/Pixel/evidence_tables.py evidence/T-004/metrics` | this commit |
 | Unity EditMode tests | `unity test . --mode EditMode -o evidence/T-004/tests/unity_editmode.xml` | this commit |
 | Engine-free tests | `dotnet test --logger trx` in `DotnetTests/Rendering.Pixel.Tests`, `DotnetTests/Camera.Tests`, `DotnetTests/Core.Tests` | this commit |
 
-Metric tools: `M-003@v1` and `M-004@v1` are computed by the T-002 tools (`Tools/Metrics/metrics.py m003|m004|validate`, read-only from the T-002 worktree, branch `task/T-002`, commit 2838924, registry v1.0). Checks those tools do not have (output smoothness M-011, camera cut, bit-identity, grid integrity at a declared non-zero offset, scale legibility, layers, depth decode) are computed by `Tools/Rendering/Pixel/pixel_checks.py` from the R-002 / reconciled-spec text.
+Metric tools: `M-003@v1` and `M-004@v1` are computed by the T-002 tools (`Tools/Metrics/metrics.py m003|m004|validate`, read-only from the T-002 worktree, branch `task/T-002`, commit ef3b834, registry v1.1; the later `m004_direction` run used 927590a). Checks those tools do not have (output smoothness M-011, camera cut, bit-identity, grid integrity at a declared non-zero offset, scale legibility, layers, depth decode) are computed by `Tools/Rendering/Pixel/pixel_checks.py` from the R-002 / reconciled-spec text.
 
-`capture_log_summary.txt` in the capture folder records the Unity log of the capture run: both runs logged 0 errors and 0 warnings.
+`capture_log_summary.txt` in the capture folder records the Unity log of the capture run: every run logged 0 errors and 0 warnings.
 
 ## What is in git and what is not
-The capture run writes about 1.9 GB (mostly 1920×1080 `color_output` PNGs of the motion sequences). Committed in full: `m003_stills` (180 frames), `m003_details`, `m003_stills_1440p`, `m003_stills_2160p`, `haze_cal`, every `control_*` set, `stages_ab`, `cut_check`, `c11_subpixel_on`, `c11_subpixel_off`, and one profile-viewpoint M-004 set in full: `m004_slate_teal/eye70_{S0,T1,T2,T3,Y1,Y2}` (960 frames). For the other M-004 sets (`m004_<profile>` for the other nine profile-viewpoints, the eight `m004ab_*` variants, the frame-noise control, the dolly) the metric JSON is committed (`metrics/`) and the frames are reproduced by the capture command above; contact sheets of the committed sequences are in `sheets/`. For the 20 s orbit (`orbit_slate_teal`, 1200 frames, written without `color_output`) the `color_internal` PNGs, sidecars and `sequence.json` are committed (the presented frame is the same image at ×4).
+The capture tool writes about 2.8 GB (mostly 1920×1080 `color_output` PNGs of the motion sequences) into `evidence/T-004/captures_local/`, which is git-ignored. The metrics were run on that full output. `evidence/T-004/captures/` (149 MB, committed) is a copy of part of it:
+- in full: `m003_stills` (180 frames), `m003_details`, `m003_stills_1440p`, `m003_stills_2160p`, `haze_cal`, the six `control_*` sets, `stages_ab`, `cut_check`, and one profile-viewpoint M-004 set: `m004_slate_teal/eye70_{S0,T1,T2,T3,Y1,Y2}` (960 frames);
+- `orbit_slate_teal/orbit_20s`: `sequence.json`, the sidecars of all 1200 frames and every tenth `color_internal` frame (the orbit is written without `color_output`; the presented frame is the same image at ×4);
+- not committed as frames (metric JSON in `metrics/`, contact sheets in `sheets/`): the other nine `m004_<profile>` profile-viewpoints, the five `m004direction_<profile>` sets, the eight `m004ab_*` variants and the frame-noise control, `c11_subpixel_on`, `c11_subpixel_off`, `dolly_slate_teal`.
+
+To regenerate everything: run the capture command above (and the `m004direction` one), then `run_evidence.sh`. A second run is bit-identical to the first (C19), so regenerated frames reproduce the stored numbers.
 
 ## Results at a glance
 - **M-003@v1** (T-002 tool, 180 stills + haze calibration): all eight measured gating sub-measures pass for all five profiles (a.output, a.internal, b.DIG, c1, c2, d-i, d-ii, d-iv); M-003.f (blind panel) is pending by design (milestone gate). Tool verdict `INCOMPLETE` (panel missing), headless `PASS (provisional: 2 assumed)`. Five advisory sub-measures miss (b.DIG_max, d-iii, e.sky, e.horizon, e.contrast): listed under "Not met".
 - **M-004@v1** (T-002 tool, five profiles × two viewpoints, configured default anchoring `hybrid`): 8 of 12 gating sub-measures pass; tool verdict `FAIL`. Static: exactly 0. Translation: S_px, F and T3 pass; C_px.T12 misses by 0.0007 (0.1507 against 0.15, warm_rust_sepia street T1). Yaw: all three miss (S_px 0.0351, C_px 0.0505, F 0.0131 against 0.01 / 0.01 / 0.001).
-- **Anchoring A/B** (slate_teal, eye-height): `direction` passes 10 of 12 (every yaw and static sub-measure, translation S_px and F; misses C_px.T12 0.1898 and C_px.T3 0.2026 against 0.15); `hybrid` 9 of 12; `screen` 7 of 12. No mode meets both the yaw and the translation thresholds. Per the reconciled spec ("How a miss on C9/C10 is handled") this goes to calibration; nothing was relaxed.
+- **M-004@v1 with `direction` anchoring** (same five profiles × two viewpoints): 7 of 12 pass; tool verdict `FAIL`. Static 0; yaw passes with margin (S_px 0.0013, C_px 0.0020, F 0.0001); translation misses (S_px.T12 0.1961, C_px.T12 0.3023, S_px.T3 0.1933, C_px.T3 0.2955, F.T3 0.0863; worst in the warm profiles at street level).
+- **Anchoring and stabiliser A/B** (slate_teal, eye-height): `direction` 10 of 12, `hybrid` 9 of 12, `screen` 7 of 12; each stabiliser switched off makes its sequence worse (table below). No mode meets both the yaw and the translation thresholds. Per the reconciled spec ("How a miss on C9/C10 is handled") this goes to calibration; nothing was relaxed.
 - Tests: `dotnet test` 41 + 16 (+ Core 89) pass; Unity EditMode 170 of 170 pass (54 Rendering.Pixel, 22 Camera, the rest Core).
 
 ## Criterion → artifact
@@ -37,28 +44,28 @@ Capture sets are under `evidence/T-004/captures/`, metric outputs under `evidenc
 | C3 Posterisation | **Met** (accent share reported, misses) | m003 d-i max 8 levels (≤ 12), d-ii max 2 hue families (≤ 3). Accent share (advisory): 0 to 0.0016 per frame; below 0.1 % in frames where the beacon is small or hidden. |
 | C4 Dither in gradients | **Met** | m003 b.DIG: 180 of 180 frames ≥ 0.15 (min 0.2804). Individually: sky gradient views DIG 0.52–0.61, gradient-lit surface views 0.33–0.51 (`metrics/m003_details`, table below). Dither off: `metrics/controls/dither_off` b.DIG share 0 (FAIL). Advisory: DIG_max 0.6489 (> 0.5), median O 0.75 (Bayer). Interleaved transitions: `sheets/stage_ab_strip.png`, `palette_index` PNGs. |
 | C5 Value by depth | **Met** | m003 c1: max drop 0.688 L* (≤ 2), min ρ 0.9643 (≥ 0.9), min span 17.54 L* (≥ 15). Bands extended to 30 km and by radial distance: `metrics/checks/c6_layers_*.json` (1, 3, 10, 30 km successively lighter in 12 of 12 frames per profile); dotnet tests `HazeBands_*`. c2 (`haze_cal`): PASS for all five profiles. Ramp uniformity (M-012): CV of the renderer's haze ramp ≤ 0.35 for all five, dotnet test `RepoPaletteSet_HasTheFiveProfiles_WithCanonicalHashes`. Controls fail: `metrics/controls/reversed_haze` (c1 drop 12.73 L*), `metrics/controls/haze_off` (c1 FAIL). |
-| C6 Layers and sky | **Met, one partial** | `metrics/checks/c6_layers_<profile>.json`: layers at 1, 3, 10, 30 km successively lighter in all 60 frames; far layer within 1.3–6.3 L* of the sky at the horizon and its indices are a subset of the horizon sky's; near field (< 150 m) darkest in all frames. Ground seam pixels use only the indices of the two adjacent bands in 44 of 44 seams for four profiles; **slate_crimson 32 of 44** (one seam per frame shows a few pixels of the next lighter index). `sheets/palette_swatches_depth_ramps.png` shows the 10 m – 30 km ramp per profile. |
+| C6 Layers and sky | **Met, one partial** | `metrics/checks/c6_layers_<profile>.json`: layers at 1, 3, 10, 30 km successively lighter in all 60 frames; far layer within 0.8–6.3 L* of the sky at the horizon and its indices are a subset of the horizon sky's; near field (< 150 m) darkest in all frames. Ground seam pixels use only the indices of the two adjacent bands in 44 of 44 seams for four profiles; **slate_crimson 32 of 44** (one seam per frame shows a few pixels of the next lighter index). `sheets/palette_swatches_depth_ramps.png` shows the 10 m – 30 km ramp per profile. |
 | C7 Scale legibility | **Partly met** | Marker (1.8 m at 595 m): 1 internal pixel, ΔL* 21.1–35.6 to its surround, its own palette index, all five profiles (`metrics/checks/c7_scale_*.json`; frames `captures/m003_details/<profile>_detail_scale`). 80 m block at 1.04 km is 32 px tall. Block against its background (`metrics/checks/c7_blocks_*.json`, twelve eye-height views): at 150 m ΔL* ≥ 8.5 in every view and profile; **at 1 km the 4 L* reading of "one value band" holds in 9/9 views for warm_amber_haze, 8/9 warm_rust_sepia, 5/9 slate_crimson, 3/9 slate_teal, 0/9 lavender_peach** (median ΔL* 6.5, 6.1, 4.2, 3.6, 2.4). M-003e values: per-profile table (advisory). |
 | C8 Static | **Met** | `metrics/m004`: M-004.S0 = C_px.S0 = F.S0 = 0 exactly, ten S0 sequences. Control detected: `metrics/m004ab/control_frame_noise` S 0.1571, C 0.2856, F 0.0789. |
-| C9 Yaw | **Not met** | `metrics/m004`: S_px.Y 0.0351, C_px.Y 0.0505, F.Y 0.0131 (limits 0.01 / 0.01 / 0.001) with `hybrid`. With `direction`: 0.0008 / 0.0013 / 0 (`metrics/m004ab/direction`), which meets all three. |
-| C10 Translation | **Partly met** | `metrics/m004` (`hybrid`): S_px.T12 0.0974, F.T12 0, S_px.T3 0.0858, C_px.T3 0.1303, F.T3 0.031: pass. C_px.T12 0.1507 (limit 0.15): miss. With `direction`: C_px.T12 0.1898, C_px.T3 0.2026 miss. |
+| C9 Yaw | **Not met** | `metrics/m004`: S_px.Y 0.0351, C_px.Y 0.0505, F.Y 0.0131 (limits 0.01 / 0.01 / 0.001) with `hybrid`. With `direction` on all five profiles: 0.0013 / 0.0020 / 0.0001 (`metrics/m004_direction`), which meets all three. |
+| C10 Translation | **Partly met** | `metrics/m004` (`hybrid`): S_px.T12 0.0974, F.T12 0, S_px.T3 0.0858, C_px.T3 0.1303, F.T3 0.031: pass. C_px.T12 0.1507 (limit 0.15): miss. With `direction` on all five profiles (`metrics/m004_direction`): S_px.T12 0.1961, C_px.T12 0.3023, S_px.T3 0.1933, C_px.T3 0.2955, F.T3 0.0863: five misses. |
 | C11 Smooth output | **Met on the snapped plane** | `metrics/checks/c11_smooth_T1.json`: with compensation the tracked edge deviates at most 0.99 px from the commanded motion, step error 0.69 px; without: 1.99 px and 3.69 px (fails). `c11_smooth_Y1.json`: 0.35 px / 0.06 px with; 3.35 px / 3.09 px without. Measured at the reference depth of the snap (the tracked tower edge); off that plane parallax moves edges by up to half a texel (R-003 §7). Rig test `FollowingAMovingTarget_KeepsItSteadyWithinOneInternalTexel`. |
 | C12 Stabilisers pay | **Met** | A/B table below (`metrics/m004ab/*`): rotation quantise off: yaw S_px 0.0008 → 0.354 (`direction`), 0.021 → 0.131 (`hybrid`). Position snap off: F.T12 0 → 0.076 (`direction`), 0 → 0.032 (`hybrid`). Anchoring: `screen` yaw 0.350 against `direction` 0.0008; `direction` translation 0.104 against `hybrid` 0.040. |
 | C13 Camera cut | **Met** | `metrics/checks/c13_cut.json`: frame after the cut identical to the static capture of the new pose in internal, output, index, depth, pose, offsets and dither origin; differs from the frame before. Tests `ACut_RendersTheWantedPosition_SoItEqualsAStaticFrame`, `ACut_RendersExactlyTheStaticPose_NoResidualState`. |
-| Reported: band pop | Reported | `captures/dolly_slate_teal` (local), `metrics/m004_dolly`: the tool validates dolly sequences and gives no verdict or values, so no number is claimed here. |
+| Reported: band pop | Reported | `captures_local/dolly_slate_teal`, `metrics/m004_dolly`: the tool validates dolly sequences and gives no verdict or values, so no number is claimed here. |
 | C14 Separate, toggleable stages | **Met** | One feature class per stage in `Assets/Game/Rendering/Pixel/Runtime/Pixel*Feature.cs`; flags all `false` in `Assets/Game/Config/FeatureFlags/Rendering.Pixel.json`; enabled by `Assets/Game/Config/Rendering/Configurations/M0StyleFrame.json`. `sheets/stage_ab_strip.png`, `sheets/stage_combinations.png` (16 combinations), `captures/stages_ab` (valid by the validator). Unity tests `EveryCombinationOfTheOptionalStages_RendersAValidOnPaletteFrame`, `EachStage_ChangesTheFrame_WhenToggled`. Quantise off → C1 fails, Haze off → C5 fails, Dither off → C4 fails: controls table. |
 | C15 Reorderable, safely | **Met** | Unity tests `Installer_RejectsIllegalOrders_AndWritesNothing`, `LegalReorder_GivesTheIdenticalFrame_AndAnIllegalRuntimeOrderIsSkippedWithAWarning`, `Installer_KeepsTheFeatureListAndMapInStep_InTheDefaultOrder`; dotnet tests `DefaultOrder_IsLegal`, `IllegalOrders_AreRejectedWithAReason`, `RunTimeCheck_BlocksAStageThatArrivesTooLate` (`tests/unity_editmode.xml`, `tests/Rendering.Pixel.Tests.trx`). `PC_RPAsset` untouched: `pc_rpasset_nodiff.txt` (empty diff of `Assets/Settings`, `ProjectSettings`, `Packages` against the integration branch). |
 | C16 Palettes are data | **Met** | Five assets in `Assets/Game/Config/Rendering/PaletteProfiles/` generated from `Assets/Game/Config/Rendering/palette_set.json` (verbatim copy of R-002). Tests `GeneratedProfiles_MatchThePaletteSet_AndTheirLutIsAFreshBake`, `SixthProfile_FromAJsonFixture_NeedsNoCodeOrShaderChange` (A₂ = 1.0), `EditingOneColour_AndRebaking_ChangesTheCapture_AndStaysOnTheEditedPalette`; dotnet `PaletteLutTests`, `ColourMathTests`, `DitherMaskTests`. SHA-256 in every sidecar (`style.palette_sha256`), checked by the validator. |
 | C17 Rig contract | **Met** | `Assets/Game/Camera/`; tests `Rig_ImplementsTheContracts_AndFramesAnEightyMetreTarget`, `FollowingAMovingTarget_KeepsItSteadyWithinOneInternalTexel`, `WithoutAGrid_TheRigOffersNoHints_*`, `Bind_WiresFlagsBusAndRegistry_ThroughCoreContractsOnly`, `Camera_ReferencesNoUnitOrMechCode_AndPixelOnlyThroughContracts`; Rendering.Pixel asmdefs list no Camera, Units or World assembly (`Assets/Game/Rendering/Pixel/*/*.asmdef`). No hints: every `PixelPipelineTests` frame is rendered without a rig and is on palette. |
-| C18 Footfall impulse | **Met** | Tests `FootfallEvent_OnTheCoreBus_MovesTheCamera_InProportion_Bounded_AndDecaysBack`, `CameraImpulseTests` (proportional, bounded, zero after the decay, reproducible, step-size independent). 20 s orbit with one `CameraShakeImpulse` (3e7 N·s at frame 480): `captures/orbit_slate_teal/orbit_20s` (sidecars of all 1200 frames, every tenth internal frame), `sheets/orbit_slate_teal.png`. Framing returns to within 0.05 m (1 texel = 1.44 m at 600 m) and is then static. |
-| C19 Capture tool | **Met, with one contract note** | One CLI run wrote every set with 0 errors and 0 warnings (`captures/capture_log_summary.txt`). Validator: `metrics/validate/summary.txt`: valid for all sets except three captured with sub-pixel compensation on, where the T-002 validator requires one `resolution` block per sequence (`c11_subpixel_on`, `cut_check`, `orbit_slate_teal`; see "Not met"). Bit-identical second run: `metrics/checks/c19_identical_*.json` (2285 PNG and 490 JSON files, 0 differ). Depth: `metrics/checks/c19_depth.json`, five known points within 0.012 %. No TAA, bloom, motion blur or post-processing (sidecar `build.feature_flags`). |
+| C18 Footfall impulse | **Met** | Tests `FootfallEvent_OnTheCoreBus_MovesTheCamera_InProportion_Bounded_AndDecaysBack`, `CameraImpulseTests` (proportional, bounded, zero after the decay, reproducible, step-size independent). 20 s orbit with one `CameraShakeImpulse` (3e7 N·s at frame 480): `captures/orbit_slate_teal/orbit_20s` (sidecars of all 1200 frames, every tenth internal frame; all frames in `captures_local`), `sheets/orbit_slate_teal.png`. Framing returns to within 0.05 m (1 texel = 1.44 m at 600 m) and is then static. |
+| C19 Capture tool | **Met, with one contract note** | One CLI run wrote every set with 0 errors and 0 warnings (`captures/capture_log_summary.txt`). Validator: `metrics/validate/summary.txt`: valid for 33 of 36 sets: all except three captured with sub-pixel compensation on, where the T-002 validator requires one `resolution` block per sequence (`c11_subpixel_on`, `cut_check`, `orbit_slate_teal`; see "Not met"). Bit-identical second runs: `metrics/checks/c19_identical_*.json` (2285 PNG and 490 JSON files compared, 0 differ). Depth: `metrics/checks/c19_depth.json`, five known points within 0.012 %. No TAA, bloom, motion blur or post-processing (sidecar `build.feature_flags`). |
 | C20 Render cost | **Partly met (relative, Mac only)** | `timing/timing_summary.json`, `timing/frame_timing_*.csv`. Dither + Haze + Quantise together: mean 0.25 ms, p95 0.52 ms at 1080p (limit 0.5: over by 0.02 ms on a wall-clock paired difference); mean 0.20, p95 0.40 ms at 1440p. Present (the whole second camera, including the render-request copy used for capture): p95 0.74 ms at 1080p, 0.60 ms at 1440p (limit 0.5: miss). GC.Alloc samples over 100 frames: 0. M-008 is **not verified**: Apple M5 Pro, Metal; no target-class Windows hardware. |
 | C21 Module hygiene | **Met** | `Assets/Game/Rendering/Pixel/MODULE.md`, `Assets/Game/Camera/MODULE.md`; tuning in `Assets/Game/Config/Rendering/*.json`, `Config/Camera/ThirdPersonRig.json` and the profile assets; test totals above; capture log clean. No name, shape or text from the references: the scene is boxes, one cylinder and one sphere (`Assets/Game/Tools/StyleCapture/Editor/StyleTestScenes.cs`). `Assets/Game/Core/Unity/Resources/GameCoreConfig.asset` was regenerated by Core's own generator because two flag files were added (Core test `Adapter_ConfigAsset_PointsAtCommittedFiles` requires it). |
 | Milestone: M-003f panel | Pending (founders) | Board for the panel: `sheets/panel_board.png` (five reference images, ten captures, two negative anchors). No agent score is claimed here. |
 
 ## Not met, and why
-1. **C9 yaw (M-004.S_px.Y, C_px.Y, F.Y) with the configured default `hybrid`.** Achieved 0.0351 / 0.0505 / 0.0131 against 0.01 / 0.01 / 0.001. The surface-anchored pattern near the camera is resampled at a different sub-texel phase after each rotation step away from the screen centre. `direction` meets all three (0.0008 / 0.0013 / 0).
-2. **C10 translation crawl.** `hybrid`: C_px.T12 0.1507 against 0.15 (one sequence, warm_rust_sepia street T1; the other nine profile-viewpoints are 0.062–0.096). `direction`: C_px 0.19–0.20, because a screen pattern cannot follow parallax. No mode meets yaw and translation together; A/B numbers for every mode and stabiliser are stored. Thresholds were not changed (they are Assumed pending calibration, R-002 §5).
+1. **C9 yaw (M-004.S_px.Y, C_px.Y, F.Y) with the configured default `hybrid`.** Achieved 0.0351 / 0.0505 / 0.0131 against 0.01 / 0.01 / 0.001. The surface-anchored pattern near the camera is resampled at a different sub-texel phase after each rotation step away from the screen centre. `direction` meets all three on every profile (worst 0.0013 / 0.0020 / 0.0001).
+2. **C10 translation crawl.** `hybrid`: C_px.T12 0.1507 against 0.15 (one sequence, warm_rust_sepia street T1; the other nine profile-viewpoints are 0.062–0.096). `direction`: S_px up to 0.196 and C_px up to 0.302 over the five profiles, because a screen pattern cannot follow parallax. No mode meets yaw and translation together; A/B numbers for every mode and stabiliser are stored. Thresholds were not changed (they are Assumed pending calibration, R-002 §5).
 3. **C7 at 1 km for three profiles.** One haze band of separation is there (the block and the ground and forms behind it are one or two bands apart), but with `ditherSpread` 0.4 neighbouring bands often land on the same palette colour in slate_teal, lavender_peach and slate_crimson, whose palettes have few mid-value entries, so ΔL* falls below 4. Raising `ditherSpread` restores the mean value step and raises DIG_max further; left for the style panel.
 4. **C6 seam indices in slate_crimson** (32 of 44 ground seams): a few seam pixels carry the next lighter index.
 5. **C20.** Present p95 above 0.5 ms as measured (0.74 / 0.60 ms): the number includes the full second camera and the capture path's copy, not only the present pass. Stage chain p95 0.52 ms at 1080p. Per-pass GPU markers could not be read in a batch run (the GPU recorder needs a player loop), so costs are paired wall-time differences. M-008 unverified.
@@ -291,6 +298,98 @@ Worst value per profile and threshold group (S_px / C_px / F; limits: S0 0 / 0 /
 | slate_teal | 0 / 0 / 0 | 0.0351 / 0.0406 / 0.0131 | 0.0399 / 0.0863 / 0 | 0.0231 / 0.0478 / 0.0132 | 9 of 12 |
 | warm_amber_haze | 0 / 0 / 0 | 0.03 / 0.0505 / 0.009 | 0.0549 / 0.0959 / 0 | 0.0426 / 0.068 / 0.0275 | 9 of 12 |
 | warm_rust_sepia | 0 / 0 / 0 | 0.0233 / 0.0415 / 0.007 | 0.0974 / 0.1507 / 0 | 0.0858 / 0.1303 / 0.031 | 8 of 12 |
+
+### M-004@v1, five profiles × two viewpoints, `direction` anchoring (same sequences, same stabilisers), position snap and rotation quantisation on
+
+**M-004@v1, `m004direction_<profile>`** — verdict `FAIL`, registry v1.1 (sha256 5f39e5531f9e), failing gating: M-004.S_px.T12, M-004.C_px.T12, M-004.S_px.T3, M-004.C_px.T3, M-004.F.T3
+
+| Sub-measure | Kind | Value | Rule | Status | Decisive frame / sequence |
+|---|---|---|---|---|---|
+| M-004.S0 | gating | 0 share | <= 0 | PASS | eye70_S0 (S0, warm_rust_sepia/eye70, lag 1) |
+| M-004.C_px.S0 | gating | 0 share | <= 0 | PASS | eye70_S0 (S0, warm_rust_sepia/eye70, lag 1) |
+| M-004.F.S0 | gating | 0 share | <= 0 | PASS | eye70_S0 (S0, warm_rust_sepia/eye70, lag 1) |
+| M-004.S_px.Y | gating | 0.0013 share | <= 0.01 | PASS | eye70_Y1 (Y1, lavender_peach/eye70, lag 4) |
+| M-004.C_px.Y | gating | 0.002 share | <= 0.01 | PASS | street_Y1 (Y1, slate_teal/street, lag 4) |
+| M-004.F.Y | gating | 0.0001 share | <= 0.001 | PASS | eye70_Y2 (Y2, warm_rust_sepia/eye70, lag 1) |
+| M-004.S_px.T12 | gating | 0.1961 share | <= 0.12 | FAIL | street_T1 (T1, warm_rust_sepia/street, lag 10) |
+| M-004.C_px.T12 | gating | 0.3023 share | <= 0.15 | FAIL | street_T1 (T1, warm_rust_sepia/street, lag 10) |
+| M-004.F.T12 | gating | 0 share | <= 0.005 | PASS | eye70_T1 (T1, warm_rust_sepia/eye70, lag 10) |
+| M-004.S_px.T3 | gating | 0.1933 share | <= 0.12 | FAIL | street_T3 (T3, warm_rust_sepia/street, lag 1) |
+| M-004.C_px.T3 | gating | 0.2955 share | <= 0.15 | FAIL | street_T3 (T3, warm_rust_sepia/street, lag 1) |
+| M-004.F.T3 | gating | 0.0863 share | <= 0.08 | FAIL | street_T3 (T3, warm_rust_sepia/street, lag 1) |
+
+| Profile | Viewpoint | Sequence | Lag | S_px | C_px | F | Valid share | S pair p95 |
+|---|---|---|---|---|---|---|---|---|
+| lavender_peach | eye70 | S0 | 1 | 0 | 0 | 0 | 1 | 0 |
+| lavender_peach | eye70 | T1 | 10 | 0.0968 | 0.1639 | 0 | 0.9931 | 0.105 |
+| lavender_peach | eye70 | T2 | 4 | 0.1001 | 0.1667 | 0 | 0.9934 | 0.1366 |
+| lavender_peach | eye70 | T3 | 1 | 0.1217 | 0.211 | 0.0825 | 0.9956 | 0.1396 |
+| lavender_peach | eye70 | Y1 | 4 | 0.0013 | 0.0017 | 0 | 0.997 | 0.0011 |
+| lavender_peach | eye70 | Y2 | 1 | 0.0008 | 0.0007 | 0 | 0.9972 | 0.0011 |
+| lavender_peach | street | S0 | 1 | 0 | 0 | 0 | 1 | 0 |
+| lavender_peach | street | T1 | 10 | 0.0281 | 0.101 | 0 | 0.9327 | 0.0423 |
+| lavender_peach | street | T2 | 4 | 0.0384 | 0.109 | 0 | 0.949 | 0.0561 |
+| lavender_peach | street | T3 | 1 | 0.0434 | 0.1354 | 0.0332 | 0.9643 | 0.0561 |
+| lavender_peach | street | Y1 | 4 | 0.0009 | 0.0013 | 0 | 0.997 | 0.0011 |
+| lavender_peach | street | Y2 | 1 | 0.0007 | 0.001 | 0.0001 | 0.9972 | 0.001 |
+| slate_crimson | eye70 | S0 | 1 | 0 | 0 | 0 | 1 | 0 |
+| slate_crimson | eye70 | T1 | 10 | 0.0487 | 0.1168 | 0 | 0.9931 | 0.0508 |
+| slate_crimson | eye70 | T2 | 4 | 0.0515 | 0.1207 | 0 | 0.9934 | 0.0981 |
+| slate_crimson | eye70 | T3 | 1 | 0.0649 | 0.1773 | 0.0547 | 0.9956 | 0.0726 |
+| slate_crimson | eye70 | Y1 | 4 | 0.0007 | 0.0015 | 0 | 0.997 | 0.0007 |
+| slate_crimson | eye70 | Y2 | 1 | 0.0005 | 0.0009 | 0 | 0.9972 | 0.0007 |
+| slate_crimson | street | S0 | 1 | 0 | 0 | 0 | 1 | 0 |
+| slate_crimson | street | T1 | 10 | 0.0178 | 0.0659 | 0 | 0.9327 | 0.0249 |
+| slate_crimson | street | T2 | 4 | 0.023 | 0.0713 | 0 | 0.949 | 0.0333 |
+| slate_crimson | street | T3 | 1 | 0.0275 | 0.1027 | 0.0217 | 0.9643 | 0.0326 |
+| slate_crimson | street | Y1 | 4 | 0.0003 | 0.0007 | 0 | 0.997 | 0.0003 |
+| slate_crimson | street | Y2 | 1 | 0.0002 | 0.0006 | 0 | 0.9972 | 0.0003 |
+| slate_teal | eye70 | S0 | 1 | 0 | 0 | 0 | 1 | 0 |
+| slate_teal | eye70 | T1 | 10 | 0.1043 | 0.1898 | 0 | 0.9931 | 0.1067 |
+| slate_teal | eye70 | T2 | 4 | 0.0988 | 0.1812 | 0 | 0.9934 | 0.1379 |
+| slate_teal | eye70 | T3 | 1 | 0.0971 | 0.2026 | 0.0719 | 0.9956 | 0.107 |
+| slate_teal | eye70 | Y1 | 4 | 0.0008 | 0.0013 | 0 | 0.997 | 0.0006 |
+| slate_teal | eye70 | Y2 | 1 | 0.0004 | 0.0006 | 0 | 0.9972 | 0.0005 |
+| slate_teal | street | S0 | 1 | 0 | 0 | 0 | 1 | 0 |
+| slate_teal | street | T1 | 10 | 0.1194 | 0.1587 | 0 | 0.9327 | 0.1473 |
+| slate_teal | street | T2 | 4 | 0.082 | 0.1491 | 0 | 0.949 | 0.1442 |
+| slate_teal | street | T3 | 1 | 0.0422 | 0.1144 | 0.0247 | 0.9643 | 0.13 |
+| slate_teal | street | Y1 | 4 | 0.0007 | 0.002 | 0 | 0.997 | 0.0005 |
+| slate_teal | street | Y2 | 1 | 0.0003 | 0.001 | 0 | 0.9972 | 0.0004 |
+| warm_amber_haze | eye70 | S0 | 1 | 0 | 0 | 0 | 1 | 0 |
+| warm_amber_haze | eye70 | T1 | 10 | 0.1757 | 0.2829 | 0 | 0.9931 | 0.1893 |
+| warm_amber_haze | eye70 | T2 | 4 | 0.1618 | 0.2575 | 0 | 0.9934 | 0.2003 |
+| warm_amber_haze | eye70 | T3 | 1 | 0.1751 | 0.2955 | 0.0849 | 0.9956 | 0.188 |
+| warm_amber_haze | eye70 | Y1 | 4 | 0.0011 | 0.0013 | 0 | 0.997 | 0.0009 |
+| warm_amber_haze | eye70 | Y2 | 1 | 0.0007 | 0.0007 | 0 | 0.9972 | 0.0009 |
+| warm_amber_haze | street | S0 | 1 | 0 | 0 | 0 | 1 | 0 |
+| warm_amber_haze | street | T1 | 10 | 0.1259 | 0.2144 | 0 | 0.9327 | 0.1559 |
+| warm_amber_haze | street | T2 | 4 | 0.1228 | 0.1837 | 0 | 0.949 | 0.1543 |
+| warm_amber_haze | street | T3 | 1 | 0.1216 | 0.1913 | 0.0453 | 0.9643 | 0.1503 |
+| warm_amber_haze | street | Y1 | 4 | 0.001 | 0.0014 | 0 | 0.997 | 0.001 |
+| warm_amber_haze | street | Y2 | 1 | 0.0007 | 0.0009 | 0.0001 | 0.9972 | 0.0009 |
+| warm_rust_sepia | eye70 | S0 | 1 | 0 | 0 | 0 | 1 | 0 |
+| warm_rust_sepia | eye70 | T1 | 10 | 0.1138 | 0.205 | 0 | 0.9931 | 0.1187 |
+| warm_rust_sepia | eye70 | T2 | 4 | 0.1059 | 0.1899 | 0 | 0.9934 | 0.1503 |
+| warm_rust_sepia | eye70 | T3 | 1 | 0.107 | 0.2034 | 0.0622 | 0.9956 | 0.1141 |
+| warm_rust_sepia | eye70 | Y1 | 4 | 0.0011 | 0.0016 | 0 | 0.997 | 0.0009 |
+| warm_rust_sepia | eye70 | Y2 | 1 | 0.0006 | 0.0009 | 0.0001 | 0.9972 | 0.0009 |
+| warm_rust_sepia | street | S0 | 1 | 0 | 0 | 0 | 1 | 0 |
+| warm_rust_sepia | street | T1 | 10 | 0.1961 | 0.3023 | 0 | 0.9327 | 0.22 |
+| warm_rust_sepia | street | T2 | 4 | 0.1913 | 0.2805 | 0 | 0.949 | 0.2197 |
+| warm_rust_sepia | street | T3 | 1 | 0.1933 | 0.2955 | 0.0863 | 0.9643 | 0.2181 |
+| warm_rust_sepia | street | Y1 | 4 | 0.0008 | 0.0011 | 0 | 0.997 | 0.0007 |
+| warm_rust_sepia | street | Y2 | 1 | 0.0004 | 0.0006 | 0.0001 | 0.9972 | 0.0006 |
+
+Worst value per profile and threshold group (S_px / C_px / F; limits: S0 0 / 0 / 0, Y 0.01 / 0.01 / 0.001, T12 0.12 / 0.15 / 0.005, T3 0.12 / 0.15 / 0.08):
+
+| Profile | S0 | Y1–Y2 | T1–T2 | T3 | Sub-measures passed |
+|---|---|---|---|---|---|
+| lavender_peach | 0 / 0 / 0 | 0.0013 / 0.0017 / 0.0001 | 0.1001 / 0.1667 / 0 | 0.1217 / 0.211 / 0.0825 | 8 of 12 |
+| slate_crimson | 0 / 0 / 0 | 0.0007 / 0.0015 / 0 | 0.0515 / 0.1207 / 0 | 0.0649 / 0.1773 / 0.0547 | 11 of 12 |
+| slate_teal | 0 / 0 / 0 | 0.0008 / 0.002 / 0 | 0.1194 / 0.1898 / 0 | 0.0971 / 0.2026 / 0.0719 | 10 of 12 |
+| warm_amber_haze | 0 / 0 / 0 | 0.0011 / 0.0014 / 0.0001 | 0.1757 / 0.2829 / 0 | 0.1751 / 0.2955 / 0.0849 | 7 of 12 |
+| warm_rust_sepia | 0 / 0 / 0 | 0.0011 / 0.0016 / 0.0001 | 0.1961 / 0.3023 / 0 | 0.1933 / 0.2955 / 0.0863 | 7 of 12 |
 
 ### M-004@v1 A/B: every anchoring mode and each stabiliser off (slate_teal, eye70; C12)
 
