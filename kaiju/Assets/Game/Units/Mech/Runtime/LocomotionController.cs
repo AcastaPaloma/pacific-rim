@@ -294,10 +294,13 @@ namespace Game.Units.Mech
                         Vector2 copTrail = ClampToSole(sw, _copAtTouchdown), want = nNow + _offsetHeld, seg = copStance - copTrail;
                         float wNew = Clamp(Vector2.Dot(want - copTrail, seg) / Math.Max(1e-3f, seg.LengthSquared()), 0, 1);
                         wNew = Math.Max(wNew, (float)Lipm.SmoothStep((_time - 0.5 * _tds) / _tds));
+                        // the trailing leg keeps carrying the body until the landed foot really bears load: the planned share may lead the measured one only by a margin
+                        double loads = st.Load + sw.Load;
+                        if (loads > 0.2 * _mass * _g) wNew = Math.Min(wNew, (float)(st.Load / loads + _t.transfer_lead));
                         _transfer = Math.Max(_transfer * 0.9f + wNew * 0.1f, (float)_t.touchdown_share);
                         wNew = _transfer;
                         Assign(st, wNew, copStance); Assign(sw, 1 - wNew, copTrail);
-                        if ((_time >= _tds && wNew > 0.95f) || _time >= 1.6 * _tds) BeginSwing();
+                        if ((_time >= _tds && wNew > 0.95f) || (_time >= 1.6 * _tds && wNew > 0.8f) || _time >= 3 * _tds) BeginSwing();
                     }
                     else
                     {
@@ -398,7 +401,13 @@ namespace Game.Units.Mech
             // never ask the ground for more friction than two thirds of what it has (R-005 5.3: mu_avail >= 1.5 mu_req)
             float fhMax = (float)(fy * _b.Tuning.friction_dynamic / 1.5);
             if (fh.Length() > fhMax) fh *= fhMax / fh.Length();
-            foreach (var leg in _legs) leg.Force = new Vector3(fh.X, (float)fy, fh.Y) * (leg.Weight / wsum);
+            // vertical force by the planned share; horizontal force by the load each foot really carries, so a lightly loaded foot is never asked for friction it does not have
+            double loadSum = 0; foreach (var leg in _legs) if (leg.Weight > 0) loadSum += leg.Load;
+            foreach (var leg in _legs)
+            {
+                float share = leg.Weight / wsum, grip = loadSum > 0.2 * _mass * _g && leg.Weight > 0 ? (float)(leg.Load / loadSum) : share;
+                leg.Force = new Vector3(fh.X * grip, (float)fy * share, fh.Y * grip);
+            }
         }
 
         // ---------------------------------------------------------------- joint level
@@ -471,9 +480,18 @@ namespace Game.Units.Mech
                 Vector3 force = leg.Force;
                 // the ankle sets the centre of pressure: its torque must match the load the foot really carries, not the load the plan expects
                 if (dofs == leg.Ankle && force.Y > 1f && leg.Load > 0) force *= Clamp((float)(leg.Load / force.Y), 0.5f, 3f);
+                // a foot that has just touched is not yet flat: its ankle stays passive (damped) and takes up centre-of-pressure control gradually, so the sole settles instead of slapping down
+                if (dofs == leg.Ankle && _phase == LocoPhase.DoubleSupport && leg == _legs[_stance]) force *= (float)Lipm.SmoothStep(_time / (_t.landing_time_tstar * _lim.TStar));
                 double tau = SupportTorque(d, force, leg.Cop, true) + Vector3.Dot(_b.DofAxisWorld(d), extraTorque);
                 _b.GetDofGains(d, true, out double stiffness, out double damping);
                 double target = _b.DofPosition(d), k = 0, velocity = 0;
+                // velocity-controlled touchdown: the leg that has just landed keeps its swing damping for a moment, so the force loop loads it instead of throwing the foot at the ground
+                double landing = 0;
+                if (_phase == LocoPhase.DoubleSupport && leg == _legs[_stance] && _t.landing_damping_scale > 0)
+                {
+                    _b.GetDofGains(d, false, out _, out double swingDamping);
+                    landing = swingDamping * _t.landing_damping_scale * (1 - Lipm.SmoothStep(_time / (_t.landing_time_tstar * _lim.TStar)));
+                }
                 if (d == leg.Knee && _t.stance_posture_hz > 0)
                 {
                     // soft posture spring: the knee angle whose leg length puts the CoM at its target height (keeps the leg off its straight, singular pose)
@@ -490,7 +508,7 @@ namespace Game.Units.Mech
                     _prevTarget[d] = target; _hasPrev[d] = true;
                 }
                 else _hasPrev[d] = false;
-                _b.SetDofDrive(d, target, velocity, k, damping * dampingRatio);
+                _b.SetDofDrive(d, target, velocity, k, damping * dampingRatio + landing);
                 _b.SetDofFeedForward(d, tau);
             }
         }
@@ -511,7 +529,7 @@ namespace Game.Units.Mech
                 // lift and clear early, be over the landing spot at hover height by swing_hover of the swing, then come down slowly until contact (R-005: touchdown <= 1 m/s)
                 double vtd = _t.touchdown_speed_tstar * _l / tStar, th = _t.swing_hover, hover = vtd * (1 - th) * _tss;
                 double u = Math.Min(1, tau / th);
-                height = tau <= th ? hover * Lipm.MinJerk(u) + _t.swing_clearance_frac * _l * Math.Pow(Math.Sin(Math.PI * Math.Pow(u, 0.6)), 2) : Math.Max(-0.04 * _l, hover - vtd * (_swingTime - th * _tss));
+                height = tau <= th ? hover * Lipm.MinJerk(u) + _t.swing_clearance_frac * _l * Math.Pow(Math.Sin(Math.PI * Math.Pow(u, _t.swing_rise_exponent)), 2) : Math.Max(-0.04 * _l, hover - vtd * (_swingTime - th * _tss));
                 s = Lipm.MinJerk(Math.Max(0, Math.Min(1, (tau - 0.04) / (0.5 * (1.16 + th) - 0.04))));
             }
             Vector2 xz = XZ(_swingStart) + (_swingTarget - XZ(_swingStart)) * (float)s;
@@ -527,18 +545,20 @@ namespace Game.Units.Mech
             double dropRate = 0.03 * _l / tStar;
             _extraDrop = ik.Clamped && tau > 0.5 ? Math.Min(0.05 * _l, _extraDrop + dropRate * _dt) : Math.Max(0, _extraDrop - 0.2 * dropRate * _dt);
             Vector3 hip = JointMath2.RotVec(ik.HipRelative), ank = JointMath2.RotVec(ik.AnkleRelative);
+            // compliant touchdown (R-005 5.2 step 5, Q-012): the leg goes soft as the foot nears the ground, so contact loads it through a spring instead of a stiff position servo
+            double soft = _stomp ? 1 : 1 - (1 - _t.touchdown_gain_scale) * Lipm.SmoothStep((tau - (_t.swing_hover - 0.15)) / 0.15);
             for (int a = 0; a < 3; a++)
             {
-                if (leg.Hip[a] >= 0) Track(leg.Hip[a], Component(hip, a) * _b.GetDof(leg.Hip[a]).Sign, Vector3.Zero, default, true);
-                if (leg.Ankle[a] >= 0) Track(leg.Ankle[a], Component(ank, a) * _b.GetDof(leg.Ankle[a]).Sign, Vector3.Zero, default, true);
+                if (leg.Hip[a] >= 0) Track(leg.Hip[a], Component(hip, a) * _b.GetDof(leg.Hip[a]).Sign, Vector3.Zero, default, true, soft);
+                if (leg.Ankle[a] >= 0) Track(leg.Ankle[a], Component(ank, a) * _b.GetDof(leg.Ankle[a]).Sign, Vector3.Zero, default, true, soft);
             }
-            Track(leg.Knee, ik.Knee * _b.GetDof(leg.Knee).Sign, Vector3.Zero, default, true);
+            Track(leg.Knee, ik.Knee * _b.GetDof(leg.Knee).Sign, Vector3.Zero, default, true, soft);
         }
 
         static float Component(Vector3 v, int axis) => axis == 0 ? v.X : axis == 1 ? v.Y : v.Z;
 
         /// <summary>Position drive toward a target with the R-005 swing gains, velocity feed-forward from the target's own motion and gravity feed-forward.</summary>
-        void Track(int dof, double target, Vector3 force, Vector3 cop, bool velocityFeedForward)
+        void Track(int dof, double target, Vector3 force, Vector3 cop, bool velocityFeedForward, double gainScale = 1)
         {
             var info = _b.GetDof(dof);
             target = Math.Max(info.LowerRad, Math.Min(info.UpperRad, target));
@@ -546,7 +566,8 @@ namespace Game.Units.Mech
             vel = Math.Max(-2.5, Math.Min(2.5, vel));
             _prevTarget[dof] = target; _hasPrev[dof] = true;
             _b.GetDofGains(dof, false, out double k, out double damping);
-            _b.SetDofDrive(dof, target, vel, k, damping);
+            // critical damping is kept when the stiffness is scaled: d scales with sqrt(k)
+            _b.SetDofDrive(dof, target, vel, k * gainScale, damping * Math.Sqrt(gainScale));
             _b.SetDofFeedForward(dof, SupportTorque(dof, force, cop, false));
         }
     }

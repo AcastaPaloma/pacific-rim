@@ -62,7 +62,7 @@ namespace Game.Units.Mech.Contracts
         // body carriage
         public double com_drop_stand_frac, com_drop_walk_frac, step_reach_margin_frac, step_length_max_frac, yaw_grip_radius_frac, touchdown_share, capture_trigger_frac, capture_step_time_tstar, height_hz, attitude_hz, yaw_hz, attitude_torque_frac, yaw_torque_frac, dcm_gain, force_min_bw, force_max_bw;
         // swing
-        public double swing_clearance_frac, touchdown_speed_tstar, swing_hover, swing_retarget_tstar, stand_min_share, knee_min_flex_deg, swing_freeze, shift_time_tstar, liftoff_load_bw, arm_swing_gain, elbow_flex_deg;
+        public double swing_clearance_frac, touchdown_speed_tstar, touchdown_gain_scale, landing_damping_scale, landing_time_tstar, transfer_lead, swing_rise_exponent, swing_hover, swing_retarget_tstar, stand_min_share, knee_min_flex_deg, swing_freeze, shift_time_tstar, liftoff_load_bw, arm_swing_gain, elbow_flex_deg;
         public double stance_knee_damping_ratio, stance_hip_damping_ratio, stance_ankle_damping_ratio, stance_posture_hz;
         // falling
         public double fall_tilt_deg, fall_height_frac, fall_damping_ratio, rest_speed_fr;
