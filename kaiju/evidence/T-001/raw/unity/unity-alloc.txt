@@ -1,0 +1,15 @@
+control: 1000 x new byte[64] -> bytes=n/a gcAllocCount=1000
+publish x10000 subs=1 event=PingEvent(4B) nested=False warmup=1000 -> bytes=n/a gcAllocCount=0
+publish x10000 subs=8 event=PingEvent(4B) nested=False warmup=1000 -> bytes=n/a gcAllocCount=0
+publish x10000 subs=64 event=PingEvent(4B) nested=False warmup=1000 -> bytes=n/a gcAllocCount=0
+publish x10000 subs=1 event=BigEvent(96B) nested=False warmup=1000 -> bytes=n/a gcAllocCount=0
+publish x10000 subs=8 event=BigEvent(96B) nested=False warmup=1000 -> bytes=n/a gcAllocCount=0
+publish x10000 subs=64 event=BigEvent(96B) nested=False warmup=1000 -> bytes=n/a gcAllocCount=0
+publish x10000 subs=1 event=PingEvent(4B) nested=True warmup=1000 -> bytes=n/a gcAllocCount=0
+publish x10000 subs=8 event=PingEvent(4B) nested=True warmup=1000 -> bytes=n/a gcAllocCount=0
+publish x10000 subs=64 event=PingEvent(4B) nested=True warmup=1000 -> bytes=n/a gcAllocCount=0
+publish x10000 subs=1 event=BigEvent(96B) nested=True warmup=1000 -> bytes=n/a gcAllocCount=0
+publish x10000 subs=8 event=BigEvent(96B) nested=True warmup=1000 -> bytes=n/a gcAllocCount=0
+publish x10000 subs=64 event=BigEvent(96B) nested=True warmup=1000 -> bytes=n/a gcAllocCount=0
+flag+clock reads x10000 -> bytes=n/a gcAllocCount=0
+id equality/hash/compare x10000 -> bytes=n/a gcAllocCount=0

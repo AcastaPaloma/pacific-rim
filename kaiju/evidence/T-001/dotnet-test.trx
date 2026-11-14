@@ -1,0 +1,757 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="31abe8ab-5ca0-4008-8a6c-f138f28ccdc0" name="@Kuans-MacBook-Pro 2026-11-14 06:43:57" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-14T06:43:57.4495630-05:00" queuing="2026-11-14T06:43:57.4495630-05:00" start="2026-11-14T06:43:57.1733530-05:00" finish="2026-11-14T06:44:03.6227240-05:00" />
+  <TestSettings name="default" id="c66e0808-d603-4474-bad1-c7736034a8d8">
+    <Deployment runDeploymentRoot="_Kuans-MacBook-Pro_2026-11-14_06_43_57" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="405ffb76-1d67-44cc-8123-21ba221e12ca" testId="850b1ab3-2f25-eb15-5f8a-ffe8e71039ac" testName="Bus_Publish_AllocatesNothing_SteadyState(64,True,False)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0035020" startTime="2026-11-14T06:43:57.4150860-05:00" endTime="2026-11-14T06:43:57.4185880-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="405ffb76-1d67-44cc-8123-21ba221e12ca">
+      <Output>
+        <StdOut>alloc.txt: publish x10000 subs=64 event=BigEvent(96B) nested=False warmup=1000 -&gt; bytes=0 gcAllocCount=n/a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="3b1f1373-f2ee-44a0-a1d7-38d4b892aa33" testId="8f17e545-d5da-7b3a-9f52-7f6d4521681c" testName="Bus_Throughput_Baseline(1)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0169830" startTime="2026-11-14T06:43:57.4398260-05:00" endTime="2026-11-14T06:43:57.4568090-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3b1f1373-f2ee-44a0-a1d7-38d4b892aa33">
+      <Output>
+        <StdOut>bench.txt: subs=1 ns/publish=73.3 ns/delivery=73.3 (n=200000)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="95ced102-7a7a-47f2-a11d-66f4e995f39d" testId="69aee24f-5557-0e64-7307-543c6d009261" testName="Bus_Throughput_Baseline(8)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0229910" startTime="2026-11-14T06:43:57.4568530-05:00" endTime="2026-11-14T06:43:57.4798430-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="95ced102-7a7a-47f2-a11d-66f4e995f39d">
+      <Output>
+        <StdOut>bench.txt: subs=8 ns/publish=103.2 ns/delivery=12.9 (n=200000)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a2278952-50ee-4391-b078-37d19500824d" testId="90438871-968f-bb77-5a3d-ab5970a33a21" testName="Ids_NoImplicitConversions_NoPublicConstructors" computerName="Kuans-MacBook-Pro" duration="00:00:00.0004790" startTime="2026-11-14T06:43:59.0103350-05:00" endTime="2026-11-14T06:43:59.0108140-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a2278952-50ee-4391-b078-37d19500824d" />
+    <UnitTestResult executionId="1e73d6e4-7339-4866-9288-43e8d91fa980" testId="3f31b27c-fdc6-2d7d-4505-0b38ad6320f1" testName="Bus_Publish_AllocatesNothing_SteadyState(1,False,False)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0051260" startTime="2026-11-14T06:43:57.4022390-05:00" endTime="2026-11-14T06:43:57.4073640-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1e73d6e4-7339-4866-9288-43e8d91fa980">
+      <Output>
+        <StdOut>alloc.txt: publish x10000 subs=1 event=PingEvent(4B) nested=False warmup=1000 -&gt; bytes=0 gcAllocCount=n/a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8e2e8aed-8b77-47db-a357-beca639ddeec" testId="b806ae6f-a65f-7c52-db6a-5ef5064fe6c7" testName="Bus_Publish_AllocatesNothing_SteadyState(1,True,False)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0015590" startTime="2026-11-14T06:43:57.4122630-05:00" endTime="2026-11-14T06:43:57.4138220-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8e2e8aed-8b77-47db-a357-beca639ddeec">
+      <Output>
+        <StdOut>alloc.txt: publish x10000 subs=1 event=BigEvent(96B) nested=False warmup=1000 -&gt; bytes=0 gcAllocCount=n/a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f1f57eae-c10a-46f3-b885-6e81ff716551" testId="74e0d3e8-2a49-26f4-5790-a6ff5f637096" testName="NoMutableStaticFieldsInCore" computerName="Kuans-MacBook-Pro" duration="00:00:00.0003070" startTime="2026-11-14T06:44:00.3995850-05:00" endTime="2026-11-14T06:44:00.3998930-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f1f57eae-c10a-46f3-b885-6e81ff716551">
+      <Output>
+        <StdOut>grep-counts.txt: mutable static fields in Game.Core + Game.Core.Contracts (reflection, 47 static fields checked): 0</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d4e7f092-6e2a-4d0d-9ef3-f0215a6a0388" testId="7784fba9-5100-4aae-ee49-15968e2d0439" testName="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;&quot;,UnknownSchema)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0029190" startTime="2026-11-14T06:44:00.3847570-05:00" endTime="2026-11-14T06:44:00.3876760-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d4e7f092-6e2a-4d0d-9ef3-f0215a6a0388" />
+    <UnitTestResult executionId="6b29045e-d46f-42bb-b599-04bbcb4ed73b" testId="155f454f-b695-16f3-8965-664a5850b96d" testName="Registry_And_Bus_InstancesAreIndependent" computerName="Kuans-MacBook-Pro" duration="00:00:00.0001800" startTime="2026-11-14T06:43:59.0214840-05:00" endTime="2026-11-14T06:43:59.0216640-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6b29045e-d46f-42bb-b599-04bbcb4ed73b" />
+    <UnitTestResult executionId="3054c65b-4b4e-4f02-bdd4-98ec01f4e21c" testId="4e8f6078-c2d8-54f3-ac99-1d445470ac1d" testName="Bus_PublishCycle_FailsLoudlyNamingEventTypes" computerName="Kuans-MacBook-Pro" duration="00:00:00.0007630" startTime="2026-11-14T06:43:57.6833360-05:00" endTime="2026-11-14T06:43:57.6841000-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3054c65b-4b4e-4f02-bdd4-98ec01f4e21c" />
+    <UnitTestResult executionId="3c0b8fe4-085b-41e2-b251-468af927257f" testId="c4f7c5fa-4044-9e6c-c07a-4ea129058f1b" testName="Flags_MissingFile_AllOffOneWarning" computerName="Kuans-MacBook-Pro" duration="00:00:00.0003579" startTime="2026-11-14T06:43:57.7346150-05:00" endTime="2026-11-14T06:43:57.7349720-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3c0b8fe4-085b-41e2-b251-468af927257f" />
+    <UnitTestResult executionId="b1a7c3de-1d03-486f-9004-5a284485da9c" testId="a0867dac-d619-0b62-cabc-315bce76eebb" testName="Flags_Folder_MergesFilesInOrdinalOrder_DuplicateIsError" computerName="Kuans-MacBook-Pro" duration="00:00:00.0013320" startTime="2026-11-14T06:43:57.7324190-05:00" endTime="2026-11-14T06:43:57.7337500-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b1a7c3de-1d03-486f-9004-5a284485da9c" />
+    <UnitTestResult executionId="e2d4f82f-b94b-45af-9636-56c2f368dc60" testId="acf511a9-786d-7792-cd47-224de7aa0519" testName="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;flags\&quot;:{\&quot;x\&quot;:true}}&quot;,0)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0000110" startTime="2026-11-14T06:43:57.7345660-05:00" endTime="2026-11-14T06:43:57.7345770-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e2d4f82f-b94b-45af-9636-56c2f368dc60" />
+    <UnitTestResult executionId="46b29352-5231-4ae5-8271-7b1903483203" testId="6d8a9fc6-98a8-6668-9ce8-3afb3a3efa8f" testName="Core_StepReplay_Deterministic" computerName="Kuans-MacBook-Pro" duration="00:00:00.0516869" startTime="2026-11-14T06:43:57.6251500-05:00" endTime="2026-11-14T06:43:57.6768370-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="46b29352-5231-4ae5-8271-7b1903483203">
+      <Output>
+        <StdOut>trace-hashes.txt: replay1000 CE7CBB4259A6A39B length=168876</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f2f50f3b-45db-4adc-ac6f-09ef46c6aa27" testId="f345d448-3911-a5ed-519c-1556737a15f8" testName="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\n\&quot;flags\&quot;:{\&quot;x\&quot;:tru}}&quot;,2)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0001280" startTime="2026-11-14T06:43:57.7343860-05:00" endTime="2026-11-14T06:43:57.7345140-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f2f50f3b-45db-4adc-ac6f-09ef46c6aa27" />
+    <UnitTestResult executionId="079707ca-10a4-4c0a-a3bc-22563b3739f8" testId="f1aa5fb5-d84c-7556-bbd7-319b37349eec" testName="Bus_DispatchTrace_IsReproducible" computerName="Kuans-MacBook-Pro" duration="00:00:00.0049380" startTime="2026-11-14T06:43:57.6782170-05:00" endTime="2026-11-14T06:43:57.6831550-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="079707ca-10a4-4c0a-a3bc-22563b3739f8">
+      <Output>
+        <StdOut>trace-hashes.txt: dispatch 6F72236CAACE7678 length=6417</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="625e7bcf-e9b2-43b9-a0dc-1c7f332dfbc6" testId="79f320d9-7df1-ae51-80f5-b18a51b7a8b4" testName="PlayerSlots_SupportN(1)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0011550" startTime="2026-11-14T06:43:59.0195070-05:00" endTime="2026-11-14T06:43:59.0206610-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="625e7bcf-e9b2-43b9-a0dc-1c7f332dfbc6" />
+    <UnitTestResult executionId="7b095ce3-8b9b-4eb9-bd45-46972022a58b" testId="8d58febe-906f-58b1-5dab-d8a4c2edbda4" testName="Suite_PassesTwiceInShuffledOrder_InOneProcess" computerName="Kuans-MacBook-Pro" duration="00:00:03.1842259" startTime="2026-11-14T06:44:00.4109490-05:00" endTime="2026-11-14T06:44:03.5951890-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7b095ce3-8b9b-4eb9-bd45-46972022a58b">
+      <Output>
+        <StdOut>test-hygiene.txt: shuffled double pass: cases=87 seeds=1,0xC0FFEE failures=0</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="80474760-9595-47bf-92c5-55ee01c58b47" testId="8bdfcdaf-a452-34bc-e174-c056961e24af" testName="Bus_DeliversAllEventsWithinPublishingStep" computerName="Kuans-MacBook-Pro" duration="00:00:00.0012080" startTime="2026-11-14T06:43:57.6769620-05:00" endTime="2026-11-14T06:43:57.6781700-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="80474760-9595-47bf-92c5-55ee01c58b47" />
+    <UnitTestResult executionId="6aa34536-9a51-4f01-a9d9-1e4710ee4194" testId="f9137995-3fe4-f535-eeed-1a5b4e3f2d3b" testName="Save_GoldenV1_Loads" computerName="Kuans-MacBook-Pro" duration="00:00:00.0007249" startTime="2026-11-14T06:43:59.0430020-05:00" endTime="2026-11-14T06:43:59.0437270-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6aa34536-9a51-4f01-a9d9-1e4710ee4194" />
+    <UnitTestResult executionId="f739612d-0720-493b-bb40-90c55a03f8b8" testId="b753f38f-e586-548e-4d01-5a4ef614ea64" testName="Flags_Snapshot_StableAndSerialisable" computerName="Kuans-MacBook-Pro" duration="00:00:00.0003250" startTime="2026-11-14T06:43:57.7355340-05:00" endTime="2026-11-14T06:43:57.7358580-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f739612d-0720-493b-bb40-90c55a03f8b8" />
+    <UnitTestResult executionId="949d1221-f7ab-4907-b6ef-acaa24f1d3ed" testId="5bfb309f-c9b2-5107-7d1e-697360cf7086" testName="CoreServices_RegistersCoreContracts" computerName="Kuans-MacBook-Pro" duration="00:00:00.0002520" startTime="2026-11-14T06:43:59.0212190-05:00" endTime="2026-11-14T06:43:59.0214710-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="949d1221-f7ab-4907-b6ef-acaa24f1d3ed" />
+    <UnitTestResult executionId="a9b533d5-7c63-47a2-9dfb-d9c6834e9b69" testId="07f39dd6-1be6-ae51-c797-f648f62983aa" testName="Save_UnknownVersion_NoSilentLoad(&quot;]}\n]}&quot;,&quot;]}&quot;,Corrupt)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0001190" startTime="2026-11-14T06:44:00.3885810-05:00" endTime="2026-11-14T06:44:00.3887010-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a9b533d5-7c63-47a2-9dfb-d9c6834e9b69" />
+    <UnitTestResult executionId="f261107b-6405-40fe-98cc-5005d048ee33" testId="e1069cbc-95d1-2d83-c5ee-2b45b6c52e64" testName="Registry_Teardown_DisposesReverseOrderOnce" computerName="Kuans-MacBook-Pro" duration="00:00:00.0001850" startTime="2026-11-14T06:43:59.0221910-05:00" endTime="2026-11-14T06:43:59.0223760-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f261107b-6405-40fe-98cc-5005d048ee33" />
+    <UnitTestResult executionId="eb840e25-a872-435d-984d-ff960088860d" testId="15266858-4da3-e70d-fbfd-792c1a049a2e" testName="Layering_CoreAsmdefsAreEngineFree" computerName="Kuans-MacBook-Pro" duration="00:00:00.0084550" startTime="2026-11-14T06:44:00.3888170-05:00" endTime="2026-11-14T06:44:00.3972720-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eb840e25-a872-435d-984d-ff960088860d">
+      <Output>
+        <StdOut>grep-counts.txt: UnityEngine mentions in Core/Contracts+Runtime code: 0</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="794c26f0-7b6c-407b-9b34-e5a17c2a00cc" testId="59bd8d9f-100a-5bb0-80ec-6436b1391291" testName="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;format\&quot;:\&quot;kaiju-save\&quot;&quot;,&quot;\&quot;format\&quot;:\&quot;other\&quot;&quot;,Corrupt)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0001130" startTime="2026-11-14T06:44:00.3883100-05:00" endTime="2026-11-14T06:44:00.3884230-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="794c26f0-7b6c-407b-9b34-e5a17c2a00cc" />
+    <UnitTestResult executionId="53854f7c-9dc8-46db-8fc9-e4866acde8e8" testId="97db5b74-ddab-0739-2c47-56860f11ef14" testName="Bus_Publish_AllocatesNothing_SteadyState(64,False,True)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0054220" startTime="2026-11-14T06:43:57.4242750-05:00" endTime="2026-11-14T06:43:57.4296970-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="53854f7c-9dc8-46db-8fc9-e4866acde8e8">
+      <Output>
+        <StdOut>alloc.txt: publish x10000 subs=64 event=PingEvent(4B) nested=True warmup=1000 -&gt; bytes=0 gcAllocCount=n/a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4775fd21-736e-4a06-b17a-241f8aff2564" testId="ec71545d-93c1-f551-1b76-0be7d0260268" testName="Registry_DuplicateRegistration_FailsNamingBothImplementations" computerName="Kuans-MacBook-Pro" duration="00:00:00.0002509" startTime="2026-11-14T06:43:59.0216790-05:00" endTime="2026-11-14T06:43:59.0219310-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4775fd21-736e-4a06-b17a-241f8aff2564" />
+    <UnitTestResult executionId="fb6462f1-a539-44d9-975b-dd72268126b4" testId="8e1e8f37-43df-4733-b862-adf5a5c7c9de" testName="SaveCodeKnowsNothingAboutBuildings" computerName="Kuans-MacBook-Pro" duration="00:00:00.0005340" startTime="2026-11-14T06:44:00.4102850-05:00" endTime="2026-11-14T06:44:00.4108200-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fb6462f1-a539-44d9-975b-dd72268126b4">
+      <Output>
+        <StdOut>grep-counts.txt: 'Building' in Contracts/Save.cs + Runtime/Save.cs: 0</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="94dd6cd7-f734-46ac-b162-4aeb850e424a" testId="da10588b-e500-9810-1892-fee3c89fd86b" testName="PlayerSlots_SupportN(64)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0001890" startTime="2026-11-14T06:43:59.0209410-05:00" endTime="2026-11-14T06:43:59.0211310-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="94dd6cd7-f734-46ac-b162-4aeb850e424a" />
+    <UnitTestResult executionId="81be59c3-59ac-4229-bbd4-8d751c134a5e" testId="b155acda-8f00-4827-e8fe-1c19be81b958" testName="Save_ByteIdentical_UnderForeignCulture(&quot;tr-TR&quot;)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0083979" startTime="2026-11-14T06:43:59.0345640-05:00" endTime="2026-11-14T06:43:59.0429610-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="81be59c3-59ac-4229-bbd4-8d751c134a5e" />
+    <UnitTestResult executionId="2e866b02-481f-4290-bc34-c12d7670804a" testId="b8c3cb63-d16f-aff0-2f02-7b457e832160" testName="Bus_Publish_AllocatesNothing_SteadyState(8,False,False)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0014060" startTime="2026-11-14T06:43:57.4073950-05:00" endTime="2026-11-14T06:43:57.4088010-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2e866b02-481f-4290-bc34-c12d7670804a">
+      <Output>
+        <StdOut>alloc.txt: publish x10000 subs=8 event=PingEvent(4B) nested=False warmup=1000 -&gt; bytes=0 gcAllocCount=n/a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="5e34aea1-b493-4698-836f-7570637bba6c" testId="ac28a43e-2298-2e9e-cfd4-2c50d3b81058" testName="AllocMeter_DetectsAllocations" computerName="Kuans-MacBook-Pro" duration="00:00:00.0025350" startTime="2026-11-14T06:43:57.3991180-05:00" endTime="2026-11-14T06:43:57.4016280-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5e34aea1-b493-4698-836f-7570637bba6c">
+      <Output>
+        <StdOut>alloc.txt: control: 1000 x new byte[64] -&gt; bytes=88000 gcAllocCount=n/a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="dd9e44f0-e761-48bf-b751-973a11494489" testId="e3dfc0ae-44ba-8a84-bedf-0918f90d4e11" testName="PlayerSlots_SupportN(2)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0001420" startTime="2026-11-14T06:43:59.0206890-05:00" endTime="2026-11-14T06:43:59.0208310-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dd9e44f0-e761-48bf-b751-973a11494489" />
+    <UnitTestResult executionId="5116e302-318b-4639-b64c-11a3d17f0d12" testId="f40d2339-a809-38a1-8a05-98bbf9c4d080" testName="Clock_StepComesFromCommittedConfig" computerName="Kuans-MacBook-Pro" duration="00:00:00.0045670" startTime="2026-11-14T06:43:57.6205600-05:00" endTime="2026-11-14T06:43:57.6251270-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5116e302-318b-4639-b64c-11a3d17f0d12">
+      <Output>
+        <StdOut>bench.txt: committed fixedStepSeconds=0.02 maxEventsPerCascade=10000</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6359e958-97f1-46c7-99a1-21bb07c2c6a2" testId="472ecdc8-0d78-c156-e8b4-c44f807681d3" testName="BuildingId_LargeValues_NoCrossSourceCollision" computerName="Kuans-MacBook-Pro" duration="00:00:00.0003500" startTime="2026-11-14T06:43:57.7398490-05:00" endTime="2026-11-14T06:43:57.7401990-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6359e958-97f1-46c7-99a1-21bb07c2c6a2" />
+    <UnitTestResult executionId="adc799bf-db83-4dd9-b5a1-4fb6844ffcc9" testId="49bb9d85-abfb-a98d-a792-c03fe0928079" testName="Layering_NoNetOrGameplayTypesInCore" computerName="Kuans-MacBook-Pro" duration="00:00:00.0004570" startTime="2026-11-14T06:44:00.3972990-05:00" endTime="2026-11-14T06:44:00.3977560-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="adc799bf-db83-4dd9-b5a1-4fb6844ffcc9" />
+    <UnitTestResult executionId="66e671e6-2800-4a9d-a7c7-8a19314ce698" testId="c41f0072-b212-738b-fda4-b935f95de154" testName="Bus_UnsubscribeSelfDuringDispatch_IsSafe" computerName="Kuans-MacBook-Pro" duration="00:00:00.0003040" startTime="2026-11-14T06:43:57.6863380-05:00" endTime="2026-11-14T06:43:57.6866430-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="66e671e6-2800-4a9d-a7c7-8a19314ce698" />
+    <UnitTestResult executionId="cf0d98b3-ec59-4aee-b25d-d39d676e71e9" testId="8e8e4d35-a870-991f-8ca0-e50a60d808a6" testName="Bus_Publish_AllocatesNothing_SteadyState(8,True,True)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0023080" startTime="2026-11-14T06:43:57.4318290-05:00" endTime="2026-11-14T06:43:57.4341370-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cf0d98b3-ec59-4aee-b25d-d39d676e71e9">
+      <Output>
+        <StdOut>alloc.txt: publish x10000 subs=8 event=BigEvent(96B) nested=True warmup=1000 -&gt; bytes=0 gcAllocCount=n/a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="73d67a90-a7f5-4c67-b45a-99aab31c1214" testId="c3114174-a666-e50e-800f-a23aa7ed05fd" testName="Flags_RepoFile_NewFeaturesDefaultOff" computerName="Kuans-MacBook-Pro" duration="00:00:00.0005340" startTime="2026-11-14T06:43:57.7349850-05:00" endTime="2026-11-14T06:43:57.7355190-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="73d67a90-a7f5-4c67-b45a-99aab31c1214">
+      <Output>
+        <StdOut>grep-counts.txt: committed flag files=1 flags=1
+core.verboseBoot=0</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="beac6a13-37ec-45e8-969c-4a8c6cfed0d8" testId="576c9ac1-ffc3-4004-3a7c-130690a5c5c0" testName="Save_InterruptedWrite_PreviousIntact" computerName="Kuans-MacBook-Pro" duration="00:00:00.0097920" startTime="2026-11-14T06:43:59.0437440-05:00" endTime="2026-11-14T06:43:59.0535360-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="beac6a13-37ec-45e8-969c-4a8c6cfed0d8" />
+    <UnitTestResult executionId="4732b9aa-29d7-4c60-9110-207bc0a2b794" testId="5db6825d-0c62-03d5-e164-510e082f9907" testName="Ids_ValueSemantics_AllocationFree" computerName="Kuans-MacBook-Pro" duration="00:00:00.0015190" startTime="2026-11-14T06:43:59.0179610-05:00" endTime="2026-11-14T06:43:59.0194800-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4732b9aa-29d7-4c60-9110-207bc0a2b794">
+      <Output>
+        <StdOut>alloc.txt: id equality/hash/compare x10000 -&gt; bytes=0 gcAllocCount=n/a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="fc595d34-b0f8-4bae-95f1-0398ff71ef20" testId="3f48a397-ae89-f7a3-7d2f-760bb2aafc9c" testName="Ids_SerialiseRoundTrip_AndCrossProcessStable" computerName="Kuans-MacBook-Pro" duration="00:00:00.0070740" startTime="2026-11-14T06:43:59.0108320-05:00" endTime="2026-11-14T06:43:59.0179060-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fc595d34-b0f8-4bae-95f1-0398ff71ef20">
+      <Output>
+        <StdOut>trace-hashes.txt: ids_golden 62A5FD0C1BB7FD0E</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f280dfa7-eebe-453a-ae57-278cd9c2f960" testId="ffb266de-69bd-39f4-94ae-1118ccf552fb" testName="Bus_Publish_AllocatesNothing_SteadyState(64,True,True)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0050250" startTime="2026-11-14T06:43:57.4341610-05:00" endTime="2026-11-14T06:43:57.4391860-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f280dfa7-eebe-453a-ae57-278cd9c2f960">
+      <Output>
+        <StdOut>alloc.txt: publish x10000 subs=64 event=BigEvent(96B) nested=True warmup=1000 -&gt; bytes=0 gcAllocCount=n/a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="583e97bb-dd5f-4e3e-a1be-96eeccf5c306" testId="fefc86fa-77b2-42aa-2706-e6b80519be40" testName="Save_ByteIdentical_UnderForeignCulture(&quot;de-DE&quot;)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0121220" startTime="2026-11-14T06:43:59.0224200-05:00" endTime="2026-11-14T06:43:59.0345420-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="583e97bb-dd5f-4e3e-a1be-96eeccf5c306" />
+    <UnitTestResult executionId="eda0ac94-067e-4c06-ba68-82b16f7616ce" testId="a7f235a0-6fcb-72b0-7991-32fcbb1eef5f" testName="Bus_Publish_AllocatesNothing_SteadyState(64,False,False)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0034070" startTime="2026-11-14T06:43:57.4088230-05:00" endTime="2026-11-14T06:43:57.4122290-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eda0ac94-067e-4c06-ba68-82b16f7616ce">
+      <Output>
+        <StdOut>alloc.txt: publish x10000 subs=64 event=PingEvent(4B) nested=False warmup=1000 -&gt; bytes=0 gcAllocCount=n/a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d5767212-80e1-40dc-a5ab-dc0e25a18cac" testId="9bcb42b6-2cc5-c863-aba3-1815b53b0708" testName="Bus_UnsubscribeOtherDuringDispatch_RemovedGetsNothingMore" computerName="Kuans-MacBook-Pro" duration="00:00:00.0001880" startTime="2026-11-14T06:43:57.6860930-05:00" endTime="2026-11-14T06:43:57.6862810-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d5767212-80e1-40dc-a5ab-dc0e25a18cac" />
+    <UnitTestResult executionId="c6ea445b-7d0d-452e-b885-83a65ad1d476" testId="bafd7209-a646-62b0-2d2f-8c7a4ca9215b" testName="Clock_FixedStepCheck_DetectsMismatch" computerName="Kuans-MacBook-Pro" duration="00:00:00.0002210" startTime="2026-11-14T06:43:57.5595950-05:00" endTime="2026-11-14T06:43:57.5598160-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6ea445b-7d0d-452e-b885-83a65ad1d476" />
+    <UnitTestResult executionId="e49b6973-1b2c-4435-a561-606cf6373ead" testId="4c57a296-b72a-3ac0-fa29-a26f7e503d7f" testName="Save_SectionTooNewOrUnmigratable_Refused" computerName="Kuans-MacBook-Pro" duration="00:00:00.0006150" startTime="2026-11-14T06:44:00.3797890-05:00" endTime="2026-11-14T06:44:00.3804040-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e49b6973-1b2c-4435-a561-606cf6373ead" />
+    <UnitTestResult executionId="3d49de0e-09f8-4775-98cb-1beed32324f0" testId="c54ead7e-1c1c-10cd-c029-022464fc804d" testName="Bus_Publish_AllocatesNothing_SteadyState(1,True,True)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0021140" startTime="2026-11-14T06:43:57.4297080-05:00" endTime="2026-11-14T06:43:57.4318220-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3d49de0e-09f8-4775-98cb-1beed32324f0">
+      <Output>
+        <StdOut>alloc.txt: publish x10000 subs=1 event=BigEvent(96B) nested=True warmup=1000 -&gt; bytes=0 gcAllocCount=n/a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1890d658-5f42-4e2a-aced-cf2d25e7bc53" testId="86c4fb97-1ebc-b34e-4ee4-bd9240a4a7d4" testName="Bus_Publish_AllocatesNothing_SteadyState(8,True,False)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0012240" startTime="2026-11-14T06:43:57.4138500-05:00" endTime="2026-11-14T06:43:57.4150750-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1890d658-5f42-4e2a-aced-cf2d25e7bc53">
+      <Output>
+        <StdOut>alloc.txt: publish x10000 subs=8 event=BigEvent(96B) nested=False warmup=1000 -&gt; bytes=0 gcAllocCount=n/a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ef91d816-c769-404b-b9a6-7109fb74f9b6" testId="533a66b7-d01a-fe5a-7c84-d9dffa98807b" testName="PlayerSlots_SupportN(3)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0000340" startTime="2026-11-14T06:43:59.0208460-05:00" endTime="2026-11-14T06:43:59.0208790-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ef91d816-c769-404b-b9a6-7109fb74f9b6" />
+    <UnitTestResult executionId="2fbdc50e-b2b1-4a51-a57a-af8dbe20ff54" testId="bb839734-95e8-a50e-645d-a37332bf8d31" testName="Registry_RegisterResolveByContract" computerName="Kuans-MacBook-Pro" duration="00:00:00.0000720" startTime="2026-11-14T06:43:59.0219430-05:00" endTime="2026-11-14T06:43:59.0220140-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2fbdc50e-b2b1-4a51-a57a-af8dbe20ff54" />
+    <UnitTestResult executionId="f28530d4-e4af-4d63-b5f0-e5088ddfe929" testId="d8eb8d16-8f3c-7be6-05ba-7e8e16a0d256" testName="EventTypes_AreUnmanagedStructs" computerName="Kuans-MacBook-Pro" duration="00:00:00.0381870" startTime="2026-11-14T06:43:57.6866560-05:00" endTime="2026-11-14T06:43:57.7248430-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f28530d4-e4af-4d63-b5f0-e5088ddfe929" />
+    <UnitTestResult executionId="f49a5da5-3c19-4ed8-b7ae-6541a2e28e37" testId="ce64e5ee-43ae-c28b-2692-c10dd820e893" testName="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\&quot;flags\&quot;:{\&quot;x\&quot;:true,}}&quot;,1)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0005800" startTime="2026-11-14T06:43:57.7337920-05:00" endTime="2026-11-14T06:43:57.7343710-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f49a5da5-3c19-4ed8-b7ae-6541a2e28e37" />
+    <UnitTestResult executionId="b12cf0e4-d7b5-450a-b225-22e7f8088f08" testId="111ea3f6-e582-202a-7e7c-2c04c81ab1a6" testName="Bus_SubscribeDuringDispatch_StartsWithNextPublishedEvent" computerName="Kuans-MacBook-Pro" duration="00:00:00.0009320" startTime="2026-11-14T06:43:57.6846270-05:00" endTime="2026-11-14T06:43:57.6855590-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b12cf0e4-d7b5-450a-b225-22e7f8088f08" />
+    <UnitTestResult executionId="8521467d-329a-4079-8e8f-14806d2866fd" testId="9355943b-1e43-e58b-b77e-6a93f86fc953" testName="NoWallClockOrUnseededRandomInCore" computerName="Kuans-MacBook-Pro" duration="00:00:00.0103050" startTime="2026-11-14T06:44:00.3998990-05:00" endTime="2026-11-14T06:44:00.4102040-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8521467d-329a-4079-8e8f-14806d2866fd">
+      <Output>
+        <StdOut>grep-counts.txt: wall-clock / Random / Guid.NewGuid / GetInstanceID / UnityEngine.Time in Core: 0
+grep-counts.txt: GetHashCode() calls inside Ids.cs (IDs must use IdHash.Mix only): 0</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="913aa1b1-98d5-473d-a66e-d712ca84c7a6" testId="9b64c6b3-ae2b-b0a2-0921-5857276c9689" testName="FlagAndClockReads_AllocateNothing" computerName="Kuans-MacBook-Pro" duration="00:00:00.0033480" startTime="2026-11-14T06:43:57.5558460-05:00" endTime="2026-11-14T06:43:57.5591940-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="913aa1b1-98d5-473d-a66e-d712ca84c7a6">
+      <Output>
+        <StdOut>alloc.txt: flag+clock reads x10000 -&gt; bytes=0 gcAllocCount=n/a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d49b44a4-d932-4252-8c9e-5374c30e18b1" testId="a43ff438-8338-e3d0-ead3-2d884eef68b0" testName="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\&quot;flags\&quot;:{\&quot;x\&quot;:true,\&quot;x\&quot;:true}}&quot;,1)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0000160" startTime="2026-11-14T06:43:57.7345890-05:00" endTime="2026-11-14T06:43:57.7346050-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d49b44a4-d932-4252-8c9e-5374c30e18b1" />
+    <UnitTestResult executionId="1215989c-0e16-4dd7-ab09-3d8d709a6e82" testId="4b432299-17b1-fb4b-43d9-ec39c2e60bbc" testName="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;\&quot;schema\&quot;:1.5&quot;,UnknownSchema)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0001110" startTime="2026-11-14T06:44:00.3881840-05:00" endTime="2026-11-14T06:44:00.3882950-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1215989c-0e16-4dd7-ab09-3d8d709a6e82" />
+    <UnitTestResult executionId="b153ce67-5b3d-41aa-9699-dd1c050ee9ad" testId="61fbef49-2997-7c70-c7bc-8049dcd820a9" testName="Flags_Malformed_ReportsAndAllOff(&quot;[true]&quot;,0)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0000100" startTime="2026-11-14T06:43:57.7345780-05:00" endTime="2026-11-14T06:43:57.7345880-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b153ce67-5b3d-41aa-9699-dd1c050ee9ad" />
+    <UnitTestResult executionId="eed05587-7f4e-4411-9f63-fedf6f9f9a45" testId="838d0074-5463-b145-623e-ab2df6a029c8" testName="PlayerSlots_SupportN(16)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0000560" startTime="2026-11-14T06:43:59.0208820-05:00" endTime="2026-11-14T06:43:59.0209380-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eed05587-7f4e-4411-9f63-fedf6f9f9a45" />
+    <UnitTestResult executionId="c6f09593-8fc2-4beb-bf6f-c38ece4e39f4" testId="17a5e424-854d-6b1f-84ff-d4818c83e00d" testName="BuildingId_FromSourceKey_OrderIndependent" computerName="Kuans-MacBook-Pro" duration="00:00:00.0038390" startTime="2026-11-14T06:43:57.7359890-05:00" endTime="2026-11-14T06:43:57.7398280-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6f09593-8fc2-4beb-bf6f-c38ece4e39f4" />
+    <UnitTestResult executionId="49fa80b1-49b3-4ec7-94bf-d6067324b1e4" testId="78bee910-e56e-9182-ef67-c715e4b45418" testName="NoHardCodedCountsInCore" computerName="Kuans-MacBook-Pro" duration="00:00:00.0018160" startTime="2026-11-14T06:44:00.3977600-05:00" endTime="2026-11-14T06:44:00.3995760-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="49fa80b1-49b3-4ec7-94bf-d6067324b1e4">
+      <Output>
+        <StdOut>grep-counts.txt: hard-coded player/mech/kaiju/pilot counts in Core: 0</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e5d6cd54-6c29-4bf5-bbca-89a43208164c" testId="aaef06e1-be68-42e0-a454-b7360fc6ef5e" testName="Clock_NoDriftAfter10MSteps" computerName="Kuans-MacBook-Pro" duration="00:00:00.0375680" startTime="2026-11-14T06:43:57.5829630-05:00" endTime="2026-11-14T06:43:57.6205310-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e5d6cd54-6c29-4bf5-bbca-89a43208164c">
+      <Output>
+        <StdOut>bench.txt: clock 1e7 steps: derived=200000 naiveFloatSum=191361.89 naiveDoubleSum=199999.99997261938</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="562e80f3-e565-4801-9b5a-24c522dc0905" testId="f72fd241-10bd-1167-4236-c64aec670a13" testName="Save_RoundTrip_100k" computerName="Kuans-MacBook-Pro" duration="00:00:01.3231120" startTime="2026-11-14T06:43:59.0566330-05:00" endTime="2026-11-14T06:44:00.3797500-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="562e80f3-e565-4801-9b5a-24c522dc0905">
+      <Output>
+        <StdOut>save-baseline.txt: records=100000 write_ms=132.3 read_ms=429.9 bytes=13544521</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="b7beb1f5-fb81-4cab-9ffb-026ca41751f1" testId="f48d85c6-8c7a-27cd-6801-0d240d67b816" testName="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;\&quot;schema\&quot;:0&quot;,UnknownSchema)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0003210" startTime="2026-11-14T06:44:00.3876980-05:00" endTime="2026-11-14T06:44:00.3880190-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b7beb1f5-fb81-4cab-9ffb-026ca41751f1" />
+    <UnitTestResult executionId="b482eff5-b655-4491-8267-18d57a765c58" testId="de20b3ad-9657-5402-8e8a-6f0f2407d8d6" testName="Bus_Throughput_Baseline(64)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0758870" startTime="2026-11-14T06:43:57.4798680-05:00" endTime="2026-11-14T06:43:57.5557560-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b482eff5-b655-4491-8267-18d57a765c58">
+      <Output>
+        <StdOut>bench.txt: subs=64 ns/publish=347.5 ns/delivery=5.4 (n=200000)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="58910386-a81d-4396-9cc0-bbc328ed5332" testId="36e6322a-d5f3-9ae4-1355-4133b24c564b" testName="Bus_PublishFromHandler_IsQueuedFifoAfterCurrentEvent" computerName="Kuans-MacBook-Pro" duration="00:00:00.0001110" startTime="2026-11-14T06:43:57.6845130-05:00" endTime="2026-11-14T06:43:57.6846250-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="58910386-a81d-4396-9cc0-bbc328ed5332" />
+    <UnitTestResult executionId="847b5ed6-5928-427c-b5f9-25aeef7c61c6" testId="d5897541-8f68-31dc-94f8-95badadbd9b6" testName="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;version\&quot;:1&quot;,&quot;\&quot;version\&quot;:\&quot;x\&quot;&quot;,Corrupt)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0001320" startTime="2026-11-14T06:44:00.3884370-05:00" endTime="2026-11-14T06:44:00.3885700-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="847b5ed6-5928-427c-b5f9-25aeef7c61c6" />
+    <UnitTestResult executionId="3e2d7d53-8791-49a7-a540-e93e77241732" testId="8d9f1413-b1f9-be02-c67e-f17267f25550" testName="ExtensionProof_SampleModule_NoCoreChanges" computerName="Kuans-MacBook-Pro" duration="00:00:00.0073620" startTime="2026-11-14T06:43:57.7249630-05:00" endTime="2026-11-14T06:43:57.7323240-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3e2d7d53-8791-49a7-a540-e93e77241732" />
+    <UnitTestResult executionId="85893a57-fbbf-4d48-92e1-32bdc8def13d" testId="e403b3bd-46bf-b3a2-823f-e7fef848503c" testName="Bus_DoubleSubscribe_Throws" computerName="Kuans-MacBook-Pro" duration="00:00:00.0001510" startTime="2026-11-14T06:43:57.6831820-05:00" endTime="2026-11-14T06:43:57.6833330-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="85893a57-fbbf-4d48-92e1-32bdc8def13d" />
+    <UnitTestResult executionId="ef5cd08a-4088-4268-aefd-97811fd98f72" testId="7456adbc-6aff-c232-db25-99844fc9eaba" testName="Bus_PublishFromAnotherThread_FailsLoudly" computerName="Kuans-MacBook-Pro" duration="00:00:00.0003869" startTime="2026-11-14T06:43:57.6841140-05:00" endTime="2026-11-14T06:43:57.6845020-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ef5cd08a-4088-4268-aefd-97811fd98f72" />
+    <UnitTestResult executionId="f8e59c46-93f4-4fb0-a7aa-5dd372074def" testId="8e52a38f-3f6c-da11-aa9b-c770acb63ca8" testName="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\&quot;flags\&quot;:{\&quot;x\&quot;:\&quot;yes\&quot;}}&quot;,0)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0000240" startTime="2026-11-14T06:43:57.7345260-05:00" endTime="2026-11-14T06:43:57.7345500-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f8e59c46-93f4-4fb0-a7aa-5dd372074def" />
+    <UnitTestResult executionId="4693f59a-196a-4832-86a1-a96fd6550917" testId="47993606-b74c-6f66-0ab2-342957a443d4" testName="Clock_ManualStepping_DrivesBus" computerName="Kuans-MacBook-Pro" duration="00:00:00.0230930" startTime="2026-11-14T06:43:57.5598380-05:00" endTime="2026-11-14T06:43:57.5829320-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4693f59a-196a-4832-86a1-a96fd6550917" />
+    <UnitTestResult executionId="9f80bcb4-39b7-47e9-b074-14255a8fb908" testId="17401dd8-9509-68e4-de91-377bad2e57f3" testName="Save_UnknownSections_PreservedThroughLoadSave" computerName="Kuans-MacBook-Pro" duration="00:00:00.0042709" startTime="2026-11-14T06:44:00.3804240-05:00" endTime="2026-11-14T06:44:00.3846950-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9f80bcb4-39b7-47e9-b074-14255a8fb908" />
+    <UnitTestResult executionId="a46c7caa-eeba-41b9-94aa-0d1b6d8c9690" testId="3e62d266-ba7c-ce82-6e20-5533098bb883" testName="Registry_ResolveMissing_NamesContract" computerName="Kuans-MacBook-Pro" duration="00:00:00.0001720" startTime="2026-11-14T06:43:59.0220170-05:00" endTime="2026-11-14T06:43:59.0221890-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a46c7caa-eeba-41b9-94aa-0d1b6d8c9690" />
+    <UnitTestResult executionId="c420e64d-9e64-478e-ab61-3341d37662ae" testId="d3a8ef7f-c3de-0ad6-6a6c-2de38e59f414" testName="Save_Migration_V1ToV2_Sample" computerName="Kuans-MacBook-Pro" duration="00:00:00.0018670" startTime="2026-11-14T06:43:59.0535600-05:00" endTime="2026-11-14T06:43:59.0554260-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c420e64d-9e64-478e-ab61-3341d37662ae" />
+    <UnitTestResult executionId="0c8bdecb-2b7d-4580-bd0f-9c3905b0228e" testId="8bd11707-669b-53d1-c01c-61c34a7f1265" testName="Ids_DefaultIsInvalid" computerName="Kuans-MacBook-Pro" duration="00:00:00.0012979" startTime="2026-11-14T06:43:59.0090140-05:00" endTime="2026-11-14T06:43:59.0103120-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0c8bdecb-2b7d-4580-bd0f-9c3905b0228e" />
+    <UnitTestResult executionId="354efce0-29d3-42d4-b2fc-dab560b3bc84" testId="19a62760-610e-e35c-a8f9-32b3792f1c66" testName="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:2,\&quot;flags\&quot;:{\&quot;x\&quot;:true}}&quot;,0)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0000130" startTime="2026-11-14T06:43:57.7345510-05:00" endTime="2026-11-14T06:43:57.7345640-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="354efce0-29d3-42d4-b2fc-dab560b3bc84" />
+    <UnitTestResult executionId="afca9582-aa43-4e62-8a02-8d33c4252a59" testId="e1c9c814-9b58-9695-5833-d0667e915105" testName="BuildingId_NoCollisions_10M" computerName="Kuans-MacBook-Pro" duration="00:00:01.2195560" startTime="2026-11-14T06:43:57.7402140-05:00" endTime="2026-11-14T06:43:58.9597750-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="afca9582-aa43-4e62-8a02-8d33c4252a59">
+      <Output>
+        <StdOut>grep-counts.txt: BuildingId_NoCollisions_10M: ids=10000002 collisions=0</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d4869bcb-f00b-444f-8aa3-b7028573ca0c" testId="00fc9741-f619-6df2-8ee4-52bf1fa50c73" testName="Bus_Publish_AllocatesNothing_SteadyState(8,False,True)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0027030" startTime="2026-11-14T06:43:57.4215310-05:00" endTime="2026-11-14T06:43:57.4242330-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d4869bcb-f00b-444f-8aa3-b7028573ca0c">
+      <Output>
+        <StdOut>alloc.txt: publish x10000 subs=8 event=PingEvent(4B) nested=True warmup=1000 -&gt; bytes=0 gcAllocCount=n/a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="dceef18a-560e-46b3-a20d-c642d38a3044" testId="a0240ab6-3f8b-6c4c-49e2-1aca5aa089fe" testName="EntityId_NoReuseWithinSession" computerName="Kuans-MacBook-Pro" duration="00:00:00.0491690" startTime="2026-11-14T06:43:58.9598070-05:00" endTime="2026-11-14T06:43:59.0089760-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dceef18a-560e-46b3-a20d-c642d38a3044" />
+    <UnitTestResult executionId="fb18375f-5915-43d3-a902-20d1a1e2947c" testId="0b9283e8-3cc8-c377-1811-df226b99dd17" testName="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;\&quot;schema\&quot;:\&quot;1\&quot;&quot;,UnknownSchema)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0001360" startTime="2026-11-14T06:44:00.3880350-05:00" endTime="2026-11-14T06:44:00.3881710-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fb18375f-5915-43d3-a902-20d1a1e2947c" />
+    <UnitTestResult executionId="b963feaa-4717-46b9-864b-55224d76cc28" testId="d6aea282-2809-cb62-c0e5-833072411a89" testName="Save_NewerVersion_RefusedUntouched" computerName="Kuans-MacBook-Pro" duration="00:00:00.0011680" startTime="2026-11-14T06:43:59.0554490-05:00" endTime="2026-11-14T06:43:59.0566170-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b963feaa-4717-46b9-864b-55224d76cc28" />
+    <UnitTestResult executionId="c1357737-119b-42cd-adc5-e9259f98a2a8" testId="344c7c31-3117-d44c-0559-e4ceb08a787d" testName="Bus_Publish_AllocatesNothing_SteadyState(1,False,True)" computerName="Kuans-MacBook-Pro" duration="00:00:00.0028790" startTime="2026-11-14T06:43:57.4186330-05:00" endTime="2026-11-14T06:43:57.4215120-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c1357737-119b-42cd-adc5-e9259f98a2a8">
+      <Output>
+        <StdOut>alloc.txt: publish x10000 subs=1 event=PingEvent(4B) nested=True warmup=1000 -&gt; bytes=0 gcAllocCount=n/a</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="907f74f2-42f7-4440-b7db-2a30a0cd3040" testId="27c421c0-985e-272d-0cf5-61dbe1893216" testName="Bus_TypedIsolation" computerName="Kuans-MacBook-Pro" duration="00:00:00.0000760" startTime="2026-11-14T06:43:57.6860100-05:00" endTime="2026-11-14T06:43:57.6860860-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="907f74f2-42f7-4440-b7db-2a30a0cd3040" />
+    <UnitTestResult executionId="398b5b8e-ef1a-4dd6-97e6-ce118b1a6695" testId="0f454c65-d6e6-abc4-32cf-1d677b28e5f5" testName="Bus_ThrowingHandler_OthersStillReceive_ErrorReported" computerName="Kuans-MacBook-Pro" duration="00:00:00.0004150" startTime="2026-11-14T06:43:57.6855800-05:00" endTime="2026-11-14T06:43:57.6859950-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="398b5b8e-ef1a-4dd6-97e6-ce118b1a6695" />
+    <UnitTestResult executionId="3cc56c91-eaba-4a82-b30c-fc9c8a7d93d9" testId="c0425902-fb67-758e-eb94-65b11af4bf78" testName="Flags_Unknown_IsOff" computerName="Kuans-MacBook-Pro" duration="00:00:00.0000860" startTime="2026-11-14T06:43:57.7358620-05:00" endTime="2026-11-14T06:43:57.7359470-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3cc56c91-eaba-4a82-b30c-fc9c8a7d93d9" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Layering_NoNetOrGameplayTypesInCore" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="49bb9d85-abfb-a98d-a792-c03fe0928079">
+      <Execution id="adc799bf-db83-4dd9-b5a1-4fb6844ffcc9" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.StructureTests" name="Layering_NoNetOrGameplayTypesInCore" />
+    </UnitTest>
+    <UnitTest name="Flags_MissingFile_AllOffOneWarning" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="c4f7c5fa-4044-9e6c-c07a-4ea129058f1b">
+      <Execution id="3c0b8fe4-085b-41e2-b251-468af927257f" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.FlagTests" name="Flags_MissingFile_AllOffOneWarning" />
+    </UnitTest>
+    <UnitTest name="Bus_Publish_AllocatesNothing_SteadyState(8,False,True)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="00fc9741-f619-6df2-8ee4-52bf1fa50c73">
+      <Execution id="d4869bcb-f00b-444f-8aa3-b7028573ca0c" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="Bus_Publish_AllocatesNothing_SteadyState(8,False,True)" />
+    </UnitTest>
+    <UnitTest name="PlayerSlots_SupportN(1)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="79f320d9-7df1-ae51-80f5-b18a51b7a8b4">
+      <Execution id="625e7bcf-e9b2-43b9-a0dc-1c7f332dfbc6" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.IdTests" name="PlayerSlots_SupportN(1)" />
+    </UnitTest>
+    <UnitTest name="Ids_ValueSemantics_AllocationFree" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="5db6825d-0c62-03d5-e164-510e082f9907">
+      <Execution id="4732b9aa-29d7-4c60-9110-207bc0a2b794" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.IdTests" name="Ids_ValueSemantics_AllocationFree" />
+    </UnitTest>
+    <UnitTest name="Registry_RegisterResolveByContract" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="bb839734-95e8-a50e-645d-a37332bf8d31">
+      <Execution id="2fbdc50e-b2b1-4a51-a57a-af8dbe20ff54" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.RegistryTests" name="Registry_RegisterResolveByContract" />
+    </UnitTest>
+    <UnitTest name="AllocMeter_DetectsAllocations" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="ac28a43e-2298-2e9e-cfd4-2c50d3b81058">
+      <Execution id="5e34aea1-b493-4698-836f-7570637bba6c" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="AllocMeter_DetectsAllocations" />
+    </UnitTest>
+    <UnitTest name="SaveCodeKnowsNothingAboutBuildings" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="8e1e8f37-43df-4733-b862-adf5a5c7c9de">
+      <Execution id="fb6462f1-a539-44d9-975b-dd72268126b4" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.StructureTests" name="SaveCodeKnowsNothingAboutBuildings" />
+    </UnitTest>
+    <UnitTest name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;&quot;,UnknownSchema)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="7784fba9-5100-4aae-ee49-15968e2d0439">
+      <Execution id="d4e7f092-6e2a-4d0d-9ef3-f0215a6a0388" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SaveTests" name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;&quot;,UnknownSchema)" />
+    </UnitTest>
+    <UnitTest name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\&quot;flags\&quot;:{\&quot;x\&quot;:\&quot;yes\&quot;}}&quot;,0)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="8e52a38f-3f6c-da11-aa9b-c770acb63ca8">
+      <Execution id="f8e59c46-93f4-4fb0-a7aa-5dd372074def" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.FlagTests" name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\&quot;flags\&quot;:{\&quot;x\&quot;:\&quot;yes\&quot;}}&quot;,0)" />
+    </UnitTest>
+    <UnitTest name="Core_StepReplay_Deterministic" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="6d8a9fc6-98a8-6668-9ce8-3afb3a3efa8f">
+      <Execution id="46b29352-5231-4ae5-8271-7b1903483203" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.ClockTests" name="Core_StepReplay_Deterministic" />
+    </UnitTest>
+    <UnitTest name="Bus_Publish_AllocatesNothing_SteadyState(64,False,False)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="a7f235a0-6fcb-72b0-7991-32fcbb1eef5f">
+      <Execution id="eda0ac94-067e-4c06-ba68-82b16f7616ce" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="Bus_Publish_AllocatesNothing_SteadyState(64,False,False)" />
+    </UnitTest>
+    <UnitTest name="Registry_DuplicateRegistration_FailsNamingBothImplementations" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="ec71545d-93c1-f551-1b76-0be7d0260268">
+      <Execution id="4775fd21-736e-4a06-b17a-241f8aff2564" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.RegistryTests" name="Registry_DuplicateRegistration_FailsNamingBothImplementations" />
+    </UnitTest>
+    <UnitTest name="PlayerSlots_SupportN(2)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="e3dfc0ae-44ba-8a84-bedf-0918f90d4e11">
+      <Execution id="dd9e44f0-e761-48bf-b751-973a11494489" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.IdTests" name="PlayerSlots_SupportN(2)" />
+    </UnitTest>
+    <UnitTest name="PlayerSlots_SupportN(3)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="533a66b7-d01a-fe5a-7c84-d9dffa98807b">
+      <Execution id="ef91d816-c769-404b-b9a6-7109fb74f9b6" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.IdTests" name="PlayerSlots_SupportN(3)" />
+    </UnitTest>
+    <UnitTest name="Bus_SubscribeDuringDispatch_StartsWithNextPublishedEvent" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="111ea3f6-e582-202a-7e7c-2c04c81ab1a6">
+      <Execution id="b12cf0e4-d7b5-450a-b225-22e7f8088f08" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.EventBusTests" name="Bus_SubscribeDuringDispatch_StartsWithNextPublishedEvent" />
+    </UnitTest>
+    <UnitTest name="NoHardCodedCountsInCore" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="78bee910-e56e-9182-ef67-c715e4b45418">
+      <Execution id="49fa80b1-49b3-4ec7-94bf-d6067324b1e4" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.StructureTests" name="NoHardCodedCountsInCore" />
+    </UnitTest>
+    <UnitTest name="Bus_Throughput_Baseline(1)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="8f17e545-d5da-7b3a-9f52-7f6d4521681c">
+      <Execution id="3b1f1373-f2ee-44a0-a1d7-38d4b892aa33" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="Bus_Throughput_Baseline(1)" />
+    </UnitTest>
+    <UnitTest name="Flags_Malformed_ReportsAndAllOff(&quot;[true]&quot;,0)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="61fbef49-2997-7c70-c7bc-8049dcd820a9">
+      <Execution id="b153ce67-5b3d-41aa-9699-dd1c050ee9ad" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.FlagTests" name="Flags_Malformed_ReportsAndAllOff(&quot;[true]&quot;,0)" />
+    </UnitTest>
+    <UnitTest name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:2,\&quot;flags\&quot;:{\&quot;x\&quot;:true}}&quot;,0)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="19a62760-610e-e35c-a8f9-32b3792f1c66">
+      <Execution id="354efce0-29d3-42d4-b2fc-dab560b3bc84" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.FlagTests" name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:2,\&quot;flags\&quot;:{\&quot;x\&quot;:true}}&quot;,0)" />
+    </UnitTest>
+    <UnitTest name="Ids_NoImplicitConversions_NoPublicConstructors" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="90438871-968f-bb77-5a3d-ab5970a33a21">
+      <Execution id="a2278952-50ee-4391-b078-37d19500824d" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.IdTests" name="Ids_NoImplicitConversions_NoPublicConstructors" />
+    </UnitTest>
+    <UnitTest name="EntityId_NoReuseWithinSession" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="a0240ab6-3f8b-6c4c-49e2-1aca5aa089fe">
+      <Execution id="dceef18a-560e-46b3-a20d-c642d38a3044" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.IdTests" name="EntityId_NoReuseWithinSession" />
+    </UnitTest>
+    <UnitTest name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;\&quot;schema\&quot;:1.5&quot;,UnknownSchema)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="4b432299-17b1-fb4b-43d9-ec39c2e60bbc">
+      <Execution id="1215989c-0e16-4dd7-ab09-3d8d709a6e82" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SaveTests" name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;\&quot;schema\&quot;:1.5&quot;,UnknownSchema)" />
+    </UnitTest>
+    <UnitTest name="BuildingId_FromSourceKey_OrderIndependent" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="17a5e424-854d-6b1f-84ff-d4818c83e00d">
+      <Execution id="c6f09593-8fc2-4beb-bf6f-c38ece4e39f4" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.IdTests" name="BuildingId_FromSourceKey_OrderIndependent" />
+    </UnitTest>
+    <UnitTest name="Save_Migration_V1ToV2_Sample" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="d3a8ef7f-c3de-0ad6-6a6c-2de38e59f414">
+      <Execution id="c420e64d-9e64-478e-ab61-3341d37662ae" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SaveTests" name="Save_Migration_V1ToV2_Sample" />
+    </UnitTest>
+    <UnitTest name="Clock_NoDriftAfter10MSteps" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="aaef06e1-be68-42e0-a454-b7360fc6ef5e">
+      <Execution id="e5d6cd54-6c29-4bf5-bbca-89a43208164c" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.ClockTests" name="Clock_NoDriftAfter10MSteps" />
+    </UnitTest>
+    <UnitTest name="Save_UnknownSections_PreservedThroughLoadSave" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="17401dd8-9509-68e4-de91-377bad2e57f3">
+      <Execution id="9f80bcb4-39b7-47e9-b074-14255a8fb908" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SaveTests" name="Save_UnknownSections_PreservedThroughLoadSave" />
+    </UnitTest>
+    <UnitTest name="NoMutableStaticFieldsInCore" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="74e0d3e8-2a49-26f4-5790-a6ff5f637096">
+      <Execution id="f1f57eae-c10a-46f3-b885-6e81ff716551" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.StructureTests" name="NoMutableStaticFieldsInCore" />
+    </UnitTest>
+    <UnitTest name="PlayerSlots_SupportN(64)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="da10588b-e500-9810-1892-fee3c89fd86b">
+      <Execution id="94dd6cd7-f734-46ac-b162-4aeb850e424a" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.IdTests" name="PlayerSlots_SupportN(64)" />
+    </UnitTest>
+    <UnitTest name="Bus_ThrowingHandler_OthersStillReceive_ErrorReported" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="0f454c65-d6e6-abc4-32cf-1d677b28e5f5">
+      <Execution id="398b5b8e-ef1a-4dd6-97e6-ce118b1a6695" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.EventBusTests" name="Bus_ThrowingHandler_OthersStillReceive_ErrorReported" />
+    </UnitTest>
+    <UnitTest name="Save_GoldenV1_Loads" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="f9137995-3fe4-f535-eeed-1a5b4e3f2d3b">
+      <Execution id="6aa34536-9a51-4f01-a9d9-1e4710ee4194" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SaveTests" name="Save_GoldenV1_Loads" />
+    </UnitTest>
+    <UnitTest name="PlayerSlots_SupportN(16)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="838d0074-5463-b145-623e-ab2df6a029c8">
+      <Execution id="eed05587-7f4e-4411-9f63-fedf6f9f9a45" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.IdTests" name="PlayerSlots_SupportN(16)" />
+    </UnitTest>
+    <UnitTest name="Save_SectionTooNewOrUnmigratable_Refused" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="4c57a296-b72a-3ac0-fa29-a26f7e503d7f">
+      <Execution id="e49b6973-1b2c-4435-a561-606cf6373ead" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SaveTests" name="Save_SectionTooNewOrUnmigratable_Refused" />
+    </UnitTest>
+    <UnitTest name="Bus_DeliversAllEventsWithinPublishingStep" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="8bdfcdaf-a452-34bc-e174-c056961e24af">
+      <Execution id="80474760-9595-47bf-92c5-55ee01c58b47" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.EventBusTests" name="Bus_DeliversAllEventsWithinPublishingStep" />
+    </UnitTest>
+    <UnitTest name="Bus_Publish_AllocatesNothing_SteadyState(8,True,False)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="86c4fb97-1ebc-b34e-4ee4-bd9240a4a7d4">
+      <Execution id="1890d658-5f42-4e2a-aced-cf2d25e7bc53" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="Bus_Publish_AllocatesNothing_SteadyState(8,True,False)" />
+    </UnitTest>
+    <UnitTest name="Save_ByteIdentical_UnderForeignCulture(&quot;tr-TR&quot;)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="b155acda-8f00-4827-e8fe-1c19be81b958">
+      <Execution id="81be59c3-59ac-4229-bbd4-8d751c134a5e" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SaveTests" name="Save_ByteIdentical_UnderForeignCulture(&quot;tr-TR&quot;)" />
+    </UnitTest>
+    <UnitTest name="Registry_Teardown_DisposesReverseOrderOnce" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="e1069cbc-95d1-2d83-c5ee-2b45b6c52e64">
+      <Execution id="f261107b-6405-40fe-98cc-5005d048ee33" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.RegistryTests" name="Registry_Teardown_DisposesReverseOrderOnce" />
+    </UnitTest>
+    <UnitTest name="Ids_SerialiseRoundTrip_AndCrossProcessStable" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="3f48a397-ae89-f7a3-7d2f-760bb2aafc9c">
+      <Execution id="fc595d34-b0f8-4bae-95f1-0398ff71ef20" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.IdTests" name="Ids_SerialiseRoundTrip_AndCrossProcessStable" />
+    </UnitTest>
+    <UnitTest name="Bus_UnsubscribeOtherDuringDispatch_RemovedGetsNothingMore" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="9bcb42b6-2cc5-c863-aba3-1815b53b0708">
+      <Execution id="d5767212-80e1-40dc-a5ab-dc0e25a18cac" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.EventBusTests" name="Bus_UnsubscribeOtherDuringDispatch_RemovedGetsNothingMore" />
+    </UnitTest>
+    <UnitTest name="BuildingId_LargeValues_NoCrossSourceCollision" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="472ecdc8-0d78-c156-e8b4-c44f807681d3">
+      <Execution id="6359e958-97f1-46c7-99a1-21bb07c2c6a2" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.IdTests" name="BuildingId_LargeValues_NoCrossSourceCollision" />
+    </UnitTest>
+    <UnitTest name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;\&quot;schema\&quot;:0&quot;,UnknownSchema)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="f48d85c6-8c7a-27cd-6801-0d240d67b816">
+      <Execution id="b7beb1f5-fb81-4cab-9ffb-026ca41751f1" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SaveTests" name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;\&quot;schema\&quot;:0&quot;,UnknownSchema)" />
+    </UnitTest>
+    <UnitTest name="Save_NewerVersion_RefusedUntouched" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="d6aea282-2809-cb62-c0e5-833072411a89">
+      <Execution id="b963feaa-4717-46b9-864b-55224d76cc28" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SaveTests" name="Save_NewerVersion_RefusedUntouched" />
+    </UnitTest>
+    <UnitTest name="Bus_Publish_AllocatesNothing_SteadyState(1,False,False)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="3f31b27c-fdc6-2d7d-4505-0b38ad6320f1">
+      <Execution id="1e73d6e4-7339-4866-9288-43e8d91fa980" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="Bus_Publish_AllocatesNothing_SteadyState(1,False,False)" />
+    </UnitTest>
+    <UnitTest name="Save_ByteIdentical_UnderForeignCulture(&quot;de-DE&quot;)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="fefc86fa-77b2-42aa-2706-e6b80519be40">
+      <Execution id="583e97bb-dd5f-4e3e-a1be-96eeccf5c306" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SaveTests" name="Save_ByteIdentical_UnderForeignCulture(&quot;de-DE&quot;)" />
+    </UnitTest>
+    <UnitTest name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\&quot;flags\&quot;:{\&quot;x\&quot;:true,}}&quot;,1)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="ce64e5ee-43ae-c28b-2692-c10dd820e893">
+      <Execution id="f49a5da5-3c19-4ed8-b7ae-6541a2e28e37" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.FlagTests" name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\&quot;flags\&quot;:{\&quot;x\&quot;:true,}}&quot;,1)" />
+    </UnitTest>
+    <UnitTest name="BuildingId_NoCollisions_10M" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="e1c9c814-9b58-9695-5833-d0667e915105">
+      <Execution id="afca9582-aa43-4e62-8a02-8d33c4252a59" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.IdTests" name="BuildingId_NoCollisions_10M" />
+    </UnitTest>
+    <UnitTest name="Flags_Folder_MergesFilesInOrdinalOrder_DuplicateIsError" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="a0867dac-d619-0b62-cabc-315bce76eebb">
+      <Execution id="b1a7c3de-1d03-486f-9004-5a284485da9c" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.FlagTests" name="Flags_Folder_MergesFilesInOrdinalOrder_DuplicateIsError" />
+    </UnitTest>
+    <UnitTest name="NoWallClockOrUnseededRandomInCore" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="9355943b-1e43-e58b-b77e-6a93f86fc953">
+      <Execution id="8521467d-329a-4079-8e8f-14806d2866fd" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.StructureTests" name="NoWallClockOrUnseededRandomInCore" />
+    </UnitTest>
+    <UnitTest name="Bus_TypedIsolation" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="27c421c0-985e-272d-0cf5-61dbe1893216">
+      <Execution id="907f74f2-42f7-4440-b7db-2a30a0cd3040" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.EventBusTests" name="Bus_TypedIsolation" />
+    </UnitTest>
+    <UnitTest name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;\&quot;schema\&quot;:\&quot;1\&quot;&quot;,UnknownSchema)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="0b9283e8-3cc8-c377-1811-df226b99dd17">
+      <Execution id="fb18375f-5915-43d3-a902-20d1a1e2947c" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SaveTests" name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;\&quot;schema\&quot;:\&quot;1\&quot;&quot;,UnknownSchema)" />
+    </UnitTest>
+    <UnitTest name="Bus_Publish_AllocatesNothing_SteadyState(64,True,True)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="ffb266de-69bd-39f4-94ae-1118ccf552fb">
+      <Execution id="f280dfa7-eebe-453a-ae57-278cd9c2f960" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="Bus_Publish_AllocatesNothing_SteadyState(64,True,True)" />
+    </UnitTest>
+    <UnitTest name="CoreServices_RegistersCoreContracts" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="5bfb309f-c9b2-5107-7d1e-697360cf7086">
+      <Execution id="949d1221-f7ab-4907-b6ef-acaa24f1d3ed" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.RegistryTests" name="CoreServices_RegistersCoreContracts" />
+    </UnitTest>
+    <UnitTest name="Registry_And_Bus_InstancesAreIndependent" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="155f454f-b695-16f3-8965-664a5850b96d">
+      <Execution id="6b29045e-d46f-42bb-b599-04bbcb4ed73b" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.RegistryTests" name="Registry_And_Bus_InstancesAreIndependent" />
+    </UnitTest>
+    <UnitTest name="Clock_FixedStepCheck_DetectsMismatch" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="bafd7209-a646-62b0-2d2f-8c7a4ca9215b">
+      <Execution id="c6ea445b-7d0d-452e-b885-83a65ad1d476" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.ClockTests" name="Clock_FixedStepCheck_DetectsMismatch" />
+    </UnitTest>
+    <UnitTest name="Bus_Publish_AllocatesNothing_SteadyState(64,False,True)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="97db5b74-ddab-0739-2c47-56860f11ef14">
+      <Execution id="53854f7c-9dc8-46db-8fc9-e4866acde8e8" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="Bus_Publish_AllocatesNothing_SteadyState(64,False,True)" />
+    </UnitTest>
+    <UnitTest name="Bus_Publish_AllocatesNothing_SteadyState(8,True,True)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="8e8e4d35-a870-991f-8ca0-e50a60d808a6">
+      <Execution id="cf0d98b3-ec59-4aee-b25d-d39d676e71e9" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="Bus_Publish_AllocatesNothing_SteadyState(8,True,True)" />
+    </UnitTest>
+    <UnitTest name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\n\&quot;flags\&quot;:{\&quot;x\&quot;:tru}}&quot;,2)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="f345d448-3911-a5ed-519c-1556737a15f8">
+      <Execution id="f2f50f3b-45db-4adc-ac6f-09ef46c6aa27" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.FlagTests" name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\n\&quot;flags\&quot;:{\&quot;x\&quot;:tru}}&quot;,2)" />
+    </UnitTest>
+    <UnitTest name="Bus_DispatchTrace_IsReproducible" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="f1aa5fb5-d84c-7556-bbd7-319b37349eec">
+      <Execution id="079707ca-10a4-4c0a-a3bc-22563b3739f8" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.EventBusTests" name="Bus_DispatchTrace_IsReproducible" />
+    </UnitTest>
+    <UnitTest name="Flags_Unknown_IsOff" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="c0425902-fb67-758e-eb94-65b11af4bf78">
+      <Execution id="3cc56c91-eaba-4a82-b30c-fc9c8a7d93d9" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.FlagTests" name="Flags_Unknown_IsOff" />
+    </UnitTest>
+    <UnitTest name="Save_RoundTrip_100k" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="f72fd241-10bd-1167-4236-c64aec670a13">
+      <Execution id="562e80f3-e565-4801-9b5a-24c522dc0905" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SaveTests" name="Save_RoundTrip_100k" />
+    </UnitTest>
+    <UnitTest name="Bus_Throughput_Baseline(8)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="69aee24f-5557-0e64-7307-543c6d009261">
+      <Execution id="95ced102-7a7a-47f2-a11d-66f4e995f39d" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="Bus_Throughput_Baseline(8)" />
+    </UnitTest>
+    <UnitTest name="Bus_DoubleSubscribe_Throws" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="e403b3bd-46bf-b3a2-823f-e7fef848503c">
+      <Execution id="85893a57-fbbf-4d48-92e1-32bdc8def13d" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.EventBusTests" name="Bus_DoubleSubscribe_Throws" />
+    </UnitTest>
+    <UnitTest name="Suite_PassesTwiceInShuffledOrder_InOneProcess" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="8d58febe-906f-58b1-5dab-d8a4c2edbda4">
+      <Execution id="7b095ce3-8b9b-4eb9-bd45-46972022a58b" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SuiteHygieneTests" name="Suite_PassesTwiceInShuffledOrder_InOneProcess" />
+    </UnitTest>
+    <UnitTest name="Ids_DefaultIsInvalid" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="8bd11707-669b-53d1-c01c-61c34a7f1265">
+      <Execution id="0c8bdecb-2b7d-4580-bd0f-9c3905b0228e" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.IdTests" name="Ids_DefaultIsInvalid" />
+    </UnitTest>
+    <UnitTest name="Bus_UnsubscribeSelfDuringDispatch_IsSafe" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="c41f0072-b212-738b-fda4-b935f95de154">
+      <Execution id="66e671e6-2800-4a9d-a7c7-8a19314ce698" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.EventBusTests" name="Bus_UnsubscribeSelfDuringDispatch_IsSafe" />
+    </UnitTest>
+    <UnitTest name="Bus_PublishFromHandler_IsQueuedFifoAfterCurrentEvent" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="36e6322a-d5f3-9ae4-1355-4133b24c564b">
+      <Execution id="58910386-a81d-4396-9cc0-bbc328ed5332" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.EventBusTests" name="Bus_PublishFromHandler_IsQueuedFifoAfterCurrentEvent" />
+    </UnitTest>
+    <UnitTest name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;format\&quot;:\&quot;kaiju-save\&quot;&quot;,&quot;\&quot;format\&quot;:\&quot;other\&quot;&quot;,Corrupt)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="59bd8d9f-100a-5bb0-80ec-6436b1391291">
+      <Execution id="794c26f0-7b6c-407b-9b34-e5a17c2a00cc" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SaveTests" name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;format\&quot;:\&quot;kaiju-save\&quot;&quot;,&quot;\&quot;format\&quot;:\&quot;other\&quot;&quot;,Corrupt)" />
+    </UnitTest>
+    <UnitTest name="Bus_Publish_AllocatesNothing_SteadyState(64,True,False)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="850b1ab3-2f25-eb15-5f8a-ffe8e71039ac">
+      <Execution id="405ffb76-1d67-44cc-8123-21ba221e12ca" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="Bus_Publish_AllocatesNothing_SteadyState(64,True,False)" />
+    </UnitTest>
+    <UnitTest name="Bus_Throughput_Baseline(64)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="de20b3ad-9657-5402-8e8a-6f0f2407d8d6">
+      <Execution id="b482eff5-b655-4491-8267-18d57a765c58" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="Bus_Throughput_Baseline(64)" />
+    </UnitTest>
+    <UnitTest name="Save_UnknownVersion_NoSilentLoad(&quot;]}\n]}&quot;,&quot;]}&quot;,Corrupt)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="07f39dd6-1be6-ae51-c797-f648f62983aa">
+      <Execution id="a9b533d5-7c63-47a2-9dfb-d9c6834e9b69" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SaveTests" name="Save_UnknownVersion_NoSilentLoad(&quot;]}\n]}&quot;,&quot;]}&quot;,Corrupt)" />
+    </UnitTest>
+    <UnitTest name="Bus_Publish_AllocatesNothing_SteadyState(1,True,True)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="c54ead7e-1c1c-10cd-c029-022464fc804d">
+      <Execution id="3d49de0e-09f8-4775-98cb-1beed32324f0" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="Bus_Publish_AllocatesNothing_SteadyState(1,True,True)" />
+    </UnitTest>
+    <UnitTest name="Bus_Publish_AllocatesNothing_SteadyState(1,False,True)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="344c7c31-3117-d44c-0559-e4ceb08a787d">
+      <Execution id="c1357737-119b-42cd-adc5-e9259f98a2a8" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="Bus_Publish_AllocatesNothing_SteadyState(1,False,True)" />
+    </UnitTest>
+    <UnitTest name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;flags\&quot;:{\&quot;x\&quot;:true}}&quot;,0)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="acf511a9-786d-7792-cd47-224de7aa0519">
+      <Execution id="e2d4f82f-b94b-45af-9636-56c2f368dc60" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.FlagTests" name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;flags\&quot;:{\&quot;x\&quot;:true}}&quot;,0)" />
+    </UnitTest>
+    <UnitTest name="Registry_ResolveMissing_NamesContract" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="3e62d266-ba7c-ce82-6e20-5533098bb883">
+      <Execution id="a46c7caa-eeba-41b9-94aa-0d1b6d8c9690" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.RegistryTests" name="Registry_ResolveMissing_NamesContract" />
+    </UnitTest>
+    <UnitTest name="Save_InterruptedWrite_PreviousIntact" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="576c9ac1-ffc3-4004-3a7c-130690a5c5c0">
+      <Execution id="beac6a13-37ec-45e8-969c-4a8c6cfed0d8" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SaveTests" name="Save_InterruptedWrite_PreviousIntact" />
+    </UnitTest>
+    <UnitTest name="Bus_PublishFromAnotherThread_FailsLoudly" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="7456adbc-6aff-c232-db25-99844fc9eaba">
+      <Execution id="ef5cd08a-4088-4268-aefd-97811fd98f72" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.EventBusTests" name="Bus_PublishFromAnotherThread_FailsLoudly" />
+    </UnitTest>
+    <UnitTest name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\&quot;flags\&quot;:{\&quot;x\&quot;:true,\&quot;x\&quot;:true}}&quot;,1)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="a43ff438-8338-e3d0-ead3-2d884eef68b0">
+      <Execution id="d49b44a4-d932-4252-8c9e-5374c30e18b1" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.FlagTests" name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\&quot;flags\&quot;:{\&quot;x\&quot;:true,\&quot;x\&quot;:true}}&quot;,1)" />
+    </UnitTest>
+    <UnitTest name="Bus_Publish_AllocatesNothing_SteadyState(8,False,False)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="b8c3cb63-d16f-aff0-2f02-7b457e832160">
+      <Execution id="2e866b02-481f-4290-bc34-c12d7670804a" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="Bus_Publish_AllocatesNothing_SteadyState(8,False,False)" />
+    </UnitTest>
+    <UnitTest name="EventTypes_AreUnmanagedStructs" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="d8eb8d16-8f3c-7be6-05ba-7e8e16a0d256">
+      <Execution id="f28530d4-e4af-4d63-b5f0-e5088ddfe929" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.EventBusTests" name="EventTypes_AreUnmanagedStructs" />
+    </UnitTest>
+    <UnitTest name="ExtensionProof_SampleModule_NoCoreChanges" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="8d9f1413-b1f9-be02-c67e-f17267f25550">
+      <Execution id="3e2d7d53-8791-49a7-a540-e93e77241732" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.ExtensionProofTests" name="ExtensionProof_SampleModule_NoCoreChanges" />
+    </UnitTest>
+    <UnitTest name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;version\&quot;:1&quot;,&quot;\&quot;version\&quot;:\&quot;x\&quot;&quot;,Corrupt)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="d5897541-8f68-31dc-94f8-95badadbd9b6">
+      <Execution id="847b5ed6-5928-427c-b5f9-25aeef7c61c6" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.SaveTests" name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;version\&quot;:1&quot;,&quot;\&quot;version\&quot;:\&quot;x\&quot;&quot;,Corrupt)" />
+    </UnitTest>
+    <UnitTest name="Clock_StepComesFromCommittedConfig" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="f40d2339-a809-38a1-8a05-98bbf9c4d080">
+      <Execution id="5116e302-318b-4639-b64c-11a3d17f0d12" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.ClockTests" name="Clock_StepComesFromCommittedConfig" />
+    </UnitTest>
+    <UnitTest name="Bus_Publish_AllocatesNothing_SteadyState(1,True,False)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="b806ae6f-a65f-7c52-db6a-5ef5064fe6c7">
+      <Execution id="8e2e8aed-8b77-47db-a357-beca639ddeec" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="Bus_Publish_AllocatesNothing_SteadyState(1,True,False)" />
+    </UnitTest>
+    <UnitTest name="Layering_CoreAsmdefsAreEngineFree" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="15266858-4da3-e70d-fbfd-792c1a049a2e">
+      <Execution id="eb840e25-a872-435d-984d-ff960088860d" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.StructureTests" name="Layering_CoreAsmdefsAreEngineFree" />
+    </UnitTest>
+    <UnitTest name="FlagAndClockReads_AllocateNothing" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="9b64c6b3-ae2b-b0a2-0921-5857276c9689">
+      <Execution id="913aa1b1-98d5-473d-a66e-d712ca84c7a6" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.AllocationTests" name="FlagAndClockReads_AllocateNothing" />
+    </UnitTest>
+    <UnitTest name="Flags_Snapshot_StableAndSerialisable" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="b753f38f-e586-548e-4d01-5a4ef614ea64">
+      <Execution id="f739612d-0720-493b-bb40-90c55a03f8b8" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.FlagTests" name="Flags_Snapshot_StableAndSerialisable" />
+    </UnitTest>
+    <UnitTest name="Flags_RepoFile_NewFeaturesDefaultOff" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="c3114174-a666-e50e-800f-a23aa7ed05fd">
+      <Execution id="73d67a90-a7f5-4c67-b45a-99aab31c1214" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.FlagTests" name="Flags_RepoFile_NewFeaturesDefaultOff" />
+    </UnitTest>
+    <UnitTest name="Bus_PublishCycle_FailsLoudlyNamingEventTypes" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="4e8f6078-c2d8-54f3-ac99-1d445470ac1d">
+      <Execution id="3054c65b-4b4e-4f02-bdd4-98ec01f4e21c" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.EventBusTests" name="Bus_PublishCycle_FailsLoudlyNamingEventTypes" />
+    </UnitTest>
+    <UnitTest name="Clock_ManualStepping_DrivesBus" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-001/kaiju/dotnettests/core.tests/bin/debug/net11.0/game.core.tests.dll" id="47993606-b74c-6f66-0ab2-342957a443d4">
+      <Execution id="4693f59a-196a-4832-86a1-a96fd6550917" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Core.Tests.ClockTests" name="Clock_ManualStepping_DrivesBus" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="850b1ab3-2f25-eb15-5f8a-ffe8e71039ac" executionId="405ffb76-1d67-44cc-8123-21ba221e12ca" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8f17e545-d5da-7b3a-9f52-7f6d4521681c" executionId="3b1f1373-f2ee-44a0-a1d7-38d4b892aa33" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="69aee24f-5557-0e64-7307-543c6d009261" executionId="95ced102-7a7a-47f2-a11d-66f4e995f39d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="90438871-968f-bb77-5a3d-ab5970a33a21" executionId="a2278952-50ee-4391-b078-37d19500824d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3f31b27c-fdc6-2d7d-4505-0b38ad6320f1" executionId="1e73d6e4-7339-4866-9288-43e8d91fa980" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b806ae6f-a65f-7c52-db6a-5ef5064fe6c7" executionId="8e2e8aed-8b77-47db-a357-beca639ddeec" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="74e0d3e8-2a49-26f4-5790-a6ff5f637096" executionId="f1f57eae-c10a-46f3-b885-6e81ff716551" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7784fba9-5100-4aae-ee49-15968e2d0439" executionId="d4e7f092-6e2a-4d0d-9ef3-f0215a6a0388" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="155f454f-b695-16f3-8965-664a5850b96d" executionId="6b29045e-d46f-42bb-b599-04bbcb4ed73b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4e8f6078-c2d8-54f3-ac99-1d445470ac1d" executionId="3054c65b-4b4e-4f02-bdd4-98ec01f4e21c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c4f7c5fa-4044-9e6c-c07a-4ea129058f1b" executionId="3c0b8fe4-085b-41e2-b251-468af927257f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a0867dac-d619-0b62-cabc-315bce76eebb" executionId="b1a7c3de-1d03-486f-9004-5a284485da9c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="acf511a9-786d-7792-cd47-224de7aa0519" executionId="e2d4f82f-b94b-45af-9636-56c2f368dc60" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6d8a9fc6-98a8-6668-9ce8-3afb3a3efa8f" executionId="46b29352-5231-4ae5-8271-7b1903483203" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f345d448-3911-a5ed-519c-1556737a15f8" executionId="f2f50f3b-45db-4adc-ac6f-09ef46c6aa27" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f1aa5fb5-d84c-7556-bbd7-319b37349eec" executionId="079707ca-10a4-4c0a-a3bc-22563b3739f8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="79f320d9-7df1-ae51-80f5-b18a51b7a8b4" executionId="625e7bcf-e9b2-43b9-a0dc-1c7f332dfbc6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8d58febe-906f-58b1-5dab-d8a4c2edbda4" executionId="7b095ce3-8b9b-4eb9-bd45-46972022a58b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8bdfcdaf-a452-34bc-e174-c056961e24af" executionId="80474760-9595-47bf-92c5-55ee01c58b47" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f9137995-3fe4-f535-eeed-1a5b4e3f2d3b" executionId="6aa34536-9a51-4f01-a9d9-1e4710ee4194" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b753f38f-e586-548e-4d01-5a4ef614ea64" executionId="f739612d-0720-493b-bb40-90c55a03f8b8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5bfb309f-c9b2-5107-7d1e-697360cf7086" executionId="949d1221-f7ab-4907-b6ef-acaa24f1d3ed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="07f39dd6-1be6-ae51-c797-f648f62983aa" executionId="a9b533d5-7c63-47a2-9dfb-d9c6834e9b69" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e1069cbc-95d1-2d83-c5ee-2b45b6c52e64" executionId="f261107b-6405-40fe-98cc-5005d048ee33" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="15266858-4da3-e70d-fbfd-792c1a049a2e" executionId="eb840e25-a872-435d-984d-ff960088860d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="59bd8d9f-100a-5bb0-80ec-6436b1391291" executionId="794c26f0-7b6c-407b-9b34-e5a17c2a00cc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="97db5b74-ddab-0739-2c47-56860f11ef14" executionId="53854f7c-9dc8-46db-8fc9-e4866acde8e8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ec71545d-93c1-f551-1b76-0be7d0260268" executionId="4775fd21-736e-4a06-b17a-241f8aff2564" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8e1e8f37-43df-4733-b862-adf5a5c7c9de" executionId="fb6462f1-a539-44d9-975b-dd72268126b4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="da10588b-e500-9810-1892-fee3c89fd86b" executionId="94dd6cd7-f734-46ac-b162-4aeb850e424a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b155acda-8f00-4827-e8fe-1c19be81b958" executionId="81be59c3-59ac-4229-bbd4-8d751c134a5e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b8c3cb63-d16f-aff0-2f02-7b457e832160" executionId="2e866b02-481f-4290-bc34-c12d7670804a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ac28a43e-2298-2e9e-cfd4-2c50d3b81058" executionId="5e34aea1-b493-4698-836f-7570637bba6c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e3dfc0ae-44ba-8a84-bedf-0918f90d4e11" executionId="dd9e44f0-e761-48bf-b751-973a11494489" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f40d2339-a809-38a1-8a05-98bbf9c4d080" executionId="5116e302-318b-4639-b64c-11a3d17f0d12" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="472ecdc8-0d78-c156-e8b4-c44f807681d3" executionId="6359e958-97f1-46c7-99a1-21bb07c2c6a2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="49bb9d85-abfb-a98d-a792-c03fe0928079" executionId="adc799bf-db83-4dd9-b5a1-4fb6844ffcc9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c41f0072-b212-738b-fda4-b935f95de154" executionId="66e671e6-2800-4a9d-a7c7-8a19314ce698" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8e8e4d35-a870-991f-8ca0-e50a60d808a6" executionId="cf0d98b3-ec59-4aee-b25d-d39d676e71e9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c3114174-a666-e50e-800f-a23aa7ed05fd" executionId="73d67a90-a7f5-4c67-b45a-99aab31c1214" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="576c9ac1-ffc3-4004-3a7c-130690a5c5c0" executionId="beac6a13-37ec-45e8-969c-4a8c6cfed0d8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5db6825d-0c62-03d5-e164-510e082f9907" executionId="4732b9aa-29d7-4c60-9110-207bc0a2b794" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3f48a397-ae89-f7a3-7d2f-760bb2aafc9c" executionId="fc595d34-b0f8-4bae-95f1-0398ff71ef20" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ffb266de-69bd-39f4-94ae-1118ccf552fb" executionId="f280dfa7-eebe-453a-ae57-278cd9c2f960" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fefc86fa-77b2-42aa-2706-e6b80519be40" executionId="583e97bb-dd5f-4e3e-a1be-96eeccf5c306" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a7f235a0-6fcb-72b0-7991-32fcbb1eef5f" executionId="eda0ac94-067e-4c06-ba68-82b16f7616ce" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9bcb42b6-2cc5-c863-aba3-1815b53b0708" executionId="d5767212-80e1-40dc-a5ab-dc0e25a18cac" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bafd7209-a646-62b0-2d2f-8c7a4ca9215b" executionId="c6ea445b-7d0d-452e-b885-83a65ad1d476" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4c57a296-b72a-3ac0-fa29-a26f7e503d7f" executionId="e49b6973-1b2c-4435-a561-606cf6373ead" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c54ead7e-1c1c-10cd-c029-022464fc804d" executionId="3d49de0e-09f8-4775-98cb-1beed32324f0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="86c4fb97-1ebc-b34e-4ee4-bd9240a4a7d4" executionId="1890d658-5f42-4e2a-aced-cf2d25e7bc53" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="533a66b7-d01a-fe5a-7c84-d9dffa98807b" executionId="ef91d816-c769-404b-b9a6-7109fb74f9b6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bb839734-95e8-a50e-645d-a37332bf8d31" executionId="2fbdc50e-b2b1-4a51-a57a-af8dbe20ff54" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d8eb8d16-8f3c-7be6-05ba-7e8e16a0d256" executionId="f28530d4-e4af-4d63-b5f0-e5088ddfe929" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ce64e5ee-43ae-c28b-2692-c10dd820e893" executionId="f49a5da5-3c19-4ed8-b7ae-6541a2e28e37" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="111ea3f6-e582-202a-7e7c-2c04c81ab1a6" executionId="b12cf0e4-d7b5-450a-b225-22e7f8088f08" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9355943b-1e43-e58b-b77e-6a93f86fc953" executionId="8521467d-329a-4079-8e8f-14806d2866fd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9b64c6b3-ae2b-b0a2-0921-5857276c9689" executionId="913aa1b1-98d5-473d-a66e-d712ca84c7a6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a43ff438-8338-e3d0-ead3-2d884eef68b0" executionId="d49b44a4-d932-4252-8c9e-5374c30e18b1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4b432299-17b1-fb4b-43d9-ec39c2e60bbc" executionId="1215989c-0e16-4dd7-ab09-3d8d709a6e82" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="61fbef49-2997-7c70-c7bc-8049dcd820a9" executionId="b153ce67-5b3d-41aa-9699-dd1c050ee9ad" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="838d0074-5463-b145-623e-ab2df6a029c8" executionId="eed05587-7f4e-4411-9f63-fedf6f9f9a45" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="17a5e424-854d-6b1f-84ff-d4818c83e00d" executionId="c6f09593-8fc2-4beb-bf6f-c38ece4e39f4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="78bee910-e56e-9182-ef67-c715e4b45418" executionId="49fa80b1-49b3-4ec7-94bf-d6067324b1e4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="aaef06e1-be68-42e0-a454-b7360fc6ef5e" executionId="e5d6cd54-6c29-4bf5-bbca-89a43208164c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f72fd241-10bd-1167-4236-c64aec670a13" executionId="562e80f3-e565-4801-9b5a-24c522dc0905" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f48d85c6-8c7a-27cd-6801-0d240d67b816" executionId="b7beb1f5-fb81-4cab-9ffb-026ca41751f1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="de20b3ad-9657-5402-8e8a-6f0f2407d8d6" executionId="b482eff5-b655-4491-8267-18d57a765c58" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="36e6322a-d5f3-9ae4-1355-4133b24c564b" executionId="58910386-a81d-4396-9cc0-bbc328ed5332" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d5897541-8f68-31dc-94f8-95badadbd9b6" executionId="847b5ed6-5928-427c-b5f9-25aeef7c61c6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8d9f1413-b1f9-be02-c67e-f17267f25550" executionId="3e2d7d53-8791-49a7-a540-e93e77241732" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e403b3bd-46bf-b3a2-823f-e7fef848503c" executionId="85893a57-fbbf-4d48-92e1-32bdc8def13d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7456adbc-6aff-c232-db25-99844fc9eaba" executionId="ef5cd08a-4088-4268-aefd-97811fd98f72" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8e52a38f-3f6c-da11-aa9b-c770acb63ca8" executionId="f8e59c46-93f4-4fb0-a7aa-5dd372074def" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="47993606-b74c-6f66-0ab2-342957a443d4" executionId="4693f59a-196a-4832-86a1-a96fd6550917" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="17401dd8-9509-68e4-de91-377bad2e57f3" executionId="9f80bcb4-39b7-47e9-b074-14255a8fb908" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3e62d266-ba7c-ce82-6e20-5533098bb883" executionId="a46c7caa-eeba-41b9-94aa-0d1b6d8c9690" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d3a8ef7f-c3de-0ad6-6a6c-2de38e59f414" executionId="c420e64d-9e64-478e-ab61-3341d37662ae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8bd11707-669b-53d1-c01c-61c34a7f1265" executionId="0c8bdecb-2b7d-4580-bd0f-9c3905b0228e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="19a62760-610e-e35c-a8f9-32b3792f1c66" executionId="354efce0-29d3-42d4-b2fc-dab560b3bc84" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e1c9c814-9b58-9695-5833-d0667e915105" executionId="afca9582-aa43-4e62-8a02-8d33c4252a59" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="00fc9741-f619-6df2-8ee4-52bf1fa50c73" executionId="d4869bcb-f00b-444f-8aa3-b7028573ca0c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a0240ab6-3f8b-6c4c-49e2-1aca5aa089fe" executionId="dceef18a-560e-46b3-a20d-c642d38a3044" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0b9283e8-3cc8-c377-1811-df226b99dd17" executionId="fb18375f-5915-43d3-a902-20d1a1e2947c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d6aea282-2809-cb62-c0e5-833072411a89" executionId="b963feaa-4717-46b9-864b-55224d76cc28" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="344c7c31-3117-d44c-0559-e4ceb08a787d" executionId="c1357737-119b-42cd-adc5-e9259f98a2a8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="27c421c0-985e-272d-0cf5-61dbe1893216" executionId="907f74f2-42f7-4440-b7db-2a30a0cd3040" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0f454c65-d6e6-abc4-32cf-1d677b28e5f5" executionId="398b5b8e-ef1a-4dd6-97e6-ce118b1a6695" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c0425902-fb67-758e-eb94-65b11af4bf78" executionId="3cc56c91-eaba-4a82-b30c-fc9c8a7d93d9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="89" executed="89" passed="89" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>NUnit Adapter 4.6.0.0: Test execution started
+Running all tests in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-001/kaiju/DotnetTests/Core.Tests/bin/Debug/net11.0/Game.Core.Tests.dll
+   NUnit3TestExecutor discovered 89 of 89 NUnit test cases using Current Discovery mode, Non-Explicit run
+alloc.txt: control: 1000 x new byte[64] -&gt; bytes=88000 gcAllocCount=n/a
+
+alloc.txt: publish x10000 subs=1 event=PingEvent(4B) nested=False warmup=1000 -&gt; bytes=0 gcAllocCount=n/a
+
+alloc.txt: publish x10000 subs=8 event=PingEvent(4B) nested=False warmup=1000 -&gt; bytes=0 gcAllocCount=n/a
+
+alloc.txt: publish x10000 subs=64 event=PingEvent(4B) nested=False warmup=1000 -&gt; bytes=0 gcAllocCount=n/a
+
+alloc.txt: publish x10000 subs=1 event=BigEvent(96B) nested=False warmup=1000 -&gt; bytes=0 gcAllocCount=n/a
+
+alloc.txt: publish x10000 subs=8 event=BigEvent(96B) nested=False warmup=1000 -&gt; bytes=0 gcAllocCount=n/a
+
+alloc.txt: publish x10000 subs=64 event=BigEvent(96B) nested=False warmup=1000 -&gt; bytes=0 gcAllocCount=n/a
+
+alloc.txt: publish x10000 subs=1 event=PingEvent(4B) nested=True warmup=1000 -&gt; bytes=0 gcAllocCount=n/a
+
+alloc.txt: publish x10000 subs=8 event=PingEvent(4B) nested=True warmup=1000 -&gt; bytes=0 gcAllocCount=n/a
+
+alloc.txt: publish x10000 subs=64 event=PingEvent(4B) nested=True warmup=1000 -&gt; bytes=0 gcAllocCount=n/a
+
+alloc.txt: publish x10000 subs=1 event=BigEvent(96B) nested=True warmup=1000 -&gt; bytes=0 gcAllocCount=n/a
+
+alloc.txt: publish x10000 subs=8 event=BigEvent(96B) nested=True warmup=1000 -&gt; bytes=0 gcAllocCount=n/a
+
+alloc.txt: publish x10000 subs=64 event=BigEvent(96B) nested=True warmup=1000 -&gt; bytes=0 gcAllocCount=n/a
+
+bench.txt: subs=1 ns/publish=73.3 ns/delivery=73.3 (n=200000)
+
+bench.txt: subs=8 ns/publish=103.2 ns/delivery=12.9 (n=200000)
+
+bench.txt: subs=64 ns/publish=347.5 ns/delivery=5.4 (n=200000)
+
+alloc.txt: flag+clock reads x10000 -&gt; bytes=0 gcAllocCount=n/a
+
+bench.txt: clock 1e7 steps: derived=200000 naiveFloatSum=191361.89 naiveDoubleSum=199999.99997261938
+
+bench.txt: committed fixedStepSeconds=0.02 maxEventsPerCascade=10000
+
+trace-hashes.txt: replay1000 CE7CBB4259A6A39B length=168876
+
+trace-hashes.txt: dispatch 6F72236CAACE7678 length=6417
+
+grep-counts.txt: committed flag files=1 flags=1
+core.verboseBoot=0
+
+grep-counts.txt: BuildingId_NoCollisions_10M: ids=10000002 collisions=0
+
+trace-hashes.txt: ids_golden 62A5FD0C1BB7FD0E
+
+alloc.txt: id equality/hash/compare x10000 -&gt; bytes=0 gcAllocCount=n/a
+
+save-baseline.txt: records=100000 write_ms=132.3 read_ms=429.9 bytes=13544521
+
+grep-counts.txt: UnityEngine mentions in Core/Contracts+Runtime code: 0
+
+grep-counts.txt: hard-coded player/mech/kaiju/pilot counts in Core: 0
+
+grep-counts.txt: mutable static fields in Game.Core + Game.Core.Contracts (reflection, 47 static fields checked): 0 
+
+grep-counts.txt: wall-clock / Random / Guid.NewGuid / GetInstanceID / UnityEngine.Time in Core: 0
+grep-counts.txt: GetHashCode() calls inside Ids.cs (IDs must use IdHash.Mix only): 0
+
+grep-counts.txt: 'Building' in Contracts/Save.cs + Runtime/Save.cs: 0
+
+test-hygiene.txt: shuffled double pass: cases=87 seeds=1,0xC0FFEE failures=0
+
+NUnit Adapter 4.6.0.0: Test execution complete
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

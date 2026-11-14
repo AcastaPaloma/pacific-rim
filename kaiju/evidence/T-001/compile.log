@@ -1,0 +1,12 @@
+# Unity batch compile of b03202f (Library/ScriptAssemblies/Game.Core* and Bee artifacts deleted first to force recompilation)
+# command: unity run <project> --no-tail --log-file raw/unity-compile.log --timeout 1500 -- -executeMethod Game.Core.Unity.CoreConfigAsset.CreateOrUpdate
+Csc lines for Core assemblies:
+[913/941    0s] Csc Library/Bee/artifacts/200b0aE.dag/Game.Core.Contracts.dll (+2 others)
+[917/941    0s] Csc Library/Bee/artifacts/200b0aE.dag/Game.Core.dll (+2 others)
+[921/941    0s] Csc Library/Bee/artifacts/200b0aE.dag/Game.Core.Unity.dll (+2 others)
+[922/941    0s] Csc Library/Bee/artifacts/200b0aE.dag/Game.Core.Tests.dll (+2 others)
+[928/941    0s] Csc Library/Bee/artifacts/200b0aE.dag/Game.Core.Unity.Tests.dll (+2 others)
+error CS lines (all assemblies): 0
+warning CS lines (all assemblies): 0
+warning/error CS lines in Assets/Game/Core: 0
+[Core] CoreConfigAsset at Assets/Game/Core/Unity/Resources/GameCoreConfig.asset: 1 flag file(s)
