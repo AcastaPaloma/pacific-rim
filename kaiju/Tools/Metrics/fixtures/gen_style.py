@@ -421,6 +421,8 @@ def m004_sequence(set_dir, seq_id, motion_type, speed, anchor="screen", n_frames
         # pattern parity field
         if anchor in ("screen", "none", "temporal_noise"):
             yy, xx = np.indices((H, W)); par = (xx + yy) % 2
+        elif anchor == "direction_bands":
+            par = None
         elif anchor == "direction":
             Dd = cam.rays().reshape(-1, 3)
             u0, v0, _ = cam0.project_dir(Dd)
@@ -431,13 +433,25 @@ def m004_sequence(set_dir, seq_id, motion_type, speed, anchor="screen", n_frames
             u0, v0, _ = cam0.project(Pw.reshape(-1, 3))
             par = ((np.floor(u0) + np.floor(v0)) % 2).reshape(H, W).astype(int)
         lo, hi = ramp[2], ramp[4]
-        if anchor == "none":
+        if anchor == "direction_bands":       # sky bands by elevation angle: direction-locked under yaw
+            Dd = cam.rays()
+            el = np.degrees(np.arctan2(Dd[..., 1], np.hypot(Dd[..., 0], Dd[..., 2])))
+            az = np.degrees(np.arctan2(Dd[..., 0], Dd[..., 2]))
+            q = np.array(ramp)[np.clip((el // 4).astype(int) + 3 + ((az // 16).astype(int) % 2), 0, 7)]
+        elif anchor == "none":
             q = np.full((H, W), lo)
         elif anchor == "temporal_noise":
             rng = np.random.default_rng(seed * 100003 + t)
             q = np.where(rng.random((H, W)) < 0.5, lo, hi)
         else:
             q = np.where(par == 1, hi, lo)
+        if scene == "wall" and Pw is not None:     # world-anchored bars (4 of every 32 px at 600 m): visible content
+            bar = (np.floor((Pw[..., 0] - base[0]) / pw + 1e-6).astype(int) % 32) < 4
+            q = np.where(bar, ramp[6], q)
+        if scene == "sky" and anchor != "direction_bands":   # direction-locked azimuth bars: visible content
+            Dd = cam.rays()
+            az = np.degrees(np.arctan2(Dd[..., 0], Dd[..., 2]))
+            q = np.where((np.floor(az).astype(int) % 16) < 2, ramp[6], q)
         if pattern == "stripes":
             q = np.where(np.indices((H, W))[1] < W // 2, q, ramp[6])
         if blank:
@@ -446,7 +460,8 @@ def m004_sequence(set_dir, seq_id, motion_type, speed, anchor="screen", n_frames
         sc = write_frame(d, set_id, seq_id, t, n_frames, cam, profile, hexes, q.astype(np.int32), z, motion, origin,
                          scale=2, mask_anim=ma, snapped_pos=pos if snapped else None, pos_cont=pos_c,
                          ypr_cont=[yaw_c, 0.0, 0.0],
-                         dither_anchor={"temporal_noise": "screen", "none": "screen"}.get(anchor, anchor))
+                         dither_anchor={"temporal_noise": "screen", "none": "screen",
+                                        "direction_bands": "direction"}.get(anchor, anchor))
         frames.append((cam, q, z, Pw))
     return _truth_m004(frames, motion_type, speed, W, H, pattern)
 
@@ -487,7 +502,7 @@ def _truth_m004(frames, motion_type, speed, W, H, pattern):
     return {"S_px": float(np.mean(S)), "C_px": float(np.mean(C)) if C else None, "F": float(np.mean(F)), "lag": lag}
 
 
-def m004_set(root, set_id="m004_pass", anchor_t="surface", anchor_y="direction", anchor_s="screen", n_frames=60,
+def m004_set(root, set_id="m004_pass", anchor_t="surface", anchor_y="direction_bands", anchor_s="screen", n_frames=60,
              W=160, H=90, viewpoints=("eye",), profiles=("slate_teal",), static_noise=False):
     """The six required classes per profile and viewpoint (S0, T1, T2, T3, Y1, Y2)."""
     sd = os.path.join(root, set_id)
