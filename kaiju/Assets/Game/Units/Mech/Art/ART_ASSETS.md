@@ -42,3 +42,17 @@ unity run "$PWD" --no-tail --log-file /tmp/mech_capture.log --timeout 900 -- -ex
 ```
 Running `MechFrameImport.Run` twice leaves `git diff` empty (evidence/T-007/unity_second_run_diff.txt).
 Blender-side evidence and measurement: `Pipelines/blender/mech_frame_balanced/README.md`.
+
+## Hand-off rule for the body task (T-005): arm and leg contacts
+The greybox reaches every `mech_frame@v1` range without neighbour overlap above 2 % (`evidence/T-007/rom_report.json`),
+but with the arms hanging at rest some joints driven at M0 push one limb into a non-neighbour part. Clearances at rest:
+forearm/hand to thigh 0.45 m, feet 3.0 m apart. Contacts at R-005 range ends with all other joints at rest (depth m):
+- waist lateral bend ±20°: forearm–thigh 2.9, hand–thigh 4.4; waist axial rotation ±30°: pelvis–forearm 0.2
+- shoulder adduction −10°: forearm–thigh 3.7, hand–thigh 4.4, pelvis–forearm 0.2; shoulder external rotation −60°: forearm–thigh 2.2
+- hip abduction +40°: hand–thigh 4.4, forearm–thigh 2.1; hip internal rotation −40°/+35°: hand–thigh 1.1 / 0.4
+- hip adduction −25°: leg on leg (shank–shank 6.8); hip internal rotation +35°: foot–foot 1.0; wrist ulnar deviation −20° (locked at M0): hand–thigh 1.5
+
+**Rule (proposed Q-NEW-b, Assumed until the founders or T-005 decide):** T-005 ignores collisions between
+`upper_arm`/`forearm`/`hand` and `pelvis`/`thigh` of the same side, or limits shoulder adduction to ≥ 0° and couples shoulder
+abduction to waist lateral bend plus hip abduction when the balance controller uses those strategies. Leg-on-leg contact at hip
+adduction and internal rotation is real contact and stays enabled (feet 3 m apart by the JSON stance).
