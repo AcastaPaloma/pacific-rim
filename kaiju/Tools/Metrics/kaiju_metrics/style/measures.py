@@ -68,7 +68,7 @@ def dither_metrics(idx, L, p):
     return {"DIG": dig, "O": O, "gradient_share": gshare, "interleaved_share": float(inter.mean())}, inter
 
 
-def depth_banding(L, z, far, edges, min_share, sky_frac):
+def depth_banding(L, z, far, edges, min_share, sky_frac, min_bands):
     """Mean L* per log depth band (sky z >= sky_frac * far excluded; bands with >= min_share of all pixels)."""
     geo = np.isfinite(z) & (z < sky_frac * far)
     e = list(edges) + [np.inf]
@@ -79,7 +79,7 @@ def depth_banding(L, z, far, edges, min_share, sky_frac):
             used.append(i)
             meanL.append(float(L[s].mean()))
     out = {"bands": used, "meanL": meanL}
-    if len(used) >= 3:
+    if len(used) >= min_bands:
         d = np.diff(meanL)
         out.update(max_drop=float(max(0.0, -d.min())), rho=float(spearmanr(used, meanL)[0]),
                    span=float(meanL[-1] - meanL[0]))

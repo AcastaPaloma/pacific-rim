@@ -98,9 +98,20 @@ def test_arch1_audit_m003_profile_without_evaluated_dither_frames(tmp_path):
     s = sm(rep, "M-003.b.DIG")
     nr = [p for p in s["parts"] if p["status"] == "NOT_RUN"]
     assert s["status"] == "NOT_RUN" and nr and "warm_amber_haze" in nr[0]["name"]
-    c1 = [p for p in sm(rep, "M-003.c1")["parts"] if "warm_amber_haze" in p["name"]]
-    assert c1 and c1[0]["status"] == "NOT_RUN"
+    c1 = [p for p in sm(rep, "M-003.c1")["parts"] if "flat_amber" in p["name"]]
+    assert c1 and all(p["status"] != "PASS" for p in c1[1:])      # flat frames: rho undefined, span 0
     assert rep["verdict"] != "PASS"
+
+
+def test_arch1_audit_m003_profile_without_depth_bands_not_run(tmp_path):
+    sd, _ = GS.m003_pass_set(str(tmp_path))
+    GS.m003_gameplay_frames(sd, profile="warm_amber_haze", seq_id="sky_amber")
+    d = os.path.join(sd, "sky_amber")
+    for k in range(12):                                    # all sky: no depth band at all
+        GS.save_png(os.path.join(d, f"f{k:06d}_depth.png"), np.full((90, 160), 65535, np.uint16))
+    rep, _ = run_metric("m003", [sd], images=False, options={"profiles": "slate_teal,warm_amber_haze"})
+    c1 = [p for p in sm(rep, "M-003.c1")["parts"] if p["name"].startswith("warm_amber_haze")]
+    assert c1 and c1[0]["status"] == "NOT_RUN" and sm(rep, "M-003.c1")["status"] == "NOT_RUN"
 
 
 def test_arch1_audit_m003_fully_masked_frame_not_hidden(tmp_path):

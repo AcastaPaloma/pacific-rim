@@ -167,6 +167,7 @@ class Report:
             "coverage": self.coverage,
             "submeasures": [self.sms[s] for s in self.reg.ids()],
             "failing_gating": gating_fail,
+            "failures_suppressed": bool(self.reg.is_draft and gating_fail),
             "assumed_thresholds_decisive": self.assumed,
             "verdict": self.verdict,
             "verdict_label": self._label(self.verdict, self.assumed, self.mode),
@@ -184,7 +185,8 @@ class Report:
         L = [f"{d['metric_version']}  [{d['label']}]  registry {d['registry']['revision']} "
              f"sha256:{d['registry']['sha256'][:12]}  tool {d['tool']['version']}",
              f"VERDICT: {d['verdict_label']}   headless: {d['headless_verdict_label']}   exit {d['exit_code']}   "
-             f"failing gating: {len(d['failing_gating'])}"]
+             f"failing gating: {len(d['failing_gating'])}" +
+             (" (suppressed: draft metric, verdict withheld)" if d.get("failures_suppressed") else "")]
         if d["contract_errors"]:
             L.append(f"CONTRACT ERRORS ({len(d['contract_errors'])}):")
             for e in d["contract_errors"][:8]:

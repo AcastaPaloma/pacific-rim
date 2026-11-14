@@ -23,8 +23,8 @@ SPEC_IDS = {
     "M-004": ["M-004.S0", "M-004.C_px.S0", "M-004.F.S0"] + [f"M-004.{m}.{g}" for g in ("Y", "T12", "T3")
                                                             for m in ("S_px", "C_px", "F")],
 }
-ADVISORY = {"M-002.2", "M-003.b.DIG_max", "M-003.d-iii", "M-003.e.sky", "M-003.e.horizon", "M-003.e.contrast"}
-INFO = {"M-003.a.A3", "M-003.a.A5", "M-003.b.O"}
+ADVISORY = {"M-002.2", "M-003.b.DIG_max", "M-003.b.O", "M-003.d-iii", "M-003.e.sky", "M-003.e.horizon", "M-003.e.contrast"}
+INFO = {"M-003.a.A3", "M-003.a.A5"}
 
 
 @pytest.mark.parametrize("metric", sorted(SPEC_IDS))

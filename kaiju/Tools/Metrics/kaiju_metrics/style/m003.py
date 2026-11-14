@@ -112,7 +112,7 @@ def run(report, inputs, reg, ratings=None, out_dir=None, images=True, options=No
         r["dither_evaluated"] = dm["gradient_share"] >= reg.p("min_gradient_share")
         r["DIG"], r["O"] = dm["DIG"], dm["O"]
         db = M.depth_banding(d["lab"][..., 0], d["z"], d["cam"]["far_m"], reg.p("depth_bands_m"),
-                             reg.p("band_min_share"), reg.p("sky_far_fraction"))
+                             reg.p("band_min_share"), reg.p("sky_far_fraction"), int(reg.p("min_bands")))
         r["depth"] = db
         n = len(prof.hexes)
         sh = np.bincount(d["idx"][d["idx"] < n].ravel(), minlength=n) / d["idx"].size
@@ -159,72 +159,113 @@ def _per_frame(rows, key):
     return {r["frame"]: r.get(key) for r in rows}
 
 
+def _nan_parts(rows, key, name, op, thr, why):
+    """NOT_RUN parts for frames whose value could not be computed (a fully masked frame is not hidden)."""
+    return [{"name": f"{name} {r['frame']}", "value": None, "status": S_NOT_RUN, "op": op, "threshold": thr,
+             "margin": None, "margin_rel": None, "unit": "share", "note": why}
+            for r in rows if r.get(key) is None or not np.isfinite(r[key])]
+
+
+def _profiles(rows):
+    return sorted({r["profile"] for r in rows})
+
+
 def _add_a(rep, reg, rows):
     if not rows:
         for s in ("M-003.a.output", "M-003.a.internal", "M-003.a.A3", "M-003.a.A5"):
             rep.add(s, S_NOT_RUN, note="no gameplay frames")
         return
-    w = _worst(rows, "A2_out")
-    rep.add("M-003.a.output", parts=[part(f"A_2 output worst frame {w['frame']}", w["A2_out"], ">=",
-                                          rep.reg.t("M-003.a.output", "min_share"), unit="share",
-                                          off_palette_px=w["off_palette_px_out"])],
-            diagnostics={"where": f"{w['frame']} ({w['off_palette_px_out']} output px beyond dE00 "
-                                  f"{reg.t('M-003.a.output', 'tol_de00')})", "per_frame": _per_frame(rows, "A2_out")})
-    w = _worst(rows, "A2_int")
-    rep.add("M-003.a.internal", parts=[part(f"A_2 internal worst frame {w['frame']}", w["A2_int"], ">=",
-                                            reg.t("M-003.a.internal", "min_share"), unit="share")],
-            diagnostics={"where": w["frame"], "per_frame": _per_frame(rows, "A2_int")})
+    for sid, key, lab in (("M-003.a.output", "A2_out", "output"), ("M-003.a.internal", "A2_int", "internal")):
+        thr = reg.t(sid, "min_share")
+        ps = _nan_parts(rows, key, f"A_2 {lab}", ">=", thr, "no unmasked pixel (vacuous: not a pass)")
+        w = _worst(rows, key)
+        if w is not None:
+            extra = {"off_palette_px": w["off_palette_px_out"]} if key == "A2_out" else {}
+            ps.insert(0, part(f"A_2 {lab} worst frame {w['frame']}", w[key], ">=", thr, unit="share", **extra))
+        where = (f"{w['frame']} ({w['off_palette_px_out']} output px beyond dE00 {reg.t(sid, 'tol_de00')})"
+                 if (w is not None and key == "A2_out") else (w["frame"] if w is not None else None))
+        rep.add(sid, parts=ps, diagnostics={"where": where, "per_frame": _per_frame(rows, key)})
     for sid, k in (("M-003.a.A3", "A3_out"), ("M-003.a.A5", "A5_out")):
         w = _worst(rows, k)
-        rep.add(sid, S_REPORTED, value=w[k], unit="share", diagnostics={"worst_frame": w["frame"]})
+        if w is None:
+            rep.add(sid, S_NOT_RUN, note="no unmasked pixel")
+        else:
+            rep.add(sid, S_REPORTED, value=w[k], unit="share", diagnostics={"worst_frame": w["frame"]})
 
 
 def _add_b(rep, reg, rows):
+    """DIG gate per profile: a profile with no evaluated frame is NOT_RUN (it cannot hide behind another profile)."""
     ev = [r for r in rows if r["dither_evaluated"] and r["DIG"] is not None and np.isfinite(r["DIG"])]
-    skipped = len(rows) - len(ev)
+    dmin = reg.t("M-003.b.DIG", "dig_min")
+    fmin = reg.t("M-003.b.DIG", "frame_share_min")
+    if not rows:
+        for s in ("M-003.b.DIG", "M-003.b.DIG_max", "M-003.b.O"):
+            rep.add(s, S_NOT_RUN, note="no gameplay frames")
+        return
+    parts, low = [], []
+    for pr in _profiles(rows):
+        rp = [r for r in rows if r["profile"] == pr]
+        ep = [r for r in ev if r["profile"] == pr]
+        if not ep:
+            parts.append({"name": f"{pr}: share of evaluated frames with DIG >= dig_min", "value": None,
+                          "status": S_NOT_RUN, "op": ">=", "threshold": fmin, "margin": None, "margin_rel": None,
+                          "unit": "share of frames", "note": f"no evaluated frame (all {len(rp)} below the "
+                                                             "gradient-share floor): vacuous, not a pass"})
+            continue
+        ok = [r for r in ep if r["DIG"] >= dmin]
+        parts.append(part(f"{pr}: share of evaluated frames with DIG >= dig_min", len(ok) / len(ep), ">=", fmin,
+                          unit="share of frames", evaluated=len(ep), skipped=len(rp) - len(ep), dig_min=dmin))
+        low += [r for r in ep if r["DIG"] < dmin]
+    low.sort(key=lambda r: r["DIG"])
+    rep.add("M-003.b.DIG", parts=parts, diagnostics={"per_frame_DIG": _per_frame(ev, "DIG"),
+                                                     "where": "; ".join(f"{r['frame']} DIG {r['DIG']:.3f}"
+                                                                        for r in low[:3])})
     if not ev:
-        for s in ("M-003.b.DIG", "M-003.b.DIG_max"):
-            rep.add(s, S_NOT_RUN, note=f"no evaluated frame (all {len(rows)} below the gradient-share floor): "
-                                       "vacuous, not a pass")
+        rep.add("M-003.b.DIG_max", S_NOT_RUN, note="no evaluated frame")
         rep.add("M-003.b.O", S_NOT_RUN, note="no evaluated frame")
         return
-    dmin = reg.t("M-003.b.DIG", "dig_min")
-    ok = [r for r in ev if r["DIG"] >= dmin]
-    share = len(ok) / len(ev)
-    low = sorted((r for r in ev if r["DIG"] < dmin), key=lambda r: r["DIG"])
-    rep.add("M-003.b.DIG", parts=[part("share of evaluated frames with DIG >= dig_min", share, ">=",
-                                       reg.t("M-003.b.DIG", "frame_share_min"), unit="share of frames",
-                                       evaluated=len(ev), skipped=skipped, dig_min=dmin)],
-            diagnostics={"per_frame_DIG": _per_frame(ev, "DIG"),
-                         "where": "; ".join(f"{r['frame']} DIG {r['DIG']:.3f}" for r in low[:3])})
     w = _worst(ev, "DIG", lower=False)
     rep.add("M-003.b.DIG_max", parts=[part(f"max DIG {w['frame']}", w["DIG"], "<=", reg.t("M-003.b.DIG_max", "dig_max"),
                                            unit="DIG")])
-    rep.add("M-003.b.O", S_REPORTED, value=float(np.median([r["O"] for r in ev])), unit="O",
+    o = float(np.median([r["O"] for r in ev]))
+    rep.add("M-003.b.O", S_REPORTED, value=o, unit="O",
             diagnostics={"per_frame_O": _per_frame(ev, "O"), "note": "Bayer/checker > 0.5, white noise ~ 0, "
                                                                      "clustered < 0 (advisory until Q-015)"})
+    rep.warn(f"ADVISORY M-003.b.O reported without a threshold until Q-015: median O {o:.3f} "
+             "(Bayer/checker > 0.5, white noise ~ 0, clustered < 0; the references are -0.34..+0.15)")
 
 
 def _add_c1(rep, reg, rows):
-    ev = [r for r in rows if "rho" in r["depth"]]
-    if not ev:
-        rep.add("M-003.c1", S_NOT_RUN, note=f"no gameplay frame with >= {reg.p('min_bands')} depth bands")
+    """Worst evaluated frame per profile; a profile without any frame of >= min_bands bands is NOT_RUN."""
+    if not rows:
+        rep.add("M-003.c1", S_NOT_RUN, note="no gameplay frames")
         return
-    best = None
-    for r in ev:
-        db = r["depth"]
-        ps = [part("max band-to-band drop", db["max_drop"], "<=", reg.t("M-003.c1", "max_drop_L"), unit="L*"),
-              part("Spearman rho(band, L*)", db["rho"], ">=", reg.t("M-003.c1", "rho_min"), unit="rho"),
-              part("far - near span", db["span"], ">=", reg.t("M-003.c1", "span_min_L"), unit="L*")]
-        m = min(p["margin_rel"] for p in ps)
-        if best is None or m < best[0]:
-            best = (m, r, ps)
-    _, r, ps = best
-    for p in ps:
-        p["name"] = f"{r['frame']}: {p['name']}"
-    rep.add("M-003.c1", parts=ps, diagnostics={"where": f"{r['frame']} bands {r['depth']['bands']} mean L* "
-                                                        f"{[round(x, 1) for x in r['depth']['meanL']]}",
-                                               "frames_evaluated": len(ev), "frames_skipped": len(rows) - len(ev)})
+    ps_all, where = [], []
+    for pr in _profiles(rows):
+        rp = [r for r in rows if r["profile"] == pr]
+        ev = [r for r in rp if "rho" in r["depth"]]
+        if not ev:
+            ps_all.append({"name": f"{pr}: depth banding", "value": None, "status": S_NOT_RUN, "op": ">=",
+                           "threshold": reg.t("M-003.c1", "rho_min"), "margin": None, "margin_rel": None,
+                           "unit": "rho", "note": f"no frame with >= {reg.p('min_bands')} depth bands"})
+            continue
+        best = None
+        for r in ev:
+            db = r["depth"]
+            ps = [part("max band-to-band drop", db["max_drop"], "<=", reg.t("M-003.c1", "max_drop_L"), unit="L*"),
+                  part("Spearman rho(band, L*)", db["rho"], ">=", reg.t("M-003.c1", "rho_min"), unit="rho"),
+                  part("far - near span", db["span"], ">=", reg.t("M-003.c1", "span_min_L"), unit="L*")]
+            m = min([p["margin_rel"] for p in ps if p["margin_rel"] is not None] or [-np.inf])
+            if best is None or m < best[0]:
+                best = (m, r, ps)
+        _, r, ps = best
+        for p in ps:
+            p["name"] = f"{r['frame']}: {p['name']}"
+        ps_all += ps
+        where.append(f"{r['frame']} bands {r['depth']['bands']} mean L* {[round(x, 1) for x in r['depth']['meanL']]}")
+    rep.add("M-003.c1", parts=ps_all, diagnostics={"where": "; ".join(where),
+                                                   "frames_evaluated": sum(1 for r in rows if "rho" in r["depth"]),
+                                                   "frames_skipped": sum(1 for r in rows if "rho" not in r["depth"])})
 
 
 def _add_c2(rep, reg, hz, pal):
@@ -293,9 +334,12 @@ def _add_d(rep, reg, rows):
     else:
         rep.add("M-003.d-iii", S_NA, note="no accent present in any frame (applies only when present)")
     w = _worst(rows, "grid_uniform")
-    rep.add("M-003.d-iv", parts=[part(f"uniform blocks {w['frame']}", w["grid_uniform"], ">=",
-                                      reg.t("M-003.d-iv", "min_share"), unit="share of blocks")],
-            diagnostics={"where": w["frame"], "per_frame": _per_frame(rows, "grid_uniform")})
+    thr = reg.t("M-003.d-iv", "min_share")
+    ps = _nan_parts(rows, "grid_uniform", "uniform blocks", ">=", thr, "every block touches the UI mask")
+    if w is not None:
+        ps.insert(0, part(f"uniform blocks {w['frame']}", w["grid_uniform"], ">=", thr, unit="share of blocks"))
+    rep.add("M-003.d-iv", parts=ps, diagnostics={"where": w["frame"] if w else None,
+                                                 "per_frame": _per_frame(rows, "grid_uniform")})
 
 
 def _add_e(rep, reg, rows):

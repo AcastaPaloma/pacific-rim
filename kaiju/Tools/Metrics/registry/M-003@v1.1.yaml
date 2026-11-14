@@ -3,7 +3,7 @@ metric: M-003
 spec: M-003@v1
 revision: v1.1
 metric_status: registered
-date: "2026-11-14"
+date: "2026-11-14"   # v1.1: fix cycle 2 (DEF-T002-arch-6: b.O advisory)
 title: Matches the style references
 source: research/R-002.md §4 M-003@v1 (capture contract §6, palette_set@v1 §3)
 min_frames_per_profile: 12          # R-002 §4: >= 12 frames per district profile
@@ -65,8 +65,8 @@ submeasures:
     thresholds:
       dig_max: {value: 0.5, unit: DIG, status: assumed_pending_calibration, source: "R-002 §4 b (advisory)"}
   M-003.b.O:
-    title: Ordered index O = rho(lag 2) - rho(lag 1) (informational until Q-015), median over evaluated frames
-    kind: info
+    title: Ordered index O = rho(lag 2) - rho(lag 1) (advisory without a threshold until Q-015), median over evaluated frames
+    kind: advisory
     thresholds: {}
   M-003.c1:
     title: Value banding by depth monotonic on gameplay frames (drop, Spearman rho, span), worst frame
