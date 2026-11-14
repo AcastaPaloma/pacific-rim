@@ -12,6 +12,7 @@ deterministic; nothing is modelled by hand.
 | `measure.py` | Blender | `evidence/T-007/dimensions.json` (C10–C20, C23, C24 values and pass flags) |
 | `render_views.py` | Blender | Workbench renders to `evidence/T-007/raw/` (turnarounds, silhouettes, flat colours) + `views.json` |
 | `rom_check.py` | Blender | `evidence/T-007/rom_report.json` + pose renders (C21) |
+| `compose_unity.py` | kaiju env | Unity 4-view with markers and the pixel-proxy capture from `MechFrameCapture` output |
 | `compose_evidence.py` | kaiju env | markers on the turnarounds, 180/48/24 px silhouettes (×8, blind decoys), human and concept overlays, `pixel_checks.json` |
 
 ## Commands (from `kaiju/`)
@@ -30,8 +31,9 @@ Then re-import in Unity: `unity run <kaiju> --no-tail --log-file <log> --timeout
 
 ## Conventions
 - Authoring frame = `mech_frame@v1`: x right, y up, z forward (Unity), metres; mech's left is −x.
-  Blender = (−x, −z, y): the mech faces Blender −Y. FBX export: forward −Z, up Y, `bake_space_transform`,
-  `FBX_SCALE_ALL`, so Unity gets identity rotations, scale 1 and positions equal to the JSON.
+  Blender = (x, z, y) (a reflection; Unity is left-handed): the mech faces Blender +Y, its left at −X. FBX export:
+  forward Y, up Z (file stays Z-up), `FBX_SCALE_ALL`; Unity imports with `bakeAxisConversion`, giving identity
+  rotations, scale 1 and positions equal to the JSON.
 - Names: part `MechBalanced_<segment id>` (e.g. `MechBalanced_forearm_L`), socket `MechBalanced_socket_<kind>_<side>`
   (shoulder, hip, elbow, hardpoint). Materials `mech_primary|secondary|joint|accent`.
 - Origins at the proximal joint centre from the JSON; parent = the JSON `parent` field; R parts are exact mirrors of L.
