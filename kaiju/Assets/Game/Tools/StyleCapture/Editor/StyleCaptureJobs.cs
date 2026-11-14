@@ -32,6 +32,8 @@ namespace Game.Tools.StyleCapture
         public static readonly Viewpoint Street = new Viewpoint { Name = "street", Position = new Vector3(-10, 1.7f, -150), YawDeg = 0, PitchDeg = 6 };
         public static readonly Viewpoint Eye70 = new Viewpoint { Name = "eye70", Position = new Vector3(0, 70, -150), YawDeg = 0, PitchDeg = 3 };
         public static readonly Viewpoint Elevated = new Viewpoint { Name = "elevated300", Position = new Vector3(0, 300, -600), YawDeg = 0, PitchDeg = 1 };
+        /// <summary>The eye-height viewpoint turned toward the 160 m tower (about 640 m away): its edge is tracked for the smoothness check.</summary>
+        public static readonly Viewpoint Eye70Tower = new Viewpoint { Name = "eye70_tower", Position = new Vector3(0, 70, -150), YawDeg = 22, PitchDeg = 3 };
         public static readonly Viewpoint[] StillViewpoints = { Street, Eye70, Elevated };
         public static readonly Viewpoint[] MotionViewpoints = { Eye70, Street };
 
@@ -152,7 +154,7 @@ namespace Game.Tools.StyleCapture
         };
 
         /// <summary>Writes the six M-004 sequences from one viewpoint with the session's current settings.</summary>
-        public static void MotionSet(StyleCaptureSession s, string set, Viewpoint v, bool writeOutput, string only = null)
+        public static void MotionSet(StyleCaptureSession s, string set, Viewpoint v, bool writeOutput, string only = null, float snapDepth = ReferenceDepth)
         {
             s.Grid(ReferenceDepth, out float metresPerTexel, out float degreesPerTexel);
             foreach (var m in M004Sequences)
@@ -173,7 +175,7 @@ namespace Game.Tools.StyleCapture
                         pose.Position.X += Mathf.Cos(yawRad) * d; pose.Position.Z -= Mathf.Sin(yawRad) * d;
                     }
                     else if (m.Type == "yaw") pose.YawDeg += i * m.Speed * degreesPerTexel;
-                    w.FrameScripted(i, pose, ReferenceDepth);
+                    w.FrameScripted(i, pose, snapDepth);
                 }
                 w.End();
             }
@@ -198,15 +200,24 @@ namespace Game.Tools.StyleCapture
             s.Flags = baseFlags; s.Apply();
         }
 
-        /// <summary>C11: T1 and Y1 with sub-pixel compensation on (the M0 configuration) and off, with output, for the smoothness check.</summary>
+        /// <summary>World point on the left silhouette edge of the 160 m tower as seen from <see cref="Eye70Tower"/> (its far-left corner).</summary>
+        public static readonly Vector3 TowerEdge = new Vector3(310, 120, 440);
+
+        /// <summary>
+        /// C11: T1 and Y1 with sub-pixel compensation on (the M0 configuration) and off, with output. The snap's
+        /// reference depth is the depth of the tower edge that the check tracks: position snapping locks one plane, and
+        /// only on that plane does the image move in whole texels (R-003 §7), so that is where smoothness is measured.
+        /// </summary>
         public static void SubPixel(StyleCaptureSession s)
         {
             s.SetProfile(MainProfile);
             var baseFlags = s.Flags;
+            Vector3 forward = Quaternion.Euler(-Eye70Tower.PitchDeg, Eye70Tower.YawDeg, 0) * Vector3.forward;
+            float depth = Vector3.Dot(TowerEdge - Eye70Tower.Position, forward);
             s.Flags = baseFlags.With(PixelFlags.SubPixelPresent, true); s.Apply();
-            MotionSet(s, "c11_subpixel_on", Eye70, true, "T1+Y1");
+            MotionSet(s, "c11_subpixel_on", Eye70Tower, true, "T1+Y1", depth);
             s.Flags = baseFlags.With(PixelFlags.SubPixelPresent, false); s.Apply();
-            MotionSet(s, "c11_subpixel_off", Eye70, true, "T1+Y1");
+            MotionSet(s, "c11_subpixel_off", Eye70Tower, true, "T1+Y1", depth);
             s.Flags = baseFlags; s.Apply();
         }
 

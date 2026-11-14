@@ -64,7 +64,7 @@ namespace Game.Rendering.Pixel
 
         [NonSerialized] Texture3D m_LutTexture;
         [NonSerialized] Texture2D m_PaletteTexture;
-        [NonSerialized] string m_TextureKey;
+        [NonSerialized] string m_TextureLutSha, m_TexturePaletteSha;   // the hash strings the textures were built from (compared by reference: no per-frame allocation)
 
         public const int PaletteTextureWidth = 256;
 
@@ -127,8 +127,7 @@ namespace Game.Rendering.Pixel
         void EnsureTextures()
         {
             if (!IsBaked) throw new InvalidOperationException("PaletteProfile '" + profileId + "' has no baked LUT (run Bake)");
-            string key = lutSha256 + ":" + paletteSha256;
-            if (m_LutTexture != null && m_PaletteTexture != null && m_TextureKey == key) return;
+            if (m_LutTexture != null && m_PaletteTexture != null && ReferenceEquals(m_TextureLutSha, lutSha256) && ReferenceEquals(m_TexturePaletteSha, paletteSha256)) return;
             ReleaseTextures();
             m_LutTexture = new Texture3D(lutSize, lutSize, lutSize, GraphicsFormat.R8G8B8A8_UNorm, TextureCreationFlags.None)
             { name = "PixelLut_" + profileId, filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Clamp, hideFlags = HideFlags.HideAndDontSave };
@@ -139,14 +138,14 @@ namespace Game.Rendering.Pixel
             m_PaletteTexture = new Texture2D(PaletteTextureWidth, 1, GraphicsFormat.R8G8B8A8_UNorm, TextureCreationFlags.None)
             { name = "PixelPalette_" + profileId, filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Clamp, hideFlags = HideFlags.HideAndDontSave };
             m_PaletteTexture.SetPixelData(strip, 0); m_PaletteTexture.Apply(false, true);
-            m_TextureKey = key;
+            m_TextureLutSha = lutSha256; m_TexturePaletteSha = paletteSha256;
         }
 
         void ReleaseTextures()
         {
             if (m_LutTexture != null) DestroyImmediate(m_LutTexture);
             if (m_PaletteTexture != null) DestroyImmediate(m_PaletteTexture);
-            m_LutTexture = null; m_PaletteTexture = null; m_TextureKey = null;
+            m_LutTexture = null; m_PaletteTexture = null; m_TextureLutSha = null; m_TexturePaletteSha = null;
         }
 
         void OnDisable() => ReleaseTextures();

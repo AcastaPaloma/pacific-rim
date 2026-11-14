@@ -33,6 +33,7 @@ namespace Game.Tools.StyleCapture
         public readonly PixelCameraBinder Binder;
         public readonly PixelPresentCamera PresentComponent;
         RenderTexture m_Output;
+        public RenderTexture OutputTarget => m_Output;
         Texture2D m_ColourTex, m_DepthTex, m_OutputTex;
         readonly CapturedFrame m_Frame = new CapturedFrame();
         readonly UniversalRenderPipeline.SingleCameraRequest m_Request = new UniversalRenderPipeline.SingleCameraRequest();

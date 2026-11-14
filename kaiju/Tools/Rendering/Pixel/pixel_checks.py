@@ -65,7 +65,7 @@ def project_wanted(f, world):
     return (x / z / th * 0.5 + 0.5) * W, (0.5 - y / z / tv * 0.5) * H
 
 
-TOWER_EDGE = (310.0, 120.0, 400.0)   # near-left vertical edge of Tower_600m (StyleTestScenes), 120 m up: against the sky
+TOWER_EDGE = (310.0, 120.0, 440.0)   # left silhouette edge of Tower_600m seen from the eye70_tower viewpoint (its far-left corner), 120 m up
 
 
 def edge_series(d):
@@ -76,14 +76,18 @@ def edge_series(d):
         out = img(d, f, "color_output"); L = lightness(out)
         px, py = project_wanted(f, TOWER_EDGE)
         y0, y1 = int(py) - 40, int(py) + 40
-        x0, x1 = int(px) - 60, int(px) + 60
+        x0, x1 = int(px) - 48, int(px) + 48
+        if x0 < 0 or x1 > L.shape[1] or y0 < 0 or y1 > L.shape[0]: raise SystemExit("tower edge is outside the frame in " + d)
         band = L[y0:y1, x0:x1]
-        # The tower is darker than the sky behind it: threshold halfway between the two sides of the window.
-        thr = 0.5 * (np.median(band[:, :20]) + np.median(band[:, -20:]))
-        dark = band < thr
-        first = np.array([np.argmax(row) if row.any() else -1 for row in dark])
-        first = first[first >= 0]
-        meas.append(x0 + float(np.median(first))); cmd.append(px)
+        # Column profile over 80 rows (averages any dither), then the sub-pixel position where it crosses the midpoint
+        # between the background plateau on the left and the tower plateau on the right.
+        prof = band.mean(axis=0)
+        lo, hi = np.median(prof[-16:]), np.median(prof[:16])
+        mid = 0.5 * (lo + hi)
+        below = np.where(prof < mid)[0]
+        i = int(below[0]) if len(below) else len(prof) - 1
+        edge = i - (mid - prof[i]) / (prof[i - 1] - prof[i]) if i > 0 and prof[i - 1] != prof[i] else float(i)
+        meas.append(x0 + float(edge)); cmd.append(px)
     return np.array(meas), np.array(cmd), meta
 
 
