@@ -26,10 +26,12 @@ namespace Game.Rendering.Pixel
         [Tooltip("Haze ramp, near-dark to far-light (R-002 ramp_uniform_L). Scene value 0..1 is graded along it.")]
         public Color32[] hazeRamp = Array.Empty<Color32>();
 
-        [Header("Haze (R-003 §5)")]
-        [Tooltip("Koschmieder visual range in km: transmittance T = exp(-3.912 d / V).")]
-        public float visibilityKm = 20f;
-        [Tooltip("Number of haze bands at equal steps of transmittance. The last band is pure airlight.")]
+        [Header("Haze (bands evenly spaced in log distance, see HazeMath)")]
+        [Tooltip("Distance (m) below which there is no haze.")]
+        public float hazeStartM = 60f;
+        [Tooltip("Distance (m) beyond which everything is pure airlight (the last band).")]
+        public float hazeFullM = 20000f;
+        [Tooltip("Number of haze bands. The last band is pure airlight.")]
         public int hazeBands = 8;
         [Tooltip("Width of the dithered seam between bands, in bands.")]
         public float hazeSeamWidth = 0.75f;

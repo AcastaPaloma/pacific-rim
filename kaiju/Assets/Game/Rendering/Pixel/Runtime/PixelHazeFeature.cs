@@ -23,9 +23,10 @@ namespace Game.Rendering.Pixel
                 using (Begin(renderGraph, resources, context, resources.activeColorTexture, scale, dst, scale, true, true, out var data))
                 {
                     data.id0 = PixelIds.Haze;
-                    data.v0 = new Vector4((float)HazeMath.Beta(profile.visibilityKm * 1000.0), Mathf.Max(1, profile.hazeBands), profile.hazeSeamWidth, profile.airlightValue);
+                    data.v0 = new Vector4(Mathf.Max(0.01f, profile.hazeStartM), Mathf.Max(1, profile.hazeBands), profile.hazeSeamWidth, profile.airlightValue);
                     data.id1 = PixelIds.Sky;
                     data.v1 = new Vector4(profile.skyHorizonValue, profile.skyZenithValue, profile.skyZenithElevationDeg * Mathf.Deg2Rad, binder.controlReversedHaze ? -1f : 1f);
+                    data.id2 = PixelIds.Haze2; data.v2 = new Vector4(1f / Mathf.Log(Mathf.Max(1.0001f, profile.hazeFullM / Mathf.Max(0.01f, profile.hazeStartM))), 0, 0, 0);
                 }
                 resources.cameraColor = dst;
             }

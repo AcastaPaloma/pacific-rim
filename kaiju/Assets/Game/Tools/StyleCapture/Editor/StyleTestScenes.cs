@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Game.Cameras;
 using Game.Rendering.Pixel;
 using Game.Rendering.Pixel.Editor;
 using UnityEditor;
@@ -35,7 +36,7 @@ namespace Game.Tools.StyleCapture
         public static readonly Vector3 Block80Far = new Vector3(220, 40, 850);
         public static readonly Vector3 MarkerNear = new Vector3(-18, 0.9f, -10);
         public static readonly Vector3 MarkerFar = new Vector3(-60, 0.9f, 447);
-        public static readonly Vector3 GradientSurface = new Vector3(-230, 75, 230);
+        public static readonly Vector3 GradientSurface = new Vector3(-260, 60, 380);
 
         [MenuItem("Game/Tools/Style capture/Build test scenes")]
         public static void BuildAll()
@@ -79,9 +80,9 @@ namespace Game.Tools.StyleCapture
             s_Materials.Clear();
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             var root = new GameObject("StyleTestWorld").transform;
-            const float form = 0.30f;   // albedo value of the neutral forms
+            const float form = 0.34f;   // albedo value of the neutral forms
             // Ground: one plane, 120 km across (the Unity plane is 10 m).
-            Shape(PrimitiveType.Plane, "Ground", Vector3.zero, new Vector3(12000, 1, 12000), Mat(0.34f, Vector3.one), root);
+            Shape(PrimitiveType.Plane, "Ground", Vector3.zero, new Vector3(12000, 1, 12000), Mat(0.29f, Vector3.one), root);
             // Near field: forms at 10, 30 and 60 m from the street viewpoint.
             Box("Form_10m", new Vector3(-12, 1.5f, -140), new Vector3(4, 3, 4), form, root);
             Box("Form_30m", new Vector3(8, 4, -121), new Vector3(6, 8, 6), form, root);
@@ -89,24 +90,29 @@ namespace Game.Tools.StyleCapture
             // The 80 m blocks (150 m and about 1 km from the main viewpoint) and the 1.8 m markers.
             Box("Block80_Near", Block80Near, new Vector3(30, 80, 20), form, root);
             Box("Block80_Far", Block80Far, new Vector3(30, 80, 20), form, root);
-            var markerTint = new Vector3(1.0f, 0.25f, 0.2f);   // saturated: the palette's accent where it has one
-            Shape(PrimitiveType.Cube, "Marker1p8_Near", MarkerNear, new Vector3(1.6f, 1.8f, 0.4f), Mat(1f, markerTint, true), root);
-            Shape(PrimitiveType.Cube, "Marker1p8_Far", MarkerFar, new Vector3(1.6f, 1.8f, 0.4f), Mat(1f, markerTint, true), root);
+            // The 1.8 m markers are pale and unlit (1.6 m wide, so one always covers a texel centre at 600 m).
+            Shape(PrimitiveType.Cube, "Marker1p8_Near", MarkerNear, new Vector3(1.6f, 1.8f, 0.4f), Mat(1f, Vector3.one, true), root);
+            Shape(PrimitiveType.Cube, "Marker1p8_Far", MarkerFar, new Vector3(1.6f, 1.8f, 0.4f), Mat(1f, Vector3.one, true), root);
+            // Accent beacon: one saturated cube about 1 km out, so the profile's accent takes a small share of the frame
+            // (M-003 d-iii) without outweighing its depth band.
+            Shape(PrimitiveType.Cube, "Beacon_1km", new Vector3(60, 15, 900), new Vector3(30, 30, 30), Mat(1f, new Vector3(1.0f, 0.2f, 0.15f), true), root);
+            // A bluff behind the street and eye-height viewpoints: the near layer of the elevated viewpoint.
+            Box("Foreground_Bluff", new Vector3(0, 120, -350), new Vector3(700, 240, 40), form, root);
             // Mid field.
             Box("Slab_700m", new Vector3(-420, 30, 380), new Vector3(300, 60, 40), form, root);
             Box("Tower_600m", new Vector3(330, 80, 420), new Vector3(40, 160, 40), form, root);
             // The gradient-lit large surface: a pale cylinder whose shading turns smoothly from sun to shade, and a dome.
-            Shape(PrimitiveType.Cylinder, "GradientSurface", GradientSurface, new Vector3(220, 75, 220), Mat(0.80f, Vector3.one), root);
-            Shape(PrimitiveType.Sphere, "Dome_2km", new Vector3(700, 0, 1900), new Vector3(360, 360, 360), Mat(0.55f, Vector3.one), root);
+            Shape(PrimitiveType.Cylinder, "GradientSurface", GradientSurface, new Vector3(180, 60, 180), Mat(0.40f, Vector3.one), root);
+            Shape(PrimitiveType.Sphere, "Dome_2km", new Vector3(700, 0, 1900), new Vector3(360, 360, 360), Mat(form, Vector3.one), root);
             // Depth layers at about 1, 3, 6, 10 and 30 km.
             Box("Layer_1km", new Vector3(-150, 60, 900), new Vector3(260, 120, 60), form, root);
             Box("Layer_3km_A", new Vector3(-900, 130, 2850), new Vector3(1200, 260, 300), form, root);
             Box("Layer_3km_B", new Vector3(900, 190, 3100), new Vector3(600, 380, 200), form, root);
             Box("Layer_6km", new Vector3(-4200, 250, 6000), new Vector3(2500, 500, 500), form, root);
-            Box("Layer_10km_A", new Vector3(1500, 350, 9800), new Vector3(5000, 700, 800), form, root);
-            Box("Layer_10km_B", new Vector3(-3500, 500, 10200), new Vector3(3000, 1000, 600), form, root);
-            Box("Layer_30km_A", new Vector3(-2000, 1100, 30000), new Vector3(20000, 2200, 2000), form, root);
-            Box("Layer_30km_B", new Vector3(9000, 1600, 29500), new Vector3(9000, 3200, 2000), form, root);
+            Box("Layer_10km_A", new Vector3(1500, 450, 9800), new Vector3(5000, 900, 800), form, root);
+            Box("Layer_10km_B", new Vector3(-3500, 650, 10200), new Vector3(3000, 1300, 600), form, root);
+            Box("Layer_30km_A", new Vector3(-2000, 1800, 30000), new Vector3(20000, 3600, 2000), form, root);
+            Box("Layer_30km_B", new Vector3(9000, 2500, 29500), new Vector3(9000, 5000, 2000), form, root);
             AddCameras(new Vector3(0, 70, -150), Quaternion.identity);
             EditorSceneManager.SaveScene(scene, StylePath);
         }
@@ -164,6 +170,10 @@ namespace Game.Tools.StyleCapture
             presentData.renderPostProcessing = false; presentData.antialiasing = AntialiasingMode.None; presentData.renderShadows = false;
             presentData.requiresDepthTexture = false; presentData.requiresColorTexture = false;
             presentGo.AddComponent<PixelPresentCamera>().source = binder;
+
+            // The rig sits on the world camera; binder and rig find each other through the contracts in Rendering.Pixel.Contracts.
+            var rig = worldGo.AddComponent<ThirdPersonRig>();
+            rig.settingsJson = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Config/Camera/ThirdPersonRig.json");
         }
     }
 }

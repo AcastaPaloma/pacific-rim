@@ -1,4 +1,5 @@
-// Haze stage: aerial perspective in posterised bands by real radial distance (R-003 §5), and the sky gradient where
+// Haze stage: aerial perspective in posterised bands by real radial distance (bands evenly spaced in log distance,
+// HazeMath.cs), and the sky gradient where
 // there is no geometry. Works in scene space: the colour is pulled toward the airlight value; the palette LUT then
 // grades scene value onto the profile's haze ramp, so far layers land on the lighter ramp colours.
 Shader "Hidden/Game/Pixel/Haze"
@@ -15,7 +16,8 @@ Shader "Hidden/Game/Pixel/Haze"
             #pragma fragment Frag
             #include "PixelCommon.hlsl"
 
-            float4 _PixelHaze; // x = beta (1/m), y = band count, z = seam width (bands), w = airlight value (sRGB grey)
+            float4 _PixelHaze;  // x = start distance (m), y = band count, z = seam width (bands), w = airlight value (sRGB grey)
+            float4 _PixelHaze2; // x = 1 / ln(full distance / start distance)
             float4 _PixelSky;  // x = horizon value, y = zenith value, z = elevation (rad) of the zenith value, w = direction (+1 normal, -1 reversed control)
 
             float4 Frag(Varyings input) : SV_Target
@@ -34,8 +36,8 @@ Shader "Hidden/Game/Pixel/Haze"
                 }
                 float bands = _PixelHaze.y;
                 float dist = z * length(viewRay);
-                float transmittance = exp(-_PixelHaze.x * dist);
-                float band = clamp(floor(bands * (1.0 - transmittance) + _PixelHaze.z * (threshold - 0.5)), 0.0, bands - 1.0);
+                float level = (bands - 1.0) * saturate(log(max(dist, _PixelHaze.x) / _PixelHaze.x) * _PixelHaze2.x);
+                float band = clamp(floor(level + _PixelHaze.z * (threshold - 0.5)), 0.0, bands - 1.0);
                 float amount = bands > 1.0 ? band / (bands - 1.0) : 0.0;
                 if (_PixelSky.w < 0.0) amount = 1.0 - amount; // reversed-haze negative control (near light, far dark)
                 float3 s = PixelLinearToSrgb(saturate(colour));

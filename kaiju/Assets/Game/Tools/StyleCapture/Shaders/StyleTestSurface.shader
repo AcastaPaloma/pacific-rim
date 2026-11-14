@@ -9,7 +9,7 @@ Shader "Game/StyleTest/Surface"
         _TintSrgb ("Tint (sRGB, not converted)", Vector) = (1, 1, 1, 0)
         _Unlit ("Unlit (1 = value is written as is)", Float) = 0
         _SunDir ("Direction to the sun (world)", Vector) = (0.42, 0.64, -0.64, 0)
-        _Light ("Ambient from below, ambient from above, sun", Vector) = (0.35, 0.45, 0.55, 0)
+        _Light ("Ambient from below, ambient from above, sun", Vector) = (0.50, 0.60, 0.40, 0)
     }
     SubShader
     {

@@ -53,6 +53,7 @@ namespace Game.Rendering.Pixel
         public static readonly int DitherParams = Shader.PropertyToID("_PixelDitherParams");
         public static readonly int DitherOrigin = Shader.PropertyToID("_PixelDitherOrigin");
         public static readonly int Haze = Shader.PropertyToID("_PixelHaze");
+        public static readonly int Haze2 = Shader.PropertyToID("_PixelHaze2");
         public static readonly int Sky = Shader.PropertyToID("_PixelSky");
         public static readonly int Outline = Shader.PropertyToID("_PixelOutline");
         public static readonly int Lut = Shader.PropertyToID("_PixelLut");

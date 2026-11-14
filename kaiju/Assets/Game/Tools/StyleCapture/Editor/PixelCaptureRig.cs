@@ -133,10 +133,10 @@ namespace Game.Tools.StyleCapture
         public static void WriteGrey16Png(string path, ushort[] grey, int width, int height) =>
             File.WriteAllBytes(path, ImageConversion.EncodeArrayToPNG(grey, GraphicsFormat.R16_UNorm, (uint)width, (uint)height, (uint)(width * 2)));
 
-        /// <summary>style_capture@v1 depth: v = 65535 * ln(z / near) / ln(far / near); 65535 = sky.</summary>
+        /// <summary>style_capture@v1 depth: v = round(65535 * ln(z / near) / ln(far / near)), at most 65534 for geometry; 65535 = sky.</summary>
         public static void EncodeDepthLog16(float[] depth, float near, float far, ushort[] encoded)
         {
-            double scale = 65534.0 / Math.Log(far / (double)near);
+            double scale = 65535.0 / Math.Log(far / (double)near);
             for (int i = 0; i < depth.Length; i++)
             {
                 float z = depth[i];

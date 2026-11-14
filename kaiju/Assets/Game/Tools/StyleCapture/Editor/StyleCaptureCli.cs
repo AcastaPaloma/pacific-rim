@@ -57,5 +57,31 @@ namespace Game.Tools.StyleCapture
             }
             Debug.Log("[StyleCapture] preview written to " + outDir);
         }
+
+        /// <summary>
+        /// Writes style_capture@v1 capture sets. Arguments: -captureOut &lt;dir&gt; (default evidence/T-004/captures),
+        /// -captureJobs &lt;list&gt; (stills,hazecal,m004,m004ab,controls,stages,cut,orbit,dolly; default all),
+        /// -captureCommit &lt;hash&gt; (default: git rev-parse HEAD).
+        /// </summary>
+        public static void Run()
+        {
+            string outRoot = Arg("-captureOut", "evidence/T-004/captures");
+            var jobs = new System.Collections.Generic.HashSet<string>(Arg("-captureJobs", "stills,hazecal,m004,m004ab,controls,stages,cut,orbit,dolly").Split(','));
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            if (jobs.Contains("hazecal"))
+                using (var s = new StyleCaptureSession(StyleTestScenes.HazeCalPath, outRoot)) StyleCaptureJobs.HazeCal(s);
+            using (var s = new StyleCaptureSession(StyleTestScenes.StylePath, outRoot))
+            {
+                if (jobs.Contains("stills")) StyleCaptureJobs.Stills(s);
+                if (jobs.Contains("controls")) StyleCaptureJobs.Controls(s);
+                if (jobs.Contains("stages")) StyleCaptureJobs.Stages(s);
+                if (jobs.Contains("cut")) StyleCaptureJobs.Cut(s);
+                if (jobs.Contains("m004")) StyleCaptureJobs.M004(s);
+                if (jobs.Contains("m004ab")) StyleCaptureJobs.M004Ab(s);
+                if (jobs.Contains("orbit")) StyleCaptureJobs.Orbit(s);
+                if (jobs.Contains("dolly")) StyleCaptureJobs.Dolly(s);
+            }
+            Debug.Log("[StyleCapture] jobs " + string.Join(",", jobs) + " written to " + outRoot + " in " + watch.Elapsed.TotalSeconds.ToString("F1") + " s");
+        }
     }
 }

@@ -49,7 +49,7 @@ namespace Game.Rendering.Pixel
         RTHandle m_ColourHandle, m_DepthHandle;
         PixelLayout m_Layout;
         PixelStabilisationHints m_Hints;
-        bool m_HasHints, m_Prepared;
+        bool m_HasHints, m_Prepared, m_SourceSet;
 
         public static bool TryGet(Camera camera, out PixelCameraBinder binder) => s_Binders.TryGetValue(camera, out binder) && binder != null && binder.isActiveAndEnabled;
 
@@ -82,7 +82,7 @@ namespace Game.Rendering.Pixel
         }
 
         /// <summary>The rig (or anything else) that provides stabilisation hints; null renders unsnapped.</summary>
-        public void SetStabilisationSource(IPixelStabilisationSource source) => m_Source = source;
+        public void SetStabilisationSource(IPixelStabilisationSource source) { m_Source = source; m_SourceSet = true; }
 
         public bool PipelineEnabled => Flags.IsOn(PixelFlags.Enabled);
 
@@ -129,6 +129,7 @@ namespace Game.Rendering.Pixel
             float tanV = Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad) * m_Layout.TargetHeight / m_Layout.Height;
             cam.projectionMatrix = Matrix4x4.Perspective(2f * Mathf.Atan(tanV) * Mathf.Rad2Deg, m_Layout.TargetWidth / (float)m_Layout.TargetHeight, cam.nearClipPlane, cam.farClipPlane);
             cam.targetTexture = m_CameraTarget;
+            if (m_Source == null && !m_SourceSet) m_Source = GetComponent<IPixelStabilisationSource>();   // a rig on the same camera, found by contract
             m_HasHints = m_Source != null && m_Source.TryGetHints(out m_Hints);
             if (!m_HasHints) m_Hints = default;
             m_Prepared = true;

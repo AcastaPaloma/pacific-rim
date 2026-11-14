@@ -323,40 +323,38 @@ namespace Game.Rendering.Pixel.Tests
         [Test]
         public void HazeBands_FollowDistanceMonotonically_OutTo30Km()
         {
-            double beta = HazeMath.Beta(20000);
-            Assert.AreEqual(0.02, HazeMath.Transmittance(20000, beta), 1e-3, "Koschmieder: 2% contrast at the visual range");
+            const double start = 60, full = 20000;
             int previous = 0;
             for (double d = 10; d <= 30000; d *= 1.2)
             {
-                int band = HazeMath.Band(d, beta, 8);
+                int band = HazeMath.Band(d, start, full, 8);
                 Assert.GreaterOrEqual(band, previous); previous = band;
             }
-            Assert.AreEqual(0, HazeMath.Band(150, beta, 8), "layers within 150 m are unhazed");
-            Assert.AreEqual(7, HazeMath.Band(30000, beta, 8), "30 km is in the last band (pure airlight)");
+            Assert.AreEqual(0, HazeMath.Band(50, start, full, 8), "nothing nearer than the start distance is hazed");
+            Assert.AreEqual(7, HazeMath.Band(30000, start, full, 8), "30 km is in the last band (pure airlight)");
             Assert.AreEqual(1.0, HazeMath.Amount(7, 8), 1e-12); Assert.AreEqual(0.0, HazeMath.Amount(0, 8), 1e-12);
-            int b1 = HazeMath.Band(1000, beta, 8), b3 = HazeMath.Band(3000, beta, 8), b10 = HazeMath.Band(10000, beta, 8);
-            Assert.IsTrue(b1 < b3 && b3 < b10 && b10 <= 7, "1, 3 and 10 km fall in successive bands");
+            int b150 = HazeMath.Band(150, start, full, 8), b1 = HazeMath.Band(1000, start, full, 8), b3 = HazeMath.Band(3000, start, full, 8), b10 = HazeMath.Band(10000, start, full, 8), b30 = HazeMath.Band(30000, start, full, 8);
+            Assert.IsTrue(b150 < b1 && b1 < b3 && b3 < b10 && b10 < b30, "150 m, 1, 3, 10 and 30 km fall in successive bands");
         }
 
         [Test]
         public void BandStart_IsTheInverseOfBand()
         {
-            double beta = HazeMath.Beta(20000);
             for (int b = 1; b < 8; b++)
             {
-                double d = HazeMath.BandStart(b, 8, beta);
-                Assert.AreEqual(b - 1, HazeMath.Band(d * 0.999, beta, 8)); Assert.AreEqual(b, HazeMath.Band(d * 1.001, beta, 8));
+                double d = HazeMath.BandStart(b, 60, 20000, 8);
+                Assert.AreEqual(b - 1, HazeMath.Band(d * 0.999, 60, 20000, 8)); Assert.AreEqual(b, HazeMath.Band(d * 1.001, 60, 20000, 8));
             }
+            Assert.AreEqual(20000.0, HazeMath.BandStart(7, 60, 20000, 8), 1e-6);
         }
 
         [Test]
         public void HazeSeam_ThresholdOnlyMovesPixelsBetweenAdjacentBands()
         {
-            double beta = HazeMath.Beta(20000);
             for (double d = 10; d <= 30000; d *= 1.07)
             {
-                int centre = HazeMath.Band(d, beta, 8);
-                for (double t = 0.03; t < 1; t += 0.0625) Assert.LessOrEqual(Math.Abs(HazeMath.Band(d, beta, 8, 0.75, t) - centre), 1);
+                int centre = HazeMath.Band(d, 60, 20000, 8);
+                for (double t = 0.03; t < 1; t += 0.0625) Assert.LessOrEqual(Math.Abs(HazeMath.Band(d, 60, 20000, 8, 0.75, t) - centre), 1);
             }
         }
 
