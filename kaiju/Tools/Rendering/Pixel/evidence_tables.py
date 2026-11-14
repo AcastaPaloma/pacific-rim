@@ -3,12 +3,14 @@
 Reads only report.json files written by the T-002 tools and the JSON written by pixel_checks.py; computes nothing new
 except per-profile minima / maxima of values the reports already hold. Usage: evidence_tables.py [metrics_dir] > tables.md
 """
-import glob, json, os, statistics, sys
+import glob, gzip, json, os, statistics, sys
 
 M = sys.argv[1] if len(sys.argv) > 1 else "evidence/T-004/metrics"
 
 
 def load(p):
+    if not os.path.isfile(p) and os.path.isfile(p + ".gz"): p += ".gz"
+    if p.endswith(".gz"): return json.load(gzip.open(p, "rt"))
     return json.load(open(p)) if os.path.isfile(p) else None
 
 
@@ -83,7 +85,7 @@ def main():
                 for f in fr: print("| %s | %s | %s | %s | %s | %s |" % (f["frame"], fmt(f.get("DIG")), fmt(f.get("O")), fmt(f.get("gradient_share")), fmt(f["A2_int"]), fmt(f["grid_uniform"])))
     print("\n### Negative controls on the same tool (slate_teal, eye70, 12 frames each): the tests can fail")
     print("\n| Control | Verdict | Failing gating sub-measures | a.internal | a.output | b.DIG share | c1 value | d-iv |"); print("|---|---|---|---|---|---|---|---|")
-    for p in sorted(glob.glob(os.path.join(M, "controls", "*", "report.json"))):
+    for p in sorted(glob.glob(os.path.join(M, "controls", "*", "report.json*"))):
         r = load(p); v = {x["id"]: x for x in r["submeasures"]}
         g = lambda k: fmt(v[k].get("value")) + " (" + v[k]["status"] + ")" if k in v else "-"
         print("| %s | %s | %s | %s | %s | %s | %s | %s |" % (os.path.basename(os.path.dirname(p)), r["headless_verdict"], ", ".join(r["failing_gating"]) or "none", g("M-003.a.internal"), g("M-003.a.output"), g("M-003.b.DIG"), g("M-003.c1"), g("M-003.d-iv")))
@@ -103,7 +105,7 @@ def main():
     print("\n### M-004@v1 A/B: every anchoring mode and each stabiliser off (slate_teal, eye70; C12)")
     print("\nWorst S_px / C_px / F per group. `snap` = position snap, `rotq` = rotation quantisation.\n")
     print("| Variant | S0 | Y1–Y2 | T1–T2 | T3 | Sub-measures passed |"); print("|---|---|---|---|---|---|")
-    for p in sorted(glob.glob(os.path.join(M, "m004ab", "*", "report.json"))):
+    for p in sorted(glob.glob(os.path.join(M, "m004ab", "*", "report.json*"))):
         r = load(p); seqs = r["extra"].get("sequences") or []; g = m004_groups(seqs); cells = []; ok = 0; n = 0
         for name in ("S0", "Y", "T12", "T3"):
             if name in g:

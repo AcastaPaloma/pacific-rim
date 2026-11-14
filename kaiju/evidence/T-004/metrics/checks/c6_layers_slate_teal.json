@@ -6,17 +6,16 @@
    "layers": {
     "1km": {
      "pixels": 3676,
-     "mean_L": 46.002590460020485,
+     "mean_L": 39.572442826892015,
      "L_p10_p90": 0.0,
      "indices": [
       5,
-      6,
-      9
+      6
      ]
     },
     "3km": {
      "pixels": 3773,
-     "mean_L": 54.034938434585655,
+     "mean_L": 46.034527256378375,
      "L_p10_p90": 0.0,
      "indices": [
       6,
@@ -25,8 +24,8 @@
     },
     "10km": {
      "pixels": 3967,
-     "mean_L": 57.78900755769817,
-     "L_p10_p90": 12.621183126767647,
+     "mean_L": 54.46747612731113,
+     "L_p10_p90": 0.0,
      "indices": [
       7,
       9
@@ -42,28 +41,46 @@
     }
    },
    "successively_lighter": true,
-   "sky_at_horizon_L": 60.88000911713741,
-   "far_layer_minus_sky_L": 6.205468593425657,
+   "sky_at_horizon_L": 56.59337901465119,
+   "far_layer_minus_sky_L": 10.492098695911878,
    "far_layer_indices_subset_of_horizon_sky": true,
-   "ground_seams_checked": 3,
-   "ground_seams_only_adjacent_bands": 3
+   "seams": {
+    "ground_texels": 34532,
+    "seam_texels": 6254,
+    "seam_share_of_ground": 0.18110737866326884,
+    "impure_seam_texels": 0,
+    "pure_share_of_seam_texels": 1.0,
+    "three_or_more_index_window_share_of_ground": 0.0,
+    "modal_index_by_distance": [
+     3,
+     3,
+     5,
+     5,
+     5,
+     6,
+     6,
+     6,
+     9,
+     9
+    ],
+    "modal_lightness_never_falls": true
+   }
   },
   {
    "frame": 1,
    "layers": {
     "1km": {
      "pixels": 4085,
-     "mean_L": 45.99486720286588,
+     "mean_L": 39.54731579140902,
      "L_p10_p90": 0.0,
      "indices": [
       5,
-      6,
-      9
+      6
      ]
     },
     "3km": {
      "pixels": 3580,
-     "mean_L": 54.03074458609553,
+     "mean_L": 46.03968369952868,
      "L_p10_p90": 0.0,
      "indices": [
       6,
@@ -72,8 +89,8 @@
     },
     "10km": {
      "pixels": 3693,
-     "mean_L": 57.50937288489209,
-     "L_p10_p90": 12.621183126767647,
+     "mean_L": 54.474547372688,
+     "L_p10_p90": 0.0,
      "indices": [
       7,
       9
@@ -89,28 +106,46 @@
     }
    },
    "successively_lighter": true,
-   "sky_at_horizon_L": 61.331551579990546,
-   "far_layer_minus_sky_L": 5.753926130572523,
+   "sky_at_horizon_L": 56.95781863354557,
+   "far_layer_minus_sky_L": 10.127659077017498,
    "far_layer_indices_subset_of_horizon_sky": true,
-   "ground_seams_checked": 3,
-   "ground_seams_only_adjacent_bands": 3
+   "seams": {
+    "ground_texels": 35044,
+    "seam_texels": 6271,
+    "seam_share_of_ground": 0.17894646729825361,
+    "impure_seam_texels": 0,
+    "pure_share_of_seam_texels": 1.0,
+    "three_or_more_index_window_share_of_ground": 0.0,
+    "modal_index_by_distance": [
+     3,
+     3,
+     5,
+     5,
+     5,
+     6,
+     6,
+     6,
+     9,
+     9
+    ],
+    "modal_lightness_never_falls": true
+   }
   },
   {
    "frame": 2,
    "layers": {
     "1km": {
      "pixels": 4460,
-     "mean_L": 45.981747481776566,
+     "mean_L": 39.54606843238082,
      "L_p10_p90": 0.0,
      "indices": [
       5,
-      6,
-      9
+      6
      ]
     },
     "3km": {
      "pixels": 3523,
-     "mean_L": 54.03576729391072,
+     "mean_L": 46.043011100555525,
      "L_p10_p90": 0.0,
      "indices": [
       6,
@@ -119,8 +154,8 @@
     },
     "10km": {
      "pixels": 3847,
-     "mean_L": 57.42028262570279,
-     "L_p10_p90": 12.621183126767647,
+     "mean_L": 54.47741772715573,
+     "L_p10_p90": 0.0,
      "indices": [
       7,
       9
@@ -136,37 +171,55 @@
     }
    },
    "successively_lighter": true,
-   "sky_at_horizon_L": 61.01240423044477,
-   "far_layer_minus_sky_L": 6.073073480118282,
+   "sky_at_horizon_L": 56.76980344535954,
+   "far_layer_minus_sky_L": 10.315674265203512,
    "far_layer_indices_subset_of_horizon_sky": true,
-   "ground_seams_checked": 3,
-   "ground_seams_only_adjacent_bands": 3
+   "seams": {
+    "ground_texels": 35593,
+    "seam_texels": 6434,
+    "seam_share_of_ground": 0.18076588093164386,
+    "impure_seam_texels": 0,
+    "pure_share_of_seam_texels": 1.0,
+    "three_or_more_index_window_share_of_ground": 0.0,
+    "modal_index_by_distance": [
+     3,
+     3,
+     5,
+     5,
+     5,
+     6,
+     6,
+     6,
+     9,
+     9
+    ],
+    "modal_lightness_never_falls": true
+   }
   },
   {
    "frame": 3,
    "layers": {
     "near_150m": {
      "pixels": 14874,
-     "mean_L": 31.583347276387137,
-     "L_p10_p90": 5.566705272436089,
+     "mean_L": 30.328739510585102,
+     "L_p10_p90": 5.756989524168937,
      "indices": [
-      0,
-      2,
-      4
+      1,
+      3
      ]
     },
     "1km": {
      "pixels": 3931,
-     "mean_L": 46.00655812757425,
+     "mean_L": 39.52346886491808,
      "L_p10_p90": 0.0,
      "indices": [
-      6,
-      9
+      5,
+      6
      ]
     },
     "3km": {
      "pixels": 2298,
-     "mean_L": 53.951272688168864,
+     "mean_L": 46.0381867585045,
      "L_p10_p90": 0.0,
      "indices": [
       6,
@@ -175,8 +228,8 @@
     },
     "10km": {
      "pixels": 4434,
-     "mean_L": 57.67509624527354,
-     "L_p10_p90": 12.621183126767647,
+     "mean_L": 54.487066226784634,
+     "L_p10_p90": 0.0,
      "indices": [
       7,
       9
@@ -192,41 +245,58 @@
     }
    },
    "successively_lighter": true,
-   "sky_at_horizon_L": 61.22147159050323,
-   "far_layer_minus_sky_L": 5.864006120059841,
+   "sky_at_horizon_L": 56.820130122924176,
+   "far_layer_minus_sky_L": 10.265347587638892,
    "far_layer_indices_subset_of_horizon_sky": true,
-   "near_field_mean_L": 31.756674919279238,
-   "rest_min_band_mean_L": 46.00655812757425,
+   "near_field_mean_L": 27.679155831381376,
+   "rest_min_band_mean_L": 39.52346886491808,
    "near_field_darkest": true,
-   "ground_seams_checked": 3,
-   "ground_seams_only_adjacent_bands": 3
+   "seams": {
+    "ground_texels": 27712,
+    "seam_texels": 4838,
+    "seam_share_of_ground": 0.17458140877598152,
+    "impure_seam_texels": 0,
+    "pure_share_of_seam_texels": 1.0,
+    "three_or_more_index_window_share_of_ground": 0.0,
+    "modal_index_by_distance": [
+     3,
+     3,
+     5,
+     5,
+     5,
+     6,
+     6,
+     6,
+     9,
+     9
+    ],
+    "modal_lightness_never_falls": true
+   }
   },
   {
    "frame": 4,
    "layers": {
     "near_150m": {
      "pixels": 16291,
-     "mean_L": 30.457621836453175,
-     "L_p10_p90": 7.307464935678965,
+     "mean_L": 26.998051369005275,
+     "L_p10_p90": 0.0,
      "indices": [
-      0,
       1,
-      2,
-      4
+      3
      ]
     },
     "1km": {
      "pixels": 4282,
-     "mean_L": 46.01847775634825,
+     "mean_L": 39.54272152872883,
      "L_p10_p90": 0.0,
      "indices": [
-      6,
-      9
+      5,
+      6
      ]
     },
     "3km": {
      "pixels": 1388,
-     "mean_L": 54.293198649206055,
+     "mean_L": 46.0072669598068,
      "L_p10_p90": 0.0,
      "indices": [
       6,
@@ -235,8 +305,8 @@
     },
     "10km": {
      "pixels": 3950,
-     "mean_L": 57.5636737313814,
-     "L_p10_p90": 12.621183126767647,
+     "mean_L": 54.480270764968544,
+     "L_p10_p90": 0.0,
      "indices": [
       7,
       9
@@ -252,39 +322,58 @@
     }
    },
    "successively_lighter": true,
-   "sky_at_horizon_L": 61.40336405496778,
-   "far_layer_minus_sky_L": 5.682113655595273,
+   "sky_at_horizon_L": 57.27448865719274,
+   "far_layer_minus_sky_L": 9.810989053370314,
    "far_layer_indices_subset_of_horizon_sky": true,
-   "near_field_mean_L": 30.457621836453175,
-   "rest_min_band_mean_L": 46.01847775634825,
+   "near_field_mean_L": 26.998051369005275,
+   "rest_min_band_mean_L": 39.54272152872883,
    "near_field_darkest": true,
-   "ground_seams_checked": 4,
-   "ground_seams_only_adjacent_bands": 4
+   "seams": {
+    "ground_texels": 27629,
+    "seam_texels": 4917,
+    "seam_share_of_ground": 0.17796518151217924,
+    "impure_seam_texels": 0,
+    "pure_share_of_seam_texels": 1.0,
+    "three_or_more_index_window_share_of_ground": 0.0,
+    "modal_index_by_distance": [
+     3,
+     3,
+     5,
+     5,
+     5,
+     6,
+     6,
+     6,
+     9,
+     9,
+     9,
+     7
+    ],
+    "modal_lightness_never_falls": true
+   }
   },
   {
    "frame": 5,
    "layers": {
     "near_150m": {
      "pixels": 17252,
-     "mean_L": 28.97104732930302,
-     "L_p10_p90": 7.307464935678965,
+     "mean_L": 26.976494904640024,
+     "L_p10_p90": 0.0,
      "indices": [
-      1,
-      2,
-      4
+      1
      ]
     },
     "1km": {
      "pixels": 4104,
-     "mean_L": 45.98282468343689,
+     "mean_L": 39.480461630274924,
      "L_p10_p90": 0.0,
      "indices": [
-      6
+      5
      ]
     },
     "3km": {
      "pixels": 2810,
-     "mean_L": 54.42203815012816,
+     "mean_L": 45.99489795019896,
      "L_p10_p90": 0.0,
      "indices": [
       6,
@@ -293,8 +382,8 @@
     },
     "10km": {
      "pixels": 2199,
-     "mean_L": 58.55082590997031,
-     "L_p10_p90": 12.621183126767647,
+     "mean_L": 54.52742919698072,
+     "L_p10_p90": 0.0,
      "indices": [
       7,
       9
@@ -310,41 +399,59 @@
     }
    },
    "successively_lighter": true,
-   "sky_at_horizon_L": 61.96977136408578,
-   "far_layer_minus_sky_L": 5.115706346477289,
+   "sky_at_horizon_L": 57.739411724285766,
+   "far_layer_minus_sky_L": 9.346065986277303,
    "far_layer_indices_subset_of_horizon_sky": true,
-   "near_field_mean_L": 28.97104732930302,
-   "rest_min_band_mean_L": 45.98282468343689,
+   "near_field_mean_L": 26.976494904640024,
+   "rest_min_band_mean_L": 39.480461630274924,
    "near_field_darkest": true,
-   "ground_seams_checked": 4,
-   "ground_seams_only_adjacent_bands": 4
+   "seams": {
+    "ground_texels": 28628,
+    "seam_texels": 5208,
+    "seam_share_of_ground": 0.18191979879837922,
+    "impure_seam_texels": 0,
+    "pure_share_of_seam_texels": 1.0,
+    "three_or_more_index_window_share_of_ground": 0.0,
+    "modal_index_by_distance": [
+     3,
+     3,
+     5,
+     5,
+     5,
+     6,
+     6,
+     6,
+     9,
+     9,
+     9,
+     9
+    ],
+    "modal_lightness_never_falls": true
+   }
   },
   {
    "frame": 6,
    "layers": {
     "near_150m": {
      "pixels": 12867,
-     "mean_L": 31.8175342386539,
-     "L_p10_p90": 5.566705272436089,
+     "mean_L": 26.976494904640024,
+     "L_p10_p90": 0.0,
      "indices": [
-      1,
-      2,
-      4
+      1
      ]
     },
     "1km": {
      "pixels": 1969,
-     "mean_L": 45.981676806318404,
+     "mean_L": 39.59934688670653,
      "L_p10_p90": 0.0,
      "indices": [
       5,
-      6,
-      9
+      6
      ]
     },
     "3km": {
      "pixels": 3583,
-     "mean_L": 54.14709755151855,
+     "mean_L": 46.02543324001139,
      "L_p10_p90": 0.0,
      "indices": [
       6,
@@ -353,8 +460,8 @@
     },
     "10km": {
      "pixels": 4950,
-     "mean_L": 58.158859099085596,
-     "L_p10_p90": 12.621183126767647,
+     "mean_L": 54.49234165741046,
+     "L_p10_p90": 0.0,
      "indices": [
       7,
       9
@@ -370,41 +477,60 @@
     }
    },
    "successively_lighter": true,
-   "sky_at_horizon_L": 61.432521924626855,
-   "far_layer_minus_sky_L": 5.6529557859362,
+   "sky_at_horizon_L": 57.17483874692483,
+   "far_layer_minus_sky_L": 9.910638963638227,
    "far_layer_indices_subset_of_horizon_sky": true,
-   "near_field_mean_L": 31.8175342386539,
-   "rest_min_band_mean_L": 45.981676806318404,
+   "near_field_mean_L": 26.976494904640024,
+   "rest_min_band_mean_L": 39.59934688670653,
    "near_field_darkest": true,
-   "ground_seams_checked": 4,
-   "ground_seams_only_adjacent_bands": 4
+   "seams": {
+    "ground_texels": 32473,
+    "seam_texels": 6643,
+    "seam_share_of_ground": 0.2045699504203492,
+    "impure_seam_texels": 0,
+    "pure_share_of_seam_texels": 1.0,
+    "three_or_more_index_window_share_of_ground": 0.0,
+    "modal_index_by_distance": [
+     3,
+     3,
+     5,
+     5,
+     5,
+     6,
+     6,
+     6,
+     9,
+     9,
+     9,
+     9
+    ],
+    "modal_lightness_never_falls": true
+   }
   },
   {
    "frame": 7,
    "layers": {
     "near_150m": {
      "pixels": 16291,
-     "mean_L": 30.744297300847638,
-     "L_p10_p90": 7.307464935678965,
+     "mean_L": 27.060953838792404,
+     "L_p10_p90": 0.0,
      "indices": [
       1,
-      2,
-      3,
-      4
+      3
      ]
     },
     "1km": {
      "pixels": 1584,
-     "mean_L": 46.03636931664622,
+     "mean_L": 39.70213309799635,
      "L_p10_p90": 0.0,
      "indices": [
-      6,
-      9
+      5,
+      6
      ]
     },
     "3km": {
      "pixels": 2526,
-     "mean_L": 53.93714067470742,
+     "mean_L": 46.046620379441165,
      "L_p10_p90": 0.0,
      "indices": [
       6,
@@ -413,8 +539,8 @@
     },
     "10km": {
      "pixels": 6075,
-     "mean_L": 57.80501268549787,
-     "L_p10_p90": 12.621183126767647,
+     "mean_L": 54.4726048278295,
+     "L_p10_p90": 0.0,
      "indices": [
       7,
       9
@@ -430,42 +556,60 @@
     }
    },
    "successively_lighter": true,
-   "sky_at_horizon_L": 61.537368873735794,
-   "far_layer_minus_sky_L": 5.548108836827275,
+   "sky_at_horizon_L": 57.33208053180321,
+   "far_layer_minus_sky_L": 9.753397178759862,
    "far_layer_indices_subset_of_horizon_sky": true,
-   "near_field_mean_L": 30.744297300847638,
-   "rest_min_band_mean_L": 46.03636931664622,
+   "near_field_mean_L": 27.060953838792404,
+   "rest_min_band_mean_L": 39.70213309799635,
    "near_field_darkest": true,
-   "ground_seams_checked": 4,
-   "ground_seams_only_adjacent_bands": 4
+   "seams": {
+    "ground_texels": 32186,
+    "seam_texels": 6957,
+    "seam_share_of_ground": 0.21614987882930467,
+    "impure_seam_texels": 0,
+    "pure_share_of_seam_texels": 1.0,
+    "three_or_more_index_window_share_of_ground": 0.0,
+    "modal_index_by_distance": [
+     3,
+     3,
+     5,
+     5,
+     5,
+     6,
+     6,
+     6,
+     9,
+     9,
+     9,
+     9
+    ],
+    "modal_lightness_never_falls": true
+   }
   },
   {
    "frame": 8,
    "layers": {
     "near_150m": {
      "pixels": 11872,
-     "mean_L": 29.66094629403979,
-     "L_p10_p90": 7.307464935678965,
+     "mean_L": 27.031775969814824,
+     "L_p10_p90": 0.0,
      "indices": [
       1,
-      2,
-      3,
-      4
+      3
      ]
     },
     "1km": {
      "pixels": 4421,
-     "mean_L": 45.98218563965543,
+     "mean_L": 39.58047535739888,
      "L_p10_p90": 0.0,
      "indices": [
       5,
-      6,
-      9
+      6
      ]
     },
     "3km": {
      "pixels": 3048,
-     "mean_L": 54.18881377010268,
+     "mean_L": 46.01065102825434,
      "L_p10_p90": 0.0,
      "indices": [
       6,
@@ -474,8 +618,8 @@
     },
     "10km": {
      "pixels": 6617,
-     "mean_L": 57.7774266816034,
-     "L_p10_p90": 12.621183126767647,
+     "mean_L": 54.4852758463607,
+     "L_p10_p90": 0.0,
      "indices": [
       7,
       9
@@ -491,42 +635,60 @@
     }
    },
    "successively_lighter": true,
-   "sky_at_horizon_L": 62.02668774329958,
-   "far_layer_minus_sky_L": 5.058789967263472,
+   "sky_at_horizon_L": 57.96717974016474,
+   "far_layer_minus_sky_L": 9.118297970398316,
    "far_layer_indices_subset_of_horizon_sky": true,
-   "near_field_mean_L": 29.66094629403979,
-   "rest_min_band_mean_L": 45.98218563965543,
+   "near_field_mean_L": 27.031775969814824,
+   "rest_min_band_mean_L": 39.58047535739888,
    "near_field_darkest": true,
-   "ground_seams_checked": 4,
-   "ground_seams_only_adjacent_bands": 4
+   "seams": {
+    "ground_texels": 37403,
+    "seam_texels": 8099,
+    "seam_share_of_ground": 0.21653343314707377,
+    "impure_seam_texels": 0,
+    "pure_share_of_seam_texels": 1.0,
+    "three_or_more_index_window_share_of_ground": 0.0,
+    "modal_index_by_distance": [
+     3,
+     3,
+     5,
+     5,
+     5,
+     6,
+     6,
+     6,
+     9,
+     9,
+     9,
+     9
+    ],
+    "modal_lightness_never_falls": true
+   }
   },
   {
    "frame": 9,
    "layers": {
     "near_150m": {
      "pixels": 4035,
-     "mean_L": 31.70957296727826,
-     "L_p10_p90": 7.307464935678965,
+     "mean_L": 32.65929274225213,
+     "L_p10_p90": 0.0,
      "indices": [
       1,
-      2,
-      3,
-      4
+      3
      ]
     },
     "1km": {
      "pixels": 4925,
-     "mean_L": 45.99212428154544,
+     "mean_L": 39.57948238742968,
      "L_p10_p90": 0.0,
      "indices": [
       5,
-      6,
-      9
+      6
      ]
     },
     "3km": {
      "pixels": 3788,
-     "mean_L": 54.21800057929716,
+     "mean_L": 46.018649265909374,
      "L_p10_p90": 0.0,
      "indices": [
       6,
@@ -535,8 +697,8 @@
     },
     "10km": {
      "pixels": 7086,
-     "mean_L": 58.01589480321043,
-     "L_p10_p90": 12.621183126767647,
+     "mean_L": 54.47498144503739,
+     "L_p10_p90": 0.0,
      "indices": [
       7,
       9
@@ -552,28 +714,48 @@
     }
    },
    "successively_lighter": true,
-   "sky_at_horizon_L": 62.406050300940436,
-   "far_layer_minus_sky_L": 4.679427409622633,
+   "sky_at_horizon_L": 57.814326093076446,
+   "far_layer_minus_sky_L": 9.271151617486623,
    "far_layer_indices_subset_of_horizon_sky": true,
-   "ground_seams_checked": 4,
-   "ground_seams_only_adjacent_bands": 4
+   "seams": {
+    "ground_texels": 42924,
+    "seam_texels": 9326,
+    "seam_share_of_ground": 0.217267729009412,
+    "impure_seam_texels": 0,
+    "pure_share_of_seam_texels": 1.0,
+    "three_or_more_index_window_share_of_ground": 0.0,
+    "modal_index_by_distance": [
+     3,
+     3,
+     5,
+     5,
+     5,
+     6,
+     6,
+     6,
+     9,
+     9,
+     9,
+     9
+    ],
+    "modal_lightness_never_falls": true
+   }
   },
   {
    "frame": 10,
    "layers": {
     "1km": {
      "pixels": 5260,
-     "mean_L": 45.988361101725175,
+     "mean_L": 39.58059307653084,
      "L_p10_p90": 0.0,
      "indices": [
       5,
-      6,
-      9
+      6
      ]
     },
     "3km": {
      "pixels": 3977,
-     "mean_L": 54.16785900015203,
+     "mean_L": 46.01054887471289,
      "L_p10_p90": 0.0,
      "indices": [
       6,
@@ -582,8 +764,8 @@
     },
     "10km": {
      "pixels": 6774,
-     "mean_L": 57.82547178496,
-     "L_p10_p90": 12.621183126767647,
+     "mean_L": 54.48665274699607,
+     "L_p10_p90": 0.0,
      "indices": [
       7,
       9
@@ -599,28 +781,48 @@
     }
    },
    "successively_lighter": true,
-   "sky_at_horizon_L": 62.61056747385009,
-   "far_layer_minus_sky_L": 4.474910236712979,
+   "sky_at_horizon_L": 58.00227048969663,
+   "far_layer_minus_sky_L": 9.083207220866441,
    "far_layer_indices_subset_of_horizon_sky": true,
-   "ground_seams_checked": 4,
-   "ground_seams_only_adjacent_bands": 4
+   "seams": {
+    "ground_texels": 45759,
+    "seam_texels": 10048,
+    "seam_share_of_ground": 0.21958521820843988,
+    "impure_seam_texels": 0,
+    "pure_share_of_seam_texels": 1.0,
+    "three_or_more_index_window_share_of_ground": 0.0,
+    "modal_index_by_distance": [
+     3,
+     3,
+     5,
+     5,
+     5,
+     6,
+     6,
+     6,
+     9,
+     9,
+     9,
+     9
+    ],
+    "modal_lightness_never_falls": true
+   }
   },
   {
    "frame": 11,
    "layers": {
     "1km": {
      "pixels": 5283,
-     "mean_L": 45.96773411289502,
+     "mean_L": 39.54323288064617,
      "L_p10_p90": 0.0,
      "indices": [
       5,
-      6,
-      9
+      6
      ]
     },
     "3km": {
      "pixels": 3140,
-     "mean_L": 54.12395534575556,
+     "mean_L": 46.0503523100321,
      "L_p10_p90": 0.0,
      "indices": [
       6,
@@ -629,8 +831,8 @@
     },
     "10km": {
      "pixels": 6333,
-     "mean_L": 57.62108505794669,
-     "L_p10_p90": 12.621183126767647,
+     "mean_L": 54.47625212347024,
+     "L_p10_p90": 0.0,
      "indices": [
       7,
       9
@@ -646,14 +848,39 @@
     }
    },
    "successively_lighter": true,
-   "sky_at_horizon_L": 63.4988455999554,
-   "far_layer_minus_sky_L": 3.586632110607667,
+   "sky_at_horizon_L": 59.58561194792889,
+   "far_layer_minus_sky_L": 7.49986576263418,
    "far_layer_indices_subset_of_horizon_sky": true,
-   "ground_seams_checked": 4,
-   "ground_seams_only_adjacent_bands": 4
+   "seams": {
+    "ground_texels": 45987,
+    "seam_texels": 10130,
+    "seam_share_of_ground": 0.22027964424728727,
+    "impure_seam_texels": 0,
+    "pure_share_of_seam_texels": 1.0,
+    "three_or_more_index_window_share_of_ground": 0.0,
+    "modal_index_by_distance": [
+     3,
+     3,
+     5,
+     5,
+     5,
+     6,
+     6,
+     6,
+     9,
+     9,
+     9,
+     9
+    ],
+    "modal_lightness_never_falls": true
+   }
   }
  ],
+ "seam_texels": 85125,
+ "impure_seam_texels": 0,
+ "pure_share_of_seam_texels": 1.0,
+ "modal_lightness_never_falls_frames": 12,
  "pass": true,
- "criterion": "C6: upright layers at 1, 3, 10 and 30 km are successively lighter; the farthest matches the sky at the horizon; the near field is darkest; ground pixels in a haze seam use only the indices of the two adjacent bands",
+ "criterion": "C6: upright layers at 1, 3, 10 and 30 km are successively lighter; the farthest matches the sky at the horizon; the near field is darkest; at least 99 % of ground seam texels lie in 4x4 windows of two palette indices that are lightness neighbours (DEF-T004-style-1); the most common ground index never gets darker with distance (DEF-T004-style-6)",
  "tool": "Tools/Rendering/Pixel/pixel_checks.py layers"
 }

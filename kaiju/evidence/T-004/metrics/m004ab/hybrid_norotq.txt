@@ -1,19 +1,19 @@
 M-004@v1  [m004ab_hybrid_norotq]  registry v1.1 sha256:5f39e5531f9e  tool 1.0.0
 VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 3
-  FAIL           [G] M-004.S_px.Y     0.131 share  <= 0.01  margin -0.121 seed-threshold
+  FAIL           [G] M-004.S_px.Y     0.1496 share  <= 0.01  margin -0.1396 seed-threshold
       where: eye70_Y2 (Y2, slate_teal/eye70, lag 1)
-  FAIL           [G] M-004.C_px.Y     0.3026 share  <= 0.01  margin -0.2926 seed-threshold
+  FAIL           [G] M-004.C_px.Y     0.6447 share  <= 0.01  margin -0.6347 seed-threshold
       where: eye70_Y2 (Y2, slate_teal/eye70, lag 1)
-  FAIL           [G] M-004.F.Y        0.09295 share  <= 0.001  margin -0.09195 seed-threshold
+  FAIL           [G] M-004.F.Y        0.1108 share  <= 0.001  margin -0.1098 seed-threshold
       where: eye70_Y2 (Y2, slate_teal/eye70, lag 1)
   PASS           [G] M-004.S0         0 share  <= 0  margin 0
   PASS           [G] M-004.C_px.S0    0 share  <= 0  margin 0
   PASS           [G] M-004.F.S0       0 share  <= 0  margin 0
-  PASS           [G] M-004.S_px.T12   0.03913 share  <= 0.12  margin 0.08087 seed-threshold
-  PASS           [G] M-004.C_px.T12   0.07601 share  <= 0.15  margin 0.07399 seed-threshold
+  PASS           [G] M-004.S_px.T12   0.006404 share  <= 0.12  margin 0.1136 seed-threshold
+  PASS           [G] M-004.C_px.T12   0.01099 share  <= 0.15  margin 0.139 seed-threshold
   PASS           [G] M-004.F.T12      0 share  <= 0.005  margin 0.005 seed-threshold
-  PASS           [G] M-004.S_px.T3    0.02265 share  <= 0.12  margin 0.09735 seed-threshold
-  PASS           [G] M-004.C_px.T3    0.04503 share  <= 0.15  margin 0.105 seed-threshold
-  PASS           [G] M-004.F.T3       0.01277 share  <= 0.08  margin 0.06723 seed-threshold
+  PASS           [G] M-004.S_px.T3    0.003846 share  <= 0.12  margin 0.1162 seed-threshold
+  PASS           [G] M-004.C_px.T3    0.006313 share  <= 0.15  margin 0.1437 seed-threshold
+  PASS           [G] M-004.F.T3       0.001773 share  <= 0.08  margin 0.07823 seed-threshold
   inputs: 5767 files hashed; report.json holds every value, threshold and hash
 report: evidence/T-004/metrics/m004ab/hybrid_norotq/report.json

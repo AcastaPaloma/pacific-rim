@@ -13,11 +13,33 @@
   },
   "frames": 180,
   "commanded_px_per_frame": -0.3609704039865935,
-  "measured_px_per_frame": -0.3633132883936118,
-  "max_abs_displacement_error_px": 0.9868577033851125,
-  "max_abs_step_error_px": 0.6947150047158175,
-  "max_step_px": 1.0556773839534799,
-  "pass_within_1px": true
+  "measured_px_per_frame": -0.36389225963766014,
+  "max_abs_displacement_error_px": 1.092733115385954,
+  "max_abs_step_error_px": 0.7298815676713275,
+  "max_step_px": 1.090841050697236,
+  "pass_within_1px": true,
+  "depth_class_near": {
+   "frames_measured": 28,
+   "frames_skipped": 152,
+   "max_abs_error_px": 10.558222161021334,
+   "p95_abs_error_px": 8.574032339915178,
+   "pass_within_1px": false
+  },
+  "depth_class_reference": {
+   "frames_measured": 180,
+   "frames_skipped": 0,
+   "max_abs_error_px": 1.03748174811426,
+   "p95_abs_error_px": 0.9892369090499982,
+   "pass_within_1px": false
+  },
+  "depth_class_far": {
+   "frames_measured": 180,
+   "frames_skipped": 0,
+   "max_abs_error_px": 3.4204996601481525,
+   "p95_abs_error_px": 2.921691299875058,
+   "pass_within_1px": false
+  },
+  "pass_all_depth_classes_within_1px": false
  },
  "subpixel_off": {
   "sequence": "evidence/T-004/captures_local/c11_subpixel_off/eye70_tower_T1",
@@ -33,12 +55,35 @@
   },
   "frames": 180,
   "commanded_px_per_frame": -0.3609704039865935,
-  "measured_px_per_frame": -0.3577120380930689,
-  "max_abs_displacement_error_px": 1.9874101490531757,
-  "max_abs_step_error_px": 3.6918738734402723,
-  "max_step_px": 4.052836252677935,
-  "pass_within_1px": false
+  "measured_px_per_frame": -0.35830566745888914,
+  "max_abs_displacement_error_px": 2.049817380982404,
+  "max_abs_step_error_px": 3.726308360926396,
+  "max_step_px": 4.087267843952304,
+  "pass_within_1px": false,
+  "depth_class_near": {
+   "frames_measured": 28,
+   "frames_skipped": 152,
+   "max_abs_error_px": 13.558222161021334,
+   "p95_abs_error_px": 11.377177414931813,
+   "pass_within_1px": false
+  },
+  "depth_class_reference": {
+   "frames_measured": 180,
+   "frames_skipped": 0,
+   "max_abs_error_px": 4.061741488632151,
+   "p95_abs_error_px": 3.9065169946346714,
+   "pass_within_1px": false
+  },
+  "depth_class_far": {
+   "frames_measured": 180,
+   "frames_skipped": 0,
+   "max_abs_error_px": 3.628755683202826,
+   "p95_abs_error_px": 3.4216566141702853,
+   "pass_within_1px": false
+  },
+  "pass_all_depth_classes_within_1px": false
  },
+ "depth_class_criterion": "DEF-T004-style-3: per depth class, output x of the nearest depth discontinuity (scale * texel boundary - present_shift_output_px) against the projected wanted position of the near (-15,60,-10), reference (TOWER_EDGE) and far (4000,700,9400) points, max |error| <= 1 output px; frames where the point is off-screen or no discontinuity lies within 24 texels are skipped and counted",
  "criterion": "C11 / M-011: per-frame color_output displacement of a scene edge matches the commanded motion within +-1 output px (cumulative deviation from the first frame allowed 1.5 px: 1 px plus the half-pixel of edge rounding)",
  "tool": "Tools/Rendering/Pixel/pixel_checks.py smooth"
 }

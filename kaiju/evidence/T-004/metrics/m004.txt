@@ -1,20 +1,16 @@
 M-004@v1  [m004_warm_rust_sepia]  registry v1.1 sha256:5f39e5531f9e  tool 1.0.0
-VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 4
-  FAIL           [G] M-004.S_px.Y     0.03512 share  <= 0.01  margin -0.02512 seed-threshold
-      where: street_Y1 (Y1, slate_teal/street, lag 4)
-  FAIL           [G] M-004.C_px.Y     0.05048 share  <= 0.01  margin -0.04048 seed-threshold
-      where: eye70_Y1 (Y1, warm_amber_haze/eye70, lag 4)
-  FAIL           [G] M-004.F.Y        0.01307 share  <= 0.001  margin -0.01207 seed-threshold
-      where: street_Y2 (Y2, slate_teal/street, lag 1)
-  FAIL           [G] M-004.C_px.T12   0.1507 share  <= 0.15  margin -0.0007022 seed-threshold
-      where: street_T1 (T1, warm_rust_sepia/street, lag 10)
+VERDICT: PASS (provisional: 9 assumed)   headless: PASS (provisional: 9 assumed)   exit 0   failing gating: 0
   PASS           [G] M-004.S0         0 share  <= 0  margin 0
   PASS           [G] M-004.C_px.S0    0 share  <= 0  margin 0
   PASS           [G] M-004.F.S0       0 share  <= 0  margin 0
-  PASS           [G] M-004.S_px.T12   0.09745 share  <= 0.12  margin 0.02255 seed-threshold
+  PASS           [G] M-004.S_px.Y     0.001971 share  <= 0.01  margin 0.008029 seed-threshold
+  PASS           [G] M-004.C_px.Y     0.005069 share  <= 0.01  margin 0.004931 seed-threshold
+  PASS           [G] M-004.F.Y        0.0001776 share  <= 0.001  margin 0.0008224 seed-threshold
+  PASS           [G] M-004.S_px.T12   0.02758 share  <= 0.12  margin 0.09242 seed-threshold
+  PASS           [G] M-004.C_px.T12   0.08708 share  <= 0.15  margin 0.06292 seed-threshold
   PASS           [G] M-004.F.T12      0 share  <= 0.005  margin 0.005 seed-threshold
-  PASS           [G] M-004.S_px.T3    0.08581 share  <= 0.12  margin 0.03419 seed-threshold
-  PASS           [G] M-004.C_px.T3    0.1303 share  <= 0.15  margin 0.01968 seed-threshold
-  PASS           [G] M-004.F.T3       0.03096 share  <= 0.08  margin 0.04904 seed-threshold
+  PASS           [G] M-004.S_px.T3    0.02505 share  <= 0.12  margin 0.09495 seed-threshold
+  PASS           [G] M-004.C_px.T3    0.1025 share  <= 0.15  margin 0.04752 seed-threshold
+  PASS           [G] M-004.F.T3       0.01682 share  <= 0.08  margin 0.06318 seed-threshold
   inputs: 57661 files hashed; report.json holds every value, threshold and hash
 report: evidence/T-004/metrics/m004/report.json
