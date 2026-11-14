@@ -43,7 +43,20 @@ Snapshot (2026-11-14, after research):
 - Folder metas for the whole module tree live on the integration branch (commit "Scaffold: module folder skeleton"); task branches must not re-create them. Feature flags are one JSON per module in `Assets/Game/Config/FeatureFlags/`.
 - Unity concurrency: at most 2 batch processes besides the founders' editor. Evaluators check `pgrep` before running Unity.
 
+Snapshot (2026-11-14 09:55, after a usage-limit interruption):
+- T-001 Core: done end to end (cycle 1 PASS, fix cycle 1 re-check PASS, merged twice, regression 96/96 dotnet and 101/101 Unity EditMode). Ledger closure of its defects is owed to the next scribe pass (`evaluations/T-001/eval-arch.fix1.md`, `evidence/regression/T-001-fix1.md`; one new nit DEF-T001-arch-7).
+- All six reconciled specs exist: `expectations/T-00{1,2,3,4,5,7}.md`. Scribe has numbered questions up to Q-043 and metrics up to M-017.
+- Five implementation agents were cut off by the account's 5-hour usage limit at about 09:20 and resumed at 09:52 with SendMessage (same agents, same worktrees). If it happens again: check each `.wt/<task>` for uncommitted work, then resume the same agent IDs rather than starting new agents.
+  - T-002 metric tools: `task/T-002`, agent `ab89c54476f1f7d18` (validators, registry, M-001/M-002 pushed).
+  - T-003 SF tile: `task/T-003`, agent `ae2324271d8dd1491` (Phase 1 pipeline and baked tile pushed; Unity side next).
+  - T-004 pixel pipeline: `task/T-004`, agent `aa971810b2bbe7bf2` (smoke test, contracts, colour maths, palette profiles pushed).
+  - T-005 walking mech: `task/T-005`, agent `a097de118370441a4` (work in progress, first commit pending at the time of the cut).
+  - T-007 mech greybox + import: `task/T-007`, agent `a675cf8ecd50f6256` (Blender build and ROM evidence pushed; Unity import next).
+- Next per slice when its implementer reports: run its evaluation panel (see Plan of record), defects back to the same implementer agent for at most 3 cycles, then `integrate` (sonnet, low) and a scribe pass. T-002 should be evaluated and merged first because T-004 and T-005 evidence depends on its tools.
+- Then T-006 (style frame: tile + static mech through the pixel pipeline), the realism research loop (§6), the founders' calibration packet (§4.3), and the M0 milestone report (§8).
+
 ## Blockers / founder decisions pending
+- **Usage budget:** the account hit its 5-hour limit once during M0 implementation. Keep spawns on the tiering table and briefs lean; prefer resuming an agent over restarting it.
 - Style-frame approval, feel approval and metric calibration need the founders (§8). Thresholds are `Assumed, pending calibration` until then.
 - Midjourney (D-023): a founder said on 2026-11-14 that Midjourney is already open in one of the Chrome browsers and may be used. T-007 Phase A drives it through the Chrome tools: no purchases, no settings changes, at most 16 generations, no reference-image uploads.
 - Paid or credit-based 3D generation (Hunyuan3D / Meshy) is not used without a founder decision; T-007 Phase B models the greybox by Blender script instead.
