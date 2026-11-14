@@ -197,17 +197,18 @@ namespace Game.Tools.StyleCapture
         /// The internal image, index and depth do not depend on that flag (the present stage is the only reader);
         /// the compensated output is captured by <see cref="SubPixel"/>.
         /// </summary>
-        public static void M004(StyleCaptureSession s)
+        public static void M004(StyleCaptureSession s, string anchor = null, string prefix = "m004_")
         {
-            var baseFlags = s.Flags;
+            var baseFlags = s.Flags; var baseSettings = s.Settings.Clone();
             s.Flags = baseFlags.With(PixelFlags.SubPixelPresent, false);
+            if (anchor != null) s.Settings.ditherAnchor = anchor;   // the same sets with another anchoring mode (configured default when null)
             foreach (string profile in AllProfiles)
             {
                 s.SetProfile(profile); s.Apply();
                 foreach (var v in MotionViewpoints)
-                    MotionSet(s, "m004_" + profile, v, true);
+                    MotionSet(s, prefix + profile, v, true);
             }
-            s.Flags = baseFlags; s.Apply();
+            s.Settings = baseSettings; s.Flags = baseFlags; s.Apply();
         }
 
         /// <summary>World point on the left silhouette edge of the 160 m tower as seen from <see cref="Eye70Tower"/> (its far-left corner).</summary>

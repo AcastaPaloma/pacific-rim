@@ -60,7 +60,7 @@ namespace Game.Tools.StyleCapture
 
         /// <summary>
         /// Writes style_capture@v1 capture sets. Arguments: -captureOut &lt;dir&gt; (default evidence/T-004/captures),
-        /// -captureJobs &lt;list&gt; (stills,hazecal,m004,m004ab,subpixel,controls,stages,cut,orbit,dolly; default all), -captureProfiles &lt;list&gt;,
+        /// -captureJobs &lt;list&gt; (stills,hazecal,m004,m004ab,subpixel,controls,stages,cut,orbit,dolly; default all; m004direction = the M-004 sets with direction anchoring, on request), -captureProfiles &lt;list&gt;,
         /// -captureCommit &lt;hash&gt; (default: git rev-parse HEAD).
         /// </summary>
         public static void Run()
@@ -88,6 +88,7 @@ namespace Game.Tools.StyleCapture
                 if (jobs.Contains("stages")) StyleCaptureJobs.Stages(s);
                 if (jobs.Contains("cut")) StyleCaptureJobs.Cut(s);
                 if (jobs.Contains("m004")) StyleCaptureJobs.M004(s);
+                if (jobs.Contains("m004direction")) StyleCaptureJobs.M004(s, "direction", "m004direction_");
                 if (jobs.Contains("m004ab")) StyleCaptureJobs.M004Ab(s);
                 if (jobs.Contains("subpixel")) StyleCaptureJobs.SubPixel(s);
                 if (jobs.Contains("orbit")) StyleCaptureJobs.Orbit(s);
