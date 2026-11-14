@@ -1,0 +1,9 @@
+M-002@v1  [bd_M-002.1_0.98]  registry v1.1 sha256:dd104137882d  tool 1.0.0
+VERDICT: INCOMPLETE   headless: INCOMPLETE   exit 3   failing gating: 0
+  PASS           [G] M-002.1          0.0049 L_f  < 0.005  margin 0.0001
+  PASS           [G] M-002.3          0.02 s  <= 0.02  margin 0
+  PASS           [G] M-002.4          1 share of foot-steps  >= 0.99  margin 0.01
+  PASS           [G] M-002.5          0 contacts  <= 0  margin 0
+  PASS           [A] M-002.2          0.002205 L_f  < 0.0025  margin 0.000295 seed-threshold
+  missing inputs: walk_fr010, walk_fr030, start, stop, estop, turn90_inplace, curve, stomp
+  inputs: 1 files hashed; report.json holds every value, threshold and hash

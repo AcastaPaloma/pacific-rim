@@ -1,0 +1,16 @@
+M-001@v1  [gait_ref]  registry v1.1 sha256:e18bdef7a8b5  tool 1.0.0
+VERDICT: PASS (provisional: 7 assumed)   headless: PASS (provisional: 7 assumed)   exit 0   failing gating: 0
+  PASS           [G] M-001.1          0.29 Fr  in [0.1, 0.3]  margin 0.01 seed-threshold
+  PASS           [G] M-001.2          0.9933 -  in [0.85, 1.15]  margin 0.1433
+  PASS           [G] M-001.3          0.6613 -  in [0.6, 0.72]  margin 0.05871 seed-threshold
+  PASS           [G] M-001.4          2.5 m/s^2  <= 2.943  margin 0.443
+  PASS           [G] M-001.5          0.6367 m/s^2  <= 0.8339  margin 0.1971
+  PASS           [G] M-001.6          0.8292 m/s^2  <= 1.373  margin 0.5442 seed-threshold
+  PASS           [G] M-001.7          12 deg/s  <= 26.7  margin 14.7
+  PASS           [G] M-001.8          3 deg/s^2  <= 4  margin 1
+  PASS           [G] M-001.9          0.6368 m/s^2  <= 0.8339  margin 0.1971 seed-threshold
+  PASS           [G] M-001.10         3 steps  in [2, 4]  margin 1 seed-threshold
+  PASS           [G] M-001.11         3.175 t/sqrt(l/g)  in [2.4, 4.8]  margin 0.7746 seed-threshold
+  PASS           [G] M-001.12         3.54 s  >= 2.997  margin 0.5428 seed-threshold
+  PASS           [G] M-001.13         8 score  >= 8  margin 0
+  inputs: 10 files hashed; report.json holds every value, threshold and hash

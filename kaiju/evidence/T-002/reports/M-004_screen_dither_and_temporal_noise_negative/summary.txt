@@ -1,0 +1,27 @@
+M-004@v1  [m004_screen]  registry v1.1 sha256:5f39e5531f9e  tool 1.0.0
+VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 11
+  FAIL           [G] M-004.S0         0.4375 share  <= 0  margin -0.4375
+      where: slate_teal_eye_S0 (S0, slate_teal/eye, lag 1)
+  FAIL           [G] M-004.C_px.S0    0.4921 share  <= 0  margin -0.4921
+      where: slate_teal_eye_S0 (S0, slate_teal/eye, lag 1)
+  FAIL           [G] M-004.F.S0       0.219 share  <= 0  margin -0.219
+      where: slate_teal_eye_S0 (S0, slate_teal/eye, lag 1)
+  FAIL           [G] M-004.S_px.Y     0.8994 share  <= 0.01  margin -0.8894 seed-threshold
+      where: slate_teal_eye_Y1 (Y1, slate_teal/eye, lag 4)
+  FAIL           [G] M-004.C_px.Y     0.9931 share  <= 0.01  margin -0.9831 seed-threshold
+      where: slate_teal_eye_Y1 (Y1, slate_teal/eye, lag 4)
+  FAIL           [G] M-004.F.Y        0.8927 share  <= 0.001  margin -0.8917 seed-threshold
+      where: slate_teal_eye_Y2 (Y2, slate_teal/eye, lag 1)
+  FAIL           [G] M-004.S_px.T12   0.8742 share  <= 0.12  margin -0.7542 seed-threshold
+      where: slate_teal_eye_T2 (T2, slate_teal/eye, lag 4)
+  FAIL           [G] M-004.C_px.T12   0.9653 share  <= 0.15  margin -0.8153 seed-threshold
+      where: slate_teal_eye_T1 (T1, slate_teal/eye, lag 10)
+  FAIL           [G] M-004.S_px.T3    0.8751 share  <= 0.12  margin -0.7551 seed-threshold
+      where: slate_teal_eye_T3 (T3, slate_teal/eye, lag 1)
+  FAIL           [G] M-004.C_px.T3    0.9655 share  <= 0.15  margin -0.8155 seed-threshold
+      where: slate_teal_eye_T3 (T3, slate_teal/eye, lag 1)
+  FAIL           [G] M-004.F.T3       0.8752 share  <= 0.08  margin -0.7952 seed-threshold
+      where: slate_teal_eye_T3 (T3, slate_teal/eye, lag 1)
+  PASS           [G] M-004.F.T12      0 share  <= 0.005  margin 0.005 seed-threshold
+  warning: fixture mode: 60-frame sequences accepted; not a gating run
+  inputs: 2167 files hashed; report.json holds every value, threshold and hash

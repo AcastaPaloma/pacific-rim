@@ -1,0 +1,565 @@
+{
+ "assumed_thresholds_decisive": [],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [
+   "walk_fr010",
+   "walk_fr030",
+   "start",
+   "stop",
+   "estop",
+   "turn90_inplace",
+   "curve",
+   "stomp"
+  ],
+  "optional_not_provided": [
+   "walk_fr020_terrain"
+  ],
+  "provided": [
+   "walk_fr020"
+  ],
+  "required": [
+   "walk_fr010",
+   "walk_fr020",
+   "walk_fr030",
+   "start",
+   "stop",
+   "estop",
+   "turn90_inplace",
+   "curve",
+   "stomp"
+  ]
+ },
+ "exit_code": 3,
+ "extra": {
+  "contacts": [
+   {
+    "capture": "walk_fr020",
+    "contact_id": 0,
+    "foot": "L",
+    "n_begin": 0,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 218,
+    "slip_m": 0.0,
+    "tags": [
+     "truncated_start"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 1,
+    "foot": "R",
+    "n_begin": 0,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 53,
+    "slip_m": 0.0,
+    "tags": [
+     "truncated_start"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 2,
+    "foot": "R",
+    "n_begin": 165,
+    "per_point_m": [
+     0.0960400000005,
+     0.0960400000005,
+     0.0960400000005,
+     0.0960400000005,
+     0.0960400000005
+    ],
+    "samples": 218,
+    "slip_m": 0.0960400000005,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 3,
+    "foot": "L",
+    "n_begin": 330,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 218,
+    "slip_m": 0.0,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 4,
+    "foot": "R",
+    "n_begin": 495,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 218,
+    "slip_m": 0.0,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 5,
+    "foot": "L",
+    "n_begin": 660,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 218,
+    "slip_m": 0.0,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 6,
+    "foot": "R",
+    "n_begin": 825,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 218,
+    "slip_m": 0.0,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 7,
+    "foot": "L",
+    "n_begin": 990,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 218,
+    "slip_m": 0.0,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 8,
+    "foot": "R",
+    "n_begin": 1155,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 218,
+    "slip_m": 0.0,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 9,
+    "foot": "L",
+    "n_begin": 1320,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 218,
+    "slip_m": 0.0,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 10,
+    "foot": "R",
+    "n_begin": 1485,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 215,
+    "slip_m": 0.0,
+    "tags": [
+     "truncated_end"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 11,
+    "foot": "L",
+    "n_begin": 1650,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 50,
+    "slip_m": 0.0,
+    "tags": [
+     "truncated_end"
+    ]
+   }
+  ]
+ },
+ "failing_gating": [],
+ "failures_suppressed": false,
+ "flags": [],
+ "headless_verdict": "INCOMPLETE",
+ "headless_verdict_label": "INCOMPLETE",
+ "images": [
+  "diag_slip.png"
+ ],
+ "inputs": [
+  {
+   "path": "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_dqbnmrek/bd_M-002.1_0.98/walk_fr020.gait.jsonl",
+   "role": "gait_log@v1 walk_fr020",
+   "sha256": "973377d529f2803bd7f5407030b53116dc6cdc166e8d18c307dc5dcf9132ea15"
+  }
+ ],
+ "invocation": {
+  "command": "m002",
+  "inputs": [
+   "/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/t002_ev_dqbnmrek/bd_M-002.1_0.98"
+  ],
+  "label": "bd_M-002.1_0.98",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "bd_M-002.1_0.98",
+ "metric": "M-002",
+ "metric_version": "M-002@v1",
+ "normalisers": {
+  "walk_fr020.gait.jsonl": {
+   "F_off_N_header": 981000.0,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000.0,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 19.6,
+   "P_W": 200000000.0,
+   "T_nom_s": 6.6,
+   "W_f_m": 7.65,
+   "capture": "walk_fr020",
+   "fr_cruise_nom": 0.2,
+   "g": 9.81,
+   "h_m": 44.8,
+   "l_m": 42.4,
+   "m_kg": 10000000.0,
+   "unit_id": "mech_ref_synth"
+  }
+ },
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-002@v1.1.yaml",
+  "revision": "v1.1",
+  "sha256": "dd104137882d9d95ebfcdeaedc03f076cd546ae278068fa276db55db880b5745",
+  "spec": "M-002@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "Kuans-MacBook-Pro.local",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-14T17:56:43Z",
+  "wall_time_s": 0.275
+ },
+ "submeasures": [
+  {
+   "decisive_part": "walk_fr020:walk_fr020.gait.jsonl max s_c/L_f",
+   "diagnostics": {
+    "contacts_total": 12,
+    "contacts_used": 12,
+    "scuffs": 0,
+    "truncated": 4,
+    "where": "walk_fr020 foot R contact 2 n=165 t=3.3s slip 0.0960 m (0.490 % L_f); walk_fr020 foot L contact 0 n=0 t=0.0s slip 0.0000 m (0.000 % L_f); walk_fr020 foot R contact 1 n=0 t=0.0s slip 0.0000 m (0.000 % L_f)",
+    "worst_contacts": [
+     {
+      "capture": "walk_fr020",
+      "contact_id": 2,
+      "file": "walk_fr020.gait.jsonl",
+      "foot": "R",
+      "n_begin": 165,
+      "slip_m": 0.0960400000005,
+      "slip_pct_Lf": 0.490000000003,
+      "sole_point": 0,
+      "t_begin_s": 3.3,
+      "t_worst_s": 7.64,
+      "tags": []
+     },
+     {
+      "capture": "walk_fr020",
+      "contact_id": 0,
+      "file": "walk_fr020.gait.jsonl",
+      "foot": "L",
+      "n_begin": 0,
+      "slip_m": 0.0,
+      "slip_pct_Lf": 0.0,
+      "sole_point": -1,
+      "t_begin_s": 0.0,
+      "t_worst_s": 0.0,
+      "tags": [
+       "truncated_start"
+      ]
+     },
+     {
+      "capture": "walk_fr020",
+      "contact_id": 1,
+      "file": "walk_fr020.gait.jsonl",
+      "foot": "R",
+      "n_begin": 0,
+      "slip_m": 0.0,
+      "slip_pct_Lf": 0.0,
+      "sole_point": -1,
+      "t_begin_s": 0.0,
+      "t_worst_s": 0.0,
+      "tags": [
+       "truncated_start"
+      ]
+     },
+     {
+      "capture": "walk_fr020",
+      "contact_id": 3,
+      "file": "walk_fr020.gait.jsonl",
+      "foot": "L",
+      "n_begin": 330,
+      "slip_m": 0.0,
+      "slip_pct_Lf": 0.0,
+      "sole_point": -1,
+      "t_begin_s": 6.6,
+      "t_worst_s": 6.6,
+      "tags": []
+     },
+     {
+      "capture": "walk_fr020",
+      "contact_id": 4,
+      "file": "walk_fr020.gait.jsonl",
+      "foot": "R",
+      "n_begin": 495,
+      "slip_m": 0.0,
+      "slip_pct_Lf": 0.0,
+      "sole_point": -1,
+      "t_begin_s": 9.9,
+      "t_worst_s": 9.9,
+      "tags": []
+     }
+    ]
+   },
+   "id": "M-002.1",
+   "kind": "gating",
+   "margin": 9.99999999725e-05,
+   "margin_rel": 0.0199999999945,
+   "note": null,
+   "op": "<",
+   "parts": [
+    {
+     "contact_id": 2,
+     "foot": "R",
+     "margin": 9.99999999725e-05,
+     "margin_rel": 0.0199999999945,
+     "n_begin": 165,
+     "name": "walk_fr020:walk_fr020.gait.jsonl max s_c/L_f",
+     "op": "<",
+     "slip_m": 0.0960400000005,
+     "status": "PASS",
+     "threshold": 0.005,
+     "unit": "L_f",
+     "value": 0.00490000000003
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.005,
+   "threshold_status": "derived",
+   "title": "Worst planted-foot slip, max over all contacts of all captures, s_c / L_f",
+   "unit": "L_f",
+   "value": 0.00490000000003
+  },
+  {
+   "decisive_part": "p95 s_c/L_f",
+   "diagnostics": {},
+   "id": "M-002.2",
+   "kind": "advisory",
+   "margin": 0.000294999999988,
+   "margin_rel": 0.117999999995,
+   "note": null,
+   "op": "<",
+   "parts": [
+    {
+     "margin": 0.000294999999988,
+     "margin_rel": 0.117999999995,
+     "name": "p95 s_c/L_f",
+     "op": "<",
+     "status": "PASS",
+     "threshold": 0.0025,
+     "unit": "L_f",
+     "value": 0.00220500000001
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.0025,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "p95 slip s_c / L_f (regression guard; reported)",
+   "unit": "L_f",
+   "value": 0.00220500000001
+  },
+  {
+   "decisive_part": "walk_fr020:fixed_dt_s",
+   "diagnostics": {},
+   "id": "M-002.3",
+   "kind": "gating",
+   "margin": 0.0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.0,
+     "margin_rel": 0.0,
+     "name": "walk_fr020:fixed_dt_s",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.02,
+     "unit": "s",
+     "value": 0.02
+    },
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "every_step_logged",
+     "note": "n contiguous (validated: a gap is INVALID_INPUT)",
+     "op": null,
+     "status": "PASS",
+     "threshold": null,
+     "unit": "",
+     "value": true
+    },
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "float64_positions",
+     "note": "float32-quantised positions are INVALID_INPUT",
+     "op": null,
+     "status": "PASS",
+     "threshold": null,
+     "unit": "",
+     "value": true
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.02,
+   "threshold_status": "derived",
+   "title": "Sampling validity (fixed_dt <= 0.02 s, every step logged, float64 positions)",
+   "unit": "s",
+   "value": 0.02
+  },
+  {
+   "decisive_part": "walk_fr020:walk_fr020.gait.jsonl",
+   "diagnostics": {
+    "disagreeing_steps_n": {
+     "walk_fr020": []
+    },
+    "where": ""
+   },
+   "id": "M-002.4",
+   "kind": "gating",
+   "margin": 0.01,
+   "margin_rel": 0.010101010101,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.01,
+     "margin_rel": 0.010101010101,
+     "name": "walk_fr020:walk_fr020.gait.jsonl",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.99,
+     "unit": "share of foot-steps",
+     "value": 1.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.99,
+   "threshold_status": "derived",
+   "title": "Contact detection consistency (emitter flag versus F_on / F_off hysteresis on fn)",
+   "unit": "share of foot-steps",
+   "value": 1.0
+  },
+  {
+   "decisive_part": "excluded contacts",
+   "diagnostics": {
+    "excluded": [],
+    "where": ""
+   },
+   "id": "M-002.5",
+   "kind": "gating",
+   "margin": 0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "excluded contacts",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "contacts",
+     "value": 0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "Excluded contacts in locomotion captures (external force > 0.05 m g)",
+   "unit": "contacts",
+   "value": 0
+  }
+ ],
+ "tool": {
+  "git_commit": "8f41766cdb4960201af36c70cb14f1800075f99d",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "INCOMPLETE",
+ "verdict_label": "INCOMPLETE",
+ "warnings": []
+}

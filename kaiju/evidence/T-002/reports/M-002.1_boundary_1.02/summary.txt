@@ -1,0 +1,10 @@
+M-002@v1  [bd_M-002.1_1.02]  registry v1.1 sha256:dd104137882d  tool 1.0.0
+VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 1
+  FAIL           [G] M-002.1          0.0051 L_f  < 0.005  margin -0.0001
+      where: walk_fr020 foot R contact 2 n=165 t=3.3s slip 0.1000 m (0.510 % L_f); walk_fr020 foot L contact 0 n=0 t=0.0s slip 0.0000 m (0.000 % L_f); walk_fr020 foot R contact 1 n=0 t=0.0s sli
+  PASS           [G] M-002.3          0.02 s  <= 0.02  margin 0
+  PASS           [G] M-002.4          1 share of foot-steps  >= 0.99  margin 0.01
+  PASS           [G] M-002.5          0 contacts  <= 0  margin 0
+  PASS           [A] M-002.2          0.002295 L_f  < 0.0025  margin 0.000205 seed-threshold
+  missing inputs: walk_fr010, walk_fr030, start, stop, estop, turn90_inplace, curve, stomp
+  inputs: 1 files hashed; report.json holds every value, threshold and hash

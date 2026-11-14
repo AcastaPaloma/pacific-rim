@@ -1,0 +1,4 @@
+estop capture at 2.5 m/s^2 peak deceleration (0.255 g); only the registry value changes:
+registry v1.0 (a_max_g 0.30): exit 3; PASS           [G] M-001.4          2.5 m/s^2  <= 2.943  margin 0.443
+temp registry (a_max_g 0.24): exit 1; FAIL           [G] M-001.4          2.5 m/s^2  <= 2.354  margin -0.1456
+The full flip test over every threshold key is tests/test_registry.py::test_registry_flip_gait / test_registry_flip_style (see pytest_full.txt).

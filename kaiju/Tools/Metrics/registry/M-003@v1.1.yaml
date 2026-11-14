@@ -1,0 +1,132 @@
+registry_schema: metric_registry@v1
+metric: M-003
+spec: M-003@v1
+revision: v1.1
+metric_status: registered
+date: "2026-11-14"   # v1.1: fix cycle 2 (DEF-T002-arch-6: b.O advisory)
+title: Matches the style references
+source: research/R-002.md §4 M-003@v1 (capture contract §6, palette_set@v1 §3)
+min_frames_per_profile: 12          # R-002 §4: >= 12 frames per district profile
+required_profiles: all              # all profiles of the palette set unless --profiles narrows the set
+procedure:
+  grad_sigma_px:     {value: 3.0, unit: px, status: derived, source: "R-002 §4 b (Gaussian sigma = 3 px)"}
+  grad_lo:           {value: 0.25, unit: L*/px, status: derived, source: "R-002 §4 b"}
+  grad_hi:           {value: 4.0, unit: L*/px, status: derived, source: "R-002 §4 b"}
+  window_px:         {value: 4, unit: px, status: derived, source: "R-002 §4 b (4 x 4 window)"}
+  top_colour_max:    {value: 0.9, unit: share, status: derived, source: "R-002 §4 b (top colour < 90 %)"}
+  distinct_max:      {value: 4, unit: indices, status: derived, source: "R-002 §4 b (<= 4 distinct indices)"}
+  neighbour_diff_min: {value: 0.35, unit: share, status: derived, source: "R-002 §4 b (>= 35 % of 4-neighbour pairs)"}
+  amp_min:           {value: 1.0, unit: L*, status: derived, source: "R-002 §4 b (mean |L* - box4(L*)| >= 1)"}
+  min_gradient_share: {value: 0.05, unit: share, status: derived, source: "R-002 §4 b (frames < 5 % gradient skipped)"}
+  o_min_pairs:       {value: 50, unit: pairs, status: derived, source: "R-002 scripts/m003.py (rho needs >= 50 pairs)"}
+  depth_bands_m:     {value: [0, 50, 150, 400, 1000, 2500, 6000], unit: m, status: derived, source: "R-002 §4 c1 (last band open to infinity)"}
+  band_min_share:    {value: 0.01, unit: share, status: derived, source: "R-002 §4 c1 (bands with >= 1 % of pixels)"}
+  sky_far_fraction:  {value: 0.99, unit: far, status: derived, source: "R-002 §4 c1 (sky = z >= 0.99 far)"}
+  min_bands:         {value: 3, unit: bands, status: derived, source: "Spearman needs >= 3 bands (reconciled C7)"}
+  haze_distances_m:  {value: [200, 500, 1000, 2000, 4000, 8000], unit: m, status: derived, source: "R-002 §4 c2"}
+  level_share_min:   {value: 0.005, unit: share, status: derived, source: "R-002 §4 d-i (entries >= 0.5 % of the frame)"}
+  level_merge_dL:    {value: 4.0, unit: L*, status: derived, source: "R-002 §4 d-i (merged at dL* < 4)"}
+  hue_cmin:          {value: 8.0, unit: C*, status: derived, source: "R-002 §2 hue families (C* >= 8)"}
+  hue_sigma_deg:     {value: 15.0, unit: deg, status: derived, source: "R-002 §2 hue families (sigma = 15 deg)"}
+  hue_mass_min:      {value: 0.10, unit: share, status: derived, source: "R-002 §2 / §4 d-ii (>= 10 % mass)"}
+  block_tol_code:    {value: 1, unit: code values, status: derived, source: "R-002 §4 d-iv (max - min <= 1 per channel)"}
+submeasures:
+  M-003.a.output:
+    title: Palette adherence A_2 on color_output (share within dE00 <= T of the declared profile), worst frame
+    kind: gating
+    thresholds:
+      tol_de00:  {value: 2.0, unit: dE00, status: derived, source: "R-002 F1 (2 x JND, above 8-bit rounding)"}
+      min_share: {value: 0.95, unit: share, status: derived, source: "GAME_BREAKDOWN M-003 / R-002 §4 a"}
+  M-003.a.internal:
+    title: Palette adherence A_2 on color_internal, worst frame
+    kind: gating
+    thresholds:
+      tol_de00:  {value: 2.0, unit: dE00, status: derived, source: "R-002 §4 a"}
+      min_share: {value: 0.995, unit: share, status: assumed_pending_calibration, source: "R-002 §4 a (Assumed)"}
+  M-003.a.A3:
+    title: Palette adherence A_3 on color_output (informational), worst frame
+    kind: info
+    thresholds:
+      tol_de00: {value: 3.0, unit: dE00, status: derived, source: "R-002 §4 a (reported tolerances)"}
+  M-003.a.A5:
+    title: Palette adherence A_5 on color_output (informational), worst frame
+    kind: info
+    thresholds:
+      tol_de00: {value: 5.0, unit: dE00, status: derived, source: "R-002 §4 a (reported tolerances)"}
+  M-003.b.DIG:
+    title: Dithering present in gradients, share of evaluated frames with DIG >= 0.15
+    kind: gating
+    thresholds:
+      dig_min:         {value: 0.15, unit: DIG, status: derived, source: "R-002 §4 b"}
+      frame_share_min: {value: 0.80, unit: share of frames, status: derived, source: "R-002 §4 b"}
+  M-003.b.DIG_max:
+    title: DIG upper bound (a whole frame of dither reads as noise), worst frame
+    kind: advisory
+    thresholds:
+      dig_max: {value: 0.5, unit: DIG, status: assumed_pending_calibration, source: "R-002 §4 b (advisory)"}
+  M-003.b.O:
+    title: Ordered index O = rho(lag 2) - rho(lag 1) (advisory without a threshold until Q-015), median over evaluated frames
+    kind: advisory
+    thresholds: {}
+  M-003.c1:
+    title: Value banding by depth monotonic on gameplay frames (drop, Spearman rho, span), worst frame
+    kind: gating
+    thresholds:
+      max_drop_L: {value: 2.0, unit: L*, status: derived, source: "R-002 §4 c1"}
+      rho_min:    {value: 0.9, unit: Spearman, status: derived, source: "R-002 §4 c1"}
+      span_min_L: {value: 15.0, unit: L*, status: assumed_pending_calibration, source: "R-002 §4 c1 (Assumed)"}
+  M-003.c2:
+    title: Contrast decreasing with distance on the haze_cal scene (signed light - dark dL*)
+    kind: gating
+    thresholds:
+      rise_allowance_L: {value: 0.5, unit: L*, status: derived, source: "R-002 §4 c2 (+0.5 noise allowance)"}
+      far_ratio_max:    {value: 0.5, unit: dL(8 km) / dL(200 m), status: derived, source: "R-002 §4 c2"}
+      meanL_drop_allowance: {value: 0.0, unit: L*, status: derived, source: "R-002 §4 c2 (mean L* non-decreasing; research script used 2.0, see SPEC_READINGS)"}
+  M-003.d-i:
+    title: Value levels (distinct L* of entries >= 0.5 %, merged at dL* < 4), worst frame
+    kind: gating
+    thresholds:
+      levels_max: {value: 12, unit: levels, status: derived, source: "R-002 §4 d-i"}
+  M-003.d-ii:
+    title: Hue families (chroma-weighted circular hue peaks >= 10 % mass), worst frame
+    kind: gating
+    thresholds:
+      families_max: {value: 3, unit: families, status: derived, source: "R-002 §4 d-ii / §9"}
+  M-003.d-iii:
+    title: Accent share when present, worst frame
+    kind: advisory
+    thresholds:
+      share_lo: {value: 0.001, unit: share, status: derived, source: "R-002 §4 d-iii"}
+      share_hi: {value: 0.15, unit: share, status: derived, source: "R-002 §4 d-iii"}
+  M-003.d-iv:
+    title: Pixel-grid integrity on color_output (uniform s x s blocks at the declared offset), worst frame
+    kind: gating
+    thresholds:
+      min_share: {value: 0.995, unit: share of blocks, status: derived, source: "R-002 §4 d-iv"}
+  M-003.e.sky:
+    title: Sky share (z >= 0.99 far), worst frame
+    kind: advisory
+    thresholds:
+      lo: {value: 0.20, unit: share, status: assumed_pending_calibration, source: "R-002 §4 e (advisory band)"}
+      hi: {value: 0.50, unit: share, status: assumed_pending_calibration, source: "R-002 §4 e (advisory band)"}
+  M-003.e.horizon:
+    title: Geometric horizon height from pose, h = 0.5 + tan(pitch) / (2 tan(vfov/2)), worst frame
+    kind: advisory
+    thresholds:
+      max: {value: 0.45, unit: frame height from bottom, status: assumed_pending_calibration, source: "R-002 §4 e"}
+  M-003.e.contrast:
+    title: Silhouette contrast L*90 - L*10, worst frame
+    kind: advisory
+    thresholds:
+      min: {value: 25.0, unit: L*, status: assumed_pending_calibration, source: "R-002 §4 e"}
+  M-003.f:
+    title: Blind panel style match (mean >= 8.0 over >= 12 captures, no profile mean < 7)
+    kind: gating
+    thresholds:
+      panel_mean_min:   {value: 8.0, unit: score, status: derived, source: "R-002 §4 f"}
+      profile_mean_min: {value: 7.0, unit: score, status: derived, source: "R-002 §4 f"}
+      min_raters:       {value: 8, unit: raters, status: derived, source: "R-002 §4 f (>= 8 evaluators)"}
+      min_captures:     {value: 12, unit: captures, status: derived, source: "R-002 §4 f"}
+      negative_anchor_exclude: {value: 6, unit: score, status: derived, source: "R-002 §4 f (rater excluded if a negative anchor >= 6)"}
+      positive_anchors: {value: 2, unit: anchors, status: derived, source: "R-002 §4 f"}
+      negative_anchors: {value: 2, unit: anchors, status: derived, source: "R-002 §4 f"}

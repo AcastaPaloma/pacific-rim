@@ -1,0 +1,8 @@
+M-002@v1  [gait_ref]  registry v1.1 sha256:dd104137882d  tool 1.0.0
+VERDICT: PASS   headless: PASS   exit 0   failing gating: 0
+  PASS           [G] M-002.1          0 L_f  < 0.005  margin 0.005
+  PASS           [G] M-002.3          0.02 s  <= 0.02  margin 0
+  PASS           [G] M-002.4          1 share of foot-steps  >= 0.99  margin 0.01
+  PASS           [G] M-002.5          0 contacts  <= 0  margin 0
+  PASS           [A] M-002.2          0 L_f  < 0.0025  margin 0.0025 seed-threshold
+  inputs: 9 files hashed; report.json holds every value, threshold and hash
