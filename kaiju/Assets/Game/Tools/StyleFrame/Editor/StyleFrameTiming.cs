@@ -89,7 +89,7 @@ namespace Game.Tools.StyleFrame
             yield return null;
 
             var all = new List<Series>();
-            var probe = new Texture2D(1, 1, GraphicsFormat.R8G8B8A8_UNorm, TextureCreationFlags.None);
+            var probe = new Texture2D(1, 1, GraphicsFormat.R8G8B8A8_UNorm, TextureCreationFlags.None) { hideFlags = HideFlags.HideAndDontSave };
             var session = new StyleCaptureSession(StyleFrameScene.ScenePath, outDir);
             try
             {
