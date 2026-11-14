@@ -223,9 +223,9 @@ namespace Game.Tools.StyleCapture
                         {
                             foreach (var kv in PixelProfiling.All)
                             {
-                                var rec = kv.Value.GetRecorder();
+                                var rec = Recorder.Get(kv.Value.name);
                                 if (rec == null || !rec.isValid) continue;
-                                rec.enableRecording = true;
+                                rec.enabled = true;
                                 series.Add(new PassSeries { Name = kv.Key, Recorder = rec });
                             }
                             series.Sort((a, b) => string.CompareOrdinal(a.Name, b.Name));
@@ -241,7 +241,7 @@ namespace Game.Tools.StyleCapture
                         }
                         yield return null;
                     }
-                    foreach (var p in series) p.Recorder.enableRecording = false;
+                    foreach (var p in series) p.Recorder.enabled = false;
 
                     string tag = size.x + "x" + size.y;
                     var csv = new StringBuilder("frame");
