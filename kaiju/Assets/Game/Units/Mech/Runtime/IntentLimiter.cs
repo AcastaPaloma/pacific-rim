@@ -8,7 +8,7 @@ namespace Game.Units.Mech
     /// <summary>Physical limits of one mech, derived from its frame and walk_tuning@v1 (R-001 sections 1-4). Nothing here is specific to 80 m or 10,000 t.</summary>
     public sealed class MechLimits
     {
-        public readonly double G, LegLength, TStar, VMax, VCruise, AccelStart, DecelNormal, DecelEmergency, LateralAccel, YawRateMax, YawAccelMax, TurnFirst, StopSpeed;
+        public readonly double G, LegLength, TStar, VMax, VCruise, AccelStart, DecelNormal, DecelEmergency, LateralAccel, YawRateMax, YawAccelMax, TurnFirst, StopSpeed, YawRateWalking;
         public readonly WalkTuning Tuning;
 
         public MechLimits(WalkTuning t, double legLength, double g)
@@ -16,7 +16,7 @@ namespace Game.Units.Mech
             Tuning = t; G = g; LegLength = legLength; TStar = Math.Sqrt(legLength / g);
             VMax = Math.Sqrt(t.fr_max * g * legLength); VCruise = Math.Sqrt(t.fr_cruise * g * legLength);
             AccelStart = t.accel_start_g * g; DecelNormal = t.decel_normal_g * g; DecelEmergency = t.decel_emergency_g * g; LateralAccel = t.lateral_accel_g * g;
-            YawRateMax = t.yaw_rate_max_tstar_deg * Math.PI / 180 / TStar; YawAccelMax = t.yaw_accel_max_tstar_deg * Math.PI / 180 / (TStar * TStar);
+            YawRateMax = t.yaw_rate_max_tstar_deg * Math.PI / 180 / TStar; YawRateWalking = t.yaw_rate_walking_tstar_deg * Math.PI / 180 / TStar; YawAccelMax = t.yaw_accel_max_tstar_deg * Math.PI / 180 / (TStar * TStar);
             TurnFirst = t.turn_first_deg * Math.PI / 180; StopSpeed = Math.Sqrt(t.stop_speed_fr * g * legLength);
         }
         public double StepTime(double speed) => Lipm.StepTime(speed, LegLength, G, Tuning.stride_k, Tuning.stride_exp, Tuning.step_time_max_tstar * TStar);
@@ -37,7 +37,7 @@ namespace Game.Units.Mech
 
         public IntentLimiter(MechLimits limits, double dt) { _l = limits; _dt = dt; }
 
-        public LocoCommand Update(in IntentFrame intent, Vector2 position, float bodyHeading, double actualSpeed)
+        public LocoCommand Update(in IntentFrame intent, Vector2 position, float bodyHeading, double actualSpeed, double reachSpeed = double.MaxValue)
         {
             if (!_init) { _heading = bodyHeading; _init = true; }
             var causes = LimitCause.None;
@@ -69,8 +69,11 @@ namespace Game.Units.Mech
                 case MoveId.EmergencyStop: decel = _l.DecelEmergency; break;
                 default: break; // Stand, Stop, Stomp: come to rest
             }
+            // the legs can only cover so much ground per step: the speed the step reach allows caps the command
+            if (wantSpeed > reachSpeed) { wantSpeed = reachSpeed; causes |= LimitCause.StepReach; }
             double headingError = Wrap(wantHeading - _heading);
-            if (wantSpeed > 0 && Math.Abs(headingError) > _l.TurnFirst && _speed < 0.5 * _l.VCruise) { wantSpeed = 0; causes |= LimitCause.TurnBeforeWalk; }
+            // a large heading change is made by slowing, turning on the spot, then walking (never a spin at speed)
+            if (wantSpeed > 0 && Math.Abs(headingError) > _l.TurnFirst && (_speed < 0.5 * _l.VCruise || Math.Abs(headingError) > 2.4 * _l.TurnFirst)) { wantSpeed = 0; causes |= LimitCause.TurnBeforeWalk; }
 
             // speed: rate limited both ways
             double dv = wantSpeed - _speed;
@@ -82,6 +85,7 @@ namespace Game.Units.Mech
             double rateMax = _l.YawRateMax;
             double v = Math.Max(_speed, actualSpeed);
             if (v > 1e-3 && _l.LateralAccel / v < rateMax) rateMax = _l.LateralAccel / v;
+            if (_speed > 0.05 * _l.VCruise && _l.YawRateWalking < rateMax) rateMax = _l.YawRateWalking;
             // approach the heading without overshoot: rate <= sqrt(2 a |error|)
             double wantRate = Math.Sign(headingError) * Math.Min(Math.Abs(headingError) / _dt, Math.Sqrt(2 * 0.8 * _l.YawAccelMax * Math.Abs(headingError)));
             if (Math.Abs(wantRate) > rateMax) { wantRate = Math.Sign(wantRate) * rateMax; causes |= v > 1e-3 && _l.LateralAccel / v < _l.YawRateMax ? LimitCause.LateralAccel : LimitCause.YawRate; }

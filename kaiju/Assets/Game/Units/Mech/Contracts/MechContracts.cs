@@ -13,7 +13,7 @@ namespace Game.Units.Mech.Contracts
     [Flags]
     public enum LimitCause
     {
-        None = 0, EffortRange = 1, Accel = 2, Decel = 4, YawRate = 8, YawAccel = 16, LateralAccel = 32, StopDistance = 64, TurnBeforeWalk = 128, Arrived = 256, Fallen = 512
+        None = 0, EffortRange = 1, Accel = 2, Decel = 4, YawRate = 8, YawAccel = 16, LateralAccel = 32, StopDistance = 64, TurnBeforeWalk = 128, Arrived = 256, Fallen = 512, StepReach = 1024
     }
 
     /// <summary>The locomotion command after limiting: what the controller actually pursues this step.</summary>
@@ -55,7 +55,7 @@ namespace Game.Units.Mech.Contracts
         // speed and timing (R-001 sections 1, 4)
         public double fr_max, fr_cruise, stride_k, stride_exp, step_time_max_tstar, duty_factor;
         // limits on the command (R-001 sections 2, 3)
-        public double accel_start_g, decel_normal_g, decel_emergency_g, lateral_accel_g, yaw_rate_max_tstar_deg, yaw_accel_max_tstar_deg;
+        public double accel_start_g, decel_normal_g, decel_emergency_g, lateral_accel_g, yaw_rate_max_tstar_deg, yaw_accel_max_tstar_deg, yaw_rate_walking_tstar_deg;
         public double turn_first_deg, arrive_fraction_of_step, stop_speed_fr, max_step_yaw_deg;
         // foot placement (fractions of leg length unless noted)
         public double step_width_walk_frac, cop_inboard_frac, cop_heel_frac, cop_toe_frac, cop_stand_frac, sole_margin, reach_forward_frac, reach_back_frac, reach_side_frac, foot_gap_frac;

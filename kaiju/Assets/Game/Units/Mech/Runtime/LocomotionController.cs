@@ -138,7 +138,8 @@ namespace Game.Units.Mech
             Measure();
             if (_phase == LocoPhase.Falling || _phase == LocoPhase.Fallen) { _cmd = new LocoCommand { Move = intent.move, Heading = _pelvisYaw, Causes = LimitCause.Fallen }; FallControl(step); Report(step); return; }
             if (FallDetected()) { _phase = LocoPhase.Falling; _restTime = 0; _bus?.Publish(new MechFallStarted { Unit = _b.UnitId, Step = step }); _limiter.Reset(_pelvisYaw); FallControl(step); Report(step); return; }
-            _cmd = _limiter.Update(intent, _com2, _pelvisYaw, _vel2.Length());
+            double stepTime = _lim.StepTime(Math.Max(_cmd.Speed, 0.1 * _lim.VCruise));
+            _cmd = _limiter.Update(intent, _com2, _pelvisYaw, _vel2.Length(), _t.step_length_max_frac * _l / stepTime);
             StateMachine(intent);
             WriteDrives();
             Report(step);
