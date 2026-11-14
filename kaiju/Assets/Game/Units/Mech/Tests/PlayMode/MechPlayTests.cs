@@ -42,6 +42,30 @@ namespace Game.Units.Mech.PlayTests
         }
 
         [Test]
+        public void FeatureFlags_SwitchTheModulesOff_AsShipped()
+        {
+            var cfg = Config();
+            using (var sim = new MechSimulation(cfg.Body, Dt, true, 0, MechSimulation.RunFlags(mech: false)))
+                Assert.Throws<InvalidOperationException>(() => sim.Spawn(cfg, Seat(sim, p => p.At(0, MoveId.Stand, default, 0)), Vector3.zero, 0, false), "units.mech.enabled off: no mech is assembled");
+            using (var sim = new MechSimulation(cfg.Body, Dt, true, 0, MechSimulation.RunFlags(body: false)))
+                Assert.Throws<InvalidOperationException>(() => sim.Spawn(cfg, Seat(sim, p => p.At(0, MoveId.Stand, default, 0)), Vector3.zero, 0, false), "physics.body.enabled off: no body is created");
+            // the shipped files: both off
+            var errors = new CollectingErrorSink();
+            var shipped = FeatureFlagLoader.LoadFolder(System.IO.Path.Combine(Application.dataPath, "Game/Config/FeatureFlags"), errors);
+            Assert.That(shipped.IsOn(MechConfig.FlagEnabled), Is.False); Assert.That(shipped.IsOn(MechConfig.FlagBodyEnabled), Is.False);
+            using (var sim = new MechSimulation(cfg.Body, Dt, true, 0, shipped))
+                Assert.Throws<InvalidOperationException>(() => sim.Spawn(cfg, Seat(sim, p => p.At(0, MoveId.Stand, default, 0)), Vector3.zero, 0, false));
+            // logs are flags too: with the gait-log flag off a run writes no gait file
+            string dir = System.IO.Path.Combine(Application.temporaryCachePath, "flag_test_" + Guid.NewGuid().ToString("N"));
+            using (var sim = new MechSimulation(cfg.Body, Dt, true, 0, MechSimulation.RunFlags(gaitLog: false, physicsLog: false)))
+            {
+                var unit = sim.Spawn(cfg, Seat(sim, p => p.At(0, MoveId.Stand, default, 0)), Vector3.zero, 0, false);
+                unit.StartLogs(dir, "x", "test", 0.2); sim.Run(0.5); unit.CloseLogs();
+            }
+            Assert.That(System.IO.File.Exists(System.IO.Path.Combine(dir, "gait", "x.gait.jsonl")), Is.False); Assert.That(System.IO.File.Exists(System.IO.Path.Combine(dir, "physics", "x.physics.jsonl")), Is.False);
+        }
+
+        [Test]
         public void Stand_IsStable_AndUsesNoExternalForce()
         {
             var cfg = Config();
@@ -114,7 +138,7 @@ namespace Game.Units.Mech.PlayTests
             }
         }
 
-        /// <summary>C20 last clause, at the M-006.8 tolerance. Measured 2026-11-14: 2.3 cm (2 mechs) and 4.6 cm (4 mechs) after 20 s: this test is expected to fail until that is resolved (see evidence/T-005/EVIDENCE.md, "not met").</summary>
+        /// <summary>C20 last clause, at the M-006.8 tolerance. Not met: a few centimetres after 20 s (values in evidence/T-005/EVIDENCE.md). The onset is written to the test output.</summary>
         [TestCase(2)]
         [TestCase(4)]
         [Category("KnownFailing")]
@@ -123,6 +147,44 @@ namespace Game.Units.Mech.PlayTests
             var cfg = Config(); NVec3 alone, together;
             using (var sim = new MechSimulation(cfg.Body, Dt)) alone = RunGroup(1, out _, out _, sim);
             using (var sim = new MechSimulation(cfg.Body, Dt)) together = RunGroup(count, out _, out _, sim);
+            // diagnostic for DEF-T005-arch-2 / physics-9: when does mech A first differ, and is the other mech's controller involved?
+            var a1 = new List<NVec3>(); var a2 = new List<NVec3>(); var a3 = new List<NVec3>();
+            Action<ScriptedPilotSource> walk = p => p.At(0, MoveId.Stand, default, 0).At(2, MoveId.Walk, new NVec3(0, 0, 3000), 0.8f);
+            using (var sim = new MechSimulation(cfg.Body, Dt)) { var a = sim.Spawn(cfg, Seat(sim, walk), Vector3.zero, 0, false); for (int i = 0; i < 600; i++) { sim.StepOnce(); a1.Add(a.Body.Com); } }
+            using (var sim = new MechSimulation(cfg.Body, Dt)) { var a = sim.Spawn(cfg, Seat(sim, walk), Vector3.zero, 0, false); sim.Spawn(cfg, Seat(sim, p => p.At(0, MoveId.Stand, default, 0)), new Vector3(300f, 0, 0), 0, false); for (int i = 0; i < 600; i++) { sim.StepOnce(); a2.Add(a.Body.Com); } }
+            using (var sim = new MechSimulation(cfg.Body, Dt))
+            {
+                // the second body is a rigid, uncontrolled mech (all joints locked) resting 300 m away: no controller, no events of interest
+                var a = sim.Spawn(cfg, Seat(sim, walk), Vector3.zero, 0, false);
+                var inert = sim.World.CreateBody(cfg.Frame, cfg.Body, sim.Core.EntityIds.Allocate(), new BodySpawn { Position = new NVec3(300, 0, 0), LockAllJoints = true, Visuals = false });
+                for (int i = 0; i < 600; i++) { sim.StepOnce(); a3.Add(a.Body.Com); }
+                sim.World.DestroyBody(inert);
+            }
+            // a rigid mech dropped from 5 m, 300 m away: no controller at all, but its contacts with the shared ground begin while A walks
+            var a4 = new List<NVec3>(); long dropContact = -1;
+            using (var sim = new MechSimulation(cfg.Body, Dt))
+            {
+                var a = sim.Spawn(cfg, Seat(sim, walk), Vector3.zero, 0, false);
+                var dropped = sim.World.CreateBody(cfg.Frame, cfg.Body, sim.Core.EntityIds.Allocate(), new BodySpawn { Position = new NVec3(300, 60, 0), LockAllJoints = true, Visuals = false });
+                for (int i = 0; i < 600; i++) { sim.StepOnce(); a4.Add(a.Body.Com); dropped.GetFoot(0, out var df); if (dropContact < 0 && df.NormalForceN > 0) dropContact = i + 1; }
+                sim.World.DestroyBody(dropped);
+            }
+            int onsetDrop = -1; for (int i = 0; i < 600; i++) if (onsetDrop < 0 && (a1[i] - a4[i]).Length() > 0) onsetDrop = i + 1;
+            TestContext.WriteLine("C20 diagnostic: alone vs with a rigid mech dropped 300 m away (no controller): the dropped body first touches the ground at step " + dropContact + ", mech A first differs at step " + onsetDrop + ", difference at 10 s " + (a1[599] - a4[599]).Length().ToString("E2") + " m");
+            // a second controlled mech that turns on the spot from t = 2 s: when does A first differ, and what was B doing in that step?
+            var a5 = new List<NVec3>(); var bPhase = new List<LocoPhase>(); var bFeet = new List<int>(); var bClamp = new List<int>();
+            using (var sim = new MechSimulation(cfg.Body, Dt))
+            {
+                var a = sim.Spawn(cfg, Seat(sim, walk), Vector3.zero, 0, false);
+                var b2 = sim.Spawn(cfg, Seat(sim, p => p.At(0, MoveId.Stand, default, 0).At(2, MoveId.Turn, new NVec3(5000, 0, 0), 0)), new Vector3(300f, 0, 0), 0, false);
+                for (int i = 0; i < 600; i++) { sim.StepOnce(); a5.Add(a.Body.Com); bPhase.Add(b2.Phase); b2.Body.GetFoot(0, out var f0); b2.Body.GetFoot(1, out var f1); bFeet.Add((f0.Contact ? 1 : 0) + (f1.Contact ? 2 : 0)); bClamp.Add(b2.Body.JointSpeedClampCount); }
+            }
+            int onsetTurn = -1; for (int i = 0; i < 600; i++) if (onsetTurn < 0 && (a1[i] - a5[i]).Length() > 0) onsetTurn = i;
+            int firstLift = bFeet.FindIndex(x => x != 3), firstShift = bPhase.FindIndex(x => x != LocoPhase.Stand);
+            TestContext.WriteLine("C20 diagnostic: alone vs with a mech turning on the spot 300 m away: B leaves Stand at step " + (firstShift + 1) + ", B's first foot lift at step " + (firstLift + 1) + ", mech A first differs at step " + (onsetTurn + 1) + (onsetTurn >= 0 ? " (B phase " + bPhase[onsetTurn] + ", B feet-in-contact mask " + bFeet[onsetTurn] + ", previous step mask " + bFeet[Math.Max(0, onsetTurn - 1)] + ", B clamp count " + bClamp[onsetTurn] + ")" : "") + ", difference at 10 s " + (a1[599] - a5[599]).Length().ToString("E2") + " m");
+            int onsetStanding = -1, onsetInert = -1;
+            for (int i = 0; i < 600; i++) { if (onsetStanding < 0 && (a1[i] - a2[i]).Length() > 0) onsetStanding = i + 1; if (onsetInert < 0 && (a1[i] - a3[i]).Length() > 0) onsetInert = i + 1; }
+            TestContext.WriteLine("C20 diagnostic: mech A alone vs with a standing controlled mech 300 m away: first differing step " + onsetStanding + ", difference at 2 s " + (a1[119] - a2[119]).Length().ToString("E2") + " m, at 10 s " + (a1[599] - a2[599]).Length().ToString("E2") + " m; alone vs with an inert rigid mech (no controller): first differing step " + onsetInert + ", at 2 s " + (a1[119] - a3[119]).Length().ToString("E2") + " m, at 10 s " + (a1[599] - a3[599]).Length().ToString("E2") + " m; after 20 s with " + count + " mechs: " + (together - alone).Length().ToString("E2") + " m");
             Assert.That((together - alone).Length(), Is.LessThan(0.01f), "mech A's centre of mass after 20 s, alone against in company");
         }
 

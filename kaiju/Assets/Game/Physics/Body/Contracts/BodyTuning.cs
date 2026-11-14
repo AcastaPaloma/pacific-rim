@@ -25,6 +25,8 @@ namespace Game.Physics.Body.Contracts
         public string[] continuous_collision_kinds;
         /// <summary>R-001 contact hysteresis as fractions of body weight (F_on 0.03, F_off 0.01).</summary>
         public double contact_on_bw, contact_off_bw;
+        /// <summary>Loading window after a contact begins, in t* = sqrt(l/g), over which FootLoaded takes the peak force and the impulse (R-001 section 6: 0.10 of the nominal stride).</summary>
+        public double contact_load_window_tstar;
         public double damping_ratio;
         public JointKindTuning[] joint_kinds;
         public double reactor_power_w;

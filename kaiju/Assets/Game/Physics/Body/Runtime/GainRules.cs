@@ -16,7 +16,7 @@ namespace Game.Physics.Body
         /// <summary>Returns +1 on contact begin, -1 on contact end, 0 otherwise.</summary>
         public int Update(double fn, double fOn, double fOff)
         {
-            if (!InContact && fn >= fOn) { InContact = true; return 1; }
+            if (!InContact && fn >= fOn && fn > 0) { InContact = true; return 1; }
             if (InContact && fn < fOff) { InContact = false; return -1; }
             return 0;
         }

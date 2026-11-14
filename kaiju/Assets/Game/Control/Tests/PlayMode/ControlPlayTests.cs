@@ -8,13 +8,14 @@ namespace Game.Control.PlayTests
 {
     public class ControlPlayTests
     {
+        static readonly Game.Core.FeatureFlagSnapshot On = new Game.Core.FeatureFlagSnapshot(new[] { new System.Collections.Generic.KeyValuePair<string, bool>(DevicePilotSource.Flag, true) });
         static ControlTuning Tuning() => JsonUtility.FromJson<ControlTuning>(System.IO.File.ReadAllText(System.IO.Path.Combine(Application.dataPath, "Game/Config/Control/control_tuning.json")));
 
         [Test]
         public void DevicePilot_IsAnIPilotSource_ThatTurnsTheStickIntoATargetAndEffort()
         {
             Vector2 stick = Vector2.zero; bool stop = false;
-            IPilotSource source = new DevicePilotSource(Tuning(), () => new System.Numerics.Vector3(5, 0, 5), () => 0f, () => stick, () => stop);
+            IPilotSource source = new DevicePilotSource(On, Tuning(), () => new System.Numerics.Vector3(5, 0, 5), () => 0f, () => stick, () => stop);
             var seat = new PilotSeat(new SinglePilotArbiter(), source);
             Assert.That(seat.Read().move, Is.EqualTo(MoveId.Stop), "stick at rest: come to rest");
             stick = new Vector2(0, 1);
@@ -30,7 +31,7 @@ namespace Game.Control.PlayTests
         [Test]
         public void DevicePilot_WithTheRealInputSystemDevices_ReadsWithoutADevicePresent()
         {
-            IPilotSource source = new DevicePilotSource(Tuning(), () => default, () => 0f);
+            IPilotSource source = new DevicePilotSource(On, Tuning(), () => default, () => 0f);
             Assert.That(source.Read().valid, Is.True, "no gamepad, no keys pressed: a valid 'come to rest' input, never an exception");
         }
 
@@ -38,7 +39,17 @@ namespace Game.Control.PlayTests
         public void DevicePilot_RefusesATuningFileOfAnotherSchema()
         {
             var t = Tuning(); t.schema = "control_tuning@v2";
-            Assert.Throws<System.InvalidOperationException>(() => new DevicePilotSource(t, () => default, () => 0f));
+            Assert.Throws<System.InvalidOperationException>(() => new DevicePilotSource(On, t, () => default, () => 0f));
+        }
+
+        [Test]
+        public void DevicePilot_IsNotCreated_WhileItsFlagIsOff_AsShipped()
+        {
+            Assert.Throws<System.InvalidOperationException>(() => new DevicePilotSource(Game.Core.FeatureFlagSnapshot.AllOff, Tuning(), () => default, () => 0f));
+            string shipped = System.IO.File.ReadAllText(System.IO.Path.Combine(Application.dataPath, "Game/Config/FeatureFlags/Control.json"));
+            var flags = Game.Core.FeatureFlagLoader.Parse(shipped, "Control.json", new Game.Core.CollectingErrorSink());
+            Assert.That(flags.IsOn(DevicePilotSource.Flag), Is.False, "ships off");
+            Assert.Throws<System.InvalidOperationException>(() => new DevicePilotSource(flags, Tuning(), () => default, () => 0f));
         }
     }
 }

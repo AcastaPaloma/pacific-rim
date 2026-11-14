@@ -86,7 +86,7 @@ namespace Game.Physics.Body.PlayTests
             using (var world = new BodyWorld(tuning, Dt, true, core.Bus))
             {
                 var ground = BodyWorld.CreateGround(tuning);
-                var probe = new Probe(); core.Bus.Subscribe<FootContact>(probe); core.Bus.Subscribe<FootLiftOff>(probe);
+                var probe = new Probe(); core.Bus.Subscribe<FootContact>(probe); core.Bus.Subscribe<FootLiftOff>(probe); core.Bus.Subscribe<FootLoaded>(probe);
                 var body = new ArticulatedBody(world, Frame(), tuning, EntityId.FromValue(7), core.Bus, new BodyBuildOptions { LockAllJoints = true, Visuals = false, Position = new Vector3(0, 0.5f, 0) });
                 // the body state is the reference: every false -> true change of a foot's contact flag must have exactly one event, in that same step
                 var begins = new List<KeyValuePair<int, long>>(); int ends = 0; var was = new bool[body.FootCount];
@@ -105,6 +105,14 @@ namespace Game.Physics.Body.PlayTests
                 }
                 Assert.That(probe.Contacts[0].ApproachVelocity.Y, Is.LessThan(0f), "the first contact carries the approach velocity");
                 Assert.That(probe.LiftOffs, Is.EqualTo(ends), "lift-off is an event too, one per contact end");
+                // the follow-up event carries what the contact really did: its peak force and the impulse of its loading window
+                Assert.That(probe.Loaded.Count, Is.EqualTo(begins.Count), "one FootLoaded per contact");
+                foreach (var l in probe.Loaded)
+                {
+                    var first = probe.Contacts.Find(c => c.ContactId == l.ContactId);
+                    Assert.That(l.Foot, Is.EqualTo(first.Foot)); Assert.That(l.PeakNormalForceN, Is.GreaterThanOrEqualTo(first.NormalForceN)); Assert.That(l.ImpulseNs, Is.GreaterThanOrEqualTo(first.VerticalImpulseNs)); Assert.That(l.Step, Is.GreaterThanOrEqualTo(first.Step));
+                }
+                Assert.That(body.JointSpeedClampCount, Is.EqualTo(0), "a rigid mech has no joint at the speed guard");
                 world.DestroyBody(body); Object.DestroyImmediate(ground);
             }
         }
@@ -129,9 +137,10 @@ namespace Game.Physics.Body.PlayTests
             }
         }
 
-        sealed class Probe : IEventHandler<FootContact>, IEventHandler<FootLiftOff>
+        sealed class Probe : IEventHandler<FootContact>, IEventHandler<FootLiftOff>, IEventHandler<FootLoaded>
         {
-            public readonly List<FootContact> Contacts = new List<FootContact>(); public int LiftOffs;
+            public readonly List<FootContact> Contacts = new List<FootContact>(); public readonly List<FootLoaded> Loaded = new List<FootLoaded>(); public int LiftOffs;
+            public void Handle(in FootLoaded e) => Loaded.Add(e);
             public void Handle(in FootContact e) => Contacts.Add(e);
             public void Handle(in FootLiftOff e) => LiftOffs++;
         }

@@ -73,7 +73,7 @@ namespace Game.Units.Mech
             if (wantSpeed > reachSpeed) { wantSpeed = reachSpeed; causes |= LimitCause.StepReach; }
             double headingError = Wrap(wantHeading - _heading);
             // a large heading change is made by slowing, turning on the spot, then walking (never a spin at speed)
-            if (wantSpeed > 0 && Math.Abs(headingError) > _l.TurnFirst && (_speed < 0.5 * _l.VCruise || Math.Abs(headingError) > 2.4 * _l.TurnFirst)) { wantSpeed = 0; causes |= LimitCause.TurnBeforeWalk; }
+            if (wantSpeed > 0 && Math.Abs(headingError) > _l.TurnFirst && (_speed < _l.Tuning.turn_first_speed_frac * _l.VCruise || Math.Abs(headingError) > _l.Tuning.turn_stop_factor * _l.TurnFirst)) { wantSpeed = 0; causes |= LimitCause.TurnBeforeWalk; }
 
             // speed: rate limited both ways
             double dv = wantSpeed - _speed;
@@ -85,12 +85,12 @@ namespace Game.Units.Mech
             double rateMax = _l.YawRateMax;
             double v = Math.Max(_speed, actualSpeed);
             if (v > 1e-3 && _l.LateralAccel / v < rateMax) rateMax = _l.LateralAccel / v;
-            if (_speed > 0.05 * _l.VCruise && _l.YawRateWalking < rateMax) rateMax = _l.YawRateWalking;
+            if (_speed > _l.Tuning.walking_speed_frac * _l.VCruise && _l.YawRateWalking < rateMax) rateMax = _l.YawRateWalking;
             // approach the heading without overshoot: rate <= sqrt(2 a |error|)
-            double wantRate = Math.Sign(headingError) * Math.Min(Math.Abs(headingError) / _dt, Math.Sqrt(2 * 0.8 * _l.YawAccelMax * Math.Abs(headingError)));
+            double wantRate = Math.Sign(headingError) * Math.Min(Math.Abs(headingError) / _dt, Math.Sqrt(2 * _l.Tuning.yaw_approach_factor * _l.YawAccelMax * Math.Abs(headingError)));
             if (Math.Abs(wantRate) > rateMax) { wantRate = Math.Sign(wantRate) * rateMax; causes |= v > 1e-3 && _l.LateralAccel / v < _l.YawRateMax ? LimitCause.LateralAccel : LimitCause.YawRate; }
             double dr = wantRate - _yawRate, drMax = _l.YawAccelMax * _dt;
-            if (Math.Abs(dr) > drMax) { dr = Math.Sign(dr) * drMax; if (Math.Abs(headingError) > 0.02) causes |= LimitCause.YawAccel; }
+            if (Math.Abs(dr) > drMax) { dr = Math.Sign(dr) * drMax; if (Math.Abs(headingError) > _l.Tuning.yaw_report_threshold_rad) causes |= LimitCause.YawAccel; }
             _yawRate += dr;
             _heading = Wrap(_heading + _yawRate * _dt);
 

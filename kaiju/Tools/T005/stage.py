@@ -19,6 +19,8 @@ for path in sys.argv[3:]:
     pw = [r["p_loco_W"] for r in late]
     b = [r["t"] for r in g if r["rec"] == "event" and r["type"] == "contact_begin" and r["foot"] == h["foot_ids"][0] and 25 <= r["t"] <= end]
     strides = [y - x for x, y in zip(b, b[1:]) if y - x > 1.0]
+    vy = sorted(r["foot_v"][1] for r in g if r["rec"] == "event" and r["type"] == "contact_begin" and 25 <= r["t"] <= end)
+    vmed = vy[len(vy) // 2] if vy else float("nan")
     slip = "n/a"
     try:
         out = tempfile.mkdtemp()
@@ -27,4 +29,4 @@ for path in sys.argv[3:]:
         L = h["feet"][0]["length_m"]
         slip = "max %.2f m, p95 %.2f m" % (float(m1.group(1)) * L, float(m2.group(1)) * L) if m1 and m2 else "tool exit %d" % p.returncode
     except Exception as e: slip = "error %s" % e
-    print("| %s | %s | %s | %.2f | %.3f | %.1f | %s | %.2f | %.0f | %.0f |" % (label, os.path.basename(path).split(".")[0], "fell %.0f s" % fall if fall else "no fall", v, fr, sum(strides) / len(strides) if strides else float("nan"), slip, peak, max(pw) / 1e6, sum(pw) / len(pw) / 1e6))
+    print("| %s | %s | %s | %.2f | %.3f | %.1f | %s | %.2f | %.0f | %.0f | %.2f |" % (label, os.path.basename(path).split(".")[0], "fell %.0f s" % fall if fall else "no fall", v, fr, sum(strides) / len(strides) if strides else float("nan"), slip, peak, max(pw) / 1e6, sum(pw) / len(pw) / 1e6, vmed))

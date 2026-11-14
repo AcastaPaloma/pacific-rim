@@ -14,7 +14,7 @@ namespace Game.Units.Mech.Unity
     public sealed class MechConfig
     {
         public MechFrameData Frame; public BodyTuning Body; public WalkTuning Walk;
-        public const string FlagEnabled = "units.mech.enabled", FlagGaitLog = "units.mech.gaitLog", FlagBodyEnabled = "physics.body.enabled", FlagPhysicsLog = "physics.body.physicsLog";
+        public const string FlagEnabled = MechContractVersions.FlagEnabled, FlagGaitLog = MechContractVersions.FlagGaitLog, FlagBodyEnabled = BodyContractVersions.FlagEnabled, FlagPhysicsLog = BodyContractVersions.FlagPhysicsLog;
 
         public static MechConfig FromJson(string frameJson, string bodyJson, string walkJson)
         {
@@ -42,6 +42,7 @@ namespace Game.Units.Mech.Unity
     public sealed class MechUnit : IMechUnit, IEventHandler<FootContact>, IEventHandler<FootLiftOff>, IEventHandler<MechFallStarted>, IEventHandler<MechFallEnded>, IDisposable
     {
         readonly IEventBus _bus;
+        readonly IFeatureFlags _flags;
         readonly IBodyWorld _world;
         readonly double _dt;
         readonly List<FootContact> _contacts = new List<FootContact>();
@@ -61,8 +62,11 @@ namespace Game.Units.Mech.Unity
         public Action<FootContact, long> FootfallProbe;
         public Func<long> ClockStep;
 
-        public MechUnit(IBodyWorld world, MechConfig config, EntityId id, IEventBus bus, PilotSeat seat, BodySpawn spawn)
+        public MechUnit(IBodyWorld world, MechConfig config, EntityId id, IEventBus bus, PilotSeat seat, BodySpawn spawn, IFeatureFlags flags)
         {
+            // module switch (MODULARITY rule 5): no mech is assembled while units.mech.enabled is off
+            _flags = flags ?? throw new ArgumentNullException(nameof(flags));
+            if (!flags.IsOn(MechConfig.FlagEnabled)) throw new InvalidOperationException("feature flag " + MechConfig.FlagEnabled + " is off: Units.Mech assembles no mech");
             Config = config; Id = id; _bus = bus; Seat = seat; _world = world; _dt = world.StepSeconds;
             Body = world.CreateBody(config.Frame, config.Body, id, spawn);
             Controller = new LocomotionController(Body, config.Walk, _dt, bus);
@@ -71,11 +75,12 @@ namespace Game.Units.Mech.Unity
 
         public void StartLogs(string directory, string capture, string commit, double cruiseFroude, bool physicsLog = true)
         {
+            if (physicsLog) _world.StartPhysicsLog(Body, Path.Combine(directory, "physics", capture + ".physics.jsonl"), capture, commit);
+            if (!_flags.IsOn(MechConfig.FlagGaitLog)) return;
             Directory.CreateDirectory(Path.Combine(directory, "gait"));
             _gait = new GaitLogWriter(new StreamWriter(Path.Combine(directory, "gait", capture + ".gait.jsonl")), Body, _dt);
             _gait.WriteHeader(capture, commit, Controller.Limits, cruiseFroude, "FootfallProbe (test subscriber)", "ft is a momentum-balance estimate split by fn in double support; cop and ctl are extra fields; record n is the state after n physics steps");
             _gait.WriteStep(0, Intent, Controller.Command, Controller.DebugState);
-            if (physicsLog) _world.StartPhysicsLog(Body, Path.Combine(directory, "physics", capture + ".physics.jsonl"), capture, commit);
         }
 
         /// <summary>Before the physics step: read the seat, run the controller. This is the only place intent enters the mech.</summary>
@@ -92,7 +97,7 @@ namespace Game.Units.Mech.Unity
             foreach (var c in _contacts)
             {
                 _gait?.ContactBegin(c);
-                _gait?.CameraImpulse(step, c.Foot, c.ContactId, 0.05 * Math.Pow(c.VerticalImpulseNs / (Body.TotalMassKg * Body.Tuning.gravity_mps2 * _dt), 0.75), c.Step);
+                _gait?.CameraImpulse(step, c.Foot, c.ContactId, Config.Walk.footfall_probe_gain_m * Math.Pow(c.VerticalImpulseNs / (Body.TotalMassKg * Body.Tuning.gravity_mps2 * _dt), Config.Walk.footfall_probe_exponent), c.Step);
             }
             foreach (var l in _liftoffs) _gait?.ContactEnd(l);
             foreach (var e in _physEvents) _world.LogEvent(Body, step, e, null); // fall_start / fall_end belong to physics_log@v1; gait_log@v1 has no such event type

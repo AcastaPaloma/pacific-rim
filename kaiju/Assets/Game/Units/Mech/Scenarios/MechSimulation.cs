@@ -23,17 +23,20 @@ namespace Game.Units.Mech.Scenarios
         public double Time => Core.Clock.TimeSeconds;
         public double StepSeconds => Core.Clock.StepSeconds;
 
-        public MechSimulation(BodyTuning tuning, double stepSeconds, bool ground = true, float slopeDeg = 0)
+        /// <summary>Flags for a headless run: the shipped files keep every module off, so the composition root of a scenario or test switches on exactly the ones it exercises.</summary>
+        public static FeatureFlagSnapshot RunFlags(bool mech = true, bool body = true, bool gaitLog = true, bool physicsLog = true) => new FeatureFlagSnapshot(new[] { new KeyValuePair<string, bool>(MechConfig.FlagEnabled, mech), new KeyValuePair<string, bool>(MechConfig.FlagBodyEnabled, body), new KeyValuePair<string, bool>(MechConfig.FlagGaitLog, gaitLog), new KeyValuePair<string, bool>(MechConfig.FlagPhysicsLog, physicsLog) });
+
+        public MechSimulation(BodyTuning tuning, double stepSeconds, bool ground = true, float slopeDeg = 0, FeatureFlagSnapshot flags = null)
         {
-            var flags = new FeatureFlagSnapshot(new[] { new KeyValuePair<string, bool>(MechConfig.FlagEnabled, true), new KeyValuePair<string, bool>(MechConfig.FlagBodyEnabled, true), new KeyValuePair<string, bool>(MechConfig.FlagGaitLog, true), new KeyValuePair<string, bool>(MechConfig.FlagPhysicsLog, true) });
+            flags = flags ?? RunFlags();
             Core = new CoreServices(new CoreSettings(stepSeconds, 10000), flags, new CollectingErrorSink());
-            World = new BodyWorld(tuning, stepSeconds, true, Core.Bus);
+            World = new BodyWorld(tuning, stepSeconds, true, Core.Bus, Core.Flags);
             if (ground) Ground = BodyWorld.CreateGround(tuning, 5000f, 0f, slopeDeg);
         }
 
         public MechUnit Spawn(MechConfig config, PilotSeat seat, Vector3 position, float yawDeg = 0, bool visuals = true)
         {
-            var unit = new MechUnit(World, config, Core.EntityIds.Allocate(), Core.Bus, seat, new BodySpawn { Position = new System.Numerics.Vector3(position.x, position.y, position.z), Rotation = System.Numerics.Quaternion.CreateFromAxisAngle(System.Numerics.Vector3.UnitY, yawDeg * Mathf.Deg2Rad), Visuals = visuals });
+            var unit = new MechUnit(World, config, Core.EntityIds.Allocate(), Core.Bus, seat, new BodySpawn { Position = new System.Numerics.Vector3(position.x, position.y, position.z), Rotation = System.Numerics.Quaternion.CreateFromAxisAngle(System.Numerics.Vector3.UnitY, yawDeg * Mathf.Deg2Rad), Visuals = visuals }, Core.Flags);
             unit.ClockStep = () => Core.Clock.Step + 1;
             Units.Add(unit);
             return unit;

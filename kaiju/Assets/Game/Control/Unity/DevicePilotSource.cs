@@ -21,8 +21,12 @@ namespace Game.Control.Unity
 
         /// <param name="stick">where the stick sample comes from; default: the current gamepad's left stick plus WASD</param>
         /// <param name="stop">the stop button; default: gamepad east button or the space bar</param>
-        public DevicePilotSource(ControlTuning tuning, Func<NVec3> origin, Func<float> viewYaw, Func<Vector2> stick = null, Func<bool> stop = null)
+        public const string Flag = "control.devicePilot";
+
+        /// <param name="flags">module switch (MODULARITY rule 5): the device pilot exists only while control.devicePilot is on</param>
+        public DevicePilotSource(Game.Core.IFeatureFlags flags, ControlTuning tuning, Func<NVec3> origin, Func<float> viewYaw, Func<Vector2> stick = null, Func<bool> stop = null)
         {
+            if (flags == null || !flags.IsOn(Flag)) throw new InvalidOperationException("feature flag " + Flag + " is off: no device pilot is created");
             if (tuning == null || tuning.schema != ControlTuning.Schema) throw new InvalidOperationException("control tuning schema is not " + ControlTuning.Schema);
             _tuning = tuning; _origin = origin; _viewYaw = viewYaw; _stick = stick ?? ReadDevices; _stop = stop ?? ReadStopDevices;
         }

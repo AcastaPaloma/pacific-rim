@@ -23,6 +23,7 @@ namespace Game.Units.Mech
             public float Side;                 // -1 left (-x), +1 right
             public double ThighLength, ShankLength;
             public double Load;                // measured normal force, lightly filtered
+            public double StanceTime;          // time since this leg last began to carry load
             public float Weight;               // share of the total ground force this step (0 = swing)
             public Vector3 Force, Cop;         // commanded ground reaction and its point of application
             public FootState State; public LinkState FootLinkState;
@@ -71,7 +72,7 @@ namespace Game.Units.Mech
             if (tuning == null || tuning.schema != WalkTuning.Schema) throw new InvalidOperationException("walk tuning schema is not " + WalkTuning.Schema);
             _b = body; _t = tuning; _dt = dt; _bus = bus; _g = body.Tuning.gravity_mps2; _mass = body.TotalMassKg;
             var f = body.Frame;
-            if (body.FootCount != 2) throw new InvalidOperationException("the biped locomotion controller needs exactly 2 feet; this frame has " + body.FootCount);
+            if (body.FootCount != MechContractVersions.BipedFeet) throw new InvalidOperationException("the biped locomotion controller needs exactly 2 feet; this frame has " + body.FootCount);
             _legs = new Leg[2];
             for (int i = 0; i < 2; i++)
             {
@@ -89,6 +90,7 @@ namespace Game.Units.Mech
                 var list = new List<int>();
                 for (int i = 0; i < body.LinkCount; i++) { for (int a = i; a >= 0; a = body.LinkParent(a)) if (a == info.ChildLink) { list.Add(i); break; } }
                 _descendants[d] = list.ToArray();
+                if (info.Kind == "waist" && info.AxisIndex == 1) _waistYaw = d;
                 foreach (var leg in _legs)
                 {
                     if (info.ChildLink == leg.Thigh) { leg.Hip[info.AxisIndex] = d; _isLegDof[d] = true; }
@@ -119,7 +121,7 @@ namespace Game.Units.Mech
             _stanceWidth = (float)f.stance.neutral_stance_width_m; _comRest = (float)f.com_rest[1]; _pelvisRest = (float)f.segments[_pelvis].proximal_joint[1];
             _hipLimit = body.GetDof(_legs[0].Hip[0]).ForceLimitNm;
             double iTilt = body.DofInertia(_legs[0].Hip[0], true), iYaw = _legs[0].Hip[1] >= 0 ? body.DofInertia(_legs[0].Hip[1], true) : iTilt;
-            double wa = 2 * Math.PI * tuning.attitude_hz / Math.Sqrt(_l / 42.0), wy = 2 * Math.PI * tuning.yaw_hz / Math.Sqrt(_l / 42.0);
+            double wa = 2 * Math.PI * tuning.attitude_hz / Math.Sqrt(_l / tuning.reference_leg_length_m), wy = 2 * Math.PI * tuning.yaw_hz / Math.Sqrt(_l / tuning.reference_leg_length_m);
             _kTilt = iTilt * wa * wa; _dTilt = 2 * iTilt * wa; _kYaw = iYaw * wy * wy; _dYaw = 2 * iYaw * wy;
             _comHeightTarget = _pelvisRest;
         }
@@ -138,7 +140,7 @@ namespace Game.Units.Mech
             Measure();
             if (_phase == LocoPhase.Falling || _phase == LocoPhase.Fallen) { _cmd = new LocoCommand { Move = intent.move, Heading = _pelvisYaw, Causes = LimitCause.Fallen }; FallControl(step); Report(step); return; }
             if (FallDetected()) { _phase = LocoPhase.Falling; _restTime = 0; _bus?.Publish(new MechFallStarted { Unit = _b.UnitId, Step = step }); _limiter.Reset(_pelvisYaw); FallControl(step); Report(step); return; }
-            double stepTime = _lim.StepTime(Math.Max(_cmd.Speed, 0.1 * _lim.VCruise));
+            double stepTime = _lim.StepTime(Math.Max(_cmd.Speed, _t.reach_speed_floor_frac * _lim.VCruise));
             _cmd = _limiter.Update(intent, _com2, _pelvisYaw, _vel2.Length(), _t.step_length_max_frac * _l / stepTime);
             StateMachine(intent);
             WriteDrives();
@@ -160,7 +162,8 @@ namespace Game.Units.Mech
             foreach (var leg in _legs)
             {
                 _b.GetFoot(leg.Foot, out leg.State); _b.GetLink(leg.FootLink, out leg.FootLinkState);
-                leg.Load += 0.3 * (leg.State.NormalForceN - leg.Load);
+                leg.Load += _t.load_filter * (leg.State.NormalForceN - leg.Load);
+                leg.StanceTime = leg.Weight > 0 ? leg.StanceTime + _dt : 0;
                 leg.Yaw = JointMath2.Yaw(leg.State.Rotation); leg.Ankle2 = XZ(leg.FootLinkState.Position); leg.Sole2 = XZ(leg.State.SoleCentre);
                 if (leg.Weight > 0 || _phase == LocoPhase.Stand) { ground += leg.State.SoleCentre.Y; n++; }
             }
@@ -192,7 +195,7 @@ namespace Game.Units.Mech
             {
                 double rest = Math.Sqrt(_t.rest_speed_fr * _g * _l);
                 _restTime = _comVel.Length() < rest && _b.NonFootContacts > 0 ? _restTime + _dt : 0;
-                if (_restTime > 1.0) { _phase = LocoPhase.Fallen; _bus?.Publish(new MechFallEnded { Unit = _b.UnitId, Step = step }); }
+                if (_restTime > _t.rest_time_s) { _phase = LocoPhase.Fallen; _bus?.Publish(new MechFallEnded { Unit = _b.UnitId, Step = step }); }
             }
         }
 
@@ -217,7 +220,7 @@ namespace Game.Units.Mech
             bool wantsWalk = _cmd.Speed > 1e-3f;
             float feetYaw = a.Yaw + 0.5f * Wrap(b.Yaw - a.Yaw);
             bool turnMove = intent.move == MoveId.Turn || intent.move == MoveId.Walk;
-            bool wantsTurn = turnMove && Math.Abs(Wrap(_cmd.Heading - feetYaw)) > (_phase == LocoPhase.Stand ? 0.07f : 0.025f);
+            bool wantsTurn = turnMove && Math.Abs(Wrap(_cmd.Heading - feetYaw)) > (float)(_phase == LocoPhase.Stand ? _t.turn_start_rad : _t.turn_done_rad);
             bool wantsStomp = intent.move == MoveId.Stomp && !_stompDone;
             if (intent.move != MoveId.Stomp) _stompDone = false;
             double targetHeight = _pelvisRest - _t.com_drop_stand_frac * _l;
@@ -231,7 +234,7 @@ namespace Game.Units.Mech
                         // first swing leg: the one on the side the mech turns toward; for a stomp the foot nearer the target
                         float turn = Wrap(_cmd.Heading - feetYaw);
                         int rightLeg = _legs[0].Side > 0 ? 0 : 1;
-                        int swing = turn < -0.03f ? 1 - rightLeg : rightLeg;
+                        int swing = turn < -(float)_t.turn_done_rad ? 1 - rightLeg : rightLeg;
                         if (wantsStomp) swing = Vector2.DistanceSquared(a.Sole2, XZ(intent.target)) <= Vector2.DistanceSquared(b.Sole2, XZ(intent.target)) ? 0 : 1;
                         _stance = 1 - swing; _stomp = wantsStomp; _phase = LocoPhase.Shift; _time = 0; _firstStep = true;
                         PlanTimings();
@@ -257,8 +260,8 @@ namespace Game.Units.Mech
                     float by = _stomp ? 0f : (float)Lipm.OffsetLateral(wCop, _omega, _stepT);
                     Vector2 reference = Nominal(st, 0, 1, true) + Right(st.Yaw) * (sw.Side * by);
                     Regulate(reference, st, sw, 0f); _dbg.Reference = reference;
-                    bool there = (_dcm - reference).Length() < 0.025f * _l && (sw.State.NormalForceN < _t.liftoff_load_bw * _mass * _g || _time > _t.shift_time_tstar * _lim.TStar);
-                    if (there || _time > 2.5 * _t.shift_time_tstar * _lim.TStar)
+                    bool there = (_dcm - reference).Length() < (float)_t.shift_dcm_tolerance_frac * _l && (sw.State.NormalForceN < _t.liftoff_load_bw * _mass * _g || _time > _t.shift_time_tstar * _lim.TStar);
+                    if (there || _time > _t.shift_timeout_factor * _t.shift_time_tstar * _lim.TStar)
                     { _time = _tds; BeginSwing(); }
                     targetHeight = _pelvisRest - _t.com_drop_walk_frac * _l;
                     break;
@@ -269,11 +272,11 @@ namespace Game.Units.Mech
                     _time += _dt;
                     Leg st = _legs[_stance], sw = _legs[1 - _stance];
                     float heading = _cmd.Heading;
-                    double T = _stepT, tr = Math.Max(T - _time, 0.12 * T);
+                    double T = _stepT, tr = Math.Max(T - _time, _t.step_end_freeze * T);
                     float speed = _stomp ? 0 : Math.Min(_cmd.Speed, _vel2.Length() + (float)(_lim.AccelStart * T));
                     speed = Math.Min(speed, (float)(_t.step_length_max_frac * _l / T));
                     float s = (float)(speed * T);
-                    float travelScale = Clamp(s / (float)((_t.cop_toe_frac - _t.cop_heel_frac) * _l * 2), 0, 1);
+                    float travelScale = Clamp(s / (float)((_t.cop_toe_frac - _t.cop_heel_frac) * _l * _t.cop_travel_full_step_ratio), 0, 1);
                     float travel = (float)((_t.cop_toe_frac - _t.cop_heel_frac) * _l) * travelScale;
                     Vector2 nStart = Nominal(st, 0, travelScale, true), nNow = Nominal(st, Math.Min(1, _time / T), travelScale, true);
                     Vector2 pdot = _time < T ? Fwd(st.Yaw) * (float)(travel / T) : Vector2.Zero;
@@ -284,7 +287,7 @@ namespace Game.Units.Mech
                     Vector2 fwd = Fwd(heading), right = Right(heading);
                     Vector2 nextNominal = nStart + fwd * s + right * (sw.Side * wCop);
                     Vector2 dcmEndDesired = nextNominal + fwd * bx + right * (st.Side * by);
-                    if (_time < T * (1 - 0.12)) _offsetHeld = Lipm.DeadbeatOffset(_dcm, nNow, pdot, dcmEndDesired, _omega, tr);
+                    if (_time < T * (1 - _t.step_end_freeze)) _offsetHeld = Lipm.DeadbeatOffset(_dcm, nNow, pdot, dcmEndDesired, _omega, tr);
                     Vector2 copStance = ClampToSole(st, nNow + _offsetHeld);
                     if (_stomp) { Vector2 hold = Nominal(st, 0, 1, true); copStance = ClampToSole(st, _dcm + (float)_t.dcm_gain * (_dcm - hold)); _dbg.Reference = hold; }
                     Vector2 dcmEnd = Lipm.DcmAtEnd(_dcm, copStance, pdot, _omega, tr);
@@ -293,14 +296,14 @@ namespace Game.Units.Mech
                     {
                         Vector2 copTrail = ClampToSole(sw, _copAtTouchdown), want = nNow + _offsetHeld, seg = copStance - copTrail;
                         float wNew = Clamp(Vector2.Dot(want - copTrail, seg) / Math.Max(1e-3f, seg.LengthSquared()), 0, 1);
-                        wNew = Math.Max(wNew, (float)Lipm.SmoothStep((_time - 0.5 * _tds) / _tds));
+                        wNew = Math.Max(wNew, (float)Lipm.SmoothStep((_time - _t.transfer_floor_delay * _tds) / _tds));
                         // the trailing leg keeps carrying the body until the landed foot really bears load: the planned share may lead the measured one only by a margin
                         double loads = st.Load + sw.Load;
-                        if (loads > 0.2 * _mass * _g) wNew = Math.Min(wNew, (float)(st.Load / loads + _t.transfer_lead));
-                        _transfer = Math.Max(_transfer * 0.9f + wNew * 0.1f, (float)_t.touchdown_share);
+                        if (loads > _t.load_known_bw * _mass * _g) wNew = Math.Min(wNew, (float)(st.Load / loads + _t.transfer_lead));
+                        _transfer = Math.Max(_transfer * (1 - (float)_t.transfer_filter) + wNew * (float)_t.transfer_filter, (float)_t.touchdown_share);
                         wNew = _transfer;
                         Assign(st, wNew, copStance); Assign(sw, 1 - wNew, copTrail);
-                        if ((_time >= _tds && wNew > 0.95f) || (_time >= 1.6 * _tds && wNew > 0.8f) || _time >= 3 * _tds) BeginSwing();
+                        if ((_time >= _tds && wNew > _t.transfer_done_share) || (_time >= _t.ds_overrun_factor * _tds && wNew > _t.transfer_overrun_share) || _time >= _t.ds_timeout_factor * _tds) BeginSwing();
                     }
                     else
                     {
@@ -323,19 +326,36 @@ namespace Game.Units.Mech
                             _swingTarget += _swingTime <= _dt * 1.5 || change.Length() <= maxChange ? change : change * (maxChange / change.Length());
                             _swingYawTarget = yawNext;
                         }
-                        bool landed = sw.State.Contact && tau > 0.5;
+                        bool landed = sw.State.Contact && tau > _t.touchdown_min_swing;
                         if (landed) Touchdown(wantsWalk, wantsTurn);
                     }
                     _dbg.CopCommand = copStance; _dbg.SwingTarget = _swingTarget;
                     // the hips ride low enough for both legs to reach a step of this length with flat feet (geometry, not tuning)
                     double legMax = Math.Sqrt(st.ThighLength * st.ThighLength + st.ShankLength * st.ShankLength + 2 * st.ThighLength * st.ShankLength * Math.Cos(_t.knee_min_flex_deg * Math.PI / 180));
-                    double half = 0.5 * s + _t.step_reach_margin_frac * _l, legTotal = st.ThighLength + st.ShankLength;
-                    double stepDrop = legTotal - Math.Sqrt(Math.Max(legMax * legMax - half * half, 0.64 * legTotal * legTotal));
+                    double half = _t.step_reach_front_frac * s + _t.step_reach_margin_frac * _l, legTotal = st.ThighLength + st.ShankLength;
+                    double stepDrop = legTotal - Math.Sqrt(Math.Max(legMax * legMax - half * half, _t.leg_length_floor_frac * _t.leg_length_floor_frac * legTotal * legTotal));
                     targetHeight = _pelvisRest - Math.Max(_t.com_drop_walk_frac * _l, stepDrop) - _extraDrop;
+                    if (_t.vault > 0)
+                    {
+                        // R-007 change 1: no crouch. The hips vault over a near-straight stance leg: knee bent for loading at touchdown, extended by mid-stance;
+                        // the pelvis height follows from the leg length and the hip's horizontal distance to the stance ankle, shared between the legs by their load shares.
+                        double sum = 0, wsumV = 0;
+                        foreach (var leg in _legs)
+                        {
+                            if (leg.Weight <= 0) continue;
+                            _b.GetLink(leg.Thigh, out var hipLink);
+                            double dx = hipLink.Position.X - leg.FootLinkState.Position.X, dz = hipLink.Position.Z - leg.FootLinkState.Position.Z, d2 = dx * dx + dz * dz;
+                            double knee = (_t.knee_load_deg + (_t.knee_mid_deg - _t.knee_load_deg) * Lipm.SmoothStep(leg.StanceTime / (_t.knee_extend_tstar * _lim.TStar))) * Math.PI / 180;
+                            double len2 = leg.ThighLength * leg.ThighLength + leg.ShankLength * leg.ShankLength + 2 * leg.ThighLength * leg.ShankLength * Math.Cos(knee);
+                            double hipHeight = leg.FootLinkState.Position.Y + Math.Sqrt(Math.Max(len2 - d2, _t.vault_length_floor_frac * _t.vault_length_floor_frac * len2));
+                            sum += leg.Weight * (_pelvisState.Position.Y - _groundY + hipHeight - hipLink.Position.Y); wsumV += leg.Weight;
+                        }
+                        if (wsumV > 0) targetHeight = sum / wsumV - _extraDrop;
+                    }
                     break;
                 }
             }
-            double rate = 0.02 * _l / _lim.TStar * _dt; // the height target moves slowly (about 0.4 m/s at reference)
+            double rate = (_t.vault > 0 && _phase != LocoPhase.Stand ? _t.height_rate_vault_tstar : _t.height_rate_tstar) * _l / _lim.TStar * _dt; // how fast the height target may move
             _comHeightTarget += Math.Max(-rate, Math.Min(rate, targetHeight - _comHeightTarget));
             Forces();
         }
@@ -363,7 +383,7 @@ namespace Game.Units.Mech
             _firstStep = false;
             float along = Math.Abs(Vector2.Dot(sw.Ankle2 - st.Ankle2, Fwd(st.Yaw)));
             Vector2 mid = 0.5f * (st.Ankle2 + sw.Ankle2);
-            bool calm = Math.Abs(Vector2.Dot(_vel2, Fwd(st.Yaw))) < _lim.StopSpeed && (_dcm - mid).Length() < 0.5f * (st.Ankle2 - sw.Ankle2).Length() && along < 0.06f * _l && Math.Abs(Wrap(sw.Yaw - st.Yaw)) < 0.06f;
+            bool calm = Math.Abs(Vector2.Dot(_vel2, Fwd(st.Yaw))) < _lim.StopSpeed && (_dcm - mid).Length() < (float)_t.stand_dcm_frac * (st.Ankle2 - sw.Ankle2).Length() && along < (float)_t.stand_align_frac * _l && Math.Abs(Wrap(sw.Yaw - st.Yaw)) < (float)_t.stand_yaw_rad;
             if (_stomp || (!wantsWalk && !wantsTurn && calm))
             {
                 if (_stomp) _stompDone = true;
@@ -390,7 +410,7 @@ namespace Game.Units.Mech
         /// <summary>R-005 5.2 step 6: the virtual force on the centre of mass (height spring-damper plus the pendulum force through the realised CoP), split by the load shares.</summary>
         void Forces()
         {
-            double wc = 2 * Math.PI * _t.height_hz / Math.Sqrt(_l / 42.0);
+            double wc = 2 * Math.PI * _t.height_hz / Math.Sqrt(_l / _t.reference_leg_length_m);
             double fy = _mass * (_g + wc * wc * (_comHeightTarget - (_pelvisState.Position.Y - _groundY)) - 2 * wc * _pelvisState.Velocity.Y);
             fy = Math.Max(_t.force_min_bw * _mass * _g, Math.Min(_t.force_max_bw * _mass * _g, fy));
             Vector2 cop = Vector2.Zero; float wsum = 0;
@@ -399,13 +419,13 @@ namespace Game.Units.Mech
             cop /= wsum; _copPrev = cop;
             Vector2 fh = (_com2 - cop) * (float)(fy / _zc);
             // never ask the ground for more friction than two thirds of what it has (R-005 5.3: mu_avail >= 1.5 mu_req)
-            float fhMax = (float)(fy * _b.Tuning.friction_dynamic / 1.5);
+            float fhMax = (float)(fy * _b.Tuning.friction_dynamic / _t.friction_safety);
             if (fh.Length() > fhMax) fh *= fhMax / fh.Length();
             // vertical force by the planned share; horizontal force by the load each foot really carries, so a lightly loaded foot is never asked for friction it does not have
             double loadSum = 0; foreach (var leg in _legs) if (leg.Weight > 0) loadSum += leg.Load;
             foreach (var leg in _legs)
             {
-                float share = leg.Weight / wsum, grip = loadSum > 0.2 * _mass * _g && leg.Weight > 0 ? (float)(leg.Load / loadSum) : share;
+                float share = leg.Weight / wsum, grip = loadSum > _t.load_known_bw * _mass * _g && leg.Weight > 0 ? (float)(leg.Load / loadSum) : share;
                 leg.Force = new Vector3(fh.X * grip, (float)fy * share, fh.Y * grip);
             }
         }
@@ -435,7 +455,7 @@ namespace Game.Units.Mech
                 {
                     Vector3 hipExtra = wsum > 0 ? -(trunkTorque + swingReaction) * (leg.Weight / wsum) : Vector3.Zero;
                     // a planted foot must not be twisted on the ground: yaw torque stays inside what its load can hold by friction (R-005 5.2 step 7)
-                    float yawGrip = (float)(_b.Tuning.friction_dynamic / 1.5 * leg.Load * _t.yaw_grip_radius_frac * _l);
+                    float yawGrip = (float)(_b.Tuning.friction_dynamic / _t.friction_safety * leg.Load * _t.yaw_grip_radius_frac * _l);
                     hipExtra.Y = Clamp(hipExtra.Y, -yawGrip, yawGrip);
                     StanceDof(leg, leg.Hip, hipExtra, _t.stance_hip_damping_ratio);
                     StanceDof(leg, new[] { leg.Knee }, Vector3.Zero, _t.stance_knee_damping_ratio);
@@ -453,11 +473,18 @@ namespace Game.Units.Mech
                     if (d == _armShoulderFlex[arm]) { Leg opposite = _legs[0].Side < 0 == (arm == 0) ? _legs[1] : _legs[0]; target = _t.arm_swing_gain * _b.DofPosition(opposite.Hip[0]); }
                     if (d == _elbow[arm]) target = _t.elbow_flex_deg * Math.PI / 180;
                 }
+                // upper-body counter-rotation: the trunk turns against the legs (shoulder forward on the side of the trailing leg), taking up part of the swing leg's yaw reaction
+                if (d == _waistYaw && _t.trunk_counter_gain != 0)
+                {
+                    Leg right = _legs[0].Side > 0 ? _legs[0] : _legs[1], left = right == _legs[0] ? _legs[1] : _legs[0];
+                    target = -_t.trunk_counter_gain * 0.5 * (_b.DofPosition(right.Hip[0]) - _b.DofPosition(left.Hip[0]));
+                }
                 Track(d, target, Vector3.Zero, default, false);
             }
         }
 
         float _swingYawTargetNow, _transfer;
+        int _waistYaw = -1;
         double _extraDrop;
         bool IsSwinging(Leg leg) => _phase == LocoPhase.SingleSupport && leg == _legs[1 - _stance];
 
@@ -479,7 +506,7 @@ namespace Game.Units.Mech
                 if (d < 0) continue;
                 Vector3 force = leg.Force;
                 // the ankle sets the centre of pressure: its torque must match the load the foot really carries, not the load the plan expects
-                if (dofs == leg.Ankle && force.Y > 1f && leg.Load > 0) force *= Clamp((float)(leg.Load / force.Y), 0.5f, 3f);
+                if (dofs == leg.Ankle && force.Y > 1f && leg.Load > 0) force *= Clamp((float)(leg.Load / force.Y), (float)_t.load_scale_min, (float)_t.load_scale_max);
                 // a foot that has just touched is not yet flat: its ankle stays passive (damped) and takes up centre-of-pressure control gradually, so the sole settles instead of slapping down
                 if (dofs == leg.Ankle && _phase == LocoPhase.DoubleSupport && leg == _legs[_stance]) force *= (float)Lipm.SmoothStep(_time / (_t.landing_time_tstar * _lim.TStar));
                 double tau = SupportTorque(d, force, leg.Cop, true) + Vector3.Dot(_b.DofAxisWorld(d), extraTorque);
@@ -497,14 +524,14 @@ namespace Game.Units.Mech
                     // soft posture spring: the knee angle whose leg length puts the CoM at its target height (keeps the leg off its straight, singular pose)
                     _b.GetLink(leg.Thigh, out var thigh);
                     Vector3 hipToAnkle = leg.FootLinkState.Position - thigh.Position;
-                    double len = hipToAnkle.Length(), incline = Math.Max(0.5, -hipToAnkle.Y / Math.Max(1e-3, len));
+                    double len = hipToAnkle.Length(), incline = Math.Max(_t.posture_incline_floor, -hipToAnkle.Y / Math.Max(1e-3, len));
                     double want = len + (_comHeightTarget - (_pelvisState.Position.Y - _groundY)) * incline;
                     double a = leg.ThighLength, c = leg.ShankLength, kneeMin = _t.knee_min_flex_deg * Math.PI / 180;
                     double cosInterior = Math.Min(1, Math.Max(Math.Cos(Math.PI - kneeMin), (a * a + c * c - want * want) / (2 * a * c)));
                     target = Math.PI - Math.Acos(cosInterior);
                     double ratio = _t.stance_posture_hz / _b.Tuning.Kind("knee").stance_hz;
                     k = stiffness * ratio * ratio;
-                    velocity = _hasPrev[d] ? Math.Max(-1, Math.Min(1, (target - _prevTarget[d]) / _dt)) : 0;
+                    velocity = _hasPrev[d] ? Math.Max(-_t.stance_velocity_max_rps, Math.Min(_t.stance_velocity_max_rps, (target - _prevTarget[d]) / _dt)) : 0;
                     _prevTarget[d] = target; _hasPrev[d] = true;
                 }
                 else _hasPrev[d] = false;
@@ -521,32 +548,34 @@ namespace Game.Units.Mech
             double tStar = _lim.TStar, height;
             if (_stomp)
             {
-                double up = 0.5 * _tss, lift = _t.stomp_lift_frac * _l, v = _t.stomp_speed_tstar * _l / tStar;
-                height = _swingTime < up ? lift * Lipm.MinJerk(_swingTime / up) : Math.Max(-0.04 * _l, lift - v * (_swingTime - up));
+                double up = _t.stomp_rise_fraction * _tss, lift = _t.stomp_lift_frac * _l, v = _t.stomp_speed_tstar * _l / tStar;
+                height = _swingTime < up ? lift * Lipm.MinJerk(_swingTime / up) : Math.Max(-_t.touchdown_overdrive_frac * _l, lift - v * (_swingTime - up));
             }
             else
             {
                 // lift and clear early, be over the landing spot at hover height by swing_hover of the swing, then come down slowly until contact (R-005: touchdown <= 1 m/s)
                 double vtd = _t.touchdown_speed_tstar * _l / tStar, th = _t.swing_hover, hover = vtd * (1 - th) * _tss;
                 double u = Math.Min(1, tau / th);
-                height = tau <= th ? hover * Lipm.MinJerk(u) + _t.swing_clearance_frac * _l * Math.Pow(Math.Sin(Math.PI * Math.Pow(u, _t.swing_rise_exponent)), 2) : Math.Max(-0.04 * _l, hover - vtd * (_swingTime - th * _tss));
-                s = Lipm.MinJerk(Math.Max(0, Math.Min(1, (tau - 0.04) / (0.5 * (1.16 + th) - 0.04))));
+                height = tau <= th ? hover * Lipm.MinJerk(u) + _t.swing_clearance_frac * _l * Math.Pow(Math.Sin(Math.PI * Math.Pow(u, _t.swing_rise_exponent)), 2) : Math.Max(-_t.touchdown_overdrive_frac * _l, hover - vtd * (_swingTime - th * _tss));
+                s = Lipm.MinJerk(Math.Max(0, Math.Min(1, (tau - _t.swing_horizontal_delay) / (_t.swing_horizontal_end - _t.swing_horizontal_delay))));
             }
             Vector2 xz = XZ(_swingStart) + (_swingTarget - XZ(_swingStart)) * (float)s;
             float yaw = _swingStartYaw + Wrap(_swingYawTarget - _swingStartYaw) * (float)s;
             _swingYawTargetNow = yaw;
             float startLift = (_swingStart.Y - ground) * (float)(1 - s);
-            Quaternion footRot = JointMath2.YawRotation(yaw);
+            // toes up through the swing (ground clearance of a 15 m foot), easing to a small heel-first angle for landing
+            double toeUp = _stomp ? 0 : (_t.swing_toe_up_deg * Math.Sin(Math.PI * Math.Min(1, tau / _t.swing_hover)) + _t.heel_strike_deg * Lipm.SmoothStep(tau / _t.swing_hover)) * Math.PI / 180;
+            Quaternion footRot = JointMath2.YawRotation(yaw) * Quaternion.CreateFromAxisAngle(Vector3.UnitX, -(float)toeUp);
             Vector3 sole = new Vector3(xz.X, ground + startLift + (float)height, xz.Y);
             Vector3 ankle = sole + new Vector3(0, _ankleHeight, 0) - new Vector3(Fwd(yaw).X, 0, Fwd(yaw).Y) * _ankleToSoleCentre;
             _b.GetLink(leg.Thigh, out var thigh);
-            var ik = LegIk.Solve(thigh.Position, _pelvisState.Rotation, ankle, footRot, leg.ThighLength, leg.ShankLength, _t.knee_min_flex_deg * Math.PI / 180, 2.2);
+            var ik = LegIk.Solve(thigh.Position, _pelvisState.Rotation, ankle, footRot, leg.ThighLength, leg.ShankLength, _t.knee_min_flex_deg * Math.PI / 180, _t.knee_max_flex_deg * Math.PI / 180);
             // a landing spot the leg cannot reach lowers the hips until it can (never stretches the foot target)
-            double dropRate = 0.03 * _l / tStar;
-            _extraDrop = ik.Clamped && tau > 0.5 ? Math.Min(0.05 * _l, _extraDrop + dropRate * _dt) : Math.Max(0, _extraDrop - 0.2 * dropRate * _dt);
+            double dropRate = _t.extra_drop_rate_tstar * _l / tStar;
+            _extraDrop = ik.Clamped && tau > _t.touchdown_min_swing ? Math.Min(_t.extra_drop_max_frac * _l, _extraDrop + dropRate * _dt) : Math.Max(0, _extraDrop - _t.extra_drop_recover * dropRate * _dt);
             Vector3 hip = JointMath2.RotVec(ik.HipRelative), ank = JointMath2.RotVec(ik.AnkleRelative);
             // compliant touchdown (R-005 5.2 step 5, Q-012): the leg goes soft as the foot nears the ground, so contact loads it through a spring instead of a stiff position servo
-            double soft = _stomp ? 1 : 1 - (1 - _t.touchdown_gain_scale) * Lipm.SmoothStep((tau - (_t.swing_hover - 0.15)) / 0.15);
+            double soft = _stomp ? 1 : 1 - (1 - _t.touchdown_gain_scale) * Lipm.SmoothStep((tau - (_t.swing_hover - _t.touchdown_soften_span)) / _t.touchdown_soften_span);
             for (int a = 0; a < 3; a++)
             {
                 if (leg.Hip[a] >= 0) Track(leg.Hip[a], Component(hip, a) * _b.GetDof(leg.Hip[a]).Sign, Vector3.Zero, default, true, soft);
@@ -563,7 +592,7 @@ namespace Game.Units.Mech
             var info = _b.GetDof(dof);
             target = Math.Max(info.LowerRad, Math.Min(info.UpperRad, target));
             double vel = velocityFeedForward && _hasPrev[dof] ? (target - _prevTarget[dof]) / _dt : 0;
-            vel = Math.Max(-2.5, Math.Min(2.5, vel));
+            vel = Math.Max(-_t.target_velocity_max_rps, Math.Min(_t.target_velocity_max_rps, vel));
             _prevTarget[dof] = target; _hasPrev[dof] = true;
             _b.GetDofGains(dof, false, out double k, out double damping);
             // critical damping is kept when the stiffness is scaled: d scales with sqrt(k)

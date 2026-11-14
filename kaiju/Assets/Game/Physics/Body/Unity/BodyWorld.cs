@@ -22,14 +22,16 @@ namespace Game.Physics.Body.Unity
         readonly Dictionary<IArticulatedBody, PhysicsLogWriter> _logs = new Dictionary<IArticulatedBody, PhysicsLogWriter>();
         readonly IEventBus _bus;
         public double StepSeconds { get; }
+        public SimMassUnit MassUnit { get; }
+        readonly IFeatureFlags _flags;
         public IReadOnlyList<ArticulatedBody> Bodies => _bodies;
         /// <summary>Project-level engine facts for log headers (solver type, determinism): set by the composition root, which can read project settings.</summary>
         public string EngineInfoJson = "\"solver_type\":\"unknown\"";
 
         /// <param name="scripted">True: the caller advances physics with <see cref="Simulate"/> (headless scenarios, tests). False: Unity's FixedUpdate does.</param>
-        public BodyWorld(BodyTuning tuning, double stepSeconds, bool scripted, IEventBus bus)
+        public BodyWorld(BodyTuning tuning, double stepSeconds, bool scripted, IEventBus bus, IFeatureFlags flags = null)
         {
-            StepSeconds = stepSeconds; _bus = bus;
+            StepSeconds = stepSeconds; _bus = bus; _flags = flags; MassUnit = new SimMassUnit(tuning.sim_mass_unit_kg);
             _previousMode = UnityEngine.Physics.simulationMode; _previousGravity = UnityEngine.Physics.gravity;
             UnityEngine.Physics.gravity = new Vector3(0, -(float)tuning.gravity_mps2, 0);
             if (scripted) UnityEngine.Physics.simulationMode = SimulationMode.Script;
@@ -46,6 +48,8 @@ namespace Game.Physics.Body.Unity
 
         public IArticulatedBody CreateBody(MechFrameData frame, BodyTuning tuning, EntityId unitId, BodySpawn spawn)
         {
+            // module switch (MODULARITY rule 5): a world given a flag snapshot creates bodies only when physics.body.enabled is on. Truth scenes and probes pass no snapshot.
+            if (_flags != null && !_flags.IsOn(BodyContractVersions.FlagEnabled)) throw new InvalidOperationException("feature flag " + BodyContractVersions.FlagEnabled + " is off: Physics.Body creates no bodies");
             var o = new BodyBuildOptions { Position = new Vector3(spawn.Position.X, spawn.Position.Y, spawn.Position.Z), Rotation = new Quaternion(spawn.Rotation.X, spawn.Rotation.Y, spawn.Rotation.Z, spawn.Rotation.W), LockAllJoints = spawn.LockAllJoints, Visuals = spawn.Visuals, Name = spawn.Name };
             return new ArticulatedBody(this, frame, tuning, unitId, _bus, o);
         }
@@ -60,6 +64,7 @@ namespace Game.Physics.Body.Unity
         }
         public void StartPhysicsLog(IArticulatedBody body, string path, string scene, string commit)
         {
+            if (_flags != null && !_flags.IsOn(BodyContractVersions.FlagPhysicsLog)) return;
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             var w = new PhysicsLogWriter(new StreamWriter(path), body, scene, StepSeconds);
             w.WriteHeader(scene, commit, Application.unityVersion, ((ArticulatedBody)body).DescribeEngineJson(EngineInfoJson));

@@ -73,6 +73,11 @@ namespace Game.Physics.Body.Unity
         public double ExternalForceMagnitudeN { get; private set; }
         public double ExternalWorkJ { get; private set; }
         public int NonFootContacts { get; private set; }
+        public int JointSpeedClampCount { get; private set; }
+        public bool DofSpeedClamped(int dof) => _clamped[dof];
+        bool[] _clamped; float[] _dofSpeedCap;
+        // loading window per foot (FootLoaded)
+        float[] _loadPeak, _loadImpulse; int[] _loadSteps; long[] _loadPeakStep; bool[] _loadOpen; int _loadWindowSteps;
         /// <summary>Steps x links in which the engine's DOF count differed from the config's (feed-forward skipped). Expected: only before the first physics step.</summary>
         public int DofCountMismatches { get; private set; }
         public double FOnN => _tuning.contact_on_bw * TotalMassKg * _tuning.gravity_mps2;
@@ -82,7 +87,8 @@ namespace Game.Physics.Body.Unity
         {
             MechFrameOps.Validate(frame);
             if (tuning == null || tuning.schema != BodyTuning.Schema) throw new InvalidOperationException("body tuning schema is not " + BodyTuning.Schema);
-            _world = world; _frame = frame; _tuning = tuning; UnitId = unitId; _bus = bus; _unit = tuning.sim_mass_unit_kg; _dt = world.StepSeconds;
+            _world = world; _frame = frame; _tuning = tuning; UnitId = unitId; _bus = bus; _unit = world.MassUnit.KilogramsPerUnit; _dt = world.StepSeconds;
+            if (Math.Abs(tuning.sim_mass_unit_kg - _unit) > 1e-9 * _unit) throw new InvalidOperationException("body tuning mass unit " + tuning.sim_mass_unit_kg + " kg differs from the physics world's " + _unit + " kg: every body in a scene must use one unit");
             int n = frame.segments.Length;
             _ab = new ArticulationBody[n]; _tf = new Transform[n]; _massKg = new double[n]; _parent = new int[n]; _state = new LinkState[n];
             _linkDofStart = new int[n]; _linkDofCount = new int[n]; _linkFoot = new int[n]; _linkTouched = new bool[n];
@@ -113,10 +119,15 @@ namespace Game.Physics.Body.Unity
             int nd = _dof.Length;
             _q = new double[nd]; _qd = new double[nd]; _tauDrive = new double[nd]; _tauFf = new double[nd]; _tauFfApplied = new double[nd];
             _target = new double[nd]; _targetVel = new double[nd]; _k = new double[nd]; _d = new double[nd];
+            _clamped = new bool[nd]; _dofSpeedCap = new float[nd];
+            for (int d = 0; d < nd; d++) _dofSpeedCap[d] = _ab[_dof[d].ChildLink].maxJointVelocity;
             _footLink = feet.ToArray();
             int nf = _footLink.Length;
             _foot = new FootState[nf]; _hyst = new ContactHysteresis[nf]; _footImpulse = new Vector3[nf]; _footMoment = new Vector3[nf]; _footPrevVel = new Vector3[nf];
             _footImpulseAbs = new float[nf]; _footPoints = new int[nf];
+            _loadPeak = new float[nf]; _loadImpulse = new float[nf]; _loadSteps = new int[nf]; _loadPeakStep = new long[nf]; _loadOpen = new bool[nf];
+            double legLength = MechFrameOps.LegLength(frame);
+            _loadWindowSteps = Math.Max(1, (int)Math.Round(tuning.contact_load_window_tstar * Math.Sqrt(legLength / Math.Max(1e-6, tuning.gravity_mps2 > 0 ? tuning.gravity_mps2 : 9.81)) / _dt));
             for (int i = 0; i < n; i++) _linkFoot[i] = -1;
             for (int f = 0; f < nf; f++) _linkFoot[_footLink[f]] = f;
             foreach (double m in _massKg) TotalMassKg += m;
@@ -332,6 +343,7 @@ namespace Game.Physics.Body.Unity
                 if (edge > 0)
                 {
                     fs.ContactId = _nextContactId++;
+                    _loadOpen[f] = true; _loadPeak[f] = 0; _loadImpulse[f] = 0; _loadSteps[f] = 0;
                     _logEvents.Add(new KeyValuePair<string, string>("footfall", "\"foot\":\"" + FootId(f) + "\",\"contact_id\":" + fs.ContactId + ",\"t_contact\":" + JsonLine.ArrayOf(new[] { step * _dt }).Trim('[', ']') + ",\"cop\":" + JsonLine.VecOf(fs.Cop) + ",\"Jn\":" + JsonLine.ArrayOf(new double[] { fn * dt }).Trim('[', ']') + ",\"peak_Fn\":" + JsonLine.ArrayOf(new double[] { fn }).Trim('[', ']') + ",\"pressure_kpa\":" + JsonLine.ArrayOf(new[] { fn / SoleAreaM2 / 1000.0 }).Trim('[', ']') + ",\"v_approach\":" + JsonLine.VecOf(N(_footPrevVel[f]))));
                     _bus?.Publish(new FootContact { Unit = UnitId, Foot = f, Step = step, ContactId = fs.ContactId, Position = fs.Cop, Normal = fs.Normal, VerticalImpulseNs = fn * dt, NormalForceN = fn, PressurePa = (float)(fn / SoleAreaM2), ApproachVelocity = N(_footPrevVel[f]) });
                 }
@@ -339,6 +351,16 @@ namespace Game.Physics.Body.Unity
                 {
                     _logEvents.Add(new KeyValuePair<string, string>("liftoff", "\"foot\":\"" + FootId(f) + "\",\"contact_id\":" + fs.ContactId));
                     _bus?.Publish(new FootLiftOff { Unit = UnitId, Foot = f, Step = step, ContactId = fs.ContactId });
+                }
+                if (_loadOpen[f])
+                {
+                    if (fs.Contact) { _loadImpulse[f] += fn * dt; _loadSteps[f]++; if (fn > _loadPeak[f]) { _loadPeak[f] = fn; _loadPeakStep[f] = step; } }
+                    if (!fs.Contact || _loadSteps[f] >= _loadWindowSteps)
+                    {
+                        _loadOpen[f] = false;
+                        _logEvents.Add(new KeyValuePair<string, string>("footfall_loaded", "\"foot\":\"" + FootId(f) + "\",\"contact_id\":" + fs.ContactId + ",\"peak_Fn\":" + JsonLine.Text(_loadPeak[f]) + ",\"Jn_window\":" + JsonLine.Text(_loadImpulse[f]) + ",\"window_s\":" + JsonLine.Text(_loadSteps[f] * _dt) + ",\"peak_step\":" + _loadPeakStep[f]));
+                        _bus?.Publish(new FootLoaded { Unit = UnitId, Foot = f, Step = step, ContactId = fs.ContactId, PeakNormalForceN = _loadPeak[f], ImpulseNs = _loadImpulse[f], WindowSeconds = (float)(_loadSteps[f] * _dt), PeakStep = _loadPeakStep[f] });
+                    }
                 }
             }
         }
@@ -363,6 +385,8 @@ namespace Game.Physics.Body.Unity
                 {
                     int d = _linkDofStart[i] + k; int sign = _dof[d].Sign;
                     _q[d] = sign * jp[k]; _qd[d] = sign * jv[k]; _tauDrive[d] = sign * df[k] * _unit;
+                    bool atCap = _dofSpeedCap[d] > 0 && Math.Abs(jv[k]) >= 0.999f * _dofSpeedCap[d];
+                    _clamped[d] = atCap; if (atCap) JointSpeedClampCount++;
                 }
             }
             double M = TotalMassKg > 0 ? TotalMassKg : 1;

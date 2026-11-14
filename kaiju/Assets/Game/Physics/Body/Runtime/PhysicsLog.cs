@@ -57,7 +57,6 @@ namespace Game.Physics.Body
         readonly JsonLine _j = new JsonLine();
         readonly StringBuilder _sb = new StringBuilder(4096);
         double _lastExternalWork;
-        public int Clamps;
 
         public PhysicsLogWriter(TextWriter w, IArticulatedBody body, string runId, double dt) { _w = w; _b = body; _runId = runId; _dt = dt; }
 
@@ -92,6 +91,9 @@ namespace Game.Physics.Body
             if (lastJoint != null) _sb.Append('}');
             _sb.Append('}');
             string joints = _sb.ToString();
+            _sb.Clear().Append('[');
+            for (int d = 0, n = 0; d < _b.DofCount; d++) if (_b.DofSpeedClamped(d)) { var ci = _b.GetDof(d); if (n++ > 0) _sb.Append(','); _sb.Append('"').Append(ci.JointId).Append('.').Append(ci.Name).Append('"'); }
+            string clamped = _sb.Append(']').ToString();
             _sb.Clear().Append('{');
             for (int f = 0; f < _b.FootCount; f++)
             {
@@ -107,7 +109,7 @@ namespace Game.Physics.Body
             double ew = _b.ExternalWorkJ - _lastExternalWork; _lastExternalWork = _b.ExternalWorkJ;
             _j.Begin().Str("run_id", _runId).Int("step", step).Num("t", step * _dt).Vec("com", _b.Com).Vec("com_vel", _b.ComVelocity)
               .Num("ke_lin", e.KeLin).Num("ke_rot", e.KeRot).Num("pe", e.Pe).Num("e_total", e.Total).Vec("p", e.Momentum).Vec("L_com", e.AngularMomentumCom)
-              .Num("max_link_speed", e.MaxLinkSpeed).Num("max_joint_speed", maxJoint).Int("clamps", Clamps).Bool("nan", e.NaN)
+              .Num("max_link_speed", e.MaxLinkSpeed).Num("max_joint_speed", maxJoint).Int("clamps", _b.JointSpeedClampCount).Raw("clamped", clamped).Bool("nan", e.NaN)
               .Raw("joint_fields", "[\"q_deg\",\"qd\",\"tau_drive\",\"tau_total\",\"power\",\"saturated\"]").Raw("joints", joints).Raw("feet", _sb.ToString())
               .Num("power_total_pos", pPos).Num("power_total_abs", pAbs).Num("external_work", ew).Num("ext_f", _b.ExternalForceMagnitudeN).Int("non_foot_contacts", _b.NonFootContacts);
             _w.WriteLine(_j.End());

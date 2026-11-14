@@ -5,7 +5,13 @@ using Game.Physics.Body.Contracts;
 
 namespace Game.Units.Mech.Contracts
 {
-    public static class MechContractVersions { public const int Unit = 1; public const string GaitLog = "gait_log@v1"; }
+    public static class MechContractVersions
+    {
+        public const int Unit = 1; public const string GaitLog = "gait_log@v1";
+        /// <summary>The M0 locomotion controller is a biped controller: it accepts frames with exactly this many feet (the body itself takes any number). Other body plans need their own controller.</summary>
+        public const int BipedFeet = 2;
+        public const string FlagEnabled = "units.mech.enabled", FlagGaitLog = "units.mech.gaitLog";
+    }
 
     public enum LocoPhase { Stand = 0, Shift = 1, DoubleSupport = 2, SingleSupport = 3, Falling = 4, Fallen = 5 }
 
@@ -60,13 +66,15 @@ namespace Game.Units.Mech.Contracts
         // foot placement (fractions of leg length unless noted)
         public double step_width_walk_frac, cop_inboard_frac, cop_heel_frac, cop_toe_frac, cop_stand_frac, sole_margin, reach_forward_frac, reach_back_frac, reach_side_frac, foot_gap_frac;
         // body carriage
-        public double com_drop_stand_frac, com_drop_walk_frac, step_reach_margin_frac, step_length_max_frac, yaw_grip_radius_frac, touchdown_share, capture_trigger_frac, capture_step_time_tstar, height_hz, attitude_hz, yaw_hz, attitude_torque_frac, yaw_torque_frac, dcm_gain, force_min_bw, force_max_bw;
+        public double vault, knee_load_deg, knee_mid_deg, knee_extend_tstar, height_rate_tstar, height_rate_vault_tstar, com_drop_stand_frac, com_drop_walk_frac, step_reach_margin_frac, step_reach_front_frac, step_length_max_frac, yaw_grip_radius_frac, touchdown_share, capture_trigger_frac, capture_step_time_tstar, height_hz, attitude_hz, yaw_hz, attitude_torque_frac, yaw_torque_frac, dcm_gain, force_min_bw, force_max_bw;
         // swing
-        public double swing_clearance_frac, touchdown_speed_tstar, touchdown_gain_scale, landing_damping_scale, landing_time_tstar, transfer_lead, swing_rise_exponent, swing_hover, swing_retarget_tstar, stand_min_share, knee_min_flex_deg, swing_freeze, shift_time_tstar, liftoff_load_bw, arm_swing_gain, elbow_flex_deg;
+        public double swing_clearance_frac, touchdown_speed_tstar, touchdown_gain_scale, landing_damping_scale, landing_time_tstar, transfer_lead, swing_rise_exponent, swing_toe_up_deg, heel_strike_deg, swing_hover, swing_retarget_tstar, stand_min_share, knee_min_flex_deg, swing_freeze, shift_time_tstar, liftoff_load_bw, arm_swing_gain, trunk_counter_gain, elbow_flex_deg;
         public double stance_knee_damping_ratio, stance_hip_damping_ratio, stance_ankle_damping_ratio, stance_posture_hz;
         // falling
         public double fall_tilt_deg, fall_height_frac, fall_damping_ratio, rest_speed_fr;
         // stomp
         public double stomp_lift_frac, stomp_speed_tstar;
+        // controller constants (filters, thresholds, guards): data, not code (DEF-T005-arch-1)
+        public double reference_leg_length_m, load_filter, rest_time_s, turn_start_rad, turn_done_rad, shift_dcm_tolerance_frac, shift_timeout_factor, step_end_freeze, cop_travel_full_step_ratio, transfer_floor_delay, transfer_filter, transfer_done_share, ds_overrun_factor, transfer_overrun_share, ds_timeout_factor, leg_length_floor_frac, vault_length_floor_frac, touchdown_min_swing, stand_dcm_frac, stand_align_frac, stand_yaw_rad, friction_safety, load_scale_min, load_scale_max, posture_incline_floor, stance_velocity_max_rps, stomp_rise_fraction, touchdown_overdrive_frac, swing_horizontal_delay, swing_horizontal_end, knee_max_flex_deg, extra_drop_rate_tstar, extra_drop_max_frac, extra_drop_recover, touchdown_soften_span, target_velocity_max_rps, reach_speed_floor_frac, yaw_approach_factor, turn_first_speed_frac, turn_stop_factor, walking_speed_frac, footfall_probe_gain_m, footfall_probe_exponent, load_known_bw, yaw_report_threshold_rad;
     }
 }

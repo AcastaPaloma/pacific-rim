@@ -244,6 +244,36 @@ namespace Game.Units.Mech.Tests
         }
 
         [Test]
+        public void CompositionRootAssemblies_AreNotCompiledIntoPlayers()
+        {
+            // Scenarios constructs implementations of other modules on purpose (headless runs, tests): it must exist only where tests exist
+            string text = File.ReadAllText(Path.Combine(Repo.Root(), "Assets", "Game", "Units", "Mech", "Scenarios", "Game.Units.Mech.Scenarios.asmdef"));
+            Assert.That(text, Does.Contain("UNITY_INCLUDE_TESTS"));
+            foreach (var a in Asmdefs().Where(a => !IsCompositionRoot(a.Key)))
+                foreach (string r in a.Value) Assert.That(r.EndsWith(".Scenarios", StringComparison.Ordinal), Is.False, a.Key + " (a runtime assembly) references the composition root " + r);
+        }
+
+        [Test]
+        public void BehaviourCode_KeepsItsTuningNumbersInConfig()
+        {
+            // DEF-T005-arch-1: no decimal literal in the controller or the limiter other than exact mathematical constants (0.5 midpoints, tiny epsilons)
+            foreach (string file in new[] { "LocomotionController.cs", "IntentLimiter.cs" })
+            {
+                int line = 0;
+                foreach (string raw in File.ReadAllLines(Path.Combine(Repo.Root(), "Assets", "Game", "Units", "Mech", "Runtime", file)))
+                {
+                    line++;
+                    string code = raw.Contains("//") ? raw.Substring(0, raw.IndexOf("//", StringComparison.Ordinal)) : raw;
+                    foreach (Match m in Regex.Matches(code, @"(?<![\w.])\d+\.\d+f?\b"))
+                    {
+                        string v = m.Value.TrimEnd('f');
+                        Assert.That(v == "0.5" || v == "1.5" || v == "2.0" || v == "1.0", file + ":" + line + " literal " + m.Value);
+                    }
+                }
+            }
+        }
+
+        [Test]
         public void EngineFreeAssemblies_DeclareNoEngineReferences()
         {
             string game = Path.Combine(Repo.Root(), "Assets", "Game");

@@ -8,6 +8,7 @@ namespace Game.Physics.Body.Contracts
         public const int ArticulatedBody = 1;
         public const int FootContactEvent = 1;
         public const string PhysicsLog = "physics_log@v1";
+        public const string FlagEnabled = "physics.body.enabled", FlagPhysicsLog = "physics.body.physicsLog";
     }
 
     /// <summary>F-009: published on the Core bus in the simulation step in which the foot's normal force first reaches F_on. One per contact.</summary>
@@ -23,6 +24,36 @@ namespace Game.Physics.Body.Contracts
         public float NormalForceN;
         public float PressurePa;          // normal force / sole area
         public Vector3 ApproachVelocity;  // foot velocity at the start of the contact step, m/s
+    }
+
+    /// <summary>
+    /// Follow-up to <see cref="FootContact"/> with the same ContactId, published once the contact's loading window (body_tuning.contact_load_window_tstar, R-001 section 6: 0.10 T_nom)
+    /// has passed or the contact has ended: the peak normal force and the normal impulse of that window. Consumers that scale an effect with how hard the foot came down use this one.
+    /// </summary>
+    public struct FootLoaded : IEvent
+    {
+        public EntityId Unit;
+        public int Foot;
+        public long Step;
+        public long ContactId;
+        public float PeakNormalForceN;
+        public float ImpulseNs;        // integral of the normal force over the window
+        public float WindowSeconds;
+        public long PeakStep;
+    }
+
+    /// <summary>
+    /// The one place the PhysX mass unit is declared (body_tuning.sim_mass_unit_kg). PhysX cannot hold these bodies in kilograms (see MODULE.md), so every body in a physics scene is created
+    /// with masses in this unit and every force, torque, impulse, stiffness and damping handed to or read from the engine goes through these conversions. Accelerations, lengths and times are unchanged.
+    /// Any module that creates a Rigidbody or ArticulationBody, or applies a force with the engine API, must use the world's <see cref="IBodyWorld.MassUnit"/>; mixing units in one scene is a physics error.
+    /// </summary>
+    public readonly struct SimMassUnit
+    {
+        public readonly double KilogramsPerUnit;
+        public SimMassUnit(double kilogramsPerUnit) { if (!(kilogramsPerUnit > 0)) throw new System.ArgumentOutOfRangeException(nameof(kilogramsPerUnit)); KilogramsPerUnit = kilogramsPerUnit; }
+        /// <summary>kg, N, N m, N s, N/m, N m/rad, N m s/rad, kg m2: SI to engine.</summary>
+        public double ToEngine(double si) => si / KilogramsPerUnit;
+        public double ToSi(double engine) => engine * KilogramsPerUnit;
     }
 
     /// <summary>Published in the step in which the foot's normal force falls below F_off.</summary>
@@ -117,6 +148,9 @@ namespace Game.Physics.Body.Contracts
         double ExternalWorkJ { get; }
         /// <summary>Count of non-foot links that touched the ground in the last step (fall detection, M-006.5).</summary>
         int NonFootContacts { get; }
+        /// <summary>Running count of (step, DOF) pairs at which a joint moved at the engine's speed guard (max joint velocity, R-005 R11). The guard is an explosion stop, not a motion limit: it should stay 0 outside falls.</summary>
+        int JointSpeedClampCount { get; }
+        bool DofSpeedClamped(int dof);
     }
 
     /// <summary>Where and how a body is created. Rotation is a world rotation of the whole frame (identity = facing +z).</summary>
@@ -136,6 +170,7 @@ namespace Game.Physics.Body.Contracts
     public interface IBodyWorld
     {
         double StepSeconds { get; }
+        SimMassUnit MassUnit { get; }
         IArticulatedBody CreateBody(MechFrameData frame, BodyTuning tuning, EntityId unitId, BodySpawn spawn);
         void DestroyBody(IArticulatedBody body);
         /// <summary>Starts a physics_log@v1 file for the body; a record is written after every step.</summary>

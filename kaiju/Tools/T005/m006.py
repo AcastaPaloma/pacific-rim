@@ -101,9 +101,9 @@ def main():
             imp = sum(sum(f["fn"] for f in steps[n]["feet"]) for n in range(a, b)) * dt
             errs.append(imp / (mg * (b - a) * dt) - 1)
         if errs: R.add("M-006.4", name + ": worst |stride impulse / (m g T) - 1| over %d strides" % len(errs), max(abs(e) for e in errs), "<= 0.02", max(abs(e) for e in errs) <= 0.02, "gait/" + name)
-        late = [r for r in steps if r["t"] > 25]
+        late = steps  # the whole capture
         peak = max(max(f["fn"] for f in r["feet"]) for r in late) / mg
-        R.add("M-006.4", name + ": peak single-foot Fn (body weights), t > 25 s", peak, "[1.0, 2.0]", within(peak, 1.0, 2.0), "gait/" + name, "raw per-step contact force, no smoothing")
+        R.add("M-006.4", name + ": peak single-foot Fn (body weights), whole capture", peak, "[1.0, 2.0]", within(peak, 1.0, 2.0), "gait/" + name, "raw per-step contact force, no smoothing")
 
     # ---- M-006.5
     d = truth.get("topple_locked")
@@ -123,7 +123,7 @@ def main():
         p = phys(name)
         if not p: continue
         hdr = p[0]; limits = {k: v["forceLimit"] for k, v in hdr["engine"]["drives"].items()}
-        st = [r for r in p if "joints" in r and r["t"] > 20]
+        st = [r for r in p if "joints" in r]  # the whole capture: no window (DEF-T005-physics-2)
         worst_ratio, sat_frac, ankle_peak = 0, 0, 0
         counts = {}
         for r in st:
@@ -133,12 +133,12 @@ def main():
                     worst_ratio = max(worst_ratio, ratio); counts[key] = counts.get(key, 0) + (1 if v[5] else 0)
                     if j.startswith("ankle"): ankle_peak = max(ankle_peak, abs(v[3]))
         sat_frac = max(counts.values()) / len(st); worst_sat = max(counts, key=counts.get)
-        pos = [r["power_total_pos"] for r in st]
+        pos = [r["power_total_pos"] for r in st]; walk = [r["power_total_pos"] for r in st if r["t"] >= 3.0]
         R.add("M-006.6", name + ": worst |tau| / forceLimit", worst_ratio, "<= 1", worst_ratio <= 1.0 + 1e-6, "physics/" + name)
         R.add("M-006.6", name + ": most saturated joint, share of steps", sat_frac, "<= 0.05", sat_frac <= 0.05, "physics/" + name, worst_sat)
         R.add("M-006.6", name + ": ankle peak torque (N m)", ankle_peak, "<= 1.0e9", ankle_peak <= 1.0e9 * (1 + 1e-6), "physics/" + name)
-        R.add("M-006.6", name + ": mean sum positive P (MW), t > 20 s", sum(pos) / len(pos) / 1e6, "[30, 120]", within(sum(pos) / len(pos) / 1e6, 30, 120), "physics/" + name, "measured at the speed actually reached, not at Fr 0.25")
-        R.add("M-006.6", name + ": peak sum positive P (MW)", max(pos) / 1e6, "<= 450", max(pos) / 1e6 <= 450, "physics/" + name)
+        R.add("M-006.6", name + ": mean sum positive P (MW), walking part (t >= 3 s)", sum(walk) / len(walk) / 1e6, "[30, 120]", within(sum(walk) / len(walk) / 1e6, 30, 120), "physics/" + name, "measured at the speed actually reached, not at Fr 0.25")
+        R.add("M-006.6", name + ": peak sum positive P (MW), whole capture", max(pos) / 1e6, "<= 450", max(pos) / 1e6 <= 450, "physics/" + name)
 
     # "outside falls": every record before a capture's fall_start event; the passive topple scenes are falls from their first step
     passive_falls = ("topple_locked", "topple_limp")
