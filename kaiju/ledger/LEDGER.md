@@ -358,3 +358,14 @@ Mirrors `GAME_BREAKDOWN.md` §11 for questions raised after the initial breakdow
 | Q-070 | M0 palette profile: `slate_teal` (the only profile passing M-003 c1 in the style-frame scene) as default; retune haze for the other four before offering them? | `slate_teal` default; retune the others as a small task. | T-006 (C11) | No |
 | Q-071 | Default framing and mech facing for the first image (hero shows the mech from behind, looking at the city). | Keep for the style decision; revisit facing once the mech walks. | T-006 eval-style (DEF-T006-style-12/13) | No |
 | Q-072 | Run the calibration ratings now (`checkpoints/M0/sheets/`, ~40 min) or later? M-005 cannot be calibrated until `calibrate` supports it. | Now. | T-006 (C16, C19) | No |
+
+### Founder answers, 2026-11-14 (after `reports/M0.md`): "defaults on all seven decisions, start T-005 round 2"
+| ID | Answer (the recommended default) | Action |
+|---|---|---|
+| Q-068 | Approved: the `slate_teal` hero is M0's look; landmark roofs are a follow-up. | Style frame accepted. |
+| Q-069 | A small, sourced landmark-roof layer in World.Geo; nothing invented. | Queued (QUEUE §7a). |
+| Q-070 | `slate_teal` is the M0 default; the other four profiles get haze retuning before they are offered. | Queued (QUEUE §7a). |
+| Q-060 | `direction` anchoring is the M0 default; yaw thresholds to be recalibrated for surface-anchored dither. | Folded into calibration. |
+| Q-053 | T-005 stays unmerged; round 2 approved with R-008's approach; no assist, no data change, no lower band. | T-005 round 2 started (QUEUE §6). |
+| Q-071 | Keep the from-behind framing for the style decision; decide facing once the mech walks. | None now. |
+| Q-072 | Calibrate now with `checkpoints/M0/sheets/`; M-005 waits for a `calibrate` extension. | Waiting on the founders' filled sheets. |
