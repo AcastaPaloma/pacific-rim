@@ -6,9 +6,9 @@ Only the scribe and the orchestrator allocate IDs. IDs never change and are neve
 |---|---|---|---|
 | D- | Design decision | D-027 | D-028 |
 | F- | Feature | F-064 | F-065 |
-| M- | Quality metric | M-008 | M-009 |
-| Q- | Open question | Q-005 | Q-006 |
-| R- | Research finding | R-005 (commissioned) | R-006 |
+| M- | Quality metric | M-017 | M-018 |
+| Q- | Open question | Q-034 | Q-035 |
+| R- | Research finding | R-005 (recorded) | R-006 |
 | T- | Task (feature slice; ledger-only, not a breakdown ID) | T-007 | T-008 |
 
 Defects allocate themselves: `DEF-<task>-<evaluator>-<n>`.
