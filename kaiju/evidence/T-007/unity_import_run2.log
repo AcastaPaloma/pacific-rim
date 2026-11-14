@@ -7,12 +7,12 @@ Darwin version:          25.6.0
 Architecture:            arm64
 Running under Rosetta:   NO
 Available memory:        24576 MB
-Date:                    2026-11-14T15:29:22Z
-VBCSCompilerPreWarmer: watching VBCSCompiler (PID 34955)
-VBCSCompilerPreWarmer: pre-warm launched (dotnet PID 34957)
-VBCSCompiler prewarm took 2.46 ms
+Date:                    2026-11-14T15:34:11Z
+VBCSCompilerPreWarmer: watching VBCSCompiler (PID 36976)
+VBCSCompilerPreWarmer: pre-warm launched (dotnet PID 36978)
+VBCSCompiler prewarm took 2.34 ms
 [Licensing::Module] Trying to connect to existing licensing client channel...
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kuanw" at "2026-11-14T15:29:22.146663Z"
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kuanw" at "2026-11-14T15:34:11.505414Z"
 Launching external process: /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Helpers/PackageManager/Server/UnityPackageManager
 
 COMMAND LINE ARGUMENTS:
@@ -26,7 +26,7 @@ COMMAND LINE ARGUMENTS:
 -executeMethod
 Game.Units.Mech.Art.Editor.MechFrameImport.Run
 -hubSessionId
-59a589e7-9305-447c-ad2b-ee76e5746a9b
+f8663c1d-46c3-4f42-b69e-ceeecfb3e9e0
 -accessToken
 2NZXamxTK8B3i4RmXq5IA11zBodg4YqK7JG_sbsHtks003f
 Successfully changed project path to: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-007/kaiju
@@ -71,7 +71,7 @@ Successfully changed project path to: /Users/kuanw/Me/code/pacific-rim/.claude/w
 Logging is directed to a specific file, skipping project log.
 Player connection [8319410560]  Target information:
 
-Player connection [8319410560]  * "[IP] 10.39.69.198 [Port] 55506 [Flags] 2 [Guid] 576183481 [EditorId] 576183481 [Version] 1048832 [Id] OSXEditor(0,Kuans-MacBook-Pro.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+Player connection [8319410560]  * "[IP] 10.39.69.198 [Port] 55505 [Flags] 2 [Guid] 3386631771 [EditorId] 3386631771 [Version] 1048832 [Id] OSXEditor(0,Kuans-MacBook-Pro.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
 
 Player connection [8319410560] Host joined multi-casting on [225.0.0.222:54997]...
 Player connection [8319410560] Host joined alternative multi-casting on [225.0.0.222:34997]...
@@ -80,12 +80,12 @@ Input System module state changed to: Initialized.
 [Physics::Module] Id: 0xdecafbad
 [Licensing::Client] Handshaking with LicensingClient:
   Version:                 1.19.0+4cc3dda
-  Session Id:              f2d46b793336419294e1ec1dca57520a
+  Session Id:              8f34c883e6a8453382e899b40de8fe4b
   Correlation Id:          b081f4decbdb0f021f9123b7bc614413
-  External correlation Id: 5856832005545823888
+  External correlation Id: 3045755578144479206
   Machine Id:              Jtoxy/laSQwJh0RLupJMEeaAObc=
 [Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-kuanw" (connect: 0.00s, validation: 0.00s, handshake: 0.13s)
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kuanw-notifications" at "2026-11-14T15:29:22.275855Z"
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kuanw-notifications" at "2026-11-14T15:34:11.631628Z"
 [Licensing::Client] Successfully updated the access token
 [Licensing::Module] Successfully updated the access token 2NZXamxTK8...
 [Licensing::Client] Successfully resolved entitlement details
@@ -97,6 +97,9 @@ Input System module state changed to: Initialized.
 [Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
 [Licensing::Client] Successfully resolved entitlement details
 [Licensing::Module] Licensing Background thread has ended after 0.13s
+[Package Manager] Connected to IPC stream "Upm-36975" after 0.1 seconds.
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
 Initialising UDS system complete:
   - System type: Client
   - Resource namespace: cc822ac119831e5dc84cc608eaacfa32
@@ -105,9 +108,6 @@ Initialising UDS system complete:
   - Command buffer size: 8192
   - Hashmap size: 4194304
   - Service connected: false
-[Package Manager] Connected to IPC stream "Upm-34954" after 0.1 seconds.
-[Licensing::Client] Successfully resolved entitlement details
-Library Redirect Path: Library/
 Launching Unity Data Store - /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Helpers/Unity.DataStore 
 Unity Data Store artifact dir = Library/DataStore, working dir = /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-007/kaijuUnity Data Store running and initialised
 [Physics::Module] Selected backend (deferred post-plugins).
@@ -137,7 +137,7 @@ Mono path[0] = '/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Res
 Mono path[1] = '/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/BCLExtensions/runtime/netstandard2.1'
 Mono path[2] = '/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/lib/mono/unityjit-macos'
 Mono config path = '/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56954
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56975
 CodeReloadManager initialized
 ImportWorker Server TCP listen port: 0
 AcceleratorClientConnectionCallback - disconnected - :0
@@ -146,29 +146,29 @@ Registering precompiled unity dll's ...
 Register platform support module: /Applications/Unity/Hub/Editor/6000.6.9f1/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
 Register platform support module: /Applications/Unity/Hub/Editor/6000.6.9f1/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
 Register platform support module: /Applications/Unity/Hub/Editor/6000.6.9f1/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.000424 seconds.
+Registered in 0.000441 seconds.
 Native extension for WindowsStandalone target not found
 Native extension for OSXStandalone target not found
 Native extension for WebGL target not found
 Package Manager log level set to [2]
 ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:False
 Scripting: successfully reloaded assembly
-- Finished resetting the current domain, in  0.373 seconds
-Domain Reload Profiling: 615ms
-	BeginReloadAssembly (53ms)
-		CreateAndSetChildDomain (15ms)
+- Finished resetting the current domain, in  0.294 seconds
+Domain Reload Profiling: 525ms
+	BeginReloadAssembly (49ms)
+		CreateAndSetChildDomain (13ms)
 	RebuildNativeTypeToScriptingClass (8ms)
-	initialDomainReloadingComplete (26ms)
-	LoadAllAssembliesAndSetupDomain (151ms)
-		LoadAssemblies (38ms)
-		TypeCache.Refresh (105ms)
-			TypeCache.ScanAssembly (97ms)
+	initialDomainReloadingComplete (24ms)
+	LoadAllAssembliesAndSetupDomain (146ms)
+		LoadAssemblies (36ms)
+		TypeCache.Refresh (101ms)
+			TypeCache.ScanAssembly (93ms)
 		AnalyzeDomain (0ms)
-	FinalizeReload (374ms)
+	FinalizeReload (294ms)
 		SetupLoadedEditorAssemblies (0ms)
-			BeforeProcessingInitializeOnLoad (50ms)
-			ProcessInitializeOnLoadAttributes (47ms)
-			ProcessInitializeOnLoadMethodAttributes (175ms)
+			BeforeProcessingInitializeOnLoad (47ms)
+			ProcessInitializeOnLoadAttributes (44ms)
+			ProcessInitializeOnLoadMethodAttributes (107ms)
 [Licensing::Client] Successfully resolved entitlement details
 Application.AssetDatabase Initial Refresh Start
 [Package Manager] Restoring resolved packages state from cache
@@ -252,12 +252,12 @@ warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
       Assembly system.runtime.interopservices.windowsruntime has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll" in favor of "/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.WindowsRuntime.dll"
 warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
       Assembly system.componentmodel.composition has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/NetStandard/compat/2.1.0/shims/netfx/System.ComponentModel.Composition.dll" in favor of "/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/System.ComponentModel.Composition.dll"
-ExitCode: 0 Duration: 0s264ms
+ExitCode: 0 Duration: 0s252ms
 [733/968    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
-*** Tundra build success (0.25 seconds), 1 items updated, 968 evaluated
-AssetDatabase: script compilation time: 0.640034s
+*** Tundra build success (0.24 seconds), 1 items updated, 968 evaluated
+AssetDatabase: script compilation time: 0.555020s
 Total cache size 251313380
-Total cache size after purge 251313380, took 00:00:00.0972309
+Total cache size after purge 251313380, took 00:00:00.0835435
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory is not a mono symbol file
 Assembly reference Packages/com.unity.cinemachine/Editor/Samples/ExposeHDRPInternals/HDRP-Editor-ref.asmref has no target assembly definition
@@ -268,99 +268,99 @@ Assembly reference Packages/com.unity.cinemachine/Editor/Samples/ExposeHDRPInter
 Native extension for WindowsStandalone target not found
 Native extension for OSXStandalone target not found
 Native extension for WebGL target not found
-Start HTTP server: port:7802
+Start HTTP server: port:7801
 Pipeline: Descriptor written to /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-007/kaiju/Library/Pipeline/.unity-pipeline-port
 ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
 Scripting: successfully reloaded assembly
-- Finished resetting the current domain, in  0.550 seconds
-Domain Reload Profiling: 1052ms
-	BeginReloadAssembly (127ms)
+- Finished resetting the current domain, in  0.513 seconds
+Domain Reload Profiling: 1013ms
+	BeginReloadAssembly (129ms)
 		DisableScriptedObjects (36ms)
-		CreateAndSetChildDomain (30ms)
+		CreateAndSetChildDomain (35ms)
 	RebuildCommonClasses (4ms)
-	RebuildNativeTypeToScriptingClass (8ms)
-	initialDomainReloadingComplete (34ms)
-	LoadAllAssembliesAndSetupDomain (329ms)
-		LoadAssemblies (127ms)
-		TypeCache.Refresh (124ms)
-			TypeCache.ScanAssembly (112ms)
-		AnalyzeDomain (34ms)
-			BuildScriptInfoCaches (31ms)
-	FinalizeReload (551ms)
+	RebuildNativeTypeToScriptingClass (7ms)
+	initialDomainReloadingComplete (33ms)
+	LoadAllAssembliesAndSetupDomain (328ms)
+		LoadAssemblies (134ms)
+		TypeCache.Refresh (118ms)
+			TypeCache.ScanAssembly (108ms)
+		AnalyzeDomain (33ms)
+			BuildScriptInfoCaches (30ms)
+	FinalizeReload (513ms)
 		SetupLoadedEditorAssemblies (0ms)
-			BeforeProcessingInitializeOnLoad (51ms)
-			ProcessInitializeOnLoadAttributes (189ms)
-			ProcessInitializeOnLoadMethodAttributes (39ms)
-		AwakeInstancesAfterBackupRestoration (8ms)
+			BeforeProcessingInitializeOnLoad (50ms)
+			ProcessInitializeOnLoadAttributes (181ms)
+			ProcessInitializeOnLoadMethodAttributes (32ms)
+		AwakeInstancesAfterBackupRestoration (9ms)
 Starting new worker id: 0 with log in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-007/kaiju/Logs/AssetImportWorkerHW0.log
 
-Asset Pipeline Refresh (id=aaf8b45e40ed44d1d96c522b1414d2b2): Total: 2.219 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+Asset Pipeline Refresh (id=6563502392cac449689f25d4ad8b022f): Total: 2.077 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
 	(Values over 0.05ms)
 	Summary:
 		Imports: total=0 (actual=0, local cache=0, cache server=0)
-		Asset DB Process Time: managed=0 ms, native=1000 ms
-		Asset DB Callback time: managed=18 ms, native=10 ms
-		Scripting: domain reloads=1, domain reload time=523 ms, compile time=641 ms, other=24 ms
+		Asset DB Process Time: managed=0 ms, native=951 ms
+		Asset DB Callback time: managed=18 ms, native=8 ms
+		Scripting: domain reloads=1, domain reload time=518 ms, compile time=556 ms, other=23 ms
 		Project Asset Count: scripts=1370, non-scripts=2282
 		Asset File Changes: new=0, changed=0, moved=0, deleted=0
 		Scan Filter Count: 1
-	InvokePackagesCallback: 11.788ms
-	ApplyChangesToAssetFolders: 0.207ms
-	Scan: 283.173ms
-	Collect global state as custom dependencies: 11.636ms
-	CategorizeScriptCompilationAssets: 17.751ms
-	ProcessAssetsWithTransientArtifactChanges: 30.724ms
-	CategorizeAssets: 31.242ms
-	CompileScripts: 641.030ms
-	ImportOutOfDateAssets: 557.258ms (553.327ms without children)
-		UnloadImportedAssets: 1.648ms
-		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.388ms
-		ImportSchedulerStart: 1.859ms
-	PostProcessAllAssets: 18.513ms
-		MonoPostProcessAllAssets: 18.489ms
-			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 6.970ms
-			SyncVS.PostprocessSyncProject 3.999ms
-			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 0.861ms
-			SpeedTree9Postprocessor.OnPostprocessAllAssets 0.787ms
-			EditModeScopePostprocessor.OnPostprocessAllAssets 0.392ms
-			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.308ms
-			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.242ms
-			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.127ms
-			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.117ms
-			CinemachineSettings.OnPostprocessAllAssets 0.111ms
-			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.090ms
-			DomainReloadProcessor.OnPostprocessAllAssets 0.089ms
-			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.081ms
-			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.073ms
-	UnloadStreamsBegin: 0.684ms
-	PersistCurrentRevisions: 0.071ms
-	GenerateScriptTypeHashes: 0.718ms
-	GenerateScriptTypeSerializationHashes: 1.403ms
-	Untracked: 612.865ms
+	InvokePackagesCallback: 9.214ms
+	ApplyChangesToAssetFolders: 0.195ms
+	Scan: 255.000ms
+	Collect global state as custom dependencies: 9.704ms
+	CategorizeScriptCompilationAssets: 21.877ms
+	ProcessAssetsWithTransientArtifactChanges: 31.332ms
+	CategorizeAssets: 29.721ms
+	CompileScripts: 555.924ms
+	ImportOutOfDateAssets: 519.857ms (516.686ms without children)
+		UnloadImportedAssets: 1.439ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.333ms
+		ImportSchedulerStart: 1.365ms
+	PostProcessAllAssets: 18.390ms
+		MonoPostProcessAllAssets: 18.364ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 6.657ms
+			SyncVS.PostprocessSyncProject 4.502ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 0.770ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 0.726ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.389ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.292ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.234ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.125ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.107ms
+			CinemachineSettings.OnPostprocessAllAssets 0.107ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.086ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.084ms
+			DomainReloadProcessor.OnPostprocessAllAssets 0.084ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.055ms
+	UnloadStreamsBegin: 0.559ms
+	PersistCurrentRevisions: 0.069ms
+	GenerateScriptTypeHashes: 0.638ms
+	GenerateScriptTypeSerializationHashes: 1.260ms
+	Untracked: 623.502ms
 
 Application.AssetDatabase Initial Refresh End
 Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
 Launching external process: /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Helpers/UnityShaderCompiler
 Launched and connected shader compiler UnityShaderCompiler after 0.01 seconds
 Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
-Scanning for USB devices : 0.025ms
+Scanning for USB devices : 0.021ms
 Initializing Unity extensions:
 [MODES] ModeService[none].Initialize
 [MODES] ModeService[none].LoadModes
 [MODES] Loading mode Default (0) for mode-current-id-KaijuGame
-2026-11-14 10:29:25.732 Unity[34954:2507960] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0xbc9b8ff20 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-11-14 10:34:14.873 Unity[36975:2527679] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7eb33ff20 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
 Unloading 68 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 6010 unused Assets / (12.0 MB). Loaded Objects now: 6954.
-Memory consumption went from 0.53 GB to 0.52 GB.
-Total: 11.437041 ms (FindLiveObjects: 0.464375 ms CreateObjectMapping: 0.113084 ms MarkObjects: 7.517792 ms  DeleteObjects: 3.262208 ms)
+Unloading 6010 unused Assets / (10.9 MB). Loaded Objects now: 6954.
+Memory consumption went from 0.54 GB to 0.53 GB.
+Total: 6.657125 ms (FindLiveObjects: 0.334792 ms CreateObjectMapping: 0.098583 ms MarkObjects: 4.507542 ms  DeleteObjects: 1.655666 ms)
 
-Loaded scene 'Library/Unused/8120d58e125c8498b9ffc4032834d07a'
-	Deserialize:            0.215 ms
-	Integration:            1.521 ms
+Loaded scene 'Library/Unused/7786cc4aca3e7472da2bb682fcf2346a'
+	Deserialize:            0.180 ms
+	Integration:            1.348 ms
 	Integration of assets:  0.001 ms
-	Thread Wait Time:       0.005 ms
-	Total Operation Time:   1.741 ms
-Asset Pipeline Refresh (id=8b80d7ee756584ff0a6bb4434cf21a70): Total: 0.031 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Thread Wait Time:       0.006 ms
+	Total Operation Time:   1.535 ms
+Asset Pipeline Refresh (id=fa6762c35c093496fa5dd25167a5cf45): Total: 0.028 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
 [MechFrameImport] done
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
@@ -372,36 +372,38 @@ Game.Units.Mech.Art.Editor.MechFrameImport:Run () (at Assets/Game/Units/Mech/Art
 
 (Filename: Assets/Game/Units/Mech/Art/Editor/MechFrameImport.cs Line: 43)
 
-Thread 0x420337000 may have been prematurely finalized
-Thread 0x420647000 may have been prematurely finalized
+Thread 0x42120f000 may have been prematurely finalized
+Thread 0x421547000 may have been prematurely finalized
 Batchmode quit successfully invoked - shutting down!
 Pipeline Server stopped
 Input System module state changed to: ShutdownInProgress.
 Input Polling Thread exited.
 Input System module state changed to: Shutdown.
-Worker ready: AssetImportWorkerHW0 0
-Thread 0x16e54b000 may have been prematurely finalized
-Thread 0x16e807000 may have been prematurely finalized
-Thread 0x16e663000 may have been prematurely finalized
-Thread 0x16e9ab000 may have been prematurely finalized
-Thread 0x16e6ef000 may have been prematurely finalized
-Thread 0x16e5d7000 may have been prematurely finalized
-Thread 0x16e91f000 may have been prematurely finalized
-Thread 0x16e893000 may have been prematurely finalized
-Thread 0x16e77b000 may have been prematurely finalized
-Thread 0x16ea37000 may have been prematurely finalized
+Thread 0x16dd47000 may have been prematurely finalized
+Thread 0x16ddd3000 may have been prematurely finalized
+Thread 0x16deeb000 may have been prematurely finalized
+Thread 0x16de5f000 may have been prematurely finalized
+Thread 0x16e003000 may have been prematurely finalized
+Thread 0x16e11b000 may have been prematurely finalized
+Thread 0x16e08f000 may have been prematurely finalized
+Thread 0x16df77000 may have been prematurely finalized
+Thread 0x16e1a7000 may have been prematurely finalized
+Thread 0x16e233000 may have been prematurely finalized
+Thread 0x16e2bf000 may have been prematurely finalized
+Thread 0x16e34b000 may have been prematurely finalized
+Thread 0x16e3d7000 may have been prematurely finalized
+Thread 0x16e463000 may have been prematurely finalized
+Shut down UDS service system complete
+debugger-agent: Unable to listen on 42
 [Physics::Module] Cleanup current backend.
 [Physics::Module] Id: 0xf2b8ea05
 [Licensing::IpcConnector] LicenseClient-kuanw-notifications channel disconnected successfully.
 [Licensing::IpcConnector] LicenseClient-kuanw channel disconnected successfully.
-Shut down UDS service system complete
-Lingering sessions upon destruction of worker manager
 Unity Data Store service was successfully shut down
 UDS shutting down local client system
 AcceleratorClientConnectionCallback - disconnected - :0
 Cleanup mono
 CodeReloadManager destroyed
-debugger-agent: Unable to listen on 42
 Exiting batchmode successfully now!
 [ExitDontLaunchBugReporter] Exiting without the bug reporter. Application will exit with return code 0
 [Package Manager] Server process was shutdown

@@ -9,7 +9,7 @@ Outputs (evidence/T-007/):
   turnaround_sheet.png                             the four views side by side (downscaled)
   silhouette_{front,side,three_quarter}_{full,180px,48px,24px}.png   nearest-neighbour, H = N px
   silhouettes_x8_{180,48,24}px.png                 each size shown x8; 24/48 px sheets include 2 decoys (blind labels)
-  silhouette_decoy_key.json                        which label is the mech (kept apart for blind looks)
+  sealed/decoy_key.json                            which label is the mech (sealed: open only after the blind look)
   flat_front_180px.png, flat_front_180px_x4.png    flat palette colours at H = 180 px (value-band count in report)
   overlay_human_iou.png, overlay_concept_vs_greybox.png
   rom_contact_sheet.png                            AC-21 poses, front and side
@@ -138,32 +138,38 @@ def human_silhouette(h_px):
     return crop_to_bbox(m)
 
 
-def decoy_crane(h):
+def _canvas(h, aspect):
     S = 8
     H = h * S
-    im = Image.new("L", (int(H * 0.9), H), 255)
-    d = ImageDraw.Draw(im)
-    W = im.width
-    for x in (0.25, 0.55):
-        d.rectangle([x * W, 0.25 * H, x * W + 0.05 * H, H], fill=0)          # legs
-    d.rectangle([0.25 * W, 0.55 * H, 0.55 * W + 0.05 * H, 0.6 * H], fill=0)  # portal beam
-    d.rectangle([0.0, 0.2 * H, W, 0.27 * H], fill=0)                          # boom
-    d.rectangle([0.3 * W, 0.05 * H, 0.5 * W, 0.2 * H], fill=0)                # machinery house
-    d.line([(0.4 * W, 0.05 * H), (0.95 * W, 0.2 * H)], fill=0, width=int(0.02 * H))
+    im = Image.new("L", (int(H * aspect), H), 255)
+    return im, ImageDraw.Draw(im), im.width, H
+
+
+def decoy_pylon(h):
+    """humanoid-adjacent decoy: lattice transmission pylon with two cross-arms (solid silhouette)"""
+    im, d, W, H = _canvas(h, 0.45)
+    cx = W / 2
+    d.polygon([(cx - 0.17 * H, H), (cx + 0.17 * H, H), (cx + 0.05 * H, 0.22 * H), (cx - 0.05 * H, 0.22 * H)], fill=0)
+    d.polygon([(cx - 0.05 * H, 0.22 * H), (cx + 0.05 * H, 0.22 * H), (cx + 0.025 * H, 0.0), (cx - 0.025 * H, 0.0)], fill=0)
+    d.rectangle([cx - 0.21 * H, 0.18 * H, cx + 0.21 * H, 0.22 * H], fill=0)      # upper cross-arm
+    d.rectangle([cx - 0.16 * H, 0.36 * H, cx + 0.16 * H, 0.40 * H], fill=0)      # lower cross-arm
+    for sx in (-1, 1):                                                           # hanging insulator strings
+        d.rectangle([cx + sx * 0.20 * H - 0.012 * H, 0.22 * H, cx + sx * 0.20 * H + 0.012 * H, 0.33 * H], fill=0)
+    d.polygon([(cx - 0.09 * H, H), (cx + 0.09 * H, H), (cx, 0.62 * H)], fill=255)  # open base between the legs
     return crop_to_bbox(np.array(im) < 128)
 
 
-def decoy_tower(h):
-    S = 8
-    H = h * S
-    im = Image.new("L", (int(H * 0.45), H), 255)
-    d = ImageDraw.Draw(im)
-    W = im.width
-    d.rectangle([0.1 * W, 0.15 * H, 0.9 * W, H], fill=0)                      # block
-    d.rectangle([0.0, 0.55 * H, W, 0.62 * H], fill=0)                         # setback ledge
-    d.rectangle([0.3 * W, 0.0, 0.7 * W, 0.15 * H], fill=0)                    # crown
-    d.rectangle([0.25 * W, 0.8 * H, 0.75 * W, H], fill=255)                   # portal opening
-    d.rectangle([0.35 * W, 0.8 * H, 0.65 * W, H], fill=0)
+def decoy_gantry(h):
+    """humanoid-adjacent decoy: two-legged shipyard gantry with a machinery house and a hook block"""
+    im, d, W, H = _canvas(h, 0.5)
+    cx = W / 2
+    for sx in (-1, 1):
+        d.polygon([(cx + sx * 0.20 * H, H), (cx + sx * 0.14 * H, H), (cx + sx * 0.06 * H, 0.30 * H),
+                   (cx + sx * 0.12 * H, 0.30 * H)], fill=0)                      # splayed legs
+    d.rectangle([cx - 0.22 * H, 0.22 * H, cx + 0.22 * H, 0.31 * H], fill=0)      # girder
+    d.rectangle([cx - 0.08 * H, 0.08 * H, cx + 0.08 * H, 0.22 * H], fill=0)      # machinery house
+    d.rectangle([cx - 0.015 * H, 0.31 * H, cx + 0.015 * H, 0.55 * H], fill=0)    # hoist rope
+    d.rectangle([cx - 0.05 * H, 0.55 * H, cx + 0.05 * H, 0.62 * H], fill=0)      # hook block
     return crop_to_bbox(np.array(im) < 128)
 
 
@@ -231,12 +237,12 @@ def silhouettes():
             mm = nn_resize(m, n)
             masks[(v, n)] = mm
             to_img(mm, pad=2).save(os.path.join(EV, f"silhouette_{v}_{n}px.png"))
-    rng = random.Random(7)
+    rng = random.SystemRandom()   # fresh, unrecorded order on every run
     key = {}
     for n in (180, 48, 24):
         sheets = {"": [(v, masks[(v, n)]) for v in ("front", "side", "three_quarter")]}
         if n in (48, 24):
-            dec = [("decoy_crane", nn_resize(decoy_crane(n), n)), ("decoy_tower", nn_resize(decoy_tower(n), n)),
+            dec = [("decoy_pylon", nn_resize(decoy_pylon(n), n)), ("decoy_gantry", nn_resize(decoy_gantry(n), n)),
                    ("mech_front", masks[("front", n)])]
             rng.shuffle(dec)
             key[f"{n}px"] = {chr(65 + i): k for i, (k, _) in enumerate(dec)}
@@ -251,8 +257,11 @@ def silhouettes():
                 sheet.paste(im, (x, 50))
                 d.text((x, 10), f"{lab} ({n} px, shown x8)", fill=0, font=FONT)
             sheet.save(os.path.join(EV, f"silhouettes_x8_{n}px{suffix}.png"))
-    json.dump({"note": "blind labels used in silhouettes_x8_48px_blind.png / _24px_blind.png (A-C); only the evaluator opens this after answering",
-               "key": key}, open(os.path.join(EV, "silhouette_decoy_key.json"), "w"), indent=1)
+    # sealed key: kept out of the evidence index; evaluators open it only after their blind look
+    sealed = os.path.join(EV, "sealed")
+    os.makedirs(sealed, exist_ok=True)
+    json.dump({"note": "SEALED: blind labels A-C of silhouettes_x8_48px_blind.png / _24px_blind.png. Open only after the blind look.",
+               "key": key}, open(os.path.join(sealed, "decoy_key.json"), "w"), indent=1)
     checks["silhouette"] = silhouette_checks(masks[("front", 48)], masks[("front", 24)], masks[("side", 48)])
     return masks
 
@@ -325,6 +334,12 @@ def concept_overlay(masks):
         W = max(cN.shape[1], gN.shape[1]) + 20
         A, B = place(gN, N, W), place(cN, N, W)
         out[f"{gname}_iou"] = round(iou(A, B), 3)
+        if gname == "front":
+            # arm-masked: only the central band |x| <= 10.5 m (torso, pelvis, legs; arms of both excluded)
+            half = int(round(10.5 * N / H_M))
+            band = np.zeros_like(A)
+            band[:, W // 2 - half: W // 2 + half] = True
+            out["front_iou_arm_masked"] = round(iou(A & band, B & band), 3)
         tiles.append((overlay_img(A, B, 3), f"{gname}: greybox blue, concept red, IoU {out[gname + '_iou']}"))
     W = sum(t.width for t, _ in tiles) + 60
     sheet = Image.new("RGB", (W, max(t.height for t, _ in tiles) + 50), "white")

@@ -13,8 +13,7 @@ computed with Blender's boolean (Manifold solver) and its volume measured.
   - adjacent pairs (parent/child): overlap volume as % of the smaller part (B7: <= 2 %)
   - non-adjacent pairs: overlap volume and penetration depth, taken as the smallest extent of the
     intersection's bounding box (AC-21: <= 0.5 m; B7: none)
-B7 tests every DOF of the L-side joints, waist and neck at its R-005 range ends and mid-range
-(R parts are exact mirrors). Each DOF is run twice: "isolated" (every other joint at rest) and
+B7 tests every DOF of the waist, neck and both sides' joints at its R-005 range ends and mid-range. Each DOF is run twice: "isolated" (every other joint at rest) and
 "cleared" (other limbs moved out of the swept space: contralateral leg abducted 40 deg and flexed
 30 deg, both arms abducted 40 deg), so self-geometry limits and stance-contact limits are told apart.
 """
@@ -225,8 +224,17 @@ AC21_POSES = {
                "ankle_L": {"plantarflexion": -20}, "ankle_R": {"plantarflexion": -20}},
     "arms_overhead": {"shoulder_L": {"flexion": 155}, "shoulder_R": {"flexion": 155}},
 }
-CLEARED = {"hip_R": {"abduction": 40, "flexion": 30}, "shoulder_L": {"abduction": 40}, "shoulder_R": {"abduction": 40}}
-B7_JOINTS = ["waist", "neck", "shoulder_L", "elbow_L", "wrist_L", "hip_L", "knee_L", "ankle_L"]
+def cleared_pose(jid):
+    """other limbs out of the swept space: the contralateral leg abducted 40 deg and flexed 30 deg, both arms
+    abducted 40 deg (the joint under test is never moved by this)"""
+    other_hip = "hip_L" if jid.endswith("_R") else "hip_R"
+    pose = {other_hip: {"abduction": 40, "flexion": 30}, "shoulder_L": {"abduction": 40}, "shoulder_R": {"abduction": 40}}
+    return {k: dict(v) for k, v in pose.items() if k != jid}
+
+
+# both sides are swept (DEF-T007-physics-3); the parts are exact mirrors, so L and R results must agree
+B7_JOINTS = ["waist", "neck", "shoulder_L", "elbow_L", "wrist_L", "hip_L", "knee_L", "ankle_L",
+             "shoulder_R", "elbow_R", "wrist_R", "hip_R", "knee_R", "ankle_R"]
 
 
 def main():
@@ -256,9 +264,7 @@ def main():
                 for variant in ("isolated", "cleared"):
                     pose = {jid: {d["name"]: ang}}
                     if variant == "cleared":
-                        for k, v in CLEARED.items():
-                            if k != jid:
-                                pose[k] = dict(v)
+                        pose.update(cleared_pose(jid))
                     objs, adj, non = evaluate(pose, f"b7_{jid}_{d['name']}_{ang}_{variant}")
                     clear_objects(objs)
                     own = [r for r in adj if j["child"] in (r["a"], r["b"]) and j["parent"] in (r["a"], r["b"])]
@@ -277,6 +283,7 @@ def main():
         "b7_range_ends_cleared_no_contact": sum(r["pass_no_non_adjacent"] for r in ends if r["variant"] == "cleared"),
         "b7_range_ends_per_variant": len(ends) // 2,
         "b7_failures_adjacent": [(r["joint"], r["dof"], r["angle_deg"], r["variant"], r["worst_adjacent_overlap_pct"]) for r in ends if not r["pass_adjacent_le_2pct"]],
+        "b7_contacts_isolated": [(r["joint"], r["dof"], r["angle_deg"], [(n["a"], n["b"], n["depth_m"], n["volume_m3"]) for n in r["non_adjacent"]]) for r in ends if r["variant"] == "isolated" and r["non_adjacent"]],
         "b7_contacts_cleared": [(r["joint"], r["dof"], r["angle_deg"], [(n["a"], n["b"], n["depth_m"]) for n in r["non_adjacent"]]) for r in ends if r["variant"] == "cleared" and r["non_adjacent"]],
     }
     with open(os.path.join(C.EVIDENCE, "rom_report.json"), "w") as f:
