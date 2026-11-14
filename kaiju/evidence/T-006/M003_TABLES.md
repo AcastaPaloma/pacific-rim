@@ -1,4 +1,6 @@
-C4 FAIL (hero 1080p slate_teal c1 span 12.8 < 15; mech L* vs buildings/sky not measurable, c2 N/A for a single still) | C5 PASS (d-iv 100% at s=4 and s=5; DIG on sky/lit surface passes; dither_off DIG 0.016) | C6 FAIL (A2, levels, families pass; no accent present so d-iii N/A; unquantised control rejected by the tool, bilinear control fails A2 out and d-iv) | C11 FAIL (c1 fails in 4 of 5 profiles at both resolutions) | C12 FAIL (waterfront c1 rho 0.80 and sky 0.53; closer/wider c1 pass; C8-C9 out of scope)
+Note: hero_1080p/slate_teal re-captured after warm-up fix 6deae3d; hero rows, line 1 verdicts and hero_1080p report refreshed (other captures unchanged).
+
+C4 PASS (hero 1080p slate_teal c1 span 20.3 >= 15, same as 1440p; mech L* vs buildings/sky not measurable, c2 N/A for a single still) | C5 PASS (d-iv 100% at s=4 and s=5; DIG on sky/lit surface passes; dither_off DIG 0.016) | C6 FAIL (A2, levels, families pass; no accent present so d-iii N/A; unquantised control rejected by the tool, bilinear control fails A2 out and d-iv) | C11 FAIL (c1 fails in 4 of 5 profiles at both resolutions) | C12 FAIL (waterfront c1 rho 0.80 and sky 0.53; closer/wider c1 pass; C8-C9 out of scope)
 
 Tool: Tools/Metrics/metrics.py m003 (tool 1.0.0, registry v1.1), git commit d10ec34. Frame sets are single stills (1 frame per profile/framing/control).
 
@@ -16,7 +18,7 @@ The tool accepts single-frame sets but flags "< 12 gameplay frames" and "no haze
 - Mech mean L* vs buildings/terrain/sky and vs frame median (C4): not measured. mask_animated is all zero in the sidecar (mech not in it) and there is no class mask, so the tool cannot isolate the mech.
 - d-iii accent (C6, one accent 0.1-15%): tool reports NOT_APPLICABLE, no accent in any frame; the C6 requirement of one accent is therefore unmet/unverified.
 - M-003.f panel: PENDING. e.contrast advisory fails only for slate_crimson hero 1080p (9.7 < 25).
-- Odd: hero 1080p slate_teal c1 span 12.78 (fails) but the same view in the bilinear and dither_off controls and hero 1440p give span about 20 (pass); the 1080p hero capture differs from its controls in the far band.
+- Resolved: the earlier hero 1080p slate_teal c1 span of 12.78 came from the unsettled first capture; the re-capture gives 20.34 (pass), consistent with the controls and hero 1440p (about 20).
 - The unquantised control is rejected by the tool as INVALID_INPUT (index/colour disagree, 5803 px), so it does not "fail" on a metric; bilinear fails A2 output and d-iv; dither_off fails DIG; haze_off fails DIG and c1 span.
 - Advisory: waterfront sky share 0.53 (> 0.50).
 
@@ -27,7 +29,7 @@ Report: `evidence/T-006/m003/hero_1080p/` (tool verdict FAIL). Pooled-set note: 
 |---|---|---|---|---|---|---|---|---|---|---|
 | lavender_peach | 1.000/1.000 | 0.354 | 9.87 / 0.80 / 7.60 | FAIL | 5 | 1 | 0 (none present, d-iii N/A) | 1.000 | 0.364 | F / P / P |
 | slate_crimson | 1.000/1.000 | 0.260 | 8.40 / 0.80 / 3.75 | FAIL | 5 | 2 | 0 (none present, d-iii N/A) | 1.000 | 0.364 | F / P / P |
-| slate_teal | 1.000/1.000 | 0.388 | 0.00 / 1.00 / 12.78 | FAIL | 6 | 1 | 0 (none present, d-iii N/A) | 1.000 | 0.364 | F / P / P |
+| slate_teal | 1.000/1.000 | 0.351 | 0.00 / 1.00 / 20.34 | PASS | 6 | 1 | 0 (none present, d-iii N/A) | 1.000 | 0.364 | P / P / P |
 | warm_amber_haze | 1.000/1.000 | 0.289 | 7.09 / 0.80 / 14.13 | FAIL | 8 | 1 | 0 (none present, d-iii N/A) | 1.000 | 0.364 | F / P / P |
 | warm_rust_sepia | 1.000/1.000 | 0.292 | 4.41 / 0.80 / 12.45 | FAIL | 7 | 1 | 0 (none present, d-iii N/A) | 1.000 | 0.364 | F / P / P |
 

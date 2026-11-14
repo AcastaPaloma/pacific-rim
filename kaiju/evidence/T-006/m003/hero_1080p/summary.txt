@@ -13,12 +13,12 @@ VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 1
   PENDING        [G] M-003.f          -   (no panel_ratings@v1 file given (the tool never defaults a score))
   REPORTED       [i] M-003.a.A3       1 share
   REPORTED       [i] M-003.a.A5       1 share
-  PASS           [A] M-003.b.DIG_max  0.3876 DIG  <= 0.5  margin 0.1124 seed-threshold
-  REPORTED       [A] M-003.b.O        0.928 O
+  PASS           [A] M-003.b.DIG_max  0.3545 DIG  <= 0.5  margin 0.1455 seed-threshold
+  REPORTED       [A] M-003.b.O        0.8652 O
   NOT_APPLICABLE [A] M-003.d-iii      -   (no accent present in any frame (applies only when present))
   PASS           [A] M-003.e.sky      0.3639   in [0.2, 0.5]  margin 0.1361 seed-threshold
   PASS           [A] M-003.e.horizon  0.3514   <= 0.45  margin 0.09861 seed-threshold
-  warning: ADVISORY M-003.b.O reported without a threshold until Q-015: median O 0.928 (Bayer/checker > 0.5, white noise ~ 0, clustered < 0; the references are -0.34..+0.15)
+  warning: ADVISORY M-003.b.O reported without a threshold until Q-015: median O 0.865 (Bayer/checker > 0.5, white noise ~ 0, clustered < 0; the references are -0.34..+0.15)
   warning: ADVISORY M-003.e.contrast failed: value 9.699 vs >= 25
   missing inputs: lavender_peach: 1 gameplay frames (< 12), slate_crimson: 1 gameplay frames (< 12), slate_teal: 1 gameplay frames (< 12), warm_amber_haze: 1 gameplay frames (< 12), warm_rust_sepia:
   inputs: 36 files hashed; report.json holds every value, threshold and hash
