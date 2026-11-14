@@ -50,6 +50,19 @@ namespace Game.Rendering.Pixel.Editor
             var so = new SerializedObject(data);
             var list = so.FindProperty("m_RendererFeatures");
             var map = so.FindProperty("m_RendererFeatureMap");
+            // Already the requested list (same types and names in the same order): only re-apply the configuration, so
+            // re-running the installer does not rewrite the asset with new local file IDs.
+            bool same = list.arraySize == features.Count && map.arraySize == features.Count;
+            for (int i = 0; same && i < features.Count; i++)
+            {
+                var existing = list.GetArrayElementAtIndex(i).objectReferenceValue as ScriptableRendererFeature;
+                same = existing != null && existing.GetType() == features[i].Type && existing.name == features[i].Name;
+            }
+            if (same)
+            {
+                for (int i = 0; i < features.Count; i++) features[i].Configure?.Invoke((ScriptableRendererFeature)list.GetArrayElementAtIndex(i).objectReferenceValue);
+                return;
+            }
             for (int i = list.arraySize - 1; i >= 0; i--)
             {
                 var old = list.GetArrayElementAtIndex(i).objectReferenceValue;
