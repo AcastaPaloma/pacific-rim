@@ -70,7 +70,6 @@ namespace Game.Tools.StyleFrame
         {
             if (!GeoTileId.TryParse(TileName, out var tile)) throw new InvalidOperationException("bad tile id " + TileName);
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            var log = new StringBuilder();
             var warnings = new List<string>();
 
             // 1. the tile, through the public loader, unmodified. Floating origin = tile corner, so scene = tile-local metres.
@@ -107,10 +106,10 @@ namespace Game.Tools.StyleFrame
                 footSeabed[i] = MaxSurface(hf, feet[i].bounds, true);
                 seabedBelowFeet = Math.Max(seabedBelowFeet, footSeabed[i]);
             }
-            double solePre = feet.Length > 0 ? Math.Min(feet[0].bounds.min.y, feet[feet.Length - 1].bounds.min.y) : Bounds(mech).min.y;
+            double solePre = feet.Length > 0 ? Math.Min(feet[0].bounds.min.y, feet[feet.Length - 1].bounds.min.y) : MechBounds(mech).min.y;
             mech.transform.position += new Vector3(0f, (float)(seabedBelowFeet - solePre), 0f);
             Physics.SyncTransforms();
-            var mb = Bounds(mech);
+            var mb = MechBounds(mech);
             double measuredHeight = mb.size.y;
             if (Math.Abs(measuredHeight - MechHeight) > HeightTolerance)
                 throw new InvalidOperationException("mech measured height " + measuredHeight.ToString("F3", Inv) + " m, expected 80 +/- 0.5");
@@ -310,7 +309,7 @@ namespace Game.Tools.StyleFrame
             return feet.ToArray();
         }
 
-        static Bounds Bounds(GameObject go)
+        static Bounds MechBounds(GameObject go)
         {
             Bounds b = default; bool first = true;
             foreach (var r in go.GetComponentsInChildren<Renderer>(true))
