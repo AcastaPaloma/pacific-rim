@@ -142,3 +142,38 @@ def test_t004_arch2_scale_must_stay_constant(tmp_path, palettes):
     errs = validate_path(sd, palettes)
     assert any("integer_scale must be the same" in e.message for e in errs)
     assert any("output_wh must be the same" in e.message for e in errs)
+
+
+# ------------------------------------------------------------------ DEF-T002-arch-9: rescore explains semantics
+def test_arch9_rescore_attributes_difference_to_tool_semantics(tmp_path):
+    """A semantics-1 report (cycle 1: C_px.Y read 0.0 on undithered yaw, PASS) rescored today DIFFERS; the rescore
+    names the tool semantic change and the tool version, and says the registry is unchanged."""
+    sd, _ = GS.m004_set(str(tmp_path), anchor_y="direction_bands")
+    out = str(tmp_path / "old")
+    run_metric("m004", [sd], out_dir=out, images=False,
+               options={"profiles": "slate_teal", "viewpoints": "eye", "fixture": True})
+    rp = os.path.join(out, "report.json")
+    old = json.load(open(rp))
+    old["tool"].pop("semantics"); old["tool"].pop("settings")           # as written by cycle-1 tools
+    for s in old["submeasures"]:
+        if s["id"] == "M-004.C_px.Y":
+            s["status"], s["value"] = "PASS", 0.0
+    old["verdict"] = "PASS"
+    json.dump(old, open(rp, "w"))
+    r = subprocess.run([sys.executable, CLI, "rescore", rp], capture_output=True, text=True)
+    assert r.returncode == 3 and "DIFFERS" in r.stdout
+    assert "CAUSE: tool semantic change, not the registry (tool semantics 1 -> 3" in r.stdout
+    assert "registry revision unchanged" in r.stdout and "C_px" in r.stdout
+    from kaiju_metrics.rescore import rescore
+    _, new, diffs, _, same = rescore(rp)
+    assert same and new["rescore"]["old_semantics"] == 1 and new["rescore"]["semantic_changes"]
+
+
+def test_arch9_same_semantics_reproduces(tmp_path):
+    from kaiju_metrics.rescore import rescore
+    sd, _ = GS.m004_set(str(tmp_path))
+    out = str(tmp_path / "r")
+    run_metric("m004", [sd], out_dir=out, images=False,
+               options={"profiles": "slate_teal", "viewpoints": "eye", "fixture": True})
+    _, new, diffs, identical, same = rescore(os.path.join(out, "report.json"))
+    assert diffs == [] and same and new["rescore"]["semantic_changes"] == []

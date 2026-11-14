@@ -67,7 +67,23 @@ def rescore(report_path, registry=None, allow_different=False, out_dir=None):
         if o is None or o["status"] != s["status"] or o.get("value") != s.get("value"):
             diffs.append(f"{s['id']}: {o and o['status']} {o and o.get('value')} -> {s['status']} {s.get('value')}")
     identical = json.dumps(a, sort_keys=True) == json.dumps(b, sort_keys=True)
+    explain = explain_semantics(old, new)
+    new["rescore"] = {"same_registry": same_reg, "old_semantics": explain["old"], "new_semantics": explain["new"],
+                      "semantic_changes": explain["changes"], "differences": diffs}
     return old, new, diffs, identical, same_reg
+
+
+def explain_semantics(old, new):
+    """Tool behaviour changes between the old report's semantics and the current one (DEF-T002-arch-9).
+    Reports without tool.semantics were produced by semantics 1."""
+    from .report import SEMANTIC_CHANGES, SEMANTICS
+    o = int(old.get("tool", {}).get("semantics", 1))
+    ch = []
+    for v in range(o + 1, SEMANTICS + 1):
+        for k in ("all", old["metric"]):
+            if k in SEMANTIC_CHANGES.get(v, {}):
+                ch.append(f"semantics {v}: {SEMANTIC_CHANGES[v][k]}")
+    return {"old": o, "new": SEMANTICS, "changes": ch}
 
 
 def rescore_cli(args):
@@ -75,6 +91,7 @@ def rescore_cli(args):
     print(f"rescore {old['metric_version']} [{old['label']}] registry {old['registry']['revision']} "
           f"-> {new['registry']['revision']} ({'same' if same_reg else 'DIFFERENT'} registry)")
     print(f"old verdict {old['verdict_label']}  new verdict {new['verdict_label']}")
+    sem = new["rescore"]
     if not diffs:
         print("REPRODUCED: every verdict and sub-measure identical" +
               ("; report byte-identical outside the run block" if identical else ""))
@@ -82,4 +99,14 @@ def rescore_cli(args):
         print(f"DIFFERS ({len(diffs)}):")
         for d in diffs[:30]:
             print(f"  {d}")
+        if sem["semantic_changes"]:
+            print(f"CAUSE: tool semantic change, not the registry (tool semantics {sem['old_semantics']} -> "
+                  f"{sem['new_semantics']}, kaiju_metrics {new['tool']['version']}"
+                  f"{'; registry revision unchanged' if same_reg else '; registry ALSO differs'}):")
+            for c in sem["semantic_changes"]:
+                print(f"  {c}")
+        elif same_reg:
+            print("CAUSE: unexplained (same registry, same tool semantics): please report as a tool defect")
+        else:
+            print("CAUSE: registry revision differs (same tool semantics)")
     return new["exit_code"]
