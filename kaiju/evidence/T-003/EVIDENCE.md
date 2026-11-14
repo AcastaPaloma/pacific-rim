@@ -1,0 +1,62 @@
+# T-003 evidence: one real San Francisco tile `L0_30_36`
+
+Branch `task/T-003`. Code for every artifact below: commit `9e1d5e1` (`logs/final_run.log` records the full run).
+Baked tile data: `kaiju/Assets/StreamingAssets/Geo/tiles/v1/L0/30_36/` built by `Pipelines/geo/bake_tile.py` at
+pipeline commit `650c7f6` (`manifest.json` `build.git`, `git_dirty_pipeline: false`). Python = `/opt/miniconda3/envs/kaiju/bin/python -I`
+(written `PY` below); Unity = 6000.6.9f1 batch via the Unity CLI on this worktree. All paths relative to `kaiju/`.
+
+Main commands (in this order, each reproducible from a clean checkout once the fetch scripts have filled `Pipelines/geo/cache/`):
+1. Fetch: `PY Pipelines/geo/fetch_cudem.py|fetch_3dep.py|fetch_osm.py|fetch_datasf.py|fetch_refs.py --tile L0_30_36`, `PY Pipelines/geo/fetch_water.py`, `PY Pipelines/geo/fetch_faults.py`
+2. Bake: `PY Pipelines/geo/bake_faults.py`, `PY Pipelines/geo/bake_tile.py --tile L0_30_36`
+3. `PY Pipelines/geo/m005_check.py prepare` (control points)
+4. `unity run <worktree>/kaiju --no-tail --log-file <log> --timeout 1800 -- -executeMethod Game.World.Geo.Editor.GeoBatch.All`
+5. `PY Pipelines/geo/m005_check.py check` -> `m005_report.json`; `PY Pipelines/geo/plates.py`
+6. Tests: `PY -m pytest Pipelines/geo/tests`, `dotnet test DotnetTests/WorldGeo.Tests`, `unity test <worktree>/kaiju --mode EditMode -o tests/unity_editmode.xml`
+
+**Test totals:** pytest 58/58 (`tests/pytest.xml`), dotnet 22/22 (`tests/dotnet_worldgeo.trx`), Unity EditMode 124/124 (30 World.Geo + 94 Core) (`tests/unity_editmode.xml`).
+**M-005@v1 sub-measures** (`m005_report.json` `summary`): 18 pass, 3 fail, 9 not_applicable_in_tile, 1 insufficient_marks (gate moves to the pipeline check, which passes), 1 reported. Overall M-005: **fail** (needs every sub-measure).
+
+## A. Geographic truth (M-005@v1)
+| C | Result | Artifact and value |
+|---|---|---|
+| C1 landmark positions (M-005.1 a, b) | pass | `m005_report.json` `m005.M-005.1`: 7 in-tile landmarks; vs import source max 0.0001 m (<= 0.5); vs R-004 reference p95 1.124 m, max 1.152 m (<= 5 / 10). Out-of-tile rows and GG span: `not_applicable_in_tile` (due M1). |
+| C2 landmark heights (M-005.1 d) | pass | same, `d_heights`: Salesforce 326.0, Transamerica 260.0, Millennium 197.0, Coit 64.0 m above base (all within max(2 m, 1 %)); reported only: 555 California 237.0 (OSM parts; outline 226), W2 160.0, Ferry Building 83.1. Salesforce is the tallest object (`salesforce_tallest: true`, top 331.2 m NAVD88). Plate `plates/height_relations_mech.png`. |
+| C3 terrain (M-005.2) | pass (pipeline gate) | 29 NGS marks in tile, 0 qualify (SCALED / structure settings) -> `insufficient_marks`; pipeline gate on 10,000 land points: physics surface vs 3DEP RMSE 0.0095 m, max 0.137 m (<= 0.10 / 0.5); render surface RMSE 0.034, max 0.153. Info: all-29-mark median |d| 0.60 m. |
+| C4 bathymetry (M-005.3) | pass (tile-scoped) | 10,000 wet points RMSE 0.0062 m (<= 0.25); as-built minimum -29.481 m vs CUDEM -29.485 m (within 1 m). GG / Oakland / San Pablo / Bay-wide: `not_applicable_in_tile` (GG preview on L0_26_37 recorded, box only partly inside that tile, not a pass). |
+| C5 building heights (M-005.4) | **fail** (default share) | per building 100 % within 0.5 m (2,423 rendered records, max |d| 0.000); KS D 0.000; p50/p90/p99 equal; fallback validation (Assumed) KS 0.1125, median |e| 0.32 m: pass. `height_source`: osm_height 1556, datasf 281, osm_levels 332, **default 334 = 13.3 % (> 10 %)**, 10.1 % by area. Mitigation measured, not applied: `t003.C5_default_share_mitigation` (containment rule -> 6.4 %). Roof rule in `M-005.4.roof_rule`. |
+| C6 footprints (M-005.5) | pass | area recall 0.9997, precision 1.000 (0.5 m raster); count recall 1.000 (2,443 source buildings >= 20 m^2); 0 bids not in source; 0 buildings with > 1 % of footprint on the water surface (edge slivers 0 m^2); footprints on OSM water listed (W2, pier sheds). Cross-source OSM vs DataSF reported (0.818 / 0.878). |
+| C7 1:1 scale (M-005.6) | pass | 15 pairs (10 as-built, 5 projection-only out of tile), max 3.6 ppm; as-built pairs under 2 km within 0.001 m; vertical ratio 1.000000 (Salesforce, Millennium); CRS `kaiju:BayTM@v1`, no UTM (`unit_and_crs`). pytest `test_projection.py` (UTM would fail the gate). |
+| C8 skyline (M-005.7) | **fail** (independent reference) | V4: vs R-src IoU 0.997, MAE 0.18 px (pass); vs R-ind IoU 0.845, MAE 11.9 px (fail). V5: vs R-src IoU 0.995, MAE 0.12 px (pass); vs R-ind IoU 0.635, MAE 12.0 px (fail). R-ind = 3DEP first-return lidar DSM (PDAL; trees, cranes and towers missing/different in OSM: `known_gaps.md`). V5 excludes Coit Tower itself (the observer stands on it; same rule in all renders). V1-V3 `not_applicable_in_tile`. Captures `captures/skyline_V4.png`, `skyline_V5.png`, `*_mask.png`; overlays `skyline/*_overlay.png` (red R-src, blue R-ind). |
+| C9 licences / attribution (M-005.8) | pass | manifest complete (0 problems); attribution asset `Assets/Game/World/Geo/Attribution/GeoAttribution.asset` (dump `export/attribution_asset_dump.json`) holds all 7 strings incl. "© OpenStreetMap contributors (ODbL)" and the ODbL notice; diff in `M-005.8.attribution_diff` (0 missing). ODbL layers flagged as derivative-database candidates (Q-023): `water`, `buildings`, `roads`. Unused sources and why: `Pipelines/geo/config/sources.json` `unused`. |
+
+## B. Reads as San Francisco, at giant scale
+| C | Result | Artifact and value |
+|---|---|---|
+| C10 shoreline, sea level | pass | water at +0.969 m NAVD88 (manifest `water_level_navd88_m`); median offset of the as-built MSL crossing from the OSM coastline 2.5 m over 47 of 50 profiles (`t003.C10_shoreline`); pier cells with water surface 0 of 143,172; water cells with ground above MSL 0. Capture `captures/shoreline_embarcadero.png`. |
+| C11 one continuous surface | **fail** (seam median) | 50 shoreline profiles: max adjacent jump 7.0 m, 23 jumps >= 1.5 m all documented (pier deck edges or steps present in the 1 m source), 0 undocumented. Seam: blend adds at most 0.489 m (<= 0.5) beyond the sources' own steps; median |3DEP - CUDEM| in the 10 m feather band 0.457 m (> 0.1; the band hugs the +1.8 m contour, seawalls and 3DEP holes); over all land 0.061 m. `t003.C11_continuous_surface`. Seam with neighbour tile byte-identical (C16). |
+| C12 buildings sit right | pass | every base within 0.001 m of the local terrain minimum (in-tile footprints); watertight, outward, consistent winding: EditMode `Extrusion_IsWatertight_ConsistentlyWound_AndOutward`, `PyramidalRoof_IsClosed_ApexAtHeight`; z-fighting series `captures/zfight_{10,100,1000,3000}m.png` with flip fractions 0.036 %, 0.015 %, 0.020 %, 0.005 % (1/4-res: 0.028 %, 0.014 %, 0.023 %, 0.005 %) for a 1.5 mm camera move (`export/capture_views.json`, reversed-Z); roads are terrain decals (no coplanar geometry); 10 overlapping coplanar roof pairs and 4 footprints < 1 m wide reported. |
+| C13 roads and faults | pass | 4,131 roads with class and width; 66 bridges (incl. 2 Bay Bridge `Eisenhower` segments) and 173 tunnel ways flagged and not draped; `global/v1/faults_bay.geojson` 3,232 pieces with normalised fields; tile clip empty by design, nearest: Golden Gate fault 11.6 km, Serra 12.7 km, San Andreas SF section 13.6 km, Hayward Northern 13.8 km (`plates/fault_map.png`, pytest `test_faults_tile_clip_empty_by_design_and_nearest_distances`). |
+| Reported plates | reported | `plates/height_relations_mech.png` (80 m mech on the seabed at V4, head at 58 m NAVD88), `plates/wading_depth.png` (median 18.9 m, deepest 30.45 m at BayTM 63480.5, 74430.5; 0-2 m 1.4 %, 2-5 8.2 %, 5-10 12.0 %, 10-20 33.7 %, > 20 44.8 %; wadable everywhere: max < 40 m), `captures/skyline_V4.png`, `skyline_V4_270rows.png`, `skyline_V4_eye70.png`, `skyline_V5.png`, `skyline_V5_270rows.png`. Blind "which city" check: for eval-bay. |
+
+## C. Built to extend
+| C | Result | Artifact and value |
+|---|---|---|
+| C14 identity, separability | pass | bids from source ids only (pytest `test_bids_derive_from_source_ids_only`, Core `bld:osm-way:<id>` via `BuildingsLayer.ParseBid`); two independent bakes, 1 vs 4 threads with shuffled input, byte-identical (`logs/determinism_hashes.md`); owner rule across the L0_30_35 boundary (31 straddlers owned here, 20 there, 0 shared; pytest `test_owner_rule_no_building_in_two_tiles`); `part_of` (Transamerica 5 stepped parts removed as one, EditMode + Unity tests); runtime removal of 20 random bids in 17.5 ms, other buildings and terrain identical in the export (`export/geo_export_after_removal.json`, `t003.C14_removal`). |
+| C15 deterministic, idempotent | pass | one command per layer + bake (README); second run with `--offline` (any socket connect raises) prints "up to date" for every step (`logs/second_run_up_to_date.log`); byte-identical outputs (`logs/determinism_hashes.md`); unreachable source fails loudly, writes nothing (`logs/unreachable_source_fails_loudly.log`, pytest `test_offline_missing_source_fails_loudly`). |
+| C16 geo_tile@v1, fit for the Bay | pass | 2049^2 pixel-is-point, 1 m, origin (61440, 73728) multiple of 2048, `level: 0` (`tiles/L0_30_36_manifest.json`); shared edge row byte-identical with the real south neighbour L0_30_35 baked from the same sources (`t003.C16_spec`, pytest `test_seam_rows_identical_with_neighbour`); second tile L0_26_37 (Golden Gate) bakes with no code change (`logs/bake_L0_26_37.log`, `tiles/L0_26_37_manifest.json`, valid). r16 rows differ by <= 1 quantisation step between tiles (per-tile range). |
+| C17 floating origin | pass | rebasing to each tile-corner origin: anchors unchanged (0 m), terrain samples within 0.0001 m (export rounding); max |scene position| 2,194 m (`export/floating_origin_check.json`); Unity test `FloatingOrigin_ShiftByTileMultiple_KeepsWorldPositionsWithin1mm`. |
+| C18 manifest, hygiene | pass | manifest fields per R-004 §3.3 for every layer (`M-005.8`); importer refuses doctored manifests: 10 EditMode cases + tampered file + Unity `Builder_RefusesDoctoredManifest`; pytest `test_doctored_manifest_is_rejected` (7 cases); `Pipelines/geo/cache/` never committed (`logs/cache_not_committed.txt`: 0 files, 0 in history); committed tile 23.5 MB. |
+| C19 measurement export | pass | `GeoBatch.All` writes `export/geo_export.json` (float64 BayTM: bids, base/top/height, anchors, footprints; 24,079 terrain samples on physics/render/data surfaces; stats); `m005_check.py check` emits every sub-measure with value, threshold, result and reason. |
+| C20 budgets (Assumed) | pass | `tile_stats.json`: 685,685 triangles (terrain 589,457, buildings 87,924, water 8,304) <= 1.5 M; draw calls 118 (one per visible renderer, max over views; target 200); memory 71.2 MB; committed 23.5 MB <= 100; bake 14.0 s <= 300; editor build 2.6 s <= 60. RTIN stated error: max 0.196 m, RMS 0.033 m. Extrapolation: M1 70 tiles 1.65 GB / 16 min bake; Bay 4,624 tiles 109 GB if all at 1 m (Q-027 default: 1 m urban/shoreline only). |
+| C21 module rules | pass | `logs/asmdef_dependencies.txt` (only `Game.Core.Contracts` + own assemblies), Unity test `ModuleRules_AsmdefsReferenceOnlyCoreContractsAndOwnAssemblies`; `IGeoLayer` for terrain+bathymetry, water, buildings, roads, faults; flag `world.geo.enabled` default off (`Assets/Game/Config/FeatureFlags/WorldGeo.json`, tests `FeatureFlag_FileExists_AndDefaultsOff`, `Module_InstallsOnlyWhenFlagOn`); config `Assets/Game/Config/WorldGeo.json`; `Assets/Game/World/Geo/MODULE.md`; `Pipelines/geo/README.md`; scenes built through the Editor API only (no scene file committed); `.meta` files committed. |
+
+## Other artifacts
+- Captures (unstyled; T-004 not available): `captures/topdown.png`, `oblique_{270,235,305}.png`, `shoreline_embarcadero.png`, skyline set, z-fight series.
+- Control points: `control_points.json` (seeded; rules inside). Known gaps: `known_gaps.md`, `known_gaps_candidates.json`.
+- Unity batch log summary: `logs/unity_geobatch.log`; bake logs `logs/bake_L0_26_37.log`, `logs/bake_L0_30_35.log`.
+
+## Not met (honest list)
+1. M-005.4 default share 13.3 % > 10 % under the R-004 fallback rule (mitigation measured, needs founder approval).
+2. M-005.7 vs the independent lidar reference (Assumed thresholds): V4 IoU 0.845 / MAE 11.9 px, V5 IoU 0.635 / MAE 12.0 px.
+3. C11 seam median |3DEP - CUDEM| in the feather band 0.457 m > 0.1 m (no blend step > 0.5 m; all-land median 0.061 m).
+4. Out-of-tile sub-measures (9) are due at M1; M-005.2 NGS has 0 qualifying marks in this tile.
