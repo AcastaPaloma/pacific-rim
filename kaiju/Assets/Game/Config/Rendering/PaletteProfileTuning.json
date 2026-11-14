@@ -16,10 +16,10 @@
     "valueGamma": 1.0,
     "accentChromaStart": 12.0,
     "accentChromaFull": 35.0,
-    "ditherSpread": 0.6,
+    "ditherSpread": 0.9,
     "ditherGradientMin": 0.001,
     "lutChromaWeight": 2.0,
-    "ladderMinStepL": 4.5,
+    "ladderMinStepL": 2.5,
     "ladderHueTolerance": 12.0,
     "ladderTopL": 0.0,
     "pairPenalty": 0.25,
@@ -27,10 +27,10 @@
     "lutSize": 32
   },
   "profiles": {
-    "warm_rust_sepia": { "hazeStartM": 44.0, "hazeFullM": 10750.0 },
-    "warm_amber_haze": { "hazeStartM": 48.0, "hazeFullM": 12000.0 },
-    "slate_teal": { "hazeStartM": 44.0, "hazeFullM": 10750.0 },
-    "lavender_peach": { "hazeStartM": 48.0, "hazeFullM": 12000.0 },
-    "slate_crimson": { "hazeStartM": 42.0, "hazeFullM": 12000.0, "ladderTopL": 50.0 }
+    "warm_rust_sepia": { "hazeStartM": 44.0, "hazeFullM": 6500.0 },
+    "warm_amber_haze": { "hazeStartM": 48.0, "hazeFullM": 7200.0 },
+    "slate_teal": { "hazeStartM": 44.0, "hazeFullM": 6500.0 },
+    "lavender_peach": { "hazeStartM": 48.0, "hazeFullM": 7200.0 },
+    "slate_crimson": { "hazeStartM": 42.0, "hazeFullM": 7200.0, "ladderTopL": 50.0, "ladderMinStepL": 3.0, "ditherSpread": 1.2 }
   }
 }
