@@ -46,5 +46,4 @@ PASS
     fails as a whole, even though M-001.12 now passes it.
   - Repro: `estop300` (the closed-form log above), `metrics.py m001 gait/estop300`.
   - PASS would look like: values within about 1e-9 relative of the threshold compare as equal, or the margin is
-    rounded before the status is set. A 2%-harder stop still fails.
-  - Not a wrong pass, and the error is 1e-14, so it does not change my verdict.
+    rounded before the status is set. A 2%-harder stop still fails. Not a wrong pass, so the verdict stands.
