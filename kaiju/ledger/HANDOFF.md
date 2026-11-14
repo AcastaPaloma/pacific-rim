@@ -102,3 +102,10 @@ Session 2 (orchestrator at medium) did queue steps 1–3: ledger catch-up (bc6c6
 ## Snapshot at the third hand-over point (2026-11-14 evening, session 3)
 Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `task/T-006` (worktree `.wt/T-006`), and drafted `reports/M0.md` (b0d1d86) with Q-068–Q-072. Key facts: style frame builds and captures from one command; two runs bit-identical after a warm-up fix (6deae3d: the first capture of a run was unsettled — this also explained an apparent screen-mode instability); hero `slate_teal` passes M-003 c1 (span 20.3); eval-style cycle 1 FAIL 5/10 (generic skyline = OSM flat prisms, Q-069; 4/5 profiles fail c1, Q-070); fix cycle 2 code in af54886, recapture running. Exact remaining steps: `QUEUE.md` §4 "REMAINING for T-006". Section 6 (T-005 round 2, calibration) still waits for the founders.
 - 2026-11-14 · Decision: eval-arch and eval-perf for T-006 ran as one Sonnet/low worker (usage). eval-bay's major (hash mismatch) overruled with evidence: the committed `evidence/T-003/tiles/L0_30_36_manifest.json` predates T-003's fix-cycle-2 rebake; minor T-003 evidence defect to log.
+
+
+## Snapshot: session 3 hand-over, 2026-11-14 (after founder answers)
+- Founders: "defaults on all seven decisions, start T-005 round 2" — recorded in LEDGER "Founder answers" (34ac8bf).
+- T-005 round 2: step 6.1 done (task/T-005 dd936b9). Next is 6.2 stance impedance; see QUEUE §6 for the step list, carried caveats and the stop rule.
+- M1 planning runs in its own session ("M1 planning: walk-independent tracks", local_f1fe798d); it writes only `plans/M1.md`, `research/briefs/`, one line in `ledger/IDS.md`, using reserved IDs T-020–039, R-020–029, Q-100–129, M-050–069. Round 2 keeps Q-073–Q-099, T/R below those blocks.
+- Calibration (Q-072 = now) waits on the founders' filled `checkpoints/M0/sheets/`.
