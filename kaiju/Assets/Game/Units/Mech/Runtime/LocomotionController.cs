@@ -33,6 +33,7 @@ namespace Game.Units.Mech
         public struct Debug
         {
             public LocoPhase Phase; public int Stance; public Vector2 Dcm, CopCommand, SwingTarget, Reference; public float ComHeightTarget, StepTime, TimeInStep; public bool SwingClamped;
+            public double YawMomentNm, YawBudgetNm, YawUtil, TrunkShare;   // round 2 step 3 (NaN logs as null)
         }
 
         readonly IArticulatedBody _b;
@@ -48,6 +49,9 @@ namespace Game.Units.Mech
         readonly int[] _armShoulderFlex = { -1, -1 }, _elbow = { -1, -1 };
         readonly ReferenceGait _ref;
         readonly double[] _prevVelTarget; readonly double[] _ffAccel;
+        // round 2 step 3: yaw-momentum bookkeeping (vertical angular momentum about the CoM from link states and the frame's principal inertias)
+        readonly double[][] _linkInertia; readonly bool[] _upperLink; readonly YawShareWindow _shareWindow;
+        double _prevYawL = double.NaN, _yawMomentF;
         readonly float _soleFullHalfLength, _soleHalfLength, _soleHalfWidth, _ankleToSoleCentre, _ankleHeight, _footWidth, _stanceWidth, _comRest, _pelvisRest;
         readonly double _hipLimit, _kTilt, _dTilt, _kYaw, _dYaw;
 
@@ -114,6 +118,14 @@ namespace Game.Units.Mech
                     if (info.Kind == "elbow" && seg.EndsWith(leg.Side < 0 ? "_L" : "_R", StringComparison.Ordinal)) _elbow[arm] = d;
                 }
             }
+            _linkInertia = new double[body.LinkCount][]; _upperLink = new bool[body.LinkCount];
+            for (int i = 0; i < body.LinkCount; i++)
+            {
+                string lid = body.LinkId(i);
+                foreach (var sg in f.segments) if (sg.id == lid) { _linkInertia[i] = sg.inertia_principal_kgm2; break; }
+            }
+            if (_waistYaw >= 0) foreach (int i in _descendants[_waistYaw]) _upperLink[i] = true;
+            _shareWindow = new YawShareWindow(Math.Max(16, (int)Math.Ceiling(8 / dt)));
             _l = JointPos(f, body.LinkId(_legs[0].Thigh))[1];
             _lim = new MechLimits(tuning, _l, _g);
             _limiter = new IntentLimiter(_lim, dt);
@@ -153,8 +165,33 @@ namespace Game.Units.Mech
 
         void Report(long step)
         {
+            YawDiagnostics();
             _dbg.Phase = _phase; _dbg.Stance = _stance; _dbg.Dcm = _dcm; _dbg.ComHeightTarget = (float)_comHeightTarget; _dbg.StepTime = (float)_stepT; _dbg.TimeInStep = (float)_time;
             if (_cmd.Causes != _lastCauses) { _lastCauses = _cmd.Causes; _bus?.Publish(new IntentLimited { Unit = _b.UnitId, Step = step, Causes = (int)_cmd.Causes, RequestedSpeed = _cmd.RequestedSpeed, Speed = _cmd.Speed }); }
+        }
+
+        /// <summary>Round 2 step 3: free vertical moment the stance foot(s) must supply, its friction budget and utilisation, and the trunk share of the legs' yaw momentum. From link states only (no contact torque in the body contract).</summary>
+        void YawDiagnostics()
+        {
+            double lUpper = 0, lLower = 0;
+            for (int i = 0; i < _b.LinkCount; i++)
+            {
+                if (_linkInertia[i] == null) continue;
+                _b.GetLink(i, out var ls);
+                double l = YawCompensation.LinkYawMomentum(_b.LinkMassKg(i), ls.Com - _com, ls.Velocity, _linkInertia[i], ls.Rotation, ls.AngularVelocity);
+                if (_upperLink[i]) lUpper += l; else lLower += l;
+            }
+            double total = lUpper + lLower;
+            double raw = double.IsNaN(_prevYawL) ? 0 : -(total - _prevYawL) / _dt;   // minus the rate of vertical angular momentum about the CoM
+            _prevYawL = total;
+            _yawMomentF += (_t.yaw_filter > 0 ? Math.Min(1, _t.yaw_filter) : 1) * (raw - _yawMomentF);
+            double budget = 0;
+            foreach (var leg in _legs) budget += YawCompensation.GripBudget(_b.Tuning.friction_dynamic, _t.friction_safety, leg.Load, _t.yaw_grip_radius_frac, _l);
+            bool walking = _t.ref_track > 0 && _ref.Speed > 1e-3 && !_stomp && (_phase == LocoPhase.SingleSupport || _phase == LocoPhase.DoubleSupport);
+            double share = double.NaN;
+            if (walking) { _shareWindow.Push(lUpper, lLower); share = _shareWindow.Share((int)Math.Round(2 * _stepT / _dt)); }
+            else _shareWindow.Clear();
+            _dbg.YawMomentNm = _yawMomentF; _dbg.YawBudgetNm = budget; _dbg.YawUtil = YawCompensation.Util(_yawMomentF, budget); _dbg.TrunkShare = share;
         }
 
         void Measure()
@@ -516,10 +553,12 @@ namespace Game.Units.Mech
                 {
                     // tracked reference: arms against their own legs and the trunk against the limbs' angular momentum (R-007 change 4)
                     var smp = _ref.Sample((_stance == LeftLeg ? 0 : 0.5) + 0.5 * Math.Min(1, _time / _stepT));
-                    double trackUpper = _t.ref_track * _t.ref_track_upper;
+                    bool imp = ImpActive;   // round 2 step 3: with imp = 1 the waist and both shoulders follow the reference fully, with their own drive gains
+                    double trackUpper = imp ? 1 : _t.ref_track * _t.ref_track_upper;
+                    if (imp && (d == _armShoulderFlex[0] || d == _armShoulderFlex[1])) { Track(d, d == _armShoulderFlex[0] ? smp.ArmFlexionL : smp.ArmFlexionR, Vector3.Zero, default, true, 1, _t.imp_arm_hz, _t.imp_arm_zeta); continue; }
                     if (d == _armShoulderFlex[0]) target += (smp.ArmFlexionL - target) * trackUpper;
                     if (d == _armShoulderFlex[1]) target += (smp.ArmFlexionR - target) * trackUpper;
-                    if (d == _waistYaw && trackUpper > 0) { Track(d, -(smp.WaistYaw + smp.PelvisYaw) * trackUpper, Vector3.Zero, default, true); continue; }   // anatomical waist rotation is positive to the left; the reference yaw is positive to the right
+                    if (d == _waistYaw && trackUpper > 0) { Track(d, -(smp.WaistYaw + smp.PelvisYaw) * trackUpper, Vector3.Zero, default, true, 1, imp ? _t.imp_waist_hz : 0, _t.imp_waist_zeta); continue; }   // anatomical waist rotation is positive to the left; the reference yaw is positive to the right
                 }
                 else if (d == _waistYaw && _t.trunk_counter_gain != 0)
                 {
@@ -663,7 +702,7 @@ namespace Game.Units.Mech
         static float Component(Vector3 v, int axis) => axis == 0 ? v.X : axis == 1 ? v.Y : v.Z;
 
         /// <summary>Position drive toward a target with the R-005 swing gains, velocity feed-forward from the target's own motion and gravity feed-forward.</summary>
-        void Track(int dof, double target, Vector3 force, Vector3 cop, bool velocityFeedForward, double gainScale = 1)
+        void Track(int dof, double target, Vector3 force, Vector3 cop, bool velocityFeedForward, double gainScale = 1, double impHz = 0, double impZeta = 1)
         {
             var info = _b.GetDof(dof);
             target = Math.Max(info.LowerRad, Math.Min(info.UpperRad, target));
@@ -676,6 +715,7 @@ namespace Game.Units.Mech
             _prevVelTarget[dof] = vel;
             _prevTarget[dof] = target; _hasPrev[dof] = true;
             _b.GetDofGains(dof, false, out double k, out double damping);
+            if (impHz > 0) StanceImpedance.PdGains(_b.DofInertia(dof, false), impHz, impZeta, out k, out damping);   // round 2 step 3: k = I w^2, c = 2 zeta I w on the distal inertia
             // critical damping is kept when the stiffness is scaled: d scales with sqrt(k)
             _b.SetDofDrive(dof, target, vel, k * gainScale, damping * Math.Sqrt(gainScale));
             _b.SetDofFeedForward(dof, SupportTorque(dof, force, cop, false) + _t.swing_ff_gain * _b.DofInertia(dof, false) * _ffAccel[dof]);
@@ -712,6 +752,40 @@ namespace Game.Units.Mech
             lo = -halfMargined; hi = halfMargined;
             if (support == FootSupport.Toe) hi = halfFull;
             else if (support == FootSupport.Heel) lo = -halfFull;
+        }
+    }
+
+    /// <summary>Round 2 step 3: pure logic of the yaw-momentum bookkeeping (link angular momentum, friction budget, utilisation, trunk share), engine-free.</summary>
+    public static class YawCompensation
+    {
+        /// <summary>Vertical angular momentum of one link about the CoM: orbital m (r x v)_y plus spin (R diag(I) R^T w)_y, with the principal inertias taken along the link axes.</summary>
+        public static double LinkYawMomentum(double mass, Vector3 rel, Vector3 vel, double[] inertia, Quaternion rot, Vector3 omega)
+        {
+            double orbital = mass * (rel.Z * vel.X - rel.X * vel.Z);
+            Vector3 wl = Vector3.Transform(omega, Quaternion.Conjugate(rot));
+            Vector3 hl = new Vector3((float)(inertia[0] * wl.X), (float)(inertia[1] * wl.Y), (float)(inertia[2] * wl.Z));
+            return orbital + Vector3.Transform(hl, rot).Y;
+        }
+        /// <summary>The yaw friction budget of one foot: mu / safety x load x radius fraction x leg length (the limit the controller uses for the hip yaw torque).</summary>
+        public static double GripBudget(double mu, double safety, double load, double radiusFrac, double legLength) => mu / safety * Math.Max(0, load) * radiusFrac * legLength;
+        /// <summary>|moment| / budget; NaN (logged as null) when there is no budget.</summary>
+        public static double Util(double moment, double budget) => budget > 1e-9 ? Math.Abs(moment) / budget : double.NaN;
+    }
+
+    /// <summary>Sliding window of the upper-body and lower-body vertical angular momentum; the share is the least-squares fraction of the lower body's momentum the upper body cancels (1 = pure cancellation).</summary>
+    public sealed class YawShareWindow
+    {
+        readonly double[] _u, _l; int _head, _count;
+        public YawShareWindow(int capacity) { _u = new double[capacity]; _l = new double[capacity]; }
+        public void Clear() { _head = 0; _count = 0; }
+        public void Push(double upper, double lower) { _u[_head] = upper; _l[_head] = lower; _head = (_head + 1) % _u.Length; if (_count < _u.Length) _count++; }
+        /// <summary>-sum(u l) / sum(l l) over the last <paramref name="n"/> samples; NaN until the window holds n samples or when the lower body has no momentum.</summary>
+        public double Share(int n)
+        {
+            if (n < 2 || n > _u.Length || _count < n) return double.NaN;
+            double ul = 0, ll = 0;
+            for (int k = 1; k <= n; k++) { int i = ((_head - k) % _u.Length + _u.Length) % _u.Length; ul += _u[i] * _l[i]; ll += _l[i] * _l[i]; }
+            return ll > 1e-12 ? -ul / ll : double.NaN;
         }
     }
 

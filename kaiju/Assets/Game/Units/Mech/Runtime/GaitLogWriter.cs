@@ -89,7 +89,9 @@ namespace Game.Units.Mech
             for (int d = 0; d < _b.DofCount; d++) { double p = _b.DofAppliedTorque(d) * _b.DofVelocity(d); if (p > 0) power += p; }
             _j.Begin().Str("rec", "step").Int("n", n).Num("t", n * _dt).Raw("com_p", "[" + D(mx / mass) + "," + D(my / mass) + "," + D(mz / mass) + "]").Vec("com_v", _b.ComVelocity).Vec("root_p", root.Position).Quat("root_q", root.Rotation)
               .Num("yaw", yaw).Num("yaw_rate", _yawRate).Raw("feet", feet).Num("ext_f", _b.ExternalForceMagnitudeN).Raw("intent", intentJson).Num("p_loco_W", power)
-              .Raw("ctl", "{\"phase\":\"" + dbg.Phase + "\",\"stance\":" + dbg.Stance + ",\"dcm\":[" + F(dbg.Dcm.X) + "," + F(dbg.Dcm.Y) + "],\"cop_cmd\":[" + F(dbg.CopCommand.X) + "," + F(dbg.CopCommand.Y) + "],\"swing_target\":[" + F(dbg.SwingTarget.X) + "," + F(dbg.SwingTarget.Y) + "],\"ref\":[" + F(dbg.Reference.X) + "," + F(dbg.Reference.Y) + "],\"com_h_target\":" + F(dbg.ComHeightTarget) + ",\"swing_clamped\":" + (dbg.SwingClamped ? "true" : "false") + "}");
+              .Raw("ctl", "{\"phase\":\"" + dbg.Phase + "\",\"stance\":" + dbg.Stance + ",\"dcm\":[" + F(dbg.Dcm.X) + "," + F(dbg.Dcm.Y) + "],\"cop_cmd\":[" + F(dbg.CopCommand.X) + "," + F(dbg.CopCommand.Y) + "],\"swing_target\":[" + F(dbg.SwingTarget.X) + "," + F(dbg.SwingTarget.Y) + "],\"ref\":[" + F(dbg.Reference.X) + "," + F(dbg.Reference.Y) + "],\"com_h_target\":" + F(dbg.ComHeightTarget) + ",\"swing_clamped\":" + (dbg.SwingClamped ? "true" : "false") + "}")
+              // optional (round 2 step 3): vertical free moment the stance foot(s) must supply, the friction budget, their ratio and the trunk's share of the legs' yaw momentum; null when not available
+              .Num("yaw_moment_nm", dbg.YawMomentNm).Num("yaw_budget_nm", dbg.YawBudgetNm).Num("yaw_util", dbg.YawUtil).Num("trunk_share", dbg.TrunkShare);
             _w.WriteLine(_j.End());
             if (intent.move != _lastMove || cmd.Causes != _lastCauses)
             {
