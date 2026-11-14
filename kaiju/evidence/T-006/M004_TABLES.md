@@ -3,7 +3,7 @@ Per-sequence (library functions), motion re-captured with warm-up (6deae3d + mot
 Note: the first motion run's screen-mode static frame 0 differed from frames 1-29; that was the same unsettled-first-capture effect fixed for stills in 6deae3d, not dither instability. Values below the per-sequence heading are from the re-captured set (per_sequence.json).
 - direction: INCOMPLETE (exit 3). No M-004 sub-measure was evaluated; the static frame is bit-identical (30/30 frames, one SHA-256).
 - hybrid: INCOMPLETE (exit 3). No M-004 sub-measure was evaluated; the static frame is bit-identical (30/30 frames, one SHA-256).
-- screen: INCOMPLETE (exit 3). No M-004 sub-measure was evaluated; the static frame is NOT bit-identical (frame 0 differs from frames 1-29).
+- screen: INCOMPLETE (exit 3). No M-004 sub-measure was evaluated; this line is from the FIRST capture (frame 0 differed from frames 1-29); after the re-capture with warm-up the static frame is exact in screen mode too (see the per-sequence table).
 
 Source commit: `git rev-parse --short HEAD` = d10ec34 (branch task/T-006, tool kaiju_metrics 1.0.0, registry M-004@v1.1 sha256:5f39e5531f9e).
 
@@ -46,7 +46,7 @@ Every gating sub-measure is NOT_RUN in every mode, so no value or threshold verd
 | hybrid | 30 | 1 | yes | all frames share one hash |
 | screen | 30 | 2 | NO | frame 0 differs from frames 1-29; 638,012 px changed, max per-channel difference 56; frames 1-29 identical to each other |
 
-Requirement C14 says "the static frame is exactly stable": this holds for direction and hybrid and fails for screen.
+Requirement C14 says "the static frame is exactly stable": this holds in direction, hybrid and (after the re-capture with warm-up) screen; the earlier screen failure is superseded.
 
 ## Commands
 
@@ -95,8 +95,8 @@ Fixed inputs, not in the sidecar: the sidecar speed is 0 for scripted sequences,
 | hybrid | hero_orbit | M-004.S_px.Y | 0.050215 | 0.01 | MISS |
 | hybrid | hero_orbit | M-004.C_px.Y | 0.085130 | 0.01 | MISS |
 | hybrid | hero_orbit | M-004.F.Y | 0.015603 | 0.001 | MISS |
-| screen | hero_static | M-004.S0 | 0.010607 | 0.0 | MISS |
-| screen | hero_static | M-004.C_px.S0 | 0.007170 | 0.0 | MISS |
+| screen | hero_static | M-004.S0 | 0.000000 | 0.0 | pass |
+| screen | hero_static | M-004.C_px.S0 | 0.000000 | 0.0 | pass |
 | screen | hero_static | M-004.F.S0 | 0.000000 | 0.0 | pass |
 | screen | hero_pushin | M-004.S_px.T12 | 0.087465 | 0.12 | pass |
 | screen | hero_pushin | M-004.C_px.T12 | 0.164209 | 0.15 | MISS |
@@ -105,6 +105,6 @@ Fixed inputs, not in the sidecar: the sidecar speed is 0 for scripted sequences,
 | screen | hero_orbit | M-004.C_px.Y | 0.509838 | 0.01 | MISS |
 | screen | hero_orbit | M-004.F.Y | 0.067907 | 0.001 | MISS |
 
-Result: the static frame is exactly stable (S0, C_px.S0, F.S0 all 0) in direction and hybrid, and not in screen (S0 0.010607, C_px.S0 0.007170: MISS). Push-in: direction misses C_px.T12 only, hybrid misses F.T12 only, screen misses C_px.T12 only. Orbit misses all three Y sub-measures in every mode.
+Result (re-captured set, per_sequence.json): the static frame is exactly stable (S0, C_px.S0, F.S0 all 0, pass) in direction, hybrid and screen. The earlier screen MISS (S0 0.010607, C_px.S0 0.007170) came from the first capture and is superseded. Push-in: direction misses C_px.T12 only, hybrid misses F.T12 only, screen misses C_px.T12 only. Orbit misses all three Y sub-measures in every mode.
 
 Command: `/opt/miniconda3/envs/kaiju/bin/python evidence/T-006/tools/m004_per_sequence.py` (run from the repo root; writes `evidence/T-006/m004/per_sequence.json`). Tool commit: 17ce5cf (kaiju_metrics 1.0.0, registry M-004@v1.1 sha256:5f39e5531f9e).

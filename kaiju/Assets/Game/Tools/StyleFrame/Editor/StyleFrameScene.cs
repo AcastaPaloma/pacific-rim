@@ -125,6 +125,28 @@ namespace Game.Tools.StyleFrame
             // 5. water at the tile's sea level: the tile's own water surface, checked (never moved)
             var water = CheckWater(inst, level);
 
+            // 5b. waterline against the legs (DEF-T006-style-4): water level vs ankle (top of the feet) and mid-shin (centre of the shank renderer)
+            double ankleY = Math.Max(feet[0].bounds.max.y, feet[feet.Length - 1].bounds.max.y), shinMidY = double.NaN, shinTopY = double.NaN;
+            foreach (var r in mech.GetComponentsInChildren<Renderer>(true))
+                if (r.gameObject.name.EndsWith("shank_L", StringComparison.Ordinal)) { shinMidY = r.bounds.center.y; shinTopY = r.bounds.max.y; break; }
+            if (double.IsNaN(shinMidY)) { shinTopY = soleY + 0.25 * measuredHeight; shinMidY = 0.5 * (ankleY + shinTopY); }
+            string waterlineRelation = level < ankleY ? "below the ankle (feet only wet)" : level < shinMidY ? "between ankle and mid-shin" : level < shinTopY ? "above mid-shin, below the knee" : "above the shank top (knee or higher)";
+            string waterlineJson = "{\"water_level_navd88_m\": " + Num(level) + ", \"sole_y_m\": " + Num(soleY) + ", \"ankle_y_m\": " + Num(ankleY) + ", \"mid_shin_y_m\": " + Num(shinMidY) + ", \"shin_top_y_m\": " + Num(shinTopY)
+                + ", \"water_above_sole_m\": " + Num(level - soleY) + ", \"water_above_ankle_m\": " + Num(level - ankleY) + ", \"water_above_mid_shin_m\": " + Num(level - shinMidY) + ", \"relation\": " + Str(waterlineRelation)
+                + ", \"method\": \"ankle = top of the foot renderer bounds; mid-shin = centre of the MechBalanced_shank_L renderer bounds; scene metres, NAVD88 y\"}";
+            Debug.Log("[StyleFrame] waterline: " + waterlineJson);
+
+            // 5b. waterline against the legs (DEF-T006-style-4): water level vs ankle (top of the feet) and mid-shin (centre of the shank renderers)
+            double ankleY = Math.Max(feet[0].bounds.max.y, feet[feet.Length - 1].bounds.max.y), shinMidY = double.NaN, shinTopY = double.NaN;
+            foreach (var r in mech.GetComponentsInChildren<Renderer>(true))
+                if (r.gameObject.name.EndsWith("shank_L", StringComparison.Ordinal)) { shinMidY = r.bounds.center.y; shinTopY = r.bounds.max.y; break; }
+            if (double.IsNaN(shinMidY)) { shinMidY = soleY + 0.5 * (soleY + 0.25 * measuredHeight - soleY) + 0.0; shinTopY = soleY + 0.25 * measuredHeight; }
+            string waterlineRelation = level < ankleY ? "below the ankle (feet only wet)" : level < shinMidY ? "between ankle and mid-shin" : level < shinTopY ? "above mid-shin, below the knee" : "above the shank top (knee or higher)";
+            string waterlineJson = "{\"water_level_navd88_m\": " + Num(level) + ", \"sole_y_m\": " + Num(soleY) + ", \"ankle_y_m\": " + Num(ankleY) + ", \"mid_shin_y_m\": " + Num(shinMidY) + ", \"shin_top_y_m\": " + Num(shinTopY)
+                + ", \"water_above_sole_m\": " + Num(level - soleY) + ", \"water_above_ankle_m\": " + Num(level - ankleY) + ", \"water_above_mid_shin_m\": " + Num(level - shinMidY) + ", \"relation\": " + Str(waterlineRelation)
+                + ", \"method\": \"ankle = top of the foot renderer bounds; mid-shin = centre of the MechBalanced_shank_L renderer bounds; scene metres, NAVD88 y\"}";
+            Debug.Log("[StyleFrame] waterline: " + waterlineJson);
+
             // 6. light, cameras, pixel pipeline (config + flags only)
             var sun = new GameObject("Sun");
             var light = sun.AddComponent<Light>();
@@ -143,6 +165,7 @@ namespace Game.Tools.StyleFrame
             };
             var mechInfo = new MechInfo { X = mb.center.x, Z = mb.center.z, YWater = level, YTop = mb.max.y, YSole = soleY, YawDeg = mechYaw, HeightM = measuredHeight, WaterDepthM = depthAtMech, ScenePosition = mp };
             var towerInfo = new TowerInfo { X = site.TowerX, Z = site.TowerZ, Top = site.TowerTop, Bid = site.TowerBid };
+            foreach (var bd in inst.Model.Buildings) if (bd.Excluded == null && bd.Mesh != null) ground.Buildings.Add(new Vector3((float)bd.AnchorLocalX, (float)(bd.BaseNavd88M + bd.HeightM), (float)bd.AnchorLocalZ));
             var plan = StyleFrameShots.Plan(ground, mechInfo, towerInfo);
             var worldCam = GameObject.Find(pipe).transform;
             worldCam.SetPositionAndRotation(new Vector3((float)plan.Hero.X, (float)plan.Hero.Y, (float)plan.Hero.Z), Quaternion.Euler(-(float)plan.Hero.PitchDeg, (float)plan.Hero.YawDeg, 0f));
@@ -175,6 +198,8 @@ namespace Game.Tools.StyleFrame
             j.Append("  \"water_depth_at_mech_m\": ").Append(Num(depthAtMech)).Append(",\n");
             j.Append("  \"stripped_components\": [").Append(string.Join(", ", stripped.ConvertAll(Str))).Append("]\n },\n");
             j.Append(" \"water\": {\"level_navd88_m\": ").Append(Num(level)).Append(", \"surface_min_y\": ").Append(Num(water.minY)).Append(", \"surface_max_y\": ").Append(Num(water.maxY)).Append(", \"renderers\": ").Append(water.count).Append("},\n");
+            j.Append(" \"waterline\": ").Append(waterlineJson).Append(",\n");
+            j.Append(" \"waterline\": ").Append(waterlineJson).Append(",\n");
             j.Append(" \"site\": {").Append(siteNotes).Append("},\n");
             j.Append(" \"pixel\": {\"profile\": ").Append(Str(profile)).Append(", \"palette_sha256\": ").Append(Str(paletteSha)).Append(", \"configuration\": ").Append(Str(Configuration));
             j.Append(", \"flags_on\": [").Append(string.Join(", ", flagsOn.ConvertAll(Str))).Append("], \"world_camera\": ").Append(Str(pipe)).Append("},\n");

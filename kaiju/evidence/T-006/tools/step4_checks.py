@@ -107,17 +107,23 @@ def thumbs(a):
     return [im.resize((w, int(round(w * 270 / 480))), Image.BOX) for w in (480, 96)]
 hero_t, decoy_t = thumbs(col_int), thumbs(decoy)
 pad_px = 12
+TH = int(round(96 * 270 / 480))          # 96 px tile height (54)
 cw = 480 * 2 + pad_px * 3
-canvas = Image.new("RGB", (cw, 270 + 40 + 96 * 270 // 480 + 40 + 96 * 270 // 480 * 0 + 150), (20, 20, 20))
-cv = Image.new("RGB", (cw, 330), (20, 20, 20)); d = ImageDraw.Draw(cv)
-cv.paste(hero_t[0], (pad_px, 24)); cv.paste(decoy_t[0], (pad_px * 2 + 480, 24))
-d.text((pad_px, 8), "hero_slate_teal 480 px", fill=(230, 230, 230), font=FONT)
-d.text((pad_px * 2 + 480, 8), "decoy_480 (mech columns replaced)", fill=(230, 230, 230), font=FONT)
-y96 = 24 + 270 + 24
-cv.paste(hero_t[1], (pad_px, y96)); cv.paste(decoy_t[1], (pad_px * 2 + 96 + 20, y96))
-d.text((pad_px, y96 - 12), "hero 96 px", fill=(230, 230, 230), font=FONT)
-d.text((pad_px * 2 + 96 + 20, y96 - 12), "decoy 96 px", fill=(230, 230, 230), font=FONT)
+y480 = 24
+y96 = y480 + 270 + 14 + 24               # room for the label row above the 96 px tiles
+ch = y96 + TH + pad_px                   # canvas fully contains both 96 px tiles (no crop)
+cv = Image.new("RGB", (cw, ch), (20, 20, 20)); d = ImageDraw.Draw(cv)
+# blind labelling: A/B only; the assignment is fixed (not random) and recorded in the separate answer file
+ASSIGN_480 = {"A": "decoy", "B": "hero"}
+ASSIGN_96 = {"A": "hero", "B": "decoy"}
+img480 = {"hero": hero_t[0], "decoy": decoy_t[0]}; img96 = {"hero": hero_t[1], "decoy": decoy_t[1]}
+x_a, x_b = pad_px, pad_px * 2 + 480
+d.text((x_a, 8), "A", fill=(230, 230, 230), font=FONT); d.text((x_b, 8), "B", fill=(230, 230, 230), font=FONT)
+cv.paste(img480[ASSIGN_480["A"]], (x_a, y480)); cv.paste(img480[ASSIGN_480["B"]], (x_b, y480))
+d.text((x_a, y96 - 14), "A (96 px)", fill=(230, 230, 230), font=FONT); d.text((x_a + 96 + 20, y96 - 14), "B (96 px)", fill=(230, 230, 230), font=FONT)
+cv.paste(img96[ASSIGN_96["A"]], (x_a, y96)); cv.paste(img96[ASSIGN_96["B"]], (x_a + 96 + 20, y96))
 cv.save(f"{OUT_CHECK}/hero_thumb_test.png")
+assert cv.size[1] >= y96 + TH and cv.size[0] >= x_a + 96 + 20 + 96   # both 96 px tiles fully inside the canvas
 json.dump({
     "criterion": "C1: 480 px and 96 px wide hero; mech dominant, 40-60% of frame height; evaluator names it from the 96 px version beside a decoy",
     "method": "mech mask = depth within +-20 m of reference_depth_m (%.3f m), columns within 70 internal px of the projected mech centre, rows above the waterline, largest 8-connected component; decoy = same internal frame with the mech columns (+-2 px) replaced by the adjacent equal-width column band, numpy only" % mech_z,
@@ -128,7 +134,9 @@ json.dump({
     "in_40_60_visible": bool(0.40 <= visible_frac <= 0.60),
     "in_40_60_full_80m": bool(0.40 <= full_frac <= 0.60),
     "decoy_source_column_start": int(src0), "decoy_replaced_columns": [int(x0p), int(x1p)],
-    "evaluator_naming": "pending; the human or cold-rating step uses hero_thumb_test.png",
+    "evaluator_naming": "pending; the cold-rating step sees hero_thumb_test.png only (tiles labelled A/B, no other text); the answer is in this file",
+    "answer_key": {"480_px": {"A": "decoy (no mech)", "B": "hero (mech)"}, "96_px": {"A": "hero (mech)", "B": "decoy (no mech)"}},
+    "png_size": [cv.size[0], cv.size[1]], "tile_96_size": [96, TH], "tiles_96_fully_visible": True,
 }, open(f"{OUT_CHECK}/hero_thumb_test.json", "w"), indent=1)
 Image.fromarray((mech_mask * 255).astype(np.uint8)).save(f"{OUT_CHECK}/mech_mask_internal.png")
 

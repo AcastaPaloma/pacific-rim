@@ -17,6 +17,8 @@ namespace Game.Tools.StyleFrame
         public Func<double, double, bool> IsWater;
         public Func<double, double, double> Data, Render;   // seabed/ground (data) and rendered surface height, NAVD88 m
         public double Level, TileSize = 2048.0;
+        /// <summary>Building anchors for near-field dominance checks: x, top height (NAVD88 m), z.</summary>
+        public List<Vector3> Buildings = new List<Vector3>();
         public double Depth(double x, double z) => Level - Data(x, z);
         public bool Inside(double x, double z, double margin) => x >= margin && z >= margin && x <= TileSize - margin && z <= TileSize - margin;
         public bool ShoreLand(double x, double z, double reach) =>
@@ -74,6 +76,7 @@ namespace Game.Tools.StyleFrame
         public double MechFractionVisible, MechFractionFull80, HorizonRowFromTop, MechBaseRowFromTop, MechTopRowFromTop;
         public double TowerOffsetFromMechDeg, TowerTopRowFromTop, TowerTopColFromLeft, CompassAzimuthFromMechDeg;
         public bool TowerInFrame;
+        public double NearBuildingRatio = -1;   // waterfront only: tallest building angle within 0.7 D and +-35 deg, divided by the mech's own angular height
         public CameraPose Pose => new CameraPose { Position = new CameraVec3((float)X, (float)Y, (float)Z), YawDeg = (float)YawDeg, PitchDeg = (float)PitchDeg };
         public CamModel Model => new CamModel(X, Y, Z, YawDeg, PitchDeg);
     }
@@ -83,7 +86,8 @@ namespace Game.Tools.StyleFrame
         public string Name, Kind, Surface, Note;
         public Vector3 Size;          // w (x), h (y), d (z) metres
         public double X, Y, Z, YawDeg, Value;
-        public bool Placed;
+        public Vector3 Tint = Vector3.one;      // sRGB multiplier on Value (shader: value * tint)
+        public bool Placed, Accent;
     }
 
     public sealed class ShotPlan
@@ -174,27 +178,47 @@ namespace Game.Tools.StyleFrame
             return MakeShot(name, m.X + D * Math.Sin(rad), h, m.Z + D * Math.Cos(rad), m, t, nb, heightAbove, th);
         }
 
+        /// <summary>Tallest building angle (from the camera) within 0.7 D and +-35 deg of the view axis, divided by the mech's angular height.</summary>
+        static double NearBuildingRatio(FrameGround g, double cx, double cy, double cz, MechInfo m, double D)
+        {
+            double yaw = Bearing(cx, cz, m.X, m.Z), mechAng = Math.Atan((m.YTop - cy) / D) - Math.Atan((m.YWater - cy) / D), worst = 0;
+            foreach (var b in g.Buildings)
+            {
+                double dx = b.x - cx, dz = b.z - cz, d = Math.Sqrt(dx * dx + dz * dz);
+                if (d < 20 || d > 0.7 * D || Math.Abs(Wrap(Bearing(cx, cz, b.x, b.z) - yaw)) > 35) continue;
+                worst = Math.Max(worst, (Math.Atan((b.y - cy) / d) - Math.Atan((m.YWater - cy) / d)) / mechAng);
+            }
+            return worst;
+        }
+
         static ShotDef Waterfront(FrameGround g, MechInfo m, TowerInfo t, List<string> warnings)
         {
-            const double fraction = 0.32, nb = -0.35;
+            // C12: mech >= 25% of frame height (0.32 aimed), horizon at about mid frame (base row ~ 0 puts pitch near 0, sky share < 0.5), no near building taller than 0.6 mech heights
+            const double fraction = 0.32, nb = -0.03;
             double D0 = SolveDistance(g.Level + 5.0, m.YWater, m.YTop, nb, nb + 2 * fraction, out _);
             for (int pass = 0; pass < 2; pass++)
             {
-                double tol = pass == 0 ? 25 : 90, sector = pass == 0 ? 20 : 40, best = double.MaxValue, bx = 0, bz = 0;
+                double tol = pass == 0 ? 25 : 90, sector = pass == 0 ? 20 : 40, best = double.MaxValue, bx = 0, bz = 0, bratio = -1;
                 for (double z = m.Z - D0 - 120; z <= m.Z + D0 + 120; z += 4)
                     for (double x = m.X - D0 - 120; x <= m.X; x += 4)
                     {
                         if (!g.Inside(x, z, 80) || !g.ShoreLand(x, z, 6) || g.Render(x, z) < g.Level + 0.5) continue;
                         double d = Math.Sqrt((m.X - x) * (m.X - x) + (m.Z - z) * (m.Z - z)), b = Bearing(x, z, m.X, m.Z);
                         if (Math.Abs(d - D0) > tol || Math.Abs(b - 90) > sector) continue;
-                        double key = Math.Abs(d - D0) + 0.5 * Math.Abs(b - 90);
-                        if (key < best) { best = key; bx = x; bz = z; }
+                        double cy = Math.Max(g.Render(x, z), g.Level) + 3.0, ratio = NearBuildingRatio(g, x, cy, z, m, d);
+                        double key = Math.Abs(d - D0) + 0.5 * Math.Abs(b - 90) + 400.0 * Math.Max(0, ratio - 0.6);
+                        if (key < best) { best = key; bx = x; bz = z; bratio = ratio; }
                     }
                 if (best < double.MaxValue)
                 {
                     if (pass == 1) warnings.Add("waterfront: relaxed search (distance +/-90 m, +/-40 deg of east) was needed");
                     double gy = Math.Max(g.Render(bx, bz), g.Level);
-                    return MakeShot("waterfront", bx, gy + 3.0, bz, m, t, nb, 3.0, Deg(Math.Atan2(bx - m.X, bz - m.Z)));
+                    var shot = MakeShot("waterfront", bx, gy + 3.0, bz, m, t, nb, 3.0, Deg(Math.Atan2(bx - m.X, bz - m.Z)));
+                    shot.NearBuildingRatio = bratio;
+                    if (bratio > 0.6) warnings.Add("waterfront: a near-field building reaches " + bratio.ToString("F2", Inv) + " mech heights in angle (target <= 0.6)");
+                    if (shot.MechFractionVisible < 0.25) warnings.Add("waterfront: mech visible fraction " + shot.MechFractionVisible.ToString("F3", Inv) + " < 0.25");
+                    if (shot.HorizonRowFromTop > 0.55) warnings.Add("waterfront: horizon row " + shot.HorizonRowFromTop.ToString("F3", Inv) + " is low in the frame (sky share risk)");
+                    return shot;
                 }
             }
             throw new InvalidOperationException("no shore position found for the waterfront framing");
@@ -242,22 +266,29 @@ namespace Game.Tools.StyleFrame
             double[] figureBearings = { -13.0, -8.5, 9.5 };
             for (int i = 0; i < 3; i++)
             {
-                var p = Box("figure_" + (i + 1), "figure 1.8 m", new Vector3(0.5f, 1.8f, 0.4f), 0.04);
+                var p = Box("figure_" + (i + 1), "figure 1.8 m", new Vector3(0.5f, 1.8f, 0.4f), 1.0);
                 p.Surface = "land (shoreline)";
                 if (FindShore(g, hero, figureBearings[i], 300, 520, out p.X, out p.Z)) { p.Y = Math.Max(g.Render(p.X, p.Z), g.Level); p.Placed = true; }
                 else plan.Warnings.Add(p.Name + ": no shore ground found on the ray " + figureBearings[i].ToString("F1", Inv) + " deg from the hero view axis");
                 plan.Props.Add(p);
             }
-            var car = Box("car_1", "car 4.5 x 1.5 x 1.8 m (length along local z, bow toward the camera)", new Vector3(1.8f, 1.5f, 4.5f), 0.92);
+            var car = Box("car_1", "car 4.5 x 1.5 x 1.8 m (length along local z, bow toward the camera)", new Vector3(1.8f, 1.5f, 4.5f), 1.0);
             car.Surface = "land (shoreline)";
             if (FindShore(g, hero, 14.0, 300, 520, out car.X, out car.Z)) { car.Y = Math.Max(g.Render(car.X, car.Z), g.Level); car.Placed = true; }
             else plan.Warnings.Add("car_1: no shore ground found");
             plan.Props.Add(car);
-            var boat = Box("boat_1", "small boat hull 8 x 1.5 x 2.4 m (length along local z, bow toward the camera)", new Vector3(2.4f, 1.5f, 8.0f), 0.92);
+            var boat = Box("boat_1", "small cabin boat 6.5 x 1.8 x 2.2 m (length along local z, bow toward the camera)", new Vector3(2.2f, 1.8f, 6.5f), 1.0);
             boat.Surface = "water";
             if (FindWater(g, hero, 360, 560, 14, out boat.X, out boat.Z, out double bb)) { boat.Y = g.Level - 0.4; boat.Placed = true; boat.Note = "bearing " + bb.ToString("F0", Inv) + " deg from the view axis; hull sits 0.4 m below the water line"; }
             else plan.Warnings.Add("boat_1: no open water 360-560 m from the hero camera");
             plan.Props.Add(boat);
+            // accent: a channel-marker buoy (3 x 3.2 x 3 m) 70-100 m from the hero camera, on water, below the horizon, in the palette entry that is the most saturated (Lab chroma)
+            // of the slate_teal profile (the profile defines no accent: accentIndex -1). Colour = that entry's sRGB, value 1, unlit.
+            var buoy = Box("buoy_accent", "channel-marker buoy 3.0 x 3.2 x 3.0 m (accent placeholder)", new Vector3(3.0f, 3.2f, 3.0f), 1.0);
+            buoy.Surface = "water"; buoy.Accent = true; buoy.Tint = new Vector3(115f / 255f, 131f / 255f, 160f / 255f);
+            if (FindWater(g, hero, 70, 100, 10, out buoy.X, out buoy.Z, out double ab)) { buoy.Y = g.Level - 0.2; buoy.Placed = true; buoy.Note = "accent placeholder; bearing " + ab.ToString("F0", Inv) + " deg from the view axis; colour = slate_teal palette entry 9 (115,131,160), the highest Lab chroma (17.4) of the 11 entries; the profile has accentIndex -1, so the pipeline may count it as an ordinary entry"; }
+            else plan.Warnings.Add("buoy_accent: no open water 70-100 m from the hero camera");
+            plan.Props.Add(buoy);
             foreach (var p in plan.Props)
                 if (p.Placed) p.YawDeg = Bearing(p.X, p.Z, hero.X, hero.Z);   // local +z (bow, front) toward the hero camera
         }
@@ -299,7 +330,7 @@ namespace Game.Tools.StyleFrame
                 go.AddComponent<MeshFilter>().sharedMesh = MakeBox(p.Name + "_box", p.Size);
                 var r = go.AddComponent<MeshRenderer>();
                 var mat = new Material(shader) { name = "StyleFrameProp_" + p.Name };
-                mat.SetFloat("_Value", (float)p.Value); mat.SetVector("_TintSrgb", new Vector4(1, 1, 1, 0)); mat.SetFloat("_Unlit", 1f);
+                mat.SetFloat("_Value", (float)p.Value); mat.SetVector("_TintSrgb", new Vector4(p.Tint.x, p.Tint.y, p.Tint.z, 0)); mat.SetFloat("_Unlit", 1f);
                 r.sharedMaterial = mat;
                 r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; r.receiveShadows = false;
             }
@@ -367,7 +398,7 @@ namespace Game.Tools.StyleFrame
                 j.Append(first ? "\n" : ",\n"); first = false;
                 j.Append("  {\"name\": ").Append(Q(p.Name)).Append(", \"kind\": ").Append(Q(p.Kind)).Append(", \"primitive\": \"box mesh (plain box), scale 1\"");
                 j.Append(", \"size_m\": [").Append(N(p.Size.x)).Append(", ").Append(N(p.Size.y)).Append(", ").Append(N(p.Size.z)).Append("], \"size_axes\": \"x width, y height, z length/depth\"");
-                j.Append(", \"material\": {\"shader\": \"Game/StyleTest/Surface\", \"value\": ").Append(N(p.Value)).Append(", \"unlit\": true}, \"surface\": ").Append(Q(p.Surface)).Append(", \"placed\": ").Append(p.Placed ? "true" : "false");
+                j.Append(", \"material\": {\"shader\": \"Game/StyleTest/Surface\", \"value\": ").Append(N(p.Value)).Append(", \"tint_srgb\": ").Append(V3(p.Tint.x, p.Tint.y, p.Tint.z)).Append(", \"accent\": ").Append(p.Accent ? "true" : "false").Append(", \"unlit\": true}, \"surface\": ").Append(Q(p.Surface)).Append(", \"placed\": ").Append(p.Placed ? "true" : "false");
                 if (!p.Placed) { j.Append(", \"note\": \"no position found\"}"); continue; }
                 j.Append(", \"position_baytm\": ").Append(V3(p.X + originX, p.Y, p.Z + originZ)).Append(", \"position_scene\": ").Append(V3(p.X, p.Y, p.Z)).Append(", \"yaw_deg\": ").Append(N(p.YawDeg));
                 double dx = p.X - plan.Hero.X, dz = p.Z - plan.Hero.Z;
@@ -377,7 +408,18 @@ namespace Game.Tools.StyleFrame
                 j.Append(", \"expected_internal_px_other_framings_1080p\": {");
                 for (int k = 0; k < 3; k++) j.Append(k > 0 ? ", " : "").Append(Q(plan.Alternatives[k].Name)).Append(": ").Append(PxJson(Footprint(plan.Alternatives[k], p, Internal[0][0], Internal[0][1])));
                 j.Append("}");
-                if (!hero1080.Visible || !hero1080.InFrame || hero1080.Max < 1.0 || hero1080.Max > 3.0 || !hero1440.Visible || hero1440.Max > 3.0)
+                if (p.Accent)
+                {
+                    // accent: bounding-box area share of the internal frame (an upper bound on the pixel share) and whether the top corners stay below the horizon (not on the sky)
+                    double share = hero1080.Visible ? hero1080.W * hero1080.H / (480.0 * 270.0) : 0;
+                    var cam = plan.Hero.Model; bool below = true;
+                    cam.Project(p.X, p.Y + p.Size.y, p.Z, out _, out double nyTop, out _);
+                    below = nyTop * 0.5 + 0.5 <= 1 - plan.Hero.HorizonRowFromTop + 1e-9;
+                    j.Append(", \"accent_bbox_share_of_frame_1080p\": ").Append(N(share)).Append(", \"accent_top_below_horizon\": ").Append(below ? "true" : "false");
+                    if (!hero1080.Visible || !hero1080.InFrame || share < 0.001 || share > 0.15 || !below)
+                    { string w = p.Name + ": accent bbox share " + N(share) + " or position outside 0.1-15% / in frame / below horizon"; warnings.Add(w); j.Append(", \"warning\": ").Append(Q(w)); }
+                }
+                else if (!hero1080.Visible || !hero1080.InFrame || hero1080.Max < 1.0 || hero1080.Max > 3.0 || !hero1440.Visible || hero1440.Max > 3.0)
                 { string w = p.Name + ": hero footprint outside 1-3 internal px or outside the frame"; warnings.Add(w); j.Append(", \"warning\": ").Append(Q(w)); }
                 if (p.Note != null) j.Append(", \"note\": ").Append(Q(p.Note));
                 j.Append("}");
@@ -414,7 +456,9 @@ namespace Game.Tools.StyleFrame
                 j.Append(", \"mech_height_fraction_of_frame\": {\"visible_above_waterline\": ").Append(N(s.MechFractionVisible)).Append(", \"full_80m_incl_submerged\": ").Append(N(s.MechFractionFull80)).Append(", \"method\": \"analytic projection of waterline and mech top; the C1 measure is on the rendered mask\"}");
                 j.Append(", \"rows_from_top_fraction\": {\"horizon\": ").Append(N(s.HorizonRowFromTop)).Append(", \"mech_base_waterline\": ").Append(N(s.MechBaseRowFromTop)).Append(", \"mech_top\": ").Append(N(s.MechTopRowFromTop)).Append("}");
                 j.Append(", \"horizon_row_1080p_internal\": ").Append(N(s.HorizonRowFromTop * 270)).Append(", \"horizon_row_1440p_internal\": ").Append(N(s.HorizonRowFromTop * 288));
-                j.Append(", \"tallest_tower\": {\"bearing_offset_from_view_axis_deg\": ").Append(N(s.TowerOffsetFromMechDeg)).Append(", \"top_col_from_left\": ").Append(N(s.TowerTopColFromLeft)).Append(", \"top_row_from_top\": ").Append(N(s.TowerTopRowFromTop)).Append(", \"in_frame\": ").Append(s.TowerInFrame ? "true" : "false").Append("}}");
+                j.Append(", \"tallest_tower\": {\"bearing_offset_from_view_axis_deg\": ").Append(N(s.TowerOffsetFromMechDeg)).Append(", \"top_col_from_left\": ").Append(N(s.TowerTopColFromLeft)).Append(", \"top_row_from_top\": ").Append(N(s.TowerTopRowFromTop)).Append(", \"in_frame\": ").Append(s.TowerInFrame ? "true" : "false").Append("}");
+                if (s.NearBuildingRatio >= 0) j.Append(", \"near_field_tallest_building_angle_over_mech_angle\": ").Append(N(s.NearBuildingRatio));
+                j.Append("}");
             }
             j.Append("\n ],\n \"warnings\": [").Append(string.Join(", ", plan.Warnings.ConvertAll(Q))).Append("]\n}\n");
             Directory.CreateDirectory(Path.GetDirectoryName(ShotsPath));
