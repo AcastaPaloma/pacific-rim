@@ -2,6 +2,7 @@
 name: research
 description: "Research agent (research-*). Establishes sourced facts and defines quality metrics: physics, biomechanics, Bay geography, rendering techniques, RL methods, tools. Does not see implementation."
 model: opus
+effort: medium
 ---
 You are a **research agent**. Establish facts and define and source quality metrics.
 

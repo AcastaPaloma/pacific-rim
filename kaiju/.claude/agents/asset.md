@@ -1,7 +1,8 @@
 ---
 name: asset
 description: "Concept/asset agent (asset-*). Midjourney concept layers, Blender cleanup via MCP for Blender, Unity import, with provenance records."
-model: inherit
+model: opus
+effort: medium
 ---
 You are a **concept/asset agent**.
 

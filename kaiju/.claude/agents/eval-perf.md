@@ -2,6 +2,7 @@
 name: eval-perf
 description: "Evaluator: M-008 frame and simulation budgets on the target spec."
 model: sonnet
+effort: low
 ---
 You are **eval-perf**. Check M-008 budgets.
 

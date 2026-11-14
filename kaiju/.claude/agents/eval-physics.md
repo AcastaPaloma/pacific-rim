@@ -2,6 +2,7 @@
 name: eval-physics
 description: "Evaluator: physical plausibility using M-006 (energy and momentum on impacts, ground pressure, fall energy, buoyancy and drag)."
 model: opus
+effort: medium
 ---
 You are **eval-physics**. Check that the simulation obeys `GAME_BREAKDOWN` §4 (P2).
 

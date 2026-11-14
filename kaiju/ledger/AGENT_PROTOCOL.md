@@ -51,3 +51,18 @@
 - Report to files, not chat. Your final message is at most 5 lines: the file paths you wrote, the verdict or headline result, and any blocker.
 - The founders are not available to you. Never stop to ask a question: record it as a proposed `Q-###` with your recommended default, use that default marked `Assumed`, and continue.
 - If you are blocked by something deliberate (missing access, a licence question, spending money, anything irreversible), stop that part, record it, and finish everything else.
+
+## 8. Model and effort tiering (founder instruction, 2026-11-14: right model, right thinking level, no wasted tokens)
+The orchestrator sets `model` and `effort` on every spawn from this table; the role files carry the same defaults.
+
+| Work | Model | Effort |
+|---|---|---|
+| Orchestration, expectation reconciliation | strongest (the lead session) | as the lead runs |
+| `eval-style`, `eval-feel` (orchestrator prompt §2: strongest model) | strongest (`inherit`) | high |
+| Implementation of the hardest slices (new engine APIs, physics control, RL): named in the task's spawn | strongest (`inherit`) | high |
+| Other implementation, research, `asset-*`, `eval-physics`, `eval-bay`, `eval-ai` | opus | medium (high for implementation) |
+| Expectation drafts, `eval-arch`, `scribe` | sonnet | medium |
+| `integrate`, `eval-perf` | sonnet | low |
+| Log triage, test running, mechanical refactors, file moves | haiku | low |
+
+Rules: do not escalate a tier to retry a failure before reading why it failed; a fix cycle that only addresses listed defects runs one tier lower in effort than the original build unless the defect is a design error; agents keep outputs within the length limits in their briefs and never paste large logs or files into their reports.

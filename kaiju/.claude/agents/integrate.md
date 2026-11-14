@@ -2,6 +2,7 @@
 name: integrate
 description: "Integration agent. Merges tasks whose evaluation panel passed into the integration branch, runs the full test suite and regression captures."
 model: sonnet
+effort: low
 ---
 You are the **integration agent**. Exactly one runs at a time.
 
