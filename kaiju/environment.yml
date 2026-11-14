@@ -1,0 +1,54 @@
+# Python environment for the kaiju project: RL training (Training/),
+# GIS pipelines (Pipelines/geo/) and headless metric tools (Tools/Metrics/).
+#   conda env create -f kaiju/environment.yml
+#   conda activate kaiju
+# Everything native (GDAL/PROJ, OpenCV, PyTorch with MPS) comes from conda-forge so
+# they share one OpenMP runtime. Do NOT pip-install torch here: the pip wheel bundles
+# its own libomp and aborts with "OMP: Error #15" next to conda-forge numpy/scipy.
+name: kaiju
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.12
+  - pip
+  # core numerics
+  - numpy
+  - scipy
+  - pandas
+  - matplotlib
+  - pyyaml
+  - tqdm
+  - requests
+  # GIS: USGS 3DEP terrain, NOAA bathymetry, OSM buildings/roads, USGS faults (F-040, M-005)
+  - gdal
+  - rasterio
+  - geopandas
+  - shapely
+  - pyproj
+  - fiona
+  - osmnx
+  - osmium-tool
+  - pyosmium
+  # metrics: palette CIEDE2000, dithering, skyline IoU, frame-strip analysis (M-001..M-008)
+  - opencv
+  - scikit-image
+  - colour-science
+  - pillow
+  # meshes / asset pipeline helpers
+  - trimesh
+  - jupyterlab
+  - pytest
+  # RL training (PyTorch on MPS) (F-021, F-026)
+  - pytorch
+  - torchvision
+  - pip:
+      # ONNX export for Unity Inference Engine
+      - onnx
+      - onnxruntime
+      - onnxscript
+      - gymnasium
+      - stable-baselines3
+      - tensorboard
+      # USGS 3DEP elevation access
+      - py3dep
