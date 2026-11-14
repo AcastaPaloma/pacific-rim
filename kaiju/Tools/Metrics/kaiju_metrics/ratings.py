@@ -2,7 +2,7 @@
 or defaults a score: no file, or no rows for this build, leaves the sub-measure PENDING (verdict INCOMPLETE).
 
 File format (JSON):
-{"schema": "panel_ratings@v1", "metric": "M-001" | "M-003",
+{"schema": "panel_ratings@v1", "metric": "M-001" | "M-003" (panel items; any M-00x for calibrate),
  "raters":  [{"rater_id": "founder_a", "rater_type": "human" | "agent", "blind": true}],
  "ratings": [{"rater_id": "founder_a", "build": "<report label>", "capture": "<capture id>",
               "scenario": "cruise|start|stop|turn90_inplace|curve|overall" (M-001),
@@ -32,8 +32,8 @@ def load_ratings(path):
     if not isinstance(d, dict) or d.get("schema") != SCHEMA:
         E.add("$.schema", "wrong schema string", SCHEMA, repr(d.get("schema") if isinstance(d, dict) else d)[:40])
         raise InvalidInput(E.errors)
-    if d.get("metric") not in ("M-001", "M-003"):
-        E.add("$.metric", "ratings must name their metric", "M-001 | M-003", repr(d.get("metric")))
+    if d.get("metric") not in ("M-001", "M-002", "M-003", "M-004"):
+        E.add("$.metric", "ratings must name their metric", "M-001 .. M-004", repr(d.get("metric")))
     raters = {}
     for i, r in enumerate(d.get("raters") or []):
         if not isinstance(r, dict) or not isinstance(r.get("rater_id"), str):

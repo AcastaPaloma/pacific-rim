@@ -117,3 +117,13 @@ def nearest_lab(lab_px, pal_lab, chunk=200000):
         out_i[s:s + chunk] = d.argmin(1)
         out_d[s:s + chunk] = d.min(1)
     return out_d, out_i
+
+
+def nearest_lab_rgb(rgb_px, pal_lab):
+    """Nearest Lab palette entry for N x 3 uint8 pixels, computed once per unique colour (exact, fast)."""
+    flat = np.asarray(rgb_px, dtype=np.uint8).reshape(-1, 3)
+    key = (flat[:, 0].astype(np.uint32) << 16) | (flat[:, 1].astype(np.uint32) << 8) | flat[:, 2]
+    uk, inv = np.unique(key, return_inverse=True)
+    ucol = np.stack([(uk >> 16) & 255, (uk >> 8) & 255, uk & 255], axis=1).astype(np.uint8)
+    d, i = nearest_lab(srgb_u8_to_lab(ucol), pal_lab)
+    return d[inv], i[inv]
