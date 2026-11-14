@@ -72,10 +72,10 @@ namespace Game.Core.Tests
 
     public readonly struct AllocResult
     {
-        public readonly long Bytes;   // managed heap bytes (GC.GetAllocatedBytesForCurrentThread)
-        public readonly long Count;   // Unity only: GC.Alloc profiler samples on this thread; -1 where unavailable
+        public readonly long Bytes;   // managed heap bytes (GC.GetAllocatedBytesForCurrentThread); -1 where the runtime does not report it
+        public readonly long Count;   // Unity only: GC.Alloc profiler samples (allocations) on this thread; -1 where unavailable
         public AllocResult(long bytes, long count) { Bytes = bytes; Count = count; }
-        public override string ToString() => "bytes=" + Bytes + " gcAllocCount=" + (Count < 0 ? "n/a" : Count.ToString());
+        public override string ToString() => "bytes=" + (Bytes < 0 ? "n/a" : Bytes.ToString()) + " gcAllocCount=" + (Count < 0 ? "n/a" : Count.ToString());
     }
 
     public static class AllocMeter
@@ -91,18 +91,19 @@ namespace Game.Core.Tests
         {
 #if UNITY_2017_1_OR_NEWER
             // Same recorder setup as the Unity Test Framework's Is.Not.AllocatingGCMemory() constraint.
+            // Unity's Mono returns 0 from GC.GetAllocatedBytesForCurrentThread (measured by the positive control),
+            // so in Unity the GC.Alloc sample count is the witness: 0 allocations means 0 bytes.
             const Unity.Profiling.ProfilerRecorderOptions options =
                 Unity.Profiling.ProfilerRecorderOptions.SumAllSamplesInFrame | Unity.Profiling.ProfilerRecorderOptions.CollectOnlyOnCurrentThread;
             using (var recorder = new Unity.Profiling.ProfilerRecorder("GC.Alloc", 1, options))
             {
                 bool valid = recorder.Valid;
-                long before = GC.GetAllocatedBytesForCurrentThread();
                 if (valid) recorder.Start();
                 action();
                 if (valid) recorder.Stop();
-                long after = GC.GetAllocatedBytesForCurrentThread();
                 long count = valid && recorder.Count == 1 ? recorder.GetSample(0).Count : -1;
-                return new AllocResult(after - before, count);
+                if (count < 0) throw new InvalidOperationException("GC.Alloc profiler recorder unavailable; cannot measure allocations");
+                return new AllocResult(-1, count);
             }
 #else
             long before = GC.GetAllocatedBytesForCurrentThread();

@@ -32,7 +32,8 @@ namespace Game.Core.Tests
             object[] sink = new object[1];
             var r = AllocMeter.Measure(() => { for (int i = 0; i < 1000; i++) sink[0] = new byte[64]; });
             Evidence.Line("alloc.txt", "control: 1000 x new byte[64] -> " + r);
-            Assert.That(r.Bytes, Is.GreaterThanOrEqualTo(64000));
+            Assert.That(r.Bytes >= 0 || r.Count >= 0, Is.True, "no allocation witness in this runtime");
+            if (r.Bytes >= 0) Assert.That(r.Bytes, Is.GreaterThanOrEqualTo(64000));
             if (r.Count >= 0) Assert.That(r.Count, Is.GreaterThanOrEqualTo(1000));
         }
 
@@ -79,7 +80,7 @@ namespace Game.Core.Tests
             foreach (var h in bigHandlers) delivered += h.Calls;
             Assert.That(delivered, Is.EqualTo((long)subscribers * (Publishes + WarmUp)));
             if (nested) Assert.That(pong.Calls, Is.EqualTo(Publishes + WarmUp));
-            Assert.That(result.Bytes, Is.EqualTo(0), scenario);
+            if (result.Bytes >= 0) Assert.That(result.Bytes, Is.EqualTo(0), scenario);
             if (result.Count >= 0) Assert.That(result.Count, Is.EqualTo(0), scenario);
         }
 
@@ -103,7 +104,7 @@ namespace Game.Core.Tests
             read();
             var r = AllocMeter.Measure(read);
             Evidence.Line("alloc.txt", "flag+clock reads x" + Publishes + " -> " + r);
-            Assert.That(r.Bytes, Is.EqualTo(0));
+            if (r.Bytes >= 0) Assert.That(r.Bytes, Is.EqualTo(0));
             if (r.Count >= 0) Assert.That(r.Count, Is.EqualTo(0));
             Assert.That(t, Is.GreaterThan(0));
         }

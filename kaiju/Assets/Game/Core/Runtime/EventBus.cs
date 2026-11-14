@@ -26,7 +26,8 @@ namespace Game.Core
         private bool _dispatching, _aborted;
         private int _cascadeEvents;
         private long _publishSeq;
-        private string _cascadeRoot, _abortMessage;
+        private Type _cascadeRoot;   // event type that started the current cascade (name built only on abort)
+        private string _abortMessage;
 
         public EventBus(ICoreErrorSink errors, int maxEventsPerCascade)
         {
@@ -64,7 +65,7 @@ namespace Game.Core
             var ch = GetChannel<T>();
             if (_aborted) return; // cascade already stopped: further nested publishes are dropped
             if (_cascadeEvents >= _cascadeCap) { Abort(typeof(T)); return; }
-            if (!_dispatching) _cascadeRoot = typeof(T).Name;
+            if (!_dispatching) _cascadeRoot = typeof(T); // Type.Name allocates on Mono: never read it here
             _cascadeEvents++;
             if (ch.CascadeCount++ == 0) Push(ref _touched, ref _touchedCount, ch);
             ch.Enqueue(in evt, ++_publishSeq);
@@ -123,7 +124,7 @@ namespace Game.Core
         {
             _aborted = true;
             var sb = new StringBuilder();
-            sb.Append("Event cascade started by ").Append(_cascadeRoot).Append(" exceeded maxEventsPerCascade=")
+            sb.Append("Event cascade started by ").Append(_cascadeRoot != null ? _cascadeRoot.Name : "?").Append(" exceeded maxEventsPerCascade=")
               .Append(_cascadeCap).Append(" (refused ").Append(refused.Name).Append("). Events in cascade: ");
             for (int i = 0; i < _touchedCount; i++)
                 sb.Append(i == 0 ? "" : ", ").Append(_touched[i].EventType.Name).Append(" x").Append(_touched[i].CascadeCount);

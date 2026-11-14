@@ -61,7 +61,7 @@ namespace Game.Core.Tests
             ops();
             var r = AllocMeter.Measure(ops);
             Evidence.Line("alloc.txt", "id equality/hash/compare x10000 -> " + r);
-            Assert.That(r.Bytes, Is.EqualTo(0));
+            if (r.Bytes >= 0) Assert.That(r.Bytes, Is.EqualTo(0));
             if (r.Count >= 0) Assert.That(r.Count, Is.EqualTo(0));
         }
 
