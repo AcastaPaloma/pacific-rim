@@ -72,3 +72,9 @@ Snapshot (2026-11-14 11:20, after a second usage-limit interruption; all agents 
 1. Launch R-001 to R-005. Brief T-001 and run its expectation pair meanwhile.
 2. When research lands: scribe records R-/M- entries; brief T-002 to T-005 and T-007; run expectation pairs; reconcile.
 3. Implement with at most 2 Unity-touching worktrees at once.
+
+## Orchestration decisions log (append-only)
+- 2026-11-14 · Token budget (founder instruction: right model, right effort, no waste; the account limit was hit twice). The strongest model is used for `eval-style` / `eval-feel` only when they judge game captures. For T-002, where the question is whether the metric tools are numerically valid, one Opus/medium agent played both roles and wrote `evaluations/T-002/eval-style.md` and `eval-feel.md`.
+- 2026-11-14 · T-005 cycle 1: the implementer's own stored metrics show the walk gate failing (steady Froude 0.020 against 0.20), and the spec says the feel panel can never rescue a failed numeric sub-measure (C7). `eval-feel` on captures is therefore deferred until a cycle reaches the Froude band; `eval-physics` and `eval-arch` ran on a frozen copy (`.wt/T-005-eval`, commit 17d2e9a) while the implementer started cycle 2. Research R-007 was commissioned in parallel on why the target pace is missed (orchestrator prompt §5.5 allows research when a metric cannot be hit).
+- 2026-11-14 · T-003: metric-definition problems found by `eval-bay` (shoreline seam, default-height share, independent skyline reference) went to research R-006 (`M-005@v1.1` proposal) instead of fix cycles; build defects went back to the implementer (cycle 2).
+- 2026-11-14 · T-007: rulings on C6, C11 and C27 readings appended to `expectations/T-007.md`; cycle 3 (the last) is with the implementer.
