@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Game.Core.Contracts;
+using Game.Core;
 using Game.Physics.Body.Contracts;
 using UnityEngine;
+using EntityId = Game.Core.EntityId;
 using NQuat = System.Numerics.Quaternion;
 using NVec3 = System.Numerics.Vector3;
 
@@ -48,6 +49,7 @@ namespace Game.Physics.Body.Unity
         readonly int[] _linkFoot;
         readonly bool[] _linkTouched;
         long _nextContactId = 1;
+        readonly List<KeyValuePair<string, string>> _logEvents = new List<KeyValuePair<string, string>>();
         readonly Vector3 _soleCentreLocal;
         // external forces
         struct Ext { public int Link; public Vector3 Force, Point, VelBefore; }
@@ -321,11 +323,18 @@ namespace Game.Physics.Body.Unity
                 if (edge > 0)
                 {
                     fs.ContactId = _nextContactId++;
+                    _logEvents.Add(new KeyValuePair<string, string>("footfall", "\"foot\":\"" + FootId(f) + "\",\"contact_id\":" + fs.ContactId + ",\"t_contact\":" + JsonLine.ArrayOf(new[] { step * _dt }).Trim('[', ']') + ",\"cop\":" + JsonLine.VecOf(fs.Cop) + ",\"Jn\":" + JsonLine.ArrayOf(new double[] { fn * dt }).Trim('[', ']') + ",\"peak_Fn\":" + JsonLine.ArrayOf(new double[] { fn }).Trim('[', ']') + ",\"pressure_kpa\":" + JsonLine.ArrayOf(new[] { fn / SoleAreaM2 / 1000.0 }).Trim('[', ']') + ",\"v_approach\":" + JsonLine.VecOf(N(_footPrevVel[f]))));
                     _bus?.Publish(new FootContact { Unit = UnitId, Foot = f, Step = step, ContactId = fs.ContactId, Position = fs.Cop, Normal = fs.Normal, VerticalImpulseNs = fn * dt, NormalForceN = fn, PressurePa = (float)(fn / SoleAreaM2), ApproachVelocity = N(_footPrevVel[f]) });
                 }
-                else if (edge < 0) _bus?.Publish(new FootLiftOff { Unit = UnitId, Foot = f, Step = step, ContactId = fs.ContactId });
+                else if (edge < 0)
+                {
+                    _logEvents.Add(new KeyValuePair<string, string>("liftoff", "\"foot\":\"" + FootId(f) + "\",\"contact_id\":" + fs.ContactId));
+                    _bus?.Publish(new FootLiftOff { Unit = UnitId, Foot = f, Step = step, ContactId = fs.ContactId });
+                }
             }
         }
+
+        internal void FlushLogEvents(long step) { foreach (var e in _logEvents) _world.LogFootEvent(this, step, e.Key, e.Value); _logEvents.Clear(); }
 
         void ReadState()
         {

@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Game.Physics.Body.Contracts;
 
-namespace Game.Physics.Body
+namespace Game.Physics.Body.Contracts
 {
     /// <summary>Engine-free operations on mech_frame@v1: validation, the R-005 section 1.4 scaling rule, mass sums, and the effective inertias the gain rule needs.</summary>
     public static class MechFrameOps
@@ -121,25 +120,5 @@ namespace Game.Physics.Body
         }
         public static int AxisIndex(DofData d) => Math.Abs(d.axis[0]) > 0.5 ? 0 : Math.Abs(d.axis[1]) > 0.5 ? 1 : 2;
         public static string JointKind(string jointId) { int u = jointId.IndexOf('_'); return u < 0 ? jointId : jointId.Substring(0, u); }
-    }
-
-    /// <summary>R-005 section 3.2: k = I w_n^2, d = 2 zeta I w_n. Gains follow mass and inertia; nothing is hand-set per mech.</summary>
-    public static class GainRules
-    {
-        public static double Stiffness(double inertia, double hz) { double w = 2 * Math.PI * hz; return inertia * w * w; }
-        public static double Damping(double inertia, double hz, double zeta) => 2 * zeta * inertia * 2 * Math.PI * hz;
-    }
-
-    /// <summary>R-001 section 5 contact definition: begins at F_n >= F_on, ends at F_n &lt; F_off.</summary>
-    public struct ContactHysteresis
-    {
-        public bool InContact;
-        /// <summary>Returns +1 on contact begin, -1 on contact end, 0 otherwise.</summary>
-        public int Update(double fn, double fOn, double fOff)
-        {
-            if (!InContact && fn >= fOn) { InContact = true; return 1; }
-            if (InContact && fn < fOff) { InContact = false; return -1; }
-            return 0;
-        }
     }
 }

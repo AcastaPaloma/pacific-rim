@@ -1,5 +1,5 @@
 using System.Numerics;
-using Game.Core.Contracts;
+using Game.Core;
 
 namespace Game.Physics.Body.Contracts
 {
@@ -117,5 +117,30 @@ namespace Game.Physics.Body.Contracts
         double ExternalWorkJ { get; }
         /// <summary>Count of non-foot links that touched the ground in the last step (fall detection, M-006.5).</summary>
         int NonFootContacts { get; }
+    }
+
+    /// <summary>Where and how a body is created. Rotation is a world rotation of the whole frame (identity = facing +z).</summary>
+    public sealed class BodySpawn
+    {
+        public Vector3 Position;
+        public Quaternion Rotation = Quaternion.Identity;
+        public bool LockAllJoints;
+        public bool Visuals = true;
+        public string Name = "mech";
+    }
+
+    /// <summary>
+    /// The physics context bodies live in (one per simulation; registered in the Core service registry by the composition root).
+    /// Units create their body here, so no unit module references the body implementation.
+    /// </summary>
+    public interface IBodyWorld
+    {
+        double StepSeconds { get; }
+        IArticulatedBody CreateBody(MechFrameData frame, BodyTuning tuning, EntityId unitId, BodySpawn spawn);
+        void DestroyBody(IArticulatedBody body);
+        /// <summary>Starts a physics_log@v1 file for the body; a record is written after every step.</summary>
+        void StartPhysicsLog(IArticulatedBody body, string path, string scene, string commit);
+        void LogEvent(IArticulatedBody body, long step, string type, string extraJsonBody);
+        void StopPhysicsLog(IArticulatedBody body);
     }
 }

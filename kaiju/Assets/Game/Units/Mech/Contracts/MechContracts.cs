@@ -1,6 +1,6 @@
 using System;
 using Game.Control.Contracts;
-using Game.Core.Contracts;
+using Game.Core;
 using Game.Physics.Body.Contracts;
 
 namespace Game.Units.Mech.Contracts

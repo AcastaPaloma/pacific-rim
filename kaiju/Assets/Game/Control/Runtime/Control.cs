@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using Game.Control.Contracts;
-using Game.Core.Contracts;
+using Game.Core;
 
 namespace Game.Control
 {

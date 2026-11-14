@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using Game.Core;
 using Game.Physics.Body.Contracts;
 using Unity.Collections;
 using UnityEngine;
+using EntityId = Game.Core.EntityId;
 
 namespace Game.Physics.Body.Unity
 {
@@ -10,19 +13,23 @@ namespace Game.Physics.Body.Unity
     /// One per simulation context: routes PhysX contact events to the bodies that own the colliders, and owns scene-level physics setup.
     /// Instance, not static, so several contexts (tests, N mechs) never share state.
     /// </summary>
-    public sealed class BodyWorld : IDisposable
+    public sealed class BodyWorld : IBodyWorld, IDisposable
     {
         readonly Dictionary<Collider, KeyValuePair<ArticulatedBody, int>> _owners = new Dictionary<Collider, KeyValuePair<ArticulatedBody, int>>();
         readonly List<ArticulatedBody> _bodies = new List<ArticulatedBody>();
         readonly SimulationMode _previousMode;
         readonly Vector3 _previousGravity;
+        readonly Dictionary<IArticulatedBody, PhysicsLogWriter> _logs = new Dictionary<IArticulatedBody, PhysicsLogWriter>();
+        readonly IEventBus _bus;
         public double StepSeconds { get; }
         public IReadOnlyList<ArticulatedBody> Bodies => _bodies;
+        /// <summary>Project-level engine facts for log headers (solver type, determinism): set by the composition root, which can read project settings.</summary>
+        public string EngineInfoJson = "\"solver_type\":\"unknown\"";
 
         /// <param name="scripted">True: the caller advances physics with <see cref="Simulate"/> (headless scenarios, tests). False: Unity's FixedUpdate does.</param>
-        public BodyWorld(BodyTuning tuning, double stepSeconds, bool scripted)
+        public BodyWorld(BodyTuning tuning, double stepSeconds, bool scripted, IEventBus bus)
         {
-            StepSeconds = stepSeconds;
+            StepSeconds = stepSeconds; _bus = bus;
             _previousMode = UnityEngine.Physics.simulationMode; _previousGravity = UnityEngine.Physics.gravity;
             UnityEngine.Physics.gravity = new Vector3(0, -(float)tuning.gravity_mps2, 0);
             if (scripted) UnityEngine.Physics.simulationMode = SimulationMode.Script;
@@ -33,8 +40,35 @@ namespace Game.Physics.Body.Unity
         {
             UnityEngine.Physics.ContactEvent -= OnContact;
             UnityEngine.Physics.simulationMode = _previousMode; UnityEngine.Physics.gravity = _previousGravity;
-            _owners.Clear(); _bodies.Clear();
+            foreach (var w in _logs.Values) w.Dispose();
+            _logs.Clear(); _owners.Clear(); _bodies.Clear();
         }
+
+        public IArticulatedBody CreateBody(MechFrameData frame, BodyTuning tuning, EntityId unitId, BodySpawn spawn)
+        {
+            var o = new BodyBuildOptions { Position = new Vector3(spawn.Position.X, spawn.Position.Y, spawn.Position.Z), Rotation = new Quaternion(spawn.Rotation.X, spawn.Rotation.Y, spawn.Rotation.Z, spawn.Rotation.W), LockAllJoints = spawn.LockAllJoints, Visuals = spawn.Visuals, Name = spawn.Name };
+            return new ArticulatedBody(this, frame, tuning, unitId, _bus, o);
+        }
+        public void DestroyBody(IArticulatedBody body)
+        {
+            var b = (ArticulatedBody)body;
+            StopPhysicsLog(body); _bodies.Remove(b);
+            var dead = new List<Collider>();
+            foreach (var kv in _owners) if (kv.Value.Key == b) dead.Add(kv.Key);
+            foreach (var c in dead) _owners.Remove(c);
+            if (b.Root != null) UnityEngine.Object.DestroyImmediate(b.Root);
+        }
+        public void StartPhysicsLog(IArticulatedBody body, string path, string scene, string commit)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            var w = new PhysicsLogWriter(new StreamWriter(path), body, scene, StepSeconds);
+            w.WriteHeader(scene, commit, Application.unityVersion, ((ArticulatedBody)body).DescribeEngineJson(EngineInfoJson));
+            w.WriteStep(0);
+            _logs[body] = w;
+        }
+        public void LogEvent(IArticulatedBody body, long step, string type, string extraJsonBody) { if (_logs.TryGetValue(body, out var w)) w.WriteEvent(step, type, extraJsonBody); }
+        public void StopPhysicsLog(IArticulatedBody body) { if (_logs.TryGetValue(body, out var w)) { w.Dispose(); _logs.Remove(body); } }
+        internal void LogFootEvent(ArticulatedBody body, long step, string type, string extra) => LogEvent(body, step, type, extra);
 
         internal void Register(ArticulatedBody body) => _bodies.Add(body);
         internal void Register(Collider c, ArticulatedBody body, int link) => _owners[c] = new KeyValuePair<ArticulatedBody, int>(body, link);
@@ -44,7 +78,7 @@ namespace Game.Physics.Body.Unity
         {
             foreach (var b in _bodies) b.BeforeStep();
             UnityEngine.Physics.Simulate((float)StepSeconds);
-            foreach (var b in _bodies) b.AfterStep(stepAfter);
+            foreach (var b in _bodies) { b.AfterStep(stepAfter); if (_logs.TryGetValue(b, out var w)) { w.WriteStep(stepAfter); b.FlushLogEvents(stepAfter); } }
         }
 
         void OnContact(PhysicsScene scene, NativeArray<ContactPairHeader>.ReadOnly headers)

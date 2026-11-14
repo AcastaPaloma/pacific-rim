@@ -22,12 +22,13 @@ namespace Game.Physics.Body.Editor
             var args = Environment.GetCommandLineArgs();
             for (int i = 0; i < args.Length - 1; i++) if (args[i] == "-probeOut") outPath = args[i + 1];
             UnityEngine.Physics.simulationMode = SimulationMode.Script;
-            foreach (var step in new Action[] { P4m })
+            foreach (var step in new Action[] { P1, P2, P3, P4v, P4m, P6, P7 })
             {
                 try { EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single); UnityEngine.Physics.gravity = new Vector3(0, -9.81f, 0); step(); }
                 catch (Exception e) { L("EXC in " + step.Method.Name + ": " + e); }
             }
             File.WriteAllText(outPath, Sb.ToString());
+            PhysicsProjectSettings.RestoreSimulationMode();
         }
 
         static ArticulationBody Root(string name, Vector3 pos, bool immovable, float mass = 1e6f)

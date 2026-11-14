@@ -23,6 +23,17 @@ namespace Game.Physics.Body.Editor
             Debug.Log("[Physics.Body] DynamicsManager: solver=TGS, enhanced determinism on, improved patch friction on");
         }
 
+        static SerializedObject Settings() => new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/DynamicsManager.asset")[0]);
+        public static int SolverType() => Settings().FindProperty("m_SolverType").intValue;
+        public static bool EnhancedDeterminism() => Settings().FindProperty("m_EnableEnhancedDeterminism").boolValue;
+        public static bool ImprovedPatchFriction() => Settings().FindProperty("m_ImprovedPatchFriction").boolValue;
+        /// <summary>Scripted runs switch Physics.simulationMode in memory; Unity writes it back to the project file on quit unless it is restored.</summary>
+        public static void RestoreSimulationMode()
+        {
+            UnityEngine.Physics.simulationMode = SimulationMode.FixedUpdate;
+            var so = Settings(); so.FindProperty("m_SimulationMode").intValue = 0; so.ApplyModifiedPropertiesWithoutUndo(); AssetDatabase.SaveAssets();
+        }
+
         public static string Describe()
         {
             var so = new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/DynamicsManager.asset")[0]);
