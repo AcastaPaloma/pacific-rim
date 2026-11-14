@@ -46,6 +46,8 @@ namespace Game.Units.Mech
         readonly int[][] _descendants;      // per DOF: links on the distal side
         readonly double[] _prevTarget; readonly bool[] _hasPrev; readonly bool[] _isLegDof;
         readonly int[] _armShoulderFlex = { -1, -1 }, _elbow = { -1, -1 };
+        readonly ReferenceGait _ref;
+        readonly double[] _prevVelTarget; readonly double[] _ffAccel;
         readonly float _soleHalfLength, _soleHalfWidth, _ankleToSoleCentre, _ankleHeight, _footWidth, _stanceWidth, _comRest, _pelvisRest;
         readonly double _hipLimit, _kTilt, _dTilt, _kYaw, _dYaw;
 
@@ -124,6 +126,8 @@ namespace Game.Units.Mech
             double wa = 2 * Math.PI * tuning.attitude_hz / Math.Sqrt(_l / tuning.reference_leg_length_m), wy = 2 * Math.PI * tuning.yaw_hz / Math.Sqrt(_l / tuning.reference_leg_length_m);
             _kTilt = iTilt * wa * wa; _dTilt = 2 * iTilt * wa; _kYaw = iYaw * wy * wy; _dYaw = 2 * iYaw * wy;
             _comHeightTarget = _pelvisRest;
+            _ref = new ReferenceGait(GaitGeometry.From(f), tuning, _g);
+            _prevVelTarget = new double[nd]; _ffAccel = new double[nd];
         }
 
         static double[] JointPos(MechFrameData f, string child) { foreach (var j in f.joints) if (j.child == child) return j.position; throw new InvalidOperationException("no joint for " + child); }
@@ -335,6 +339,12 @@ namespace Game.Units.Mech
                     double half = _t.step_reach_front_frac * s + _t.step_reach_margin_frac * _l, legTotal = st.ThighLength + st.ShankLength;
                     double stepDrop = legTotal - Math.Sqrt(Math.Max(legMax * legMax - half * half, _t.leg_length_floor_frac * _t.leg_length_floor_frac * legTotal * legTotal));
                     targetHeight = _pelvisRest - Math.Max(_t.com_drop_walk_frac * _l, stepDrop) - _extraDrop;
+                    if (_t.ref_track > 0 && _t.ref_height_blend > 0 && _ref.Speed > 1e-3)
+                    {
+                        var smp = _ref.Sample((_stance == LeftLeg ? 0 : 0.5) + 0.5 * Math.Min(1, _time / T));
+                        double refPelvis = smp.HipHeight - (_l - _pelvisRest);
+                        targetHeight += (refPelvis - _extraDrop - targetHeight) * _t.ref_height_blend;
+                    }
                     if (_t.vault > 0)
                     {
                         // R-007 change 1: no crouch. The hips vault over a near-straight stance leg: knee bent for loading at touchdown, extended by mid-stance;
@@ -365,6 +375,9 @@ namespace Game.Units.Mech
             _stepT = _stomp ? _t.step_time_max_tstar * _lim.TStar : _capture ? _t.capture_step_time_tstar * _lim.TStar : _lim.StepTime(_cmd.Speed);
             _capture = false;
             _tds = (2 * _t.duty_factor - 1) * _stepT; _tss = _stepT - _tds;
+            // the reference gait for this step: same step time, the step length the limited command allows
+            double planSpeed = _stomp ? 0 : Math.Min(_cmd.Speed, _t.step_length_max_frac * _l / _stepT);
+            if (_t.ref_track > 0) _ref.Configure(planSpeed, planSpeed * _stepT);
         }
 
         void BeginSwing()
@@ -474,7 +487,15 @@ namespace Game.Units.Mech
                     if (d == _elbow[arm]) target = _t.elbow_flex_deg * Math.PI / 180;
                 }
                 // upper-body counter-rotation: the trunk turns against the legs (shoulder forward on the side of the trailing leg), taking up part of the swing leg's yaw reaction
-                if (d == _waistYaw && _t.trunk_counter_gain != 0)
+                if (_t.ref_track > 0 && _ref.Speed > 1e-3 && (_phase == LocoPhase.SingleSupport || _phase == LocoPhase.DoubleSupport))
+                {
+                    // tracked reference: arms against their own legs and the trunk against the limbs' angular momentum (R-007 change 4)
+                    var smp = _ref.Sample((_stance == LeftLeg ? 0 : 0.5) + 0.5 * Math.Min(1, _time / _stepT));
+                    if (d == _armShoulderFlex[0]) target += (smp.ArmFlexionL - target) * _t.ref_track;
+                    if (d == _armShoulderFlex[1]) target += (smp.ArmFlexionR - target) * _t.ref_track;
+                    if (d == _waistYaw) { Track(d, -(smp.WaistYaw + smp.PelvisYaw) * _t.ref_track, Vector3.Zero, default, true); continue; }   // anatomical waist rotation is positive to the left; the reference yaw is positive to the right
+                }
+                else if (d == _waistYaw && _t.trunk_counter_gain != 0)
                 {
                     Leg right = _legs[0].Side > 0 ? _legs[0] : _legs[1], left = right == _legs[0] ? _legs[1] : _legs[0];
                     target = -_t.trunk_counter_gain * 0.5 * (_b.DofPosition(right.Hip[0]) - _b.DofPosition(left.Hip[0]));
@@ -484,6 +505,7 @@ namespace Game.Units.Mech
         }
 
         float _swingYawTargetNow, _transfer;
+        int LeftLeg => _legs[0].Side < 0 ? 0 : 1;
         int _waistYaw = -1;
         double _extraDrop;
         bool IsSwinging(Leg leg) => _phase == LocoPhase.SingleSupport && leg == _legs[1 - _stance];
@@ -559,13 +581,27 @@ namespace Game.Units.Mech
                 height = tau <= th ? hover * Lipm.MinJerk(u) + _t.swing_clearance_frac * _l * Math.Pow(Math.Sin(Math.PI * Math.Pow(u, _t.swing_rise_exponent)), 2) : Math.Max(-_t.touchdown_overdrive_frac * _l, hover - vtd * (_swingTime - th * _tss));
                 s = Lipm.MinJerk(Math.Max(0, Math.Min(1, (tau - _t.swing_horizontal_delay) / (_t.swing_horizontal_end - _t.swing_horizontal_delay))));
             }
+            double refPitch = 0;
+            if (_t.ref_track > 0 && !_stomp && _ref.Speed > 1e-3)
+            {
+                // tracked reference (R-007): lift, clearance, hover and final approach, foot pitch and forward progress of the swing foot come from the reference gait at this swing phase
+                double duty = _ref.Duty, u = Math.Min(1, tau);
+                var a0 = _ref.Sample(duty + 1e-9).L; var a1 = _ref.Sample(1 - 1e-9).L; var au = _ref.Sample(duty + u * (1 - duty) * (1 - 1e-9)).L;
+                double T2 = 2 * _ref.StepTime, w0 = a0.Ankle.Z + _ref.Speed * duty * T2, w1 = a1.Ankle.Z + _ref.Speed * T2, wu = au.Ankle.Z + _ref.Speed * (duty + u * (1 - duty)) * T2;
+                double sRef = Math.Abs(w1 - w0) > 1e-6 ? Math.Max(0, Math.Min(1, (wu - w0) / (w1 - w0))) : s;
+                refPitch = au.FootPitch * _t.ref_track;
+                // sole-centre height of the reference foot above the ground
+                double hRef = au.Ankle.Y - _ankleToSoleCentre * Math.Sin(au.FootPitch) - _ankleHeight * Math.Cos(au.FootPitch);
+                if (tau > 1) hRef = Math.Max(-_t.touchdown_overdrive_frac * _l, -(_t.touchdown_speed_tstar * _l / tStar) * (_swingTime - _tss));
+                s += (sRef - s) * _t.ref_track; height += (hRef - height) * _t.ref_track;
+            }
             Vector2 xz = XZ(_swingStart) + (_swingTarget - XZ(_swingStart)) * (float)s;
             float yaw = _swingStartYaw + Wrap(_swingYawTarget - _swingStartYaw) * (float)s;
             _swingYawTargetNow = yaw;
             float startLift = (_swingStart.Y - ground) * (float)(1 - s);
             // toes up through the swing (ground clearance of a 15 m foot), easing to a small heel-first angle for landing
             double toeUp = _stomp ? 0 : (_t.swing_toe_up_deg * Math.Sin(Math.PI * Math.Min(1, tau / _t.swing_hover)) + _t.heel_strike_deg * Lipm.SmoothStep(tau / _t.swing_hover)) * Math.PI / 180;
-            Quaternion footRot = JointMath2.YawRotation(yaw) * Quaternion.CreateFromAxisAngle(Vector3.UnitX, -(float)toeUp);
+            Quaternion footRot = JointMath2.YawRotation(yaw) * Quaternion.CreateFromAxisAngle(Vector3.UnitX, (float)(refPitch - toeUp));
             Vector3 sole = new Vector3(xz.X, ground + startLift + (float)height, xz.Y);
             Vector3 ankle = sole + new Vector3(0, _ankleHeight, 0) - new Vector3(Fwd(yaw).X, 0, Fwd(yaw).Y) * _ankleToSoleCentre;
             _b.GetLink(leg.Thigh, out var thigh);
@@ -593,11 +629,16 @@ namespace Game.Units.Mech
             target = Math.Max(info.LowerRad, Math.Min(info.UpperRad, target));
             double vel = velocityFeedForward && _hasPrev[dof] ? (target - _prevTarget[dof]) / _dt : 0;
             vel = Math.Max(-_t.target_velocity_max_rps, Math.Min(_t.target_velocity_max_rps, vel));
+            // R-007 change 3: inverse-dynamics feed-forward. The torque that gives the limb the acceleration its own target asks for (distal inertia x target acceleration), so the drive only corrects errors.
+            double accel = velocityFeedForward && _hasPrev[dof] && _t.swing_ff_gain > 0 ? (vel - _prevVelTarget[dof]) / _dt : 0;
+            _ffAccel[dof] += _t.swing_ff_filter * (Math.Max(-_t.swing_ff_accel_max, Math.Min(_t.swing_ff_accel_max, accel)) - _ffAccel[dof]);
+            if (!velocityFeedForward || !_hasPrev[dof]) _ffAccel[dof] = 0;
+            _prevVelTarget[dof] = vel;
             _prevTarget[dof] = target; _hasPrev[dof] = true;
             _b.GetDofGains(dof, false, out double k, out double damping);
             // critical damping is kept when the stiffness is scaled: d scales with sqrt(k)
             _b.SetDofDrive(dof, target, vel, k * gainScale, damping * Math.Sqrt(gainScale));
-            _b.SetDofFeedForward(dof, SupportTorque(dof, force, cop, false));
+            _b.SetDofFeedForward(dof, SupportTorque(dof, force, cop, false) + _t.swing_ff_gain * _b.DofInertia(dof, false) * _ffAccel[dof]);
         }
     }
 
