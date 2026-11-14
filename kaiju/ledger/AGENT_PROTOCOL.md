@@ -66,3 +66,12 @@ The orchestrator sets `model` and `effort` on every spawn from this table; the r
 | Log triage, test running, mechanical refactors, file moves | haiku | low |
 
 Rules: do not escalate a tier to retry a failure before reading why it failed; a fix cycle that only addresses listed defects runs one tier lower in effort than the original build unless the defect is a design error; agents keep outputs within the length limits in their briefs and never paste large logs or files into their reports.
+
+## 9. Unity queue rule (machine-wide)
+Several task worktrees share one machine. Before every Unity launch, count the batch-mode editors already running and wait (re-check each minute) while the count is 2 or more:
+
+```bash
+ps ax -o command | grep -i "[U]nity.app/Contents/MacOS/Unity .*-batchmode" | grep -vc AssetImportWorker
+```
+
+Use exactly this form. The `[U]` keeps the check from counting your own shell, and asset-import workers are excluded. An earlier form of this rule (`pgrep -fl "Unity.*-batchmode" | …`) counted the caller's own shells and made agents wait for nothing: do not use it. The founders' interactive editor (not batch mode) is never counted and never driven.
