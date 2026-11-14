@@ -136,17 +136,6 @@ namespace Game.Tools.StyleFrame
                 + ", \"method\": \"ankle = top of the foot renderer bounds; mid-shin = centre of the MechBalanced_shank_L renderer bounds; scene metres, NAVD88 y\"}";
             Debug.Log("[StyleFrame] waterline: " + waterlineJson);
 
-            // 5b. waterline against the legs (DEF-T006-style-4): water level vs ankle (top of the feet) and mid-shin (centre of the shank renderers)
-            double ankleY = Math.Max(feet[0].bounds.max.y, feet[feet.Length - 1].bounds.max.y), shinMidY = double.NaN, shinTopY = double.NaN;
-            foreach (var r in mech.GetComponentsInChildren<Renderer>(true))
-                if (r.gameObject.name.EndsWith("shank_L", StringComparison.Ordinal)) { shinMidY = r.bounds.center.y; shinTopY = r.bounds.max.y; break; }
-            if (double.IsNaN(shinMidY)) { shinMidY = soleY + 0.5 * (soleY + 0.25 * measuredHeight - soleY) + 0.0; shinTopY = soleY + 0.25 * measuredHeight; }
-            string waterlineRelation = level < ankleY ? "below the ankle (feet only wet)" : level < shinMidY ? "between ankle and mid-shin" : level < shinTopY ? "above mid-shin, below the knee" : "above the shank top (knee or higher)";
-            string waterlineJson = "{\"water_level_navd88_m\": " + Num(level) + ", \"sole_y_m\": " + Num(soleY) + ", \"ankle_y_m\": " + Num(ankleY) + ", \"mid_shin_y_m\": " + Num(shinMidY) + ", \"shin_top_y_m\": " + Num(shinTopY)
-                + ", \"water_above_sole_m\": " + Num(level - soleY) + ", \"water_above_ankle_m\": " + Num(level - ankleY) + ", \"water_above_mid_shin_m\": " + Num(level - shinMidY) + ", \"relation\": " + Str(waterlineRelation)
-                + ", \"method\": \"ankle = top of the foot renderer bounds; mid-shin = centre of the MechBalanced_shank_L renderer bounds; scene metres, NAVD88 y\"}";
-            Debug.Log("[StyleFrame] waterline: " + waterlineJson);
-
             // 6. light, cameras, pixel pipeline (config + flags only)
             var sun = new GameObject("Sun");
             var light = sun.AddComponent<Light>();
