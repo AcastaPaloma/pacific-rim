@@ -83,7 +83,8 @@ def test_real_unreachable_source_fails_and_leaves_nothing(tmp_path):
                                          ({"building": "yes", "layer": "-1", "building:levels:underground": "2"}, "underground"),
                                          ({"building": "yes", "layer": "-1", "level": "-1"}, "underground"),
                                          ({"building": "ship"}, "ship"), ({"building": "yes", "layer": "1"}, None),
-                                         ({"building": "yes", "layer": "-1"}, None)])
+                                         ({"building": "yes", "layer": "-1"}, None),
+                                         ({"building": "transportation", "layer": "-1", "building:levels": "5", "building:levels:underground": "2", "height": "30"}, None)])
 def test_exclusion_reason(tags, reason):
     assert vector.exclusion_reason(tags) == reason
 
@@ -99,6 +100,7 @@ def test_stations_and_ship_kept_flagged_not_surface():
     for p in fs.values():
         if p["part_of"] == "osm:w550652205":
             assert p["excluded"] == "underground"
+    assert fs["osm:w542375290"]["excluded"] is None        # Salesforce Transit Center stands above ground
 
 
 def test_no_fallback_part_exceeds_its_structure():

@@ -243,7 +243,10 @@ def exclusion_reason(tags):
         return "underground"
     lay = parse_number(tags.get("layer"))
     lvl = parse_number(tags.get("level"))
-    if lay is not None and lay < 0 and (tags.get("building:levels:underground") is not None or (lvl is not None and lvl < 0)):
+    above = (parse_number(tags.get("building:levels")) or 0) > 0 or (parse_length_m(tags.get("height")) or 0) > 0
+    # layer < 0 with underground levels marks a below-ground structure, unless the source also gives it above-ground
+    # levels or a height (Salesforce Transit Center: layer -1, 2 underground + 5 levels, height 30 -> a surface building)
+    if lay is not None and lay < 0 and not above and (tags.get("building:levels:underground") is not None or (lvl is not None and lvl < 0)):
         return "underground"
     return None
 
