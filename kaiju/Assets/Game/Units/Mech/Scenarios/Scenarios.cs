@@ -70,20 +70,20 @@ namespace Game.Units.Mech.Scenarios
                     p.At(120.1, MoveId.Stop, default, 0);
                 }
             };
-            yield return Shove("shove_005", 0.05); yield return Shove("shove_030", 0.30); yield return Shove("shove_060", 0.60); yield return Shove("shove_100", 1.00);
+            yield return Shove("shove_005", 0.05); yield return Shove("shove_015", 0.15); yield return Shove("shove_030", 0.30); yield return Shove("shove_060", 0.60);
             yield return new ScenarioSpec { Name = "repeat60", Seconds = 60, CruiseFroude = 0.20, Script = (p, l) => p.At(0, MoveId.Stand, default, 0).At(3, MoveId.Walk, new NVec3(0, 0, 70), (float)l.EffortForFroude(0.10)).At(30, MoveId.Turn, new NVec3(2887, 0, 5070), 0).At(48, MoveId.Stop, default, 0) };
             yield return new ScenarioSpec { Name = "single_stance", Seconds = 30, StripStart = 2, StripInterval = 2, StripFrames = 14, Config = c => c.WithWalk(w => { w.stomp_speed_tstar = w.touchdown_speed_tstar; w.step_time_max_tstar *= 4; }), Script = (p, l) => p.At(0, MoveId.Stand, default, 0).At(10, MoveId.Stomp, new NVec3(20, 0, 0), 1) };
         }
 
-        /// <summary>C15: a real external force on the torso (fraction of body weight, horizontal, forward) for 2 s while standing. Logged in ext_f and external_work.</summary>
+        /// <summary>C15: a real external force (fraction of body weight, horizontal, forward) for 2 s while standing, applied to the pelvis at the height of the whole-body centre of mass (the case R-005 5.4 step 4 analyses). Logged in ext_f and external_work.</summary>
         static ScenarioSpec Shove(string name, double bodyWeights) => new ScenarioSpec
         {
             Name = name, Seconds = 40, StripStart = 9, StripInterval = 1.0, Script = (p, l) => p.At(0, MoveId.Stand, default, 0),
             External = (sim, unit, t) =>
             {
                 if (t < 10 || t >= 12) return;
-                int torso = unit.Body.FindLink("torso"); unit.Body.GetLink(torso, out var s);
-                unit.Body.AddExternalForce(torso, new NVec3(0, 0, (float)(bodyWeights * unit.Body.TotalMassKg * unit.Body.Tuning.gravity_mps2)), s.Com);
+                int pelvis = unit.Body.FindLink("pelvis");
+                unit.Body.AddExternalForce(pelvis, new NVec3(0, 0, (float)(bodyWeights * unit.Body.TotalMassKg * unit.Body.Tuning.gravity_mps2)), unit.Body.Com);
             }
         };
 

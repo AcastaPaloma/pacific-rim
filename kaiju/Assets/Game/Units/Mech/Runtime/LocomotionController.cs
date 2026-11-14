@@ -54,7 +54,7 @@ namespace Game.Units.Mech
         double _time, _stepT, _tds, _tss;    // time since the step began (touchdown), step timings
         Vector2 _copPrev, _copAtTouchdown, _offsetHeld;
         Vector3 _swingStart; float _swingStartYaw, _swingYawTarget; Vector2 _swingTarget; double _swingTime;
-        bool _stomp, _stompDone, _firstStep;
+        bool _stomp, _stompDone, _firstStep, _capture;
         double _comHeightTarget;
         LimitCause _lastCauses; double _restTime;
         LocoCommand _cmd; Debug _dbg;
@@ -215,7 +215,8 @@ namespace Game.Units.Mech
             Leg a = _legs[0], b = _legs[1];
             bool wantsWalk = _cmd.Speed > 1e-3f;
             float feetYaw = a.Yaw + 0.5f * Wrap(b.Yaw - a.Yaw);
-            bool wantsTurn = Math.Abs(Wrap(_cmd.Heading - feetYaw)) > 0.03f;
+            bool turnMove = intent.move == MoveId.Turn || intent.move == MoveId.Walk;
+            bool wantsTurn = turnMove && Math.Abs(Wrap(_cmd.Heading - feetYaw)) > (_phase == LocoPhase.Stand ? 0.07f : 0.025f);
             bool wantsStomp = intent.move == MoveId.Stomp && !_stompDone;
             if (intent.move != MoveId.Stomp) _stompDone = false;
             double targetHeight = _pelvisRest - _t.com_drop_stand_frac * _l;
@@ -235,7 +236,15 @@ namespace Game.Units.Mech
                         PlanTimings();
                     }
                     Vector2 reference = 0.5f * (Nominal(a, 0, 0, false) + Nominal(b, 0, 0, false));
-                    Regulate(reference, a, b, (float)_t.stand_min_share);
+                    Regulate(reference, a, b, (float)_t.stand_min_share); _dbg.Reference = reference;
+                    Vector2 na = Nominal(a, 0, 0, false), nb = Nominal(b, 0, 0, false), ab = nb - na;
+                    Vector2 nearest = na + ab * Clamp(Vector2.Dot(_dcm - na, ab) / Math.Max(1e-3f, ab.LengthSquared()), 0, 1);
+                    if (_phase == LocoPhase.Stand && (_dcm - nearest).Length() > _t.capture_trigger_frac * _l)
+                    {
+                        // balance is leaving the ankle strategy's reach: take a capture step with the less loaded foot (R-005 5.4 step 4)
+                        _stance = a.State.NormalForceN >= b.State.NormalForceN ? 0 : 1; _stomp = false; _firstStep = true;
+                        _capture = true; PlanTimings(); _time = _tds; BeginSwing();
+                    }
                     break;
                 }
                 case LocoPhase.Shift:
@@ -329,7 +338,8 @@ namespace Game.Units.Mech
 
         void PlanTimings()
         {
-            _stepT = _stomp ? _t.step_time_max_tstar * _lim.TStar : _lim.StepTime(_cmd.Speed);
+            _stepT = _stomp ? _t.step_time_max_tstar * _lim.TStar : _capture ? _t.capture_step_time_tstar * _lim.TStar : _lim.StepTime(_cmd.Speed);
+            _capture = false;
             _tds = (2 * _t.duty_factor - 1) * _stepT; _tss = _stepT - _tds;
         }
 
@@ -348,7 +358,8 @@ namespace Game.Units.Mech
             Leg st = _legs[_stance], sw = _legs[1 - _stance];
             _firstStep = false;
             float along = Math.Abs(Vector2.Dot(sw.Ankle2 - st.Ankle2, Fwd(st.Yaw)));
-            bool calm = _vel2.Length() < _lim.StopSpeed && along < 0.06f * _l && Math.Abs(Wrap(sw.Yaw - st.Yaw)) < 0.05f;
+            Vector2 mid = 0.5f * (st.Ankle2 + sw.Ankle2);
+            bool calm = Math.Abs(Vector2.Dot(_vel2, Fwd(st.Yaw))) < _lim.StopSpeed && (_dcm - mid).Length() < 0.5f * (st.Ankle2 - sw.Ankle2).Length() && along < 0.06f * _l && Math.Abs(Wrap(sw.Yaw - st.Yaw)) < 0.06f;
             if (_stomp || (!wantsWalk && !wantsTurn && calm))
             {
                 if (_stomp) _stompDone = true;
