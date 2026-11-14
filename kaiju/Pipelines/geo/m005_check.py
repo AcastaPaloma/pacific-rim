@@ -526,6 +526,8 @@ def skyline_v11(tile, feats, water, msl, tags, ref, spec, hs):
     rind, dtm, rstats, _ = V.lidar_surfaces(tile, feats, water, msl, landmarks, tags)
     rind_max, _, _, _ = V.lidar_surfaces(tile, feats, water, msl, landmarks, tags, recipe="max")
     rind_1m, dtm1, _, _ = V.lidar_surfaces(tile, feats, water, msl, landmarks, tags, res=1.0)
+    rind_vo, _, vstats, _ = V.lidar_surfaces(tile, feats, water, msl, landmarks, tags, veg_mode="outside_footprints")
+    cm_vo = V.change_mask(tile, feats, tags, rind_vo, dtm)
 
     def masked(surf, d, res, ids):
         from rasterio.features import rasterize
@@ -541,6 +543,9 @@ def skyline_v11(tile, feats, water, msl, tags, ref, spec, hs):
                       "cell": "p95 of Z per 0.5 m BayTM cell", "dtm": "geo_tile bare-earth surface (3DEP 1 m from the same B23 ground class), MSL over water",
                       "vegetation": "cells with > 50 % multi-return first returns set to DTM (Assumed)", "cranes": "3 x 3 m grey opening above 20 m, R-004 §5 landmark footprints + 5 m exempt (Assumed)",
                       "stats": rstats, "change_mask": cm,
+                      "vegetation_calibration": vegetation_calibration(tile, feats),
+                      "diagnostic_variant": {"what": "vegetation test applied only outside OSM footprints (+1 m); NOT the R-006 recipe; same change mask as the gate",
+                                             "change_mask_count_if_variant_recipe": len(cm_vo), "stats": vstats},
                       "contains": "buildings and rooftop plant, bridges, residual non-canopy vegetation, ships; NOT canopy (masked), thin cranes/poles (opened), masked change structures"},
            "views": {}}
     for name, vid, eye, heading, hfov, gate in V.V11_VIEWS:
@@ -593,9 +598,33 @@ def skyline_v11(tile, feats, water, msl, tags, ref, spec, hs):
                 e["vs_r_ind"]["reason"] = "< 25 % skyline columns: the view reports, it does not gate"
         overlay(np.array(Image.open(gcm).convert("L")) >= 128, ind_rows, {}, EVID / "skyline" / f"skyline_v11_{name}_overlay_rind.png", ind2_rows)
         overlay(np.array(Image.open(gpath).convert("L")) >= 128, src_rows, {}, EVID / "skyline" / f"skyline_v11_{name}_overlay_rsrc.png")
+        dv = V.compare_v11(gcm_rows, prof(masked(rind_vo, dtm, 0.5, ids)[0], 0.5), cam)
+        e["diagnostic_vs_r_ind_veg_outside_footprints"] = {"result": "reported", "value": dv}
         out["views"][name] = e
         out[name] = {"result": "pass" if all(e[k]["result"] in ("pass", "reported") for k in ("vs_r_src", "vs_r_ind")) and gate else
                      ("reported" if not gate else "fail")}
+    return out
+
+
+def vegetation_calibration(tile, feats):
+    """R-006 §3 step 3 calibration data: share of cells flagged (> 50 % multi-return first returns) in the parks the
+    evaluator named versus on building roofs."""
+    from rasterio.features import rasterize
+    from rasterio.transform import Affine
+    z = np.load(CACHE / "lidar" / f"rind_v11__{tile.id}.npz")
+    mul = z["multi_05"]
+    n = mul.shape[0]
+    tr = Affine(0.5, 0, tile.x0, 0, 0.5, tile.z0)
+    roofs = rasterize([(shape(f["geometry"]).buffer(-1), 1) for f in feats if not f["properties"].get("excluded") and shape(f["geometry"]).buffer(-1).area > 0],
+                      out_shape=(n, n), transform=tr, dtype="uint8").astype(bool)
+    foot = rasterize([(shape(f["geometry"]).buffer(1), 1) for f in feats], out_shape=(n, n), transform=tr, dtype="uint8").astype(bool)
+    out = {}
+    for nm, g in (("Pioneer Park (Telegraph Hill)", shapely.Point(61560, 75440).buffer(90)), ("Redwood Park (Transamerica)", shapely.Point(61905, 74640).buffer(25))):
+        m = rasterize([(g, 1)], out_shape=(n, n), transform=tr, dtype="uint8").astype(bool) & ~foot & np.isfinite(mul)
+        out[nm] = {"cells": int(m.sum()), "share_flagged_gt_0.5": r(np.mean(mul[m] > 0.5), 3)}
+    v = mul[roofs & np.isfinite(mul)]
+    out["building roofs (OSM footprints eroded 1 m)"] = {"cells": int(v.size), "share_flagged_gt_0.5": r(np.mean(v > 0.5), 3)}
+    out["finding"] = "the 50 % multi-return test flags only ~40 % of park canopy cells and ~8 % of roof cells (~30 % on tower roofs): it does not separate trees from roofs in B23; research calibration needed (R-006 Q-NEW-d)"
     return out
 
 

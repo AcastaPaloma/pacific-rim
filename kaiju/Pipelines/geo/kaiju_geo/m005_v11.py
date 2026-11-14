@@ -205,7 +205,7 @@ V11_VIEWS = [  # name, viewpoint, eye (m NAVD88), heading, hFOV, gating
 OBSERVER = {"V5": "osm:w28824850"}   # the observer stands on Coit Tower
 
 
-def lidar_surfaces(tile, feats, water, msl, landmarks, tags, recipe="p95", res=0.5):
+def lidar_surfaces(tile, feats, water, msl, landmarks, tags, recipe="p95", res=0.5, veg_mode="r006"):
     """R-ind (R-006 §3 recipe) on a BayTM grid; returns (surface, dtm, change-mask list)."""
     z = np.load(CACHE / "lidar" / f"rind_v11__{tile.id}.npz")
     tag = "05" if res == 0.5 else "10"
@@ -223,6 +223,12 @@ def lidar_surfaces(tile, feats, water, msl, landmarks, tags, recipe="p95", res=0
     dtm = np.where(wet, np.maximum(dtm, msl), dtm)
     hag = np.where(np.isfinite(dsm), dsm - dtm, 0.0)
     veg = np.isfinite(multi) & (multi > 0.5)                 # canopy: most first returns are followed by more returns
+    if veg_mode == "outside_footprints":                     # diagnostic only: never on OSM footprints (+1 m)
+        from rasterio.features import rasterize
+        from rasterio.transform import Affine
+        fp = rasterize([(shape(f["geometry"]).buffer(1.0), 1) for f in feats], out_shape=(n, n),
+                       transform=Affine(res, 0, tile.x0, 0, res, tile.z0), dtype="uint8").astype(bool)
+        veg &= ~fp
     hag[veg] = 0.0
     hag = np.maximum(hag, 0.0)
     k = max(int(round(3.0 / res)), 1)
