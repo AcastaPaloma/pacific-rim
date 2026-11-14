@@ -32,6 +32,17 @@ Last update: 2026-11-14 (session 1, founders asleep, instruction: keep running, 
 ## Active tasks
 See `ledger/LEDGER.md` § Tasks for live state. Update this list at every phase change.
 
+Snapshot (2026-11-14, after research):
+- Research R-001 to R-005: all written and pushed. Scribe is registering them (new M from M-009, new Q from Q-006; map in `ledger/ID_MAP.md`).
+- Shared contracts fixed by research: `gait_log@v1` (R-001), `physics_log@v1` and `mech_frame@v1` (R-005, data in `research/R-005/mech_frame_balanced.json`), `palette_set@v1` and `style_capture@v1` (R-002), `geo_tile@v1` and the BayTM projection (R-004). M0 tile: `L0_30_36` (downtown SF waterfront).
+- T-001 Core: implemented on `task/T-001` (33 criteria claimed met). eval-perf PASS; eval-arch running. Then integrate + scribe.
+- T-007 mech asset: Phase A concepts done (11/16 Midjourney generations, `art/concepts/mech_frame_balanced/`). Phase B/C greybox + Unity import running on `task/T-007`.
+- T-005 walking mech: reconciled spec `expectations/T-005.md`. Implementation waits for T-001 to merge (needs Core contracts). Strongest model, high effort.
+- T-002 metrics, T-004 pixel pipeline, T-003 SF tile: expectation pairs running; reconcile next. T-004 on the strongest model; T-002 and T-003 on Opus.
+- T-006 style frame: after T-003, T-004, T-007 merge.
+- Folder metas for the whole module tree live on the integration branch (commit "Scaffold: module folder skeleton"); task branches must not re-create them. Feature flags are one JSON per module in `Assets/Game/Config/FeatureFlags/`.
+- Unity concurrency: at most 2 batch processes besides the founders' editor. Evaluators check `pgrep` before running Unity.
+
 ## Blockers / founder decisions pending
 - Style-frame approval, feel approval and metric calibration need the founders (§8). Thresholds are `Assumed, pending calibration` until then.
 - Midjourney (D-023): a founder said on 2026-11-14 that Midjourney is already open in one of the Chrome browsers and may be used. T-007 Phase A drives it through the Chrome tools: no purchases, no settings changes, at most 16 generations, no reference-image uploads.
