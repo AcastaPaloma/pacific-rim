@@ -12,10 +12,10 @@
   37.805325
  ],
  "build": {
-  "built_utc": "2026-11-14T17:26:33Z",
-  "git": "e1228cb27cb6d74da0382c78bc2f0246e17e79c5",
+  "built_utc": "2026-11-14T17:35:25Z",
+  "git": "5e18b6f1e1730b1914f42a38e8423e1a8703a673",
   "git_dirty_pipeline": false,
-  "inputs_sha256": "0477608d101b378ea898556623ad087d0ee0c48e74c0adc39f7c90438841a7b8",
+  "inputs_sha256": "da1e97857e3ed837a113d27f356535f5465e5ee0ad1aa1b92e46854799888a00",
   "script": "Pipelines/geo/bake_tile.py"
  },
  "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
@@ -28,9 +28,9 @@
    "h_max_m": 91.7437,
    "h_min_m": -29.481,
    "layer": "terrain",
-   "merge_rule": "3DEP 1 m where valid and CUDEM > +1.798 m NAVD88, CUDEM elsewhere, linear feather of terrain.feather_m (20.0 m); piers raised to deck",
+   "merge_rule": "3DEP 1 m where valid and CUDEM > +1.798 m NAVD88, CUDEM elsewhere, centred linear feather over terrain.feather_m (50.0 m); piers raised to deck",
    "samples": 2049,
-   "sha256": "c25f4064348e57df8ee8fb3631fae405eb5b58f0a0f183d7c8eb76963a272f9b",
+   "sha256": "2d3f79ebec42f9fcc18a4c8a9786f9e433133e27ced540a0fa08e26dda70c96c",
    "sources": [
     {
      "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
@@ -73,7 +73,7 @@
    "h_max_m": 91.74369812011719,
    "h_min_m": -29.481000900268555,
    "layer": "terrain_r16",
-   "sha256": "bdfd6ae358e4427dc518791fa5483664dcceb3bfa517f2b344743734b7b8f621",
+   "sha256": "85e2230274110b0a43d6a4a7291b2ca6bfb4e4cbf954785e1e66fa04a13d6a4e",
    "sources": [
     {
      "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
@@ -175,7 +175,7 @@
       75956.0
      ],
      "deck_m": 4.331,
-     "nodes_raised": 9816,
+     "nodes_raised": 9895,
      "rule": "median of 3DEP deck samples on the pier"
     },
     {
@@ -186,7 +186,7 @@
       75523.7
      ],
      "deck_m": 3.751,
-     "nodes_raised": 6633,
+     "nodes_raised": 6621,
      "rule": "median of 3DEP deck samples on the pier"
     },
     {
@@ -197,7 +197,7 @@
       75474.6
      ],
      "deck_m": 3.907,
-     "nodes_raised": 10271,
+     "nodes_raised": 10318,
      "rule": "median of 3DEP deck samples on the pier"
     },
     {
@@ -241,7 +241,7 @@
       75207.7
      ],
      "deck_m": 3.715,
-     "nodes_raised": 98,
+     "nodes_raised": 96,
      "rule": "median of 3DEP deck samples on the pier"
     },
     {
@@ -263,7 +263,7 @@
       75207.0
      ],
      "deck_m": 3.394,
-     "nodes_raised": 2426,
+     "nodes_raised": 2423,
      "rule": "median of 3DEP deck samples on the pier"
     },
     {
@@ -296,7 +296,7 @@
       74918.2
      ],
      "deck_m": 3.27,
-     "nodes_raised": 949,
+     "nodes_raised": 952,
      "rule": "median of 3DEP deck samples on the pier"
     },
     {
@@ -307,7 +307,7 @@
       74983.0
      ],
      "deck_m": 3.731,
-     "nodes_raised": 7482,
+     "nodes_raised": 7490,
      "rule": "median of 3DEP deck samples on the pier"
     },
     {
@@ -361,7 +361,7 @@
       74804.0
      ],
      "deck_m": 3.427,
-     "nodes_raised": 24579,
+     "nodes_raised": 24084,
      "rule": "median of 3DEP deck samples on the pier"
     },
     {
@@ -405,7 +405,7 @@
       74573.1
      ],
      "deck_m": 3.072,
-     "nodes_raised": 1249,
+     "nodes_raised": 1279,
      "rule": "median of 3DEP deck samples on the pier"
     },
     {
@@ -471,7 +471,7 @@
       74116.9
      ],
      "deck_m": 3.443,
-     "nodes_raised": 548,
+     "nodes_raised": 528,
      "rule": "median of 3DEP deck samples on the pier"
     },
     {
@@ -493,7 +493,7 @@
       74054.3
      ],
      "deck_m": 3.332,
-     "nodes_raised": 13630,
+     "nodes_raised": 13315,
      "rule": "median of 3DEP deck samples on the pier"
     },
     {
@@ -504,7 +504,7 @@
       73939.8
      ],
      "deck_m": 3.899,
-     "nodes_raised": 6835,
+     "nodes_raised": 6758,
      "rule": "median of 3DEP deck samples on the pier"
     },
     {
@@ -515,7 +515,7 @@
       73786.7
      ],
      "deck_m": 3.787,
-     "nodes_raised": 28019,
+     "nodes_raised": 27562,
      "rule": "median of 3DEP deck samples on the pier"
     },
     {
@@ -539,7 +539,7 @@
      "reason": "no dry land samples near root"
     }
    ],
-   "sha256": "9745de0470c1e20c69bb0a7f9a2f82e76ba8fa45942ae9657542e5d18925c6da",
+   "sha256": "4f4d8695dd4b22422cf4f7e459cf7638a3d5f1dff707324b9f1434f38cb1a314",
    "sources": [
     {
      "attribution": "© OpenStreetMap contributors (ODbL)",
@@ -595,7 +595,7 @@
      ]
     }
    ],
-   "water_fraction": 0.37411,
+   "water_fraction": 0.37878,
    "water_level_navd88_m": 0.969
   },
   {
@@ -629,7 +629,7 @@
    "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
    "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
    "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
-   "sha256": "32e98f70abf0f0cf424cff3b705864f910f2eaa8f37de925fbca18066389ade2",
+   "sha256": "7cbb40727134f72cfbdcabe8bb998c213d13cb62f5e1f1d3bc43b7d9ac794c3d",
    "sources": [
     {
      "attribution": "© OpenStreetMap contributors (ODbL)",
