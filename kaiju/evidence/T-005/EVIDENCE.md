@@ -21,6 +21,7 @@ All commands run from the project root (`kaiju/`); `unity` is the Unity CLI (add
 | `metrics/M-001_without_curve/` | same without `curve` (information only: shows the values when the capture that ends in a fall is left out; tool exit 1) | T-002 0f57e25 |
 | `metrics/M-002/`, `M-002.stdout.txt` | `python Tools/Metrics/metrics.py m002 --out <evidence>/metrics/M-002 --label T-005 <gait>/{walk_fr010,walk_fr020,walk_fr030,start,stop,estop,turn90_inplace,curve,stomp}.gait.jsonl` | T-002 0f57e25 |
 | `metrics/M-002_without_curve/` | m002 on walk_fr010/020/030, start, stop, estop, turn90_inplace, stomp, walk_scn, shove_030 (information only) | T-002 0f57e25 |
+| `strips/walk_fr010/020/030.*` (re-captured so 24 tiles at 0.7 s cover 16.8 s = 2.2 strides; same motion, only the sampling interval of the strip changed) | scenario entry point with `-scenarios walk_fr010,walk_fr020,walk_fr030 -strips -nophys -out <tmp>`, strips copied in | b77be9a |
 | `plots/<capture>.com_vs_feet.png` | `python Tools/T005/plots.py evidence/T-005 walk_fr020 start stop turn90_inplace shove_030` | 955a865 |
 | `tests/unity_editmode.xml`, `tests/unity_playmode.xml` | `unity test . --mode EditMode -o ...`, `unity test . --mode PlayMode -o ...` | 955a865 |
 | `tests/*.trx` | `dotnet test DotnetTests/<Physics.Body.Tests|Control.Tests|Units.Mech.Tests>/<name>.csproj --logger trx` | 955a865 |
