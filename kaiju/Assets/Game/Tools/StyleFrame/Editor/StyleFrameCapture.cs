@@ -97,9 +97,16 @@ namespace Game.Tools.StyleFrame
         }
 
         // ------------------------------------------------------------------ stills
+        const int WarmupStills = 3;
         static void Stills(StyleCaptureSession s, ShotPlan plan)
         {
             var sizes = new[] { new Vector2Int(1920, 1080), new Vector2Int(2560, 1440) };
+            // Warm-up (C10): the first capture of a run differed between runs (lighting/haze state not settled), so render
+            // WarmupStills throwaway stills of the hero first and delete them; every kept capture then follows a settled state.
+            s.Capture.SetOutputSize(sizes[0].x, sizes[0].y); s.Apply(); s.SetProfile(StyleFrameScene.DefaultProfile);
+            for (int i = 0; i < WarmupStills; i++) Still(s, "_warmup", "w" + i, plan.Hero, StyleFrameScene.DefaultProfile, "warm-up, deleted");
+            string warmDir = System.IO.Path.Combine(s.OutRoot, "_warmup");
+            if (System.IO.Directory.Exists(warmDir)) System.IO.Directory.Delete(warmDir, true);
             foreach (var size in sizes)
             {
                 string res = size.y + "p";
