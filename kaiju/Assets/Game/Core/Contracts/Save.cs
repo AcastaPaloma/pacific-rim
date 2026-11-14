@@ -36,7 +36,7 @@ namespace Game.Core
         public override int GetHashCode() => (int)Kind ^ _bits.GetHashCode();
     }
 
-    /// <summary>One ID-keyed record. Key is an ID's canonical string (e.g. BuildingId.ToString()).</summary>
+    /// <summary>One ID-keyed record. Key is an ID's canonical string form (its ToString()).</summary>
     public sealed class SaveRecord
     {
         private readonly SortedList<string, SaveValue> _fields = new SortedList<string, SaveValue>(StringComparer.Ordinal);
