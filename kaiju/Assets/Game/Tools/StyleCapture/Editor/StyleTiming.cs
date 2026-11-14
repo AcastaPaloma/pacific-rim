@@ -1,11 +1,14 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
 using Game.Rendering.Pixel;
 using Unity.Profiling;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Profiling;
 using UnityEngine.Experimental.Rendering;
 
 namespace Game.Tools.StyleCapture
@@ -70,7 +73,7 @@ namespace Game.Tools.StyleCapture
                         }
                     }
                     // Allocations: count GC.Alloc samples over the render calls of the M0 configuration and of the plain target.
-                    long allocM0 = CountAllocations(s, configs[0], 100), allocWorld = CountAllocations(s, configs[1], 100), allocStoreOnly = CountAllocations(s, configs[5], 100);
+                    long allocM0 = CountAllocations(s, configs[0], 600).Samples, allocWorld = CountAllocations(s, configs[1], 600).Samples, allocStoreOnly = CountAllocations(s, configs[5], 600).Samples;
                     UnityEngine.Object.DestroyImmediate(probe);
                     s.Flags = m0; s.Apply();
 
@@ -95,7 +98,7 @@ namespace Game.Tools.StyleCapture
                     summary.Append(", \"Pixel.Haze\": ").Append(Stats(Diff(configs[1].Ms, configs[3].Ms)));
                     summary.Append(", \"Pixel.Quantise\": ").Append(Stats(Diff(configs[1].Ms, configs[4].Ms)));
                     summary.Append(", \"Pixel.Dither+Haze+Quantise (M0 world minus store only)\": ").Append(Stats(Diff(configs[1].Ms, configs[5].Ms)));
-                    summary.Append("},\n   \"gc_alloc_samples_per_100_frames\": {\"m0_world_and_present\": ").Append(allocM0).Append(", \"m0_world\": ").Append(allocWorld).Append(", \"world_store_only\": ").Append(allocStoreOnly).Append("}}");
+                    summary.Append("},\n   \"gc_alloc_samples_per_600_frames\": {\"m0_world_and_present\": ").Append(allocM0).Append(", \"m0_world\": ").Append(allocWorld).Append(", \"world_store_only\": ").Append(allocStoreOnly).Append("}}");
                     firstResolution = false;
                 }
             }
@@ -114,25 +117,173 @@ namespace Game.Tools.StyleCapture
             RenderTexture.active = previous;
         }
 
-        static long CountAllocations(StyleCaptureSession s, Config c, int frames)
+        struct AllocResult { public long Samples; public int Frames; public int GcCollections; public long MonoUsedDeltaBytes; }
+
+        /// <summary>
+        /// Capture off: only the render call runs (no readback, no file writes, no recording). Counts GC.Alloc samples
+        /// around each render call, plus GC collections (all generations) and the Mono heap delta over the whole run.
+        /// </summary>
+        static AllocResult CountAllocations(StyleCaptureSession s, Config c, int frames)
         {
             s.Flags = c.Flags; s.Capture.Binder.Configure(s.Settings, c.Flags);
-            for (int i = 0; i < 10; i++) { s.Rig.Tick(StyleCaptureSession.Dt); s.Capture.Render(c.Present); }
+            for (int i = 0; i < 30; i++) { s.Rig.Tick(StyleCaptureSession.Dt); s.Capture.Render(c.Present); }
             const ProfilerRecorderOptions options = ProfilerRecorderOptions.SumAllSamplesInFrame | ProfilerRecorderOptions.CollectOnlyOnCurrentThread;
-            long total = 0;
+            var r = new AllocResult { Frames = frames };
+            int gc0 = GC.CollectionCount(0), gc1 = GC.CollectionCount(1), gc2 = GC.CollectionCount(2);
+            long heap0 = Profiler.GetMonoUsedSizeLong();
             for (int i = 0; i < frames; i++)
             {
                 s.Rig.Tick(StyleCaptureSession.Dt);
                 using (var recorder = new ProfilerRecorder("GC.Alloc", 1, options))
                 {
-                    if (!recorder.Valid) return -1;
+                    if (!recorder.Valid) { r.Samples = -1; return r; }
                     recorder.Start();
                     s.Capture.Render(c.Present);
                     recorder.Stop();
-                    total += recorder.Count == 1 ? recorder.GetSample(0).Count : 0;
+                    r.Samples += recorder.Count == 1 ? recorder.GetSample(0).Count : 0;
                 }
             }
-            return total;
+            r.GcCollections = (GC.CollectionCount(0) - gc0) + (GC.CollectionCount(1) - gc1) + (GC.CollectionCount(2) - gc2);
+            r.MonoUsedDeltaBytes = Profiler.GetMonoUsedSizeLong() - heap0;
+            return r;
+        }
+
+        // ------------------------------------------------------------------------------------------------------
+        // Per-pass timing (DEF-T004-perf-1..4). One editor frame per EditorApplication.update tick, because Profiler
+        // recorders only roll over at frame boundaries; the per-frame values are read one tick after the render.
+        // ------------------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Run: unity run &lt;project&gt; -- -executeMethod Game.Tools.StyleCapture.StyleTiming.PassTimingCli [-timingOut evidence/T-004/timing] [-timingFrames 1000] [-timingWarmup 120] [-gcFrames 600]
+        /// (Do not pass -quit: the run is asynchronous over editor frames and exits itself via EditorApplication.Exit; exit code 1 on failure.)
+        /// Needs a graphics device, so not -nographics. Writes pass_timing_1920x1080.csv, pass_timing_2560x1440.csv and pass_timing_summary.json.
+        /// </summary>
+        public static void PassTimingCli()
+        {
+            string outDir = StyleCaptureCli.Arg("-timingOut", "evidence/T-004/timing");
+            int frames = int.Parse(StyleCaptureCli.Arg("-timingFrames", "1000"), CultureInfo.InvariantCulture);
+            int warmup = int.Parse(StyleCaptureCli.Arg("-timingWarmup", "120"), CultureInfo.InvariantCulture);
+            int gcFrames = int.Parse(StyleCaptureCli.Arg("-gcFrames", "600"), CultureInfo.InvariantCulture);
+            RunPassTiming(outDir, frames, warmup, gcFrames, exitWhenDone: true, onDone: null);
+        }
+
+        /// <summary>Starts the asynchronous pass timing. Callers (a UnityTest, say) pass a short frame count and an onDone callback (null on success, else the exception).</summary>
+        public static void RunPassTiming(string outDir, int frames = 1000, int warmup = 120, int gcFrames = 600, bool exitWhenDone = false, Action<Exception> onDone = null)
+        {
+            var routine = PassTimingRoutine(outDir, frames, warmup, gcFrames);
+            EditorApplication.CallbackFunction tick = null;
+            tick = () =>
+            {
+                Exception failure = null; bool more = false;
+                try { more = routine.MoveNext(); }
+                catch (Exception e) { failure = e; Debug.LogException(e); }
+                if (more && failure == null) return;
+                EditorApplication.update -= tick;
+                try { (routine as IDisposable)?.Dispose(); } catch (Exception e) { if (failure == null) failure = e; }
+                onDone?.Invoke(failure);
+                if (exitWhenDone) EditorApplication.Exit(failure == null ? 0 : 1);
+            };
+            EditorApplication.update += tick;
+        }
+
+        sealed class PassSeries { public string Name; public Recorder Recorder; public readonly List<double> GpuMs = new List<double>(); public readonly List<double> CpuMs = new List<double>(); }
+
+        static IEnumerator PassTimingRoutine(string outDir, int frames, int warmup, int gcFrames)
+        {
+            const int Settle = 3;   // frames rendered before recorders are enabled, so every pass sampler exists
+            Directory.CreateDirectory(outDir);
+            var summary = new StringBuilder();
+            summary.Append("{\n \"tool\": \"Game.Tools.StyleCapture.StyleTiming.PassTimingCli\",\n");
+            summary.Append(" \"method\": \"Recorder (enableRecording) on each PixelProfiling sampler (Pixel.*, including Pixel.Present); one editor frame per tick; per-frame gpuElapsedNanoseconds and elapsedNanoseconds (CPU) read one tick after the render; capture off, no readback\",\n");
+            summary.Append(" \"hardware\": {\"gpu\": ").Append(StyleCaptureSession.Str(SystemInfo.graphicsDeviceName)).Append(", \"graphics_api\": ").Append(StyleCaptureSession.Str(SystemInfo.graphicsDeviceType.ToString()));
+            summary.Append(", \"cpu\": ").Append(StyleCaptureSession.Str(SystemInfo.processorType)).Append(", \"os\": ").Append(StyleCaptureSession.Str(SystemInfo.operatingSystem)).Append(", \"unity\": ").Append(StyleCaptureSession.Str(Application.unityVersion)).Append(", \"batch_mode\": ").Append(Application.isBatchMode ? "true" : "false").Append("},\n");
+            summary.Append(" \"supports_gpu_recorder\": ").Append(SystemInfo.supportsGpuRecorder ? "true" : "false");
+            summary.Append(",\n \"vsync_count\": ").Append(QualitySettings.vSyncCount).Append(", \"target_frame_rate\": ").Append(Application.targetFrameRate);
+            summary.Append(",\n \"warmup_frames_discarded\": ").Append(warmup + Settle).Append(", \"frames_measured\": ").Append(frames);
+            summary.Append(",\n \"note\": \"Editor frames on the development Mac: relative regression numbers, not M-008 evidence (Q-019). GPU ms is 0 when the GPU recorder is unsupported; then only CPU ms is meaningful. Confidence interval is a normal approximation 1.96*stdev/sqrt(n) of the mean and ignores frame-to-frame autocorrelation.\",\n \"resolutions\": [");
+
+            var session = new StyleCaptureSession(StyleTestScenes.StylePath, outDir);
+            bool first = true;
+            var gcSummary = new StringBuilder();
+            try
+            {
+                session.SetProfile(StyleCaptureJobs.MainProfile);
+                var m0 = session.Flags;
+                var pose = StyleCaptureJobs.Eye70.Pose();
+                foreach (var size in new[] { new Vector2Int(1920, 1080), new Vector2Int(2560, 1440) })
+                {
+                    session.Capture.SetOutputSize(size.x, size.y);
+                    session.Flags = m0; session.Capture.Binder.Configure(session.Settings, m0);
+                    session.Rig.Cut();
+                    var series = new List<PassSeries>();
+                    int total = Settle + warmup + frames + 1;
+                    for (int step = 0; step < total; step++)
+                    {
+                        if (step == Settle)
+                        {
+                            foreach (var kv in PixelProfiling.All)
+                            {
+                                var rec = kv.Value.GetRecorder();
+                                if (rec == null || !rec.isValid) continue;
+                                rec.enableRecording = true;
+                                series.Add(new PassSeries { Name = kv.Key, Recorder = rec });
+                            }
+                            series.Sort((a, b) => string.CompareOrdinal(a.Name, b.Name));
+                        }
+                        // The previous tick's frame is complete now: read it (skipping settle + warm-up).
+                        if (step - 1 >= Settle + warmup && step - 1 < Settle + warmup + frames)
+                            foreach (var p in series) { p.GpuMs.Add(p.Recorder.gpuElapsedNanoseconds * 1e-6); p.CpuMs.Add(p.Recorder.elapsedNanoseconds * 1e-6); }
+                        if (step < total - 1)
+                        {
+                            pose.YawDeg = StyleCaptureJobs.Eye70.YawDeg + step * 0.05f;   // slow pan: no frame is a cached repeat
+                            session.Rig.SetScriptedPose(pose, StyleCaptureJobs.ReferenceDepth); session.Rig.Tick(StyleCaptureSession.Dt);
+                            session.Capture.Render(true);
+                        }
+                        yield return null;
+                    }
+                    foreach (var p in series) p.Recorder.enableRecording = false;
+
+                    string tag = size.x + "x" + size.y;
+                    var csv = new StringBuilder("frame");
+                    foreach (var p in series) csv.Append(',').Append(p.Name).Append("_gpu_ms,").Append(p.Name).Append("_cpu_ms");
+                    csv.Append('\n');
+                    for (int i = 0; i < frames; i++)
+                    {
+                        csv.Append(i);
+                        foreach (var p in series) csv.Append(',').Append(F(p.GpuMs[i])).Append(',').Append(F(p.CpuMs[i]));
+                        csv.Append('\n');
+                    }
+                    File.WriteAllText(Path.Combine(outDir, "pass_timing_" + tag + ".csv"), csv.ToString());
+
+                    var layout = session.Capture.Binder.Layout;
+                    summary.Append(first ? "\n" : ",\n").Append("  {\"output\": \"").Append(tag).Append("\", \"internal\": \"").Append(layout.Width).Append('x').Append(layout.Height).Append("\", \"csv\": \"pass_timing_").Append(tag).Append(".csv\", \"frames\": ").Append(frames).Append(",\n   \"passes\": {");
+                    for (int i = 0; i < series.Count; i++)
+                        summary.Append(i > 0 ? ",\n    " : "\n    ").Append('"').Append(series[i].Name).Append("\": {\"gpu_ms\": ").Append(StatsCi(series[i].GpuMs)).Append(", \"cpu_ms\": ").Append(StatsCi(series[i].CpuMs)).Append('}');
+                    summary.Append("\n   }}");
+                    first = false;
+
+                    // Capture off, nothing recording: managed allocation witness over gcFrames frames at this resolution.
+                    var a = CountAllocations(session, new Config { Name = "m0_world_and_present", Flags = m0, Present = true }, gcFrames);
+                    gcSummary.Append(gcSummary.Length > 0 ? ", " : "").Append('"').Append(tag).Append("\": {\"frames\": ").Append(a.Frames).Append(", \"gc_alloc_samples\": ").Append(a.Samples).Append(", \"gc_collections\": ").Append(a.GcCollections).Append(", \"mono_used_delta_bytes\": ").Append(a.MonoUsedDeltaBytes).Append('}');
+                }
+                session.Flags = m0; session.Apply();
+            }
+            finally { session.Dispose(); }
+            summary.Append("\n ],\n \"gc_capture_off\": {").Append(gcSummary).Append("}\n}\n");
+            File.WriteAllText(Path.Combine(outDir, "pass_timing_summary.json"), summary.ToString());
+            Debug.Log("[StyleCapture] pass timing written to " + outDir);
+        }
+
+        static string StatsCi(List<double> values)
+        {
+            int n = values.Count;
+            if (n == 0) return "null";
+            var sorted = new List<double>(values); sorted.Sort();
+            double mean = 0; foreach (double v in values) mean += v; mean /= n;
+            double ss = 0; foreach (double v in values) ss += (v - mean) * (v - mean);
+            double sd = n > 1 ? Math.Sqrt(ss / (n - 1)) : 0, half = 1.96 * sd / Math.Sqrt(n);
+            double p95 = sorted[Math.Min(n - 1, (int)Math.Floor(0.95 * (n - 1) + 0.5))];
+            return "{\"n\": " + n + ", \"mean\": " + F(mean) + ", \"stdev\": " + F(sd) + ", \"p95\": " + F(p95) + ", \"max\": " + F(sorted[n - 1]) + ", \"ci95_lo\": " + F(mean - half) + ", \"ci95_hi\": " + F(mean + half) + "}";
         }
 
         static List<double> Diff(List<double> a, List<double> b)
