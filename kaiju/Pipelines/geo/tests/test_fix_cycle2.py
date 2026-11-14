@@ -49,7 +49,7 @@ def _synthetic_sources(tmp_path, tiles):
 def _surface(tile, cp, dp, margin=192):
     xs, zs = terrain.node_axes(tile, margin)
     X, Z = np.meshgrid(xs, zs)
-    h, _ = terrain.merge_surface(terrain.sample_rasters(cp, X, Z), terrain.sample_rasters(dp, X, Z), 1.798, load_config("bake.json")["terrain"]["feather_m"], tile.spacing)
+    h, _ = terrain.merge_from_cfg(terrain.sample_rasters(cp, X, Z), terrain.sample_rasters(dp, X, Z), load_config("bake.json"), tile.spacing)
     return np.round(h, 4).astype(np.float32)[margin:margin + 2049, margin:margin + 2049]
 
 
@@ -116,3 +116,20 @@ def test_manifest_content_is_input_determined():
     c = bake.manifest_content(man)
     assert not set(bake.VOLATILE_BUILD_KEYS) & set(c["build"])
     assert c["build"]["inputs_sha256"] == man["build"]["inputs_sha256"]
+
+
+def test_blend_weight_gradient_is_bounded_and_config_driven():
+    """The 3DEP weight changes by at most 1/feather_m per metre (so the blend adds <= |delta|/feather_m per 1 m
+    step) and is centred on the region edge when configured so (M-005@v1.1 M-005.9)."""
+    cfg = load_config("bake.json")
+    n = 201
+    xx = np.arange(n, dtype=float)
+    cud = np.tile(np.where(xx < 100, 5.0, -5.0), (n, 1))       # land (> +1.798) west of x = 100
+    dep = np.tile(np.where(xx < 100, 8.0, -1.07), (n, 1))       # lidar land 3 m higher; hydro-flattened water
+    h, w = terrain.merge_from_cfg(cud, dep, cfg, 1.0)
+    L = cfg["terrain"]["feather_m"]
+    row = w[n // 2]
+    assert np.max(np.abs(np.diff(row))) <= 1.0 / L + 1e-9
+    if cfg["terrain"].get("feather_mode") == "centred":
+        assert abs(row[99] - 0.5) <= 1.0 / L and abs(row[100] - 0.5) <= 1.0 / L
+    assert np.all(np.isfinite(h))

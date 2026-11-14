@@ -7,9 +7,13 @@
     "mhhw_navd88_m": 1.798
   },
   "terrain": {
-    "_src": "R-004 §1.2 merge rule: 3DEP 1 m where valid and CUDEM > MHW(+1.80 m NAVD88 per R-004 text, i.e. MHHW), CUDEM elsewhere, linear feather. feather_m 20 (R-004 said 10): with 10 m the blend added steps of p99 0.276 m (M-005@v1.1 M-005.9 limit 0.20 m, R-006 §1: L >= |delta| / 0.2); measured on L0_30_36: L 10 -> p99 0.276 / max 0.489, 20 -> 0.129 / 0.245, 30 -> 0.068 / 0.163, 40 -> 0.040 / 0.122 m; 20 is the narrowest width that passes, keeping 3DEP detail closest to the shore",
+    "_src": "R-004 §1.2 merge rule: 3DEP 1 m where valid and CUDEM > +1.798 m NAVD88 (R-004 text 'MHW (+1.80 m)', i.e. MHHW), CUDEM elsewhere, linear feather.",
+    "_blend_note": "Fix cycle 2 (M-005@v1.1 M-005.9: the blend may add steps of p99 <= 0.20 m, max <= 0.50 m). Measured on L0_30_36 (excess step E p99 / max; C10 median MSL-crossing offset from the OSM coastline): inside-only 10 m (R-004) 0.276 / 0.489, C10 2.5 m; inside-only 14 m 0.196 / 0.350, C10 5.0 m; inside-only 20 m 0.129 / 0.245, C10 5.5 m (fails C10 <= 5 m: CUDEM's smeared shoreline replaces 3DEP's where 3DEP marks water); centred 40 m 0.196 / 0.486, C10 1.5 m; centred 50 m 0.172 / 0.396, C10 1.5 m (chosen). Centred = weight 0.5 at the region edge, blending also 25 m seaward wherever both sources are valid (mostly hydro-flattened 3DEP water at -1.07 m: near-shore seabed within 25 m of the 3DEP land edge moves toward that value, reported in EVIDENCE.md).",
+    "feather_mode": "centred",
+    "feather_centre": 0.5,
+    "feather_valid_fade_m": 50.0,
     "use_3dep_above_navd88_m": 1.798,
-    "feather_m": 20.0,
+    "feather_m": 50.0,
     "margin_nodes": 192
   },
   "water": {

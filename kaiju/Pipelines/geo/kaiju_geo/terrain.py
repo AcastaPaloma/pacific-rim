@@ -53,18 +53,42 @@ def sample_rasters(paths, xs, zs, label=""):
     return out
 
 
-def merge_surface(cudem, dep3, mhw: float, feather_m: float, spacing: float):
-    """R-004 §1.2 merge rule: 3DEP 1 m where valid and CUDEM > MHW, CUDEM elsewhere, feathered
-    linearly over `feather_m` metres inside the 3DEP region (Euclidean distance on the node grid).
-    Returns (surface float64, weight of 3DEP)."""
+def merge_surface(cudem, dep3, mhw: float, feather_m: float, spacing: float, mode: str = "inside",
+                  centre: float = 0.5, valid_fade_m: float | None = None):
+    """R-004 §1.2 merge rule: 3DEP 1 m where valid and CUDEM > MHW, CUDEM elsewhere, linearly feathered.
+    mode "inside": the weight of 3DEP rises 0 -> 1 over feather_m inside the 3DEP region (R-004 as written).
+    mode "centred": the weight is `centre` at the region boundary and changes by 1/feather_m per metre across it,
+    so the blend also extends feather_m*centre outside the region wherever both sources are valid; it fades to 0
+    within valid_fade_m of any cell where 3DEP or CUDEM is missing. Returns (surface float64, weight of 3DEP)."""
     from scipy.ndimage import distance_transform_edt
-    use3 = np.isfinite(dep3) & np.isfinite(cudem) & (cudem > mhw)
-    d = distance_transform_edt(use3) * spacing
-    w = np.clip(d / feather_m, 0.0, 1.0)
-    w[~use3] = 0.0
+    valid = np.isfinite(dep3) & np.isfinite(cudem)
+    use3 = valid & (cudem > mhw)
     base = np.where(np.isfinite(cudem), cudem, dep3)
-    h = np.where(use3, w * np.nan_to_num(dep3) + (1.0 - w) * np.nan_to_num(cudem), base)
+    if mode == "inside":
+        d = distance_transform_edt(use3) * spacing
+        w = np.clip(d / feather_m, 0.0, 1.0)
+        w[~use3] = 0.0
+        h = np.where(use3, w * np.nan_to_num(dep3) + (1.0 - w) * np.nan_to_num(cudem), base)
+        return h, w
+    if mode != "centred":
+        raise ValueError(f"unknown feather mode {mode!r}")
+    d_in = distance_transform_edt(use3) * spacing
+    d_out = distance_transform_edt(~use3) * spacing
+    s = np.where(use3, d_in, spacing - d_out)               # signed distance; boundary between the two node rows
+    w = np.clip(centre + (s - 0.5 * spacing) / feather_m, 0.0, 1.0)
+    fade = valid_fade_m if valid_fade_m else feather_m
+    w = w * np.clip(distance_transform_edt(valid) * spacing / fade, 0.0, 1.0)
+    w[~valid] = 0.0
+    h = np.where(valid, w * np.nan_to_num(dep3) + (1.0 - w) * np.nan_to_num(cudem), base)
     return h, w
+
+
+def merge_from_cfg(cudem, dep3, cfg: dict, spacing: float):
+    """merge_surface with every parameter from config/bake.json "terrain" (single source of truth)."""
+    t = cfg["terrain"]
+    return merge_surface(cudem, dep3, t["use_3dep_above_navd88_m"], t["feather_m"], spacing,
+                         mode=t.get("feather_mode", "inside"), centre=t.get("feather_centre", 0.5),
+                         valid_fade_m=t.get("feather_valid_fade_m"))
 
 
 def quantise_r16(h: np.ndarray):

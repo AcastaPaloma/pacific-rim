@@ -137,8 +137,7 @@ def prepare(tile):
     M = cfg["terrain"]["margin_nodes"]
     gxs, gzs = terrain.node_axes(tile, M)
     GX, GZ = np.meshgrid(gxs, gzs)
-    _, w3 = terrain.merge_surface(terrain.sample_rasters(cp, GX, GZ), terrain.sample_rasters(dp, GX, GZ),
-                                  cfg["terrain"]["use_3dep_above_navd88_m"], cfg["terrain"]["feather_m"], tile.spacing)
+    _, w3 = terrain.merge_from_cfg(terrain.sample_rasters(cp, GX, GZ), terrain.sample_rasters(dp, GX, GZ), cfg, tile.spacing)
     from scipy.ndimage import maximum_filter as _mx, minimum_filter as _mn
     w_min = _mn(w3, size=5)[M:M + 2049, M:M + 2049]   # all nodes within 2 m
     w_max = _mx(w3, size=5)[M:M + 2049, M:M + 2049]
@@ -996,7 +995,7 @@ def seam_check(tile, cfg):
     X, Z = np.meshgrid(gx, gz)
     hc = terrain.sample_rasters(cp, X, Z)
     h3 = terrain.sample_rasters(dp, X, Z)
-    h, w = terrain.merge_surface(hc, h3, cfg["terrain"]["use_3dep_above_navd88_m"], cfg["terrain"]["feather_m"], tile.spacing)
+    h, w = terrain.merge_from_cfg(hc, h3, cfg, tile.spacing)
     core = (slice(M, M + 2049), slice(M, M + 2049))
     h, w, hc, h3 = h[core], w[core], hc[core], h3[core]
     band = (w > 0) & (w < 1)

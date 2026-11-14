@@ -197,7 +197,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     dep_paths = [PIPE / m["file"] for m in sorted(dep, key=lambda m: (m.get("published", ""), m["item"]), reverse=True)]
     hc = terrain.sample_rasters(cud_paths, X, Z)
     h3 = terrain.sample_rasters(dep_paths, X, Z)
-    h, w3 = terrain.merge_surface(hc, h3, cfg["terrain"]["use_3dep_above_navd88_m"], cfg["terrain"]["feather_m"], tile.spacing)
+    h, w3 = terrain.merge_from_cfg(hc, h3, cfg, tile.spacing)
     core = (slice(M, M + SAMPLES), slice(M, M + SAMPLES))
     if not np.all(np.isfinite(h[core])):
         raise RuntimeError(f"{tile.id}: terrain has {np.sum(~np.isfinite(h[core]))} unfilled nodes (source gap)")
@@ -412,7 +412,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
         {"layer": "terrain", "file": "terrain.tif", "sha256": sha256_bytes(files["terrain.tif"]),
          "format": "COG float32 2049x2049, pixel-is-point, row 0 = north, deflate + predictor 3",
          "samples": SAMPLES, "spacing_m": tile.spacing, "sources": ter_sources,
-         "merge_rule": "3DEP 1 m where valid and CUDEM > +1.798 m NAVD88, CUDEM elsewhere, linear feather of terrain.feather_m (" + str(cfg["terrain"]["feather_m"]) + " m); piers raised to deck",
+         "merge_rule": "3DEP 1 m where valid and CUDEM > +1.798 m NAVD88, CUDEM elsewhere, " + cfg["terrain"].get("feather_mode", "inside") + " linear feather over terrain.feather_m (" + str(cfg["terrain"]["feather_m"]) + " m); piers raised to deck",
          "h_min_m": round(float(np.min(ht)), 4), "h_max_m": round(float(np.max(ht)), 4)},
         {"layer": "terrain_r16", "file": "terrain.r16", "sha256": sha256_bytes(files["terrain.r16"]),
          "format": "uint16 LE RAW 2049x2049, row 0 = south, col 0 = west, h = h_min + v*(h_max-h_min)/65535",

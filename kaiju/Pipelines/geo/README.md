@@ -38,7 +38,7 @@ cache, the reconciled spec moved them to a committed folder (expectations/T-003.
 
 ## Bake rules (all in `config/bake.json`)
 - Nodes at x0 + k, z0 + k (pixel-is-point, k = 0..2048): neighbours share edge rows byte for byte.
-- Surface: 3DEP 1 m where valid and CUDEM > +1.798 m NAVD88, CUDEM elsewhere, linear feather of `terrain.feather_m` = 20 m (R-004 said 10 m; widened for M-005@v1.1 M-005.9).
+- Surface: 3DEP 1 m where valid and CUDEM > +1.798 m NAVD88, CUDEM elsewhere, linear feather centred on the region edge over `terrain.feather_m` = 50 m (R-004 said 10 m inside; changed for M-005@v1.1 M-005.9, numbers in config/bake.json `_blend_note`).
   Piers (OSM `man_made=pier`) are solid: raised to a flat deck (median of 3DEP deck samples, else the 75th percentile
   of dry land at the pier root), never lowered.
 - Water mask: OSM water polygon AND cell height < MSL (+0.969 m NAVD88), minus every cell touched by a pier or a footprint.

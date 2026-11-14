@@ -168,7 +168,7 @@ def shoreline_continuity(tile, cfg, cp, dp, piers):
     X, Z = np.meshgrid(gx, gz)
     hc = terrain.sample_rasters(cp, X, Z)
     h3 = terrain.sample_rasters(dp, X, Z)
-    _, w = terrain.merge_surface(hc, h3, cfg["terrain"]["use_3dep_above_navd88_m"], cfg["terrain"]["feather_m"], tile.spacing)
+    _, w = terrain.merge_from_cfg(hc, h3, cfg, tile.spacing)
     core = (slice(M, M + 2049), slice(M, M + 2049))
     w, hc, h3 = w[core], hc[core], h3[core]
     hb = _terrain_nodes(tile)                                   # the built surface (geo_tile terrain, physics = r16 of it)
