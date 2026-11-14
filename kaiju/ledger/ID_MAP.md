@@ -80,7 +80,7 @@ Written by the scribe on 2026-11-14. Translates the `M-NEW-*` / `Q-NEW-*` placeh
 | evaluations/T-007/eval-style.cycle3.md "Not lost" (density about 1,030 kg/m³) | Q-009 (extra source) |
 | research/R-008.md Q-NEW-b | Q-055 |
 | research/R-008.md Q-NEW-d | Q-056 |
-| research/T-002.impl Q-NEW-a, Q-NEW-o; tasks/T-004.impl Q-NEW-a | Q-057 |
+| tasks/T-002.impl Q-NEW-a, Q-NEW-o; tasks/T-004.impl Q-NEW-a | Q-057 |
 | tasks/T-002.impl Q-NEW-d, e, f, i, j, k, m | Q-058 |
 | tasks/T-002.impl Q-NEW-b, c, h, l, n | Q-059 |
 | tasks/T-004.impl Q-NEW-b; tasks/T-002.impl Q-NEW-g | Q-060 |
