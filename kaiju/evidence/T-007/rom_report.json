@@ -1,0 +1,3701 @@
+{
+ "schema": "mech_rom_report@v1",
+ "model": "art/models/mech_frame_balanced/mech_frame_balanced.blend",
+ "script": "Pipelines/blender/mech_frame_balanced/rom_check.py",
+ "method": "Run:\n  /Applications/Blender.app/Contents/MacOS/Blender -b art/models/mech_frame_balanced/mech_frame_balanced.blend       --python Pipelines/blender/mech_frame_balanced/rom_check.py\n\nWrites evidence/T-007/rom_report.json and evidence/T-007/raw/pose_<name>_{front,side}.png.\n\nMethod. Parts are rigid; a pose is a set of anatomical DOF angles (mech_frame@v1 joints[].dofs:\nworld axis in the rest pose, unity_sign, rom_deg). Each child is rotated about its joint centre and\ncarries its subtree. For every pair of parts whose posed bounding boxes touch, the intersection is\ncomputed with Blender's boolean (Manifold solver) and its volume measured.\n  - adjacent pairs (parent/child): overlap volume as % of the smaller part (B7: <= 2 %)\n  - non-adjacent pairs: overlap volume and penetration depth, taken as the smallest extent of the\n    intersection's bounding box (AC-21: <= 0.5 m; B7: none)\nB7 tests every DOF of the waist, neck and both sides' joints at its R-005 range ends and mid-range. Each DOF is run twice: \"isolated\" (every other joint at rest) and\n\"cleared\" (other limbs moved out of the swept space: contralateral leg abducted 40 deg and flexed\n30 deg, both arms abducted 40 deg), so self-geometry limits and stance-contact limits are told apart.",
+ "ac21_poses": {
+  "rest": {
+   "pose": {},
+   "adjacent_overlaps": [],
+   "non_adjacent": [],
+   "max_non_adjacent_depth_m": 0.0,
+   "pass_depth_le_0_5m": true
+  },
+  "guard": {
+   "pose": {
+    "shoulder_R": {
+     "flexion": 45
+    },
+    "elbow_R": {
+     "flexion": 90
+    }
+   },
+   "adjacent_overlaps": [],
+   "non_adjacent": [],
+   "max_non_adjacent_depth_m": 0.0,
+   "pass_depth_le_0_5m": true
+  },
+  "crouch": {
+   "pose": {
+    "hip_L": {
+     "flexion": 80
+    },
+    "hip_R": {
+     "flexion": 80
+    },
+    "knee_L": {
+     "flexion": 110
+    },
+    "knee_R": {
+     "flexion": 110
+    },
+    "ankle_L": {
+     "plantarflexion": -20
+    },
+    "ankle_R": {
+     "plantarflexion": -20
+    }
+   },
+   "adjacent_overlaps": [],
+   "non_adjacent": [],
+   "max_non_adjacent_depth_m": 0.0,
+   "pass_depth_le_0_5m": true
+  },
+  "arms_overhead": {
+   "pose": {
+    "shoulder_L": {
+     "flexion": 155
+    },
+    "shoulder_R": {
+     "flexion": 155
+    }
+   },
+   "adjacent_overlaps": [],
+   "non_adjacent": [],
+   "max_non_adjacent_depth_m": 0.0,
+   "pass_depth_le_0_5m": true
+  }
+ },
+ "b7": [
+  {
+   "joint": "waist",
+   "dof": "flexion",
+   "angle_deg": -20,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "waist",
+   "dof": "flexion",
+   "angle_deg": -20,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "waist",
+   "dof": "flexion",
+   "angle_deg": 40,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.657,
+   "worst_adjacent_overlap_pct": 0.657,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "torso",
+     "volume_m3": 5.794,
+     "depth_m": 1.702,
+     "pct_of_smaller": 0.657
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "waist",
+   "dof": "flexion",
+   "angle_deg": 40,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.657,
+   "worst_adjacent_overlap_pct": 0.657,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "torso",
+     "volume_m3": 5.794,
+     "depth_m": 1.702,
+     "pct_of_smaller": 0.657
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "waist",
+   "dof": "flexion",
+   "angle_deg": 20.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.001,
+   "worst_adjacent_overlap_pct": 0.001,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "torso",
+     "volume_m3": 0.008,
+     "depth_m": 0.042,
+     "pct_of_smaller": 0.001
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "waist",
+   "dof": "flexion",
+   "angle_deg": 20.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.001,
+   "worst_adjacent_overlap_pct": 0.001,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "torso",
+     "volume_m3": 0.008,
+     "depth_m": 0.042,
+     "pct_of_smaller": 0.001
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "waist",
+   "dof": "axial_rotation",
+   "angle_deg": -30,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [
+    {
+     "a": "pelvis",
+     "b": "forearm_R",
+     "volume_m3": 0.62,
+     "depth_m": 0.2
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "waist",
+   "dof": "axial_rotation",
+   "angle_deg": -30,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "waist",
+   "dof": "axial_rotation",
+   "angle_deg": 30,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [
+    {
+     "a": "pelvis",
+     "b": "forearm_L",
+     "volume_m3": 0.62,
+     "depth_m": 0.2
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "waist",
+   "dof": "axial_rotation",
+   "angle_deg": 30,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "waist",
+   "dof": "axial_rotation",
+   "angle_deg": 15.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "waist",
+   "dof": "axial_rotation",
+   "angle_deg": 15.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "waist",
+   "dof": "lateral_bend",
+   "angle_deg": -20,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [
+    {
+     "a": "forearm_L",
+     "b": "thigh_L",
+     "volume_m3": 27.94,
+     "depth_m": 2.899
+    },
+    {
+     "a": "hand_L",
+     "b": "thigh_L",
+     "volume_m3": 48.539,
+     "depth_m": 4.435
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "waist",
+   "dof": "lateral_bend",
+   "angle_deg": -20,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "waist",
+   "dof": "lateral_bend",
+   "angle_deg": 20,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [
+    {
+     "a": "forearm_R",
+     "b": "thigh_R",
+     "volume_m3": 27.94,
+     "depth_m": 2.899
+    },
+    {
+     "a": "hand_R",
+     "b": "thigh_R",
+     "volume_m3": 48.539,
+     "depth_m": 4.435
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "waist",
+   "dof": "lateral_bend",
+   "angle_deg": 20,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "waist",
+   "dof": "lateral_bend",
+   "angle_deg": 10.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [
+    {
+     "a": "forearm_R",
+     "b": "thigh_R",
+     "volume_m3": 7.607,
+     "depth_m": 1.089
+    },
+    {
+     "a": "hand_R",
+     "b": "thigh_R",
+     "volume_m3": 35.64,
+     "depth_m": 2.452
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "waist",
+   "dof": "lateral_bend",
+   "angle_deg": 10.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "neck",
+   "dof": "flexion",
+   "angle_deg": -30,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.11,
+   "worst_adjacent_overlap_pct": 0.11,
+   "adjacent": [
+    {
+     "a": "torso",
+     "b": "head",
+     "volume_m3": 0.193,
+     "depth_m": 0.499,
+     "pct_of_smaller": 0.11
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "neck",
+   "dof": "flexion",
+   "angle_deg": -30,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.11,
+   "worst_adjacent_overlap_pct": 0.11,
+   "adjacent": [
+    {
+     "a": "torso",
+     "b": "head",
+     "volume_m3": 0.193,
+     "depth_m": 0.499,
+     "pct_of_smaller": 0.11
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "neck",
+   "dof": "flexion",
+   "angle_deg": 40,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.004,
+   "worst_adjacent_overlap_pct": 0.004,
+   "adjacent": [
+    {
+     "a": "torso",
+     "b": "head",
+     "volume_m3": 0.007,
+     "depth_m": 0.083,
+     "pct_of_smaller": 0.004
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "neck",
+   "dof": "flexion",
+   "angle_deg": 40,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.004,
+   "worst_adjacent_overlap_pct": 0.004,
+   "adjacent": [
+    {
+     "a": "torso",
+     "b": "head",
+     "volume_m3": 0.007,
+     "depth_m": 0.083,
+     "pct_of_smaller": 0.004
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "neck",
+   "dof": "flexion",
+   "angle_deg": 20.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "neck",
+   "dof": "flexion",
+   "angle_deg": 20.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "neck",
+   "dof": "rotation",
+   "angle_deg": -70,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "neck",
+   "dof": "rotation",
+   "angle_deg": -70,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "neck",
+   "dof": "rotation",
+   "angle_deg": 70,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "neck",
+   "dof": "rotation",
+   "angle_deg": 70,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "neck",
+   "dof": "rotation",
+   "angle_deg": 35.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "neck",
+   "dof": "rotation",
+   "angle_deg": 35.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "flexion",
+   "angle_deg": -50,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "flexion",
+   "angle_deg": -50,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "flexion",
+   "angle_deg": 160,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.003,
+   "worst_adjacent_overlap_pct": 0.003,
+   "adjacent": [
+    {
+     "a": "torso",
+     "b": "upper_arm_L",
+     "volume_m3": 0.008,
+     "depth_m": 0.1,
+     "pct_of_smaller": 0.003
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "flexion",
+   "angle_deg": 160,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.003,
+   "worst_adjacent_overlap_pct": 0.003,
+   "adjacent": [
+    {
+     "a": "torso",
+     "b": "upper_arm_L",
+     "volume_m3": 0.008,
+     "depth_m": 0.1,
+     "pct_of_smaller": 0.003
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "flexion",
+   "angle_deg": 80.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "flexion",
+   "angle_deg": 80.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "internal_rotation",
+   "angle_deg": -60,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.007,
+   "worst_adjacent_overlap_pct": 0.007,
+   "adjacent": [
+    {
+     "a": "torso",
+     "b": "upper_arm_L",
+     "volume_m3": 0.022,
+     "depth_m": 0.291,
+     "pct_of_smaller": 0.007
+    }
+   ],
+   "non_adjacent": [
+    {
+     "a": "forearm_L",
+     "b": "thigh_L",
+     "volume_m3": 9.857,
+     "depth_m": 2.15
+    },
+    {
+     "a": "hand_L",
+     "b": "thigh_L",
+     "volume_m3": 0.103,
+     "depth_m": 0.127
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "internal_rotation",
+   "angle_deg": -60,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.007,
+   "worst_adjacent_overlap_pct": 0.007,
+   "adjacent": [
+    {
+     "a": "torso",
+     "b": "upper_arm_L",
+     "volume_m3": 0.022,
+     "depth_m": 0.291,
+     "pct_of_smaller": 0.007
+    }
+   ],
+   "non_adjacent": [
+    {
+     "a": "forearm_L",
+     "b": "thigh_L",
+     "volume_m3": 9.857,
+     "depth_m": 2.15
+    },
+    {
+     "a": "hand_L",
+     "b": "thigh_L",
+     "volume_m3": 0.103,
+     "depth_m": 0.127
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "internal_rotation",
+   "angle_deg": 70,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "internal_rotation",
+   "angle_deg": 70,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "internal_rotation",
+   "angle_deg": 35.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "internal_rotation",
+   "angle_deg": 35.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "abduction",
+   "angle_deg": -10,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [
+    {
+     "a": "pelvis",
+     "b": "forearm_L",
+     "volume_m3": 0.241,
+     "depth_m": 0.2
+    },
+    {
+     "a": "forearm_L",
+     "b": "thigh_L",
+     "volume_m3": 34.294,
+     "depth_m": 3.719
+    },
+    {
+     "a": "hand_L",
+     "b": "thigh_L",
+     "volume_m3": 64.45,
+     "depth_m": 4.435
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "abduction",
+   "angle_deg": -10,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [
+    {
+     "a": "pelvis",
+     "b": "forearm_L",
+     "volume_m3": 0.241,
+     "depth_m": 0.2
+    },
+    {
+     "a": "forearm_L",
+     "b": "thigh_L",
+     "volume_m3": 34.294,
+     "depth_m": 3.719
+    },
+    {
+     "a": "hand_L",
+     "b": "thigh_L",
+     "volume_m3": 64.45,
+     "depth_m": 4.435
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "abduction",
+   "angle_deg": 150,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 1.618,
+   "worst_adjacent_overlap_pct": 1.618,
+   "adjacent": [
+    {
+     "a": "torso",
+     "b": "upper_arm_L",
+     "volume_m3": 5.118,
+     "depth_m": 1.574,
+     "pct_of_smaller": 1.618
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "abduction",
+   "angle_deg": 150,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 1.618,
+   "worst_adjacent_overlap_pct": 1.618,
+   "adjacent": [
+    {
+     "a": "torso",
+     "b": "upper_arm_L",
+     "volume_m3": 5.118,
+     "depth_m": 1.574,
+     "pct_of_smaller": 1.618
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "abduction",
+   "angle_deg": 75.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_L",
+   "dof": "abduction",
+   "angle_deg": 75.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "elbow_L",
+   "dof": "flexion",
+   "angle_deg": 0,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "elbow_L",
+   "dof": "flexion",
+   "angle_deg": 0,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "elbow_L",
+   "dof": "flexion",
+   "angle_deg": 145,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "elbow_L",
+   "dof": "flexion",
+   "angle_deg": 145,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "elbow_L",
+   "dof": "flexion",
+   "angle_deg": 72.5,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "elbow_L",
+   "dof": "flexion",
+   "angle_deg": 72.5,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_L",
+   "dof": "flexion",
+   "angle_deg": -60,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_L",
+   "dof": "flexion",
+   "angle_deg": -60,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_L",
+   "dof": "flexion",
+   "angle_deg": 60,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_L",
+   "dof": "flexion",
+   "angle_deg": 60,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_L",
+   "dof": "flexion",
+   "angle_deg": 30.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_L",
+   "dof": "flexion",
+   "angle_deg": 30.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_L",
+   "dof": "ulnar_deviation",
+   "angle_deg": -20,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.093,
+   "worst_adjacent_overlap_pct": 0.093,
+   "adjacent": [
+    {
+     "a": "forearm_L",
+     "b": "hand_L",
+     "volume_m3": 0.127,
+     "depth_m": 0.278,
+     "pct_of_smaller": 0.093
+    }
+   ],
+   "non_adjacent": [
+    {
+     "a": "hand_L",
+     "b": "thigh_L",
+     "volume_m3": 13.157,
+     "depth_m": 1.478
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "wrist_L",
+   "dof": "ulnar_deviation",
+   "angle_deg": -20,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.093,
+   "worst_adjacent_overlap_pct": 0.093,
+   "adjacent": [
+    {
+     "a": "forearm_L",
+     "b": "hand_L",
+     "volume_m3": 0.127,
+     "depth_m": 0.557,
+     "pct_of_smaller": 0.093
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_L",
+   "dof": "ulnar_deviation",
+   "angle_deg": 30,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.015,
+   "worst_adjacent_overlap_pct": 0.015,
+   "adjacent": [
+    {
+     "a": "forearm_L",
+     "b": "hand_L",
+     "volume_m3": 0.021,
+     "depth_m": 0.139,
+     "pct_of_smaller": 0.015
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_L",
+   "dof": "ulnar_deviation",
+   "angle_deg": 30,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.015,
+   "worst_adjacent_overlap_pct": 0.015,
+   "adjacent": [
+    {
+     "a": "forearm_L",
+     "b": "hand_L",
+     "volume_m3": 0.021,
+     "depth_m": 0.247,
+     "pct_of_smaller": 0.015
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_L",
+   "dof": "ulnar_deviation",
+   "angle_deg": 15.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_L",
+   "dof": "ulnar_deviation",
+   "angle_deg": 15.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_L",
+   "dof": "flexion",
+   "angle_deg": -20,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.095,
+   "worst_adjacent_overlap_pct": 0.095,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_L",
+     "volume_m3": 0.823,
+     "depth_m": 0.435,
+     "pct_of_smaller": 0.095
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_L",
+   "dof": "flexion",
+   "angle_deg": -20,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.095,
+   "worst_adjacent_overlap_pct": 0.095,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_L",
+     "volume_m3": 0.823,
+     "depth_m": 0.435,
+     "pct_of_smaller": 0.095
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_L",
+   "dof": "flexion",
+   "angle_deg": 120,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_L",
+   "dof": "flexion",
+   "angle_deg": 120,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_L",
+   "dof": "flexion",
+   "angle_deg": 60.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_L",
+   "dof": "flexion",
+   "angle_deg": 60.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_L",
+   "dof": "internal_rotation",
+   "angle_deg": -40,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.047,
+   "worst_adjacent_overlap_pct": 0.047,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_L",
+     "volume_m3": 0.412,
+     "depth_m": 1.362,
+     "pct_of_smaller": 0.047
+    }
+   ],
+   "non_adjacent": [
+    {
+     "a": "forearm_L",
+     "b": "thigh_L",
+     "volume_m3": 0.027,
+     "depth_m": 0.25
+    },
+    {
+     "a": "hand_L",
+     "b": "thigh_L",
+     "volume_m3": 5.589,
+     "depth_m": 1.076
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "hip_L",
+   "dof": "internal_rotation",
+   "angle_deg": -40,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.047,
+   "worst_adjacent_overlap_pct": 0.047,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_L",
+     "volume_m3": 0.412,
+     "depth_m": 1.362,
+     "pct_of_smaller": 0.047
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_L",
+   "dof": "internal_rotation",
+   "angle_deg": 35,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.149,
+   "worst_adjacent_overlap_pct": 0.149,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_L",
+     "volume_m3": 1.294,
+     "depth_m": 1.0,
+     "pct_of_smaller": 0.149
+    }
+   ],
+   "non_adjacent": [
+    {
+     "a": "forearm_L",
+     "b": "thigh_L",
+     "volume_m3": 0.033,
+     "depth_m": 0.25
+    },
+    {
+     "a": "hand_L",
+     "b": "thigh_L",
+     "volume_m3": 1.907,
+     "depth_m": 0.395
+    },
+    {
+     "a": "foot_L",
+     "b": "foot_R",
+     "volume_m3": 3.148,
+     "depth_m": 1.0
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "hip_L",
+   "dof": "internal_rotation",
+   "angle_deg": 35,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.149,
+   "worst_adjacent_overlap_pct": 0.149,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_L",
+     "volume_m3": 1.294,
+     "depth_m": 1.0,
+     "pct_of_smaller": 0.149
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_L",
+   "dof": "internal_rotation",
+   "angle_deg": 17.5,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.018,
+   "worst_adjacent_overlap_pct": 0.018,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_L",
+     "volume_m3": 0.158,
+     "depth_m": 0.968,
+     "pct_of_smaller": 0.018
+    }
+   ],
+   "non_adjacent": [
+    {
+     "a": "hand_L",
+     "b": "thigh_L",
+     "volume_m3": 0.006,
+     "depth_m": 0.02
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "hip_L",
+   "dof": "internal_rotation",
+   "angle_deg": 17.5,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.018,
+   "worst_adjacent_overlap_pct": 0.018,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_L",
+     "volume_m3": 0.158,
+     "depth_m": 0.968,
+     "pct_of_smaller": 0.018
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_L",
+   "dof": "abduction",
+   "angle_deg": -25,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 1.518,
+   "worst_adjacent_overlap_pct": 1.518,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_L",
+     "volume_m3": 13.17,
+     "depth_m": 1.564,
+     "pct_of_smaller": 1.518
+    }
+   ],
+   "non_adjacent": [
+    {
+     "a": "thigh_L",
+     "b": "thigh_R",
+     "volume_m3": 41.007,
+     "depth_m": 3.04
+    },
+    {
+     "a": "shank_L",
+     "b": "thigh_R",
+     "volume_m3": 27.342,
+     "depth_m": 3.971
+    },
+    {
+     "a": "shank_L",
+     "b": "shank_R",
+     "volume_m3": 292.004,
+     "depth_m": 6.8
+    },
+    {
+     "a": "foot_L",
+     "b": "shank_R",
+     "volume_m3": 28.409,
+     "depth_m": 3.477
+    },
+    {
+     "a": "foot_L",
+     "b": "foot_R",
+     "volume_m3": 42.785,
+     "depth_m": 3.689
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "hip_L",
+   "dof": "abduction",
+   "angle_deg": -25,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 1.518,
+   "worst_adjacent_overlap_pct": 1.518,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_L",
+     "volume_m3": 13.17,
+     "depth_m": 1.564,
+     "pct_of_smaller": 1.518
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_L",
+   "dof": "abduction",
+   "angle_deg": 40,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [
+    {
+     "a": "forearm_L",
+     "b": "thigh_L",
+     "volume_m3": 9.3,
+     "depth_m": 2.087
+    },
+    {
+     "a": "hand_L",
+     "b": "thigh_L",
+     "volume_m3": 41.286,
+     "depth_m": 4.435
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "hip_L",
+   "dof": "abduction",
+   "angle_deg": 40,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_L",
+   "dof": "abduction",
+   "angle_deg": 20.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [
+    {
+     "a": "forearm_L",
+     "b": "thigh_L",
+     "volume_m3": 0.675,
+     "depth_m": 0.412
+    },
+    {
+     "a": "hand_L",
+     "b": "thigh_L",
+     "volume_m3": 34.627,
+     "depth_m": 3.66
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "hip_L",
+   "dof": "abduction",
+   "angle_deg": 20.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "knee_L",
+   "dof": "flexion",
+   "angle_deg": 0,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "knee_L",
+   "dof": "flexion",
+   "angle_deg": 0,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "knee_L",
+   "dof": "flexion",
+   "angle_deg": 135,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.415,
+   "worst_adjacent_overlap_pct": 0.415,
+   "adjacent": [
+    {
+     "a": "thigh_L",
+     "b": "shank_L",
+     "volume_m3": 2.768,
+     "depth_m": 2.047,
+     "pct_of_smaller": 0.415
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "knee_L",
+   "dof": "flexion",
+   "angle_deg": 135,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.415,
+   "worst_adjacent_overlap_pct": 0.415,
+   "adjacent": [
+    {
+     "a": "thigh_L",
+     "b": "shank_L",
+     "volume_m3": 2.768,
+     "depth_m": 2.047,
+     "pct_of_smaller": 0.415
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "knee_L",
+   "dof": "flexion",
+   "angle_deg": 67.5,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "knee_L",
+   "dof": "flexion",
+   "angle_deg": 67.5,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_L",
+   "dof": "plantarflexion",
+   "angle_deg": -20,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_L",
+   "dof": "plantarflexion",
+   "angle_deg": -20,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_L",
+   "dof": "plantarflexion",
+   "angle_deg": 40,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_L",
+   "dof": "plantarflexion",
+   "angle_deg": 40,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_L",
+   "dof": "plantarflexion",
+   "angle_deg": 20.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_L",
+   "dof": "plantarflexion",
+   "angle_deg": 20.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_L",
+   "dof": "inversion",
+   "angle_deg": -15,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.09,
+   "worst_adjacent_overlap_pct": 0.09,
+   "adjacent": [
+    {
+     "a": "shank_L",
+     "b": "foot_L",
+     "volume_m3": 0.328,
+     "depth_m": 0.319,
+     "pct_of_smaller": 0.09
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_L",
+   "dof": "inversion",
+   "angle_deg": -15,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.09,
+   "worst_adjacent_overlap_pct": 0.09,
+   "adjacent": [
+    {
+     "a": "shank_L",
+     "b": "foot_L",
+     "volume_m3": 0.328,
+     "depth_m": 0.319,
+     "pct_of_smaller": 0.09
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_L",
+   "dof": "inversion",
+   "angle_deg": 25,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.394,
+   "worst_adjacent_overlap_pct": 0.394,
+   "adjacent": [
+    {
+     "a": "shank_L",
+     "b": "foot_L",
+     "volume_m3": 1.434,
+     "depth_m": 0.738,
+     "pct_of_smaller": 0.394
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_L",
+   "dof": "inversion",
+   "angle_deg": 25,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.394,
+   "worst_adjacent_overlap_pct": 0.394,
+   "adjacent": [
+    {
+     "a": "shank_L",
+     "b": "foot_L",
+     "volume_m3": 1.434,
+     "depth_m": 0.738,
+     "pct_of_smaller": 0.394
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_L",
+   "dof": "inversion",
+   "angle_deg": 12.5,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.038,
+   "worst_adjacent_overlap_pct": 0.038,
+   "adjacent": [
+    {
+     "a": "shank_L",
+     "b": "foot_L",
+     "volume_m3": 0.139,
+     "depth_m": 0.199,
+     "pct_of_smaller": 0.038
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_L",
+   "dof": "inversion",
+   "angle_deg": 12.5,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.038,
+   "worst_adjacent_overlap_pct": 0.038,
+   "adjacent": [
+    {
+     "a": "shank_L",
+     "b": "foot_L",
+     "volume_m3": 0.139,
+     "depth_m": 0.199,
+     "pct_of_smaller": 0.038
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "flexion",
+   "angle_deg": -50,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "flexion",
+   "angle_deg": -50,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "flexion",
+   "angle_deg": 160,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.003,
+   "worst_adjacent_overlap_pct": 0.003,
+   "adjacent": [
+    {
+     "a": "torso",
+     "b": "upper_arm_R",
+     "volume_m3": 0.008,
+     "depth_m": 0.1,
+     "pct_of_smaller": 0.003
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "flexion",
+   "angle_deg": 160,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.003,
+   "worst_adjacent_overlap_pct": 0.003,
+   "adjacent": [
+    {
+     "a": "torso",
+     "b": "upper_arm_R",
+     "volume_m3": 0.008,
+     "depth_m": 0.1,
+     "pct_of_smaller": 0.003
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "flexion",
+   "angle_deg": 80.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "flexion",
+   "angle_deg": 80.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "internal_rotation",
+   "angle_deg": -60,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.007,
+   "worst_adjacent_overlap_pct": 0.007,
+   "adjacent": [
+    {
+     "a": "torso",
+     "b": "upper_arm_R",
+     "volume_m3": 0.022,
+     "depth_m": 0.291,
+     "pct_of_smaller": 0.007
+    }
+   ],
+   "non_adjacent": [
+    {
+     "a": "forearm_R",
+     "b": "thigh_R",
+     "volume_m3": 9.857,
+     "depth_m": 2.15
+    },
+    {
+     "a": "hand_R",
+     "b": "thigh_R",
+     "volume_m3": 0.103,
+     "depth_m": 0.127
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "internal_rotation",
+   "angle_deg": -60,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.007,
+   "worst_adjacent_overlap_pct": 0.007,
+   "adjacent": [
+    {
+     "a": "torso",
+     "b": "upper_arm_R",
+     "volume_m3": 0.022,
+     "depth_m": 0.291,
+     "pct_of_smaller": 0.007
+    }
+   ],
+   "non_adjacent": [
+    {
+     "a": "forearm_R",
+     "b": "thigh_R",
+     "volume_m3": 9.857,
+     "depth_m": 2.15
+    },
+    {
+     "a": "hand_R",
+     "b": "thigh_R",
+     "volume_m3": 0.103,
+     "depth_m": 0.127
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "internal_rotation",
+   "angle_deg": 70,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "internal_rotation",
+   "angle_deg": 70,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "internal_rotation",
+   "angle_deg": 35.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "internal_rotation",
+   "angle_deg": 35.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "abduction",
+   "angle_deg": -10,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [
+    {
+     "a": "pelvis",
+     "b": "forearm_R",
+     "volume_m3": 0.241,
+     "depth_m": 0.2
+    },
+    {
+     "a": "forearm_R",
+     "b": "thigh_R",
+     "volume_m3": 34.294,
+     "depth_m": 3.719
+    },
+    {
+     "a": "hand_R",
+     "b": "thigh_R",
+     "volume_m3": 64.45,
+     "depth_m": 4.435
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "abduction",
+   "angle_deg": -10,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [
+    {
+     "a": "pelvis",
+     "b": "forearm_R",
+     "volume_m3": 0.241,
+     "depth_m": 0.2
+    },
+    {
+     "a": "forearm_R",
+     "b": "thigh_R",
+     "volume_m3": 34.294,
+     "depth_m": 3.719
+    },
+    {
+     "a": "hand_R",
+     "b": "thigh_R",
+     "volume_m3": 64.45,
+     "depth_m": 4.435
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "abduction",
+   "angle_deg": 150,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 1.618,
+   "worst_adjacent_overlap_pct": 1.618,
+   "adjacent": [
+    {
+     "a": "torso",
+     "b": "upper_arm_R",
+     "volume_m3": 5.118,
+     "depth_m": 1.574,
+     "pct_of_smaller": 1.618
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "abduction",
+   "angle_deg": 150,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 1.618,
+   "worst_adjacent_overlap_pct": 1.618,
+   "adjacent": [
+    {
+     "a": "torso",
+     "b": "upper_arm_R",
+     "volume_m3": 5.118,
+     "depth_m": 1.574,
+     "pct_of_smaller": 1.618
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "abduction",
+   "angle_deg": 75.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "shoulder_R",
+   "dof": "abduction",
+   "angle_deg": 75.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "elbow_R",
+   "dof": "flexion",
+   "angle_deg": 0,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "elbow_R",
+   "dof": "flexion",
+   "angle_deg": 0,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "elbow_R",
+   "dof": "flexion",
+   "angle_deg": 145,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "elbow_R",
+   "dof": "flexion",
+   "angle_deg": 145,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "elbow_R",
+   "dof": "flexion",
+   "angle_deg": 72.5,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "elbow_R",
+   "dof": "flexion",
+   "angle_deg": 72.5,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_R",
+   "dof": "flexion",
+   "angle_deg": -60,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_R",
+   "dof": "flexion",
+   "angle_deg": -60,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_R",
+   "dof": "flexion",
+   "angle_deg": 60,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_R",
+   "dof": "flexion",
+   "angle_deg": 60,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_R",
+   "dof": "flexion",
+   "angle_deg": 30.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_R",
+   "dof": "flexion",
+   "angle_deg": 30.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_R",
+   "dof": "ulnar_deviation",
+   "angle_deg": -20,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.093,
+   "worst_adjacent_overlap_pct": 0.093,
+   "adjacent": [
+    {
+     "a": "forearm_R",
+     "b": "hand_R",
+     "volume_m3": 0.127,
+     "depth_m": 0.278,
+     "pct_of_smaller": 0.093
+    }
+   ],
+   "non_adjacent": [
+    {
+     "a": "hand_R",
+     "b": "thigh_R",
+     "volume_m3": 13.157,
+     "depth_m": 1.478
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "wrist_R",
+   "dof": "ulnar_deviation",
+   "angle_deg": -20,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.093,
+   "worst_adjacent_overlap_pct": 0.093,
+   "adjacent": [
+    {
+     "a": "forearm_R",
+     "b": "hand_R",
+     "volume_m3": 0.127,
+     "depth_m": 0.557,
+     "pct_of_smaller": 0.093
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_R",
+   "dof": "ulnar_deviation",
+   "angle_deg": 30,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.015,
+   "worst_adjacent_overlap_pct": 0.015,
+   "adjacent": [
+    {
+     "a": "forearm_R",
+     "b": "hand_R",
+     "volume_m3": 0.021,
+     "depth_m": 0.139,
+     "pct_of_smaller": 0.015
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_R",
+   "dof": "ulnar_deviation",
+   "angle_deg": 30,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.015,
+   "worst_adjacent_overlap_pct": 0.015,
+   "adjacent": [
+    {
+     "a": "forearm_R",
+     "b": "hand_R",
+     "volume_m3": 0.021,
+     "depth_m": 0.247,
+     "pct_of_smaller": 0.015
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_R",
+   "dof": "ulnar_deviation",
+   "angle_deg": 15.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "wrist_R",
+   "dof": "ulnar_deviation",
+   "angle_deg": 15.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_R",
+   "dof": "flexion",
+   "angle_deg": -20,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.095,
+   "worst_adjacent_overlap_pct": 0.095,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_R",
+     "volume_m3": 0.823,
+     "depth_m": 0.435,
+     "pct_of_smaller": 0.095
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_R",
+   "dof": "flexion",
+   "angle_deg": -20,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.095,
+   "worst_adjacent_overlap_pct": 0.095,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_R",
+     "volume_m3": 0.823,
+     "depth_m": 0.435,
+     "pct_of_smaller": 0.095
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_R",
+   "dof": "flexion",
+   "angle_deg": 120,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_R",
+   "dof": "flexion",
+   "angle_deg": 120,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_R",
+   "dof": "flexion",
+   "angle_deg": 60.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_R",
+   "dof": "flexion",
+   "angle_deg": 60.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_R",
+   "dof": "internal_rotation",
+   "angle_deg": -40,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.047,
+   "worst_adjacent_overlap_pct": 0.047,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_R",
+     "volume_m3": 0.412,
+     "depth_m": 1.362,
+     "pct_of_smaller": 0.047
+    }
+   ],
+   "non_adjacent": [
+    {
+     "a": "forearm_R",
+     "b": "thigh_R",
+     "volume_m3": 0.027,
+     "depth_m": 0.25
+    },
+    {
+     "a": "hand_R",
+     "b": "thigh_R",
+     "volume_m3": 5.589,
+     "depth_m": 1.076
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "hip_R",
+   "dof": "internal_rotation",
+   "angle_deg": -40,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.047,
+   "worst_adjacent_overlap_pct": 0.047,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_R",
+     "volume_m3": 0.412,
+     "depth_m": 1.362,
+     "pct_of_smaller": 0.047
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_R",
+   "dof": "internal_rotation",
+   "angle_deg": 35,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.149,
+   "worst_adjacent_overlap_pct": 0.149,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_R",
+     "volume_m3": 1.294,
+     "depth_m": 1.0,
+     "pct_of_smaller": 0.149
+    }
+   ],
+   "non_adjacent": [
+    {
+     "a": "foot_L",
+     "b": "foot_R",
+     "volume_m3": 3.148,
+     "depth_m": 1.0
+    },
+    {
+     "a": "forearm_R",
+     "b": "thigh_R",
+     "volume_m3": 0.033,
+     "depth_m": 0.25
+    },
+    {
+     "a": "hand_R",
+     "b": "thigh_R",
+     "volume_m3": 1.907,
+     "depth_m": 0.395
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "hip_R",
+   "dof": "internal_rotation",
+   "angle_deg": 35,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.149,
+   "worst_adjacent_overlap_pct": 0.149,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_R",
+     "volume_m3": 1.294,
+     "depth_m": 1.0,
+     "pct_of_smaller": 0.149
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_R",
+   "dof": "internal_rotation",
+   "angle_deg": 17.5,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.018,
+   "worst_adjacent_overlap_pct": 0.018,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_R",
+     "volume_m3": 0.158,
+     "depth_m": 0.968,
+     "pct_of_smaller": 0.018
+    }
+   ],
+   "non_adjacent": [
+    {
+     "a": "hand_R",
+     "b": "thigh_R",
+     "volume_m3": 0.006,
+     "depth_m": 0.02
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "hip_R",
+   "dof": "internal_rotation",
+   "angle_deg": 17.5,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.018,
+   "worst_adjacent_overlap_pct": 0.018,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_R",
+     "volume_m3": 0.158,
+     "depth_m": 0.968,
+     "pct_of_smaller": 0.018
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_R",
+   "dof": "abduction",
+   "angle_deg": -25,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 1.518,
+   "worst_adjacent_overlap_pct": 1.518,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_R",
+     "volume_m3": 13.17,
+     "depth_m": 1.564,
+     "pct_of_smaller": 1.518
+    }
+   ],
+   "non_adjacent": [
+    {
+     "a": "thigh_L",
+     "b": "thigh_R",
+     "volume_m3": 41.007,
+     "depth_m": 3.04
+    },
+    {
+     "a": "thigh_L",
+     "b": "shank_R",
+     "volume_m3": 27.342,
+     "depth_m": 3.971
+    },
+    {
+     "a": "shank_L",
+     "b": "shank_R",
+     "volume_m3": 292.004,
+     "depth_m": 6.8
+    },
+    {
+     "a": "shank_L",
+     "b": "foot_R",
+     "volume_m3": 28.409,
+     "depth_m": 3.477
+    },
+    {
+     "a": "foot_L",
+     "b": "foot_R",
+     "volume_m3": 42.785,
+     "depth_m": 3.689
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "hip_R",
+   "dof": "abduction",
+   "angle_deg": -25,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 1.518,
+   "worst_adjacent_overlap_pct": 1.518,
+   "adjacent": [
+    {
+     "a": "pelvis",
+     "b": "thigh_R",
+     "volume_m3": 13.17,
+     "depth_m": 1.564,
+     "pct_of_smaller": 1.518
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_R",
+   "dof": "abduction",
+   "angle_deg": 40,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [
+    {
+     "a": "forearm_R",
+     "b": "thigh_R",
+     "volume_m3": 9.3,
+     "depth_m": 2.087
+    },
+    {
+     "a": "hand_R",
+     "b": "thigh_R",
+     "volume_m3": 41.286,
+     "depth_m": 4.435
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "hip_R",
+   "dof": "abduction",
+   "angle_deg": 40,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "hip_R",
+   "dof": "abduction",
+   "angle_deg": 20.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [
+    {
+     "a": "forearm_R",
+     "b": "thigh_R",
+     "volume_m3": 0.675,
+     "depth_m": 0.412
+    },
+    {
+     "a": "hand_R",
+     "b": "thigh_R",
+     "volume_m3": 34.627,
+     "depth_m": 3.66
+    }
+   ],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": false
+  },
+  {
+   "joint": "hip_R",
+   "dof": "abduction",
+   "angle_deg": 20.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "knee_R",
+   "dof": "flexion",
+   "angle_deg": 0,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "knee_R",
+   "dof": "flexion",
+   "angle_deg": 0,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "knee_R",
+   "dof": "flexion",
+   "angle_deg": 135,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.415,
+   "worst_adjacent_overlap_pct": 0.415,
+   "adjacent": [
+    {
+     "a": "thigh_R",
+     "b": "shank_R",
+     "volume_m3": 2.768,
+     "depth_m": 2.047,
+     "pct_of_smaller": 0.415
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "knee_R",
+   "dof": "flexion",
+   "angle_deg": 135,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.415,
+   "worst_adjacent_overlap_pct": 0.415,
+   "adjacent": [
+    {
+     "a": "thigh_R",
+     "b": "shank_R",
+     "volume_m3": 2.768,
+     "depth_m": 2.047,
+     "pct_of_smaller": 0.415
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "knee_R",
+   "dof": "flexion",
+   "angle_deg": 67.5,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "knee_R",
+   "dof": "flexion",
+   "angle_deg": 67.5,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_R",
+   "dof": "plantarflexion",
+   "angle_deg": -20,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_R",
+   "dof": "plantarflexion",
+   "angle_deg": -20,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_R",
+   "dof": "plantarflexion",
+   "angle_deg": 40,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_R",
+   "dof": "plantarflexion",
+   "angle_deg": 40,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_R",
+   "dof": "plantarflexion",
+   "angle_deg": 20.0,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_R",
+   "dof": "plantarflexion",
+   "angle_deg": 20.0,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.0,
+   "worst_adjacent_overlap_pct": 0.0,
+   "adjacent": [],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_R",
+   "dof": "inversion",
+   "angle_deg": -15,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.09,
+   "worst_adjacent_overlap_pct": 0.09,
+   "adjacent": [
+    {
+     "a": "shank_R",
+     "b": "foot_R",
+     "volume_m3": 0.328,
+     "depth_m": 0.319,
+     "pct_of_smaller": 0.09
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_R",
+   "dof": "inversion",
+   "angle_deg": -15,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.09,
+   "worst_adjacent_overlap_pct": 0.09,
+   "adjacent": [
+    {
+     "a": "shank_R",
+     "b": "foot_R",
+     "volume_m3": 0.328,
+     "depth_m": 0.319,
+     "pct_of_smaller": 0.09
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_R",
+   "dof": "inversion",
+   "angle_deg": 25,
+   "range_end": true,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.394,
+   "worst_adjacent_overlap_pct": 0.394,
+   "adjacent": [
+    {
+     "a": "shank_R",
+     "b": "foot_R",
+     "volume_m3": 1.434,
+     "depth_m": 0.738,
+     "pct_of_smaller": 0.394
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_R",
+   "dof": "inversion",
+   "angle_deg": 25,
+   "range_end": true,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.394,
+   "worst_adjacent_overlap_pct": 0.394,
+   "adjacent": [
+    {
+     "a": "shank_R",
+     "b": "foot_R",
+     "volume_m3": 1.434,
+     "depth_m": 0.738,
+     "pct_of_smaller": 0.394
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_R",
+   "dof": "inversion",
+   "angle_deg": 12.5,
+   "range_end": false,
+   "variant": "isolated",
+   "joint_pair_overlap_pct": 0.038,
+   "worst_adjacent_overlap_pct": 0.038,
+   "adjacent": [
+    {
+     "a": "shank_R",
+     "b": "foot_R",
+     "volume_m3": 0.139,
+     "depth_m": 0.199,
+     "pct_of_smaller": 0.038
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  },
+  {
+   "joint": "ankle_R",
+   "dof": "inversion",
+   "angle_deg": 12.5,
+   "range_end": false,
+   "variant": "cleared",
+   "joint_pair_overlap_pct": 0.038,
+   "worst_adjacent_overlap_pct": 0.038,
+   "adjacent": [
+    {
+     "a": "shank_R",
+     "b": "foot_R",
+     "volume_m3": 0.139,
+     "depth_m": 0.199,
+     "pct_of_smaller": 0.038
+    }
+   ],
+   "non_adjacent": [],
+   "pass_adjacent_le_2pct": true,
+   "pass_no_non_adjacent": true
+  }
+ ],
+ "summary": {
+  "ac21_all_pass": true,
+  "b7_range_ends_adjacent_pass": 116,
+  "b7_range_ends_total": 116,
+  "b7_range_ends_isolated_no_contact": 40,
+  "b7_range_ends_cleared_no_contact": 54,
+  "b7_range_ends_per_variant": 58,
+  "b7_failures_adjacent": [],
+  "b7_contacts_isolated": [
+   [
+    "waist",
+    "axial_rotation",
+    -30,
+    [
+     [
+      "pelvis",
+      "forearm_R",
+      0.2,
+      0.62
+     ]
+    ]
+   ],
+   [
+    "waist",
+    "axial_rotation",
+    30,
+    [
+     [
+      "pelvis",
+      "forearm_L",
+      0.2,
+      0.62
+     ]
+    ]
+   ],
+   [
+    "waist",
+    "lateral_bend",
+    -20,
+    [
+     [
+      "forearm_L",
+      "thigh_L",
+      2.899,
+      27.94
+     ],
+     [
+      "hand_L",
+      "thigh_L",
+      4.435,
+      48.539
+     ]
+    ]
+   ],
+   [
+    "waist",
+    "lateral_bend",
+    20,
+    [
+     [
+      "forearm_R",
+      "thigh_R",
+      2.899,
+      27.94
+     ],
+     [
+      "hand_R",
+      "thigh_R",
+      4.435,
+      48.539
+     ]
+    ]
+   ],
+   [
+    "shoulder_L",
+    "internal_rotation",
+    -60,
+    [
+     [
+      "forearm_L",
+      "thigh_L",
+      2.15,
+      9.857
+     ],
+     [
+      "hand_L",
+      "thigh_L",
+      0.127,
+      0.103
+     ]
+    ]
+   ],
+   [
+    "shoulder_L",
+    "abduction",
+    -10,
+    [
+     [
+      "pelvis",
+      "forearm_L",
+      0.2,
+      0.241
+     ],
+     [
+      "forearm_L",
+      "thigh_L",
+      3.719,
+      34.294
+     ],
+     [
+      "hand_L",
+      "thigh_L",
+      4.435,
+      64.45
+     ]
+    ]
+   ],
+   [
+    "wrist_L",
+    "ulnar_deviation",
+    -20,
+    [
+     [
+      "hand_L",
+      "thigh_L",
+      1.478,
+      13.157
+     ]
+    ]
+   ],
+   [
+    "hip_L",
+    "internal_rotation",
+    -40,
+    [
+     [
+      "forearm_L",
+      "thigh_L",
+      0.25,
+      0.027
+     ],
+     [
+      "hand_L",
+      "thigh_L",
+      1.076,
+      5.589
+     ]
+    ]
+   ],
+   [
+    "hip_L",
+    "internal_rotation",
+    35,
+    [
+     [
+      "forearm_L",
+      "thigh_L",
+      0.25,
+      0.033
+     ],
+     [
+      "hand_L",
+      "thigh_L",
+      0.395,
+      1.907
+     ],
+     [
+      "foot_L",
+      "foot_R",
+      1.0,
+      3.148
+     ]
+    ]
+   ],
+   [
+    "hip_L",
+    "abduction",
+    -25,
+    [
+     [
+      "thigh_L",
+      "thigh_R",
+      3.04,
+      41.007
+     ],
+     [
+      "shank_L",
+      "thigh_R",
+      3.971,
+      27.342
+     ],
+     [
+      "shank_L",
+      "shank_R",
+      6.8,
+      292.004
+     ],
+     [
+      "foot_L",
+      "shank_R",
+      3.477,
+      28.409
+     ],
+     [
+      "foot_L",
+      "foot_R",
+      3.689,
+      42.785
+     ]
+    ]
+   ],
+   [
+    "hip_L",
+    "abduction",
+    40,
+    [
+     [
+      "forearm_L",
+      "thigh_L",
+      2.087,
+      9.3
+     ],
+     [
+      "hand_L",
+      "thigh_L",
+      4.435,
+      41.286
+     ]
+    ]
+   ],
+   [
+    "shoulder_R",
+    "internal_rotation",
+    -60,
+    [
+     [
+      "forearm_R",
+      "thigh_R",
+      2.15,
+      9.857
+     ],
+     [
+      "hand_R",
+      "thigh_R",
+      0.127,
+      0.103
+     ]
+    ]
+   ],
+   [
+    "shoulder_R",
+    "abduction",
+    -10,
+    [
+     [
+      "pelvis",
+      "forearm_R",
+      0.2,
+      0.241
+     ],
+     [
+      "forearm_R",
+      "thigh_R",
+      3.719,
+      34.294
+     ],
+     [
+      "hand_R",
+      "thigh_R",
+      4.435,
+      64.45
+     ]
+    ]
+   ],
+   [
+    "wrist_R",
+    "ulnar_deviation",
+    -20,
+    [
+     [
+      "hand_R",
+      "thigh_R",
+      1.478,
+      13.157
+     ]
+    ]
+   ],
+   [
+    "hip_R",
+    "internal_rotation",
+    -40,
+    [
+     [
+      "forearm_R",
+      "thigh_R",
+      0.25,
+      0.027
+     ],
+     [
+      "hand_R",
+      "thigh_R",
+      1.076,
+      5.589
+     ]
+    ]
+   ],
+   [
+    "hip_R",
+    "internal_rotation",
+    35,
+    [
+     [
+      "foot_L",
+      "foot_R",
+      1.0,
+      3.148
+     ],
+     [
+      "forearm_R",
+      "thigh_R",
+      0.25,
+      0.033
+     ],
+     [
+      "hand_R",
+      "thigh_R",
+      0.395,
+      1.907
+     ]
+    ]
+   ],
+   [
+    "hip_R",
+    "abduction",
+    -25,
+    [
+     [
+      "thigh_L",
+      "thigh_R",
+      3.04,
+      41.007
+     ],
+     [
+      "thigh_L",
+      "shank_R",
+      3.971,
+      27.342
+     ],
+     [
+      "shank_L",
+      "shank_R",
+      6.8,
+      292.004
+     ],
+     [
+      "shank_L",
+      "foot_R",
+      3.477,
+      28.409
+     ],
+     [
+      "foot_L",
+      "foot_R",
+      3.689,
+      42.785
+     ]
+    ]
+   ],
+   [
+    "hip_R",
+    "abduction",
+    40,
+    [
+     [
+      "forearm_R",
+      "thigh_R",
+      2.087,
+      9.3
+     ],
+     [
+      "hand_R",
+      "thigh_R",
+      4.435,
+      41.286
+     ]
+    ]
+   ]
+  ],
+  "b7_contacts_cleared": [
+   [
+    "shoulder_L",
+    "internal_rotation",
+    -60,
+    [
+     [
+      "forearm_L",
+      "thigh_L",
+      2.15
+     ],
+     [
+      "hand_L",
+      "thigh_L",
+      0.127
+     ]
+    ]
+   ],
+   [
+    "shoulder_L",
+    "abduction",
+    -10,
+    [
+     [
+      "pelvis",
+      "forearm_L",
+      0.2
+     ],
+     [
+      "forearm_L",
+      "thigh_L",
+      3.719
+     ],
+     [
+      "hand_L",
+      "thigh_L",
+      4.435
+     ]
+    ]
+   ],
+   [
+    "shoulder_R",
+    "internal_rotation",
+    -60,
+    [
+     [
+      "forearm_R",
+      "thigh_R",
+      2.15
+     ],
+     [
+      "hand_R",
+      "thigh_R",
+      0.127
+     ]
+    ]
+   ],
+   [
+    "shoulder_R",
+    "abduction",
+    -10,
+    [
+     [
+      "pelvis",
+      "forearm_R",
+      0.2
+     ],
+     [
+      "forearm_R",
+      "thigh_R",
+      3.719
+     ],
+     [
+      "hand_R",
+      "thigh_R",
+      4.435
+     ]
+    ]
+   ]
+  ]
+ }
+}
