@@ -80,6 +80,10 @@ namespace Game.Units.Mech.Contracts
         public double ref_track, ref_track_swing, ref_track_pitch, ref_track_upper, ref_height_blend, swing_ff_gain, swing_ff_filter, swing_ff_accel_max, ref_rollover_start_frac, ref_rollover_full_frac, ref_front_bias_frac, ref_heel_strike_deg, ref_toe_off_deg, ref_foot_flat_at, ref_heel_rise_start, ref_knee_mid_flat_deg, ref_preswing_knee_deg, ref_knee_extend_by, ref_pelvis_yaw_deg, ref_waist_counter_deg, ref_arm_amp_deg, ref_sway_scale, ref_swing_peak_at, ref_final_approach_tstar, ref_toe_off_floor, ref_ankle_margin_deg, ref_ankle_soft_deg, ref_ankle_heel_rise, ref_ankle_free_span, ref_reach_margin_frac, ref_softmin_frac, ref_waist_ff, ref_waist_max_deg, ref_waist_cancels_pelvis;
         // round 2 (research/R-008): stance-leg joint impedance around the state-indexed stance posture (heel strike, rollover, heel rise and push-off, pelvic tilt), yaw-moment budget, engine inverse dynamics
         public double imp, imp_hip_height_frac, imp_knee_min_deg, imp_knee_land_deg, imp_ankle_margin_deg, imp_heel_strike_max_deg, imp_toe_off_max_deg, imp_leg_hz, imp_leg_zeta, imp_ankle_hz, imp_rocker_blend_deg, imp_preswing_pitch_deg, imp_share_floor, imp_pelvis_tilt_deg, imp_tilt_rate_dps, imp_swing_pitch_end, imp_edge_grip_scale, imp_flat_pitch_deg, imp_land_knee_scale, imp_height_scale;
+        // round 2 step 2: joint-space stance impedance (hip, knee, ankle) per stance sub-phase (heel, flat, toe), natural frequency (Hz) and damping ratio; virtual-force correction scale
+        public double imp_vf_scale;
+        public double imp_hip_hz_heel, imp_hip_hz_flat, imp_hip_hz_toe, imp_knee_hz_heel, imp_knee_hz_flat, imp_knee_hz_toe, imp_ankle_hz_heel, imp_ankle_hz_flat, imp_ankle_hz_toe;
+        public double imp_hip_zeta_heel, imp_hip_zeta_flat, imp_hip_zeta_toe, imp_knee_zeta_heel, imp_knee_zeta_flat, imp_knee_zeta_toe, imp_ankle_zeta_heel, imp_ankle_zeta_flat, imp_ankle_zeta_toe;
         public double yaw_budget_flat_wl, yaw_budget_edge_wl, yaw_filter;
         public double id_gravity, id_coriolis_gain, id_inertia_gain, id_accel_span;
     }

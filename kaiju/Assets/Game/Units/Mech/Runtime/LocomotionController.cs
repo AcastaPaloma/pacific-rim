@@ -48,7 +48,7 @@ namespace Game.Units.Mech
         readonly int[] _armShoulderFlex = { -1, -1 }, _elbow = { -1, -1 };
         readonly ReferenceGait _ref;
         readonly double[] _prevVelTarget; readonly double[] _ffAccel;
-        readonly float _soleHalfLength, _soleHalfWidth, _ankleToSoleCentre, _ankleHeight, _footWidth, _stanceWidth, _comRest, _pelvisRest;
+        readonly float _soleFullHalfLength, _soleHalfLength, _soleHalfWidth, _ankleToSoleCentre, _ankleHeight, _footWidth, _stanceWidth, _comRest, _pelvisRest;
         readonly double _hipLimit, _kTilt, _dTilt, _kYaw, _dYaw;
 
         // state
@@ -118,7 +118,7 @@ namespace Game.Units.Mech
             _lim = new MechLimits(tuning, _l, _g);
             _limiter = new IntentLimiter(_lim, dt);
             var sole = f.foot_sole;
-            _soleHalfLength = (float)(sole.length_m * 0.5 * (1 - tuning.sole_margin)); _soleHalfWidth = (float)(sole.width_m * 0.5 * (1 - tuning.sole_margin));
+            _soleFullHalfLength = (float)(sole.length_m * 0.5); _soleHalfLength = (float)(sole.length_m * 0.5 * (1 - tuning.sole_margin)); _soleHalfWidth = (float)(sole.width_m * 0.5 * (1 - tuning.sole_margin));
             _ankleToSoleCentre = (float)((sole.heel_z_m + sole.toe_z_m) * 0.5 - sole.ankle_z_m); _ankleHeight = (float)sole.ankle_height_m; _footWidth = (float)sole.width_m;
             _stanceWidth = (float)f.stance.neutral_stance_width_m; _comRest = (float)f.com_rest[1]; _pelvisRest = (float)f.segments[_pelvis].proximal_joint[1];
             _hipLimit = body.GetDof(_legs[0].Hip[0]).ForceLimitNm;
@@ -218,6 +218,20 @@ namespace Game.Units.Mech
             return leg.Sole2 + s * Clamp(Vector2.Dot(r, s), -_soleHalfWidth, _soleHalfWidth) + f * Clamp(Vector2.Dot(r, f), -_soleHalfLength, _soleHalfLength);
         }
 
+        /// <summary>imp = 1: the CoP may reach the toe line while the reference has the heel up (Toe) and the heel line at heel strike (Heel); flat and legacy keep the margined sole.</summary>
+        Vector2 ClampToSoleImp(Leg leg, Vector2 p)
+        {
+            if (!ImpActive) return ClampToSole(leg, p);
+            StanceImpedance.CopRange(RefSupport(leg), _soleHalfLength, _soleFullHalfLength, out float lo, out float hi);
+            Vector2 r = p - leg.Sole2, f = Fwd(leg.Yaw), s = Right(leg.Yaw);
+            return leg.Sole2 + s * Clamp(Vector2.Dot(r, s), -_soleHalfWidth, _soleHalfWidth) + f * Clamp(Vector2.Dot(r, f), lo, hi);
+        }
+
+        bool ImpActive => _t.imp > 0 && _t.ref_track > 0 && !_stomp && _ref.Speed > 1e-3 && (_phase == LocoPhase.SingleSupport || _phase == LocoPhase.DoubleSupport);
+        double StancePhase() => (_stance == LeftLeg ? 0 : 0.5) + 0.5 * Math.Min(1, _time / _stepT);
+        LegSample RefLeg(Leg leg) { var smp = _ref.Sample(StancePhase()); return leg.Side < 0 ? smp.L : smp.R; }
+        FootSupport RefSupport(Leg leg) { var s = RefLeg(leg).Support; return s == FootSupport.Swing ? FootSupport.Flat : s; }
+
         void StateMachine(in IntentFrame intent)
         {
             Leg a = _legs[0], b = _legs[1];
@@ -292,13 +306,13 @@ namespace Game.Units.Mech
                     Vector2 nextNominal = nStart + fwd * s + right * (sw.Side * wCop);
                     Vector2 dcmEndDesired = nextNominal + fwd * bx + right * (st.Side * by);
                     if (_time < T * (1 - _t.step_end_freeze)) _offsetHeld = Lipm.DeadbeatOffset(_dcm, nNow, pdot, dcmEndDesired, _omega, tr);
-                    Vector2 copStance = ClampToSole(st, nNow + _offsetHeld);
+                    Vector2 copStance = ClampToSoleImp(st, nNow + _offsetHeld);
                     if (_stomp) { Vector2 hold = Nominal(st, 0, 1, true); copStance = ClampToSole(st, _dcm + (float)_t.dcm_gain * (_dcm - hold)); _dbg.Reference = hold; }
                     Vector2 dcmEnd = Lipm.DcmAtEnd(_dcm, copStance, pdot, _omega, tr);
 
                     if (_phase == LocoPhase.DoubleSupport)
                     {
-                        Vector2 copTrail = ClampToSole(sw, _copAtTouchdown), want = nNow + _offsetHeld, seg = copStance - copTrail;
+                        Vector2 copTrail = ClampToSoleImp(sw, _copAtTouchdown), want = nNow + _offsetHeld, seg = copStance - copTrail;
                         float wNew = Clamp(Vector2.Dot(want - copTrail, seg) / Math.Max(1e-3f, seg.LengthSquared()), 0, 1);
                         wNew = Math.Max(wNew, (float)Lipm.SmoothStep((_time - _t.transfer_floor_delay * _tds) / _tds));
                         // the trailing leg keeps carrying the body until the landed foot really bears load: the planned share may lead the measured one only by a margin
@@ -470,9 +484,20 @@ namespace Game.Units.Mech
                     // a planted foot must not be twisted on the ground: yaw torque stays inside what its load can hold by friction (R-005 5.2 step 7)
                     float yawGrip = (float)(_b.Tuning.friction_dynamic / _t.friction_safety * leg.Load * _t.yaw_grip_radius_frac * _l);
                     hipExtra.Y = Clamp(hipExtra.Y, -yawGrip, yawGrip);
+                    if (ImpActive)
+                    {
+                        // round 2 (R-008 section 3): joint-space impedance toward the reference's stance joint angles, per joint and stance sub-phase; the force loop stays as a scaled correction
+                        var rl = RefLeg(leg); var sup = rl.Support == FootSupport.Swing ? FootSupport.Flat : rl.Support;
+                        StanceDof(leg, leg.Hip, hipExtra, _t.stance_hip_damping_ratio, leg.Hip[0], rl.HipFlexion, StanceImpedance.Hip, sup);
+                        StanceDof(leg, new[] { leg.Knee }, Vector3.Zero, _t.stance_knee_damping_ratio, leg.Knee, rl.Knee, StanceImpedance.Knee, sup);
+                        StanceDof(leg, leg.Ankle, Vector3.Zero, _t.stance_ankle_damping_ratio, leg.Ankle[0], rl.AnklePlantar, StanceImpedance.Ankle, sup);
+                    }
+                    else
+                    {
                     StanceDof(leg, leg.Hip, hipExtra, _t.stance_hip_damping_ratio);
                     StanceDof(leg, new[] { leg.Knee }, Vector3.Zero, _t.stance_knee_damping_ratio);
                     StanceDof(leg, leg.Ankle, Vector3.Zero, _t.stance_ankle_damping_ratio);
+                    }
                 }
                 else SwingLeg(leg);
             }
@@ -522,7 +547,7 @@ namespace Game.Units.Mech
             return -Vector3.Dot(_b.DofAxisWorld(dof), moment);
         }
 
-        void StanceDof(Leg leg, int[] dofs, Vector3 extraTorque, double dampingRatio)
+        void StanceDof(Leg leg, int[] dofs, Vector3 extraTorque, double dampingRatio, int trackDof = -1, double refAngle = 0, int joint = 0, FootSupport support = FootSupport.Flat)
         {
             foreach (int d in dofs)
             {
@@ -533,6 +558,19 @@ namespace Game.Units.Mech
                 // a foot that has just touched is not yet flat: its ankle stays passive (damped) and takes up centre-of-pressure control gradually, so the sole settles instead of slapping down
                 if (dofs == leg.Ankle && _phase == LocoPhase.DoubleSupport && leg == _legs[_stance]) force *= (float)Lipm.SmoothStep(_time / (_t.landing_time_tstar * _lim.TStar));
                 double tau = SupportTorque(d, force, leg.Cop, true) + Vector3.Dot(_b.DofAxisWorld(d), extraTorque);
+                if (d == trackDof)
+                {
+                    // joint impedance: PD toward the reference angle (natural frequency and damping ratio from config for this joint and sub-phase); the virtual-force torque is only a correction
+                    var info = _b.GetDof(d);
+                    double refTarget = Math.Max(info.LowerRad, Math.Min(info.UpperRad, refAngle));
+                    StanceImpedance.Gains(_t, joint, support, out double hz, out double zeta);
+                    StanceImpedance.PdGains(_b.DofInertia(d, true), hz, zeta, out double kImp, out double cImp);
+                    double v = _hasPrev[d] ? Math.Max(-_t.target_velocity_max_rps, Math.Min(_t.target_velocity_max_rps, (refTarget - _prevTarget[d]) / _dt)) : 0;
+                    _prevTarget[d] = refTarget; _hasPrev[d] = true;
+                    _b.SetDofDrive(d, refTarget, v, kImp, cImp);
+                    _b.SetDofFeedForward(d, SupportTorque(d, force, leg.Cop, true) * _t.imp_vf_scale + Vector3.Dot(_b.DofAxisWorld(d), extraTorque));
+                    continue;
+                }
                 _b.GetDofGains(d, true, out double stiffness, out double damping);
                 double target = _b.DofPosition(d), k = 0, velocity = 0;
                 // velocity-controlled touchdown: the leg that has just landed keeps its swing damping for a moment, so the force loop loads it instead of throwing the foot at the ground
@@ -641,6 +679,39 @@ namespace Game.Units.Mech
             // critical damping is kept when the stiffness is scaled: d scales with sqrt(k)
             _b.SetDofDrive(dof, target, vel, k * gainScale, damping * Math.Sqrt(gainScale));
             _b.SetDofFeedForward(dof, SupportTorque(dof, force, cop, false) + _t.swing_ff_gain * _b.DofInertia(dof, false) * _ffAccel[dof]);
+        }
+    }
+
+    /// <summary>Round 2 step 2 (R-008 section 3): pure logic of the joint-space stance impedance (gain lookup, PD gains, CoP range), engine-free.</summary>
+    public static class StanceImpedance
+    {
+        public const int Hip = 0, Knee = 1, Ankle = 2;
+
+        /// <summary>Natural frequency (Hz) and damping ratio of a joint for a stance sub-phase: Heel = loading, Flat, Toe = heel rise and push-off (a leg the reference has already lifted is treated as Flat).</summary>
+        public static void Gains(WalkTuning t, int joint, FootSupport support, out double hz, out double zeta)
+        {
+            int s = support == FootSupport.Heel ? 0 : support == FootSupport.Toe ? 2 : 1;
+            switch (joint)
+            {
+                case Hip: hz = s == 0 ? t.imp_hip_hz_heel : s == 1 ? t.imp_hip_hz_flat : t.imp_hip_hz_toe; zeta = s == 0 ? t.imp_hip_zeta_heel : s == 1 ? t.imp_hip_zeta_flat : t.imp_hip_zeta_toe; break;
+                case Knee: hz = s == 0 ? t.imp_knee_hz_heel : s == 1 ? t.imp_knee_hz_flat : t.imp_knee_hz_toe; zeta = s == 0 ? t.imp_knee_zeta_heel : s == 1 ? t.imp_knee_zeta_flat : t.imp_knee_zeta_toe; break;
+                default: hz = s == 0 ? t.imp_ankle_hz_heel : s == 1 ? t.imp_ankle_hz_flat : t.imp_ankle_hz_toe; zeta = s == 0 ? t.imp_ankle_zeta_heel : s == 1 ? t.imp_ankle_zeta_flat : t.imp_ankle_zeta_toe; break;
+            }
+        }
+
+        /// <summary>Stiffness k = I w^2 and damping c = 2 zeta I w for an inertia I (kg m^2) about the joint axis.</summary>
+        public static void PdGains(double inertia, double hz, double zeta, out double stiffness, out double damping)
+        {
+            double w = 2 * Math.PI * hz;
+            stiffness = inertia * w * w; damping = 2 * zeta * inertia * w;
+        }
+
+        /// <summary>Allowed CoP range along the foot from the sole centre: flat keeps the margined sole; heel allows the heel line (full half length behind); toe allows the toe line (full half length ahead).</summary>
+        public static void CopRange(FootSupport support, float halfMargined, float halfFull, out float lo, out float hi)
+        {
+            lo = -halfMargined; hi = halfMargined;
+            if (support == FootSupport.Toe) hi = halfFull;
+            else if (support == FootSupport.Heel) lo = -halfFull;
         }
     }
 
