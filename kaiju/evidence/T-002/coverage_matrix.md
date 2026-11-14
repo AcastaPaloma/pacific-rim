@@ -52,4 +52,4 @@ Generated from `pytest --collect-only`; known = known-answer / control reproduct
 | M-004.C_px.T3 | test_M004_pass_set_known_answers | test_M004_S_px_translation_boundary[T3-1.0] | test_M004_screen_set_known_answers_and_R002_controls | 1 | gen_style.py (m004_sequence, m004_set) |
 | M-004.F.T3 | test_M004_pass_set_known_answers | test_M004_S_px_translation_boundary[T3-1.0] | test_M004_screen_set_known_answers_and_R002_controls | 1 | gen_style.py (m004_sequence, m004_set) |
 
-Collected tests: 331. Sub-measures without a named known or negative test: none.
+Collected tests: 364. Sub-measures without a named known or negative test: none.
