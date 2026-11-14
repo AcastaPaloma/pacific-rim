@@ -102,9 +102,9 @@ Main commands (in this order, each reproducible from a clean checkout once the f
 | .7 V5 | **fail** vs R-ind (IoU 0.797, MAE 4.77 px) | **pass** | R-src: 0.995 / 0.23 px. R-ind: IoU 0.828, MAE 5.99 px (6.8 mrad). F_v: IoU 0.552, MAE 14.1 px. Skyline columns 43.8 % (>= 25 %, so V5 gates). |
 | .7 V4m (70 m eye) | — | reported | R-ind: IoU 0.857, MAE 6.03 px |
 | .8 attribution | pass | carried | — |
-| .9 shoreline continuity | (C11 seam: 0.457 m, fail) | **fail** | p99 excess step E = 0.276 m (> 0.20); max 0.4895 m (<= 0.50); 181,042 node pairs. Information: D median 0.457 m, p95 4.41 m against a 0.98 m envelope; 31 % of band nodes have \|Δ\|/L > 0.2 (a wider feather would help: R-006 §1). |
+| .9 shoreline continuity | (C11 seam: 0.457 m, fail) | **pass** after the blend fix (below) | p99 excess step E 0.172 m (was 0.276), max 0.396 m (was 0.4895); 590,176 node pairs. |
 | C20 draw calls | renderer estimate 118 | measured | 242 max (Play-mode counters) |
-| **Counts** | 18 pass, 3 fail, 9 n/a, 1 insufficient, 1 reported | 21 pass, 1 fail, 9 n/a, 1 insufficient, 2 reported | |
+| **Counts** | 18 pass, 3 fail, 9 n/a, 1 insufficient, 1 reported | 22 pass, 0 fail, 9 n/a, 1 insufficient, 2 reported (after the blend fix; 21 / 1 fail before it) | |
 
 **Caveats on v1.1 .7. Read these before reading those passes as strong:**
 1. **The change mask removes 72 structures from both renders**, Transamerica, 181 Fremont and One Market Plaza among them (`skyline_v11_spec.json`).
@@ -121,5 +121,65 @@ All of these are R-006 calibration questions (its Q-NEW-d). Overlays: `skyline/s
 ### Not fixed in this cycle
 - v1 default share 13.3 % by count. This is a rule question for research and the founders (DEF-bay-5). Under v1.1 it passes by area.
 - v1 skylines vs R-ind still fail at MAE 6.19 / 4.77 px. Research owns the thresholds, band and viewpoints (DEF-bay-7); this cycle changed only the reference.
-- v1.1 M-005.9 p99 0.276 m. The surface was not changed, per this cycle's instruction (the feather width is a pipeline parameter: R-006 §1 suggests L >= |Δ| / 0.2).
 - The measured draw calls (242) are above the 200 target. That target is a proposal, not a budget.
+
+### Blend fix for M-005@v1.1 M-005.9 (continuation of fix cycle 2)
+This addresses the coordinator's follow-up. The land/seabed blend is now set entirely in `Pipelines/geo/config/bake.json`:
+- `terrain.feather_mode` = `centred`, `feather_m` = 50, `feather_centre` = 0.5, `feather_valid_fade_m` = 50.
+- Read by `terrain.merge_from_cfg`.
+- The 3DEP weight is 0.5 at the edge of the 3DEP region and changes by 1/50 per metre across it. So the blend now also reaches 25 m seaward, wherever both sources are valid.
+- Code `5e18b6f`; tile rebaked at `5e18b6f` (manifest `build.git`); evidence produced at `20c8353`.
+- Unity launches waited on the queue (`logs/fix_cycle2_unity_queue.log`).
+
+**Candidates measured on L0_30_36** (`_blend_note` in the config):
+| Blend | M-005.9 p99 / max E | C10 median shoreline offset | Verdict |
+|---|---|---|---|
+| inside-only 10 m (R-004, before) | 0.276 / 0.489 m | 2.5 m | M-005.9 fail |
+| inside-only 14 m | 0.196 / 0.350 m | 5.0 m | borderline on both |
+| inside-only 20 m | 0.129 / 0.245 m | 5.5 m (checker) | **C10 fail** |
+| centred 40 m | 0.196 / 0.486 m | 1.5 m | margins too thin |
+| **centred 50 m (chosen)** | **0.172 / 0.396 m** | **1.5 m** | both pass |
+
+The inside-only widening fails C10 for a specific reason. Where 3DEP marks water (hydro-flattened -1.07 m) but CUDEM is still above +1.8 m, a wider inside feather hands the shoreline to CUDEM's coarser coastline, which moves the MSL crossing up to 17 m seaward.
+
+**Before / after** (`m005_report.json`; before = commit `6e082a3`):
+| Measure | Before (inside 10 m) | After (centred 50 m) |
+|---|---|---|
+| v1.1 M-005.9 p99 / max excess step | 0.276 / 0.4895 m (fail) | **0.172 / 0.396 m (pass)** |
+| M-005.2 land, physics vs 3DEP: RMSE / max (10,000 pts) | 0.0095 / 0.137 m | 0.0095 / 0.137 m |
+| M-005.3 wet RMSE vs CUDEM (10,000 pts) / tile minimum | 0.0062 m / -29.481 m | 0.0010 m / -29.481 m |
+| C10 median shoreline offset vs OSM coastline | 2.5 m | **1.5 m** |
+| C11 profiles: undocumented jumps >= 1.5 m | 0 | 0 |
+| C11 seam figure (v1 definition, source disagreement in the band) | 0.457 m | 0.664 m (wider band; still fail by that definition) |
+| Landmark bases (W2, Salesforce, Transamerica, 555 California, Millennium, Ferry Building, Coit) | -18.55, 4.89, 5.30, 10.60, -0.71, 3.09, 91.07 m | unchanged |
+| M-005.1 position vs reference: p95 / max | 1.124 / 1.152 m | unchanged |
+| Terrain triangles / RTIN max error | 589,457 / 0.196 m | 577,265 / 0.196 m |
+| v1 counts | 18 pass, 3 fail, 9 n/a, 1 insufficient, 1 reported | unchanged |
+| v1.1 counts | 21 pass, 1 fail, 9 n/a, 1 insufficient, 2 reported | **22 pass, 0 fail**, 9 n/a, 1 insufficient, 2 reported |
+
+**Side effect** (`logs/blend_side_effects.json`):
+- In a 25 m strip seaward of the 3DEP land edge (157,701 nodes, 3.8 % of the tile), the seabed now mixes CUDEM with hydro-flattened 3DEP (-1.07 m).
+- That strip is on average 0.68 m shallower than pure CUDEM (mean |Δ| 0.86 m, p95 2.95 m, max 5.91 m). 143,879 of its nodes stay below MSL.
+- No gated measure covers this strip: the wet control points are pure CUDEM.
+- The wading histogram median moved from 18.9 m to 18.7 m.
+- The neighbour tile L0_30_35's minimum moved from -17.91 to -14.71 m: its deepest point lies in such a strip.
+- Pipeline seams stay byte-identical: `tests/test_fix_cycle2.py`, `logs/determinism_hashes.md` (7/7 identical).
+
+**Tests after the blend fix:** pytest 72/72 (new `test_blend_weight_gradient_is_bounded_and_config_driven`), dotnet 28/28, Unity EditMode 131/131, PlayMode 1/1. Measured draw calls are unchanged at 242 max. Triangles submitted per frame: 1.34 M.
+
+### Three observations on R-006's skyline recipe (for the evaluators and research)
+1. **The change mask removes 72 structures from both renders, including a landmark tower.**
+   - Removed: Transamerica Pyramid, plus 181 Fremont, One Market Plaza, Embarcadero Center 1, 50 California and others.
+   - Rule: |lidar p90 − build p90| > 10 m on >= 300 m².
+   - Many of these trigger because the recipe's own vegetation step lowers their lidar roofs, not because they changed after the 2023 survey.
+   - Artifact: `skyline_v11_spec.json` (`change_mask`, with reasons), mirrored in `m005_report.json` `v1_1.m005.M-005.7.recipe.change_mask`.
+2. **The return-count vegetation test (> 50 % multi-return first returns) flags roofs as well as trees.**
+   - It flags 40.5 % of Pioneer Park and 38.3 % of Redwood Park canopy cells, but also 8.2 % of all roof cells and about 30 % of cells on tower roofs (Transamerica 33 %, 181 Fremont 29 %).
+   - B23 has no vegetation or building classes, so return count is the only cue, and it does not separate the two here.
+   - A diagnostic variant restricted to cells outside footprints gives V4 IoU 0.910 / MAE 5.92 px and V5 0.857 / 5.00 px, with a 53-structure change mask.
+   - Artifact: `m005_report.json` `v1_1.m005.M-005.7.recipe.vegetation_calibration` and `.diagnostic_variant`.
+3. **The noise floor is low, so the floor-relative gate is lenient.**
+   - R-ind2 (DataSF 2010 extrusions on the same DTM, same change mask) agrees with R-ind at only IoU 0.804 / MAE 12.3 px (V4) and 0.552 / 14.1 px (V5).
+   - The game passes at IoU 0.901 / 6.50 px (V4) and 0.828 / 5.99 px (V5) partly because of that.
+   - The within-reference spread is small in comparison: IoU 0.973–0.998.
+   - Artifact: `m005_report.json` `v1_1.m005.M-005.7.views.<V>.vs_r_ind.noise_floor_F_v` and `.within_reference_noise`. Overlays: `skyline/skyline_v11_*_overlay_rind.png` (grey = game, red = R-ind, blue = R-ind2).

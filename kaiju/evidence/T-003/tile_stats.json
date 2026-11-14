@@ -2,29 +2,29 @@
  "tile": "L0_30_36",
  "budgets": {
   "value": {
-   "triangles_tile": 684625,
-   "triangles_terrain": 589457,
+   "triangles_tile": 671523,
+   "triangles_terrain": 577265,
    "triangles_buildings": 87040,
-   "triangles_water": 8128,
+   "triangles_water": 7218,
    "draw_calls_measured_max_view": 242,
-   "triangles_submitted_per_frame_measured_max": 1369256,
+   "triangles_submitted_per_frame_measured_max": 1343052,
    "draw_calls_renderer_estimate_max_view": 118,
    "draw_call_target": 200,
    "measured_note": "Play-mode ProfilerRecorder frame totals (all passes incl. main-light shadow and depth), 1920x1080, soft shadows; export/render_stats_playmode.json",
    "renderers": 118,
-   "memory_mb": 71.1,
-   "committed_tile_mb": 23.72,
-   "bake_seconds": 14.61,
-   "editor_build_seconds": 2.55,
-   "git_tracked_files": 15,
+   "memory_mb": 70.8,
+   "committed_tile_mb": 23.74,
+   "bake_seconds": 15.63,
+   "editor_build_seconds": 2.65,
+   "git_tracked_files": 16,
    "extrapolation": {
     "M1_70_tiles": {
      "committed_gb": 1.66,
-     "bake_minutes": 17.0
+     "bake_minutes": 18.2
     },
     "bay_4624_tiles": {
-     "committed_gb_if_all_L0": 109.7,
-     "bake_hours": 18.8,
+     "committed_gb_if_all_L0": 109.8,
+     "bake_hours": 20.1,
      "note": "Q-027 default: 1 m only for urban/shoreline tiles, 2 m (L1) elsewhere; streaming loads ~9 tiles around the focus"
     }
    }
@@ -50,21 +50,27 @@
  "terrain_lod": {
   "setting_m": 0.1,
   "max_error_m": 0.19584274291992188,
-  "rms_error_m": 0.03271921573028907,
-  "triangles": 589457,
-  "note": "RTIN accumulates per-split error, so the measured deviation from the 1 m surface is ~2x the split threshold; physics uses the full-resolution TerrainCollider"
+  "rms_error_m": 0.032472010582032314,
+  "triangles": 577265
+ },
+ "blend": {
+  "feather_mode": "centred",
+  "feather_centre": 0.5,
+  "feather_valid_fade_m": 50.0,
+  "use_3dep_above_navd88_m": 1.798,
+  "feather_m": 50.0,
+  "margin_nodes": 192
  },
  "times": {
-  "bake_s": 14.61,
-  "editor_build_s": 2.5547343,
-  "import_s": 1.955282
+  "bake_s": 15.63,
+  "editor_build_s": 2.6523679
  },
  "memory": {
-  "memory.bytes": 71078116,
+  "memory.bytes": 70759440,
   "memory.graphics_driver_delta_bytes": 16777216,
-  "memory.managed_used_delta_bytes": 94740480,
-  "memory.native_allocated_delta_bytes": 91547491,
-  "memory.native_reserved_delta_bytes": 269126000,
+  "memory.managed_used_delta_bytes": 96161792,
+  "memory.native_allocated_delta_bytes": 89699173,
+  "memory.native_reserved_delta_bytes": -1219488,
   "memory.scope": "memory.bytes = runtime size of the tile's meshes, colliders, albedo and TerrainData; the deltas below are whole-process (Unity native allocator, graphics driver, managed heap) before vs after the build, after GC"
  },
  "renderers": 118,
@@ -78,11 +84,11 @@
    "SetPass Calls Count.median": 8,
    "Shadow Casters Count.max": 0,
    "Shadow Casters Count.median": 0,
-   "Triangles Count.max": 1369256,
-   "Triangles Count.median": 1369256,
-   "Vertices Count.max": 1058084,
-   "Vertices Count.median": 1058084,
-   "frame_ms_median_editor_batch": 0.9602961945347488,
+   "Triangles Count.max": 1343052,
+   "Triangles Count.median": 1343052,
+   "Vertices Count.max": 1042170,
+   "Vertices Count.median": 1042170,
+   "frame_ms_median_editor_batch": 0.697002571541816,
    "hfov_deg": 60,
    "view": "oblique_270"
   },
@@ -95,11 +101,11 @@
    "SetPass Calls Count.median": 8,
    "Shadow Casters Count.max": 0,
    "Shadow Casters Count.median": 0,
-   "Triangles Count.max": 1369256,
-   "Triangles Count.median": 1369256,
-   "Vertices Count.max": 1058084,
-   "Vertices Count.median": 1058084,
-   "frame_ms_median_editor_batch": 0.8812925079837441,
+   "Triangles Count.max": 1343052,
+   "Triangles Count.median": 1343052,
+   "Vertices Count.max": 1042170,
+   "Vertices Count.median": 1042170,
+   "frame_ms_median_editor_batch": 0.6327451555989683,
    "hfov_deg": 60,
    "view": "oblique_235"
   },
@@ -112,11 +118,11 @@
    "SetPass Calls Count.median": 8,
    "Shadow Casters Count.max": 0,
    "Shadow Casters Count.median": 0,
-   "Triangles Count.max": 1369256,
-   "Triangles Count.median": 1369256,
-   "Vertices Count.max": 1058084,
-   "Vertices Count.median": 1058084,
-   "frame_ms_median_editor_batch": 0.8986252942122519,
+   "Triangles Count.max": 1343052,
+   "Triangles Count.median": 1343052,
+   "Vertices Count.max": 1042170,
+   "Vertices Count.median": 1042170,
+   "frame_ms_median_editor_batch": 0.6071641109883785,
    "hfov_deg": 60,
    "view": "oblique_305"
   },
@@ -129,11 +135,11 @@
    "SetPass Calls Count.median": 12,
    "Shadow Casters Count.max": 12,
    "Shadow Casters Count.median": 12,
-   "Triangles Count.max": 1213387,
-   "Triangles Count.median": 1213387,
-   "Vertices Count.max": 963696,
-   "Vertices Count.median": 963696,
-   "frame_ms_median_editor_batch": 0.7947562262415886,
+   "Triangles Count.max": 1187937,
+   "Triangles Count.median": 1187937,
+   "Vertices Count.max": 948340,
+   "Vertices Count.median": 948340,
+   "frame_ms_median_editor_batch": 0.8081278065219522,
    "hfov_deg": 75,
    "view": "V4_v1.1"
   },
@@ -146,11 +152,11 @@
    "SetPass Calls Count.median": 12,
    "Shadow Casters Count.max": 8,
    "Shadow Casters Count.median": 8,
-   "Triangles Count.max": 1053580,
-   "Triangles Count.median": 1053580,
-   "Vertices Count.max": 877984,
-   "Vertices Count.median": 877984,
-   "frame_ms_median_editor_batch": 1.5057043638080359,
+   "Triangles Count.max": 1049580,
+   "Triangles Count.median": 1049580,
+   "Vertices Count.max": 875944,
+   "Vertices Count.median": 875944,
+   "frame_ms_median_editor_batch": 1.6561649972572923,
    "hfov_deg": 60,
    "view": "V5"
   }

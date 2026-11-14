@@ -573,8 +573,8 @@
    "M-005.3": {
     "pipeline_rmse": {
      "value": {
-      "rmse_m": 0.0062,
-      "max_m": 0.4845,
+      "rmse_m": 0.001,
+      "max_m": 0.0119,
       "n": 10000
      },
      "threshold": "RMSE <= 0.25 m vs CUDEM on 10,000 wet points",
@@ -1921,8 +1921,8 @@
    "M-005.3": {
     "pipeline_rmse": {
      "value": {
-      "rmse_m": 0.0062,
-      "max_m": 0.4845,
+      "rmse_m": 0.001,
+      "max_m": 0.0119,
       "n": 10000
      },
      "threshold": "RMSE <= 0.25 m vs CUDEM on 10,000 wet points",
@@ -2469,7 +2469,7 @@
      "cranes": "3 x 3 m grey opening above 20 m, R-004 §5 landmark footprints + 5 m exempt (Assumed)",
      "stats": {
       "vegetation_cells_share": 0.0674,
-      "opening_cells_lowered_gt_0.5m": 1256438,
+      "opening_cells_lowered_gt_0.5m": 1255842,
       "cells_without_returns_set_to_dtm": 4267407
      },
      "change_mask": [
@@ -2765,7 +2765,7 @@
        "structure": "osm:w260291408",
        "name": null,
        "area_m2": 394,
-       "reason": "|lidar p90 20.6 - build p90 150.8| > 10 m"
+       "reason": "|lidar p90 20.6 - build p90 150.9| > 10 m"
       },
       {
        "structure": "osm:w1279504249",
@@ -2873,7 +2873,7 @@
        "structure": "osm:w667097308",
        "name": "One Steuart Lane",
        "area_m2": 1914,
-       "reason": "|lidar p90 0.0 - build p90 68.6| > 10 m"
+       "reason": "|lidar p90 0.0 - build p90 69.7| > 10 m"
       },
       {
        "structure": "osm:w693629257",
@@ -2926,7 +2926,7 @@
       "change_mask_count_if_variant_recipe": 53,
       "stats": {
        "vegetation_cells_share": 0.0385,
-       "opening_cells_lowered_gt_0.5m": 1210715,
+       "opening_cells_lowered_gt_0.5m": 1210266,
        "cells_without_returns_set_to_dtm": 4267407
       }
      },
@@ -3037,9 +3037,9 @@
       },
       "vs_r_ind": {
        "value": {
-        "iou": 0.901,
-        "mae_px": 6.496,
-        "mae_mrad": 9.736,
+        "iou": 0.9011,
+        "mae_px": 6.495,
+        "mae_mrad": 9.734,
         "shift_px": 0,
         "skyline_columns": 1024,
         "skyline_column_share": 1.0,
@@ -3051,9 +3051,9 @@
        "threshold": "IoU >= IoU(F_v) - 0.02 and >= 0.80; MAE <= MAE(F_v) + 1 px (Assumed, pending calibration)",
        "result": "pass",
        "noise_floor_F_v": {
-        "iou": 0.8038,
-        "mae_px": 12.321,
-        "mae_mrad": 18.466,
+        "iou": 0.8037,
+        "mae_px": 12.327,
+        "mae_mrad": 18.475,
         "shift_px": -1,
         "skyline_columns": 1024,
         "skyline_column_share": 1.0,
@@ -3065,9 +3065,9 @@
        "F_v_reference": "R-ind vs R-ind2 (DataSF 2010 extrusions on the same DTM, same change mask)",
        "within_reference_noise": {
         "p95_vs_max_cell": {
-         "iou": 0.9983,
-         "mae_px": 0.105,
-         "mae_mrad": 0.158,
+         "iou": 0.9982,
+         "mae_px": 0.106,
+         "mae_mrad": 0.16,
          "shift_px": 0,
          "skyline_columns": 1024,
          "skyline_column_share": 1.0,
@@ -3077,9 +3077,9 @@
          ]
         },
         "cell_0.5_vs_1.0_m": {
-         "iou": 0.9734,
-         "mae_px": 1.652,
-         "mae_mrad": 2.476,
+         "iou": 0.9735,
+         "mae_px": 1.649,
+         "mae_mrad": 2.472,
          "shift_px": 0,
          "skyline_columns": 1024,
          "skyline_column_share": 1.0,
@@ -3090,8 +3090,8 @@
         },
         "eye_-1.5m": {
          "iou": 0.9863,
-         "mae_px": 0.842,
-         "mae_mrad": 1.262,
+         "mae_px": 0.843,
+         "mae_mrad": 1.263,
          "shift_px": 0,
          "skyline_columns": 1024,
          "skyline_column_share": 1.0,
@@ -3119,8 +3119,8 @@
        "result": "reported",
        "value": {
         "iou": 0.9101,
-        "mae_px": 5.919,
-        "mae_mrad": 8.871,
+        "mae_px": 5.918,
+        "mae_mrad": 8.869,
         "shift_px": 0,
         "skyline_columns": 1024,
         "skyline_column_share": 1.0,
@@ -3236,8 +3236,8 @@
       "vs_r_ind": {
        "value": {
         "iou": 0.8566,
-        "mae_px": 6.034,
-        "mae_mrad": 9.043,
+        "mae_px": 6.033,
+        "mae_mrad": 9.041,
         "shift_px": 0,
         "skyline_columns": 826,
         "skyline_column_share": 0.8066,
@@ -3275,9 +3275,9 @@
          ]
         },
         "cell_0.5_vs_1.0_m": {
-         "iou": 0.962,
-         "mae_px": 1.524,
-         "mae_mrad": 2.284,
+         "iou": 0.9619,
+         "mae_px": 1.525,
+         "mae_mrad": 2.286,
          "shift_px": 0,
          "skyline_columns": 798,
          "skyline_column_share": 0.7793,
@@ -3299,9 +3299,9 @@
          ]
         },
         "eye_+1.5m": {
-         "iou": 0.9777,
-         "mae_px": 0.89,
-         "mae_mrad": 1.334,
+         "iou": 0.9778,
+         "mae_px": 0.885,
+         "mae_mrad": 1.326,
          "shift_px": 0,
          "skyline_columns": 774,
          "skyline_column_share": 0.7559,
@@ -3541,19 +3541,19 @@
    },
    "M-005.9 shoreline continuity": {
     "value": {
-     "pairs": 181042,
-     "p99_excess_m": 0.276,
-     "max_excess_m": 0.4895,
-     "median_excess_m": -0.0013
+     "pairs": 590176,
+     "p99_excess_m": 0.1721,
+     "max_excess_m": 0.396,
+     "median_excess_m": -0.0035
     },
     "threshold": "p99 E <= 0.20 m and max E <= 0.50 m (piers excluded as documented structures)",
-    "result": "fail",
+    "result": "pass",
     "domain": "adjacent 1 m node pairs (both axes) inside the 3DEP/CUDEM blend band (0 < w < 1) dilated 5 m, minus pier polygons + 2 m",
     "informational": {
-     "D_median_abs_3dep_minus_cudem_m": 0.457,
-     "D_p95_m": 4.411,
+     "D_median_abs_3dep_minus_cudem_m": 0.664,
+     "D_p95_m": 8.724,
      "envelope_95pct_m": 0.98,
-     "share_band_nodes_delta_over_L_gt_0.2": 0.3102
+     "share_band_nodes_delta_over_L_gt_0.2": 0.0357
     },
     "metric_version": "M-005@v1.1"
    },
@@ -3574,11 +3574,11 @@
        "SetPass Calls Count.median": 8,
        "Shadow Casters Count.max": 0,
        "Shadow Casters Count.median": 0,
-       "Triangles Count.max": 1369256,
-       "Triangles Count.median": 1369256,
-       "Vertices Count.max": 1058084,
-       "Vertices Count.median": 1058084,
-       "frame_ms_median_editor_batch": 0.9602961945347488,
+       "Triangles Count.max": 1343052,
+       "Triangles Count.median": 1343052,
+       "Vertices Count.max": 1042170,
+       "Vertices Count.median": 1042170,
+       "frame_ms_median_editor_batch": 0.697002571541816,
        "hfov_deg": 60,
        "view": "oblique_270"
       },
@@ -3591,11 +3591,11 @@
        "SetPass Calls Count.median": 8,
        "Shadow Casters Count.max": 0,
        "Shadow Casters Count.median": 0,
-       "Triangles Count.max": 1369256,
-       "Triangles Count.median": 1369256,
-       "Vertices Count.max": 1058084,
-       "Vertices Count.median": 1058084,
-       "frame_ms_median_editor_batch": 0.8812925079837441,
+       "Triangles Count.max": 1343052,
+       "Triangles Count.median": 1343052,
+       "Vertices Count.max": 1042170,
+       "Vertices Count.median": 1042170,
+       "frame_ms_median_editor_batch": 0.6327451555989683,
        "hfov_deg": 60,
        "view": "oblique_235"
       },
@@ -3608,11 +3608,11 @@
        "SetPass Calls Count.median": 8,
        "Shadow Casters Count.max": 0,
        "Shadow Casters Count.median": 0,
-       "Triangles Count.max": 1369256,
-       "Triangles Count.median": 1369256,
-       "Vertices Count.max": 1058084,
-       "Vertices Count.median": 1058084,
-       "frame_ms_median_editor_batch": 0.8986252942122519,
+       "Triangles Count.max": 1343052,
+       "Triangles Count.median": 1343052,
+       "Vertices Count.max": 1042170,
+       "Vertices Count.median": 1042170,
+       "frame_ms_median_editor_batch": 0.6071641109883785,
        "hfov_deg": 60,
        "view": "oblique_305"
       },
@@ -3625,11 +3625,11 @@
        "SetPass Calls Count.median": 12,
        "Shadow Casters Count.max": 12,
        "Shadow Casters Count.median": 12,
-       "Triangles Count.max": 1213387,
-       "Triangles Count.median": 1213387,
-       "Vertices Count.max": 963696,
-       "Vertices Count.median": 963696,
-       "frame_ms_median_editor_batch": 0.7947562262415886,
+       "Triangles Count.max": 1187937,
+       "Triangles Count.median": 1187937,
+       "Vertices Count.max": 948340,
+       "Vertices Count.median": 948340,
+       "frame_ms_median_editor_batch": 0.8081278065219522,
        "hfov_deg": 75,
        "view": "V4_v1.1"
       },
@@ -3642,11 +3642,11 @@
        "SetPass Calls Count.median": 12,
        "Shadow Casters Count.max": 8,
        "Shadow Casters Count.median": 8,
-       "Triangles Count.max": 1053580,
-       "Triangles Count.median": 1053580,
-       "Vertices Count.max": 877984,
-       "Vertices Count.median": 877984,
-       "frame_ms_median_editor_batch": 1.5057043638080359,
+       "Triangles Count.max": 1049580,
+       "Triangles Count.median": 1049580,
+       "Vertices Count.max": 875944,
+       "Vertices Count.median": 875944,
+       "frame_ms_median_editor_batch": 1.6561649972572923,
        "hfov_deg": 60,
        "view": "V5"
       }
@@ -3703,22 +3703,21 @@
     "M-005.7.V4": "pass",
     "M-005.7.V4m": "reported",
     "M-005.7.V5": "pass",
-    "M-005.9 shoreline continuity": "fail"
+    "M-005.9 shoreline continuity": "pass"
    },
    "counts": {
-    "pass": 21,
+    "pass": 22,
     "not_applicable_in_tile": 9,
     "insufficient_marks": 1,
-    "reported": 2,
-    "fail": 1
+    "reported": 2
    },
-   "m005_overall": "fail"
+   "m005_overall": "incomplete"
   }
  },
  "t003": {
   "C10_shoreline": {
    "value": {
-    "median_offset_m": 2.5,
+    "median_offset_m": 1.5,
     "profiles_with_crossing": 47,
     "water_level_navd88_m": 0.969
    },
@@ -3738,8 +3737,8 @@
      {
       "x": 63386.2,
       "z": 73781.2,
-      "msl_crossing_offset_m": 2.5,
-      "max_adjacent_jump_m": 1.595,
+      "msl_crossing_offset_m": 0.5,
+      "max_adjacent_jump_m": 2.603,
       "source_jump_there_m": 3.251,
       "at_pier": true,
       "exception": "pier edge (deck raised by the documented pier rule)"
@@ -3748,7 +3747,7 @@
       "x": 63272.5,
       "z": 73773.1,
       "msl_crossing_offset_m": 0.5,
-      "max_adjacent_jump_m": 3.047,
+      "max_adjacent_jump_m": 3.725,
       "source_jump_there_m": 2.679,
       "at_pier": true,
       "exception": "pier edge (deck raised by the documented pier rule)"
@@ -3756,26 +3755,26 @@
      {
       "x": 63271.3,
       "z": 73838.3,
-      "msl_crossing_offset_m": 2.5,
-      "max_adjacent_jump_m": 1.476,
-      "source_jump_there_m": 1.476,
-      "at_pier": false,
-      "exception": null
+      "msl_crossing_offset_m": 1.5,
+      "max_adjacent_jump_m": 1.78,
+      "source_jump_there_m": 2.421,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
      },
      {
       "x": 63382.9,
       "z": 73861.3,
       "msl_crossing_offset_m": 1.5,
-      "max_adjacent_jump_m": 1.392,
-      "source_jump_there_m": 1.404,
-      "at_pier": false,
-      "exception": null
+      "max_adjacent_jump_m": 1.641,
+      "source_jump_there_m": 2.663,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
      },
      {
       "x": 63361.0,
       "z": 73903.4,
       "msl_crossing_offset_m": 0.5,
-      "max_adjacent_jump_m": 3.317,
+      "max_adjacent_jump_m": 3.123,
       "source_jump_there_m": 1.585,
       "at_pier": true,
       "exception": "pier edge (deck raised by the documented pier rule)"
@@ -3783,35 +3782,35 @@
      {
       "x": 63249.3,
       "z": 73881.0,
-      "msl_crossing_offset_m": 4.5,
-      "max_adjacent_jump_m": 1.236,
+      "msl_crossing_offset_m": 0.5,
+      "max_adjacent_jump_m": 1.943,
       "source_jump_there_m": 2.749,
       "at_pier": true,
-      "exception": null
+      "exception": "pier edge (deck raised by the documented pier rule)"
      },
      {
       "x": 63269.7,
       "z": 73952.6,
-      "msl_crossing_offset_m": 2.5,
-      "max_adjacent_jump_m": 1.262,
-      "source_jump_there_m": 1.277,
-      "at_pier": false,
-      "exception": null
+      "msl_crossing_offset_m": 1.5,
+      "max_adjacent_jump_m": 1.594,
+      "source_jump_there_m": 1.892,
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
      },
      {
       "x": 63378.6,
       "z": 73986.1,
       "msl_crossing_offset_m": 1.5,
-      "max_adjacent_jump_m": 2.121,
+      "max_adjacent_jump_m": 1.627,
       "source_jump_there_m": 2.189,
-      "at_pier": false,
-      "exception": "seawall/step present in the 1 m source"
+      "at_pier": true,
+      "exception": "pier edge (deck raised by the documented pier rule)"
      },
      {
       "x": 63375.6,
       "z": 74048.6,
       "msl_crossing_offset_m": -0.5,
-      "max_adjacent_jump_m": 5.687,
+      "max_adjacent_jump_m": 4.315,
       "source_jump_there_m": 2.598,
       "at_pier": true,
       "exception": "pier edge (deck raised by the documented pier rule)"
@@ -3820,7 +3819,7 @@
       "x": 63266.8,
       "z": 74014.5,
       "msl_crossing_offset_m": 0.5,
-      "max_adjacent_jump_m": 1.603,
+      "max_adjacent_jump_m": 1.775,
       "source_jump_there_m": 1.906,
       "at_pier": true,
       "exception": "pier edge (deck raised by the documented pier rule)"
@@ -3837,8 +3836,8 @@
      {
       "x": 63121.6,
       "z": 74082.7,
-      "msl_crossing_offset_m": 0.5,
-      "max_adjacent_jump_m": 3.401,
+      "msl_crossing_offset_m": 14.5,
+      "max_adjacent_jump_m": 2.9,
       "source_jump_there_m": 0.145,
       "at_pier": true,
       "exception": "pier edge (deck raised by the documented pier rule)"
@@ -3846,8 +3845,8 @@
      {
       "x": 63085.4,
       "z": 74153.8,
-      "msl_crossing_offset_m": 3.5,
-      "max_adjacent_jump_m": 0.617,
+      "msl_crossing_offset_m": 1.5,
+      "max_adjacent_jump_m": 1.228,
       "source_jump_there_m": 1.832,
       "at_pier": false,
       "exception": null
@@ -3855,18 +3854,18 @@
      {
       "x": 63053.5,
       "z": 74220.8,
-      "msl_crossing_offset_m": 2.5,
-      "max_adjacent_jump_m": 0.732,
-      "source_jump_there_m": 1.195,
+      "msl_crossing_offset_m": 1.5,
+      "max_adjacent_jump_m": 1.18,
+      "source_jump_there_m": 2.116,
       "at_pier": false,
       "exception": null
      },
      {
       "x": 62975.3,
       "z": 74303.6,
-      "msl_crossing_offset_m": 2.5,
-      "max_adjacent_jump_m": 0.8,
-      "source_jump_there_m": 0.788,
+      "msl_crossing_offset_m": 1.5,
+      "max_adjacent_jump_m": 1.163,
+      "source_jump_there_m": 1.727,
       "at_pier": false,
       "exception": null
      },
@@ -3874,7 +3873,7 @@
       "x": 62897.4,
       "z": 74386.7,
       "msl_crossing_offset_m": 1.5,
-      "max_adjacent_jump_m": 0.665,
+      "max_adjacent_jump_m": 1.034,
       "source_jump_there_m": 1.042,
       "at_pier": false,
       "exception": null
@@ -3882,9 +3881,9 @@
      {
       "x": 62843.8,
       "z": 74469.0,
-      "msl_crossing_offset_m": -12.5,
-      "max_adjacent_jump_m": 0.388,
-      "source_jump_there_m": 0.585,
+      "msl_crossing_offset_m": -0.5,
+      "max_adjacent_jump_m": 0.66,
+      "source_jump_there_m": 0.126,
       "at_pier": false,
       "exception": null
      },
@@ -3892,8 +3891,8 @@
       "x": 62765.1,
       "z": 74551.4,
       "msl_crossing_offset_m": null,
-      "max_adjacent_jump_m": 0.131,
-      "source_jump_there_m": 0.016,
+      "max_adjacent_jump_m": 0.216,
+      "source_jump_there_m": 0.022,
       "at_pier": true,
       "exception": null
      },
@@ -3918,9 +3917,9 @@
      {
       "x": 62571.4,
       "z": 74819.3,
-      "msl_crossing_offset_m": 6.5,
-      "max_adjacent_jump_m": 0.909,
-      "source_jump_there_m": 0.96,
+      "msl_crossing_offset_m": 3.5,
+      "max_adjacent_jump_m": 0.944,
+      "source_jump_there_m": 2.226,
       "at_pier": false,
       "exception": null
      },
@@ -3954,20 +3953,20 @@
      {
       "x": 62551.2,
       "z": 74880.7,
-      "msl_crossing_offset_m": -8.5,
-      "max_adjacent_jump_m": 2.253,
-      "source_jump_there_m": 0.011,
+      "msl_crossing_offset_m": -1.5,
+      "max_adjacent_jump_m": 2.977,
+      "source_jump_there_m": 0.037,
       "at_pier": true,
       "exception": "pier edge (deck raised by the documented pier rule)"
      },
      {
       "x": 62522.7,
       "z": 74908.0,
-      "msl_crossing_offset_m": 2.5,
-      "max_adjacent_jump_m": 1.471,
+      "msl_crossing_offset_m": 0.5,
+      "max_adjacent_jump_m": 1.864,
       "source_jump_there_m": 1.193,
       "at_pier": true,
-      "exception": null
+      "exception": "pier edge (deck raised by the documented pier rule)"
      },
      {
       "x": 62566.0,
@@ -4000,7 +3999,7 @@
       "x": 62505.5,
       "z": 74968.1,
       "msl_crossing_offset_m": -0.5,
-      "max_adjacent_jump_m": 2.775,
+      "max_adjacent_jump_m": 2.754,
       "source_jump_there_m": 0.043,
       "at_pier": true,
       "exception": "pier edge (deck raised by the documented pier rule)"
@@ -4008,8 +4007,8 @@
      {
       "x": 62436.4,
       "z": 75008.2,
-      "msl_crossing_offset_m": 5.5,
-      "max_adjacent_jump_m": 0.406,
+      "msl_crossing_offset_m": 0.5,
+      "max_adjacent_jump_m": 0.945,
       "source_jump_there_m": 1.903,
       "at_pier": false,
       "exception": null
@@ -4018,7 +4017,7 @@
       "x": 62368.7,
       "z": 75086.0,
       "msl_crossing_offset_m": 1.5,
-      "max_adjacent_jump_m": 1.349,
+      "max_adjacent_jump_m": 1.127,
       "source_jump_there_m": 2.429,
       "at_pier": false,
       "exception": null
@@ -4026,27 +4025,27 @@
      {
       "x": 62315.3,
       "z": 75162.2,
-      "msl_crossing_offset_m": 0.5,
-      "max_adjacent_jump_m": 2.025,
+      "msl_crossing_offset_m": 1.5,
+      "max_adjacent_jump_m": 1.431,
       "source_jump_there_m": 2.303,
       "at_pier": false,
-      "exception": "seawall/step present in the 1 m source"
+      "exception": null
      },
      {
       "x": 62392.1,
       "z": 75234.0,
-      "msl_crossing_offset_m": 6.5,
-      "max_adjacent_jump_m": 1.023,
-      "source_jump_there_m": 1.011,
+      "msl_crossing_offset_m": 2.5,
+      "max_adjacent_jump_m": 1.434,
+      "source_jump_there_m": 2.758,
       "at_pier": false,
       "exception": null
      },
      {
       "x": 62485.0,
       "z": 75299.9,
-      "msl_crossing_offset_m": 5.5,
-      "max_adjacent_jump_m": 1.488,
-      "source_jump_there_m": 1.513,
+      "msl_crossing_offset_m": 2.5,
+      "max_adjacent_jump_m": 1.429,
+      "source_jump_there_m": 2.542,
       "at_pier": false,
       "exception": null
      },
@@ -4054,25 +4053,25 @@
       "x": 62441.8,
       "z": 75325.8,
       "msl_crossing_offset_m": -0.5,
-      "max_adjacent_jump_m": 1.827,
+      "max_adjacent_jump_m": 1.349,
       "source_jump_there_m": 2.055,
       "at_pier": false,
-      "exception": "seawall/step present in the 1 m source"
+      "exception": null
      },
      {
       "x": 62348.6,
       "z": 75260.3,
-      "msl_crossing_offset_m": 6.5,
-      "max_adjacent_jump_m": 3.079,
-      "source_jump_there_m": 0.586,
+      "msl_crossing_offset_m": 0.5,
+      "max_adjacent_jump_m": 3.637,
+      "source_jump_there_m": 0.661,
       "at_pier": true,
       "exception": "pier edge (deck raised by the documented pier rule)"
      },
      {
       "x": 62263.1,
       "z": 75236.4,
-      "msl_crossing_offset_m": 0.5,
-      "max_adjacent_jump_m": 1.342,
+      "msl_crossing_offset_m": 1.5,
+      "max_adjacent_jump_m": 1.229,
       "source_jump_there_m": 1.995,
       "at_pier": false,
       "exception": null
@@ -4090,7 +4089,7 @@
       "x": 62131.8,
       "z": 75422.7,
       "msl_crossing_offset_m": 1.5,
-      "max_adjacent_jump_m": 2.077,
+      "max_adjacent_jump_m": 1.587,
       "source_jump_there_m": 2.63,
       "at_pier": false,
       "exception": "seawall/step present in the 1 m source"
@@ -4098,62 +4097,62 @@
      {
       "x": 62211.7,
       "z": 75493.9,
-      "msl_crossing_offset_m": 6.5,
-      "max_adjacent_jump_m": 0.997,
-      "source_jump_there_m": 2.444,
+      "msl_crossing_offset_m": 2.5,
+      "max_adjacent_jump_m": 1.328,
+      "source_jump_there_m": 2.389,
       "at_pier": false,
       "exception": null
      },
      {
       "x": 62304.6,
       "z": 75559.7,
-      "msl_crossing_offset_m": 7.5,
-      "max_adjacent_jump_m": 1.188,
+      "msl_crossing_offset_m": 2.5,
+      "max_adjacent_jump_m": 1.659,
       "source_jump_there_m": 2.945,
       "at_pier": false,
-      "exception": null
+      "exception": "seawall/step present in the 1 m source"
      },
      {
       "x": 62258.0,
       "z": 75583.6,
-      "msl_crossing_offset_m": -22.5,
-      "max_adjacent_jump_m": 0.691,
-      "source_jump_there_m": 0.665,
+      "msl_crossing_offset_m": -19.5,
+      "max_adjacent_jump_m": 0.633,
+      "source_jump_there_m": 0.178,
       "at_pier": false,
       "exception": null
      },
      {
       "x": 62164.6,
       "z": 75518.3,
-      "msl_crossing_offset_m": -18.5,
-      "max_adjacent_jump_m": 0.416,
-      "source_jump_there_m": 2.254,
+      "msl_crossing_offset_m": -12.5,
+      "max_adjacent_jump_m": 0.977,
+      "source_jump_there_m": 0.153,
       "at_pier": false,
       "exception": null
      },
      {
       "x": 62127.1,
       "z": 75560.4,
-      "msl_crossing_offset_m": 9.5,
-      "max_adjacent_jump_m": 1.373,
+      "msl_crossing_offset_m": 2.5,
+      "max_adjacent_jump_m": 1.52,
       "source_jump_there_m": 2.374,
       "at_pier": false,
-      "exception": null
+      "exception": "seawall/step present in the 1 m source"
      },
      {
       "x": 62218.5,
       "z": 75628.5,
-      "msl_crossing_offset_m": 6.5,
-      "max_adjacent_jump_m": 0.947,
-      "source_jump_there_m": 0.928,
+      "msl_crossing_offset_m": 3.5,
+      "max_adjacent_jump_m": 1.151,
+      "source_jump_there_m": 2.376,
       "at_pier": false,
       "exception": null
      },
      {
       "x": 62220.6,
       "z": 75691.0,
-      "msl_crossing_offset_m": 6.5,
-      "max_adjacent_jump_m": 1.374,
+      "msl_crossing_offset_m": -0.5,
+      "max_adjacent_jump_m": 1.346,
       "source_jump_there_m": 2.484,
       "at_pier": false,
       "exception": null
@@ -4161,7 +4160,7 @@
      {
       "x": 62129.3,
       "z": 75622.9,
-      "msl_crossing_offset_m": -0.5,
+      "msl_crossing_offset_m": 0.5,
       "max_adjacent_jump_m": 1.267,
       "source_jump_there_m": 2.221,
       "at_pier": false,
@@ -4171,7 +4170,7 @@
       "x": 62032.3,
       "z": 75569.3,
       "msl_crossing_offset_m": -0.5,
-      "max_adjacent_jump_m": 2.417,
+      "max_adjacent_jump_m": 2.129,
       "source_jump_there_m": 2.413,
       "at_pier": false,
       "exception": "seawall/step present in the 1 m source"
@@ -4179,11 +4178,11 @@
      {
       "x": 62029.4,
       "z": 75674.4,
-      "msl_crossing_offset_m": 7.5,
-      "max_adjacent_jump_m": 1.544,
-      "source_jump_there_m": 1.594,
-      "at_pier": false,
-      "exception": "seawall/step present in the 1 m source"
+      "msl_crossing_offset_m": 4.5,
+      "max_adjacent_jump_m": 1.365,
+      "source_jump_there_m": 2.677,
+      "at_pier": true,
+      "exception": null
      }
     ]
    },
@@ -4193,24 +4192,24 @@
     "all_land_nodes": 2547069,
     "all_land_median_3dep_minus_cudem_m": 0.027,
     "all_land_median_abs_m": 0.061,
-    "band_nodes": 72815,
-    "median_abs_3dep_minus_cudem_m": 0.457,
-    "p95_m": 4.411,
-    "max_extra_step_from_blend_m": 0.489,
+    "band_nodes": 348058,
+    "median_abs_3dep_minus_cudem_m": 0.664,
+    "p95_m": 8.724,
+    "max_extra_step_from_blend_m": 0.396,
     "result": "fail",
     "threshold": "median |3DEP - CUDEM| <= 0.1 m in the feather band; the blend adds no step > 0.5 m beyond the sources' own steps",
     "built_surface_steps_on_50_shoreline_profiles": {
      "definition": "max adjacent 1 m step of the built physics surface per profile (-40..+40 m across the OSM coastline)",
-     "median_of_profile_max_m": 1.474,
+     "median_of_profile_max_m": 1.591,
      "max_m": 6.998,
-     "profiles_ge_1.5m": 23,
-     "of_which_documented": 23,
+     "profiles_ge_1.5m": 27,
+     "of_which_documented": 27,
      "undocumented_ge_1.5m": 0
     }
    },
    "water_cells_above_ground": {
     "water_cells_with_ground_above_msl": 0,
-    "dry_cells_below_msl_not_water": 20260,
+    "dry_cells_below_msl_not_water": 18128,
     "note": "dry cells below MSL are diked/hydro-flattened land or OSM land; no water surface is drawn there"
    }
   },
@@ -4226,26 +4225,26 @@
      {
       "camera_shift_m": 0.0015,
       "distance_m": 10,
-      "flip_fraction": 0.0003689236111111111,
-      "flip_fraction_quarter_res": 0.0002777777777777778
+      "flip_fraction": 0.0003667534722222222,
+      "flip_fraction_quarter_res": 0.0002951388888888889
      },
      {
       "camera_shift_m": 0.0015,
       "distance_m": 100,
-      "flip_fraction": 0.00015190972222222222,
+      "flip_fraction": 0.00015516493055555555,
       "flip_fraction_quarter_res": 0.00012152777777777777
      },
      {
       "camera_shift_m": 0.0015,
       "distance_m": 1000,
-      "flip_fraction": 0.00018988715277777778,
+      "flip_fraction": 0.0001953125,
       "flip_fraction_quarter_res": 0.00015625
      },
      {
       "camera_shift_m": 0.0015,
       "distance_m": 3000,
-      "flip_fraction": 4.557291666666667e-05,
-      "flip_fraction_quarter_res": 3.472222222222222e-05
+      "flip_fraction": 5.099826388888889e-05,
+      "flip_fraction_quarter_res": 0
      }
     ]
    },
@@ -4330,7 +4329,7 @@
     "removed_total": 20,
     "others_changed": 0,
     "terrain_identical": true,
-    "removal_seconds": 0.0102054
+    "removal_seconds": 0.0159143
    },
    "threshold": "20 random buildings removed at runtime by bid; all others and the terrain identical in the export",
    "result": "pass"
@@ -4403,29 +4402,29 @@
   },
   "C20_budgets": {
    "value": {
-    "triangles_tile": 684625,
-    "triangles_terrain": 589457,
+    "triangles_tile": 671523,
+    "triangles_terrain": 577265,
     "triangles_buildings": 87040,
-    "triangles_water": 8128,
+    "triangles_water": 7218,
     "draw_calls_measured_max_view": 242,
-    "triangles_submitted_per_frame_measured_max": 1369256,
+    "triangles_submitted_per_frame_measured_max": 1343052,
     "draw_calls_renderer_estimate_max_view": 118,
     "draw_call_target": 200,
     "measured_note": "Play-mode ProfilerRecorder frame totals (all passes incl. main-light shadow and depth), 1920x1080, soft shadows; export/render_stats_playmode.json",
     "renderers": 118,
-    "memory_mb": 71.1,
-    "committed_tile_mb": 23.72,
-    "bake_seconds": 14.61,
-    "editor_build_seconds": 2.55,
-    "git_tracked_files": 15,
+    "memory_mb": 70.8,
+    "committed_tile_mb": 23.74,
+    "bake_seconds": 15.63,
+    "editor_build_seconds": 2.65,
+    "git_tracked_files": 16,
     "extrapolation": {
      "M1_70_tiles": {
       "committed_gb": 1.66,
-      "bake_minutes": 17.0
+      "bake_minutes": 18.2
      },
      "bay_4624_tiles": {
-      "committed_gb_if_all_L0": 109.7,
-      "bake_hours": 18.8,
+      "committed_gb_if_all_L0": 109.8,
+      "bake_hours": 20.1,
       "note": "Q-027 default: 1 m only for urban/shoreline tiles, 2 m (L1) elsewhere; streaming loads ~9 tiles around the focus"
      }
     }
@@ -4444,20 +4443,20 @@
   },
   "wading": {
    "result": "reported",
-   "water_cells": 1573135,
+   "water_cells": 1588733,
    "share_by_depth_m": {
-    "0-2": 0.0139,
-    "2-5": 0.0829,
-    "5-10": 0.1201,
-    "10-20": 0.3362,
-    ">20": 0.4468
+    "0-2": 0.0245,
+    "2-5": 0.0872,
+    "5-10": 0.1156,
+    "10-20": 0.3308,
+    ">20": 0.442
    },
    "max_depth_m": 30.45,
    "deepest_baytm": [
     63456.5,
     74429.5
    ],
-   "median_depth_m": 18.86,
+   "median_depth_m": 18.72,
    "wadable_by_80m_mech_everywhere": true,
    "plate": "evidence/T-003/plates/wading_depth.png"
   }
