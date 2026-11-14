@@ -2,7 +2,7 @@
 
 Tool: Midjourney web app (midjourney.com), default model and default generation mode of the account; no settings changed.
 Budget: at most 16 generations (jobs) in total, discarded included. Plan: L1 = 3, L2 = 3, L3 = 3, L4 = 3, spare = 4.
-Rule for every prompt: plain descriptive words only. No franchise, studio, artist, character, product or named-design terms; no "in the style of". Every prompt below was written here before it was submitted and re-read against that rule. Only parameters used: `--ar` (aspect ratio) and `--no` (negative words). Image references, if any, are this session's own earlier outputs, cited by job ID.
+Rule for every prompt: plain descriptive words only. No franchise, studio, artist, character, product or named-design terms; no phrasing that points at a named person or work. Every prompt below was written here before it was submitted and re-read against that rule. Only parameters used: `--ar` (aspect ratio) and `--no` (negative words). Image references, if any, are this session's own earlier outputs, cited by job ID.
 
 Design direction (Assumed defaults, `expectations/T-007.md`): industrial-naval heavy machine, hull-plate armour, exposed hydraulics at knees and elbows, shipyard-built; column legs, big flat feet, broad shoulders, small head; cockpit in the upper chest; gunmetal/slate with off-white secondary and one small accent; plantigrade legs; closed fists with forearm hardpoints.
 
@@ -88,3 +88,8 @@ low resolution pixel art with ordered dithering and a limited palette of slate t
 https://cdn.midjourney.com/4d4eda80-57f4-4f41-8a02-a1c23192d6a5/0_1.png dithered limited palette pixel art, this colossal gunmetal industrial walking machine standing shin deep in calm shallow bay water off a harbour pier, seen from far away, low horizon, huge hazy sky filling most of the frame, cold slate teal and blue grey fog, one small warm orange light accent, tiny people on the pier, tiny cars on the waterfront road, a small boat, a dockside crane that reaches only to the machine's knee, the machine is the darkest shape against the pale sky, ordered dithering in sky fog and water, posterised flat value bands, low resolution pixel grid --ar 16:9 --no text, logo, emblem, stripes, flag, crest, antenna, mast, horns, cape, fur, helmet, tusks, glowing chest, face, wings
 ```
 P4-a as first written above was **not submitted**; P4-b is submitted as written.
+
+**P4-c** (submitted; image reference = own job 2fa84a4e-3d89-445e-84a3-bebe971a8b3c image 2, the chosen turnaround; purpose: the chosen design in the cold palette, whole figure in frame, crane clearly smaller than the machine)
+```
+https://cdn.midjourney.com/2fa84a4e-3d89-445e-84a3-bebe971a8b3c/0_2.png chunky low resolution pixel art with visible square pixels, ordered dithering and a limited palette of cold slate teal, blue grey and pale fog white with a single small warm orange light, this gunmetal walking machine with two pale box-shaped shoulder blocks standing still, whole figure visible from feet to head, water up to its shins in calm shallow bay water off a port pier, seen from far away, low horizon, large hazy sky above the machine, a dockside crane that reaches only to the machine's knee, tiny people and two tiny cars on the pier in the foreground, a small boat, the machine is the darkest shape against the pale sky, posterised flat value bands --ar 16:9 --no text, logo, emblem, stripes, flag, crest, antenna, mast, horns, cape, fur, helmet, tusks, glowing chest, face, wings
+```
