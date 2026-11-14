@@ -95,3 +95,13 @@ The account's usage limit was hit three times during M0. From now on:
 - **Stop rules in every implementation brief** (an effort bound and "stop and report" conditions), and no open-ended tuning.
 - **No speculative work on the strongest model.** Work that is gated on a founder decision waits for it.
 - **New session for new phases.** `ledger/HANDOFF.md` is the resume file: a fresh session that reads it is cheaper than continuing a very long one.
+
+## 11. Hard limits (founder instruction, 2026-11-14, second note; these override §8 and §10 where they differ)
+1. **Reasoning caps.** Orchestrator: medium (high only for a genuinely hard decision; never max). Workers are **Sonnet or Haiku only, at low or medium effort.** No worker runs on a stronger model without a founder saying so for that task.
+   - Haiku / low: run a command and report numbers, update ledger rows, regenerate evidence with an existing script, file moves, status checks.
+   - Sonnet / low: integration, scribe passes, metric runs with interpretation, re-checks of listed defects.
+   - Sonnet / medium: implementation steps, evaluation, expectation drafts, research notes.
+2. **Minimal, isolated context.** A brief names the exact files (and sections) the worker may read and the exact files it may write, pastes the few requirement lines it needs, and says "read nothing else". No project tour, no conversation history, no "read all docs first". The protocol sections a worker needs are quoted in the brief (usually §4 Unity/Python rules and §5 commit helper in three lines), not assigned as reading.
+3. **Atomic tasks.** One purpose per worker, sized to finish in about five minutes of active work and never to sit idle: a worker does not wait on a long build, capture, bake or queue. Long commands are started by a script that writes its result to a file; a later worker (or the orchestrator) reads that file. A slice is a list of such steps in `ledger/QUEUE.md`, not one long-lived implementer.
+4. **Reap before compaction.** Any session or worker that approaches about 150k tokens of context, or 85% of its window, stops, writes its state to a shared Markdown file (`tasks/<task>.progress.md` for workers, `ledger/HANDOFF.md` and `ledger/QUEUE.md` for the orchestrator) and ends. Work continues in a fresh session or worker that reads that file. Nobody compacts and nobody resumes a large old agent.
+5. **File access per worker.** A worker reads and writes only inside the module folder(s) and task files its brief lists, in its task worktree. Anything outside is off limits even for reading unless listed. (This is enforced by the brief and checked by the architecture evaluator from the diff; the harness has no per-agent path permissions.)
