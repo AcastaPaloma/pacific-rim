@@ -12,7 +12,7 @@ namespace Game.Units.Mech.Tests
         {
             var t = Repo.Walk();
             Assert.That(t.imp, Is.EqualTo(0), "the shipped controller stays on the legacy path");
-            Assert.That(t.imp_vf_scale, Is.EqualTo(0.25));
+            Assert.That(t.imp_vf_scale, Is.EqualTo(1.0));
             StanceImpedance.CopRange(FootSupport.Flat, 4.5f, 5f, out float lo, out float hi);
             Assert.That(lo, Is.EqualTo(-4.5f)); Assert.That(hi, Is.EqualTo(4.5f));   // the legacy clamp: +-sole half length less its margin
             StanceImpedance.CopRange(FootSupport.Swing, 4.5f, 5f, out lo, out hi);

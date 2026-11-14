@@ -22,7 +22,7 @@ namespace Game.Units.Mech.Tests
         {
             var t = Repo.Walk();
             Assert.That(t.imp, Is.EqualTo(0));
-            Assert.That(t.imp_ff_gravity, Is.EqualTo(1)); Assert.That(t.imp_ff_coriolis, Is.EqualTo(1)); Assert.That(t.imp_ff_accel, Is.EqualTo(1)); Assert.That(t.imp_ff_stance_gravity_share, Is.EqualTo(1));
+            Assert.That(t.imp_ff_gravity, Is.EqualTo(1)); Assert.That(t.imp_ff_coriolis, Is.EqualTo(1)); Assert.That(t.imp_ff_accel, Is.EqualTo(1)); Assert.That(t.imp_ff_stance_gravity_share, Is.EqualTo(0));
             t.imp_ff_gravity = 0; t.imp_ff_coriolis = 0; t.imp_ff_accel = 0;
             Assert.That(InverseDynamicsFeedForward.Torque(t, 10, 100, 1000, 1, 1e9), Is.EqualTo(0));
         }
