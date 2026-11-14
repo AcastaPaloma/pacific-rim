@@ -11,7 +11,7 @@ from scipy.ndimage import gaussian_filter, gaussian_filter1d, uniform_filter
 from scipy.stats import spearmanr
 
 
-def adherence(de, mask=None, tol=2.0):
+def adherence(de, mask, tol):
     v = de if mask is None else de[mask]
     return float((v <= tol).mean()) if v.size else float("nan")
 
@@ -25,7 +25,7 @@ def neighbour_diff(idx):
     return d / 4.0
 
 
-def interleaved(idx, L, win=4, top_max=0.9, ncol_max=4, diff_min=0.35, amp_min=1.0):
+def interleaved(idx, L, win, top_max, ncol_max, diff_min, amp_min):
     """Boolean map of pixels inside an interleaved window (R-002 §4 b), plus the residual r = L - box4(L)."""
     vals = np.unique(idx)
     top = np.zeros(idx.shape, np.float64)
@@ -41,7 +41,7 @@ def interleaved(idx, L, win=4, top_max=0.9, ncol_max=4, diff_min=0.35, amp_min=1
     return inter, r
 
 
-def gradient_mask(L, sigma=3.0, lo=0.25, hi=4.0):
+def gradient_mask(L, sigma, lo, hi):
     Lb = gaussian_filter(L, sigma)
     gy, gx = np.gradient(Lb)
     g = np.hypot(gx, gy)
