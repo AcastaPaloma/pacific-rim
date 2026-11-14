@@ -40,7 +40,7 @@ namespace Game.Units.Mech.Scenarios
 
         public static ScenarioSpec Walk(string name, double froude, double seconds = 63) => new ScenarioSpec
         {
-            Name = name, Seconds = seconds, CruiseFroude = froude, StripStart = 40,
+            Name = name, Seconds = seconds, CruiseFroude = froude, StripStart = 40, StripInterval = 0.7,
             Script = (p, l) => p.At(0, MoveId.Stand, default, 0).At(3, MoveId.Walk, Far, (float)l.EffortForFroude(froude))
         };
 
