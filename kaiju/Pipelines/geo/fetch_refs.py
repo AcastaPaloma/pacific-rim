@@ -19,7 +19,6 @@ def main(argv=None):
         fetch.fetch_ngs(parse_tile(t))
         if not a.skip_lidar:
             fetch.fetch_lidar_dsm(parse_tile(t))
-            fetch.fetch_lidar_dsm(parse_tile(t), classes="2,6")  # diagnostic: ground + building returns only
     return 0
 
 

@@ -314,7 +314,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     wm = rasterize([water_poly], tile, cells)
     hn = np.flipud(ht.astype(np.float64))  # north-up nodes
     cell_h = 0.25 * (hn[:-1, :-1] + hn[1:, :-1] + hn[:-1, 1:] + hn[1:, 1:])
-    solid = rasterize([pier_union] + [shapely.geometry.shape(f["geometry"]) for f in bfeats], tile, cells)
+    solid = rasterize([pier_union] + [shapely.geometry.shape(f["geometry"]) for f in bfeats], tile, cells, all_touched=True)
     water = wm & (cell_h < msl) & ~solid
     water_u8 = np.where(water, 255, 0).astype(np.uint8)
 

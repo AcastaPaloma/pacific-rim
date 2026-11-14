@@ -570,12 +570,12 @@ def building_edges(feats, tile):
     edges = []
     for f in feats:
         p = f["properties"]
-        if p["has_parts"]:
+        if p["has_parts"] and not p.get("remainder_geometry"):
             continue
         top = p["base_navd88_m"] + p["height_m"]
-        g = shape(f["geometry"])
+        g = shape(p["remainder_geometry"]) if p["has_parts"] else shape(f["geometry"])
         rh = p.get("roof_height_m") or 0
-        apex = rh and rh < p["height_m"] - p["min_height_m"] and p.get("roof_shape") in ("pyramidal", "spire", "cone") and g.geom_type == "Polygon" and not g.interiors
+        apex = (not p["has_parts"]) and rh and rh < p["height_m"] - p["min_height_m"] and p.get("roof_shape") in ("pyramidal", "spire", "cone") and g.geom_type == "Polygon" and not g.interiors
         eave = top - rh if apex else top
         for poly in getattr(g, "geoms", [g]):
             for ring in [poly.exterior] + list(poly.interiors):
@@ -642,6 +642,7 @@ def skyline_check(tile, ref, hs, water, feats):
                     X, Z = np.meshgrid(xs, tile.z0 + np.arange(2049) * tile.spacing)
                     inside = shapely.contains_xy(hg, X.ravel(), Z.ravel()).reshape(X.shape)
                     ind_v = np.where(inside, surf, ind)
+
                 src_rows = skyline.first_rows(src)
                 entry = {"eye_navd88_m": eye, "size": [w, h], "excluded_own_structure": hid}
                 if not mpath.exists():
@@ -656,7 +657,6 @@ def skyline_check(tile, ref, hs, water, feats):
                         ci = skyline.compare(g_rows, ir, h, cam.cy)
                         entry["vs_r_ind"] = res(ci, "IoU >= 0.90, MAE <= 3 px (Assumed)", ci["iou"] is not None and ci["iou"] >= 0.90 and ci["mae_px"] <= 3.0,
                                                 reference="3DEP CA_SanFrancisco_1_B23 first-return DSM (PDAL, EPT resolution 0.7 m, 1 m max grid), clipped to the tile, water filled at MSL")
-                        np.save(EVID / "skyline" / f"{name}_rind_rows.npy", ir) if (EVID / "skyline").exists() else None
                     else:
                         entry["vs_r_ind"] = not_run("lidar DSM not fetched (fetch_refs.py needs python-pdal)")
                     (EVID / "skyline").mkdir(exist_ok=True)
@@ -702,19 +702,33 @@ def t003(rep, tile, E, cps, man, hs, water, feats, samples, cfg):
     offs = np.array(cps["shore_offsets_m"], dtype=np.float64)
     # C10: where does the as-built surface cross MSL along each profile (negative = land side)?
     cross, jumps, items = [], [], []
-    import rasterio  # noqa: F401
+    cp, dp = source_rasters(tile)
+    piers, _ = piers_union(tile)
+    pts = np.array(cps["points"][a:a + n], dtype=np.float64).reshape(50, 81, 2)
     for k in range(50):
         phys = sh[k, :, 2]
-        data = sh[k, :, 4]
         idx = np.where(np.diff(np.sign(phys - msl)) != 0)[0]
         off = float(offs[idx[np.argmin(np.abs(offs[idx]))]] + 0.5) if len(idx) else None
         j = np.abs(np.diff(phys))
-        jd = np.abs(np.diff(data))
         worst = int(np.argmax(j))
-        documented = bool(j[worst] <= jd[worst] + 0.1 and (meta[k]["near_pier"] or jd[worst] >= 1.5))
-        items.append({"x": r(meta[k]["x"], 1), "z": r(meta[k]["z"], 1), "near_pier": meta[k]["near_pier"], "msl_crossing_offset_m": off,
-                      "max_adjacent_jump_m": r(j[worst], 3), "source_jump_there_m": r(jd[worst], 3),
-                      "exception": "seawall/pier in source" if (j[worst] >= 1.5 and documented) else None})
+        # the source surface along the same profile: 3DEP 1 m where valid and above MHHW, else CUDEM
+        px, pz = pts[k, :, 0], pts[k, :, 1]
+        s3 = terrain.sample_rasters(dp, px[None, :], pz[None, :])[0]
+        sc = terrain.sample_rasters(cp, px[None, :], pz[None, :])[0]
+        srcp = np.where(np.isfinite(s3) & (sc > cfg["terrain"]["use_3dep_above_navd88_m"]), s3, sc)
+        js = np.abs(np.diff(srcp))
+        lo, hi = max(worst - 1, 0), min(worst + 2, len(js))
+        src_jump = float(np.nanmax(js[lo:hi]))
+        mid = shapely.Point((px[worst] + px[worst + 1]) / 2, (pz[worst] + pz[worst + 1]) / 2)
+        at_pier = bool(piers.distance(mid) <= 2.0)
+        exc = None
+        if j[worst] >= 1.5:
+            if at_pier:
+                exc = "pier edge (deck raised by the documented pier rule)"
+            elif src_jump >= 1.5:
+                exc = "seawall/step present in the 1 m source"
+        items.append({"x": r(meta[k]["x"], 1), "z": r(meta[k]["z"], 1), "msl_crossing_offset_m": off,
+                      "max_adjacent_jump_m": r(j[worst], 3), "source_jump_there_m": r(src_jump, 3), "at_pier": at_pier, "exception": exc})
         if off is not None:
             cross.append(abs(off))
         jumps.append(j[worst])
@@ -778,6 +792,8 @@ def buildings_sit(tile, E, hs):
             continue
         polys = [shapely.geometry.Polygon(p[0], p[1:]) for p in b["footprint"]]
         g = shapely.union_all(polys)
+        if not box(*tile.bounds).contains(g):
+            continue   # straddler: base sampled on the bake's margin grid, outside this raster
         xs, zs = vector.sample_points_in_polygon(g)
         mn = float(np.min(bilinear(hs, tile, xs, zs)))
         devs.append(abs(mn - b["base_navd88_m"]) if (b["part_of"] is None and not b.get("footprint_is_remainder")) else 0.0)

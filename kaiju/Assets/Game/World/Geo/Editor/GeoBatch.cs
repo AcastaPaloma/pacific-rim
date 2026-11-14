@@ -98,7 +98,7 @@ namespace Game.World.Geo.Editor
 
             // ---- floating origin: rebase by tile multiples, re-export positions (C17)
             var shifts = new List<object>();
-            foreach (var (dx, dz) in new[] { (2048.0, -2048.0), (-2048.0, 2048.0), (0.0, 0.0) })
+            foreach (var (dx, dz) in new[] { (2048.0, 0.0), (0.0, 2048.0), (2048.0, 2048.0), (0.0, 0.0) })
             {
                 inst.ShiftOrigin(id.OriginX + dx, id.OriginZ + dz);
                 var e2 = inst.Export(cps.Take(200).ToList());
