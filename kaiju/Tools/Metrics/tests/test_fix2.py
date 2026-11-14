@@ -310,3 +310,30 @@ def test_feel2_calibrate_diff_rewrites_source(tmp_path):
     res = calibrate(rt, [rd])
     plus = [l for l in res["registry_diff"].splitlines() if l.startswith("+") and "p95_frac" in l]
     assert plus and "status: calibrated" in plus[0] and "Assumed" not in plus[0] and "rt.json" in plus[0]
+
+
+# ------------------------------------------------------------------ registry v1.1 adds structure only
+V11_DIFF = {"M-001": ({"min_contacts_per_foot"}, set(), {"steady_captures"}),
+            "M-002": ({"min_contacts_per_foot"}, set(), set()),
+            "M-003": (set(), {"M-003.b.O"}, set()),
+            "M-004": ({"crawl_min_interleaved_share", "index_colour_tol_de00"}, set(), set())}
+
+
+@pytest.mark.parametrize("metric", sorted(V11_DIFF))
+def test_v11_keeps_every_threshold_and_v10_still_runs(tmp_path, metric):
+    import yaml
+    reg = os.path.join(METRICS, "registry")
+    a = yaml.safe_load(open(os.path.join(reg, f"{metric}@v1.yaml")))
+    b = yaml.safe_load(open(os.path.join(reg, f"{metric}@v1.1.yaml")))
+    assert a["revision"] == "v1.0" and b["revision"] == "v1.1"
+    for sid, e in a["submeasures"].items():
+        assert (e.get("thresholds") or {}) == (b["submeasures"][sid].get("thresholds") or {}), sid
+    proc, kinds, top = V11_DIFF[metric]
+    assert set(b["procedure"]) - set(a["procedure"]) == proc and set(a["procedure"]) <= set(b["procedure"])
+    assert {s for s in a["submeasures"] if a["submeasures"][s]["kind"] != b["submeasures"][s]["kind"]} == kinds
+    assert set(b) - set(a) == top
+    if metric == "M-002":                     # an old revision still runs and is named in the report
+        d = str(tmp_path / "g"); G.write_set(d)
+        rep, _ = run_metric("m002", [d], registry=os.path.join(reg, "M-002@v1.yaml"), images=False)
+        assert rep["registry"]["revision"] == "v1.0" and rep["verdict"] == "PASS"
+        assert rep["registry"]["defaults_for_later_constants"] == {"min_contacts_per_foot": 1}
