@@ -8,7 +8,7 @@ Scope: modularity, contracts, flags, config-not-code, asset provenance, tests, c
 | Run | Result |
 |---|---|
 | `dotnet test` Rendering.Pixel.Tests / Camera.Tests / Core.Tests | 41 / 16 / 89 passed, 0 failed (matches the report) |
-| `unity test $WT --mode EditMode` (queue: 0 real batch-mode editors; the literal `pgrep` line also counts the caller's own shells, so it read 4) | 170 of 170 passed, 0 skipped, 15 s (`/private/tmp/claude-501/eval-T-004-arch/editmode.xml`); log has 0 warnings. Includes 54 Pixel, 22 Camera Unity-side tests |
+| `unity test $WT --mode EditMode` (queue: 0 real batch-mode editors; the literal `pgrep` line also counts the caller's own shells, so it read 4) | 170 of 170 passed, 0 skipped, 15 s (`/private/tmp/claude-501/eval-T-004-arch/editmode.xml`); log has 0 warnings. Per assembly: Pixel 41 + 13 Unity-only, Camera 16 + 6 Unity-only, Core 89 + 5 |
 | `git status --short` in WT after both runs | empty (Unity and dotnet changed no tracked file) |
 | T-002 validator (`metrics.py validate style_capture`) on `captures/m003_stills`, `m004_slate_teal/eye70_T1`, `cut_check`, `orbit_slate_teal`; `validate palette_set` on `Config/Rendering/palette_set.json` | VALID, VALID, INVALID (resolution block differs per frame), INVALID (orbit stores sidecars and every tenth frame only), VALID. Matches the stored `metrics/validate/summary.txt` (33 of 36 valid) |
 | `palette_sha256` recomputed in Python (SHA-256 of compact JSON of lowercase hex, declared order) vs the five `.asset` files | all five equal; `palette_set.json` is byte-identical to `research/R-002/palettes.json` |
