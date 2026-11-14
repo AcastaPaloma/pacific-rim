@@ -286,9 +286,14 @@ def run(report, logs, reg, ratings=None, out_dir=None, images=True):
                 v0 = float(c.speed[k0])
                 f_act = c.h.get("F_act_max_N")
                 f_brake = min(a_ref * c.m, f_act) if isinstance(f_act, (int, float)) else a_ref * c.m
-                floor = max(c.v_cruise / a_ref, c.m * v0 / f_brake)
+                # like with like (orchestrator ruling on DEF-T002-feel-1): the floors are times to reach the same end
+                # speed the measurement uses (stop_speed), at the registry deceleration / the braking force limit
+                v_end = reg.p("stop_speed_mps")
+                fl_cruise = max(c.v_cruise - v_end, 0.0) / a_ref
+                fl_brake = c.m * max(v0 - v_end, 0.0) / f_brake
+                floor = max(fl_cruise, fl_brake)
                 p12.append(part("estop:time to stop", t_stop, ">=", floor, unit="s", v0_mps=v0,
-                                floor_cruise_s=c.v_cruise / a_ref, floor_brake_s=c.m * v0 / f_brake))
+                                floor_cruise_s=fl_cruise, floor_brake_s=fl_brake, end_speed_mps=v_end))
                 variants.append((c.m, t_stop / math.sqrt(c.l / g_), c.file))
     _add_or_nr(report, "M-001.11", p11, "no stop capture")
     masses = sorted({m for m, _, _ in variants})

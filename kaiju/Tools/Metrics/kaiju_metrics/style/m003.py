@@ -227,7 +227,12 @@ def _add_b(rep, reg, rows):
     w = _worst(ev, "DIG", lower=False)
     rep.add("M-003.b.DIG_max", parts=[part(f"max DIG {w['frame']}", w["DIG"], "<=", reg.t("M-003.b.DIG_max", "dig_max"),
                                            unit="DIG")])
-    o = float(np.median([r["O"] for r in ev]))
+    os_ = [r["O"] for r in ev if r["O"] is not None]
+    if not os_:
+        rep.add("M-003.b.O", S_NOT_RUN, note="O undefined: no frame has enough interleaved windows (R-002: '-')",
+                diagnostics={"per_frame_O": _per_frame(ev, "O")})
+        return
+    o = float(np.median(os_))
     rep.add("M-003.b.O", S_REPORTED, value=o, unit="O",
             diagnostics={"per_frame_O": _per_frame(ev, "O"), "note": "Bayer/checker > 0.5, white noise ~ 0, "
                                                                      "clustered < 0 (advisory until Q-015)"})

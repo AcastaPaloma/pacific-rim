@@ -110,7 +110,7 @@ def test_M001_12_known_estop(tmp_path):
     k = math.floor((VC - 0.3) / 2.0 / 0.02) + 1
     p = sm(rep, "M-001.12")
     assert close(p["value"], k * 0.02)
-    assert close(p["threshold"], VC / (0.30 * g))      # 3.1 s at reference
+    assert close(p["threshold"], (VC - 0.3) / (0.30 * g))   # floor to the same end speed (fix cycle 2 ruling)
 
 
 # ------------------------------------------------------------------ boundary pairs (98 % / 102 % of the threshold)
@@ -200,7 +200,7 @@ def test_M001_11_boundary_tstar(tmp_path, ts, exp):
 
 @pytest.mark.parametrize("f,exp", [(0.98, "FAIL"), (1.02, "PASS")])
 def test_M001_12_boundary(tmp_path, f, exp):
-    t = f * VC / (0.30 * g)
+    t = f * (VC - 0.3) / (0.30 * g)
     rep = run_specs(tmp_path, [G.spec_estop(decel=(VC - 0.3) / t)])
     assert _status(rep, "M-001.12") == exp
 
@@ -225,7 +225,8 @@ NEG = {
     "M-001.9": {"curve": G.spec_curve(rate_dps=7.0, crab=True)},
     "M-001.10": {"start": G.spec_start(steps_to_90=4.6)},
     "M-001.11": {"stop": G.spec_stop(steps_to_stop=3.6)},
-    "M-001.12": {"estop": G.spec_estop(decel=2.9)},
+    # with like-for-like floors M-001.12 can fail alone only through an actuator limit below 0.30 m g
+    "M-001.12": {"estop": G.spec_estop(decel=2.5, header={"F_act_max_N": 0.2 * G.REF["mass_kg"] * G.G})},
 }
 
 

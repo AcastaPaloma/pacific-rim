@@ -47,16 +47,17 @@ def test_rescore_refuses_other_registry_unless_asked(m002_report, tmp_path):
     rp, _ = m002_report
     from kaiju_metrics.registry import load_registry
     d = yaml.safe_load(open(load_registry("M-002").path))
-    d["revision"] = "v1.1"
+    old_rev = d["revision"]
+    d["revision"] = "v1.9-test"
     d["submeasures"]["M-002.1"]["thresholds"]["max_frac"]["value"] = 0.0005
-    p = tmp_path / "M-002@v1.1.yaml"
+    p = tmp_path / "M-002@v1.9.yaml"
     yaml.safe_dump(d, open(p, "w"), sort_keys=False)
     r = cli("rescore", rp, "--registry", str(p))
     assert r.returncode == 2 and "allow-different-registry" in r.stderr
     r = cli("rescore", rp, "--registry", str(p), "--allow-different-registry", "--out", str(tmp_path / "o"))
     assert r.returncode == 1 and "DIFFERS" in r.stdout and "verdict PASS -> FAIL" in r.stdout
     new = json.load(open(tmp_path / "o" / "report.json"))
-    assert new["registry"]["revision"] == "v1.1" and new["rescored_from"]["registry"]["revision"] == "v1.0"
+    assert new["registry"]["revision"] == "v1.9-test" and new["rescored_from"]["registry"]["revision"] == old_rev
 
 
 def test_rescore_detects_changed_input(m002_report):
@@ -146,10 +147,10 @@ def test_calibrate_recovers_known_cut(tmp_path):
     p = next(p for p in res["proposals"] if p["submeasure"] == "M-002.2")
     L = G.REF["foot_length_m"]
     assert 0.035 / L < p["proposed"] < 0.045 / L and p["false_pass"] == 0 and p["false_fail"] == 0
-    assert "revision: v1.1" in res["registry_diff"] and "calibrated" in res["registry_diff"]
+    assert "+revision: v1.2" in res["registry_diff"] and "calibrated" in res["registry_diff"]
     assert os.path.isfile(os.path.join(out, "calibration_value_vs_rating.png"))
     from kaiju_metrics.registry import load_registry
-    assert load_registry("M-002").revision == "v1.0"           # never writes the registry
+    assert load_registry("M-002").revision == "v1.1"           # never writes the registry (newest stays v1.1)
     r = cli("calibrate", "--ratings", rt, "--reports", rd)
     assert r.returncode == 0 and "proposed" in r.stdout
 

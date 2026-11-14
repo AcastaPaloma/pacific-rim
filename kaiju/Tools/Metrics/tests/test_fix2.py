@@ -250,3 +250,63 @@ def test_arch7_generators_help_and_required_out(tmp_path, gen):
     r = subprocess.run([sys.executable, g], capture_output=True, text=True, cwd=str(tmp_path))
     assert r.returncode == 2
     assert set(os.listdir(os.path.join(METRICS, "fixtures"))) == before and os.listdir(tmp_path) == []
+
+
+# ------------------------------------------------------------------ eval-style / eval-feel follow-up
+def test_style1_equal_band_means_defined_result(tmp_path):
+    """All depth-band means equal (flat, no haze): Spearman undefined -> rho NOT_RUN, span FAIL, no crash."""
+    sd = os.path.join(str(tmp_path), "flat")
+    GS.m003_gameplay_frames(sd, mode="none", haze=False)
+    GS.m003_haze_cal(sd)
+    d = os.path.join(sd, "gameplay")
+    _, roles, _ = GS.load_profile("slate_teal")
+    for k in range(12):
+        GS.repaint(d, k, np.full((90, 160), roles.index("ramp_2"), np.int32))
+    r = subprocess.run([sys.executable, CLI, "m003", sd, "--profiles", "slate_teal", "--out", str(tmp_path / "o")],
+                       capture_output=True, text=True)
+    assert r.returncode in (1, 3) and "Traceback" not in r.stderr
+    rep = json.load(open(tmp_path / "o" / "report.json"))
+    c1 = sm(rep, "M-003.c1")
+    rho = next(p for p in c1["parts"] if "rho" in p["name"])
+    assert rho["status"] == "NOT_RUN" and c1["status"] == "FAIL"
+
+
+def test_style2_O_undefined_not_zero(tmp_path):
+    """Frames without interleaved windows (flat colour): O is undefined (None), not 0.0."""
+    sd, _ = GS.m003_pass_set(str(tmp_path))
+    d = os.path.join(sd, "gameplay")
+    _, roles, _ = GS.load_profile("slate_teal")
+    r = np.arange(90)[:, None] // 12                      # wide flat bands: a gradient but no interleaving
+    for k in range(12):
+        GS.repaint(d, k, np.broadcast_to(np.array([roles.index(f"ramp_{i}") for i in range(8)])[r], (90, 160)).astype(np.int32))
+    rep, _ = run_metric("m003", [sd], images=False, options={"profiles": "slate_teal"})
+    from kaiju_metrics.style import measures as M
+    from kaiju_metrics.registry import load_registry
+    from kaiju_metrics.style.m003 import DITHER_KEYS
+    reg = load_registry("M-003")
+    idx = np.zeros((40, 40), int); idx[:, 20:] = 1
+    dm, _ = M.dither_metrics(idx, np.where(idx == 1, 40.0, 20.0), {k: reg.p(k) for k in DITHER_KEYS})
+    assert dm["O"] is None
+    o = sm(rep, "M-003.b.O")
+    assert o["value"] is None and o["status"] != "REPORTED"
+
+
+@pytest.mark.parametrize("f,exp", [(1.0, "PASS"), (1.02, "FAIL")])
+def test_feel1_estop_floor_like_with_like(tmp_path, f, exp):
+    """A stop at exactly the allowed 0.30 g passes M-001.12; one 2 % harder fails."""
+    from gaitkit import run_specs
+    rep = run_specs(tmp_path, [G.spec_estop(decel=f * 0.30 * G.G)])
+    assert sm(rep, "M-001.12")["status"] == exp
+    if f > 1:
+        assert sm(rep, "M-001.4")["status"] == "FAIL"      # at exactly 0.30 g M-001.4 sits on its boundary
+
+
+def test_feel2_calibrate_diff_rewrites_source(tmp_path):
+    from test_tools import _cal_ratings, _cal_reports
+    from kaiju_metrics.calibrate import calibrate
+    slips = [0.005, 0.01, 0.015, 0.02, 0.03, 0.035, 0.045, 0.05, 0.06, 0.07]
+    rd = _cal_reports(tmp_path, slips)
+    rt = _cal_ratings(str(tmp_path / "rt.json"), len(slips), lambda i: slips[i] < 0.04)
+    res = calibrate(rt, [rd])
+    plus = [l for l in res["registry_diff"].splitlines() if l.startswith("+") and "p95_frac" in l]
+    assert plus and "status: calibrated" in plus[0] and "Assumed" not in plus[0] and "rt.json" in plus[0]

@@ -61,10 +61,12 @@ def dither_metrics(idx, L, p):
         a = r[:H - dy, :W - dx]; b = r[dy:, dx:]
         mk = inter[:H - dy, :W - dx] & inter[dy:, dx:]
         if mk.sum() < p["o_min_pairs"]:
-            return 0.0
+            return None
         a, b = a[mk], b[mk]
-        return float(np.corrcoef(a, b)[0, 1]) if a.std() > 0 and b.std() > 0 else 0.0
-    O = 0.5 * ((rho(0, 2) - rho(0, 1)) + (rho(2, 0) - rho(1, 0)))
+        return float(np.corrcoef(a, b)[0, 1]) if a.std() > 0 and b.std() > 0 else None
+    rs = [rho(0, 2), rho(0, 1), rho(2, 0), rho(1, 0)]
+    # DEF-T002-style-2: O is undefined (None) without enough interleaved pairs, never a misleading 0.0
+    O = None if any(v is None for v in rs) else 0.5 * ((rs[0] - rs[1]) + (rs[2] - rs[3]))
     return {"DIG": dig, "O": O, "gradient_share": gshare, "interleaved_share": float(inter.mean())}, inter
 
 
@@ -81,7 +83,7 @@ def depth_banding(L, z, far, edges, min_share, sky_frac, min_bands):
     out = {"bands": used, "meanL": meanL}
     if len(used) >= min_bands:
         d = np.diff(meanL)
-        out.update(max_drop=float(max(0.0, -d.min())), rho=float(spearmanr(used, meanL)[0]),
+        out.update(max_drop=float(max(0.0, -d.min())), rho=_spearman_or_nan(used, np.round(meanL, 9)),
                    span=float(meanL[-1] - meanL[0]))
     return out
 
@@ -145,3 +147,12 @@ def composition(L, z, far, sky_frac, pitch_deg, vfov_deg):
     lo, hi = np.percentile(L, [10, 90])
     h = 0.5 + np.tan(np.radians(pitch_deg)) / (2 * np.tan(np.radians(vfov_deg) / 2))
     return {"sky_share": float(sky.mean()), "horizon": float(h), "contrast": float(hi - lo)}
+
+
+def _spearman_or_nan(x, y):
+    """Spearman rho; NaN (undefined, reported NOT_RUN) when all band means are equal. Means are rounded to 1e-9 L*
+    first so float noise cannot rank equal bands (DEF-T002-style-1)."""
+    y = np.asarray(y, float)
+    if np.all(y == y[0]):
+        return float("nan")
+    return float(spearmanr(x, y)[0])

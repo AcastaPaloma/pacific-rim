@@ -133,7 +133,7 @@ def calibrate(ratings_path, report_paths, registry=None, out_dir=None, pass_scor
         cff = sum(1 for p, g_ in zip(pred, good) if not p and g_)
         proposals.append({"submeasure": s, "key": assumed[0], "op": op, "current": cur, "proposed": cut,
                           "false_pass": fp, "false_fail": ff, "current_false_pass": cfp, "current_false_fail": cff})
-    diff_text = registry_diff(reg, [p for p in proposals if "proposed" in p])
+    diff_text = registry_diff(reg, [p for p in proposals if "proposed" in p], rel_path(ratings_path))
     res = {"metric": metric, "registry": reg.describe(), "captures": len(caps), "pass_score": pass_score,
            "anchors": {f"{a}:{c}": v for (a, c), v in anchor_med.items()}, "rater_agreement": agree,
            "table": table, "proposals": proposals, "registry_diff": diff_text}
@@ -148,7 +148,7 @@ def calibrate(ratings_path, report_paths, registry=None, out_dir=None, pass_scor
     return res
 
 
-def registry_diff(reg, props):
+def registry_diff(reg, props, ratings_ref="ratings"):
     with open(reg.path, encoding="utf-8") as f:
         old = f.read()
     new = old
@@ -168,6 +168,12 @@ def registry_diff(reg, props):
                 rest = ln[ln.index("value:"):]
                 body = rest.split(",", 1)[1] if "," in rest else "}"
                 body = body.replace("assumed_pending_calibration", "calibrated")
+                import datetime
+                import re as _re
+                day = datetime.date.today().isoformat()
+                body = _re.sub(r'source: "([^"]*)"',
+                               lambda m_: f'source: "calibrated {day} from {ratings_ref} (previously: '
+                                          f'{m_.group(1).replace("Assumed", "assumed then")})"', body)
                 lines[i] = f"{pre}value: {p['proposed']:.6g},{body}"
     new = "\n".join(lines)
     name = os.path.basename(reg.path)
