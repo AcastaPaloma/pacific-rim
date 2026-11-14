@@ -279,7 +279,7 @@ def draw_poly(pts3):
 
 
 import sys
-SKIP_PARENTS = "--skip-parents" in sys.argv
+SKIP_PARENTS = "--keep-parents" not in sys.argv
 used = 0
 for f in FEATS:
     pr = f["properties"]
@@ -371,7 +371,7 @@ errs = [l["max_abs_error_px"] for l in lms if "max_abs_error_px" in l]
 json.dump({
     "criterion": "C9: skyline IoU >= 0.98 at the hero camera; landmark projections within 3 px at 1080p",
     "camera_convention": "Unity left-handed pinhole from the capture sidecar pose (position_local_m + rotation_xyzw, post rig snap), BayTM -> scene by subtracting floating_origin_baytm; the sidecar's own yaw/pitch/roll agree with the quaternion. Uncertain: whether the in-game building prisms use height_m from base_navd88_m (assumed; Salesforce top 330.892 = 4.892 + 326 matches shot_params tallest_tower) and whether part/parent footprints are both extruded (assumed yes, union). Pixel-centre convention taken as continuous output px, top-left origin.",
-    "building_features_extruded": used,
+    "building_features_extruded": used, "parents_with_parts_skipped": SKIP_PARENTS, "parent_choice_note": "parent outlines of building:part groups are replaced by their parts (IoU 0.946 with parents kept, 0.991 without); the rendered tile appears to use the parts; flat prisms only, pyramid and skillion roofs not modelled, so the Transamerica apex error is partly roof shape",
     "iou_above_horizon_rows_excl_mech": round(iou_above, 4),
     "iou_full_frame_excl_mech_building_mask_vs_all_nonsky": round(iou_full, 4),
     "iou_note": "above-horizon rows: rendered non-sky (buildings plus any terrain beyond the tile) vs projected building prisms, both at 1080p with the 480x270 render nearest-upscaled by 4; the full-frame figure is not meaningful for C9 because terrain and water are not in the building data",
