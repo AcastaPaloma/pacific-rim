@@ -38,6 +38,8 @@ Other entry points: `StyleCaptureCli.Preview` (`-executeMethod ...StyleCaptureCl
 ```
 <captureOut>/
   capture_log_summary.txt          # overwritten on every run: job list, duration, error and warning counts, first 8 messages
+  capture_log_warnings.txt         # overwritten on every run: every warning and error line logged during the run (empty = clean)
+  control_continuous_tone/         # `controls` job: continuous-tone colour render of the eye70 view (negative-anchor counterpart)
   <set>/<sequence>/                # one folder per sequence (set and sequence names come from the jobs)
     <stem>_color_internal.png
     <stem>_color_output.png        # only for sequences that write output

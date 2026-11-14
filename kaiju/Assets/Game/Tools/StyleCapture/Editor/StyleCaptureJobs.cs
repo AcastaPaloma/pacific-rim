@@ -201,15 +201,16 @@ namespace Game.Tools.StyleCapture
         }
 
         /// <summary>
-        /// The M-004 sets: six sequences from two viewpoints per profile. Sub-pixel compensation is off here, so the
-        /// applied output offset is zero and constant: the T-002 validator requires one resolution block per sequence.
+        /// The M-004 sets: six sequences from two viewpoints per profile, captured with the shipped flags (sub-pixel
+        /// compensation on, DEF-T004-arch-2). The applied output offset therefore varies per frame and is declared in
+        /// each frame's manifest entry; the sets are not captured with the compensation switched off.
         /// The internal image, index and depth do not depend on that flag (the present stage is the only reader);
-        /// the compensated output is captured by <see cref="SubPixel"/>.
+        /// the compensation off/on comparison is captured by <see cref="SubPixel"/>.
         /// </summary>
         public static void M004(StyleCaptureSession s, string anchor = null, string prefix = "m004_")
         {
             var baseFlags = s.Flags; var baseSettings = s.Settings.Clone();
-            s.Flags = baseFlags.With(PixelFlags.SubPixelPresent, false);
+            s.Flags = baseFlags;
             if (anchor != null) s.Settings.ditherAnchor = anchor;   // the same sets with another anchoring mode (configured default when null)
             foreach (string profile in AllProfiles)
             {
@@ -245,7 +246,7 @@ namespace Game.Tools.StyleCapture
         public static void M004Ab(StyleCaptureSession s)
         {
             s.SetProfile(MainProfile);
-            var baseSettings = s.Settings.Clone(); var baseFlags = s.Flags.With(PixelFlags.SubPixelPresent, false);
+            var baseSettings = s.Settings.Clone(); var baseFlags = s.Flags;
             void Variant(string name, string anchor, bool snap, bool rotq)
             {
                 s.Settings = baseSettings.Clone(); s.Settings.ditherAnchor = anchor;
@@ -267,7 +268,7 @@ namespace Game.Tools.StyleCapture
             s.Rig.Cut();
             for (int i = 0; i < 60; i++) { s.Capture.Binder.controlTemporalNoiseSeed = i + 1; w.FrameScripted(i, Eye70.Pose(), ReferenceDepth); }
             s.Capture.Binder.controlTemporalNoiseSeed = 0; w.End();
-            s.Settings = baseSettings; s.Flags = baseFlags.With(PixelFlags.SubPixelPresent, true); s.Apply();
+            s.Settings = baseSettings; s.Flags = baseFlags; s.Apply();
         }
 
         // ---- negative controls and stage toggles ---------------------------------------------------------------------
@@ -289,6 +290,8 @@ namespace Game.Tools.StyleCapture
             s.Flags = baseFlags; s.Apply();
             s.Capture.PresentComponent.controlBilinear = true; TwelveStills(s, "control_bilinear", MainProfile + "_eye70"); s.Capture.PresentComponent.controlBilinear = false;
             s.Capture.Binder.controlReversedHaze = true; TwelveStills(s, "control_reversed_haze", MainProfile + "_eye70"); s.Capture.Binder.controlReversedHaze = false;
+            // Continuous-tone colour render of the same view (DEF-T004-style-7): the shader's unquantised colour branch, no palette.
+            s.Capture.Binder.controlContinuousTone = true; TwelveStills(s, "control_continuous_tone", MainProfile + "_eye70"); s.Capture.Binder.controlContinuousTone = false;
             // A sub-pixel-shifted frame: the declared block offset is non-zero (grid integrity must pass with it and fail without).
             s.Grid(ReferenceDepth, out float metresPerTexel, out _);
             var w = s.Begin("control_subpixel_offset", MainProfile + "_eye70", "M-003", new MotionSpec(), 1, Eye70.Name);
@@ -384,7 +387,7 @@ namespace Game.Tools.StyleCapture
             s.SetProfile(profile); s.Apply();
             const float metresPerFrame = 6f;
             var motion = new MotionSpec { Type = "dolly", Axis = "camera_forward", SpeedPxPerFrame = 0.25f, SpeedSiKey = "m_per_s", SpeedSi = metresPerFrame / StyleCaptureSession.Dt, Notes = "dolly toward the 10 km layer; 0.25 px/frame is the lateral image speed 10 degrees off axis at 1.4 km" };
-            var baseFlags = s.Flags; s.Flags = baseFlags.With(PixelFlags.SubPixelPresent, false); s.Apply();   // one resolution block per sequence (see M004)
+            var baseFlags = s.Flags;   // shipped flags, sub-pixel compensation on (see M004)
             var w = s.Begin("dolly_" + profile, "eye70_D1", "M-004", motion, 180, Eye70.Name, true);
             s.Rig.Cut();
             for (int i = 0; i < 180; i++) w.FrameScripted(i, Eye70.Pose(0, i * metresPerFrame), ReferenceDepth);

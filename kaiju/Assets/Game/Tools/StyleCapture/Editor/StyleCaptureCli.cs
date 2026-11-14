@@ -69,11 +69,12 @@ namespace Game.Tools.StyleCapture
             var jobs = new System.Collections.Generic.HashSet<string>(Arg("-captureJobs", "stills,hazecal,m004,m004ab,subpixel,controls,stages,cut,orbit,dolly").Split(','));
             var watch = System.Diagnostics.Stopwatch.StartNew();
             // Count every error and warning Unity logs during the capture: the evidence must show a clean log.
-            int errors = 0, warnings = 0; var firstMessages = new System.Collections.Generic.List<string>();
+            int errors = 0, warnings = 0; var firstMessages = new System.Collections.Generic.List<string>(); var allMessages = new System.Collections.Generic.List<string>();
             Application.LogCallback onLog = (message, stack, type) =>
             {
                 if (type == LogType.Log) return;
                 if (type == LogType.Warning) warnings++; else errors++;
+                allMessages.Add(type + ": " + message.Replace('\n', ' '));
                 if (firstMessages.Count < 8) firstMessages.Add(type + ": " + message);
             };
             Application.logMessageReceived += onLog;
@@ -99,6 +100,8 @@ namespace Game.Tools.StyleCapture
             string summary = "[StyleCapture] jobs " + string.Join(",", jobs) + " written to " + outRoot + " in " + watch.Elapsed.TotalSeconds.ToString("F1") + " s; log: " + errors + " errors, " + warnings + " warnings";
             Debug.Log(summary);
             File.WriteAllText(Path.Combine(outRoot, "capture_log_summary.txt"), summary + "\n" + string.Join("\n", firstMessages) + (firstMessages.Count > 0 ? "\n" : ""));
+            // Every warning and error line of the run, stored beside the summary (DEF-T004-arch-7); empty file = clean log.
+            File.WriteAllText(Path.Combine(outRoot, "capture_log_warnings.txt"), string.Join("\n", allMessages) + (allMessages.Count > 0 ? "\n" : ""));
             if (errors > 0) throw new InvalidOperationException("capture logged " + errors + " errors; first: " + firstMessages[0]);
         }
     }

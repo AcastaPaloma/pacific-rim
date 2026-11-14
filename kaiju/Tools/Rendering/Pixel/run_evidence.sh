@@ -66,5 +66,5 @@ $PY $SH swatches $E/sheets/palette_swatches_depth_ramps.png $PAL $C/m003_stills
 for q in S0 T1 T2 T3 Y1 Y2; do $PY $SH contact $E/sheets/m004_slate_teal_eye70_$q.png $C/m004_slate_teal/eye70_$q --every 15 --cols 6; done
 $PY $SH contact $E/sheets/orbit_slate_teal.png $C/orbit_slate_teal/orbit_20s --every 40 --cols 6
 args=(); for p in $profiles; do args+=("$p eye70=$C/m003_stills/${p}_eye70/f000005_color_output.png" "$p street=$C/m003_stills/${p}_street/f000004_color_output.png"); done
-$PY $SH board $E/sheets/panel_board.png art/style_refs "${args[@]}" "NEGATIVE anchor: unquantised=$C/control_unquantised/slate_teal_eye70/f000005_color_output.png" "NEGATIVE anchor: bilinear upscale=$C/control_bilinear/slate_teal_eye70/f000005_color_output.png" --cols 4
+$PY $SH board $E/sheets/panel_board.png art/style_refs "${args[@]}" "NEGATIVE anchor: unquantised=$C/control_unquantised/slate_teal_eye70/f000005_color_output.png" "NEGATIVE anchor: bilinear upscale=$C/control_bilinear/slate_teal_eye70/f000005_color_output.png" "CONTROL: continuous-tone colour=$C/control_continuous_tone/slate_teal_eye70/f000005_color_output.png" --cols 4
 echo done

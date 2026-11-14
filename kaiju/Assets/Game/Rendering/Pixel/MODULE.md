@@ -59,7 +59,7 @@ Owner role: implementation/pixel (`impl-pixel`).
 
 ## Known limits / TODO
 - Dither look (Q-015): Bayer 4×4 is the default as §9 says; the references measure as clustered. Alternatives are one config value away.
-- Anchoring (Q-016): no single mode meets both the yaw and the translation thresholds of M-004@v1 on the test scene; numbers for all modes are in the evidence. `hybrid` is the configured default.
+- Anchoring (Q-016): no single mode meets both the yaw and the translation thresholds of M-004@v1 on the test scene; numbers for all modes are in the evidence. `direction` is the configured default (`PixelPipeline.json`); `hybrid` stays selectable.
 - Rotation quantisation (Q-021) is a rig flag (`camera.quantiseRotation`); direction anchoring depends on it.
 - 4K (Q-018): k = 6 (640×360) by the current rule; reported, not gated.
 - Haze bands are spaced evenly in log distance between `hazeStartM` and `hazeFullM` (see `HazeMath`), not at equal transmittance steps as R-003 §5 derived: with a visual range of tens of km equal-transmittance bands leave everything inside several hundred metres unhazed, which fails the 80 m block against its background at 150 m. Assumed, pending the style panel.
