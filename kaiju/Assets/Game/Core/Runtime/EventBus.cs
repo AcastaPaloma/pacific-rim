@@ -73,15 +73,26 @@ namespace Game.Core
             if (_dispatching) return;
 
             _dispatching = true;
-            while (_queueCount > 0)
+            bool completed = false;
+            try
             {
-                var next = _queue[_queueHead];
-                _queue[_queueHead] = null;
-                _queueHead = (_queueHead + 1) & (_queue.Length - 1);
-                _queueCount--;
-                next.DispatchNext(this);
+                while (_queueCount > 0)
+                {
+                    var next = _queue[_queueHead];
+                    _queue[_queueHead] = null;
+                    _queueHead = (_queueHead + 1) & (_queue.Length - 1);
+                    _queueCount--;
+                    next.DispatchNext(this);
+                }
+                completed = true;
             }
-            _dispatching = false;
+            finally
+            {
+                // Every exit path restores the bus. Only a throwing ICoreErrorSink can leave the loop early: the rest
+                // of that cascade is dropped and the sink's exception propagates (loud, never a silently dead bus).
+                _dispatching = false;
+                if (!completed) ResetAfterFault();
+            }
             EndCascade();
         }
 
@@ -135,7 +146,25 @@ namespace Game.Core
             _queueHead = 0; _queueCount = 0;
         }
 
+        private void ResetAfterFault()
+        {
+            for (int i = 0; i < _touchedCount; i++) _touched[i].ClearPending();
+            Array.Clear(_queue, 0, _queue.Length);
+            _queueHead = 0; _queueCount = 0;
+            ResetCascadeState();
+            _aborted = false; _abortMessage = null;
+        }
+
         private void EndCascade()
+        {
+            ResetCascadeState();
+            if (!_aborted) return;
+            _aborted = false;
+            var msg = _abortMessage; _abortMessage = null;
+            throw new EventCascadeLimitException(msg);
+        }
+
+        private void ResetCascadeState()
         {
             for (int i = 0; i < _dirtyCount; i++) { _dirty[i].Compact(); _dirty[i].Dirty = false; _dirty[i] = null; }
             _dirtyCount = 0;
@@ -143,10 +172,6 @@ namespace Game.Core
             _touchedCount = 0;
             _cascadeEvents = 0;
             _cascadeRoot = null;
-            if (!_aborted) return;
-            _aborted = false;
-            var msg = _abortMessage; _abortMessage = null;
-            throw new EventCascadeLimitException(msg);
         }
 
         private void CheckThread(Type eventType)
