@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8af5c16ba9e548d1aeb1d6a11febda8, type: 3}
+  m_Name: MechFrameBalanced_PartMap
+  m_EditorClassIdentifier: Game.Units.Mech.Art::Game.Units.Mech.Art.MechPartMap
+  schema: mech_frame@v1
+  frameId: mech_frame_balanced
+  frameConfig: {fileID: 4900000, guid: dcc48cc97e369465caa1c7ee41c9f163, type: 3}
+  parts:
+  - segmentId: pelvis
+    partName: MechBalanced_pelvis
+    parentSegmentId: 
+    path: MechBalanced_pelvis
+  - segmentId: torso
+    partName: MechBalanced_torso
+    parentSegmentId: pelvis
+    path: MechBalanced_pelvis/MechBalanced_torso
+  - segmentId: head
+    partName: MechBalanced_head
+    parentSegmentId: torso
+    path: MechBalanced_pelvis/MechBalanced_torso/MechBalanced_head
+  - segmentId: upper_arm_L
+    partName: MechBalanced_upper_arm_L
+    parentSegmentId: torso
+    path: MechBalanced_pelvis/MechBalanced_torso/MechBalanced_upper_arm_L
+  - segmentId: forearm_L
+    partName: MechBalanced_forearm_L
+    parentSegmentId: upper_arm_L
+    path: MechBalanced_pelvis/MechBalanced_torso/MechBalanced_upper_arm_L/MechBalanced_forearm_L
+  - segmentId: hand_L
+    partName: MechBalanced_hand_L
+    parentSegmentId: forearm_L
+    path: MechBalanced_pelvis/MechBalanced_torso/MechBalanced_upper_arm_L/MechBalanced_forearm_L/MechBalanced_hand_L
+  - segmentId: thigh_L
+    partName: MechBalanced_thigh_L
+    parentSegmentId: pelvis
+    path: MechBalanced_pelvis/MechBalanced_thigh_L
+  - segmentId: shank_L
+    partName: MechBalanced_shank_L
+    parentSegmentId: thigh_L
+    path: MechBalanced_pelvis/MechBalanced_thigh_L/MechBalanced_shank_L
+  - segmentId: foot_L
+    partName: MechBalanced_foot_L
+    parentSegmentId: shank_L
+    path: MechBalanced_pelvis/MechBalanced_thigh_L/MechBalanced_shank_L/MechBalanced_foot_L
+  - segmentId: upper_arm_R
+    partName: MechBalanced_upper_arm_R
+    parentSegmentId: torso
+    path: MechBalanced_pelvis/MechBalanced_torso/MechBalanced_upper_arm_R
+  - segmentId: forearm_R
+    partName: MechBalanced_forearm_R
+    parentSegmentId: upper_arm_R
+    path: MechBalanced_pelvis/MechBalanced_torso/MechBalanced_upper_arm_R/MechBalanced_forearm_R
+  - segmentId: hand_R
+    partName: MechBalanced_hand_R
+    parentSegmentId: forearm_R
+    path: MechBalanced_pelvis/MechBalanced_torso/MechBalanced_upper_arm_R/MechBalanced_forearm_R/MechBalanced_hand_R
+  - segmentId: thigh_R
+    partName: MechBalanced_thigh_R
+    parentSegmentId: pelvis
+    path: MechBalanced_pelvis/MechBalanced_thigh_R
+  - segmentId: shank_R
+    partName: MechBalanced_shank_R
+    parentSegmentId: thigh_R
+    path: MechBalanced_pelvis/MechBalanced_thigh_R/MechBalanced_shank_R
+  - segmentId: foot_R
+    partName: MechBalanced_foot_R
+    parentSegmentId: shank_R
+    path: MechBalanced_pelvis/MechBalanced_thigh_R/MechBalanced_shank_R/MechBalanced_foot_R
+  sockets:
+  - socketName: MechBalanced_socket_elbow_L
+    kind: elbow
+    side: L
+    parentSegmentId: upper_arm_L
+    path: MechBalanced_pelvis/MechBalanced_torso/MechBalanced_upper_arm_L/MechBalanced_socket_elbow_L
+  - socketName: MechBalanced_socket_elbow_R
+    kind: elbow
+    side: R
+    parentSegmentId: upper_arm_R
+    path: MechBalanced_pelvis/MechBalanced_torso/MechBalanced_upper_arm_R/MechBalanced_socket_elbow_R
+  - socketName: MechBalanced_socket_hardpoint_L
+    kind: hardpoint
+    side: L
+    parentSegmentId: forearm_L
+    path: MechBalanced_pelvis/MechBalanced_torso/MechBalanced_upper_arm_L/MechBalanced_forearm_L/MechBalanced_socket_hardpoint_L
+  - socketName: MechBalanced_socket_hardpoint_R
+    kind: hardpoint
+    side: R
+    parentSegmentId: forearm_R
+    path: MechBalanced_pelvis/MechBalanced_torso/MechBalanced_upper_arm_R/MechBalanced_forearm_R/MechBalanced_socket_hardpoint_R
+  - socketName: MechBalanced_socket_hip_L
+    kind: hip
+    side: L
+    parentSegmentId: pelvis
+    path: MechBalanced_pelvis/MechBalanced_socket_hip_L
+  - socketName: MechBalanced_socket_hip_R
+    kind: hip
+    side: R
+    parentSegmentId: pelvis
+    path: MechBalanced_pelvis/MechBalanced_socket_hip_R
+  - socketName: MechBalanced_socket_shoulder_L
+    kind: shoulder
+    side: L
+    parentSegmentId: torso
+    path: MechBalanced_pelvis/MechBalanced_torso/MechBalanced_socket_shoulder_L
+  - socketName: MechBalanced_socket_shoulder_R
+    kind: shoulder
+    side: R
+    parentSegmentId: torso
+    path: MechBalanced_pelvis/MechBalanced_torso/MechBalanced_socket_shoulder_R

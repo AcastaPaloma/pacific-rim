@@ -1,0 +1,370 @@
+{
+ "bounds_baytm": [
+  53248.0,
+  75776.0,
+  55296.0,
+  77824.0
+ ],
+ "bounds_wgs84": [
+  -122.500631,
+  37.805184,
+  -122.477325,
+  37.823673
+ ],
+ "build": {
+  "bake_seconds": 8.64,
+  "built_utc": "2026-11-14T15:31:10Z",
+  "git": "9e1d5e1c720da2f63961c49fddc2d5519b58503f",
+  "git_dirty_pipeline": false,
+  "inputs_sha256": "b6ada673fa0fdfd4714213fc3d408a7ca84c30487e2d3631d363cc3f6bd70b73",
+  "script": "Pipelines/geo/bake_tile.py"
+ },
+ "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
+ "i": 26,
+ "j": 37,
+ "layers": [
+  {
+   "file": "terrain.tif",
+   "format": "COG float32 2049x2049, pixel-is-point, row 0 = north, deflate + predictor 3",
+   "h_max_m": 151.8386,
+   "h_min_m": -114.5674,
+   "layer": "terrain",
+   "merge_rule": "3DEP 1 m where valid and CUDEM > +1.798 m NAVD88, CUDEM elsewhere, 10 m feather; piers raised to deck",
+   "samples": 2049,
+   "sha256": "f71de48f1c4ad29a22d8fb8bf287f6597829151c08cf5ff9caf407d11804c5af",
+   "sources": [
+    {
+     "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
+     "doi": "10.25921/ds9v-ky35",
+     "fetched_utc": "2026-11-14T12:07:08Z",
+     "item": "ncei19_n38x00_w122x50_2022v1",
+     "licence": "US-Gov-PD",
+     "product": "NOAA NCEI CUDEM 1/9 arc-second topobathy (2022v1)",
+     "source_sha256": "1a56e472fbd16befd22f504367fe4795454079e2972933703f1d70c3319bb16e",
+     "url": "https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/CA/ncei19_n38x00_w122x50_2022v1.tif",
+     "window": [
+      0,
+      5625,
+      859,
+      787
+     ]
+    },
+    {
+     "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
+     "doi": "10.25921/ds9v-ky35",
+     "fetched_utc": "2026-11-14T12:07:09Z",
+     "item": "ncei19_n38x00_w122x75_2022v1",
+     "licence": "US-Gov-PD",
+     "product": "NOAA NCEI CUDEM 1/9 arc-second topobathy (2022v1)",
+     "source_sha256": "e1499a90272c0c30e1af0cfc853c844e599d029e2c176e5c03e99afb76d3f4c8",
+     "url": "https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/CA/ncei19_n38x00_w122x75_2022v1.tif",
+     "window": [
+      7967,
+      5625,
+      145,
+      787
+     ]
+    },
+    {
+     "attribution": "U.S. Geological Survey 3D Elevation Program",
+     "fetched_utc": "2026-11-14T12:07:15Z",
+     "item": "USGS_1M_10_x54y419_CA_SanFrancisco_B23",
+     "licence": "US-Gov-PD",
+     "product": "USGS 3DEP 1 m DEM",
+     "published": "2024-08-26",
+     "source_sha256": "034f38bf707add72eb5f1712ec1bde09031abb3c50da5102a50727fadeac39d0",
+     "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SanFrancisco_B23/TIFF/USGS_1M_10_x54y419_CA_SanFrancisco_B23.tif",
+     "window": [
+      3631,
+      3303,
+      2709,
+      2708
+     ]
+    }
+   ],
+   "spacing_m": 1.0
+  },
+  {
+   "file": "terrain.r16",
+   "format": "uint16 LE RAW 2049x2049, row 0 = south, col 0 = west, h = h_min + v*(h_max-h_min)/65535",
+   "h_max_m": 151.83859252929688,
+   "h_min_m": -114.56739807128906,
+   "layer": "terrain_r16",
+   "sha256": "b4088001492ecab5a600b250b3b68764236f403bc9ed6ad66fe832d4bbe24090",
+   "sources": [
+    {
+     "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
+     "doi": "10.25921/ds9v-ky35",
+     "fetched_utc": "2026-11-14T12:07:08Z",
+     "item": "ncei19_n38x00_w122x50_2022v1",
+     "licence": "US-Gov-PD",
+     "product": "NOAA NCEI CUDEM 1/9 arc-second topobathy (2022v1)",
+     "source_sha256": "1a56e472fbd16befd22f504367fe4795454079e2972933703f1d70c3319bb16e",
+     "url": "https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/CA/ncei19_n38x00_w122x50_2022v1.tif",
+     "window": [
+      0,
+      5625,
+      859,
+      787
+     ]
+    },
+    {
+     "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
+     "doi": "10.25921/ds9v-ky35",
+     "fetched_utc": "2026-11-14T12:07:09Z",
+     "item": "ncei19_n38x00_w122x75_2022v1",
+     "licence": "US-Gov-PD",
+     "product": "NOAA NCEI CUDEM 1/9 arc-second topobathy (2022v1)",
+     "source_sha256": "e1499a90272c0c30e1af0cfc853c844e599d029e2c176e5c03e99afb76d3f4c8",
+     "url": "https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/CA/ncei19_n38x00_w122x75_2022v1.tif",
+     "window": [
+      7967,
+      5625,
+      145,
+      787
+     ]
+    },
+    {
+     "attribution": "U.S. Geological Survey 3D Elevation Program",
+     "fetched_utc": "2026-11-14T12:07:15Z",
+     "item": "USGS_1M_10_x54y419_CA_SanFrancisco_B23",
+     "licence": "US-Gov-PD",
+     "product": "USGS 3DEP 1 m DEM",
+     "published": "2024-08-26",
+     "source_sha256": "034f38bf707add72eb5f1712ec1bde09031abb3c50da5102a50727fadeac39d0",
+     "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SanFrancisco_B23/TIFF/USGS_1M_10_x54y419_CA_SanFrancisco_B23.tif",
+     "window": [
+      3631,
+      3303,
+      2709,
+      2708
+     ]
+    }
+   ],
+   "step_m": 0.004065094843985442
+  },
+  {
+   "file": "water.png",
+   "format": "PNG 8-bit 2048x2048 cell-centred, row 0 = north, 255 = water surface at MSL, 0 = land/pier",
+   "layer": "water",
+   "piers": [],
+   "sha256": "c647caa2714d9c0a6d5ddc65a75472642e57ac0b2871dbaa1e9f5828409847f7",
+   "sources": [
+    {
+     "attribution": "© OpenStreetMap contributors (ODbL)",
+     "derivative_database_candidate": true,
+     "fetched_utc": "2026-11-14T12:14:47Z",
+     "item": "water-polygons-split-4326.zip",
+     "licence": "ODbL-1.0",
+     "product": "OSM water polygons (osmdata.openstreetmap.de, split, EPSG:4326)",
+     "source_sha256": "22d97b206fd5ce4b9fc991e561513b5f3468ed1cfea8ae4410982336991623ed",
+     "upstream_etag": "\"6af7c099-361f86d1\"",
+     "upstream_last_modified": "Sat, 14 Nov 2026 01:59:53 GMT",
+     "url": "https://osmdata.openstreetmap.de/download/water-polygons-split-4326.zip"
+    },
+    {
+     "attribution": "NOAA CO-OPS",
+     "fetched_utc": "2026-11-14T12:14:48Z",
+     "item": "9414290 datums",
+     "licence": "US-Gov-PD",
+     "product": "NOAA CO-OPS station 9414290 San Francisco datums (NTDE 1983-2001)",
+     "source_sha256": "7b5d1b79efb7656499fd91508fec05bce539f1eec177f42456ac6aa4b1b4c79f",
+     "url": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/9414290/datums.json?units=metric"
+    },
+    {
+     "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
+     "doi": "10.25921/ds9v-ky35",
+     "fetched_utc": "2026-11-14T12:07:08Z",
+     "item": "ncei19_n38x00_w122x50_2022v1",
+     "licence": "US-Gov-PD",
+     "product": "NOAA NCEI CUDEM 1/9 arc-second topobathy (2022v1)",
+     "source_sha256": "1a56e472fbd16befd22f504367fe4795454079e2972933703f1d70c3319bb16e",
+     "url": "https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/CA/ncei19_n38x00_w122x50_2022v1.tif",
+     "window": [
+      0,
+      5625,
+      859,
+      787
+     ]
+    },
+    {
+     "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
+     "doi": "10.25921/ds9v-ky35",
+     "fetched_utc": "2026-11-14T12:07:09Z",
+     "item": "ncei19_n38x00_w122x75_2022v1",
+     "licence": "US-Gov-PD",
+     "product": "NOAA NCEI CUDEM 1/9 arc-second topobathy (2022v1)",
+     "source_sha256": "e1499a90272c0c30e1af0cfc853c844e599d029e2c176e5c03e99afb76d3f4c8",
+     "url": "https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/CA/ncei19_n38x00_w122x75_2022v1.tif",
+     "window": [
+      7967,
+      5625,
+      145,
+      787
+     ]
+    },
+    {
+     "attribution": "U.S. Geological Survey 3D Elevation Program",
+     "fetched_utc": "2026-11-14T12:07:15Z",
+     "item": "USGS_1M_10_x54y419_CA_SanFrancisco_B23",
+     "licence": "US-Gov-PD",
+     "product": "USGS 3DEP 1 m DEM",
+     "published": "2024-08-26",
+     "source_sha256": "034f38bf707add72eb5f1712ec1bde09031abb3c50da5102a50727fadeac39d0",
+     "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SanFrancisco_B23/TIFF/USGS_1M_10_x54y419_CA_SanFrancisco_B23.tif",
+     "window": [
+      3631,
+      3303,
+      2709,
+      2708
+     ]
+    }
+   ],
+   "water_fraction": 0.96439,
+   "water_level_navd88_m": 0.969
+  },
+  {
+   "count": 28,
+   "count_parts": 22,
+   "count_rendered": 27,
+   "count_structures": 6,
+   "extra_fields": [
+    "has_parts",
+    "roof_height_m",
+    "remainder_geometry",
+    "datasf_id",
+    "datasf_iou"
+   ],
+   "file": "buildings.geojson",
+   "height_source_counts": {
+    "default": 5,
+    "osm_height": 23
+   },
+   "layer": "buildings",
+   "owner_rule": "a structure is owned by the tile containing its shapely point_on_surface; its parts follow it; geometry is not clipped",
+   "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
+   "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
+   "sha256": "28c86efb95250ff5fafd3953957840051c853b242df7a561ed62b11a6c14d0b4",
+   "sources": [
+    {
+     "attribution": "© OpenStreetMap contributors (ODbL)",
+     "attribution_notice": "Map data © OpenStreetMap contributors, available under the Open Database License (ODbL) 1.0: https://www.openstreetmap.org/copyright",
+     "derivative_database_candidate": true,
+     "extract_sha256": "dd9f0af0318baeac71b4a982d3dc2803cc9cf008bad3ee5769bb10c352790890",
+     "fetched_utc": "2026-11-14T12:11:47Z",
+     "item": "norcal-latest.osm.pbf",
+     "licence": "ODbL-1.0",
+     "osm_base_utc": "2026-11-13T21:22:20Z",
+     "product": "OpenStreetMap (Geofabrik Northern California extract)",
+     "source_sha256": "83538f21b060afacd13aab83a2c55ecf2c703025bbfa26fadddadb3cc77b08de",
+     "upstream_etag": "\"271889a3-660330da5f532\"",
+     "upstream_last_modified": "Sat, 14 Nov 2026 02:10:48 GMT",
+     "url": "https://download.geofabrik.de/north-america/us/california/norcal-latest.osm.pbf"
+    },
+    {
+     "attribution": "City and County of San Francisco",
+     "fetched_utc": "2026-11-14T12:05:49Z",
+     "item": "ynuv-fyni",
+     "licence": "PDDL-1.0",
+     "product": "DataSF Building Footprints ynuv-fyni",
+     "source_sha256": "b526d70bc1388cb598eac7d769f1aed328391f59a5d42719e1c383cc00388cdf",
+     "upstream_etag": "W/\"Z29sZi4yNTI1Nl8zXzExMDg4d3RDTFl2NjZVcWQ5X2lMb1NVNEprTEJQOHc---gziq09SyDtEd4Sb92-EjveaZARJRyUw--gzip--gzip\"",
+     "upstream_last_modified": "Fri, 13 Nov 2026 18:25:53 GMT",
+     "url": "https://data.sfgov.org/resource/ynuv-fyni.geojson?$where=within_box(shape,37.826562,-122.504273,37.802295,-122.473685)&$order=sf16_bldgid&$limit=50000"
+    }
+   ]
+  },
+  {
+   "clip_rule": "clipped to the tile square; wid is the global OSM way id",
+   "count": 6,
+   "file": "roads.geojson",
+   "layer": "roads",
+   "sha256": "b0f1cb9d1c82508ceb9eb84d1cb2c7275dda51b00189fa804c5bfc1e18b9c9b1",
+   "sources": [
+    {
+     "attribution": "© OpenStreetMap contributors (ODbL)",
+     "attribution_notice": "Map data © OpenStreetMap contributors, available under the Open Database License (ODbL) 1.0: https://www.openstreetmap.org/copyright",
+     "derivative_database_candidate": true,
+     "extract_sha256": "dd9f0af0318baeac71b4a982d3dc2803cc9cf008bad3ee5769bb10c352790890",
+     "fetched_utc": "2026-11-14T12:11:47Z",
+     "item": "norcal-latest.osm.pbf",
+     "licence": "ODbL-1.0",
+     "osm_base_utc": "2026-11-13T21:22:20Z",
+     "product": "OpenStreetMap (Geofabrik Northern California extract)",
+     "source_sha256": "83538f21b060afacd13aab83a2c55ecf2c703025bbfa26fadddadb3cc77b08de",
+     "upstream_etag": "\"271889a3-660330da5f532\"",
+     "upstream_last_modified": "Sat, 14 Nov 2026 02:10:48 GMT",
+     "url": "https://download.geofabrik.de/north-america/us/california/norcal-latest.osm.pbf"
+    }
+   ]
+  },
+  {
+   "count": 0,
+   "empty_by_design": true,
+   "file": "faults.geojson",
+   "global_file": "global/v1/faults_bay.geojson",
+   "global_sha256": "0dbc51ca628f8859e8c81a20450cd320c7910bd58328c6a047c50a8e7eb16f4a",
+   "layer": "faults",
+   "nearest_faults": [
+    {
+     "distance_m": 5065.9,
+     "fault_name": "Golden Gate fault",
+     "nearest_feature": "qf:5:304",
+     "section": ""
+    },
+    {
+     "distance_m": 7880.3,
+     "fault_name": "San Andreas fault zone",
+     "nearest_feature": "qf:5:306",
+     "section": "San Francisco section"
+    },
+    {
+     "distance_m": 9316.7,
+     "fault_name": "unspecified",
+     "nearest_feature": "qf:5:308",
+     "section": ""
+    },
+    {
+     "distance_m": 9388.9,
+     "fault_name": "Potato Patch fault",
+     "nearest_feature": "qf:5:309",
+     "section": ""
+    }
+   ],
+   "sha256": "368c37224d63be0555f78042e09fd843fca678a12775476a8df0704bebbc4dca",
+   "sources": [
+    {
+     "attribution": "U.S. Geological Survey Quaternary Fault and Fold Database",
+     "features": 3125,
+     "fetched_utc": "2026-11-14T12:05:53Z",
+     "item": "layer 4",
+     "licence": "US-Gov-PD",
+     "product": "USGS Quaternary Fault and Fold Database (2020 release), ArcGIS REST haz/Qfaults layers 4 (CA) and 5 (CA offshore)",
+     "source_sha256": "1bde71616d316e104f2cf82a6594abec2ae0f83540f6ce65b52efd2e407b0687",
+     "url": "https://earthquake.usgs.gov/arcgis/rest/services/haz/Qfaults/MapServer/4"
+    },
+    {
+     "attribution": "U.S. Geological Survey Quaternary Fault and Fold Database",
+     "features": 107,
+     "fetched_utc": "2026-11-14T12:05:54Z",
+     "item": "layer 5",
+     "licence": "US-Gov-PD",
+     "product": "USGS Quaternary Fault and Fold Database (2020 release), ArcGIS REST haz/Qfaults layers 4 (CA) and 5 (CA offshore)",
+     "source_sha256": "af059cffe6d840bdccdabb84b072b359ea021c7002b1e6d3da77012fb0ed7bb7",
+     "url": "https://earthquake.usgs.gov/arcgis/rest/services/haz/Qfaults/MapServer/5"
+    }
+   ]
+  }
+ ],
+ "level": 0,
+ "origin_baytm_m": [
+  53248.0,
+  75776.0
+ ],
+ "spec": "geo_tile@v1",
+ "tile": "L0_26_37",
+ "tile_size_m": 2048.0,
+ "unity_axes": "x = BayTM easting, y = NAVD88 height, z = BayTM northing; 1 unit = 1 m; tile-local = world - origin",
+ "vertical": "NAVD88 (EPSG:5703), GEOID18",
+ "water_level_navd88_m": 0.969
+}

@@ -30,6 +30,9 @@ dependencies:
   - osmnx
   - osmium-tool
   - pyosmium
+  # lidar first-return DSM for the independent skyline reference (M-005.7 R-ind, Q-029; T-003)
+  - pdal
+  - python-pdal
   # metrics: palette CIEDE2000, dithering, skyline IoU, frame-strip analysis (M-001..M-008)
   - opencv
   - scikit-image

@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="7005e09a-3f4c-40c4-94b0-c47d2151ad0c" name="@Kuans-MacBook-Pro 2026-11-14 12:37:42" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-14T12:37:42.7105000-05:00" queuing="2026-11-14T12:37:42.7105000-05:00" start="2026-11-14T12:37:41.0074020-05:00" finish="2026-11-14T12:37:45.4541670-05:00" />
+  <TestSettings name="default" id="95f6e96a-d4c6-47db-8b92-e2b56522eb85">
+    <Deployment runDeploymentRoot="_Kuans-MacBook-Pro_2026-11-14_12_37_42" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="ee1bf7ad-6d71-4bcd-b12a-e35d75de8ea8" testId="4e2f30d4-38bc-1a7b-e9c3-984cf26b2857" testName="Removal_ByBid_LeavesOthersUnchanged_AndStructuresTakeTheirParts" computerName="Kuans-MacBook-Pro" duration="00:00:01.9845390" startTime="2026-11-14T12:37:43.4486410-05:00" endTime="2026-11-14T12:37:45.4331740-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ee1bf7ad-6d71-4bcd-b12a-e35d75de8ea8" />
+    <UnitTestResult executionId="37579f7b-7292-47a0-b960-0db5d062a440" testId="07089938-11aa-9252-031f-a3f91274da37" testName="Bid_MapsToCoreBuildingId" computerName="Kuans-MacBook-Pro" duration="00:00:00.0002290" startTime="2026-11-14T12:37:43.3272490-05:00" endTime="2026-11-14T12:37:43.3274770-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="37579f7b-7292-47a0-b960-0db5d062a440" />
+    <UnitTestResult executionId="430771a7-be4b-45c1-8742-aa1f75832b7b" testId="c50758cc-71a0-be98-dbaa-61d875d156c5" testName="Rejects_NoSourceHash" computerName="Kuans-MacBook-Pro" duration="00:00:00.0089030" startTime="2026-11-14T12:37:43.3479920-05:00" endTime="2026-11-14T12:37:43.3568950-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="430771a7-be4b-45c1-8742-aa1f75832b7b" />
+    <UnitTestResult executionId="224b5ad5-7b2d-4e30-bd03-851ba247d919" testId="bf12422c-644e-de80-a0b2-f75099f5b9a5" testName="Rejects_SourceWithoutLicence" computerName="Kuans-MacBook-Pro" duration="00:00:00.0010860" startTime="2026-11-14T12:37:43.3450080-05:00" endTime="2026-11-14T12:37:43.3460930-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="224b5ad5-7b2d-4e30-bd03-851ba247d919" />
+    <UnitTestResult executionId="23a3cbe5-7e60-497b-a677-3c8868d5315c" testId="ee8ea32d-7d00-90c3-d630-5270c41f5e34" testName="Rejects_EmptyAttribution" computerName="Kuans-MacBook-Pro" duration="00:00:00.0009150" startTime="2026-11-14T12:37:43.3461050-05:00" endTime="2026-11-14T12:37:43.3470190-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="23a3cbe5-7e60-497b-a677-3c8868d5315c" />
+    <UnitTestResult executionId="7acf31ad-be18-45ea-961d-a66cdcda3bcf" testId="2da682b9-64dd-d6c6-1f9f-0b222e1409fb" testName="Rejects_LayerWithoutSha" computerName="Kuans-MacBook-Pro" duration="00:00:00.0012710" startTime="2026-11-14T12:37:43.3437120-05:00" endTime="2026-11-14T12:37:43.3449850-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7acf31ad-be18-45ea-961d-a66cdcda3bcf" />
+    <UnitTestResult executionId="2b7f6c7a-2e2b-4315-9f94-bacafb3434cc" testId="431a9dc2-f5bd-c2fa-35a1-748f4aff5beb" testName="Rejects_MissingFaultLayer" computerName="Kuans-MacBook-Pro" duration="00:00:00.0008990" startTime="2026-11-14T12:37:43.3642030-05:00" endTime="2026-11-14T12:37:43.3651020-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2b7f6c7a-2e2b-4315-9f94-bacafb3434cc" />
+    <UnitTestResult executionId="467f33c0-f822-4cbd-81ca-9997a348bf66" testId="5abb5934-c313-d6f3-1591-f6c2ce1404b9" testName="Config_HasEveryRequiredKey" computerName="Kuans-MacBook-Pro" duration="00:00:00.0064590" startTime="2026-11-14T12:37:41.2658310-05:00" endTime="2026-11-14T12:37:41.2722630-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="467f33c0-f822-4cbd-81ca-9997a348bf66" />
+    <UnitTestResult executionId="539787df-d9c5-4b11-b6c1-dedc48e5f623" testId="f613eedd-c4ef-1cdc-1da1-1143123c7bc6" testName="Landmarks_HaveSourceHeights_AndSalesforceIsTallest" computerName="Kuans-MacBook-Pro" duration="00:00:00.0006600" startTime="2026-11-14T12:37:43.4476050-05:00" endTime="2026-11-14T12:37:43.4482640-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="539787df-d9c5-4b11-b6c1-dedc48e5f623" />
+    <UnitTestResult executionId="7d0100e2-de02-4033-ae36-71461b0b9881" testId="206e67ad-2100-e4d0-e24b-63c4098a75a8" testName="Extrusion_IsWatertight_ConsistentlyWound_AndOutward" computerName="Kuans-MacBook-Pro" duration="00:00:00.0007780" startTime="2026-11-14T12:37:43.3792190-05:00" endTime="2026-11-14T12:37:43.3799970-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7d0100e2-de02-4033-ae36-71461b0b9881" />
+    <UnitTestResult executionId="c64cb16c-4496-4600-a396-e43e58123e06" testId="cb9f58ea-0be5-b67f-2974-7387ccea7267" testName="Attributions_IncludeOsmCreditAndOdbLNotice" computerName="Kuans-MacBook-Pro" duration="00:00:00.0006790" startTime="2026-11-14T12:37:43.3286260-05:00" endTime="2026-11-14T12:37:43.3293060-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c64cb16c-4496-4600-a396-e43e58123e06" />
+    <UnitTestResult executionId="c6ae25db-27ec-498d-b2e2-1dd82f00afa9" testId="2adc58eb-dba2-eba7-d2c8-553dc49ca008" testName="TamperedFile_IsRefused_BySha256" computerName="Kuans-MacBook-Pro" duration="00:00:00.0139690" startTime="2026-11-14T12:37:43.3651290-05:00" endTime="2026-11-14T12:37:43.3790980-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6ae25db-27ec-498d-b2e2-1dd82f00afa9" />
+    <UnitTestResult executionId="db34c303-90d1-4158-913e-3002be70fc49" testId="fb33540d-094e-1683-edb9-7d21b6f0d7c6" testName="Config_MissingKey_FailsLoudly" computerName="Kuans-MacBook-Pro" duration="00:00:00.0027399" startTime="2026-11-14T12:37:41.2728360-05:00" endTime="2026-11-14T12:37:41.2755750-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="db34c303-90d1-4158-913e-3002be70fc49" />
+    <UnitTestResult executionId="15b9e2c3-2bb2-4213-ab3b-194f9cb4ce07" testId="6745455e-5189-9540-9b64-6199e3897653" testName="FallbackPartHeights_NeverExceedTheirStructure" computerName="Kuans-MacBook-Pro" duration="00:00:02.0355920" startTime="2026-11-14T12:37:41.2755880-05:00" endTime="2026-11-14T12:37:43.3111740-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="15b9e2c3-2bb2-4213-ab3b-194f9cb4ce07" />
+    <UnitTestResult executionId="951152d2-7ece-4cdd-8235-17b02dfa9025" testId="e2879380-344e-f8c8-ff54-9a9a0f309b47" testName="PyramidalRoof_IsClosed_ApexAtHeight" computerName="Kuans-MacBook-Pro" duration="00:00:00.0010060" startTime="2026-11-14T12:37:43.3800170-05:00" endTime="2026-11-14T12:37:43.3810230-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="951152d2-7ece-4cdd-8235-17b02dfa9025" />
+    <UnitTestResult executionId="55dfd466-6783-4cee-80bc-a528e655b639" testId="d23353d8-6deb-a6d9-a955-56fc870ebeb7" testName="Rejects_WrongSpec" computerName="Kuans-MacBook-Pro" duration="00:00:00.0010250" startTime="2026-11-14T12:37:43.3631620-05:00" endTime="2026-11-14T12:37:43.3641870-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="55dfd466-6783-4cee-80bc-a528e655b639" />
+    <UnitTestResult executionId="8964e0a0-109f-4f25-b0be-0980e8b81253" testId="737a7754-b513-2395-eb43-c5c044d8077f" testName="Rtin_RespectsMaxError_AndIsCrackFreeAndUpward" computerName="Kuans-MacBook-Pro" duration="00:00:00.0657150" startTime="2026-11-14T12:37:43.3810310-05:00" endTime="2026-11-14T12:37:43.4467460-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8964e0a0-109f-4f25-b0be-0980e8b81253" />
+    <UnitTestResult executionId="2cc95957-c50d-406b-9989-1fae85bb0e40" testId="a9837ed0-a217-5f71-6643-aa9788181486" testName="UndergroundStationsAndShip_AreRecordsWithoutGeometry" computerName="Kuans-MacBook-Pro" duration="00:00:00.0011790" startTime="2026-11-14T12:37:43.3251990-05:00" endTime="2026-11-14T12:37:43.3263780-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2cc95957-c50d-406b-9989-1fae85bb0e40" />
+    <UnitTestResult executionId="aea4eda4-b528-4642-b521-2ef32d2a1f2f" testId="f1574808-3458-8937-4288-ed19a71b4e14" testName="Rejects_UnclearLicence" computerName="Kuans-MacBook-Pro" duration="00:00:00.0061430" startTime="2026-11-14T12:37:43.3569950-05:00" endTime="2026-11-14T12:37:43.3631370-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aea4eda4-b528-4642-b521-2ef32d2a1f2f" />
+    <UnitTestResult executionId="692f4d55-cc39-4ddd-a9cf-42e4d7799eea" testId="f68b671a-c2c1-6573-fb06-4246c16af3d1" testName="Rejects_NoBounds" computerName="Kuans-MacBook-Pro" duration="00:00:00.0012170" startTime="2026-11-14T12:37:43.3424610-05:00" endTime="2026-11-14T12:37:43.3436780-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="692f4d55-cc39-4ddd-a9cf-42e4d7799eea" />
+    <UnitTestResult executionId="6de78852-9c9e-4579-9383-74c8552e8dea" testId="3fabc8cb-efc8-c6c8-9984-3fdf8976c8a0" testName="M0_Imports_AllLayers_WithManifestCounts" computerName="Kuans-MacBook-Pro" duration="00:00:00.0003420" startTime="2026-11-14T12:37:43.4482800-05:00" endTime="2026-11-14T12:37:43.4486220-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6de78852-9c9e-4579-9383-74c8552e8dea">
+      <Output>
+        <StdOut>terrain triangles 577265, buildings 87040, water 7218</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2c2f5701-769c-46aa-a23c-ee1e28adc206" testId="36202df1-2c68-763f-744c-85c523f1a105" testName="TileId_ParseRoundTrip_AndOwnership" computerName="Kuans-MacBook-Pro" duration="00:00:00.0010660" startTime="2026-11-14T12:37:43.3274960-05:00" endTime="2026-11-14T12:37:43.3285620-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2c2f5701-769c-46aa-a23c-ee1e28adc206" />
+    <UnitTestResult executionId="885b4be2-4e92-4380-aabb-e5c3694f69ea" testId="c2ceec25-1849-60d9-7903-ef8a57cf9247" testName="CommittedTile_ManifestIsComplete_AndHashesMatch" computerName="Kuans-MacBook-Pro" duration="00:00:00.0104600" startTime="2026-11-14T12:37:43.3293230-05:00" endTime="2026-11-14T12:37:43.3397820-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="885b4be2-4e92-4380-aabb-e5c3694f69ea" />
+    <UnitTestResult executionId="bcaacd33-70b7-4d81-b88b-a092588fba23" testId="3d8ceea8-f1fe-65d0-ad54-5ac2b796c720" testName="Triangulator_SquareWithHole_HasRightArea" computerName="Kuans-MacBook-Pro" duration="00:00:00.0006750" startTime="2026-11-14T12:37:43.4468210-05:00" endTime="2026-11-14T12:37:43.4474960-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bcaacd33-70b7-4d81-b88b-a092588fba23" />
+    <UnitTestResult executionId="70738dff-6dcd-49bf-87e6-661a7f1c48e9" testId="ae11a207-0b2c-785a-223a-06810edff773" testName="Rejects_NoBuildGit" computerName="Kuans-MacBook-Pro" duration="00:00:00.0025730" startTime="2026-11-14T12:37:43.3398560-05:00" endTime="2026-11-14T12:37:43.3424280-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="70738dff-6dcd-49bf-87e6-661a7f1c48e9" />
+    <UnitTestResult executionId="5ec59ca0-3bef-4549-8f78-d0cd3e0095b6" testId="d1d817dc-274a-84c7-028a-faf3b54301af" testName="NoBuildingFloats_WallsReachBelowTheLowestGround" computerName="Kuans-MacBook-Pro" duration="00:00:00.0014600" startTime="2026-11-14T12:37:43.3237010-05:00" endTime="2026-11-14T12:37:43.3251600-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5ec59ca0-3bef-4549-8f78-d0cd3e0095b6" />
+    <UnitTestResult executionId="315efcd2-a4c6-4957-a189-6da390d899da" testId="a93607e8-05ca-2a28-97d9-a6dc13e06023" testName="Importer_WithoutSettings_RefusesInsteadOfUsingCodeDefaults" computerName="Kuans-MacBook-Pro" duration="00:00:00.0124499" startTime="2026-11-14T12:37:43.3112140-05:00" endTime="2026-11-14T12:37:43.3236630-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="315efcd2-a4c6-4957-a189-6da390d899da" />
+    <UnitTestResult executionId="53d92a66-0119-4e78-9b69-5404e2daef43" testId="0f367c52-2e7f-5dc2-f298-7b02a137a2f7" testName="Rejects_NoFetchTime" computerName="Kuans-MacBook-Pro" duration="00:00:00.0009370" startTime="2026-11-14T12:37:43.3470390-05:00" endTime="2026-11-14T12:37:43.3479750-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="53d92a66-0119-4e78-9b69-5404e2daef43" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Rejects_NoSourceHash" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="c50758cc-71a0-be98-dbaa-61d875d156c5">
+      <Execution id="430771a7-be4b-45c1-8742-aa1f75832b7b" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoManifestTests" name="Rejects_NoSourceHash" />
+    </UnitTest>
+    <UnitTest name="Removal_ByBid_LeavesOthersUnchanged_AndStructuresTakeTheirParts" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="4e2f30d4-38bc-1a7b-e9c3-984cf26b2857">
+      <Execution id="ee1bf7ad-6d71-4bcd-b12a-e35d75de8ea8" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoTileImportTests" name="Removal_ByBid_LeavesOthersUnchanged_AndStructuresTakeTheirParts" />
+    </UnitTest>
+    <UnitTest name="Rejects_MissingFaultLayer" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="431a9dc2-f5bd-c2fa-35a1-748f4aff5beb">
+      <Execution id="2b7f6c7a-2e2b-4315-9f94-bacafb3434cc" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoManifestTests" name="Rejects_MissingFaultLayer" />
+    </UnitTest>
+    <UnitTest name="TileId_ParseRoundTrip_AndOwnership" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="36202df1-2c68-763f-744c-85c523f1a105">
+      <Execution id="2c2f5701-769c-46aa-a23c-ee1e28adc206" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoIdTests" name="TileId_ParseRoundTrip_AndOwnership" />
+    </UnitTest>
+    <UnitTest name="Extrusion_IsWatertight_ConsistentlyWound_AndOutward" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="206e67ad-2100-e4d0-e24b-63c4098a75a8">
+      <Execution id="7d0100e2-de02-4033-ae36-71461b0b9881" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoMeshTests" name="Extrusion_IsWatertight_ConsistentlyWound_AndOutward" />
+    </UnitTest>
+    <UnitTest name="Bid_MapsToCoreBuildingId" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="07089938-11aa-9252-031f-a3f91274da37">
+      <Execution id="37579f7b-7292-47a0-b960-0db5d062a440" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoIdTests" name="Bid_MapsToCoreBuildingId" />
+    </UnitTest>
+    <UnitTest name="Rejects_NoBounds" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="f68b671a-c2c1-6573-fb06-4246c16af3d1">
+      <Execution id="692f4d55-cc39-4ddd-a9cf-42e4d7799eea" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoManifestTests" name="Rejects_NoBounds" />
+    </UnitTest>
+    <UnitTest name="M0_Imports_AllLayers_WithManifestCounts" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="3fabc8cb-efc8-c6c8-9984-3fdf8976c8a0">
+      <Execution id="6de78852-9c9e-4579-9383-74c8552e8dea" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoTileImportTests" name="M0_Imports_AllLayers_WithManifestCounts" />
+    </UnitTest>
+    <UnitTest name="Rejects_NoBuildGit" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="ae11a207-0b2c-785a-223a-06810edff773">
+      <Execution id="70738dff-6dcd-49bf-87e6-661a7f1c48e9" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoManifestTests" name="Rejects_NoBuildGit" />
+    </UnitTest>
+    <UnitTest name="FallbackPartHeights_NeverExceedTheirStructure" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="6745455e-5189-9540-9b64-6199e3897653">
+      <Execution id="15b9e2c3-2bb2-4213-ab3b-194f9cb4ce07" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoFixCycle2Tests" name="FallbackPartHeights_NeverExceedTheirStructure" />
+    </UnitTest>
+    <UnitTest name="Rejects_LayerWithoutSha" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="2da682b9-64dd-d6c6-1f9f-0b222e1409fb">
+      <Execution id="7acf31ad-be18-45ea-961d-a66cdcda3bcf" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoManifestTests" name="Rejects_LayerWithoutSha" />
+    </UnitTest>
+    <UnitTest name="Attributions_IncludeOsmCreditAndOdbLNotice" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="cb9f58ea-0be5-b67f-2974-7387ccea7267">
+      <Execution id="c64cb16c-4496-4600-a396-e43e58123e06" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoManifestTests" name="Attributions_IncludeOsmCreditAndOdbLNotice" />
+    </UnitTest>
+    <UnitTest name="Triangulator_SquareWithHole_HasRightArea" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="3d8ceea8-f1fe-65d0-ad54-5ac2b796c720">
+      <Execution id="bcaacd33-70b7-4d81-b88b-a092588fba23" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoMeshTests" name="Triangulator_SquareWithHole_HasRightArea" />
+    </UnitTest>
+    <UnitTest name="Landmarks_HaveSourceHeights_AndSalesforceIsTallest" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="f613eedd-c4ef-1cdc-1da1-1143123c7bc6">
+      <Execution id="539787df-d9c5-4b11-b6c1-dedc48e5f623" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoTileImportTests" name="Landmarks_HaveSourceHeights_AndSalesforceIsTallest" />
+    </UnitTest>
+    <UnitTest name="Rejects_WrongSpec" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="d23353d8-6deb-a6d9-a955-56fc870ebeb7">
+      <Execution id="55dfd466-6783-4cee-80bc-a528e655b639" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoManifestTests" name="Rejects_WrongSpec" />
+    </UnitTest>
+    <UnitTest name="UndergroundStationsAndShip_AreRecordsWithoutGeometry" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="a9837ed0-a217-5f71-6643-aa9788181486">
+      <Execution id="2cc95957-c50d-406b-9989-1fae85bb0e40" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoFixCycle2Tests" name="UndergroundStationsAndShip_AreRecordsWithoutGeometry" />
+    </UnitTest>
+    <UnitTest name="TamperedFile_IsRefused_BySha256" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="2adc58eb-dba2-eba7-d2c8-553dc49ca008">
+      <Execution id="c6ae25db-27ec-498d-b2e2-1dd82f00afa9" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoManifestTests" name="TamperedFile_IsRefused_BySha256" />
+    </UnitTest>
+    <UnitTest name="Rtin_RespectsMaxError_AndIsCrackFreeAndUpward" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="737a7754-b513-2395-eb43-c5c044d8077f">
+      <Execution id="8964e0a0-109f-4f25-b0be-0980e8b81253" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoMeshTests" name="Rtin_RespectsMaxError_AndIsCrackFreeAndUpward" />
+    </UnitTest>
+    <UnitTest name="PyramidalRoof_IsClosed_ApexAtHeight" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="e2879380-344e-f8c8-ff54-9a9a0f309b47">
+      <Execution id="951152d2-7ece-4cdd-8235-17b02dfa9025" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoMeshTests" name="PyramidalRoof_IsClosed_ApexAtHeight" />
+    </UnitTest>
+    <UnitTest name="Config_MissingKey_FailsLoudly" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="fb33540d-094e-1683-edb9-7d21b6f0d7c6">
+      <Execution id="db34c303-90d1-4158-913e-3002be70fc49" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoFixCycle2Tests" name="Config_MissingKey_FailsLoudly" />
+    </UnitTest>
+    <UnitTest name="Rejects_SourceWithoutLicence" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="bf12422c-644e-de80-a0b2-f75099f5b9a5">
+      <Execution id="224b5ad5-7b2d-4e30-bd03-851ba247d919" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoManifestTests" name="Rejects_SourceWithoutLicence" />
+    </UnitTest>
+    <UnitTest name="Importer_WithoutSettings_RefusesInsteadOfUsingCodeDefaults" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="a93607e8-05ca-2a28-97d9-a6dc13e06023">
+      <Execution id="315efcd2-a4c6-4957-a189-6da390d899da" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoFixCycle2Tests" name="Importer_WithoutSettings_RefusesInsteadOfUsingCodeDefaults" />
+    </UnitTest>
+    <UnitTest name="Rejects_NoFetchTime" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="0f367c52-2e7f-5dc2-f298-7b02a137a2f7">
+      <Execution id="53d92a66-0119-4e78-9b69-5404e2daef43" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoManifestTests" name="Rejects_NoFetchTime" />
+    </UnitTest>
+    <UnitTest name="Rejects_UnclearLicence" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="f1574808-3458-8937-4288-ed19a71b4e14">
+      <Execution id="aea4eda4-b528-4642-b521-2ef32d2a1f2f" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoManifestTests" name="Rejects_UnclearLicence" />
+    </UnitTest>
+    <UnitTest name="Rejects_EmptyAttribution" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="ee8ea32d-7d00-90c3-d630-5270c41f5e34">
+      <Execution id="23a3cbe5-7e60-497b-a677-3c8868d5315c" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoManifestTests" name="Rejects_EmptyAttribution" />
+    </UnitTest>
+    <UnitTest name="CommittedTile_ManifestIsComplete_AndHashesMatch" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="c2ceec25-1849-60d9-7903-ef8a57cf9247">
+      <Execution id="885b4be2-4e92-4380-aabb-e5c3694f69ea" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoManifestTests" name="CommittedTile_ManifestIsComplete_AndHashesMatch" />
+    </UnitTest>
+    <UnitTest name="NoBuildingFloats_WallsReachBelowTheLowestGround" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="d1d817dc-274a-84c7-028a-faf3b54301af">
+      <Execution id="5ec59ca0-3bef-4549-8f78-d0cd3e0095b6" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoFixCycle2Tests" name="NoBuildingFloats_WallsReachBelowTheLowestGround" />
+    </UnitTest>
+    <UnitTest name="Config_HasEveryRequiredKey" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-003/kaiju/dotnettests/worldgeo.tests/bin/debug/net11.0/game.world.geo.tests.dll" id="5abb5934-c313-d6f3-1591-f6c2ce1404b9">
+      <Execution id="467f33c0-f822-4cbd-81ca-9997a348bf66" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.World.Geo.Tests.GeoFixCycle2Tests" name="Config_HasEveryRequiredKey" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="4e2f30d4-38bc-1a7b-e9c3-984cf26b2857" executionId="ee1bf7ad-6d71-4bcd-b12a-e35d75de8ea8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="07089938-11aa-9252-031f-a3f91274da37" executionId="37579f7b-7292-47a0-b960-0db5d062a440" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c50758cc-71a0-be98-dbaa-61d875d156c5" executionId="430771a7-be4b-45c1-8742-aa1f75832b7b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bf12422c-644e-de80-a0b2-f75099f5b9a5" executionId="224b5ad5-7b2d-4e30-bd03-851ba247d919" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ee8ea32d-7d00-90c3-d630-5270c41f5e34" executionId="23a3cbe5-7e60-497b-a677-3c8868d5315c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2da682b9-64dd-d6c6-1f9f-0b222e1409fb" executionId="7acf31ad-be18-45ea-961d-a66cdcda3bcf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="431a9dc2-f5bd-c2fa-35a1-748f4aff5beb" executionId="2b7f6c7a-2e2b-4315-9f94-bacafb3434cc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5abb5934-c313-d6f3-1591-f6c2ce1404b9" executionId="467f33c0-f822-4cbd-81ca-9997a348bf66" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f613eedd-c4ef-1cdc-1da1-1143123c7bc6" executionId="539787df-d9c5-4b11-b6c1-dedc48e5f623" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="206e67ad-2100-e4d0-e24b-63c4098a75a8" executionId="7d0100e2-de02-4033-ae36-71461b0b9881" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cb9f58ea-0be5-b67f-2974-7387ccea7267" executionId="c64cb16c-4496-4600-a396-e43e58123e06" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2adc58eb-dba2-eba7-d2c8-553dc49ca008" executionId="c6ae25db-27ec-498d-b2e2-1dd82f00afa9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fb33540d-094e-1683-edb9-7d21b6f0d7c6" executionId="db34c303-90d1-4158-913e-3002be70fc49" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6745455e-5189-9540-9b64-6199e3897653" executionId="15b9e2c3-2bb2-4213-ab3b-194f9cb4ce07" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e2879380-344e-f8c8-ff54-9a9a0f309b47" executionId="951152d2-7ece-4cdd-8235-17b02dfa9025" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d23353d8-6deb-a6d9-a955-56fc870ebeb7" executionId="55dfd466-6783-4cee-80bc-a528e655b639" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="737a7754-b513-2395-eb43-c5c044d8077f" executionId="8964e0a0-109f-4f25-b0be-0980e8b81253" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a9837ed0-a217-5f71-6643-aa9788181486" executionId="2cc95957-c50d-406b-9989-1fae85bb0e40" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f1574808-3458-8937-4288-ed19a71b4e14" executionId="aea4eda4-b528-4642-b521-2ef32d2a1f2f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f68b671a-c2c1-6573-fb06-4246c16af3d1" executionId="692f4d55-cc39-4ddd-a9cf-42e4d7799eea" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3fabc8cb-efc8-c6c8-9984-3fdf8976c8a0" executionId="6de78852-9c9e-4579-9383-74c8552e8dea" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="36202df1-2c68-763f-744c-85c523f1a105" executionId="2c2f5701-769c-46aa-a23c-ee1e28adc206" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c2ceec25-1849-60d9-7903-ef8a57cf9247" executionId="885b4be2-4e92-4380-aabb-e5c3694f69ea" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3d8ceea8-f1fe-65d0-ad54-5ac2b796c720" executionId="bcaacd33-70b7-4d81-b88b-a092588fba23" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ae11a207-0b2c-785a-223a-06810edff773" executionId="70738dff-6dcd-49bf-87e6-661a7f1c48e9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d1d817dc-274a-84c7-028a-faf3b54301af" executionId="5ec59ca0-3bef-4549-8f78-d0cd3e0095b6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a93607e8-05ca-2a28-97d9-a6dc13e06023" executionId="315efcd2-a4c6-4957-a189-6da390d899da" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0f367c52-2e7f-5dc2-f298-7b02a137a2f7" executionId="53d92a66-0119-4e78-9b69-5404e2daef43" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="28" executed="28" passed="28" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>NUnit Adapter 4.6.0.0: Test execution started
+Running all tests in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-003/kaiju/DotnetTests/WorldGeo.Tests/bin/Debug/net11.0/Game.World.Geo.Tests.dll
+   NUnit3TestExecutor discovered 28 of 28 NUnit test cases using Current Discovery mode, Non-Explicit run
+terrain triangles 577265, buildings 87040, water 7218
+
+NUnit Adapter 4.6.0.0: Test execution complete
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

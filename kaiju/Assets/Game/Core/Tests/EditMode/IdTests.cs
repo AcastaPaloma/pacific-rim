@@ -20,7 +20,6 @@ namespace Game.Core.Tests
                     Assert.That(m.Name, Is.Not.EqualTo("op_Implicit").And.Not.EqualTo("op_Explicit"), t.Name + " must not convert");
                 Assert.That(t.GetConstructors(BindingFlags.Public | BindingFlags.Instance), Is.Empty, t.Name + " is built only by named factories");
             }
-            Assert.That(typeof(EntityId), Is.Not.EqualTo(typeof(BuildingId)));
         }
 
         [Test]
@@ -157,6 +156,37 @@ namespace Game.Core.Tests
                 Assert.That(way.ToString() != rel.ToString() && rel.ToString() != lm.ToString(), Is.True);
                 Assert.That(BuildingId.TryParse(way.ToString(), out var back) && back.SourceId == raw, Is.True);
             }
+        }
+
+        [Test]
+        public void BuildingId_SameRawIdOtherSource_UnequalHashAndSortApart()
+        {
+            var sources = new[] { BuildingSource.OsmWay, BuildingSource.OsmRelation, BuildingSource.Landmark };
+            foreach (var raw in new[] { 1UL, 42UL, 1UL << 32, 11000000000UL, ulong.MaxValue })
+                for (int a = 0; a < sources.Length; a++)
+                    for (int b = a + 1; b < sources.Length; b++)
+                    {
+                        var x = BuildingId.From(sources[a], raw); var y = BuildingId.From(sources[b], raw);
+                        Assert.That(x.Equals(y), Is.False, x + " vs " + y);
+                        Assert.That(x.GetHashCode(), Is.Not.EqualTo(y.GetHashCode()), x + " vs " + y + " hash");
+                        Assert.That(x.CompareTo(y), Is.LessThan(0), "ordered by source first");
+                        Assert.That(y.CompareTo(x), Is.GreaterThan(0));
+                    }
+        }
+
+        [Test]
+        public void BuildingId_RawIdsDifferingOnlyAboveBit32_StayDistinct()
+        {
+            foreach (int bit in new[] { 32, 33, 40, 63 })
+                foreach (ulong low in new[] { 0UL, 7UL, 0xFFFFFFFFUL })
+                {
+                    var x = BuildingId.From(BuildingSource.OsmWay, low);
+                    var y = BuildingId.From(BuildingSource.OsmWay, low | (1UL << bit));
+                    Assert.That(x == y, Is.False, "bit " + bit);
+                    Assert.That(x.GetHashCode(), Is.Not.EqualTo(y.GetHashCode()), "bit " + bit + " hash");
+                    Assert.That(x.CompareTo(y), Is.LessThan(0), "bit " + bit + " order");
+                    Assert.That(x.ToString(), Is.Not.EqualTo(y.ToString()));
+                }
         }
 
         [Test, Category("Slow")]

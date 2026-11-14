@@ -1,0 +1,4 @@
+$ python -I Pipelines/geo/fetch_cudem.py --tile L0_40_40 --offline   # tile never fetched: must fail loudly, write nothing
+kaiju_geo.common.NetworkForbidden: [cudem] ncei19_n38x00_w122x25_2022v1__L0_40_40.tif missing from cache and --offline is set
+exit 1
+0

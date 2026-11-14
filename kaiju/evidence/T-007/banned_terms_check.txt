@@ -16,3 +16,12 @@ Result (run 1): 1 match, PROMPTS.md line 5, the rule statement itself quoting th
 Result (run 2, final): 0 matches (PASS)
 
 Manual read-through: every submitted prompt (P1-a, P1-b, P1-c, P2-a, P2-b, P2-c, P3-a2, P3-b, P4-a2, P4-b, P4-c) uses plain descriptive words only; the only URLs are this session's own Midjourney outputs used as image references.
+
+---
+T-007 fix cycle 2 banned-terms re-check (C1), 2026-11-14, after the mood frame v2 prompts (P4-d ... P4-g)
+Same term list (68 terms, same 5 categories), SHA-256 of the list without comment lines: 76767183311d4a53afffd9181c6728344bef3c64d9470a934517e2a1504fe968
+Files checked: art/concepts/mech_frame_balanced/PROMPTS.md, art/concepts/mech_frame_balanced/PROVENANCE.md, art/concepts/mech_frame_balanced/DESIGN_NOTE.md, evidence/T-007/mood_frame_check.json, evidence/T-007/mood_frame_check.py, evidence/T-007/build_contact_sheet.py
+Command: grep -i -c -F -f <list without comment lines> <files above>
+Result (run 1): 2 matches, both in the Usage line of the two new scripts (the conda environment's install path contains a listed word); not in any prompt. The Usage lines were reworded to name the environment by its file (environment.yml).
+Result (run 2, final): 0 matches in every file (PASS)
+Manual read-through: P4-d, P4-e, P4-f, P4-g use plain descriptive words only; the only URLs are this task's own Midjourney outputs (jobs 2fa84a4e image 2 and 6c9f1c93 image 1) used as image references.

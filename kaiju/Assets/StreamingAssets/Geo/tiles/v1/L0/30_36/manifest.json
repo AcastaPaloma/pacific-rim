@@ -1,0 +1,755 @@
+{
+ "bounds_baytm": [
+  61440.0,
+  73728.0,
+  63488.0,
+  75776.0
+ ],
+ "bounds_wgs84": [
+  -122.407558,
+  37.786854,
+  -122.384281,
+  37.805325
+ ],
+ "build": {
+  "built_utc": "2026-11-14T17:35:25Z",
+  "git": "5e18b6f1e1730b1914f42a38e8423e1a8703a673",
+  "git_dirty_pipeline": false,
+  "inputs_sha256": "da1e97857e3ed837a113d27f356535f5465e5ee0ad1aa1b92e46854799888a00",
+  "script": "Pipelines/geo/bake_tile.py"
+ },
+ "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
+ "i": 30,
+ "j": 36,
+ "layers": [
+  {
+   "file": "terrain.tif",
+   "format": "COG float32 2049x2049, pixel-is-point, row 0 = north, deflate + predictor 3",
+   "h_max_m": 91.7437,
+   "h_min_m": -29.481,
+   "layer": "terrain",
+   "merge_rule": "3DEP 1 m where valid and CUDEM > +1.798 m NAVD88, CUDEM elsewhere, centred linear feather over terrain.feather_m (50.0 m); piers raised to deck",
+   "samples": 2049,
+   "sha256": "2d3f79ebec42f9fcc18a4c8a9786f9e433133e27ced540a0fa08e26dda70c96c",
+   "sources": [
+    {
+     "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
+     "doi": "10.25921/ds9v-ky35",
+     "fetched_utc": "2026-11-14T12:06:03Z",
+     "item": "ncei19_n38x00_w122x50_2022v1",
+     "licence": "US-Gov-PD",
+     "product": "NOAA NCEI CUDEM 1/9 arc-second topobathy (2022v1)",
+     "source_sha256": "b95bbd20e3e7674d2e4473af1318a6b9603bfcddfd92d2cb62702d343201f822",
+     "url": "https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/CA/ncei19_n38x00_w122x50_2022v1.tif",
+     "window": [
+      2883,
+      6219,
+      991,
+      787
+     ]
+    },
+    {
+     "attribution": "U.S. Geological Survey 3D Elevation Program",
+     "fetched_utc": "2026-11-14T12:06:33Z",
+     "item": "USGS_1M_10_x55y419_CA_SanFrancisco_B23",
+     "licence": "US-Gov-PD",
+     "product": "USGS 3DEP 1 m DEM",
+     "published": "2024-08-26",
+     "source_sha256": "e94c89f6dc13c054235351071be967889d1791318f248a9e7b842e7111f960c5",
+     "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SanFrancisco_B23/TIFF/USGS_1M_10_x55y419_CA_SanFrancisco_B23.tif",
+     "window": [
+      1835,
+      5289,
+      2709,
+      2708
+     ]
+    }
+   ],
+   "spacing_m": 1.0
+  },
+  {
+   "file": "terrain.r16",
+   "format": "uint16 LE RAW 2049x2049, row 0 = south, col 0 = west, h = h_min + v*(h_max-h_min)/65535",
+   "h_max_m": 91.74369812011719,
+   "h_min_m": -29.481000900268555,
+   "layer": "terrain_r16",
+   "sha256": "85e2230274110b0a43d6a4a7291b2ca6bfb4e4cbf954785e1e66fa04a13d6a4e",
+   "sources": [
+    {
+     "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
+     "doi": "10.25921/ds9v-ky35",
+     "fetched_utc": "2026-11-14T12:06:03Z",
+     "item": "ncei19_n38x00_w122x50_2022v1",
+     "licence": "US-Gov-PD",
+     "product": "NOAA NCEI CUDEM 1/9 arc-second topobathy (2022v1)",
+     "source_sha256": "b95bbd20e3e7674d2e4473af1318a6b9603bfcddfd92d2cb62702d343201f822",
+     "url": "https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/CA/ncei19_n38x00_w122x50_2022v1.tif",
+     "window": [
+      2883,
+      6219,
+      991,
+      787
+     ]
+    },
+    {
+     "attribution": "U.S. Geological Survey 3D Elevation Program",
+     "fetched_utc": "2026-11-14T12:06:33Z",
+     "item": "USGS_1M_10_x55y419_CA_SanFrancisco_B23",
+     "licence": "US-Gov-PD",
+     "product": "USGS 3DEP 1 m DEM",
+     "published": "2024-08-26",
+     "source_sha256": "e94c89f6dc13c054235351071be967889d1791318f248a9e7b842e7111f960c5",
+     "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SanFrancisco_B23/TIFF/USGS_1M_10_x55y419_CA_SanFrancisco_B23.tif",
+     "window": [
+      1835,
+      5289,
+      2709,
+      2708
+     ]
+    }
+   ],
+   "step_m": 0.0018497703367724994
+  },
+  {
+   "file": "water.png",
+   "format": "PNG 8-bit 2048x2048 cell-centred, row 0 = north, 255 = water surface at MSL, 0 = land/pier",
+   "layer": "water",
+   "piers": [
+    {
+     "bounds": [
+      61298.3,
+      76087.3,
+      61420.6,
+      76185.1
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      61395.3,
+      76094.3,
+      61411.9,
+      76124.4
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      61409.3,
+      76094.3,
+      61440.3,
+      76108.5
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      61449.2,
+      75982.6,
+      61584.5,
+      76302.3
+     ],
+     "deck_m": 3.567,
+     "nodes_raised": 0,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      61726.4,
+      75948.9,
+      61745.4,
+      75973.1
+     ],
+     "deck_m": 3.783,
+     "nodes_raised": 143,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      61962.8,
+      75582.4,
+      62062.4,
+      75956.0
+     ],
+     "deck_m": 4.331,
+     "nodes_raised": 9895,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      62155.2,
+      75340.3,
+      62389.6,
+      75523.7
+     ],
+     "deck_m": 3.751,
+     "nodes_raised": 6621,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      62198.7,
+      75253.3,
+      62448.1,
+      75474.6
+     ],
+     "deck_m": 3.907,
+     "nodes_raised": 10318,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      62281.4,
+      75278.3,
+      62300.9,
+      75291.1
+     ],
+     "deck_m": 3.677,
+     "nodes_raised": 140,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      62290.7,
+      75226.0,
+      62311.3,
+      75246.5
+     ],
+     "deck_m": 3.769,
+     "nodes_raised": 105,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      62325.9,
+      75251.4,
+      62346.5,
+      75271.9
+     ],
+     "deck_m": 3.811,
+     "nodes_raised": 105,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      62347.4,
+      75194.7,
+      62359.7,
+      75207.7
+     ],
+     "deck_m": 3.715,
+     "nodes_raised": 96,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      62377.1,
+      75286.9,
+      62395.5,
+      75302.4
+     ],
+     "deck_m": 3.835,
+     "nodes_raised": 114,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      62389.3,
+      75040.6,
+      62609.2,
+      75207.0
+     ],
+     "deck_m": 3.394,
+     "nodes_raised": 2423,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      62396.4,
+      75230.7,
+      62414.2,
+      75245.6
+     ],
+     "deck_m": 3.854,
+     "nodes_raised": 92,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      62472.6,
+      74906.1,
+      62669.1,
+      75068.5
+     ],
+     "deck_m": 3.618,
+     "nodes_raised": 8970,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      62504.7,
+      74871.0,
+      62553.6,
+      74918.2
+     ],
+     "deck_m": 3.27,
+     "nodes_raised": 952,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      62515.7,
+      74808.9,
+      62722.4,
+      74983.0
+     ],
+     "deck_m": 3.731,
+     "nodes_raised": 7490,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      62554.6,
+      74902.9,
+      62568.1,
+      74915.0
+     ],
+     "deck_m": 3.665,
+     "nodes_raised": 72,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      62565.2,
+      74907.4,
+      62614.8,
+      74945.8
+     ],
+     "deck_m": 3.664,
+     "nodes_raised": 324,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      62571.1,
+      74956.7,
+      62595.9,
+      74976.9
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      62596.4,
+      75040.4,
+      62628.7,
+      75067.3
+     ],
+     "deck_m": 2.92,
+     "nodes_raised": 295,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      62598.0,
+      74496.0,
+      62878.2,
+      74804.0
+     ],
+     "deck_m": 3.427,
+     "nodes_raised": 24084,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      62622.0,
+      74994.2,
+      62646.8,
+      75014.4
+     ],
+     "deck_m": 3.068,
+     "nodes_raised": 171,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      62674.1,
+      74813.1,
+      62714.2,
+      74847.4
+     ],
+     "deck_m": 3.306,
+     "nodes_raised": 520,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      62743.8,
+      74715.0,
+      62762.0,
+      74746.0
+     ],
+     "deck_m": 4.028,
+     "nodes_raised": 292,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      62766.6,
+      74506.3,
+      62833.7,
+      74573.1
+     ],
+     "deck_m": 3.072,
+     "nodes_raised": 1279,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      62802.4,
+      74742.5,
+      62817.1,
+      74772.1
+     ],
+     "deck_m": 3.782,
+     "nodes_raised": 166,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      62824.4,
+      74625.6,
+      62864.7,
+      74659.8
+     ],
+     "deck_m": 3.107,
+     "nodes_raised": 525,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      62840.1,
+      74454.4,
+      63012.7,
+      74579.6
+     ],
+     "deck_m": 4.041,
+     "nodes_raised": 1120,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      62853.2,
+      74585.0,
+      62894.0,
+      74619.6
+     ],
+     "deck_m": 4.271,
+     "nodes_raised": 527,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      62883.2,
+      74544.5,
+      62923.9,
+      74579.1
+     ],
+     "deck_m": 4.124,
+     "nodes_raised": 532,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      63104.6,
+      74060.6,
+      63134.1,
+      74116.9
+     ],
+     "deck_m": 3.443,
+     "nodes_raised": 528,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      63138.1,
+      74091.4,
+      63197.9,
+      74138.6
+     ],
+     "deck_m": 3.189,
+     "nodes_raised": 1526,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      63153.2,
+      73929.6,
+      63412.5,
+      74054.3
+     ],
+     "deck_m": 3.332,
+     "nodes_raised": 13315,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      63188.7,
+      73823.0,
+      63411.3,
+      73939.8
+     ],
+     "deck_m": 3.899,
+     "nodes_raised": 6758,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      63196.2,
+      73572.7,
+      63479.9,
+      73786.7
+     ],
+     "deck_m": 3.787,
+     "nodes_raised": 27562,
+     "rule": "median of 3DEP deck samples on the pier"
+    },
+    {
+     "bounds": [
+      63298.9,
+      74117.1,
+      63377.4,
+      74176.3
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      63783.3,
+      74670.3,
+      63834.6,
+      74720.2
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    }
+   ],
+   "sha256": "4f4d8695dd4b22422cf4f7e459cf7638a3d5f1dff707324b9f1434f38cb1a314",
+   "sources": [
+    {
+     "attribution": "© OpenStreetMap contributors (ODbL)",
+     "derivative_database_candidate": true,
+     "fetched_utc": "2026-11-14T12:14:47Z",
+     "item": "water-polygons-split-4326.zip",
+     "licence": "ODbL-1.0",
+     "product": "OSM water polygons (osmdata.openstreetmap.de, split, EPSG:4326)",
+     "source_sha256": "22d97b206fd5ce4b9fc991e561513b5f3468ed1cfea8ae4410982336991623ed",
+     "upstream_etag": "\"6af7c099-361f86d1\"",
+     "upstream_last_modified": "Sat, 14 Nov 2026 01:59:53 GMT",
+     "url": "https://osmdata.openstreetmap.de/download/water-polygons-split-4326.zip"
+    },
+    {
+     "attribution": "NOAA CO-OPS",
+     "fetched_utc": "2026-11-14T12:14:48Z",
+     "item": "9414290 datums",
+     "licence": "US-Gov-PD",
+     "product": "NOAA CO-OPS station 9414290 San Francisco datums (NTDE 1983-2001)",
+     "source_sha256": "7b5d1b79efb7656499fd91508fec05bce539f1eec177f42456ac6aa4b1b4c79f",
+     "url": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/9414290/datums.json?units=metric"
+    },
+    {
+     "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
+     "doi": "10.25921/ds9v-ky35",
+     "fetched_utc": "2026-11-14T12:06:03Z",
+     "item": "ncei19_n38x00_w122x50_2022v1",
+     "licence": "US-Gov-PD",
+     "product": "NOAA NCEI CUDEM 1/9 arc-second topobathy (2022v1)",
+     "source_sha256": "b95bbd20e3e7674d2e4473af1318a6b9603bfcddfd92d2cb62702d343201f822",
+     "url": "https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/CA/ncei19_n38x00_w122x50_2022v1.tif",
+     "window": [
+      2883,
+      6219,
+      991,
+      787
+     ]
+    },
+    {
+     "attribution": "U.S. Geological Survey 3D Elevation Program",
+     "fetched_utc": "2026-11-14T12:06:33Z",
+     "item": "USGS_1M_10_x55y419_CA_SanFrancisco_B23",
+     "licence": "US-Gov-PD",
+     "product": "USGS 3DEP 1 m DEM",
+     "published": "2024-08-26",
+     "source_sha256": "e94c89f6dc13c054235351071be967889d1791318f248a9e7b842e7111f960c5",
+     "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SanFrancisco_B23/TIFF/USGS_1M_10_x55y419_CA_SanFrancisco_B23.tif",
+     "window": [
+      1835,
+      5289,
+      2709,
+      2708
+     ]
+    }
+   ],
+   "water_fraction": 0.37878,
+   "water_level_navd88_m": 0.969
+  },
+  {
+   "base_rule": "base_navd88_m = 10th percentile of the surface along the footprint ring (1 m steps); ground_min_navd88_m = minimum under the footprint; walls reach ground_min - skirt",
+   "count": 2503,
+   "count_excluded": 12,
+   "count_height_capped_to_parent": 53,
+   "count_parts": 457,
+   "count_rendered": 2391,
+   "count_structures": 2046,
+   "exclusion_rule": "kept as records, not extruded: location=underground, or layer<0 with building:levels:underground or level<0 (underground stations), building=ship; parts inherit their structure's exclusion",
+   "extra_fields": [
+    "has_parts",
+    "roof_height_m",
+    "remainder_geometry",
+    "datasf_id",
+    "datasf_iou",
+    "ground_min_navd88_m",
+    "excluded",
+    "height_capped_to_parent"
+   ],
+   "file": "buildings.geojson",
+   "height_source_counts": {
+    "datasf": 281,
+    "default": 334,
+    "osm_height": 1556,
+    "osm_levels": 332
+   },
+   "layer": "buildings",
+   "owner_rule": "a structure is owned by the tile containing its shapely point_on_surface; its parts follow it; geometry is not clipped",
+   "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
+   "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
+   "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
+   "sha256": "7cbb40727134f72cfbdcabe8bb998c213d13cb62f5e1f1d3bc43b7d9ac794c3d",
+   "sources": [
+    {
+     "attribution": "© OpenStreetMap contributors (ODbL)",
+     "attribution_notice": "Map data © OpenStreetMap contributors, available under the Open Database License (ODbL) 1.0: https://www.openstreetmap.org/copyright",
+     "derivative_database_candidate": true,
+     "extract_sha256": "4e3f23d1fd39f1e8243553300fe481deaeb0f1692c3d41e63d468c41c179e0f3",
+     "fetched_utc": "2026-11-14T12:11:47Z",
+     "item": "norcal-latest.osm.pbf",
+     "licence": "ODbL-1.0",
+     "osm_base_utc": "2026-11-13T21:22:20Z",
+     "product": "OpenStreetMap (Geofabrik Northern California extract)",
+     "source_sha256": "83538f21b060afacd13aab83a2c55ecf2c703025bbfa26fadddadb3cc77b08de",
+     "upstream_etag": "\"271889a3-660330da5f532\"",
+     "upstream_last_modified": "Sat, 14 Nov 2026 02:10:48 GMT",
+     "url": "https://download.geofabrik.de/north-america/us/california/norcal-latest.osm.pbf"
+    },
+    {
+     "attribution": "City and County of San Francisco",
+     "fetched_utc": "2026-11-14T12:05:41Z",
+     "item": "ynuv-fyni",
+     "licence": "PDDL-1.0",
+     "product": "DataSF Building Footprints ynuv-fyni",
+     "source_sha256": "ccfdd93b3d0226b168610d958577e60e5396edffb454d7efc04750fd58cbbe6a",
+     "upstream_etag": "W/\"Z29sZi4yNTI1Nl8zXzExMDhnd0g3QmZJeHFJelNUaWJBUGdCWVg4YUY3eVU---gzirRq83_zJHBoXfMS5je8U7moXjOFw--gzip--gzip\"",
+     "upstream_last_modified": "Fri, 13 Nov 2026 18:25:53 GMT",
+     "url": "https://data.sfgov.org/resource/ynuv-fyni.geojson?$where=within_box(shape,37.808211,-122.411196,37.783968,-122.380645)&$order=sf16_bldgid&$limit=50000"
+    }
+   ]
+  },
+  {
+   "clip_rule": "clipped to the tile square; wid is the global OSM way id",
+   "count": 4131,
+   "file": "roads.geojson",
+   "layer": "roads",
+   "sha256": "c5e18915462bcc940406d6e0d916fe23d7cf91b1fa5ac5eb9e3f1023635b0d21",
+   "sources": [
+    {
+     "attribution": "© OpenStreetMap contributors (ODbL)",
+     "attribution_notice": "Map data © OpenStreetMap contributors, available under the Open Database License (ODbL) 1.0: https://www.openstreetmap.org/copyright",
+     "derivative_database_candidate": true,
+     "extract_sha256": "4e3f23d1fd39f1e8243553300fe481deaeb0f1692c3d41e63d468c41c179e0f3",
+     "fetched_utc": "2026-11-14T12:11:47Z",
+     "item": "norcal-latest.osm.pbf",
+     "licence": "ODbL-1.0",
+     "osm_base_utc": "2026-11-13T21:22:20Z",
+     "product": "OpenStreetMap (Geofabrik Northern California extract)",
+     "source_sha256": "83538f21b060afacd13aab83a2c55ecf2c703025bbfa26fadddadb3cc77b08de",
+     "upstream_etag": "\"271889a3-660330da5f532\"",
+     "upstream_last_modified": "Sat, 14 Nov 2026 02:10:48 GMT",
+     "url": "https://download.geofabrik.de/north-america/us/california/norcal-latest.osm.pbf"
+    }
+   ]
+  },
+  {
+   "count": 0,
+   "empty_by_design": true,
+   "file": "faults.geojson",
+   "global_file": "global/v1/faults_bay.geojson",
+   "global_sha256": "0dbc51ca628f8859e8c81a20450cd320c7910bd58328c6a047c50a8e7eb16f4a",
+   "layer": "faults",
+   "nearest_faults": [
+    {
+     "distance_m": 11587.9,
+     "fault_name": "Golden Gate fault",
+     "nearest_feature": "qf:5:304",
+     "section": ""
+    },
+    {
+     "distance_m": 12713.4,
+     "fault_name": "Serra fault zone",
+     "nearest_feature": "qf:4:83177",
+     "section": ""
+    },
+    {
+     "distance_m": 13576.3,
+     "fault_name": "San Andreas fault zone",
+     "nearest_feature": "qf:5:306",
+     "section": "San Francisco section"
+    },
+    {
+     "distance_m": 13788.6,
+     "fault_name": "Hayward fault zone",
+     "nearest_feature": "qf:4:90503",
+     "section": "Northern Hayward section"
+    }
+   ],
+   "sha256": "a25c78d52a778e9e12b7256f6bd8fcd5f76af3a1b130b2806efc837c666de3d3",
+   "sources": [
+    {
+     "attribution": "U.S. Geological Survey Quaternary Fault and Fold Database",
+     "features": 3125,
+     "fetched_utc": "2026-11-14T12:05:53Z",
+     "item": "layer 4",
+     "licence": "US-Gov-PD",
+     "product": "USGS Quaternary Fault and Fold Database (2020 release), ArcGIS REST haz/Qfaults layers 4 (CA) and 5 (CA offshore)",
+     "source_sha256": "1bde71616d316e104f2cf82a6594abec2ae0f83540f6ce65b52efd2e407b0687",
+     "url": "https://earthquake.usgs.gov/arcgis/rest/services/haz/Qfaults/MapServer/4"
+    },
+    {
+     "attribution": "U.S. Geological Survey Quaternary Fault and Fold Database",
+     "features": 107,
+     "fetched_utc": "2026-11-14T12:05:54Z",
+     "item": "layer 5",
+     "licence": "US-Gov-PD",
+     "product": "USGS Quaternary Fault and Fold Database (2020 release), ArcGIS REST haz/Qfaults layers 4 (CA) and 5 (CA offshore)",
+     "source_sha256": "af059cffe6d840bdccdabb84b072b359ea021c7002b1e6d3da77012fb0ed7bb7",
+     "url": "https://earthquake.usgs.gov/arcgis/rest/services/haz/Qfaults/MapServer/5"
+    }
+   ]
+  }
+ ],
+ "level": 0,
+ "origin_baytm_m": [
+  61440.0,
+  73728.0
+ ],
+ "spec": "geo_tile@v1",
+ "tile": "L0_30_36",
+ "tile_size_m": 2048.0,
+ "unity_axes": "x = BayTM easting, y = NAVD88 height, z = BayTM northing; 1 unit = 1 m; tile-local = world - origin",
+ "vertical": "NAVD88 (EPSG:5703), GEOID18",
+ "water_level_navd88_m": 0.969
+}

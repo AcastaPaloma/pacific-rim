@@ -1,0 +1,28 @@
+{
+    "name": "Game.World.Geo.Unity.Tests",
+    "rootNamespace": "Game.World.Geo.Unity.Tests",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Game.Core.Contracts",
+        "Game.World.Geo.Contracts",
+        "Game.World.Geo",
+        "Game.World.Geo.Unity",
+        "Game.World.Geo.Tests"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,214 @@
+{
+  "frame": "art/concepts/mech_frame_balanced/layer4_mood-v2_af67b340-b21d-4861-b15d-57f351cebe0c_0.png",
+  "cut_fraction": 0.835,
+  "image_size": [
+    1387,
+    777
+  ],
+  "kmeans": {
+    "k": 8,
+    "space": "CIELAB",
+    "downscale": 4,
+    "random_state": 0,
+    "clusters": [
+      {
+        "share": 0.3131,
+        "lab": [
+          70.6,
+          -7.9,
+          -0.0
+        ],
+        "rgb": [
+          157,
+          177,
+          172
+        ],
+        "chroma": 7.9,
+        "hue_deg": 180.1,
+        "family": "slate-teal/grey-green"
+      },
+      {
+        "share": 0.2031,
+        "lab": [
+          64.1,
+          -2.3,
+          7.2
+        ],
+        "rgb": [
+          157,
+          156,
+          142
+        ],
+        "chroma": 7.6,
+        "hue_deg": 107.6,
+        "family": "warm cream/brown"
+      },
+      {
+        "share": 0.1326,
+        "lab": [
+          77.0,
+          -6.7,
+          3.0
+        ],
+        "rgb": [
+          179,
+          194,
+          184
+        ],
+        "chroma": 7.3,
+        "hue_deg": 155.7,
+        "family": "slate-teal/grey-green"
+      },
+      {
+        "share": 0.0918,
+        "lab": [
+          83.4,
+          -4.1,
+          8.2
+        ],
+        "rgb": [
+          206,
+          210,
+          192
+        ],
+        "chroma": 9.1,
+        "hue_deg": 116.8,
+        "family": "slate-teal/grey-green"
+      },
+      {
+        "share": 0.0776,
+        "lab": [
+          32.7,
+          -7.8,
+          2.4
+        ],
+        "rgb": [
+          65,
+          80,
+          73
+        ],
+        "chroma": 8.1,
+        "hue_deg": 162.7,
+        "family": "slate-teal/grey-green"
+      },
+      {
+        "share": 0.0741,
+        "lab": [
+          12.5,
+          -7.4,
+          2.9
+        ],
+        "rgb": [
+          23,
+          35,
+          28
+        ],
+        "chroma": 8.0,
+        "hue_deg": 158.6,
+        "family": "slate-teal/grey-green"
+      },
+      {
+        "share": 0.0649,
+        "lab": [
+          41.1,
+          -7.7,
+          1.9
+        ],
+        "rgb": [
+          84,
+          100,
+          94
+        ],
+        "chroma": 7.9,
+        "hue_deg": 166.2,
+        "family": "slate-teal/grey-green"
+      },
+      {
+        "share": 0.0428,
+        "lab": [
+          55.9,
+          -1.2,
+          8.5
+        ],
+        "rgb": [
+          138,
+          134,
+          119
+        ],
+        "chroma": 8.6,
+        "hue_deg": 97.8,
+        "family": "warm cream/brown"
+      }
+    ]
+  },
+  "hue_family_share": {
+    "slate-teal/grey-green": 0.7541,
+    "warm cream/brown": 0.2459
+  },
+  "families_used": 2,
+  "share_in_top3_families_plus_accent": 1.0,
+  "accent": {
+    "rule": "chroma>=30 and hue 20-75 deg",
+    "share": 7e-05,
+    "centroid_xy": [
+      357,
+      722
+    ]
+  },
+  "luminance_Lstar": {
+    "sky_mean": 72.92,
+    "mech_mean_incl_blocks": 38.04,
+    "mech_mean_dark_body": 37.14,
+    "sky_above_mech": true
+  },
+  "geometry_px": {
+    "mech_top_y": 112,
+    "crotch_y": 420,
+    "water_line_y": 647,
+    "mech_bbox_x": [
+      425,
+      941
+    ],
+    "visible_mech_height_px": 535
+  },
+  "water_line_estimate": {
+    "0.46": {
+      "hidden_px": 35.4,
+      "water_height_m_above_sole": 4.96,
+      "water_height_fraction_of_H": 0.062
+    },
+    "0.48": {
+      "hidden_px": 57.3,
+      "water_height_m_above_sole": 7.74,
+      "water_height_fraction_of_H": 0.097
+    },
+    "0.5": {
+      "hidden_px": 81.0,
+      "water_height_m_above_sole": 10.52,
+      "water_height_fraction_of_H": 0.131
+    }
+  },
+  "water_line_target": "ankle (~3-4 m) to mid-shin (~10-12 m) above the sole",
+  "checks": {
+    "families_le_3_plus_accent_ge_90pct": true,
+    "accent_le_10pct": true,
+    "sky_lighter_than_mech": true,
+    "water_line_ankle_to_midshin": true
+  },
+  "scale_objects_manual": {
+    "method": "read by eye on a 2x nearest-neighbour zoom of rows 640-700 (near pier); estimated full mech height H_px = visible height + hidden depth at leg 0.48 H",
+    "mech_height_px_est": 592.3,
+    "people_on_near_pier_px": "20-24 tall",
+    "people_fraction_of_mech": [
+      0.034,
+      0.041
+    ],
+    "cars_on_near_pier_px": "40-55 long, about 15 tall",
+    "cars_fraction_of_mech": [
+      0.068,
+      0.093
+    ],
+    "crane_on_barge": "top at about the mech's knee row",
+    "note": "People and cars stand on the near pier, in front of the mech (the mech is behind open water). At their own depth they are 3.4-4.1 % (people) and 6.8-9.3 % (car length) of the mech's image height, above the 2.5 % / 6.5 % bound that the eval-style PASS line sets at the mech's depth. True scale at both depths holds if the pier is about 1.6-1.9 times nearer the camera than the mech (1.8 m person at 20-24 px gives 11-13 px/m on the pier; the mech gives 7.4 px/m), which the composition shows but cannot prove. Not measured by the script; judged here."
+  }
+}
