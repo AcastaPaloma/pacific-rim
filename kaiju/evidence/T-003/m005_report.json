@@ -593,6 +593,7 @@
     "due": "M1",
     "preview": {
      "tile": "L0_26_37",
+     "box_fraction_inside_tile": "partial (the box extends east of x = 55296; the deepest cells R-004 lists lie outside this tile)",
      "min_m": -101.95,
      "p5_m": -99.11,
      "threshold": "min -113 +/- 4 m; p5 <= -100 m",
@@ -1767,16 +1768,18 @@
      }
     ]
    },
-   "threshold": "max adjacent jump < 1.5 m except documented seawalls/piers",
-   "result": "pass",
+   "threshold": "max adjacent jump < 1.5 m except documented seawalls/piers; seam median <= 0.1 m and no blend step > 0.5 m",
+   "result": "fail",
    "seam": {
-    "band_nodes": 26521,
-    "median_abs_3dep_minus_cudem_m": 0.934,
-    "p95_m": 4.489,
-    "max_merged_step_per_m_in_band": 6.051,
-    "share_steps_gt_0.5m_per_m": 0.2317,
+    "all_land_nodes": 2547069,
+    "all_land_median_3dep_minus_cudem_m": 0.027,
+    "all_land_median_abs_m": 0.061,
+    "band_nodes": 72815,
+    "median_abs_3dep_minus_cudem_m": 0.457,
+    "p95_m": 4.411,
+    "max_extra_step_from_blend_m": 0.489,
     "result": "fail",
-    "threshold": "median |d| <= 0.1 m and no step > 0.5 m (steps > 0.5 m/m are seawall/cliff slopes present in the 1 m source; see share)"
+    "threshold": "median |3DEP - CUDEM| <= 0.1 m in the feather band; the blend adds no step > 0.5 m beyond the sources' own steps"
    },
    "water_cells_above_ground": {
     "water_cells_with_ground_above_msl": 0,

@@ -432,7 +432,7 @@ def gg_preview():
     lon, lat = baytm_to_lonlat(np.array(xs_), np.array(zs_))
     m = (lon >= -122.484) & (lon <= -122.472) & (lat >= 37.814) & (lat <= 37.823)
     v = a.ravel()[m]
-    return {"tile": "L0_26_37", "min_m": r(v.min(), 2), "p5_m": r(np.percentile(v, 5), 2), "threshold": "min -113 +/- 4 m; p5 <= -100 m",
+    return {"tile": "L0_26_37", "box_fraction_inside_tile": "partial (the box extends east of x = 55296; the deepest cells R-004 lists lie outside this tile)", "min_m": r(v.min(), 2), "p5_m": r(np.percentile(v, 5), 2), "threshold": "min -113 +/- 4 m; p5 <= -100 m",
             "would_pass": bool(abs(v.min() + 113) <= 4 and np.percentile(v, 5) <= -100), "cells": int(m.sum())}
 
 
@@ -736,8 +736,9 @@ def t003(rep, tile, E, cps, man, hs, water, feats, samples, cfg):
     T["C10_shoreline"] = res({"median_offset_m": r(np.median(cross), 2) if cross else None, "profiles_with_crossing": len(cross), "water_level_navd88_m": msl},
                              "median offset <= 5 m between the terrain/water intersection and the OSM coastline", bool(cross) and np.median(cross) <= 5,
                              piers_dry=pier_dryness(tile, water))
+    seam = seam_check(tile, cfg)
     T["C11_continuous_surface"] = res({"profiles": 50, "max_jump_m": r(max(jumps), 3), "undocumented_jumps_ge_1.5m": len(bad), "profiles_detail": items},
-                                      "max adjacent jump < 1.5 m except documented seawalls/piers", not bad, seam=seam_check(tile, cfg),
+                                      "max adjacent jump < 1.5 m except documented seawalls/piers; seam median <= 0.1 m and no blend step > 0.5 m", not bad and seam["result"] == "pass", seam=seam,
                                       water_cells_above_ground=water_above_ground(hs, water, msl))
     T["C12_buildings"] = buildings_sit(tile, E, hs)
     T["C13_roads_faults"] = roads_faults(tile)
@@ -765,23 +766,32 @@ def water_above_ground(hs, water, msl):
 
 
 def seam_check(tile, cfg):
+    """3DEP/CUDEM seam = the feather band of the merge (0 < w < 1, inside land). Median |3DEP - CUDEM| there, and the
+    extra step the blend adds over the larger of the two sources' own adjacent-node steps."""
     cp, dp = source_rasters(tile)
-    k = np.arange(0, 2049, 2.0)
-    X, Z = np.meshgrid(tile.x0 + k, tile.z0 + k)
+    M = cfg["terrain"]["margin_nodes"]
+    gx, gz = terrain.node_axes(tile, M)
+    X, Z = np.meshgrid(gx, gz)
     hc = terrain.sample_rasters(cp, X, Z)
     h3 = terrain.sample_rasters(dp, X, Z)
-    use = np.isfinite(h3) & np.isfinite(hc) & (hc > cfg["terrain"]["use_3dep_above_navd88_m"])
-    from scipy.ndimage import binary_dilation, binary_erosion
-    band = binary_dilation(use, iterations=3) & ~binary_erosion(use, iterations=3) & np.isfinite(h3) & np.isfinite(hc)
+    h, w = terrain.merge_surface(hc, h3, cfg["terrain"]["use_3dep_above_navd88_m"], cfg["terrain"]["feather_m"], tile.spacing)
+    core = (slice(M, M + 2049), slice(M, M + 2049))
+    h, w, hc, h3 = h[core], w[core], hc[core], h3[core]
+    band = (w > 0) & (w < 1)
     d = np.abs(h3 - hc)[band]
-    import rasterio
-    with rasterio.open(tile_paths(tile) / "terrain.tif") as src:
-        t = np.flipud(src.read(1).astype(np.float64))[::2, ::2]
-    step = np.maximum(np.abs(np.diff(t, axis=0))[:, :-1], np.abs(np.diff(t, axis=1))[:-1, :]) / 2.0
-    bstep = step[band[:-1, :-1]]
-    return {"band_nodes": int(band.sum()), "median_abs_3dep_minus_cudem_m": r(np.median(d), 3), "p95_m": r(np.percentile(d, 95), 3),
-            "max_merged_step_per_m_in_band": r(bstep.max(), 3), "share_steps_gt_0.5m_per_m": r(np.mean(bstep > 0.5), 4),
-            "result": "pass" if np.median(d) <= 0.1 else "fail", "threshold": "median |d| <= 0.1 m and no step > 0.5 m (steps > 0.5 m/m are seawall/cliff slopes present in the 1 m source; see share)"}
+    extra = []
+    for ax in (0, 1):
+        dm = np.abs(np.diff(h, axis=ax)); d3 = np.abs(np.diff(h3, axis=ax)); dc = np.abs(np.diff(hc, axis=ax))
+        bb = band[:-1, :] | band[1:, :] if ax == 0 else band[:, :-1] | band[:, 1:]
+        extra.append((dm - np.fmax(d3, dc))[bb])
+    extra = np.concatenate(extra)
+    land = np.isfinite(h3) & np.isfinite(hc) & (hc > cfg["terrain"]["use_3dep_above_navd88_m"])
+    dl = (h3 - hc)[land]
+    return {"all_land_nodes": int(land.sum()), "all_land_median_3dep_minus_cudem_m": r(np.median(dl), 3), "all_land_median_abs_m": r(np.median(np.abs(dl)), 3),
+            "band_nodes": int(band.sum()), "median_abs_3dep_minus_cudem_m": r(np.median(d), 3), "p95_m": r(np.percentile(d, 95), 3),
+            "max_extra_step_from_blend_m": r(np.nanmax(extra), 3),
+            "result": "pass" if np.median(d) <= 0.1 and np.nanmax(extra) <= 0.5 else "fail",
+            "threshold": "median |3DEP - CUDEM| <= 0.1 m in the feather band; the blend adds no step > 0.5 m beyond the sources' own steps"}
 
 
 def buildings_sit(tile, E, hs):
