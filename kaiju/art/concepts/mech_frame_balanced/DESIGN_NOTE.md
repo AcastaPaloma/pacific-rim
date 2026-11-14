@@ -20,7 +20,7 @@ Head: a low, wide, flat cap with one narrow horizontal sensor slit; no eyes, no 
 | Height H | 80.0 m sole to head top; shoulder-block tops 77 m |
 | Shoulder line | chest top 69.5 m; the 67 m deck marker crosses the upper chest |
 | Shoulder width (C11, torso and shoulder armour only, spec v1.1 ruling b) | 28.3 m = 0.354 H; shoulder/hip 1.42 |
-| Arms | shoulder housing 5.0 m ball seated in a chest cup; upper arm 4.6 m; forearm 5.4 m; fist 4.75 m (≥ 0.055 H), flat knuckle face ≥ 6 m² |
+| Arms | shoulder housing 4.8 m ball seated in a chest cup; upper arm 4.6 m; forearm 5.4 m; fist 4.75 m (≥ 0.055 H), flat knuckle face ≥ 6 m² |
 | Head | cap 5.0 m above the cowl (0.0625 H), 6.4 m wide |
 | Legs | leg length 0.525 H; thigh 8.0 m (≥ 0.10 H), shank 6.4–6.8 m (≥ 0.08 H) in front and side views, no thin ankle linkages |
 | Feet | 15 × 10 m flat sole, ≈ 150 m² contact (toe corners chamfered), no toes or claws |
