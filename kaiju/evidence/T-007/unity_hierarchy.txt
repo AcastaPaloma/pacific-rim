@@ -3,23 +3,23 @@ MechFrameBalanced pos=(0.000,0.000,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1
   MechBalanced_pelvis pos=(0.000,39.000,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_pelvis tris=218 mats=mech_primary
     MechBalanced_socket_hip_L pos=(-6.500,3.000,0.000) rot=(90.0,0.0,0.0) scale=(1.000,1.000,1.000)
     MechBalanced_socket_hip_R pos=(6.500,3.000,0.000) rot=(90.0,0.0,0.0) scale=(1.000,1.000,1.000)
-    MechBalanced_thigh_L pos=(-6.500,3.000,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_thigh_L tris=274 mats=mech_primary,mech_joint,mech_secondary
+    MechBalanced_thigh_L pos=(-6.500,3.000,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_thigh_L tris=284 mats=mech_joint,mech_primary,mech_secondary
       MechBalanced_shank_L pos=(0.000,-19.000,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_shank_L tris=166 mats=mech_primary,mech_joint
         MechBalanced_foot_L pos=(0.000,-19.000,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_foot_L tris=84 mats=mech_primary,mech_joint
-    MechBalanced_thigh_R pos=(6.500,3.000,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_thigh_R tris=274 mats=mech_primary,mech_joint,mech_secondary
+    MechBalanced_thigh_R pos=(6.500,3.000,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_thigh_R tris=284 mats=mech_joint,mech_primary,mech_secondary
       MechBalanced_shank_R pos=(0.000,-19.000,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_shank_R tris=166 mats=mech_primary,mech_joint
         MechBalanced_foot_R pos=(0.000,-19.000,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_foot_R tris=84 mats=mech_primary,mech_joint
-    MechBalanced_torso pos=(0.000,9.500,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_torso tris=548 mats=mech_primary,mech_joint,mech_secondary,mech_accent
+    MechBalanced_torso pos=(0.000,9.500,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_torso tris=686 mats=mech_primary,mech_joint,mech_secondary,mech_accent
       MechBalanced_head pos=(0.000,22.500,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_head tris=100 mats=mech_joint,mech_primary
       MechBalanced_socket_shoulder_L pos=(-13.500,17.500,0.000) rot=(0.0,270.0,0.0) scale=(1.000,1.000,1.000)
       MechBalanced_socket_shoulder_R pos=(13.500,17.500,0.000) rot=(0.0,90.0,0.0) scale=(1.000,1.000,1.000)
-      MechBalanced_upper_arm_L pos=(-13.500,17.500,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_upper_arm_L tris=232 mats=mech_joint,mech_primary
-        MechBalanced_forearm_L pos=(0.000,-15.000,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_forearm_L tris=162 mats=mech_joint,mech_primary,mech_secondary
+      MechBalanced_upper_arm_L pos=(-13.500,17.500,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_upper_arm_L tris=238 mats=mech_primary,mech_joint
+        MechBalanced_forearm_L pos=(0.000,-15.000,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_forearm_L tris=182 mats=mech_joint,mech_primary,mech_secondary
           MechBalanced_hand_L pos=(0.000,-13.000,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_hand_L tris=72 mats=mech_joint,mech_primary
-          MechBalanced_socket_hardpoint_L pos=(-1.900,-5.500,-2.400) rot=(0.0,270.0,0.0) scale=(1.000,1.000,1.000)
+          MechBalanced_socket_hardpoint_L pos=(-2.350,-5.500,-2.400) rot=(0.0,270.0,0.0) scale=(1.000,1.000,1.000)
         MechBalanced_socket_elbow_L pos=(0.000,-15.000,0.000) rot=(90.0,0.0,0.0) scale=(1.000,1.000,1.000)
-      MechBalanced_upper_arm_R pos=(13.500,17.500,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_upper_arm_R tris=232 mats=mech_joint,mech_primary
-        MechBalanced_forearm_R pos=(0.000,-15.000,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_forearm_R tris=162 mats=mech_joint,mech_primary,mech_secondary
+      MechBalanced_upper_arm_R pos=(13.500,17.500,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_upper_arm_R tris=238 mats=mech_primary,mech_joint
+        MechBalanced_forearm_R pos=(0.000,-15.000,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_forearm_R tris=182 mats=mech_joint,mech_primary,mech_secondary
           MechBalanced_hand_R pos=(0.000,-13.000,0.000) rot=(0.0,0.0,0.0) scale=(1.000,1.000,1.000) mesh=MechBalanced_hand_R tris=72 mats=mech_joint,mech_primary
-          MechBalanced_socket_hardpoint_R pos=(1.900,-5.500,-2.400) rot=(0.0,90.0,0.0) scale=(1.000,1.000,1.000)
+          MechBalanced_socket_hardpoint_R pos=(2.350,-5.500,-2.400) rot=(0.0,90.0,0.0) scale=(1.000,1.000,1.000)
         MechBalanced_socket_elbow_R pos=(0.000,-15.000,0.000) rot=(90.0,0.0,0.0) scale=(1.000,1.000,1.000)
