@@ -325,11 +325,15 @@ def m003_gameplay_frames(set_dir, profile="slate_teal", n_frames=12, W=160, H=90
                 pal = np.stack([hex_rgb(h) for h in hexes]); ci = pal[idx]
             flat = ci.reshape(-1, 3); flat[:n_bad] = [0, 255, 0]
             idx = idx.copy(); idx.reshape(-1)[:n_bad] = 255
-        off = offset if declare_offset else (0, 0)
+        if callable(offset):                 # per-frame offset (sub-pixel compensated output)
+            off_k = offset(k)
+        else:
+            off_k = offset
+        off = off_k if declare_offset else (0, 0)
         sc = write_frame(d, set_id, seq_id, k, n_frames, cam, profile, hexes, idx, zz, motion, ORIGIN, scale=scale,
                          offset=off, rgb_internal=ci,
                          rgb_output=upscale(ci if ci is not None else np.stack([hex_rgb(h) for h in hexes])[np.clip(idx, 0, len(hexes) - 1)],
-                                            scale, offset, upscale_mode),
+                                            scale, off_k, upscale_mode),
                          write_index=not unquantised)
         truth.append({"frame": k, "off_palette_share": n_bad / (W * H) if off_palette_share > 0 else 0.0})
     return truth

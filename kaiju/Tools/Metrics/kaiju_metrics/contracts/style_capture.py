@@ -409,9 +409,14 @@ def _load_sequence(d, palettes, E, inputs):
         p0 = {f.meta["style"].get("palette_profile_id") for f in seq.frames}
         if len(p0) > 1:
             E.add(f"{w0}", "all frames of a sequence must share one palette profile", "one profile", sorted(map(str, p0)))
-        r0 = {str(f.meta["resolution"]) for f in seq.frames}
-        if len(r0) > 1:
-            E.add(f"{w0}", "all frames of a sequence must share one resolution block", "identical", f"{len(r0)} variants")
+        # DEF-T004-arch-2: R-002 §6 writes the resolution block per frame; output_block_offset_px and
+        # subpixel_offset_internal_px follow the snap remainder and may change per frame (sub-pixel compensated
+        # output). Only the sizes and the scale must be constant within a sequence.
+        for k in ("internal_wh", "output_wh", "integer_scale"):
+            vals = {str(f.meta["resolution"].get(k)) for f in seq.frames}
+            if len(vals) > 1:
+                E.add(f"{w0}", f"resolution.{k} must be the same for every frame of a sequence", "identical",
+                      f"{len(vals)} variants")
     return seq
 
 

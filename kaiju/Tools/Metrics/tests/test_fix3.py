@@ -100,3 +100,45 @@ def test_arch8_shared_rule_gating_not_applicable_is_incomplete(metric):
     d = r.add(gating[0], parts=[part("a", 1.0, "<=", 2.0), {"name": "b", "status": "NOT_APPLICABLE", "value": None,
                                                             "margin_rel": None, "op": "<=", "threshold": 2.0}])
     assert d["status"] == "NOT_RUN"
+
+
+# ------------------------------------------------------------------ DEF-T004-arch-2: per-frame output offsets
+def _off(k):
+    return (k % 4, (k * 3) % 4)
+
+
+def test_t004_arch2_per_frame_offsets_valid_and_used(tmp_path, palettes):
+    from kaiju_metrics.contracts.style_capture import validate_path
+    sd = os.path.join(str(tmp_path), "subpix")
+    GS.m003_gameplay_frames(sd, offset=_off)
+    GS.m003_haze_cal(sd)
+    assert validate_path(sd, palettes) == []
+    offs = {json.load(open(os.path.join(sd, "gameplay", f"f{k:06d}.json")))["resolution"]["output_block_offset_px"][0]
+            for k in range(12)}
+    assert len(offs) == 4                                            # really varies per frame
+    rep, _ = run_metric("m003", [sd], images=False, options={"profiles": "slate_teal"})
+    assert sm(rep, "M-003.d-iv")["status"] == "PASS" and sm(rep, "M-003.d-iv")["value"] == 1.0
+    r = subprocess.run([sys.executable, CLI, "validate", "style_capture", sd], capture_output=True, text=True)
+    assert r.returncode == 0
+
+
+def test_t004_arch2_offsets_not_declared_fail_d_iv(tmp_path):
+    sd = os.path.join(str(tmp_path), "subpix_bad")
+    GS.m003_gameplay_frames(sd, offset=_off, declare_offset=False)
+    GS.m003_haze_cal(sd)
+    rep, _ = run_metric("m003", [sd], images=False, options={"profiles": "slate_teal"})
+    assert sm(rep, "M-003.d-iv")["status"] == "FAIL"
+
+
+def test_t004_arch2_scale_must_stay_constant(tmp_path, palettes):
+    from kaiju_metrics.contracts.style_capture import validate_path
+    sd = os.path.join(str(tmp_path), "scale")
+    GS.m003_gameplay_frames(sd, n_frames=2, W=96, H=54)
+    GS.m003_gameplay_frames(os.path.join(str(tmp_path), "s2"), n_frames=2, W=96, H=54, scale=2)
+    shutil.copy(os.path.join(str(tmp_path), "s2", "gameplay", "f000001_color_output.png"),
+                os.path.join(sd, "gameplay", "f000001_color_output.png"))
+    p = os.path.join(sd, "gameplay", "f000001.json")
+    sc = json.load(open(p)); sc["resolution"].update(integer_scale=2, output_wh=[192, 108]); json.dump(sc, open(p, "w"))
+    errs = validate_path(sd, palettes)
+    assert any("integer_scale must be the same" in e.message for e in errs)
+    assert any("output_wh must be the same" in e.message for e in errs)
