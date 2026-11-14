@@ -224,7 +224,7 @@ def main():
         return raster_front([tris[s] for s in sids])[0]
     H = float(max(out["parts"][P[s].name]["bbox_max"][1] for s in P))
     sole_y = float(min(out["parts"][P[s].name]["bbox_min"][1] for s in P))
-    top_set = ["torso", "head", "upper_arm_L", "upper_arm_R"]
+    top_set = ["torso"]   # C11 ruling (b), spec v1.1: shoulder width on torso and shoulder blocks only
     shoulder_ext = band_extent(img_of(top_set), xs, ys, Y_SH_BAND0, H)
     hip_ext = band_extent(img_of(["pelvis", "thigh_L", "thigh_R"]), xs, ys, SEG["thigh_L"]["proximal_joint"][1] - 4, SEG["thigh_L"]["proximal_joint"][1] + 4)
     shoulder_w = shoulder_ext[1] - shoulder_ext[0]

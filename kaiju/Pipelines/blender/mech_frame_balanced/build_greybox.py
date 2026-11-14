@@ -50,14 +50,15 @@ GAP = 0.35          # joint clearance between a housing and the neighbouring par
 N_CYL = 12          # facets on drums and columns (silhouette-first, low poly)
 
 # housing radii (design choices, see EVIDENCE.md C15/C21)
-R_SHOULDER_BALL = 2.0
+R_SHOULDER_BALL = 2.5
 R_ELBOW_DRUM = 2.4
 R_WRIST_DRUM = 1.9
 R_HIP_BALL = 3.5
 R_KNEE_DRUM = 2.8
 R_ANKLE_DRUM = 2.4
 R_WAIST_BALL = 3.0
-FOREARM_X_IN = 10.95   # |x| of the forearm and fist inner face (outer = FOREARM_PLATE x_out)
+FOREARM_X_IN = 10.45   # |x| of the forearm inner face (outer = FOREARM_PLATE x_out)
+FIST_X = (10.75, 15.5)  # |x| of the closed fist (4.75 m wide, >= 0.055 H)
 
 
 # ---------------------------------------------------------------- primitives (frame coords)
@@ -120,10 +121,11 @@ def recipe_pelvis():
 # chest hull rings (y, half width, back-centre z, side-back z, side-front z, keel z): a ship's hull section,
 # pointed at the bow (keel) and at the back, so the side view is 16 m deep while the volume stays at the
 # R-005 torso fraction; deepest at 66 m
-CHEST_RINGS = [(50.0, 5.0, -4.0, -1.0, 1.5, 5.5), (56.0, 6.2, -5.0, -0.8, 2.0, 7.6),
+CHEST_RINGS = [(50.0, 5.0, -4.0, -1.0, 1.5, 5.5), (56.0, 5.8, -5.0, -0.8, 2.0, 7.2),
                (66.0, 10.0, -6.0, 0.0, 2.0, 10.0), (69.5, 10.0, -6.0, 0.0, 2.0, 8.0)]
 COWL_TOP = 75.0     # torso cowl around the neck: the head is sunk in it between the shoulder blocks
-BLOCK_X = (5.4, 11.4)   # |x| of the square shoulder blocks (inboard, next to the head)
+BLOCK_X = (5.5, 11.3)   # |x| of the square shoulder blocks (inboard, next to the head)
+SHOULDER_ARMOUR_X = 14.15   # |x| outer edge of the shoulder armour plate
 
 
 def chest_face_point(y, f):
@@ -153,7 +155,11 @@ def recipe_torso():
         p = xr(s, BLOCK_X[0] + 0.4, BLOCK_X[1] - 0.4)
         pieces.append((box(p[0], p[1], yt - 0.5, 71.2, -4.2, 1.0), "primary"))          # block pedestal
         b = xr(s, *BLOCK_X)
-        pieces.append((chamfer_box(b[0], b[1], 71.0, 77.0, -4.6, 1.4, 0.25), "secondary"))  # square shoulder block
+        pieces.append((chamfer_box(b[0], b[1], 71.2, 77.0, -4.4, 1.4, 0.25), "secondary"))  # square shoulder block
+        # outer shoulder armour: a plate behind and above the shoulder ball, out to 14.4 m (C11 shoulder width is
+        # measured on torso and blocks); set back to z <= -1 m so the arm still rises to 160 deg
+        sp = xr(s, BLOCK_X[1] - 0.4, SHOULDER_ARMOUR_X)
+        pieces.append((chamfer_box(sp[0], sp[1], 69.0, 72.4, -3.6, -1.0, 0.3), "primary"))
     # accent: one small panel on the mech's left (-x) chest face, ~2.2 x 2.2 m
     c, dvec = chest_face_point(62.0, 0.55)
     d = dvec.normalized()
@@ -189,14 +195,14 @@ def recipe_head():
 
 def recipe_upper_arm(s):
     ax = AX_ARM
-    bx = xr(s, ax - 1.5, ax + 1.7)      # slim strut: the forearm box is the heavy member
+    bx = xr(s, ax - 2.3, ax + 2.3)      # armoured upper arm, 4.6 m
     pieces = [
         (sphere((s * ax, Y_SH, 0), R_SHOULDER_BALL), "joint"),
-        (chamfer_box(bx[0], bx[1], Y_EL + R_ELBOW_DRUM + GAP, Y_SH - 1.6, -4.2, 1.4, 0.3), "primary"),
+        (chamfer_box(bx[0], bx[1], Y_EL + R_ELBOW_DRUM + GAP, Y_SH - 1.6, -3.8, 1.2, 0.3), "primary"),
     ]
-    for a, b in ((ax - 1.2, ax - 0.4), (ax + 0.5, ax + 1.3)):   # elbow rams, upper half (back side)
+    for a, b in ((ax - 1.9, ax - 0.9), (ax + 0.3, ax + 1.3)):   # elbow rams, upper half (back side)
         r = xr(s, a, b)
-        pieces.append((box(r[0], r[1], Y_EL + 3.0, Y_EL + 11.0, -5.4, -4.0), "joint"))
+        pieces.append((box(r[0], r[1], Y_EL + 3.0, Y_EL + 11.0, -5.0, -3.6), "joint"))
     return pieces, []
 
 
@@ -206,22 +212,25 @@ def recipe_forearm(s):
     bx = xr(s, FOREARM_X_IN, P["x_in"])
     pieces = [
         (cyl_x(Y_EL, 0, R_ELBOW_DRUM, bx[0], bx[1]), "joint"),
-        (chamfer_box(bx[0], bx[1], Y_WR + R_WRIST_DRUM + GAP, Y_EL, -5.0, 0.6, 0.3), "primary"),
+        (chamfer_box(bx[0], bx[1], Y_WR + R_WRIST_DRUM + GAP, Y_EL, -4.4, 0.6, 0.3), "primary"),
         # hardpoint plate on the outer face (off-white), slightly proud
         (box(*xr(s, P["x_in"] - 0.2, P["x_out"]), Y_EL + P["y0_rel"], Y_EL + P["y1_rel"], P["z0"], P["z1"]), "secondary"),
     ]
     for a, b in ((ax - 1.9, ax - 0.9), (ax + 0.3, ax + 1.3)):   # elbow rams, lower half spanning the joint line
         r = xr(s, a, b)
-        pieces.append((box(r[0], r[1], Y_WR + 5.0, Y_EL + 1.5, -6.0, -4.8), "joint"))
-    return pieces, []
+        pieces.append((box(r[0], r[1], Y_WR + 5.0, Y_EL + 1.5, -5.6, -4.4), "joint"))
+    # recess in the inner (medial) face: invisible in front and side silhouettes, keeps the forearm at its
+    # R-005 mass fraction (C19) while the box stays 5.4 m wide
+    rx = xr(s, FOREARM_X_IN - 0.1, FOREARM_X_IN + 1.0)
+    return pieces, [box(rx[0], rx[1], Y_WR + 4.0, Y_EL - 3.0, -3.4, -0.4)]
 
 
 def recipe_hand(s):
     ax = AX_ARM
-    fx = xr(s, FOREARM_X_IN, C.FOREARM_PLATE["x_out"])
-    dx = xr(s, FOREARM_X_IN + 0.45, C.FOREARM_PLATE["x_out"] - 0.45)
-    fist = (box(fx[0], fx[1], Y_HAND_END + 0.5, Y_WR - 1.5, -2.8, 1.0)
-            + box(fx[0] + 0.4, fx[1] - 0.4, Y_HAND_END, Y_HAND_END + 0.5, -2.4, 0.6))   # flat knuckle face down
+    fx = xr(s, *FIST_X)
+    dx = xr(s, FIST_X[0] + 0.4, FIST_X[1] - 0.4)
+    fist = (box(fx[0], fx[1], Y_HAND_END + 0.5, Y_WR - 1.5, -2.6, 0.8)
+            + box(fx[0] + 0.4, fx[1] - 0.4, Y_HAND_END, Y_HAND_END + 0.5, -2.2, 0.4))   # flat knuckle face down
     pieces = [
         (cyl_x(Y_WR, 0, R_WRIST_DRUM, dx[0], dx[1]), "joint"),   # wrist ring
         (fist, "primary"),
@@ -237,16 +246,24 @@ def recipe_thigh(s):
         (sphere((s * ax, Y_HIP, 0), R_HIP_BALL), "joint"),
         (chamfer_box(bx[0], bx[1], Y_KN + R_KNEE_DRUM + GAP, Y_HIP - 1.5, -3.5, 4.5, 0.4), "primary"),
         (box(sx[0], sx[1], Y_KN + 10.5, Y_HIP - 2.0, 4.3, 5.1), "secondary"),   # off-white front slab
+        # knee guard: the thigh front carried down outside the knee clearance circle, so no row of the side
+        # silhouette is empty at the knee (DEF-T007-style-9)
+        (box(bx[0], bx[1], Y_KN + 0.3, Y_KN + R_KNEE_DRUM + GAP + 0.5, R_KNEE_DRUM + GAP + 0.05, 4.5), "primary"),
     ]
+    # the guard steps back over the top of the knee drum, staying outside its clearance circle (r = drum + gap)
+    rc = R_KNEE_DRUM + GAP
+    for yr in (2.4, 2.9):
+        zc = math.sqrt(rc * rc - yr * yr) + 0.05
+        pieces.append((box(bx[0], bx[1], Y_KN + yr, Y_KN + rc + 0.5, zc, 4.5), "primary"))
     for a, b in ((ax - 2.7, ax - 1.3), (ax + 1.1, ax + 2.5)):   # knee rams, upper rods (front)
         r = xr(s, a, b)
         pieces.append((box(r[0], r[1], Y_KN + 2.3, Y_KN + 10.6, 4.4, 5.8), "joint"))
     # hamstring channel up the back (same reason as the calf channel)
-    cx = xr(s, ax - 3.0, ax + 2.0)
+    cx = xr(s, ax - 3.3, ax + 2.3)
     # bevel the medial-front vertical edge: clearance for the waist ball at 120 deg hip flexion
     m = ax - 4.5
     bev = [(s * x, y, z) for x, z in ((m - 0.5, 4.5 - 2.4), (m - 0.5, 6.0), (m + 2.4 + 0.6, 6.0)) for y in (Y_KN, Y_HIP + 1)]
-    return pieces, [box(cx[0], cx[1], Y_KN + 4.2, Y_HIP - 4.2, -3.7, -0.2), bev]
+    return pieces, [box(cx[0], cx[1], Y_KN + 4.0, Y_HIP - 4.0, -3.7, 0.3), bev]
 
 
 def recipe_shank(s):
@@ -261,7 +278,7 @@ def recipe_shank(s):
         pieces.append((box(r[0], r[1], Y_KN - 11.0, Y_KN + 1.8, 5.0, 6.4), "joint"))
     # calf channel: a recess up the back keeps the 6.4 m column silhouette (front and side) at the
     # R-005 mass fraction (C12 widths vs C19 volume fraction)
-    cx = xr(s, ax - 2.2, ax + 2.2)
+    cx = xr(s, ax - 2.5, ax + 2.5)
     cutters = [box(cx[0], cx[1], Y_AN + R_ANKLE_DRUM + 2.5, Y_KN - R_KNEE_DRUM - 0.6, -1.5, 2.1)]
     return pieces, cutters
 

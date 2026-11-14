@@ -1,8 +1,8 @@
 {
  "silhouette": {
   "48px_arm_rows": 22,
-  "48px_arm_rows_separated": 15,
-  "48px_arm_separated_fraction_of_arm_length": 0.682,
+  "48px_arm_rows_separated": 21,
+  "48px_arm_separated_fraction_of_arm_length": 0.955,
   "48px_leg_rows_with_crotch_gap": 19,
   "48px_leg_rows": 19,
   "48px_top_rows_runs": [
@@ -16,63 +16,63 @@
   "48px_foot_width_px": 6,
   "48px_shank_width_px": 4,
   "24px_row_widths_top_to_bottom": [
-   1,
-   7,
-   7,
-   7,
-   7,
-   7,
-   7,
-   5,
-   5,
-   7,
-   7,
-   7,
+   2,
+   4,
+   6,
+   6,
+   8,
+   8,
+   6,
+   6,
+   8,
+   8,
+   10,
+   10,
+   6,
+   8,
+   8,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4
+  ],
+  "24px_widest_row_m": 45.0,
+  "24px_row_extents_top_to_bottom": [
+   2,
+   8,
+   8,
+   6,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
    6,
    6,
    6,
-   4,
-   4,
-   4,
-   4,
-   4,
-   4,
-   4,
-   4,
+   6,
+   6,
+   6,
+   6,
+   6,
    6
   ],
-  "24px_widest_row_m": 75.0,
-  "24px_row_extents_top_to_bottom": [
-   1,
-   7,
-   7,
-   7,
-   9,
-   9,
-   9,
-   9,
-   9,
-   9,
-   9,
-   9,
-   9,
-   9,
-   9,
-   5,
-   5,
-   5,
-   5,
-   5,
-   5,
-   5,
-   5,
-   7
-  ],
-  "24px_widest_extent_px": 9,
+  "24px_widest_extent_px": 10,
   "24px_widest_extent_first_row_m": 65.0,
-  "24px_top_mass_extent_px": 7,
-  "24px_top_row_width_px": 1,
-  "24px_leg_rows_with_gap": 10,
+  "24px_top_mass_extent_px": 8,
+  "24px_top_row_width_px": 2,
+  "24px_leg_rows_with_gap": 0,
   "side48_foot_cols": [
    0,
    8
@@ -83,13 +83,13 @@
   ]
  },
  "human_iou": {
-  "48px": 0.524,
-  "180px": 0.514
+  "48px": 0.52,
+  "180px": 0.516
  },
  "concept_overlay": {
-  "front_iou": 0.367,
-  "front_iou_arm_masked": 0.543,
-  "side_iou": 0.321,
+  "front_iou": 0.384,
+  "front_iou_arm_masked": 0.534,
+  "side_iou": 0.32,
   "concept_file": "art/concepts/mech_frame_balanced/layer2_turnaround-final_2fa84a4e-3d89-445e-84a3-bebe971a8b3c_2.jpg",
   "note": "concept middle figure is a 3/4-side perspective view, the greybox is a true orthographic side; heights equalised (bbox), bottom-aligned, horizontally centroid-aligned"
  },
@@ -97,19 +97,19 @@
   "value_bands_ge_1pct": [
    [
     40,
-    0.2773
+    0.2642
    ],
    [
     80,
-    0.0787
+    0.082
    ],
    [
     88,
-    0.5148
+    0.5285
    ],
    [
     184,
-    0.0853
+    0.0807
    ]
   ],
   "n_bands": 4,
