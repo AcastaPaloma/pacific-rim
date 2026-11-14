@@ -1,0 +1,17 @@
+$ git check-ignore -v DotnetTests/Core.Tests/Core.Tests.csproj DotnetTests/Core/Core.csproj DotnetTests/Core.Contracts/Core.Contracts.csproj Assembly-CSharp.csproj Game.Core.csproj DotnetTests/Core/obj/x DotnetTests/Core.Tests/bin/x
+kaiju/.gitignore:13:!/DotnetTests/**/*.csproj	DotnetTests/Core.Tests/Core.Tests.csproj
+kaiju/.gitignore:13:!/DotnetTests/**/*.csproj	DotnetTests/Core/Core.csproj
+kaiju/.gitignore:13:!/DotnetTests/**/*.csproj	DotnetTests/Core.Contracts/Core.Contracts.csproj
+kaiju/.gitignore:11:*.csproj	Assembly-CSharp.csproj
+kaiju/.gitignore:11:*.csproj	Game.Core.csproj
+kaiju/.gitignore:15:/DotnetTests/**/obj/	DotnetTests/Core/obj/x
+kaiju/.gitignore:14:/DotnetTests/**/bin/	DotnetTests/Core.Tests/bin/x
+
+$ git ls-files DotnetTests
+DotnetTests/Core.Contracts/Core.Contracts.csproj
+DotnetTests/Core.Tests/Core.Tests.csproj
+DotnetTests/Core/Core.csproj
+DotnetTests/Directory.Build.props
+
+# every file/folder under Assets/Game/Core and Assets/Game/Config has a .meta:
+missing metas: 0

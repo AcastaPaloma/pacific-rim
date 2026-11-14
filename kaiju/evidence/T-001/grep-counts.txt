@@ -1,0 +1,65 @@
+# grep counts, commit b03202f
+
+## C1: Unity references outside the adapter
+$ grep -rnE 'UnityEngine|UnityEditor|using Unity' Assets/Game/Core/Contracts Assets/Game/Core/Runtime
+hits: 0
+
+## C1: Unity references in the adapter (expected > 0)
+hits: 3 files
+
+## C16: static fields that are not const, readonly or get-only (Core)
+$ grep -rnE '\bstatic\b[^(]*;' <Core> | grep -vE 'const|readonly|{ get; }|=>'
+hits: 0
+
+
+## C16: same scan over the adapter (expected: exactly the one composition root s_root)
+hits: 1
+Assets/Game/Core/Unity/CoreRuntime.cs:84:        private static CoreRoot s_root;
+
+## C22: hard-coded player/mech/kaiju/pilot counts
+$ grep -rnE '[Pp]layer_?[0-9]+\b|[Mm]ax_?([Pp]layers?|[Mm]echs?|[Kk]aiju|[Pp]ilots?|[Ss]lots?)\b|new [A-Za-z]+\[2\]' Assets/Game/Core/Contracts Assets/Game/Core/Runtime Assets/Game/Core/Unity
+hits: 0
+
+## C27/C19: wall clock, randomness, GUIDs, instance IDs, string hashing
+$ grep -rnE 'DateTime\.(Utc)?Now|Stopwatch|TickCount|\bRandom\b|NewGuid|GetInstanceID|Time\.(time|deltaTime)' Assets/Game/Core/Contracts Assets/Game/Core/Runtime
+hits: 0
+
+## C19: GetHashCode calls in Ids.cs
+$ grep -rnE '\.GetHashCode\(\)' Assets/Game/Core/Contracts/Ids.cs
+hits: 0
+
+## C13: string topics (Subscribe/Publish taking a string)
+$ grep -rnE '(Subscribe|Publish)\(string' Assets/Game/Core/Contracts Assets/Game/Core/Runtime
+hits: 0
+
+## A2/B: LINQ in Core
+$ grep -rnE 'using System\.Linq|\.Select\(|\.Where\(' Assets/Game/Core/Contracts Assets/Game/Core/Runtime
+hits: 0
+
+## C33: building knowledge in the save code
+$ grep -rnE 'Building' Assets/Game/Core/Contracts/Save.cs Assets/Game/Core/Runtime/Save.cs
+hits: 0
+
+## size guideline: lines in Contracts + Runtime (all lines / non-blank non-comment)
+1537
+1293
+## test-produced checks (dotnet-run1)
+committed flag files=1 flags=1
+core.verboseBoot=0
+BuildingId_NoCollisions_10M: ids=10000002 collisions=0
+UnityEngine mentions in Core/Contracts+Runtime code: 0
+hard-coded player/mech/kaiju/pilot counts in Core: 0
+mutable static fields in Game.Core + Game.Core.Contracts (reflection, 47 static fields checked): 0 
+wall-clock / Random / Guid.NewGuid / GetInstanceID / UnityEngine.Time in Core: 0
+GetHashCode() calls inside Ids.cs (IDs must use IdHash.Mix only): 0
+'Building' in Contracts/Save.cs + Runtime/Save.cs: 0
+## test-produced checks (unity)
+committed flag files=1 flags=1
+core.verboseBoot=0
+BuildingId_NoCollisions_10M: ids=10000002 collisions=0
+UnityEngine mentions in Core/Contracts+Runtime code: 0
+hard-coded player/mech/kaiju/pilot counts in Core: 0
+mutable static fields in Game.Core + Game.Core.Contracts (reflection, 51 static fields checked): 0 
+wall-clock / Random / Guid.NewGuid / GetInstanceID / UnityEngine.Time in Core: 0
+GetHashCode() calls inside Ids.cs (IDs must use IdHash.Mix only): 0
+'Building' in Contracts/Save.cs + Runtime/Save.cs: 0
