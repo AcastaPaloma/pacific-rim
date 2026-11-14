@@ -93,7 +93,8 @@ def style_sets(tmp_path_factory):
         idx.reshape(-1)[:288] = roles.index("accent")
         GS.repaint(da, k, idx)
     sd4, _ = GS.m004_set(str(root))
-    return sd3, sd3a, sd4
+    sd4s, _ = GS.m004_set(str(root), set_id="m004_screen", anchor_t="screen", anchor_y="screen")
+    return sd3, sd3a, sd4, sd4s
 
 
 _BASE = {}
@@ -125,8 +126,10 @@ def test_registry_flip_gait(tmp_path, gait_sets, sid, key):
 
 @pytest.mark.parametrize("sid,key", _keys("M-003") + _keys("M-004"))
 def test_registry_flip_style(tmp_path, style_sets, sid, key):
-    sd3, sd3a, sd4 = style_sets
+    sd3, sd3a, sd4, sd4s = style_sets
     metric = sid[:5]
+    if sid == "M-004.C_px.Y":     # the passing yaw set has no dithered pixels (C_px N/A): flip FAIL -> PASS instead
+        sd4 = sd4s
     if sid == "M-003.d-iii":
         sd3, prof = sd3a, "slate_teal,warm_amber_haze"
     else:
@@ -141,13 +144,13 @@ def test_registry_flip_style(tmp_path, style_sets, sid, key):
     base = _BASE.get(kb)
     if base is None:
         base = _BASE[kb] = run_metric(cmd, [sd], ratings=ratings, images=False, options=opts)[0]
-    if _status_map(base)[sid] != "PASS":
-        pytest.skip(f"{sid} is {_status_map(base)[sid]} on the shared pass set")
+    st0 = _status_map(base)[sid]
+    assert st0 in ("PASS", "FAIL"), f"{sid} is {st0} on its base set"
     changed = []
     for f in (10.0, 0.1, -1.0, -10.0, 100.0):
         p = _flipped_registry(tmp_path, metric, sid, key, f)
         rep, _ = run_metric(cmd, [sd], registry=p, ratings=ratings, images=False, options=opts)
-        if _status_map(rep)[sid] != "PASS":
+        if _status_map(rep)[sid] != st0:
             changed.append(f)
             break
     assert changed, f"moving {sid}.{key} never changed its status"
