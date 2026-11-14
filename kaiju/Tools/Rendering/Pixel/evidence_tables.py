@@ -125,6 +125,8 @@ def main():
         else:
             ok = r.get("pass"); key = ""
             if "points" in r: key = "; ".join("%s: %s m vs %s m (%.3f %%)" % (q["point"].split()[0], fmt(q["decoded_m"]), fmt(q["expected_eye_depth_m"]), 100 * q["relative_error"]) for q in r["points"])
+            elif "near_150m" in r:
+                key = "; ".join("%s: in view in %d frames, dL* min %s, median %s, frames with dL* >= 4: %d" % (k, r[k]["frames_in_view"], fmt(r[k]["dL_min"]), fmt(r[k]["dL_median"]), r[k]["frames_dL_ge_4"]) for k in ("near_150m", "far_1km"))
             elif "marker_pixels" in r: key = "marker %s px, height %s px, dL* %s; 80 m block height %s px at %s m, dL* to background %s" % (r.get("marker_pixels"), r.get("marker_height_px"), fmt(r.get("marker_dL")), fmt(r.get("block80_height_px")), fmt(r.get("block80_distance_m")), fmt(r.get("block80_dL")))
             elif "png_files" in r: key = "%d PNG and %d JSON files compared, %d differ" % (r["png_files"], r["json_files"], r["differing"])
             elif "identical_color_internal" in r: key = "internal, output, index, depth, pose and offsets identical: %s; differs from the frame before the cut: %s" % (fmt(all(r[k] for k in r if k.startswith("identical_"))), fmt(r["differs_from_previous_frame"]))

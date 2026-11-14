@@ -10,6 +10,7 @@ here changes a capture. Sub-commands:
   scale <sequence_dir>           C7: marker and 80 m block legibility in the scale view
   layers <sequence_dir>          C6: layers at 1, 3, 10, 30 km, sky seam, near field darkest, seam pixels
   depth <sequence_dir>           C19: depth PNG decodes to the known scene distances within 1 %
+  blocks <sequence_dir>          C7: each 80 m block against its background over every frame of a sequence
 All commands take --out <json> to store the result.
 """
 import argparse, glob, hashlib, json, math, os, sys
@@ -187,8 +188,8 @@ def cmd_scale(a):
     ring = (np.abs(np.arange(z.shape[1])[None, :] - bx) < 16) & (np.arange(z.shape[0])[:, None] > by_top + 2) & (np.arange(z.shape[0])[:, None] < by_bot - 8) & ~(np.abs(z - bz) < 0.03 * bz) & ((z > bz * 1.1) | sky)
     if blk.any() and ring.any():
         res["block80_L"] = float(L[blk].mean()); res["block80_background_L"] = float(L[ring].mean()); res["block80_dL"] = float(abs(res["block80_L"] - res["block80_background_L"]))
-    res["pass"] = bool(1 <= n and res.get("marker_height_px", 0) in (1, 2) and res.get("marker_dL", 0) >= 10 and res.get("block80_height_px", 0) >= 10 + res.get("marker_height_px", 0) and res.get("block80_dL", 0) >= 4)
-    res["criterion"] = "C7: 1.8 m marker at 600 m is 1-2 internal pixels with dL* >= 10 to its surround; the 80 m block at about 1 km is at least 10 px taller and at least one value band (>= 4 L*) from its background"
+    res["pass"] = bool(1 <= n and res.get("marker_height_px", 0) in (1, 2) and res.get("marker_dL", 0) >= 10 and res.get("block80_height_px", 0) >= 10 + res.get("marker_height_px", 0))
+    res["criterion"] = "C7: the 1.8 m marker at 600 m is 1-2 internal pixels with dL* >= 10 to its surround; the 80 m block at about 1 km is at least 10 px taller than the marker (block contrast is judged over twelve views by the `blocks` check)"
     return res
 
 
@@ -231,13 +232,15 @@ def cmd_layers(a):
         # Seams: ground pixels in the dithered zone between haze levels k and k+1 use only indices of the two bands.
         st, fu, nb, sw = a.haze_start, a.haze_full, a.haze_bands, a.haze_seam
         level = (nb - 1) * np.clip(np.log(np.maximum(dist, st) / st) / math.log(fu / st), 0, 1)
-        ground = (~sky) & (height < 3)
+        ground = (~sky) & (np.abs(height) < 0.5)
+        ground[1:, :] &= ground[:-1, :]          # the texel above is ground too (keeps wall bases out)
         seam_ok, seam_n = 0, 0
+        # band = floor(level + sw * (threshold - 0.5)): purely band k for level in [k + sw/2, k + 1 - sw/2), mixed around k + 1.
         for k in range(nb - 1):
-            pure_a = ground & (level > k + sw / 2 - 0.5 + 0.02) & (level < k + 1 - sw / 2 - 0.02) if sw < 1 else ground & (np.abs(level - (k + 0.5)) < 0.02)
-            pure_b = ground & (level > k + 1 + sw / 2 - 0.5 + 0.02 - 0.5 + 0.5) & (level < k + 2 - sw / 2 - 0.02)
-            seam = ground & (level >= k + 1 - sw / 2 + 0.02) & (level <= k + 1 + sw / 2 - 0.02)
-            if pure_a.sum() < 30 or pure_b.sum() < 30 or seam.sum() < 30: continue
+            pure_a = ground & (level >= k + sw / 2 + 0.01) & (level < k + 1 - sw / 2 - 0.01)
+            pure_b = ground & (level >= k + 1 + sw / 2 + 0.01) & (level < k + 2 - sw / 2 - 0.01)
+            seam = ground & (level > k + 1 - sw / 2 + 0.01) & (level < k + 1 + sw / 2 - 0.01)
+            if pure_a.sum() < 20 or pure_b.sum() < 20 or seam.sum() < 20: continue
             allowed = set(int(v) for v in np.unique(idx[pure_a])) | set(int(v) for v in np.unique(idx[pure_b]))
             used = set(int(v) for v in np.unique(idx[seam])); seam_n += 1; seam_ok += int(used <= allowed)
         row["ground_seams_checked"] = seam_n; row["ground_seams_only_adjacent_bands"] = seam_ok
@@ -248,17 +251,52 @@ def cmd_layers(a):
 
 
 def cmd_depth(a):
-    _, frames = load_seq(a.sequence_dir); d = a.sequence_dir; f = frames[0]
+    _, frames = load_seq(a.sequence_dir); d = a.sequence_dir; f = frames[min(a.frame, len(frames) - 1)]
     z, sky = depth_m(d, f); rows = []
-    # Known scene points (StyleTestScenes): face centres of boxes, taken a little inside the face.
-    for name, pt in (("Block80_Near front face", (0.0, 60.0, -10.0)), ("Tower_600m front face", (330.0, 120.0, 400.0)), ("Layer_3km_A front face", (-900.0, 200.0, 2700.0)),
-                     ("Layer_10km_A front face", (1500.0, 600.0, 9400.0)), ("Layer_30km_A front face", (-2000.0, 2500.0, 29000.0))):
+    # Known scene points (StyleTestScenes): points on box faces that are visible from the central eye70 station.
+    for name, pt in (("Block80_Near front face", (0.0, 60.0, -10.0)), ("Block80_Far front face", (220.0, 60.0, 840.0)), ("Layer_3km_B front face", (900.0, 300.0, 3000.0)),
+                     ("Layer_10km_A front face", (3900.0, 750.0, 9400.0)), ("Layer_30km_B front face", (9000.0, 4000.0, 28500.0))):
         x, y, ez = project_rendered(f, pt)
         xi, yi = int(x), int(y)
         if 0 <= xi < z.shape[1] and 0 <= yi < z.shape[0] and ez > 0:
             got = float(z[yi, xi]); rows.append({"point": name, "expected_eye_depth_m": float(ez), "decoded_m": got, "relative_error": abs(got - ez) / ez})
-    return {"frame": os.path.relpath(d), "points": rows, "sky_pixels": int(sky.sum()), "pass": bool(len(rows) >= 3 and all(r["relative_error"] <= 0.01 for r in rows)),
+    return {"frame": os.path.relpath(d) + "/f%06d" % f["frame"]["index"], "points": rows, "sky_pixels": int(sky.sum()), "pass": bool(len(rows) >= 4 and all(r["relative_error"] <= 0.01 for r in rows)),
             "criterion": "C19: depth PNG16 (log) decodes to known scene distances within 1 %"}
+
+
+def block_contrast(L, z, sky, f, top, bottom, half_width_m=15.0):
+    """Mean L* of an 80 m block and of what is seen beside it at a greater distance (farther surfaces and sky), or None if out of view."""
+    bx, by_top, bz = project_rendered(f, top); _, by_bot, _ = project_rendered(f, bottom)
+    H, W = z.shape
+    if bz <= 0: return None
+    hw = half_width_m / bz / math.tan(math.radians(f["camera"]["hfov_deg"]) / 2) * 0.5 * W   # half width of the block in texels
+    if bx - hw < 30 or bx + hw > W - 30 or by_top < 2 or min(by_bot, H) - by_top < 8: return None
+    xs = np.arange(W)[None, :]; ys = np.arange(H)[:, None]
+    rows_ = (ys > by_top + 2) & (ys < min(by_bot, H) - 2)
+    on = np.abs(z - bz) < 0.06 * bz
+    blk = on & (np.abs(xs - bx) < max(1.0, hw - 2)) & rows_
+    ring = (np.abs(xs - bx) > hw + 1) & (np.abs(xs - bx) < hw + 25) & rows_ & ((z > bz * 1.15) | sky)
+    if blk.sum() < 10 or ring.sum() < 10: return None
+    return {"distance_m": float(bz), "height_px": float(by_bot - by_top), "block_L": float(L[blk].mean()), "background_L": float(L[ring].mean()), "dL": float(abs(L[blk].mean() - L[ring].mean()))}
+
+
+def cmd_blocks(a):
+    """C7: each 80 m block against what is behind it, over every frame of a sequence where it is in view."""
+    _, frames = load_seq(a.sequence_dir); d = a.sequence_dir; out = {"near_150m": [], "far_1km": []}
+    for f in frames:
+        L = lightness(img(d, f, "color_internal")); z, sky = depth_m(d, f)
+        for key, top, bottom in (("near_150m", (0.0, 80.0, -10.0), (0.0, 0.0, -10.0)), ("far_1km", (220.0, 80.0, 840.0), (220.0, 0.0, 840.0))):
+            r = block_contrast(L, z, sky, f, top, bottom)
+            if r: r["frame"] = f["frame"]["index"]; out[key].append(r)
+    res = {"sequence": os.path.relpath(d)}
+    ok = True
+    for key, rows in out.items():
+        dl = [r["dL"] for r in rows]
+        res[key] = {"frames_in_view": len(rows), "dL_min": min(dl) if dl else None, "dL_median": float(np.median(dl)) if dl else None, "frames_dL_ge_4": sum(1 for v in dl if v >= 4.0), "frames": rows}
+        ok &= bool(dl) and min(dl) >= 4.0
+    res["pass"] = bool(ok)
+    res["criterion"] = "C7: the 80 m block differs from its background by at least one value band at about 150 m and 1 km; one value band is read as 4 L* (M-003 d-i merges levels closer than 4 L*)"
+    return res
 
 
 def main():
@@ -271,10 +309,11 @@ def main():
     p = sub.add_parser("scale"); p.add_argument("sequence_dir")
     p = sub.add_parser("layers"); p.add_argument("sequence_dir"); p.add_argument("--max-frames", type=int, default=12)
     p.add_argument("--haze-start", type=float, default=60.0); p.add_argument("--haze-full", type=float, default=20000.0); p.add_argument("--haze-bands", type=int, default=8); p.add_argument("--haze-seam", type=float, default=0.75)
-    p = sub.add_parser("depth"); p.add_argument("sequence_dir")
+    p = sub.add_parser("depth"); p.add_argument("sequence_dir"); p.add_argument("--frame", type=int, default=5)
+    p = sub.add_parser("blocks"); p.add_argument("sequence_dir")
     for q in sub.choices.values(): q.add_argument("--out")
     a = ap.parse_args()
-    res = {"smooth": cmd_smooth, "cut": cmd_cut, "identical": cmd_identical, "grid": cmd_grid, "scale": cmd_scale, "layers": cmd_layers, "depth": cmd_depth}[a.cmd](a)
+    res = {"smooth": cmd_smooth, "cut": cmd_cut, "identical": cmd_identical, "grid": cmd_grid, "scale": cmd_scale, "layers": cmd_layers, "depth": cmd_depth, "blocks": cmd_blocks}[a.cmd](a)
     res["tool"] = "Tools/Rendering/Pixel/pixel_checks.py " + a.cmd
     text = json.dumps(res, indent=1)
     if a.out:

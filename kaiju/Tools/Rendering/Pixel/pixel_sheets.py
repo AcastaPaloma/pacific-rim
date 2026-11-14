@@ -82,7 +82,9 @@ def cmd_swatches(a):
                     ranked = sorted(bins[bi].items(), key=lambda t: -t[1]); total = sum(bins[bi].values()); y = 14
                     for col, k in ranked[:3]:   # up to three colours, heights by share: shows the dithered mixes
                         hgt = max(1, int(round((2 * sw) * k / total)))
-                        d.rectangle([x1 + bi * 7, y, x1 + bi * 7 + 6, min(14 + 2 * sw, y + hgt)], fill=tuple(int(v) for v in col)); y += hgt
+                        y_end = min(14 + 2 * sw, y + hgt)
+                        if y_end > y: d.rectangle([x1 + bi * 7, y, x1 + bi * 7 + 6, y_end], fill=tuple(int(v) for v in col))
+                        y = y_end
         rows.append(im)
     tile(rows, 1).save(a.out)
 
