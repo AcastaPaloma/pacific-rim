@@ -1,0 +1,7 @@
+# asmdef references (World.Geo), 4227f5f
+Assets/Game/World/Geo/Contracts/Game.World.Geo.Contracts.asmdef: Game.Core.Contracts | noEngineReferences= True
+Assets/Game/World/Geo/Editor/Game.World.Geo.Editor.asmdef: Game.Core.Contracts, Game.World.Geo.Contracts, Game.World.Geo, Game.World.Geo.Unity | noEngineReferences= False
+Assets/Game/World/Geo/Runtime/Game.World.Geo.asmdef: Game.Core.Contracts, Game.World.Geo.Contracts | noEngineReferences= True
+Assets/Game/World/Geo/Tests/EditMode/Game.World.Geo.Tests.asmdef: UnityEngine.TestRunner, UnityEditor.TestRunner, Game.Core.Contracts, Game.World.Geo.Contracts, Game.World.Geo | noEngineReferences= False
+Assets/Game/World/Geo/Tests/UnityOnly/Game.World.Geo.Unity.Tests.asmdef: UnityEngine.TestRunner, UnityEditor.TestRunner, Game.Core.Contracts, Game.World.Geo.Contracts, Game.World.Geo, Game.World.Geo.Unity, Game.World.Geo.Tests | noEngineReferences= False
+Assets/Game/World/Geo/Unity/Game.World.Geo.Unity.asmdef: Game.Core.Contracts, Game.World.Geo.Contracts, Game.World.Geo | noEngineReferences= False

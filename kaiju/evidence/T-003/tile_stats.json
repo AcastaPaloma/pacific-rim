@@ -1,0 +1,121 @@
+{
+ "tile": "L0_30_36",
+ "budgets": {
+  "value": {
+   "triangles_tile": 685685,
+   "triangles_terrain": 589457,
+   "triangles_buildings": 87924,
+   "triangles_water": 8304,
+   "draw_calls_max_view": 118,
+   "draw_call_target": 200,
+   "renderers": 118,
+   "memory_mb": 71.2,
+   "committed_tile_mb": 23.53,
+   "bake_seconds": 13.97,
+   "editor_build_seconds": 2.34,
+   "git_tracked_files": 14,
+   "extrapolation": {
+    "M1_70_tiles": {
+     "committed_gb": 1.65,
+     "bake_minutes": 16.3
+    },
+    "bay_4624_tiles": {
+     "committed_gb_if_all_L0": 108.8,
+     "bake_hours": 17.9,
+     "note": "Q-027 default: 1 m only for urban/shoreline tiles, 2 m (L1) elsewhere; streaming loads ~9 tiles around the focus"
+    }
+   }
+  },
+  "threshold": "<= 1.5 M triangles, <= 1,500 draw calls (target 200), <= 100 MB committed, bake <= 5 min, editor build <= 60 s (Assumed budgets)",
+  "result": "pass"
+ },
+ "counts": {
+  "buildings": 2503,
+  "structures": 2046,
+  "parts": 457,
+  "height_source_counts": {
+   "datasf": 281,
+   "default": 334,
+   "osm_height": 1556,
+   "osm_levels": 332
+  },
+  "roads": 4131,
+  "fault_pieces_in_tile": 0
+ },
+ "terrain_lod": {
+  "setting_m": 0.1,
+  "max_error_m": 0.19584274291992188,
+  "rms_error_m": 0.03271921573028907,
+  "triangles": 589457,
+  "note": "error = |rendered RTIN mesh - 1 m geo_tile surface| over all 2049^2 nodes; physics uses the full-resolution TerrainCollider"
+ },
+ "times": {
+  "bake_s": 13.97,
+  "editor_build_s": 2.3378685999999997,
+  "import_s": 1.8931681999999999
+ },
+ "memory_mb": 71.2,
+ "renderers": 118,
+ "views": [
+  {
+   "draw_calls_visible_renderers": 118,
+   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
+   "triangles_submitted": 685685,
+   "view": "topdown"
+  },
+  {
+   "draw_calls_visible_renderers": 118,
+   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
+   "triangles_submitted": 685685,
+   "view": "oblique_270"
+  },
+  {
+   "draw_calls_visible_renderers": 118,
+   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
+   "triangles_submitted": 685685,
+   "view": "oblique_235"
+  },
+  {
+   "draw_calls_visible_renderers": 118,
+   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
+   "triangles_submitted": 685685,
+   "view": "oblique_305"
+  },
+  {
+   "draw_calls_visible_renderers": 55,
+   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
+   "triangles_submitted": 422650,
+   "view": "shoreline_embarcadero"
+  },
+  {
+   "draw_calls_visible_renderers": 80,
+   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
+   "triangles_submitted": 531612,
+   "view": "skyline_V4"
+  },
+  {
+   "draw_calls_visible_renderers": 80,
+   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
+   "triangles_submitted": 531612,
+   "view": "skyline_V4_270rows"
+  },
+  {
+   "draw_calls_visible_renderers": 80,
+   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
+   "triangles_submitted": 531612,
+   "view": "skyline_V4_eye70"
+  },
+  {
+   "draw_calls_visible_renderers": 60,
+   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
+   "triangles_submitted": 438881,
+   "view": "skyline_V5"
+  },
+  {
+   "draw_calls_visible_renderers": 60,
+   "note": "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
+   "triangles_submitted": 438881,
+   "view": "skyline_V5_270rows"
+  }
+ ]
+}
