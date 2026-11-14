@@ -1,0 +1,45 @@
+== flat-foot gait (no heel strike pitch, no heel rise, no pelvis yaw): max Froude / step at margin 0, beta 0.64
+stance knee >=  5 deg, step x1.0: Fr 0.025  v 3.20 m/s  step 16.1 m (0.38 l)
+stance knee >=  5 deg, step x0.85: Fr 0.042  v 4.20 m/s  step 16.1 m (0.38 l)
+stance knee >= 15 deg, step x1.0: Fr 0.012  v 2.21 m/s  step 12.8 m (0.30 l)
+stance knee >= 15 deg, step x0.85: Fr 0.020  v 2.89 m/s  step 12.8 m (0.30 l)
+stance knee >= 25 deg, step x1.0: Fr 0.005  v 1.44 m/s  step 9.9 m (0.23 l)
+stance knee >= 25 deg, step x0.85: Fr 0.009  v 1.89 m/s  step 9.9 m (0.23 l)
+== kinematic Froude ceiling (foot flat >= 75 % of single support, knee >= 5 deg) at 0 / 5 deg joint margin
+S1 R-007 pattern bounds, step x1.0: Fr 0.177 / 0.113
+S1 R-007 pattern bounds, step x0.85: Fr 0.305 / 0.194
+S2 human-like rockers + tilt, step x1.0: Fr 0.290 / 0.198
+S2 human-like rockers + tilt, step x0.85: Fr 0.230 / 0.230
+== data sensitivities at Fr 0.20, S1 bounds, nominal step, flat >= 75 %: joint margin (deg)
+as given: -1.8
+ankle dorsiflexion limit -25: +1.4
+ankle dorsiflexion limit -30: +4.4
+hip extension limit -25: -0.3
+hip -25 and ankle -25: +3.2
+ankle 4.0 m from heel (toe lever 11.0 m): -2.6
+ankle 3.0 m from heel (toe lever 12.0 m): -3.2
+ankle 6.5 m from heel (toe lever 8.5 m): -1.2
+pelvic tilt allowed 10 deg (no ROM change): +0.9; rockers 25/40 deg: +4.6
+== perception (R-001 relations, l = 42.4 m) and the measured gait
+Fr 0.023: v 3.09 m/s (11.1 km/h), natural step 15.7 m, stride 10.17 s, cadence 11.8 steps/min, human-equivalent speed 0.46 m/s, time stretch vs human x6.75
+Fr 0.050: v 4.56 m/s (16.4 km/h), natural step 19.8 m, stride 8.71 s, cadence 13.8 steps/min, human-equivalent speed 0.68 m/s, time stretch vs human x6.75
+Fr 0.100: v 6.45 m/s (23.2 km/h), natural step 24.4 m, stride 7.58 s, cadence 15.8 steps/min, human-equivalent speed 0.96 m/s, time stretch vs human x6.75
+Fr 0.150: v 7.90 m/s (28.4 km/h), natural step 27.6 m, stride 6.99 s, cadence 17.2 steps/min, human-equivalent speed 1.17 m/s, time stretch vs human x6.75
+Fr 0.200: v 9.12 m/s (32.8 km/h), natural step 30.1 m, stride 6.60 s, cadence 18.2 steps/min, human-equivalent speed 1.35 m/s, time stretch vs human x6.75
+measured: v 3.07 m/s, step 10.5 m (0.25 l), step time 3.42 s, cadence 17.5 steps/min; natural stride at this Fr 10.2 s -> stride ratio 0.67; natural step at this Fr 15.7 m
+== lateral LIPM (no double support, conservative): CoM crosses the midline at the support switch
+Fr 0.1: lateral CoP 6.5 m from midline -> peak lateral accel 1.50 m/s2 (0.153 g); sway amplitude 2.00 m
+Fr 0.1: lateral CoP 3.6 m from midline -> peak lateral accel 0.83 m/s2 (0.085 g); sway amplitude 1.11 m
+Fr 0.1: lateral CoP 1.5 m from midline -> peak lateral accel 0.35 m/s2 (0.035 g); sway amplitude 0.46 m
+Fr 0.2: lateral CoP 6.5 m from midline -> peak lateral accel 1.50 m/s2 (0.153 g); sway amplitude 1.62 m
+Fr 0.2: lateral CoP 3.6 m from midline -> peak lateral accel 0.83 m/s2 (0.085 g); sway amplitude 0.89 m
+Fr 0.2: lateral CoP 1.5 m from midline -> peak lateral accel 0.35 m/s2 (0.035 g); sway amplitude 0.37 m
+lateral CoP offset for the M-001.5 limit 0.834 m/s2: 3.61 m from midline
+== pelvis yaw and M-001.8 (yaw accel <= 4.0 deg/s2) if measured on the pelvis
+Fr 0.1: psi 4 deg -> 2.7 deg/s2, 8 deg -> 5.5 deg/s2, peak yaw rate 8 deg -> 6.6 deg/s
+Fr 0.2: psi 4 deg -> 3.6 deg/s2, 8 deg -> 7.3 deg/s2, peak yaw rate 8 deg -> 7.6 deg/s
+== power and first step
+KE at 3.07 m/s 47 MJ; over the 5.2 s start: 9 MW mean; 2,027 MW peak = 224 x that
+Fr 0.1: mean mechanical power at CoT 0.05-0.10: 32-63 MW
+Fr 0.2: mean mechanical power at CoT 0.05-0.10: 45-89 MW
+measured CoT at 3.07 m/s, 94 MW: 0.31
