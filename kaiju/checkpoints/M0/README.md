@@ -10,7 +10,7 @@ Look at the board for all palettes and framings: [review board](../../evidence/T
 
 1. **Approve the style frame as M0's look?** Default: approve the hero as shown (slate_teal; it passes the depth-value span at 20.3 L*). Otherwise: the look stays open and pipeline/palette work repeats.
 2. **Palette profile.** Default: `slate_teal`. Otherwise: another of the five becomes the base; note the other four currently miss the depth-value span (c1) in this scene and need haze tuning first.
-3. **Dither look and anchoring.** Default: dither on, anchored to `direction` (the shipping mode from T-004 cycle 2). Hybrid passes translation but not yaw; screen mode is not stable (Q-060). Otherwise: hybrid or screen need more work before they can ship.
+3. **Dither look and anchoring.** Default: dither on, anchored to `direction` (the shipping mode from T-004 cycle 2). In this scene every mode holds a still frame exactly; on the slow push-in direction misses crawl slightly (0.164 vs 0.15) and hybrid misses flicker (0.008 vs 0.005); no mode meets the yaw thresholds (Q-060). Otherwise: hybrid or screen need more work before they can ship.
 4. **Internal resolution.** Default: 480x270 at 1080p, integer scale 4 (5 at 1440p). Otherwise: a finer grid looks less pixel-art and costs more per frame; a coarser one loses the mech silhouette.
 5. **Walk gate (Q-053).** Default: keep T-005 unmerged and approve round 2 with R-008's approach, no assists. Otherwise: merging now ships a walk below target pace (3.07 m/s versus 9 m/s gate), or the gate is relaxed.
 6. **Default framing for the first image.** Default: the current hero (mech about half the frame, Salesforce Tower behind). Otherwise: closer or wider (both pass depth); the waterfront view fails depth and sky share.

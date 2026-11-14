@@ -137,7 +137,10 @@ namespace Game.Tools.StyleFrame
         // ------------------------------------------------------------------ motion (M-004): static, slow orbit and slow push-in around the hero framing, per anchoring mode
         static void Motion(StyleCaptureSession s, ShotPlan plan)
         {
-            s.Capture.SetOutputSize(1920, 1080); s.SetProfile(StyleFrameScene.DefaultProfile);
+            s.Capture.SetOutputSize(1920, 1080); s.Apply(); s.SetProfile(StyleFrameScene.DefaultProfile);
+            for (int i = 0; i < WarmupStills; i++) Still(s, "_warmup", "w" + i, plan.Hero, StyleFrameScene.DefaultProfile, "warm-up, deleted");   // C10: settle before the first kept frame
+            string warmDir = System.IO.Path.Combine(s.OutRoot, "_warmup");
+            if (System.IO.Directory.Exists(warmDir)) System.IO.Directory.Delete(warmDir, true);
             var baseSettings = s.Settings.Clone(); var baseFlags = s.Flags;
             var hero = plan.Hero; var m = plan.Mech;
             double d = hero.DistanceToMech, th0 = hero.CompassAzimuthFromMechDeg;
