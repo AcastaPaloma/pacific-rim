@@ -50,6 +50,20 @@ def contact_slip(log, c, sole_local, L_f, h_tol_Lf):
     return best, best_k, best_t, per_point, normal_src
 
 
+def vacuous_feet(log, contacts, nmin):
+    """Feet of this capture with fewer than nmin usable (non-excluded) contacts."""
+    out = []
+    for fi, f in enumerate(log.feet):
+        if sum(1 for c in contacts if c.foot_index == fi and not c.excluded) < nmin:
+            out.append(f["id"])
+    return out
+
+
+def _nr(name, op, thr, note):
+    return {"name": name, "value": None, "status": "NOT_RUN", "op": op, "threshold": thr, "margin": None,
+            "margin_rel": None, "unit": "", "note": note}
+
+
 def run(report, logs, reg, ratings=None, out_dir=None, images=True):
     g = reg.p("g_mps2")
     check_normalisers(report, logs, reg, g)
@@ -63,6 +77,8 @@ def run(report, logs, reg, ratings=None, out_dir=None, images=True):
         report.add_input(lg.path, lg.sha256, f"gait_log@v1 {lg.capture}")
     all_c = []
     agree_parts, dt_parts = [], []
+    per_cap = []                       # (log, its contacts) - minimum evidence is checked per capture
+    nmin = int(reg.p("min_contacts_per_foot", 1))
     disagreements = {}
     for lg in logs:
         h = lg.header
@@ -89,6 +105,7 @@ def run(report, logs, reg, ratings=None, out_dir=None, images=True):
                 c.excluded = True
                 c.tags.append("excluded_external_force")
         all_c += cs
+        per_cap.append((lg, cs))
         # M-002.4: emitter flag versus spec hysteresis
         tot = agree = 0
         bad = []
@@ -98,8 +115,13 @@ def run(report, logs, reg, ratings=None, out_dir=None, images=True):
             agree += int((em == st).sum())
             bad += [int(lg.n[i]) for i in np.where(em != st)[0][:20]]
         share = agree / tot if tot else float("nan")
-        agree_parts.append(part(f"{lg.capture}:{os.path.basename(lg.path)}", share, ">=", reg.t("M-002.4", "agree_min"),
-                                unit="share of foot-steps"))
+        short = vacuous_feet(lg, cs, nmin)
+        if short:
+            agree_parts.append(_nr(f"{lg.capture}:{os.path.basename(lg.path)}", ">=", reg.t("M-002.4", "agree_min"),
+                                   f"no usable contact on foot {', '.join(short)}: agreement would be vacuous"))
+        else:
+            agree_parts.append(part(f"{lg.capture}:{os.path.basename(lg.path)}", share, ">=",
+                                    reg.t("M-002.4", "agree_min"), unit="share of foot-steps"))
         disagreements[lg.capture] = sorted(bad)[:20]
         dt_parts.append(part(f"{lg.capture}:fixed_dt_s", lg.dt, "<=", reg.t("M-002.3", "dt_max_s"), unit="s"))
     used = [c for c in all_c if not c.excluded]
@@ -114,10 +136,24 @@ def run(report, logs, reg, ratings=None, out_dir=None, images=True):
             "where": "; ".join(f"{w['capture']} foot {w['foot']} contact {w['contact_id']} n={w['n_begin']} "
                                f"t={w['t_begin_s']}s slip {w['slip_m']:.4f} m ({w['slip_pct_Lf']:.3f} % L_f)"
                                for w in worst[:3])}
+    parts1, vac = [], []
+    lim1 = reg.t("M-002.1", "max_frac")
+    for lg, cs in per_cap:
+        short = vacuous_feet(lg, cs, nmin)
+        nm = f"{lg.capture}:{os.path.basename(lg.path)} max s_c/L_f"
+        if short:
+            vac.append(f"{lg.capture}: no usable contact on foot {', '.join(short)}")
+            parts1.append(_nr(nm, "<", lim1, f"no usable contact on foot {', '.join(short)} (vacuous: not a pass)"))
+            continue
+        u = [c for c in cs if not c.excluded]
+        w = max(u, key=lambda c: c.slip_m / c.L_f)
+        parts1.append(part(nm, w.slip_m / w.L_f, "<", lim1, unit="L_f", slip_m=w.slip_m, foot=w.foot_id,
+                           contact_id=w.contact_id, n_begin=w.n_begin))
+    if vac:
+        report.coverage["missing"] = report.coverage["missing"] + [f"{v} (>= {nmin} per foot required)" for v in vac]
+        diag["vacuous_captures"] = vac
     if used:
-        mx = max(c.slip_m / c.L_f for c in used)
-        report.add("M-002.1", parts=[part("max_c s_c/L_f", mx, "<", reg.t("M-002.1", "max_frac"), unit="L_f",
-                                          slip_m=fr[0].slip_m)], diagnostics=diag)
+        report.add("M-002.1", parts=parts1, diagnostics=diag)
         p95 = float(np.percentile([c.slip_m / c.L_f for c in used], reg.p("p95_quantile")))
         report.add("M-002.2", parts=[part("p95 s_c/L_f", p95, "<", reg.t("M-002.2", "p95_frac"), unit="L_f")])
     else:

@@ -104,7 +104,19 @@ def run(report, logs, reg, ratings=None, out_dir=None, images=True):
     for c in caps:
         by.setdefault(c.name, []).append(c)
     min_steady = int(reg.p("min_steady_strides"))
-
+    steady_caps = reg.get("steady_captures") or reg.get("walk_captures")
+    # minimum evidence per capture (DEF-T002-arch-1): every capture needs contacts on every foot
+    from .m002 import vacuous_feet
+    nmin = int(reg.p("min_contacts_per_foot", 1))
+    vac = []
+    for c in caps:
+        short = vacuous_feet(c.lg, c.contacts, nmin)
+        if short:
+            vac.append(f"{c.name}: no contact on foot {', '.join(short)} (>= {nmin} per foot required)")
+        elif c.name in steady_caps and c.steady_count() < min_steady:
+            vac.append(f"{c.name}: {c.steady_count()} steady strides per foot (< {min_steady})")
+    if vac:
+        report.coverage["missing"] = report.coverage["missing"] + vac
     # ---------------- M-001.1 Froude band
     parts1, steady_info = [], {}
     fr_lo, fr_hi = reg.t("M-001.1", "fr_lo"), reg.t("M-001.1", "fr_hi")
@@ -112,7 +124,7 @@ def run(report, logs, reg, ratings=None, out_dir=None, images=True):
         n_st = c.steady_count()
         fr, vb = c.fr_steady()
         steady_info[f"{c.name}:{c.file}"] = {"steady_strides_min_per_foot": n_st, "Fr": fr, "v_bar_mps": vb}
-        if c.name in reg.get("walk_captures") or n_st >= min_steady:
+        if c.name in steady_caps or n_st >= min_steady:
             if n_st < min_steady:
                 parts1.append({"name": f"{c.name}:Fr band", "value": None, "status": S_NOT_RUN, "op": "in",
                                "threshold": fr_lo, "threshold_hi": fr_hi, "margin": None, "margin_rel": None,
@@ -140,7 +152,7 @@ def run(report, logs, reg, ratings=None, out_dir=None, images=True):
     a_c, a_e = reg.p("alexander_coef"), reg.p("alexander_exp")
     for c in caps:
         if c.steady_count() < min_steady:
-            if c.name in reg.get("walk_captures"):
+            if c.name in steady_caps:
                 nr = {"value": None, "status": S_NOT_RUN, "margin": None, "margin_rel": None, "op": "in", "unit": "",
                       "note": f"< {min_steady} steady strides per foot"}
                 parts2.append(dict(nr, name=f"{c.name}:T ratio", threshold=reg.t("M-001.2", "ratio_lo"),
@@ -177,7 +189,7 @@ def run(report, logs, reg, ratings=None, out_dir=None, images=True):
         p5.append(part(f"{c.name}:peak |a_lat|", float(abs(c.a_lat[k5])), "<=", lim5, unit="m/s^2",
                        unsmoothed_peak=float(np.max(np.abs(c.a_lat_raw))), at=c.loc(k5)))
     for sid, ps in (("M-001.4", p4), ("M-001.5", p5)):
-        worst = min(ps, key=lambda p: p["margin_rel"])
+        worst = _worst(ps)
         report.add(sid, parts=ps, diagnostics={"where": f"{worst['name']} at {worst['at']}",
                                                "unsmoothed_peak_m_s2": worst["unsmoothed_peak"]})
 
@@ -193,14 +205,16 @@ def run(report, logs, reg, ratings=None, out_dir=None, images=True):
         p8.append(part(f"{c.name}:peak |yaw acc|", math.degrees(abs(c.yaw_acc[k8])), "<=", lim8, unit="deg/s^2",
                        at=c.loc(k8)))
     for sid, ps in (("M-001.7", p7), ("M-001.8", p8)):
-        worst = min(ps, key=lambda p: p["margin_rel"])
-        report.add(sid, parts=ps, diagnostics={"where": f"{worst['name']} at {worst['at']}"})
+        worst = _worst(ps)
+        report.add(sid, parts=ps, diagnostics={"where": f"{worst['name']} at {worst.get('at')}"})
 
     # ---------------- M-001.9 yaw rate while v_bar > 0.5 v_cruise: |yaw rate| * v_bar <= a_lat
     p9 = []
     for c in caps:
         sel = c.v_bar_t > reg.p("cruise_fraction_yaw") * c.v_cruise
         if not sel.any():
+            if c.name == "curve":
+                p9.append(_nr("curve:|yaw rate| * v_bar", "curve never exceeds 0.5 v_cruise (vacuous: not a pass)"))
             continue
         a_lat = reg.t("M-001.9", "a_lat_g") * g_ * ((c.W_f / 2) / c.hc) / reg.p("ref_half_width_over_h")
         req_a = np.abs(c.yaw_rate) * c.v_bar_t
@@ -210,8 +224,8 @@ def run(report, logs, reg, ratings=None, out_dir=None, images=True):
                        yaw_rate_dps=math.degrees(abs(c.yaw_rate[k])), limit_dps=math.degrees(a_lat / c.v_bar_t[k]),
                        v_bar_mps=float(c.v_bar_t[k]), at=c.loc(k)))
     if p9:
-        worst = min(p9, key=lambda p: p["margin_rel"])
-        report.add("M-001.9", parts=p9, diagnostics={"where": f"{worst['name']} at {worst['at']}"})
+        worst = _worst(p9)
+        report.add("M-001.9", parts=p9, diagnostics={"where": f"{worst['name']} at {worst.get('at')}"})
     else:
         report.add("M-001.9", S_NOT_RUN, note="no capture with v_bar > 0.5 v_cruise")
 
@@ -293,6 +307,11 @@ def run(report, logs, reg, ratings=None, out_dir=None, images=True):
     if images and out_dir:
         from ..diagnostics import gait_plot
         report.images.append(gait_plot(out_dir, caps, report))
+
+
+def _worst(ps):
+    judged = [p for p in ps if p.get("margin_rel") is not None]
+    return min(judged, key=lambda p: p["margin_rel"]) if judged else ps[0]
 
 
 def _nr(name, note):

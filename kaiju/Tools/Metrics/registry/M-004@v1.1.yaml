@@ -1,0 +1,98 @@
+registry_schema: metric_registry@v1
+metric: M-004
+spec: M-004@v1
+revision: v1.1
+metric_status: registered
+date: "2026-11-14"
+title: Pixel stability (shimmer and crawl)
+source: research/R-002.md §5 M-004@v1 (capture contract §6)
+# Motion classes by nominal speed (internal px / frame; translation at the 600 m reference depth, yaw at screen
+# centre). A sequence maps to the nearest nominal within class_speed_tol, otherwise INVALID_INPUT.
+classes:
+  S0: {type: static, speed: 0.0}
+  T1: {type: translate, speed: 0.1}
+  T2: {type: translate, speed: 0.25}
+  T3: {type: translate, speed: 1.0}
+  Y1: {type: yaw, speed: 0.25}
+  Y2: {type: yaw, speed: 1.0}
+threshold_group: {S0: S0, T1: T12, T2: T12, T3: T3, Y1: Y, Y2: Y}
+no_verdict_types: [pitch, dolly, scripted]      # validated and reported without a verdict (reconciled reading)
+required_profiles: 3
+required_viewpoints: 2
+procedure:
+  class_speed_tol:   {value: 0.10, unit: relative, status: derived, source: "reconciled spec: nearest nominal within +-10 %"}
+  speed_check_tol:   {value: 0.10, unit: relative, status: derived, source: "reconciled C9: sidecar poses vs declared speed"}
+  static_motion_max: {value: 0.001, unit: px/frame, status: derived, source: "static sequences: no camera motion"}
+  occlusion_rel:     {value: 0.05, unit: relative depth, status: derived, source: "R-002 §5.1 occlusion test"}
+  valid_min:         {value: 0.5, unit: share of pixels, status: assumed_pending_calibration, source: "expect-A §4.14 (spec silent)"}
+  min_frames:        {value: 180, unit: frames, status: derived, source: "R-002 §5 capture protocol"}
+  min_frames_fixture: {value: 60, unit: frames, status: derived, source: "reconciled reading: 60 allowed in fixtures"}
+  static_min_frames: {value: 60, unit: frames, status: derived, source: "R-002 §5 (S0 static: 60 frames)"}
+  ref_depth_m:       {value: 600.0, unit: m, status: derived, source: "R-002 §5 reference depth"}
+  sky_far_fraction:  {value: 0.99, unit: far, status: derived, source: "R-002 §5 (sky reprojects by direction)"}
+  window_px:         {value: 4, unit: px, status: derived, source: "M-003 b interleaved window (C_px)"}
+  top_colour_max:    {value: 0.9, unit: share, status: derived, source: "M-003 b"}
+  distinct_max:      {value: 4, unit: indices, status: derived, source: "M-003 b"}
+  neighbour_diff_min: {value: 0.35, unit: share, status: derived, source: "M-003 b"}
+  amp_min:           {value: 1.0, unit: L*, status: derived, source: "M-003 b"}
+submeasures:
+  M-004.S0:
+    title: Static shimmer S0 (plain frame difference), worst static sequence
+    kind: gating
+    thresholds:
+      max: {value: 0.0, unit: share, status: derived, source: "R-002 §5 (static is a hard rule)"}
+  M-004.C_px.S0:
+    title: Static crawl (plain difference on interleaved pixels)
+    kind: gating
+    thresholds:
+      max: {value: 0.0, unit: share, status: derived, source: "R-002 §5"}
+  M-004.F.S0:
+    title: Static flicker (A -> B -> A)
+    kind: gating
+    thresholds:
+      max: {value: 0.0, unit: share, status: derived, source: "R-002 §5"}
+  M-004.S_px.Y:
+    title: Shimmer per pixel of motion, yaw Y1-Y2, worst sequence
+    kind: gating
+    thresholds:
+      max: {value: 0.01, unit: share, status: assumed_pending_calibration, source: "R-002 §5 (4x best measured)"}
+  M-004.C_px.Y:
+    title: Dither crawl, yaw Y1-Y2
+    kind: gating
+    thresholds:
+      max: {value: 0.01, unit: share, status: assumed_pending_calibration, source: "R-002 §5"}
+  M-004.F.Y:
+    title: Flicker A -> B -> A, yaw Y1-Y2
+    kind: gating
+    thresholds:
+      max: {value: 0.001, unit: share, status: assumed_pending_calibration, source: "R-002 §5"}
+  M-004.S_px.T12:
+    title: Shimmer per pixel of motion, translation T1-T2
+    kind: gating
+    thresholds:
+      max: {value: 0.12, unit: share, status: assumed_pending_calibration, source: "R-002 §5 (1.25x surface-anchored)"}
+  M-004.C_px.T12:
+    title: Dither crawl, translation T1-T2
+    kind: gating
+    thresholds:
+      max: {value: 0.15, unit: share, status: assumed_pending_calibration, source: "R-002 §5"}
+  M-004.F.T12:
+    title: Flicker A -> B -> A, translation T1-T2
+    kind: gating
+    thresholds:
+      max: {value: 0.005, unit: share, status: assumed_pending_calibration, source: "R-002 §5"}
+  M-004.S_px.T3:
+    title: Shimmer per pixel of motion, translation T3
+    kind: gating
+    thresholds:
+      max: {value: 0.12, unit: share, status: assumed_pending_calibration, source: "R-002 §5"}
+  M-004.C_px.T3:
+    title: Dither crawl, translation T3
+    kind: gating
+    thresholds:
+      max: {value: 0.15, unit: share, status: assumed_pending_calibration, source: "R-002 §5"}
+  M-004.F.T3:
+    title: Flicker A -> B -> A, translation T3
+    kind: gating
+    thresholds:
+      max: {value: 0.08, unit: share, status: assumed_pending_calibration, source: "R-002 §5"}

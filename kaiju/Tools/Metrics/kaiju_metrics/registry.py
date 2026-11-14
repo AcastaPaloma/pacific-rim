@@ -16,6 +16,9 @@ KINDS = ("gating", "advisory", "info")
 METRICS = ("M-001", "M-002", "M-003", "M-004")
 
 
+_MISSING = object()
+
+
 class RegistryError(Exception):
     pass
 
@@ -32,6 +35,7 @@ class Registry:
         self.sha256 = sha256_file(self.path)
         self._validate()
         self.used = {}          # (sub-measure, key) -> entry, for provisional labelling
+        self.defaults_used = {}
 
     def _validate(self):
         d = self.data
@@ -85,11 +89,15 @@ class Registry:
     def entry(self, sid, key):
         return self.data["submeasures"][sid]["thresholds"][key]
 
-    def p(self, key):
-        """Procedure constant (spec numbers that are not pass / fail thresholds)."""
+    def p(self, key, default=_MISSING):
+        """Procedure constant (spec numbers that are not pass / fail thresholds). `default` applies only to constants
+        added in a later revision (re-scoring an older revision); it is reported in `defaults_used`."""
         try:
             return self.data["procedure"][key]["value"]
         except KeyError:
+            if default is not _MISSING:
+                self.defaults_used[key] = default
+                return default
             raise RegistryError(f"{rel_path(self.path)}: no procedure constant {key}")
 
     def get(self, key, default=None):
@@ -116,8 +124,11 @@ class Registry:
         return "derived" if st else "none"
 
     def describe(self):
-        return {"path": rel_path(self.path), "spec": self.spec, "revision": self.revision, "sha256": self.sha256,
-                "metric_status": self.data["metric_status"]}
+        d = {"path": rel_path(self.path), "spec": self.spec, "revision": self.revision, "sha256": self.sha256,
+             "metric_status": self.data["metric_status"]}
+        if self.defaults_used:
+            d["defaults_for_later_constants"] = dict(self.defaults_used)
+        return d
 
 
 _REV = re.compile(r"^(M-\d{3})@v(\d+)(?:\.(\d+))?\.yaml$")
