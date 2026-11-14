@@ -1,6 +1,6 @@
 # M0 checkpoint: start here
 
-**Status.** Passed: the pixel pipeline and city tile are merged and working; the style frame places an 80 m mech in 5.48 m of water about 150 m off the Embarcadero, skyline match 0.991, grid and dither checks pass, frame cost is small (0.54 ms CPU p50, 119 draw calls, 0 GC). Failed: the hero's depth-value span (needs 15 L*) fails in 4 of 5 palettes (slate_teal passes at 20.3), the waterfront framing fails the same test, the Transamerica tower sits 6.2 px off (limit 3), and screen-anchored dither is not stable in motion. Unmerged: T-005 walking mech (below target pace) and this T-006 packet (on `task/T-006`, under evaluation).
+**Status.** Passed: the pixel pipeline and city tile are merged and working; the style frame places an 80 m mech in 5.48 m of water about 150 m off the Embarcadero, skyline match 0.991, grid and dither checks pass, frame cost is small (0.54 ms CPU p50, 119 draw calls, 0 GC). Failed: the hero's depth-value span (needs 15 L*) fails in 4 of 5 palettes (slate_teal passes at 20.3), the waterfront framing fails the same test, the Transamerica tower sits 6.2 px off (limit 3), and no dither anchoring mode meets the yaw-shimmer thresholds in a slow orbit. Unmerged: T-005 walking mech (below target pace) and this T-006 packet (on `task/T-006`, under evaluation).
 
 ![Hero frame: slate_teal, current hero framing](hero.png)
 
