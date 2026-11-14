@@ -1,0 +1,7 @@
+$ /opt/miniconda3/envs/kaiju/bin/python Tools/Metrics/metrics.py calibrate --ratings .wt/T-006/kaiju/checkpoints/M0/dryrun/M-005_dummy_ratings.json --reports .wt/T-006/kaiju/checkpoints/M0/bulk/dryrun_reports/M-005 --out .wt/T-006/kaiju/checkpoints/M0/dryrun/calibrate_M-005
+exit 2
+--- stdout
+
+--- stderr
+INVALID_INPUT: 1 contract error(s)
+  checkpoints/M0/dryrun/M-005_dummy_ratings.json:$.metric: ratings must name their metric (expected M-001 .. M-004; found 'M-005')
