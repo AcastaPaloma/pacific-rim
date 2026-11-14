@@ -52,7 +52,7 @@ namespace Game.Units.Mech
             _w.WriteLine(_j.End());
         }
 
-        static string F(double v) => v.ToString("R", System.Globalization.CultureInfo.InvariantCulture);
+        static string F(double v) => JsonLine.Text(v);
 
         public void WriteStep(long n, in IntentFrame intent, in LocoCommand cmd, in LocomotionController.Debug dbg)
         {
@@ -93,7 +93,7 @@ namespace Game.Units.Mech
         public void ContactEnd(in FootLiftOff e) => Event(e.Step, "contact_end", "\"foot\":\"" + _b.FootId(e.Foot) + "\",\"contact_id\":" + e.ContactId);
         public void CameraImpulse(long n, int foot, long contactId, double amplitudeM, long sourceN) => Event(n, "cam_impulse", "\"foot\":\"" + _b.FootId(foot) + "\",\"contact_id\":" + contactId + ",\"amplitude_m\":" + F(amplitudeM) + ",\"dir\":[0,-1,0],\"source_n\":" + sourceN);
 
-        public void Event(long n, string type, string body) => _w.WriteLine("{\"rec\":\"event\",\"n\":" + n + ",\"t\":" + F(n * _dt) + ",\"type\":\"" + type + "\"" + (string.IsNullOrEmpty(body) ? "" : "," + body) + "}");
+        public void Event(long n, string type, string body) => _w.WriteLine("{\"rec\":\"event\",\"n\":" + n + ",\"t\":" + (n * _dt).ToString("R", System.Globalization.CultureInfo.InvariantCulture) + ",\"type\":\"" + type + "\"" + (string.IsNullOrEmpty(body) ? "" : "," + body) + "}");
         public void Dispose() => _w.Dispose();
     }
 }

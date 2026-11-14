@@ -38,9 +38,9 @@ namespace Game.Units.Mech.Scenarios
     {
         static readonly NVec3 Far = new NVec3(0, 0, 5000);
 
-        public static ScenarioSpec Walk(string name, double froude, double seconds = 75) => new ScenarioSpec
+        public static ScenarioSpec Walk(string name, double froude, double seconds = 63) => new ScenarioSpec
         {
-            Name = name, Seconds = seconds, CruiseFroude = froude, StripStart = 45,
+            Name = name, Seconds = seconds, CruiseFroude = froude, StripStart = 40,
             Script = (p, l) => p.At(0, MoveId.Stand, default, 0).At(3, MoveId.Walk, Far, (float)l.EffortForFroude(froude))
         };
 
@@ -52,15 +52,15 @@ namespace Game.Units.Mech.Scenarios
             yield return Walk("walk_fr030", 0.30);
             yield return Walk("walk_fr025", 0.25);
             yield return new ScenarioSpec { Name = "start", Seconds = 45, CruiseFroude = 0.20, StripStart = 4, Script = (p, l) => p.At(0, MoveId.Stand, default, 0).At(5, MoveId.Walk, Far, (float)l.EffortForFroude(0.20)) };
-            yield return new ScenarioSpec { Name = "stop", Seconds = 70, CruiseFroude = 0.20, StripStart = 44, Script = (p, l) => p.At(0, MoveId.Stand, default, 0).At(3, MoveId.Walk, Far, (float)l.EffortForFroude(0.20)).At(45, MoveId.Stop, default, 0) };
-            yield return new ScenarioSpec { Name = "estop", Seconds = 70, CruiseFroude = 0.20, StripStart = 44, Script = (p, l) => p.At(0, MoveId.Stand, default, 0).At(3, MoveId.Walk, Far, (float)l.EffortForFroude(0.20)).At(45, MoveId.EmergencyStop, default, 0) };
+            yield return new ScenarioSpec { Name = "stop", Seconds = 60, CruiseFroude = 0.20, StripStart = 34, Script = (p, l) => p.At(0, MoveId.Stand, default, 0).At(3, MoveId.Walk, Far, (float)l.EffortForFroude(0.20)).At(35, MoveId.Stop, default, 0) };
+            yield return new ScenarioSpec { Name = "estop", Seconds = 60, CruiseFroude = 0.20, StripStart = 34, Script = (p, l) => p.At(0, MoveId.Stand, default, 0).At(3, MoveId.Walk, Far, (float)l.EffortForFroude(0.20)).At(35, MoveId.EmergencyStop, default, 0) };
             yield return new ScenarioSpec { Name = "turn90_inplace", Seconds = 60, CruiseFroude = 0.20, StripStart = 4, StripInterval = 1.5, Script = (p, l) => p.At(0, MoveId.Stand, default, 0).At(3, MoveId.Turn, new NVec3(5000, 0, 0), 0) };
-            yield return new ScenarioSpec { Name = "curve", Seconds = 90, CruiseFroude = 0.20, StripStart = 40, StripInterval = 1.0, Script = (p, l) => p.At(0, MoveId.Stand, default, 0).At(3, MoveId.Walk, Far, (float)l.EffortForFroude(0.20)).At(40, MoveId.Walk, new NVec3(3000, 0, 3300), (float)l.EffortForFroude(0.20)) };
+            yield return new ScenarioSpec { Name = "curve", Seconds = 75, CruiseFroude = 0.20, StripStart = 30, StripInterval = 1.0, Script = (p, l) => p.At(0, MoveId.Stand, default, 0).At(3, MoveId.Walk, Far, (float)l.EffortForFroude(0.20)).At(30, MoveId.Walk, new NVec3(3000, 0, 3080), (float)l.EffortForFroude(0.20)) };
             yield return new ScenarioSpec { Name = "walk_scn", Seconds = 160, CruiseFroude = 0.20, StripStart = 4, StripInterval = 3, StripFrames = 48, Script = (p, l) => p.At(0, MoveId.Stand, default, 0).At(5, MoveId.Walk, new NVec3(0, 0, 130), (float)l.EffortForFroude(0.20)).At(62, MoveId.Turn, new NVec3(5000, 0, 130), 0).At(95, MoveId.Walk, new NVec3(130, 0, 130), (float)l.EffortForFroude(0.20)) };
             yield return new ScenarioSpec { Name = "stomp", Seconds = 30, StripStart = 2, StripInterval = 0.75, Script = (p, l) => p.At(0, MoveId.Stand, default, 0).At(3, MoveId.Stomp, new NVec3(20, 0, 0), 1).At(22, MoveId.Stand, default, 0) };
             yield return new ScenarioSpec
             {
-                Name = "intent_over_limit", Seconds = 150, CruiseFroude = 0.20, StripStart = 2, StripInterval = 4, StripFrames = 36,
+                Name = "intent_over_limit", Seconds = 125, CruiseFroude = 0.20, StripStart = 2, StripInterval = 4, StripFrames = 36,
                 // 3x cruise speed, instant reversal, 180 degree heading snap, stop in one step, a target out of reach, 30 Hz stick jitter
                 Script = (p, l) =>
                 {

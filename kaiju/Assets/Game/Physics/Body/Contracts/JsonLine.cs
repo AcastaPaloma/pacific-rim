@@ -15,7 +15,14 @@ namespace Game.Physics.Body.Contracts
         void Key(string k) { if (!_first) _sb.Append(','); _first = false; _sb.Append('"').Append(k).Append("\":"); }
         public static void Num(StringBuilder sb, double v)
         {
-            if (double.IsNaN(v) || double.IsInfinity(v)) sb.Append("null"); else sb.Append(v.ToString("R", CultureInfo.InvariantCulture));
+            sb.Append(Text(v));
+        }
+        /// <summary>Shortest text that reads back to the same value: values that are exactly a float (everything measured from the engine) print as floats, real doubles as doubles.</summary>
+        public static string Text(double v)
+        {
+            if (double.IsNaN(v) || double.IsInfinity(v)) return "null";
+            float f = (float)v;
+            return (double)f == v ? f.ToString("R", CultureInfo.InvariantCulture) : v.ToString("R", CultureInfo.InvariantCulture);
         }
         public JsonLine Str(string k, string v) { Key(k); Quote(v); return this; }
         public JsonLine Num(string k, double v) { Key(k); Num(_sb, v); return this; }
