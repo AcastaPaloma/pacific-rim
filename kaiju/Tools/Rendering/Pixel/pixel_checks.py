@@ -69,10 +69,36 @@ def project_wanted(f, world):
 TOWER_EDGE = (310.0, 120.0, 440.0)   # left silhouette edge of Tower_600m seen from the eye70_tower viewpoint (its far-left corner), 120 m up
 
 
+DEPTH_CLASS_POINTS = {"near": (-15.0, 60.0, -10.0), "reference": TOWER_EDGE, "far": (4000.0, 700.0, 9400.0)}
+DEPTH_EDGE_SEARCH_TEXELS = 24
+DEPTH_EDGE_MIN_REL_JUMP = 0.03   # a depth discontinuity is a >3 % change of eye depth between horizontally adjacent texels
+
+
+def depth_edge_output_x(d, f, world):
+    """x (output px) of the depth discontinuity nearest to the projected wanted position of `world`, along its row, from the depth PNG
+    (internal resolution): scale * texel boundary - present_shift_output_px.x. Returns (measured_x, projected_x) or None when the point or
+    every discontinuity within the search window is off-screen / absent."""
+    k = f["resolution"]["integer_scale"]; W, H = f["resolution"]["output_wh"]
+    px, py = project_wanted(f, world)
+    if not (0 <= px < W and 0 <= py < H) or euler_basis(*f["camera"]["wanted_yaw_pitch_roll_deg"][:2])[2] @ (np.asarray(world, float) - np.asarray(f["camera"]["wanted_position_local_m"], float)) <= 0: return None
+    z, sky = depth_m(d, f)
+    z = np.where(sky, f["camera"]["far_m"] * 4.0, z)
+    row = min(max(int(py // k), 0), z.shape[0] - 1); cx = px / k
+    x0, x1 = max(int(cx) - DEPTH_EDGE_SEARCH_TEXELS, 1), min(int(cx) + DEPTH_EDGE_SEARCH_TEXELS + 1, z.shape[1])
+    if x1 <= x0: return None
+    r = z[row]; rel = np.abs(r[x0:x1] - r[x0 - 1:x1 - 1]) / np.minimum(r[x0:x1], r[x0 - 1:x1 - 1])
+    cand = np.where(rel > DEPTH_EDGE_MIN_REL_JUMP)[0] + x0     # boundary i lies between texels i-1 and i
+    if len(cand) == 0: return None
+    i = cand[np.argmin(np.abs(cand - cx))]
+    shift = f["camera"]["snap"].get("present_shift_output_px", [0, 0])[0]
+    return float(k * i - shift), float(px)
+
+
 def edge_series(d):
     """Measured x (output px) of the tower's left silhouette edge in color_output, per frame, and the commanded x."""
     meta, frames = load_seq(d)
     meas, cmd = [], []
+    dseries = {k: {"meas": [], "cmd": []} for k in DEPTH_CLASS_POINTS}; skips = {k: 0 for k in DEPTH_CLASS_POINTS}
     for f in frames:
         out = img(d, f, "color_output"); L = lightness(out)
         px, py = project_wanted(f, TOWER_EDGE)
@@ -89,6 +115,11 @@ def edge_series(d):
         i = int(below[0]) if len(below) else len(prof) - 1
         edge = i - (mid - prof[i]) / (prof[i - 1] - prof[i]) if i > 0 and prof[i - 1] != prof[i] else float(i)
         meas.append(x0 + float(edge)); cmd.append(px)
+        for cls, w in DEPTH_CLASS_POINTS.items():
+            dm = depth_edge_output_x(d, f, w)
+            if dm is None: skips[cls] += 1
+            else: dseries[cls]["meas"].append(dm[0]); dseries[cls]["cmd"].append(dm[1])
+    meta = dict(meta); meta["_depth_classes"] = {"series": {k: {"meas": np.array(v["meas"]), "cmd": np.array(v["cmd"])} for k, v in dseries.items()}, "skipped_frames": skips}
     return np.array(meas), np.array(cmd), meta
 
 
@@ -104,6 +135,15 @@ def cmd_smooth(a):
                       "max_abs_step_error_px": float(np.abs(step_err).max()),
                       "max_step_px": float(np.abs(np.diff(m)).max()),
                       "pass_within_1px": bool(np.abs(dev).max() <= 1.0 + 0.5 and np.abs(step_err).max() <= 1.0)}
+        dc = meta["_depth_classes"]
+        for cls in ("near", "reference", "far"):
+            sr = dc["series"][cls]
+            if len(sr["meas"]) == 0:
+                res[label]["depth_class_" + cls] = {"frames_measured": 0, "frames_skipped": dc["skipped_frames"][cls], "pass_within_1px": None}; continue
+            err = np.abs(sr["meas"] - sr["cmd"])
+            res[label]["depth_class_" + cls] = {"frames_measured": int(len(err)), "frames_skipped": dc["skipped_frames"][cls], "max_abs_error_px": float(err.max()), "p95_abs_error_px": float(np.percentile(err, 95)), "pass_within_1px": bool(err.max() <= 1.0)}
+        res[label]["pass_all_depth_classes_within_1px"] = bool(all(res[label]["depth_class_" + c]["pass_within_1px"] for c in ("near", "reference", "far")))
+    res["depth_class_criterion"] = "DEF-T004-style-3: per depth class, output x of the nearest depth discontinuity (scale * texel boundary - present_shift_output_px) against the projected wanted position of the near (-15,60,-10), reference (TOWER_EDGE) and far (4000,700,9400) points, max |error| <= 1 output px; frames where the point is off-screen or no discontinuity lies within %d texels are skipped and counted" % DEPTH_EDGE_SEARCH_TEXELS
     res["criterion"] = "C11 / M-011: per-frame color_output displacement of a scene edge matches the commanded motion within +-1 output px (cumulative deviation from the first frame allowed 1.5 px: 1 px plus the half-pixel of edge rounding)"
     return res
 
@@ -361,7 +401,7 @@ def main():
     if a.out:
         os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
         open(a.out, "w").write(text + "\n")
-    summary = {k: v for k, v in res.items() if k in ("pass", "png_files", "json_files", "differing")} if a.cmd != "smooth" else {k: (v["pass_within_1px"], round(v["max_abs_displacement_error_px"], 2), round(v["max_abs_step_error_px"], 2)) for k, v in res.items() if isinstance(v, dict)}
+    summary = {k: v for k, v in res.items() if k in ("pass", "png_files", "json_files", "differing")} if a.cmd != "smooth" else {k: (v["pass_within_1px"], round(v["max_abs_displacement_error_px"], 2), round(v["max_abs_step_error_px"], 2), {c: (round(v["depth_class_" + c].get("max_abs_error_px", float("nan")), 2), v["depth_class_" + c]["pass_within_1px"]) for c in ("near", "reference", "far")}) for k, v in res.items() if isinstance(v, dict)}
     print(a.cmd, summary)
     return 0
 

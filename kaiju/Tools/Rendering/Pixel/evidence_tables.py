@@ -135,8 +135,8 @@ def main():
                 key = "uniform blocks at the declared offset %s: min %s; with the offset ignored: min %s" % (r["frames"][0]["declared_offset"], fmt(min(f["uniform_blocks_declared"] for f in r["frames"])), fmt(min(f["uniform_blocks_offset_ignored"] for f in r["frames"])))
             elif "frames" in r and r["frames"] and "layers" in r["frames"][0]:
                 fr = r["frames"]; f0 = fr[0]; L = f0["layers"]
-                key = "frame 0 mean L*: " + ", ".join("%s %s" % (k, fmt(v["mean_L"])) for k, v in L.items()) + "; successively lighter in %d of %d frames; far layer minus sky at horizon %s L*; near field darkest in %d of %d; ground seams within adjacent bands %d of %d" % (
-                    sum(1 for f in fr if f["successively_lighter"]), len(fr), fmt(f0.get("far_layer_minus_sky_L")), sum(1 for f in fr if f.get("near_field_darkest", True)), len(fr), sum(f["ground_seams_only_adjacent_bands"] for f in fr), sum(f["ground_seams_checked"] for f in fr))
+                key = "frame 0 mean L*: " + ", ".join("%s %s" % (k, fmt(v["mean_L"])) for k, v in L.items()) + "; successively lighter in %d of %d frames; far layer minus sky at horizon %s L*; near field darkest in %d of %d; pure share of ground seam texels %s (%d of %d); modal lightness never falls across a seam in %d of %d frames" % (
+                    sum(1 for f in fr if f["successively_lighter"]), len(fr), fmt(f0.get("far_layer_minus_sky_L")), sum(1 for f in fr if f.get("near_field_darkest", True)), len(fr), fmt(r.get("pure_share_of_seam_texels")), r.get("seam_texels", 0) - r.get("impure_seam_texels", 0), r.get("seam_texels", 0), r.get("modal_lightness_never_falls_frames", sum(1 for f in fr if f.get("seams", {}).get("modal_lightness_never_falls", True))), len(fr))
         print("| %s | `metrics/checks/%s` | %s | %s |" % (name.split(".")[0], name, fmt(bool(ok)), key))
     t = load(os.path.join(os.path.dirname(M), "timing", "timing_summary.json"))
     if t:
