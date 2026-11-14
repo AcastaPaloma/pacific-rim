@@ -266,6 +266,21 @@ namespace Game.Units.Mech
 
         bool ImpActive => _t.imp > 0 && _t.ref_track > 0 && !_stomp && _ref.Speed > 1e-3 && (_phase == LocoPhase.SingleSupport || _phase == LocoPhase.DoubleSupport);
         double StancePhase() => (_stance == LeftLeg ? 0 : 0.5) + 0.5 * Math.Min(1, _time / _stepT);
+        // round 2 step 4: reference samples at phase -h, 0, +h (the model trajectory, not the drive targets) for the reference accelerations; cached per WriteDrives call
+        GaitSample _ffM, _ff0, _ffP;
+        void SampleReferenceForFf()
+        {
+            double p = StancePhase(), h = InverseDynamicsFeedForward.PhaseStep;
+            _ffM = _ref.Sample(p - h); _ff0 = _ref.Sample(p); _ffP = _ref.Sample(p + h);
+        }
+        double RefQdd(Func<GaitSample, double> q) => InverseDynamicsFeedForward.SecondDerivative(q(_ffM), q(_ff0), q(_ffP), InverseDynamicsFeedForward.PhaseStep, 2 * _ref.StepTime);
+        static Func<GaitSample, LegSample> LegOf(Leg leg) => leg.Side < 0 ? (Func<GaitSample, LegSample>)(g => g.L) : (g => g.R);
+        /// <summary>The body's own inverse dynamics on one DOF (gravity, Coriolis, torque for the reference acceleration), gains from config, clamped to the DOF's force limit.</summary>
+        double ImpFf(int d, double qddRef, double gravityShare = 1)
+        {
+            double g = _t.imp_ff_gravity * gravityShare > 0 ? _b.DofGravityTorque(d) : 0, c = _t.imp_ff_coriolis > 0 ? _b.DofCoriolisTorque(d) : 0, a = _t.imp_ff_accel > 0 ? _b.DofTorqueForAcceleration(d, qddRef) : 0;
+            return InverseDynamicsFeedForward.Torque(_t, g, c, a, gravityShare, _b.GetDof(d).ForceLimitNm);
+        }
         LegSample RefLeg(Leg leg) { var smp = _ref.Sample(StancePhase()); return leg.Side < 0 ? smp.L : smp.R; }
         FootSupport RefSupport(Leg leg) { var s = RefLeg(leg).Support; return s == FootSupport.Swing ? FootSupport.Flat : s; }
 
@@ -498,6 +513,7 @@ namespace Game.Units.Mech
         void WriteDrives()
         {
             Leg st = _legs[_stance], sw = _legs[1 - _stance];
+            bool impNow = ImpActive; if (impNow) SampleReferenceForFf();
             // trunk attitude through the supporting hips (SIMBICON: stance hip torque = -torso torque - swing hip torque)
             float yawDesired = _pelvisYaw;
             if (_phase != LocoPhase.Stand) yawDesired = st.Yaw + 0.5f * Wrap((_phase == LocoPhase.SingleSupport ? _swingYawTargetNow : sw.Yaw) - st.Yaw);
@@ -525,9 +541,10 @@ namespace Game.Units.Mech
                     {
                         // round 2 (R-008 section 3): joint-space impedance toward the reference's stance joint angles, per joint and stance sub-phase; the force loop stays as a scaled correction
                         var rl = RefLeg(leg); var sup = rl.Support == FootSupport.Swing ? FootSupport.Flat : rl.Support;
-                        StanceDof(leg, leg.Hip, hipExtra, _t.stance_hip_damping_ratio, leg.Hip[0], rl.HipFlexion, StanceImpedance.Hip, sup);
-                        StanceDof(leg, new[] { leg.Knee }, Vector3.Zero, _t.stance_knee_damping_ratio, leg.Knee, rl.Knee, StanceImpedance.Knee, sup);
-                        StanceDof(leg, leg.Ankle, Vector3.Zero, _t.stance_ankle_damping_ratio, leg.Ankle[0], rl.AnklePlantar, StanceImpedance.Ankle, sup);
+                        var lof = LegOf(leg);
+                        StanceDof(leg, leg.Hip, hipExtra, _t.stance_hip_damping_ratio, leg.Hip[0], rl.HipFlexion, StanceImpedance.Hip, sup, RefQdd(g => lof(g).HipFlexion));
+                        StanceDof(leg, new[] { leg.Knee }, Vector3.Zero, _t.stance_knee_damping_ratio, leg.Knee, rl.Knee, StanceImpedance.Knee, sup, RefQdd(g => lof(g).Knee));
+                        StanceDof(leg, leg.Ankle, Vector3.Zero, _t.stance_ankle_damping_ratio, leg.Ankle[0], rl.AnklePlantar, StanceImpedance.Ankle, sup, RefQdd(g => lof(g).AnklePlantar));
                     }
                     else
                     {
@@ -555,10 +572,10 @@ namespace Game.Units.Mech
                     var smp = _ref.Sample((_stance == LeftLeg ? 0 : 0.5) + 0.5 * Math.Min(1, _time / _stepT));
                     bool imp = ImpActive;   // round 2 step 3: with imp = 1 the waist and both shoulders follow the reference fully, with their own drive gains
                     double trackUpper = imp ? 1 : _t.ref_track * _t.ref_track_upper;
-                    if (imp && (d == _armShoulderFlex[0] || d == _armShoulderFlex[1])) { Track(d, d == _armShoulderFlex[0] ? smp.ArmFlexionL : smp.ArmFlexionR, Vector3.Zero, default, true, 1, _t.imp_arm_hz, _t.imp_arm_zeta); continue; }
+                    if (imp && (d == _armShoulderFlex[0] || d == _armShoulderFlex[1])) { bool armL = d == _armShoulderFlex[0]; Track(d, armL ? smp.ArmFlexionL : smp.ArmFlexionR, Vector3.Zero, default, true, 1, _t.imp_arm_hz, _t.imp_arm_zeta, RefQdd(g => armL ? g.ArmFlexionL : g.ArmFlexionR)); continue; }
                     if (d == _armShoulderFlex[0]) target += (smp.ArmFlexionL - target) * trackUpper;
                     if (d == _armShoulderFlex[1]) target += (smp.ArmFlexionR - target) * trackUpper;
-                    if (d == _waistYaw && trackUpper > 0) { Track(d, -(smp.WaistYaw + smp.PelvisYaw) * trackUpper, Vector3.Zero, default, true, 1, imp ? _t.imp_waist_hz : 0, _t.imp_waist_zeta); continue; }   // anatomical waist rotation is positive to the left; the reference yaw is positive to the right
+                    if (d == _waistYaw && trackUpper > 0) { Track(d, -(smp.WaistYaw + smp.PelvisYaw) * trackUpper, Vector3.Zero, default, true, 1, imp ? _t.imp_waist_hz : 0, _t.imp_waist_zeta, imp ? RefQdd(g => -(g.WaistYaw + g.PelvisYaw)) : (double?)null); continue; }   // anatomical waist rotation is positive to the left; the reference yaw is positive to the right
                 }
                 else if (d == _waistYaw && _t.trunk_counter_gain != 0)
                 {
@@ -586,7 +603,7 @@ namespace Game.Units.Mech
             return -Vector3.Dot(_b.DofAxisWorld(dof), moment);
         }
 
-        void StanceDof(Leg leg, int[] dofs, Vector3 extraTorque, double dampingRatio, int trackDof = -1, double refAngle = 0, int joint = 0, FootSupport support = FootSupport.Flat)
+        void StanceDof(Leg leg, int[] dofs, Vector3 extraTorque, double dampingRatio, int trackDof = -1, double refAngle = 0, int joint = 0, FootSupport support = FootSupport.Flat, double refQdd = 0)
         {
             foreach (int d in dofs)
             {
@@ -607,7 +624,7 @@ namespace Game.Units.Mech
                     double v = _hasPrev[d] ? Math.Max(-_t.target_velocity_max_rps, Math.Min(_t.target_velocity_max_rps, (refTarget - _prevTarget[d]) / _dt)) : 0;
                     _prevTarget[d] = refTarget; _hasPrev[d] = true;
                     _b.SetDofDrive(d, refTarget, v, kImp, cImp);
-                    _b.SetDofFeedForward(d, SupportTorque(d, force, leg.Cop, true) * _t.imp_vf_scale + Vector3.Dot(_b.DofAxisWorld(d), extraTorque));
+                    _b.SetDofFeedForward(d, SupportTorque(d, force, leg.Cop, true) * _t.imp_vf_scale + Vector3.Dot(_b.DofAxisWorld(d), extraTorque) + ImpFf(d, refQdd, _t.imp_ff_stance_gravity_share));   // round 2 step 4: stance-leg gravity is only partly carried by the joints (contact carries the rest)
                     continue;
                 }
                 _b.GetDofGains(d, true, out double stiffness, out double damping);
@@ -691,18 +708,20 @@ namespace Game.Units.Mech
             Vector3 hip = JointMath2.RotVec(ik.HipRelative), ank = JointMath2.RotVec(ik.AnkleRelative);
             // compliant touchdown (R-005 5.2 step 5, Q-012): the leg goes soft as the foot nears the ground, so contact loads it through a spring instead of a stiff position servo
             double soft = _stomp ? 1 : 1 - (1 - _t.touchdown_gain_scale) * Lipm.SmoothStep((tau - (_t.swing_hover - _t.touchdown_soften_span)) / _t.touchdown_soften_span);
+            // round 2 step 4 (imp = 1): the swing leg's pitch DOFs get the reference leg's accelerations, the others gravity and Coriolis only
+            bool ff = ImpActive; var lof = LegOf(leg);
             for (int a = 0; a < 3; a++)
             {
-                if (leg.Hip[a] >= 0) Track(leg.Hip[a], Component(hip, a) * _b.GetDof(leg.Hip[a]).Sign, Vector3.Zero, default, true, soft);
-                if (leg.Ankle[a] >= 0) Track(leg.Ankle[a], Component(ank, a) * _b.GetDof(leg.Ankle[a]).Sign, Vector3.Zero, default, true, soft);
+                if (leg.Hip[a] >= 0) Track(leg.Hip[a], Component(hip, a) * _b.GetDof(leg.Hip[a]).Sign, Vector3.Zero, default, true, soft, 0, 1, ff ? (a == 0 ? RefQdd(g => lof(g).HipFlexion) : 0) : (double?)null);
+                if (leg.Ankle[a] >= 0) Track(leg.Ankle[a], Component(ank, a) * _b.GetDof(leg.Ankle[a]).Sign, Vector3.Zero, default, true, soft, 0, 1, ff ? (a == 0 ? RefQdd(g => lof(g).AnklePlantar) : 0) : (double?)null);
             }
-            Track(leg.Knee, ik.Knee * _b.GetDof(leg.Knee).Sign, Vector3.Zero, default, true, soft);
+            Track(leg.Knee, ik.Knee * _b.GetDof(leg.Knee).Sign, Vector3.Zero, default, true, soft, 0, 1, ff ? RefQdd(g => lof(g).Knee) : (double?)null);
         }
 
         static float Component(Vector3 v, int axis) => axis == 0 ? v.X : axis == 1 ? v.Y : v.Z;
 
         /// <summary>Position drive toward a target with the R-005 swing gains, velocity feed-forward from the target's own motion and gravity feed-forward.</summary>
-        void Track(int dof, double target, Vector3 force, Vector3 cop, bool velocityFeedForward, double gainScale = 1, double impHz = 0, double impZeta = 1)
+        void Track(int dof, double target, Vector3 force, Vector3 cop, bool velocityFeedForward, double gainScale = 1, double impHz = 0, double impZeta = 1, double? ffQdd = null)
         {
             var info = _b.GetDof(dof);
             target = Math.Max(info.LowerRad, Math.Min(info.UpperRad, target));
@@ -718,7 +737,30 @@ namespace Game.Units.Mech
             if (impHz > 0) StanceImpedance.PdGains(_b.DofInertia(dof, false), impHz, impZeta, out k, out damping);   // round 2 step 3: k = I w^2, c = 2 zeta I w on the distal inertia
             // critical damping is kept when the stiffness is scaled: d scales with sqrt(k)
             _b.SetDofDrive(dof, target, vel, k * gainScale, damping * Math.Sqrt(gainScale));
-            _b.SetDofFeedForward(dof, SupportTorque(dof, force, cop, false) + _t.swing_ff_gain * _b.DofInertia(dof, false) * _ffAccel[dof]);
+            // imp = 1: the body's own inverse dynamics replaces the distal-weight term and the differenced-target term (no contact on these DOFs, gravity is not counted twice)
+            if (ffQdd.HasValue) _b.SetDofFeedForward(dof, ImpFf(dof, ffQdd.Value));
+            else _b.SetDofFeedForward(dof, SupportTorque(dof, force, cop, false) + _t.swing_ff_gain * _b.DofInertia(dof, false) * _ffAccel[dof]);
+        }
+    }
+
+    /// <summary>Round 2 step 4: pure logic of the inverse-dynamics feed-forward (gains, total, clamp to the drive force limit, reference acceleration), engine-free.</summary>
+    public static class InverseDynamicsFeedForward
+    {
+        /// <summary>Phase offset of the central difference of the reference sample (1/128 of a stride).</summary>
+        public const double PhaseStep = 1.0 / 128;
+
+        /// <summary>imp_ff_gravity * share * gravity + imp_ff_coriolis * coriolis + imp_ff_accel * torque-for-acceleration, clamped to the DOF's force limit (the body leaves the PD the remainder of that limit).</summary>
+        public static double Torque(WalkTuning t, double gravityNm, double coriolisNm, double accelNm, double gravityShare, double forceLimitNm)
+        {
+            double tau = t.imp_ff_gravity * gravityShare * gravityNm + t.imp_ff_coriolis * coriolisNm + t.imp_ff_accel * accelNm;
+            return Math.Max(-forceLimitNm, Math.Min(forceLimitNm, tau));
+        }
+
+        /// <summary>Central second difference of a function of phase (q at phase-h, phase, phase+h) as rad/s2, for a stride of the given duration.</summary>
+        public static double SecondDerivative(double qMinus, double q0, double qPlus, double phaseStep, double strideSeconds)
+        {
+            double dt = phaseStep * strideSeconds;
+            return (qPlus - 2 * q0 + qMinus) / (dt * dt);
         }
     }
 
