@@ -15,30 +15,36 @@ namespace Game.Control.Unity
         readonly ControlTuning _tuning;
         readonly Func<NVec3> _origin;
         readonly Func<float> _viewYaw;
-        readonly Gamepad _pad;
-        readonly Keyboard _keys;
+        readonly Func<Vector2> _stick;
+        readonly Func<bool> _stop;
         double _stopHeld;
 
-        public DevicePilotSource(ControlTuning tuning, Func<NVec3> origin, Func<float> viewYaw, Gamepad pad = null, Keyboard keys = null)
+        /// <param name="stick">where the stick sample comes from; default: the current gamepad's left stick plus WASD</param>
+        /// <param name="stop">the stop button; default: gamepad east button or the space bar</param>
+        public DevicePilotSource(ControlTuning tuning, Func<NVec3> origin, Func<float> viewYaw, Func<Vector2> stick = null, Func<bool> stop = null)
         {
             if (tuning == null || tuning.schema != ControlTuning.Schema) throw new InvalidOperationException("control tuning schema is not " + ControlTuning.Schema);
-            _tuning = tuning; _origin = origin; _viewYaw = viewYaw; _pad = pad; _keys = keys;
+            _tuning = tuning; _origin = origin; _viewYaw = viewYaw; _stick = stick ?? ReadDevices; _stop = stop ?? ReadStopDevices;
         }
+
+        static Vector2 ReadDevices()
+        {
+            var pad = Gamepad.current; var keys = Keyboard.current; Vector2 stick = Vector2.zero;
+            if (pad != null) stick = pad.leftStick.ReadValue();
+            if (keys != null)
+            {
+                if (keys.wKey.isPressed) stick.y += 1; if (keys.sKey.isPressed) stick.y -= 1;
+                if (keys.dKey.isPressed) stick.x += 1; if (keys.aKey.isPressed) stick.x -= 1;
+            }
+            return Vector2.ClampMagnitude(stick, 1f);
+        }
+        static bool ReadStopDevices() => (Gamepad.current != null && Gamepad.current.buttonEast.isPressed) || (Keyboard.current != null && Keyboard.current.spaceKey.isPressed);
 
         public static ControlTuning LoadTuning(TextAsset json) => JsonUtility.FromJson<ControlTuning>(json.text);
 
         public PilotInput Read()
         {
-            var pad = _pad ?? Gamepad.current; var keys = _keys ?? Keyboard.current;
-            Vector2 stick = Vector2.zero; bool stop = false;
-            if (pad != null) { stick = pad.leftStick.ReadValue(); stop = pad.buttonEast.isPressed; }
-            if (keys != null)
-            {
-                if (keys.wKey.isPressed) stick.y += 1; if (keys.sKey.isPressed) stick.y -= 1;
-                if (keys.dKey.isPressed) stick.x += 1; if (keys.aKey.isPressed) stick.x -= 1;
-                stop |= keys.spaceKey.isPressed;
-                stick = Vector2.ClampMagnitude(stick, 1f);
-            }
+            Vector2 stick = _stick(); bool stop = _stop();
             _stopHeld = stop ? _stopHeld + Time.fixedDeltaTime : 0;
             return StickMapping.Map(stick.x, stick.y, stop, _stopHeld >= _tuning.stop_button_emergency_hold_s, _origin(), _viewYaw(), _tuning);
         }

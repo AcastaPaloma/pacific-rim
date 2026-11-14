@@ -15,6 +15,8 @@ namespace Game.Physics.Body.Unity
         public Vector3 Position = Vector3.zero;          // world position of the frame origin (ground, midway between the feet)
         public Quaternion Rotation = Quaternion.identity;
         public bool LockAllJoints;                       // M-006.2 / .5: rigid mech
+        public bool ImmovableRoot;                       // truth scenes only (pendulum): the root link is fixed in the world
+        public string[] FreeJoints;                      // truth scenes only: joints left free and unlimited although LockAllJoints is set
         public bool Visuals = true;
         public string Name = "mech";
     }
@@ -71,6 +73,8 @@ namespace Game.Physics.Body.Unity
         public double ExternalForceMagnitudeN { get; private set; }
         public double ExternalWorkJ { get; private set; }
         public int NonFootContacts { get; private set; }
+        /// <summary>Steps x links in which the engine's DOF count differed from the config's (feed-forward skipped). Expected: only before the first physics step.</summary>
+        public int DofCountMismatches { get; private set; }
         public double FOnN => _tuning.contact_on_bw * TotalMassKg * _tuning.gravity_mps2;
         public double FOffN => _tuning.contact_off_bw * TotalMassKg * _tuning.gravity_mps2;
 
@@ -153,14 +157,15 @@ namespace Game.Physics.Body.Unity
             bool ccd = _tuning.continuous_collision_kinds != null && Array.IndexOf(_tuning.continuous_collision_kinds, s.kind) >= 0;
             ab.collisionDetectionMode = ccd ? CollisionDetectionMode.ContinuousSpeculative : CollisionDetectionMode.Discrete;
             _linkDofStart[i] = dofs.Count;
-            if (p < 0) { ab.immovable = false; return; }
+            if (p < 0) { ab.immovable = opt.ImmovableRoot; return; }
 
             var joint = MechFrameOps.JointOfChild(_frame, s.id) ?? throw new InvalidOperationException("segment " + s.id + " has no joint to its parent");
             ab.anchorPosition = Vector3.zero; ab.anchorRotation = Quaternion.identity; ab.matchAnchors = true;
             string kind = MechFrameOps.JointKind(joint.id);
             var kt = _tuning.Kind(kind);
             var active = new DofData[3];
-            if (!opt.LockAllJoints) foreach (var d in joint.dofs) if (d.m0 == "active") active[MechFrameOps.AxisIndex(d)] = d;
+            bool free = opt.FreeJoints != null && Array.IndexOf(opt.FreeJoints, joint.id) >= 0;
+            if (!opt.LockAllJoints || free) foreach (var d in joint.dofs) if (d.m0 == "active") active[MechFrameOps.AxisIndex(d)] = d;
             int count = (active[0] != null ? 1 : 0) + (active[1] != null ? 1 : 0) + (active[2] != null ? 1 : 0);
             bool spherical = joint.unity_joint_type.StartsWith("Spherical", StringComparison.Ordinal), revolute = joint.unity_joint_type.StartsWith("Revolute", StringComparison.Ordinal);
             if (count == 0 || (!spherical && !revolute)) { ab.jointType = ArticulationJointType.FixedJoint; return; }
@@ -171,7 +176,7 @@ namespace Game.Physics.Body.Unity
             for (int a = 0; a < 3; a++)
             {
                 var d = active[a];
-                var lockMode = d != null ? ArticulationDofLock.LimitedMotion : ArticulationDofLock.LockedMotion;
+                var lockMode = d != null ? (free ? ArticulationDofLock.FreeMotion : ArticulationDofLock.LimitedMotion) : ArticulationDofLock.LockedMotion;
                 if (a == 0) ab.twistLock = lockMode; else if (!spherical) continue; else if (a == 1) ab.swingYLock = lockMode; else ab.swingZLock = lockMode;
                 if (d == null) continue;
                 double lo = d.rom_deg[0] * d.unity_sign, hi = d.rom_deg[1] * d.unity_sign;
@@ -250,7 +255,11 @@ namespace Game.Physics.Body.Unity
                 int n = _linkDofCount[i];
                 if (n == 0) continue;
                 var ab = _ab[i];
-                var jf = n == 1 ? new ArticulationReducedSpace(0f) : n == 2 ? new ArticulationReducedSpace(0f, 0f) : new ArticulationReducedSpace(0f, 0f, 0f);
+                // measured (edit mode and play mode): the reduced coordinates of a link are its unlocked axes in the order twist, swing y, swing z (compact),
+                // although ArticulationBody.dofCount reads 3 for a spherical joint with one axis locked. Before the engine has created the articulation the count reads 0.
+                int slots = ab.dofCount;
+                if (slots < n) { DofCountMismatches++; continue; }
+                var jf = slots == 1 ? new ArticulationReducedSpace(0f) : slots == 2 ? new ArticulationReducedSpace(0f, 0f) : new ArticulationReducedSpace(0f, 0f, 0f);
                 for (int k = 0; k < n; k++)
                 {
                     int d = _linkDofStart[i] + k;
@@ -349,6 +358,7 @@ namespace Game.Physics.Body.Unity
                 int n = _linkDofCount[i];
                 if (n == 0) continue;
                 var jp = ab.jointPosition; var jv = ab.jointVelocity; var df = ab.driveForce;
+                if (ab.dofCount == 0) continue;
                 for (int k = 0; k < n; k++)
                 {
                     int d = _linkDofStart[i] + k; int sign = _dof[d].Sign;

@@ -89,7 +89,9 @@ namespace Game.Physics.Body.Unity
                 for (int p = 0; p < header.pairCount; p++)
                 {
                     ref readonly var pair = ref header.GetContactPair(p);
-                    bool a = _owners.TryGetValue(pair.collider, out var oa), b = _owners.TryGetValue(pair.otherCollider, out var ob);
+                    var ca = pair.collider; var cb = pair.otherCollider;
+                    if (ca == null || cb == null) continue; // a collider destroyed since the contact was generated
+                    bool a = _owners.TryGetValue(ca, out var oa), b = _owners.TryGetValue(cb, out var ob);
                     if (!a && !b) continue;
                     if (a && b && oa.Key == ob.Key) continue;
                     for (int k = 0; k < pair.contactCount; k++)
