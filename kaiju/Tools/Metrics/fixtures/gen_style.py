@@ -138,7 +138,7 @@ def render_city(cam: Cam, boxes, origin, haze=True, haze_d=1500.0):
     z = np.where(sky, np.inf, tb * (Dn @ cam.basis()[2]))
     hz = 1 - np.exp(-np.where(sky, FAR, tb) / haze_d) if haze else np.where(sky, 1.0, 0.0)
     elev = np.clip(Dn[:, 1], 0, 0.4) / 0.4
-    p = np.where(sky, 1.0 - 0.35 * elev, 0.55 * np.clip(shade, 0, 1) * (1 - hz) + 0.97 * hz)
+    p = np.where(sky, 1.0 - 0.12 * elev, 0.55 * np.clip(shade, 0, 1) * (1 - hz) + 0.97 * hz)
     Pw = np.where(sky[:, None], np.nan, cam.pos + Dn * tb[:, None])
     return p.reshape(cam.H, cam.W), z.reshape(cam.H, cam.W), Pw.reshape(cam.H, cam.W, 3)
 
@@ -294,17 +294,18 @@ def m003_gameplay_frames(set_dir, profile="slate_teal", n_frames=12, W=160, H=90
     motion = motion_block("static", 0.0)
     write_sequence_json(d, set_id, seq_id, "M-003", n_frames, motion)
     boxes = city_boxes()
-    views = [((0, 2.0, -40), 0.0, -2.0), ((0, 70.0, -200), 8.0, 4.0), ((0, 300.0, -900), -6.0, 12.0)]
+    views = [((0, 60.0, 0), 0.0, -2.5), ((0, 70.0, -200), 4.0, -2.5), ((20.0, 90.0, -400), -6.0, -2.0)]
     truth = []
     for k in range(n_frames):
         (x, y, z0), yaw, pitch = views[k % 3]
-        cam = Cam(ORIGIN + np.array([x + 15.0 * k, y, z0]), yaw + 1.5 * k, pitch, W, H)
+        cam = Cam(ORIGIN + np.array([x + 5.0 * k, y, z0]), yaw + 0.5 * k, pitch, W, H)
         p, zz, _ = render_city(cam, boxes, ORIGIN, haze=haze)
         if invert:
             p = np.where(np.isfinite(zz), 1 - p, p)
         sky = ~np.isfinite(zz)
         if mode == "mixed":
-            q = np.where(sky, quantise(p, 8, "bayer"), quantise(p, 8, "none"))
+            band = sky & (np.indices(p.shape)[0] >= int(0.15 * H))     # dither the lower sky only
+            q = np.where(band, quantise(p, 8, "bayer"), quantise(p, 8, "none"))
         else:
             q = quantise(p, 8, mode, seed=k)
         idx = np.array(ramp)[q]
