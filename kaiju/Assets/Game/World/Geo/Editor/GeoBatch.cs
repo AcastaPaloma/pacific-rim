@@ -60,6 +60,8 @@ namespace Game.World.Geo.Editor
             });
         }
 
+        public static void CompileCheck() { Debug.Log("[GeoBatch] compiled"); EditorApplication.Exit(0); }
+
         /// <summary>Everything in one Unity launch: build, export, stats, removal, origin shift, attribution, captures.</summary>
         public static void All()
         {
@@ -96,7 +98,7 @@ namespace Game.World.Geo.Editor
 
             // ---- floating origin: rebase by tile multiples, re-export positions (C17)
             var shifts = new List<object>();
-            foreach (var (dx, dz) in new[] { (2048.0, -2048.0), (-4096.0, 2048.0), (0.0, 0.0) })
+            foreach (var (dx, dz) in new[] { (2048.0, -2048.0), (-2048.0, 2048.0), (0.0, 0.0) })
             {
                 inst.ShiftOrigin(id.OriginX + dx, id.OriginZ + dz);
                 var e2 = inst.Export(cps.Take(200).ToList());
@@ -150,9 +152,9 @@ namespace Game.World.Geo.Editor
         static long MemoryBytes(GeoTileInstance inst)
         {
             long b = 0;
-            var seen = new HashSet<int>();
-            foreach (var mf in inst.GetComponentsInChildren<MeshFilter>()) if (mf.sharedMesh != null && seen.Add(mf.sharedMesh.GetInstanceID())) b += Profiler.GetRuntimeMemorySizeLong(mf.sharedMesh);
-            foreach (var mc in inst.GetComponentsInChildren<MeshCollider>()) if (mc.sharedMesh != null && seen.Add(mc.sharedMesh.GetInstanceID())) b += Profiler.GetRuntimeMemorySizeLong(mc.sharedMesh);
+            var seen = new HashSet<Mesh>();
+            foreach (var mf in inst.GetComponentsInChildren<MeshFilter>()) if (mf.sharedMesh != null && seen.Add(mf.sharedMesh)) b += Profiler.GetRuntimeMemorySizeLong(mf.sharedMesh);
+            foreach (var mc in inst.GetComponentsInChildren<MeshCollider>()) if (mc.sharedMesh != null && seen.Add(mc.sharedMesh)) b += Profiler.GetRuntimeMemorySizeLong(mc.sharedMesh);
             if (inst.Albedo != null) b += Profiler.GetRuntimeMemorySizeLong(inst.Albedo);
             if (inst.PhysicsSurface != null) b += Profiler.GetRuntimeMemorySizeLong(inst.PhysicsSurface.terrainData);
             return b;

@@ -173,7 +173,7 @@ namespace Game.World.Geo.Editor
             return new Dictionary<string, object>
             {
                 ["view"] = name, ["draw_calls_visible_renderers"] = dc, ["triangles_submitted"] = tris,
-                ["unitystats_drawcalls"] = UnityStats.drawCalls, ["unitystats_batches"] = UnityStats.batches, ["unitystats_triangles"] = UnityStats.triangles,
+                ["note"] = "unbatched: one draw call per visible renderer (single material, single submesh); SRP batcher reduces set-pass cost, not this count",
             };
         }
     }

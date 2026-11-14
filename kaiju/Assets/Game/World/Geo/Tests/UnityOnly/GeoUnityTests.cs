@@ -90,7 +90,7 @@ namespace Game.World.Geo.Unity.Tests
             var t = Tile();
             var pts = new List<double[]> { new[] { 61591.4, 75450.7 }, new[] { 62375.6, 74051.1 }, new[] { 63300.0, 74900.0 } };
             var a = t.Export(pts);
-            t.ShiftOrigin(61440 + 2048, 73728 - 4096);
+            t.ShiftOrigin(61440 + 2048, 73728 - 2048);
             var b = t.Export(pts);
             t.ShiftOrigin(61440, 73728);
             var ba = (List<object>)a["buildings"]; var bb = (List<object>)b["buildings"];
