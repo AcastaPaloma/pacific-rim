@@ -38,7 +38,7 @@ def main(argv=None):
     msl = json.loads((d / "manifest.json").read_text())["water_level_navd88_m"]
 
     # ---- 1. height relations (side elevation, true scale, NAVD88)
-    lms = rep["m005"]["M-005.1"]["landmarks"]
+    lms = rep["v1"]["m005"]["M-005.1"]["landmarks"]
     fig, ax = plt.subplots(figsize=(13, 6.5))
     ax.axhspan(-40, msl, color="#9fb8c8", alpha=0.5, lw=0)
     ax.axhline(msl, color="#5b7f99", lw=1)

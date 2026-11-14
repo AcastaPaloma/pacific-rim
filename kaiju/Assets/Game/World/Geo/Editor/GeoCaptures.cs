@@ -15,8 +15,10 @@ namespace Game.World.Geo.Editor
 
         sealed class View
         {
-            public string Name; public string Hide; public Vector3 Pos; public Quaternion Rot; public float VFov; public int W, H; public bool Ortho; public float OrthoSize;
+            public string Name; public string[] Hide; public Vector3 Pos; public Quaternion Rot; public float VFov; public int W, H; public bool Ortho; public float OrthoSize;
         }
+
+        static float HFovOf(View v) => 2f * Mathf.Rad2Deg * Mathf.Atan(Mathf.Tan(v.VFov * 0.5f * Mathf.Deg2Rad) * v.W / v.H);
 
         static float VFov(float hfovDeg, int w, int h) => 2f * Mathf.Rad2Deg * Mathf.Atan(Mathf.Tan(hfovDeg * 0.5f * Mathf.Deg2Rad) * h / w);
 
@@ -67,12 +69,28 @@ namespace Game.World.Geo.Editor
                 double eye = GeoJson.Num(v, "eye_navd88_m");
                 float heading = (float)GeoJson.Num(v, "heading_deg");
                 string idv = GeoJson.Str(v, "id");
-                string hide = idv == "V5" ? "osm:w28824850" : null;   // the observer stands on Coit Tower: its own structure is not skyline
+                string[] hide = idv == "V5" ? new[] { "osm:w28824850" } : null;   // the observer stands on Coit Tower: its own structure is not skyline
                 sky.Add(new View { Hide = hide, Name = "skyline_" + idv, Pos = Scene(t, (double)p[0], eye, (double)p[1]), Rot = Quaternion.Euler(0, heading, 0), VFov = VFov(60, 1024, 576), W = 1024, H = 576 });
                 sky.Add(new View { Hide = hide, Name = "skyline_" + idv + "_270rows", Pos = Scene(t, (double)p[0], eye, (double)p[1]), Rot = Quaternion.Euler(0, heading, 0), VFov = VFov(60, 480, 270), W = 480, H = 270 });
                 if (idv == "V4")
                     sky.Add(new View { Name = "skyline_V4_eye70", Pos = Scene(t, (double)p[0], 70.0, (double)p[1]), Rot = Quaternion.Euler(0, heading, 0), VFov = VFov(60, 1024, 576), W = 1024, H = 576 });
             }
+            // M-005@v1.1 skyline views (research/R-006.md §3), written by `m005_check.py prepare_v11`: camera, FOV and the
+            // structures hidden in both the game render and R-ind (observer's tower + change mask)
+            var specPath = Path.Combine(outDir, "skyline_v11_spec.json");
+            var v11 = new List<View>();
+            if (File.Exists(specPath))
+                foreach (var vo in GeoJson.Arr(GeoJson.Get(GeoJson.Obj(GeoJson.Parse(File.ReadAllText(specPath))), "views")))
+                {
+                    var v = GeoJson.Obj(vo);
+                    int w = (int)GeoJson.Num(v, "width"), h = (int)GeoJson.Num(v, "height");
+                    var hideList = new List<string>();
+                    foreach (var hb in GeoJson.Arr(GeoJson.Get(v, "hide")) ?? new List<object>()) hideList.Add((string)hb);
+                    v11.Add(new View { Hide = hideList.Count > 0 ? hideList.ToArray() : null, Name = GeoJson.Str(v, "name"),
+                        Pos = Scene(t, GeoJson.Num(v, "x"), GeoJson.Num(v, "eye_navd88_m"), GeoJson.Num(v, "z")),
+                        Rot = Quaternion.Euler(0, (float)GeoJson.Num(v, "heading_deg"), 0), VFov = VFov((float)GeoJson.Num(v, "hfov_deg"), w, h), W = w, H = h });
+                }
+            sky.AddRange(v11);
             views.AddRange(sky);
 
             // synchronous shader compilation, then a warm-up frame: async compilation would drop not-yet-compiled variants
@@ -134,12 +152,16 @@ namespace Game.World.Geo.Editor
                 log($"zfight {d} m: flips {flips} / {pa.Length}, quarter-res {lflips}");
                 UnityEngine.Object.DestroyImmediate(a); UnityEngine.Object.DestroyImmediate(b);
             }
-            // measured render statistics (DEF-T003-perf-1/3): engine counters around one render per view, shadows ON
+            // measured render statistics (DEF-T003-perf-1/3, R-006 §4): graphics device on, 1920x1080, main light with
+            // soft shadows, 30 warm-up + 120 recorded frames per view (V4 v1.1, V5, three obliques); median and max
             light.shadows = LightShadows.Soft;
             var measured = new List<object>();
+            var mviews = new List<View>();
             foreach (var v in views)
+                if (v.Name.StartsWith("oblique_") || v.Name == "skyline_V5" || v.Name == "skyline_v11_V4")
+                    mviews.Add(new View { Name = v.Name, Hide = null, Pos = v.Pos, Rot = v.Rot, VFov = VFov(HFovOf(v), 1920, 1080), W = 1920, H = 1080 });
+            foreach (var v in mviews)
             {
-                if (v.Name.StartsWith("skyline") && v.Name.Contains("270")) continue;
                 Place(cam, v);
                 measured.Add(Measure(cam, v));
             }
@@ -147,7 +169,7 @@ namespace Game.World.Geo.Editor
             stats["captures.measured_render_stats"] = measured;
             stats["captures.views"] = viewStats;
             stats["captures.zfight"] = zf;
-            File.WriteAllText(Path.Combine(outDir, "export", "capture_views.json"), GeoJson.Write(new Dictionary<string, object> { ["views"] = viewStats, ["zfight"] = zf, ["camera"] = new Dictionary<string, object> { ["near_m"] = 0.5, ["far_m"] = 30000.0, ["reversed_z"] = SystemInfo.usesReversedZBuffer, ["graphics"] = SystemInfo.graphicsDeviceType.ToString() } }) + "\n");
+            File.WriteAllText(Path.Combine(outDir, "export", "capture_views.json"), GeoJson.Write(new Dictionary<string, object> { ["views"] = viewStats, ["zfight"] = zf, ["measured_render_stats"] = measured, ["pipeline"] = PipelineInfo(), ["camera"] = new Dictionary<string, object> { ["near_m"] = 0.5, ["far_m"] = 30000.0, ["reversed_z"] = SystemInfo.usesReversedZBuffer, ["graphics"] = SystemInfo.graphicsDeviceType.ToString() } }) + "\n");
             log("captures: " + views.Count + " views + " + sky.Count + " masks + z-fight series");
         }
 
@@ -156,10 +178,11 @@ namespace Game.World.Geo.Editor
 
         static void Place(Camera cam, View v)
         {
-            if (_tile != null && v.Hide != _hidden)
+            var key = v.Hide == null ? null : string.Join(",", v.Hide);
+            if (_tile != null && key != _hidden)
             {
-                _tile.SetRenderExclusion(v.Hide == null ? null : new[] { BuildingsLayer.ParseBid(v.Hide) });
-                _hidden = v.Hide;
+                _tile.SetRenderExclusion(v.Hide == null ? null : Array.ConvertAll(v.Hide, BuildingsLayer.ParseBid));
+                _hidden = key;
             }
             cam.transform.SetPositionAndRotation(v.Pos, v.Rot);
             cam.orthographic = v.Ortho;
@@ -189,31 +212,62 @@ namespace Game.World.Geo.Editor
         /// Editor API differs across versions), plus render + GPU readback time (median of 5, editor batch, this Mac).</summary>
         static Dictionary<string, object> Measure(Camera cam, View v)
         {
-            var d = new Dictionary<string, object> { ["view"] = v.Name, ["shadows"] = "soft (main light)" };
-            var recs = new List<global::Unity.Profiling.ProfilerRecorder>();
-            foreach (var c in Counters) recs.Add(global::Unity.Profiling.ProfilerRecorder.StartNew(global::Unity.Profiling.ProfilerCategory.Render, c));
-            UnityEngine.Object.DestroyImmediate(Render(cam, v.W, v.H));
-            for (int i = 0; i < Counters.Length; i++)
+            var d = new Dictionary<string, object> { ["view"] = v.Name, ["resolution"] = "1920x1080", ["shadows"] = "soft (main light)",
+                ["frames"] = "30 warm-up + 120 recorded; each frame = one explicit Camera.Render in edit mode (the CLI's -quit cannot hold Play mode)" };
+            var rt = RenderTexture.GetTemporary(v.W, v.H, 24, RenderTextureFormat.ARGB32);
+            cam.targetTexture = rt;
+            for (int f = 0; f < 30; f++) cam.Render();
+            var series = new Dictionary<string, List<double>>();
+            foreach (var c in Counters) series[c] = new List<double>();
+            var times = new List<double>();
+            bool valid = true;
+            for (int f = 0; f < 120; f++)
             {
-                d["profiler." + Counters[i] + ".current"] = recs[i].CurrentValue;
-                d["profiler." + Counters[i] + ".last"] = recs[i].LastValue;
-                d["profiler." + Counters[i] + ".valid"] = recs[i].Valid;
-                recs[i].Dispose();
+                var recs = new List<global::Unity.Profiling.ProfilerRecorder>();
+                foreach (var c in Counters) recs.Add(global::Unity.Profiling.ProfilerRecorder.StartNew(global::Unity.Profiling.ProfilerCategory.Render, c));
+                var sw = System.Diagnostics.Stopwatch.StartNew();
+                cam.Render();
+                times.Add(sw.Elapsed.TotalMilliseconds);
+                for (int i = 0; i < Counters.Length; i++)
+                {
+                    valid &= recs[i].Valid;
+                    series[Counters[i]].Add(Math.Max(recs[i].CurrentValue, recs[i].LastValue));
+                    recs[i].Dispose();
+                }
             }
-            foreach (var name in new[] { "drawCalls", "batches", "setPassCalls", "triangles", "shadowCasters", "dynamicBatchedDrawCalls", "staticBatchedDrawCalls", "instancedBatchedDrawCalls" })
+            cam.targetTexture = null;
+            RenderTexture.ReleaseTemporary(rt);
+            foreach (var kv in series)
+            {
+                var l = kv.Value; l.Sort();
+                d["profiler." + kv.Key + ".median"] = l[l.Count / 2];
+                d["profiler." + kv.Key + ".max"] = l[l.Count - 1];
+            }
+            d["profiler.recorders_valid"] = valid;
+            foreach (var name in new[] { "drawCalls", "batches", "setPassCalls", "triangles", "shadowCasters" })
             {
                 var pr = typeof(UnityStats).GetProperty(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
                 if (pr != null) d["unitystats." + name] = Convert.ToDouble(pr.GetValue(null));
             }
-            var times = new List<double>();
-            for (int i = 0; i < 5; i++)
-            {
-                var sw = System.Diagnostics.Stopwatch.StartNew();
-                UnityEngine.Object.DestroyImmediate(Render(cam, v.W, v.H));
-                times.Add(sw.Elapsed.TotalMilliseconds);
-            }
             times.Sort();
-            d["render_readback_ms_median"] = times[2];
+            d["cpu_render_submit_ms_median"] = times[times.Count / 2];
+            d["cpu_render_submit_ms_max"] = times[times.Count - 1];
+            return d;
+        }
+
+        /// <summary>URP asset, quality level, shadow distance/cascades, depth-prepass and SRP Batcher state (via reflection: no URP assembly reference).</summary>
+        public static Dictionary<string, object> PipelineInfo()
+        {
+            var d = new Dictionary<string, object> { ["quality_level"] = QualitySettings.names[QualitySettings.GetQualityLevel()],
+                ["graphics_device"] = SystemInfo.graphicsDeviceType.ToString(), ["gpu"] = SystemInfo.graphicsDeviceName };
+            var rp = UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline;
+            d["render_pipeline_asset"] = rp != null ? rp.name : "none";
+            if (rp != null)
+                foreach (var name in new[] { "shadowDistance", "shadowCascadeCount", "useSRPBatcher", "supportsMainLightShadows", "msaaSampleCount", "renderScale" })
+                {
+                    var pr = rp.GetType().GetProperty(name);
+                    if (pr != null) d["urp." + name] = pr.GetValue(rp)?.ToString();
+                }
             return d;
         }
 

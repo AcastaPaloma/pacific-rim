@@ -418,12 +418,185 @@ def check(tile, export_path):
     rep["summary"] = {"sub_measures": dict(subs), "counts": counts,
                       "m005_overall": "fail" if any(s == "fail" for _, s in subs) else ("incomplete" if any(s in (NA, "not_run") for _, s in subs) else "pass"),
                       "note": "M-005 passes only if every sub-measure passes (R-004 §6); not_applicable_in_tile items are due at M1 and are not passes."}
+    v1 = {"metric_version": "M-005@v1", "source": "research/R-004.md §6", "m005": rep["m005"], "summary": rep["summary"]}
+    v11 = check_v11(tile, E, man, hs, water, feats, cfg, ref, v1)
+    rep = {"tile": tile.id, "note": "two metric versions side by side: v1 (R-004 §6) and v1_1 (research/R-006.md §5, Assumed pending founder calibration); t003 = acceptance checks outside M-005",
+           "v1": v1, "v1_1": v11, "t003": rep["t003"]}
     out = REPORT_PATH
     out.write_text(json.dumps(rep, indent=1, ensure_ascii=False) + "\n")
-    print(json.dumps(rep["summary"]["counts"]), "->", out)
+    print("v1", json.dumps(v1["summary"]["counts"]), "| v1.1", json.dumps(v11["summary"]["counts"]), "->", out)
     for k, s in subs:
         if s == "fail":
-            print("FAIL", k)
+            print("FAIL v1", k)
+    for k, s in v11["summary"]["sub_measures"].items():
+        if s == "fail":
+            print("FAIL v1.1", k)
+
+
+def summarise(block):
+    subs = []
+    for k, v in block.items():
+        if not isinstance(v, dict):
+            continue
+        if "result" in v and k.startswith("M-005.9"):
+            subs.append((k, v["result"]))
+        for kk, vv in v.items():
+            if isinstance(vv, dict) and "result" in vv:
+                subs.append((f"{k}.{kk}", vv["result"]))
+    counts = {}
+    for _, x in subs:
+        counts[x] = counts.get(x, 0) + 1
+    return {"sub_measures": dict(subs), "counts": counts,
+            "m005_overall": "fail" if any(x == "fail" for _, x in subs) else ("incomplete" if any(x in (NA, "not_run", "threshold pending noise floor") for _, x in subs) else "pass")}
+
+
+def v11_skyline_spec(tile, feats, water, msl, tags, ref):
+    """Change mask + v1.1 views for the Unity capture (written by `prepare_v11`)."""
+    from kaiju_geo import m005_v11 as V
+    landmarks = {l["osm"] for l in ref["landmarks"] if l["osm"]}
+    surf, dtm, st, _ = V.lidar_surfaces(tile, feats, water, msl, landmarks, tags)
+    cm = V.change_mask(tile, feats, tags, surf, dtm)
+    vp = {v["id"]: v for v in ref["viewpoints"]}
+    views = []
+    for name, vid, eye, heading, hfov, gate in V.V11_VIEWS:
+        obs = [V.OBSERVER[vid]] if vid in V.OBSERVER else []
+        for suffix, hide in (("", obs), ("_cm", obs + [c["structure"] for c in cm])):
+            views.append({"name": f"skyline_v11_{name}{suffix}", "x": vp[vid]["baytm"][0], "z": vp[vid]["baytm"][1], "eye_navd88_m": eye,
+                          "heading_deg": heading, "hfov_deg": hfov, "width": 1024, "height": 576, "hide": hide, "gating": gate})
+    return {"spec": "skyline_v11_spec", "metric_version": "M-005@v1.1", "views": views, "change_mask": cm, "recipe_stats": st}
+
+
+def check_v11(tile, E, man, hs, water, feats, cfg, ref, v1):
+    from kaiju_geo import m005_v11 as V
+    from kaiju_geo.bake import read_water_polygons
+    from PIL import Image
+    msl = man["water_level_navd88_m"]
+    tags = V.osm_tags(tile)
+    wp = read_water_polygons(tile, 64.0)
+    B = {}
+    carried = {"M-005.1": v1["m005"]["M-005.1"], "M-005.2": v1["m005"]["M-005.2"], "M-005.3": v1["m005"]["M-005.3"],
+               "M-005.6": v1["m005"]["M-005.6"], "M-005.8": v1["m005"]["M-005.8"]}
+    for k, v in carried.items():
+        B[k] = dict(v, metric_version="M-005@v1.1", carried_from="v1 (unchanged in v1.1)")
+    m4 = {kk: vv for kk, vv in v1["m005"]["M-005.4"].items() if kk in ("a_per_building", "b_distribution", "c_fallback_validation")}
+    m4["d_default_share"] = V.default_share(tile, feats, E, wp, msl, cfg, tags)
+    B["M-005.4"] = dict(m4, metric_version="M-005@v1.1", note="(a-c) carried from v1 on the fixed building set; (d) new in v1.1")
+    st = V.structures(feats)
+    excl_ids = set()
+    for sid, elems in st.items():
+        if V.v11_exclusion(sid, elems, tags, wp, msl):
+            excl_ids |= {e["id"] for e in elems}
+    B["M-005.5"] = dict(footprints(tile, E, feats, water, keep=lambda f: f["id"] not in excl_ids), metric_version="M-005@v1.1",
+                        note="R-006 §2 exclusions applied to source and game")
+    # .7 skyline
+    spec_p = EVID / "skyline_v11_spec.json"
+    spec = J(spec_p) if spec_p.exists() else None
+    sky = {"V1": na("outside L0_30_36"), "V2": na("outside L0_30_36"), "V3": na("outside L0_30_36")}
+    if spec is None or not (CACHE / "lidar" / f"rind_v11__{tile.id}.npz").exists():
+        sky["result"] = "not_run"
+        sky["reason"] = "run `m005_check.py prepare_v11` (needs lidar_ref_v11.py products) and GeoBatch.All"
+    else:
+        sky.update(skyline_v11(tile, feats, water, msl, tags, ref, spec, hs))
+    B["M-005.7"] = sky
+    B["M-005.9 shoreline continuity"] = V.shoreline_continuity(tile, cfg, *source_rasters(tile), piers_union(tile)[0])
+    cv = J(EVID / "export" / "capture_views.json") if (EVID / "export" / "capture_views.json").exists() else {}
+    B["C20 support (draw calls, R-006 §4)"] = {"metric_version": "M-005@v1.1", "result": "reported",
+                                               "measured": cv.get("measured_render_stats"), "pipeline": cv.get("pipeline")}
+    return {"metric_version": "M-005@v1.1", "source": "research/R-006.md §5 (Assumed, pending founder calibration)", "m005": B, "summary": summarise(B)}
+
+
+def skyline_v11(tile, feats, water, msl, tags, ref, spec, hs):
+    from kaiju_geo import m005_v11 as V
+    from PIL import Image
+    landmarks = {l["osm"] for l in ref["landmarks"] if l["osm"]}
+    cm = spec["change_mask"]
+    cm_ids = {c["structure"] for c in cm}
+    surf_w = hs.copy()
+    wet_nodes = np.zeros_like(surf_w, bool)
+    wet_nodes[:-1, :-1] |= water; wet_nodes[1:, :-1] |= water; wet_nodes[:-1, 1:] |= water; wet_nodes[1:, 1:] |= water
+    surf_w = np.where(wet_nodes, np.maximum(surf_w, msl), surf_w)
+
+    def node_sampler(h):
+        def s(x, z):
+            inside = (x >= tile.x0) & (x <= tile.x0 + tile.size) & (z >= tile.z0) & (z <= tile.z0 + tile.size)
+            v = bilinear(h, tile, np.clip(x, tile.x0, tile.x0 + tile.size), np.clip(z, tile.z0, tile.z0 + tile.size))
+            return np.where(inside, v, np.nan)
+        return s
+
+    rind, dtm, rstats, _ = V.lidar_surfaces(tile, feats, water, msl, landmarks, tags)
+    rind_max, _, _, _ = V.lidar_surfaces(tile, feats, water, msl, landmarks, tags, recipe="max")
+    rind_1m, dtm1, _, _ = V.lidar_surfaces(tile, feats, water, msl, landmarks, tags, res=1.0)
+
+    def masked(surf, d, res, ids):
+        from rasterio.features import rasterize
+        from rasterio.transform import Affine
+        geoms = [shape(f["geometry"]).buffer(5.0) for f in feats if (f["properties"]["part_of"] or f["id"]) in ids]
+        if not geoms:
+            return surf, geoms
+        n = surf.shape[0]
+        m = rasterize([(g, 1) for g in geoms], out_shape=(n, n), transform=Affine(res, 0, tile.x0, 0, res, tile.z0), dtype="uint8").astype(bool)
+        return np.where(m, d, surf), geoms
+
+    out = {"recipe": {"points": "first returns, classes 7/18/22 dropped (filters.expression); withheld flag not exposed by the EPT reader (not applied)",
+                      "cell": "p95 of Z per 0.5 m BayTM cell", "dtm": "geo_tile bare-earth surface (3DEP 1 m from the same B23 ground class), MSL over water",
+                      "vegetation": "cells with > 50 % multi-return first returns set to DTM (Assumed)", "cranes": "3 x 3 m grey opening above 20 m, R-004 §5 landmark footprints + 5 m exempt (Assumed)",
+                      "stats": rstats, "change_mask": cm,
+                      "contains": "buildings and rooftop plant, bridges, residual non-canopy vegetation, ships; NOT canopy (masked), thin cranes/poles (opened), masked change structures"},
+           "views": {}}
+    for name, vid, eye, heading, hfov, gate in V.V11_VIEWS:
+        vp = next(v for v in ref["viewpoints"] if v["id"] == vid)
+        cam = skyline.Cam(vp["baytm"][0], vp["baytm"][1], eye, heading, 1024, 576, hfov)
+        obs = V.OBSERVER.get(vid)
+        fts = [f for f in feats if obs is None or (f["id"] != obs and f["properties"]["part_of"] != obs)]
+        fts = [f for f in fts if not f["properties"].get("excluded")]
+        src_rows = skyline.first_rows(np.minimum(skyline.profile_heightfield(cam, node_sampler(surf_w)), skyline.profile_prisms(cam, building_edges(fts, tile))))
+        ids = cm_ids | ({obs} if obs else set())
+        r_ind, mgeoms = masked(rind, dtm, 0.5, ids)
+        r_ind2 = V.datasf_surface(tile, dtm, 0.5, mgeoms)
+
+        def prof(arr, res, c=cam):
+            return skyline.first_rows(skyline.profile_heightfield(c, V.grid_sampler(tile, arr, res), step=0.4))
+        ind_rows = prof(r_ind, 0.5)
+        ind2_rows = prof(r_ind2, 0.5)
+        e = {"camera": {"eye_navd88_m": eye, "heading_deg": heading, "hfov_deg": hfov, "size": [1024, 576], "mrad_per_px": round(1000 / cam.f, 3)},
+             "gating": gate, "hidden_structures": sorted(ids)}
+        gpath = EVID / "captures" / f"skyline_v11_{name}_mask.png"
+        gcm = EVID / "captures" / f"skyline_v11_{name}_cm_mask.png"
+        if not gpath.exists() or not gcm.exists():
+            e["result"] = "not_run"; e["reason"] = "Unity v1.1 masks missing"
+            out["views"][name] = e
+            continue
+        g_rows = skyline.mask_profile(np.array(Image.open(gpath).convert("L")) >= 128)
+        gcm_rows = skyline.mask_profile(np.array(Image.open(gcm).convert("L")) >= 128)
+        c_src = V.compare_v11(g_rows, src_rows, cam)
+        e["vs_r_src"] = res(c_src, "IoU >= 0.98, MAE <= 1 px (R-src gate unchanged)", c_src["iou"] >= 0.98 and c_src["mae_px"] <= 1.0)
+        c_ind = V.compare_v11(gcm_rows, ind_rows, cam)
+        floor = V.compare_v11(ind2_rows, ind_rows, cam)
+        noise = {"p95_vs_max_cell": V.compare_v11(prof(masked(rind_max, dtm, 0.5, ids)[0], 0.5), ind_rows, cam),
+                 "cell_0.5_vs_1.0_m": V.compare_v11(prof(masked(rind_1m, dtm1, 1.0, ids)[0], 1.0), ind_rows, cam)}
+        for dz in (-1.5, 1.5):
+            c2 = skyline.Cam(vp["baytm"][0], vp["baytm"][1], eye + dz, heading, 1024, 576, hfov)
+            noise[f"eye_{dz:+.1f}m"] = V.compare_v11(prof(r_ind, 0.5, c2), ind_rows, cam)
+        ok_floor = c_ind["iou"] >= floor["iou"] - 0.02 and c_ind["iou"] >= 0.80 and c_ind["mae_px"] <= floor["mae_px"] + 1
+        gates = c_ind["skyline_column_share"] >= 0.25
+        e["vs_r_ind"] = res(c_ind, "IoU >= IoU(F_v) - 0.02 and >= 0.80; MAE <= MAE(F_v) + 1 px (Assumed, pending calibration)", ok_floor,
+                            noise_floor_F_v=floor, F_v_reference="R-ind vs R-ind2 (DataSF 2010 extrusions on the same DTM, same change mask)",
+                            within_reference_noise=noise, gates_this_view=gates)
+        if c_ind["shift_px"] != 0 or c_src["shift_px"] != 0:
+            e["registration_note"] = "best column shift within +-1 px (allowed); beyond +-1 px would be a registration defect"
+        if not gate or not gates:
+            for k in ("vs_r_src", "vs_r_ind"):
+                if e[k]["result"] == "fail" and not gate:
+                    e[k]["result"] = "reported"
+            if gate and not gates:
+                e["vs_r_ind"]["result"] = "reported"
+                e["vs_r_ind"]["reason"] = "< 25 % skyline columns: the view reports, it does not gate"
+        overlay(np.array(Image.open(gcm).convert("L")) >= 128, ind_rows, {}, EVID / "skyline" / f"skyline_v11_{name}_overlay_rind.png", ind2_rows)
+        overlay(np.array(Image.open(gpath).convert("L")) >= 128, src_rows, {}, EVID / "skyline" / f"skyline_v11_{name}_overlay_rsrc.png")
+        out["views"][name] = e
+        out[name] = {"result": "pass" if all(e[k]["result"] in ("pass", "reported") for k in ("vs_r_src", "vs_r_ind")) and gate else
+                     ("reported" if not gate else "fail")}
+    return out
 
 
 def gg_preview():
@@ -474,7 +647,7 @@ def fallback_validation(tile, cfg):
     return d
 
 
-def footprints(tile, E, feats, water):
+def footprints(tile, E, feats, water, keep=None):
     from rasterio.features import rasterize
     from rasterio.transform import Affine
     x0, z0, x1, z1 = tile.bounds
@@ -490,8 +663,10 @@ def footprints(tile, E, feats, water):
             polys.append(shapely.geometry.Polygon(rings[0], rings[1:]))
         return shapely.geometry.MultiPolygon(polys) if len(polys) > 1 else polys[0]
 
-    game = [poly_of(b["footprint"]) for b in E["buildings"] if b["height_as_built_m"] is not None]
-    surface = [f for f in feats if not f["properties"].get("excluded")]
+    keep = keep or (lambda f: True)
+    surface = [f for f in feats if not f["properties"].get("excluded") and keep(f)]
+    kept_ids = {f["id"] for f in surface}
+    game = [poly_of(b["footprint"]) for b in E["buildings"] if b["height_as_built_m"] is not None and b["bid"] in kept_ids]
     src = [shape(f["geometry"]) for f in surface]
     G = rasterize([(g, 1) for g in game], out_shape=(n, n), transform=tr, dtype="uint8").astype(bool)
     S = rasterize([(g, 1) for g in src], out_shape=(n, n), transform=tr, dtype="uint8").astype(bool)
@@ -970,7 +1145,7 @@ def wading(hs, water, msl, tile):
 
 def main(argv=None):
     ap = std_args(argparse.ArgumentParser(description=__doc__.splitlines()[0]))
-    ap.add_argument("cmd", choices=["prepare", "check"])
+    ap.add_argument("cmd", choices=["prepare", "prepare_v11", "check"])
     ap.add_argument("--tile", default="L0_30_36")
     ap.add_argument("--export", default=str(EVID / "export" / "geo_export.json"))
     ap.add_argument("--out", default=None, help="report path (default evidence/T-003/m005_report.json)")
@@ -982,6 +1157,12 @@ def main(argv=None):
     t = parse_tile(a.tile)
     if a.cmd == "prepare":
         prepare(t)
+    elif a.cmd == "prepare_v11":
+        from kaiju_geo import m005_v11 as V
+        man, hs, water, feats = load_tile(t)
+        spec = v11_skyline_spec(t, feats, water, man["water_level_navd88_m"], V.osm_tags(t), J(GLOBAL_ROOT / "landmarks.json"))
+        (EVID / "skyline_v11_spec.json").write_text(json.dumps(spec, indent=1) + "\n")
+        print(f"[prepare_v11] {len(spec['views'])} views, change mask {len(spec['change_mask'])} structures: {[c['name'] or c['structure'] for c in spec['change_mask']][:12]}")
     else:
         check(t, a.export)
     return 0
