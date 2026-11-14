@@ -111,7 +111,7 @@ def test_registry_flip_gait(tmp_path, gait_sets, sid, key):
         base = _BASE[cmd] = run_metric(cmd, [d], ratings=r, label="set", images=False)[0]
     assert _status_map(base)[sid] == "PASS"
     changed = []
-    for f in (10.0, 0.1, -1.0, -10.0):
+    for f in (10.0, 0.1, -1.0, -10.0, 100.0):
         p = _flipped_registry(tmp_path, metric, sid, key, f)
         rep, _ = run_metric(cmd, [d], registry=p, ratings=r, label="set", images=False)
         if _status_map(rep)[sid] != "PASS":
@@ -139,7 +139,7 @@ def test_registry_flip_style(tmp_path, style_sets, sid, key):
     if _status_map(base)[sid] != "PASS":
         pytest.skip(f"{sid} is {_status_map(base)[sid]} on the shared pass set")
     changed = []
-    for f in (10.0, 0.1, -1.0, -10.0):
+    for f in (10.0, 0.1, -1.0, -10.0, 100.0):
         p = _flipped_registry(tmp_path, metric, sid, key, f)
         rep, _ = run_metric(cmd, [sd], registry=p, ratings=ratings, images=False, options=opts)
         if _status_map(rep)[sid] != "PASS":
