@@ -1,0 +1,23 @@
+M-001@v1  [T-005-without-curve]  registry v1.0 sha256:786778529ef7  tool 1.0.0
+VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 5
+  FAIL           [G] M-001.1          0.01998 Fr  in [0.17, 0.23]  margin -0.15 seed-threshold
+  FAIL           [G] M-001.2          0.1546 -  in [0.85, 1.15]  margin -0.6954
+  FAIL           [G] M-001.3          0.4041 -  in [0.6, 0.72]  margin -0.1959 seed-threshold
+  FAIL           [G] M-001.5          1.898 m/s^2  <= 1.148  margin -0.7502
+      where: turn90_inplace:peak |a_lat| at {'capture': 'turn90_inplace', 'file': 'turn90_inplace.gait.jsonl', 'n': 1837, 't_s': 30.6167, 'stride_samples': [1345, 1856]}
+  FAIL           [G] M-001.8          80.59 deg/s^2  <= 4.038  margin -76.55
+      where: turn90_inplace:peak |yaw acc| at {'capture': 'turn90_inplace', 'file': 'turn90_inplace.gait.jsonl', 'n': 1453, 't_s': 24.2167, 'stride_samples': [1345, 1856]}
+  PASS           [G] M-001.4          2.909 m/s^2  <= 2.943  margin 0.03409
+  NOT_RUN        [G] M-001.6          - 
+  PASS           [G] M-001.7          11.03 deg/s  <= 26.83  margin 15.79
+  NOT_RUN        [G] M-001.9          -   (no capture with v_bar > 0.5 v_cruise)
+  NOT_RUN        [G] M-001.10         - 
+  PASS           [G] M-001.11         2.666 t/sqrt(l/g)  in [2.4, 4.8]  margin 0.2662 seed-threshold
+  PASS           [G] M-001.12         5.95 s  >= 3.084  margin 2.866 seed-threshold
+  PENDING        [G] M-001.13         -   (no panel_ratings@v1 file given (the tool never defaults a score))
+  flag NON_REFERENCE_NORMALISERS: {'file': 'walk_fr010.gait.jsonl', 'differs': {'com_height_stand_m': {'header': 42.5405, 'reference': 44.8}, 'I_yaw_kgm2': {'header': 619689864, 'reference': 475
+  flag NON_REFERENCE_NORMALISERS: {'file': 'walk_fr020.gait.jsonl', 'differs': {'com_height_stand_m': {'header': 42.5405, 'reference': 44.8}, 'I_yaw_kgm2': {'header': 619689864, 'reference': 475
+  flag NON_REFERENCE_NORMALISERS: {'file': 'walk_fr030.gait.jsonl', 'differs': {'com_height_stand_m': {'header': 42.5405, 'reference': 44.8}, 'I_yaw_kgm2': {'header': 619689864, 'reference': 475
+  missing inputs: curve
+  inputs: 7 files hashed; report.json holds every value, threshold and hash
+report: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/evidence/T-005/metrics/M-001_without_curve/report.json

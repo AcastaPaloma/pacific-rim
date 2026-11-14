@@ -1,7 +1,7 @@
 {
  "metric": "M-006@v1",
  "tool": "Tools/T005/m006.py v1",
- "commit": "580bf79",
+ "commit": "955a865",
  "verdict": "FAIL",
  "sub_measure_verdicts": {
   "M-006.1": true,
@@ -413,7 +413,7 @@
   },
   {
    "sub_measure": "M-006.7",
-   "name": "NaN records in 28 physics logs",
+   "name": "NaN records in 17 physics logs",
    "value": 0,
    "threshold": "= 0",
    "pass": true,
@@ -450,11 +450,11 @@
   {
    "sub_measure": "M-006.7",
    "name": "largest one-step energy gain without external work (J)",
-   "value": 125000000.0,
+   "value": 51149194.860126495,
    "threshold": "<= 7.8e7 (0.01 m g H)",
-   "pass": false,
+   "pass": true,
    "source": "physics/*",
-   "note": "impact_e05_offset5 t=0.02; actuator work is not external work, so walking steps count here"
+   "note": "curve t=48.57; actuator work is not external work, so walking steps count here"
   },
   {
    "sub_measure": "M-006.8",
