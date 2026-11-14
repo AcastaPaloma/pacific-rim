@@ -27,7 +27,14 @@ silhouette thumbnails of four original colossal dockyard-built walking machines,
 
 ## Layer 2 · Orthographic turnaround (front / side / back)
 
-**P2-a**
+Chosen silhouette (Layer 1): job 030477f2-cd72-437d-9a46-c1352f153159 image 0, top row middle figure (two upright box shoulder blocks flanking a low head, keel-shaped chest, heavy box forearms, column legs). P2-a was revised after Layer 1 and before submission to describe that figure; the earlier draft wording is kept below it as P2-a (draft, not submitted).
+
+**P2-a** (submitted)
+```
+orthographic turnaround sheet of one original 80 metre tall industrial naval walking machine, front view, side view and back view standing side by side, same design in every view, flat neutral grey background, two tall box-shaped shoulder blocks rising level with the top of a small low flat-topped head set between them, narrow horizontal visor slit, chest shaped like the bow of a steel ship with a vertical keel line, cockpit hatch in the upper chest, hull-plate armour with welded seams, gunmetal slate grey primary with off-white secondary panels and one small safety-orange accent, exposed hydraulic pistons at the knees and elbows, heavy rectangular forearms with mounting hardpoints, closed fists, thick column legs, big flat rectangular feet, upright heavy stance, clean technical concept design --ar 16:9 --no text, letters, numbers, logo, emblem, stripes, flag, crest, antenna, horns, cape, fur, helmet, tusks, glowing chest, face, wings
+```
+
+**P2-a (draft, not submitted)**
 ```
 orthographic turnaround sheet of one original 80 metre tall industrial naval walking machine, front view, side view and back view standing side by side, same design in every view, flat neutral grey background, hull-plate armour like a steel ship with welded seams, gunmetal slate grey primary with off-white secondary panels and one small safety-orange accent, exposed hydraulic pistons at the knees and elbows, thick column legs, big flat rectangular feet, broad shoulders, small low flat-topped head with a narrow horizontal visor slit, cockpit hatch in the upper chest, thick forearms with mounting hardpoints, closed fists, clean technical concept design --ar 16:9 --no text, letters, numbers, logo, emblem, stripes, flag, crest, antenna, horns, cape, fur, helmet, tusks, glowing chest, face, wings
 ```
@@ -37,7 +44,10 @@ orthographic turnaround sheet of one original 80 metre tall industrial naval wal
 technical orthographic drawing of a heavy shipyard-built bipedal machine, three views in a row: front, left side, back, identical proportions in each view, plain light grey background, ship hull armour plates, gunmetal and off-white, small orange accent light, hydraulic rams spanning knees and elbows, pillar legs, large flat feet, wide square shoulders, small head sunk low between the shoulders, cockpit in the upper chest, heavy forearms with hardpoints, closed fists, upright heavy stance --ar 16:9 --no text, letters, numbers, logo, emblem, stripes, flag, crest, antenna, horns, cape, fur, helmet, tusks, glowing chest, face, wings
 ```
 
-**P2-c** (spare variant of P2-a if the views do not agree)
+**P2-c** (submitted; image reference = this session's own output, job 4d4eda80-57f4-4f41-8a02-a1c23192d6a5 image 1; purpose: true side view, thicker legs, no masts)
+```
+https://cdn.midjourney.com/4d4eda80-57f4-4f41-8a02-a1c23192d6a5/0_1.png strict orthographic turnaround of the same heavy industrial walking machine, exactly three views in a row: flat front view, flat left side profile view, flat back view, no perspective, same height in every view, gunmetal hull-plate wedge-shaped chest like a ship bow, low flat sensor cap head, two off-white box-shaped shoulder blocks raised above the shoulders, thicker column legs, wide flat rectangular feet, heavy box forearms with hardpoints, closed fists, hydraulic pistons at knees and elbows, one small orange accent panel, plain light grey background --ar 16:9 --no text, letters, numbers, logo, emblem, stripes, flag, crest, antenna, mast, horns, cape, fur, helmet, tusks, glowing chest, face, wings
+```
 
 ## Layer 3 · Armour plate breakup and joint mechanics
 
@@ -53,6 +63,12 @@ mechanical joint study sheet for a giant industrial walking machine, close-up cu
 
 **P3-c** (spare)
 
+**P3-a2** (submitted in place of P3-a after Layer 2 was chosen; image reference = own job 4d4eda80-57f4-4f41-8a02-a1c23192d6a5 image 1)
+```
+https://cdn.midjourney.com/4d4eda80-57f4-4f41-8a02-a1c23192d6a5/0_1.png armour plate breakup sheet of this heavy industrial walking machine, front view and back view, armour plates drawn slightly pulled away from the inner frame like an exploded diagram, each body segment shown as its own group of plates: pelvis, chest, head, upper arms, forearms, fists, thighs, shins, feet, clear panel seams and weld lines, steel ship hull plates, exposed hydraulic pistons across the knees and elbows, round joint housings at hips shoulders and ankles, gunmetal and off-white, plain light background, technical concept sheet --ar 16:9 --no text, letters, numbers, labels, logo, emblem, stripes, flag, crest, antenna, mast, horns, cape, fur, helmet, tusks, glowing chest, face, wings
+```
+P3-a as first written above was **not submitted**; P3-b is submitted as written.
+
 ## Layer 4 · Mood frame
 
 **P4-a**
@@ -66,3 +82,9 @@ low resolution pixel art with ordered dithering and a limited palette of slate t
 ```
 
 **P4-c** (spare)
+
+**P4-a2** (submitted in place of P4-a; image reference = own job 4d4eda80-57f4-4f41-8a02-a1c23192d6a5 image 1)
+```
+https://cdn.midjourney.com/4d4eda80-57f4-4f41-8a02-a1c23192d6a5/0_1.png dithered limited palette pixel art, this colossal gunmetal industrial walking machine standing shin deep in calm shallow bay water off a harbour pier, seen from far away, low horizon, huge hazy sky filling most of the frame, cold slate teal and blue grey fog, one small warm orange light accent, tiny people on the pier, tiny cars on the waterfront road, a small boat, a dockside crane that reaches only to the machine's knee, the machine is the darkest shape against the pale sky, ordered dithering in sky fog and water, posterised flat value bands, low resolution pixel grid --ar 16:9 --no text, logo, emblem, stripes, flag, crest, antenna, mast, horns, cape, fur, helmet, tusks, glowing chest, face, wings
+```
+P4-a as first written above was **not submitted**; P4-b is submitted as written.
