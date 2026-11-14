@@ -16,7 +16,7 @@ Stop and report if <condition>. Final message: at most 3 lines: <what to report>
 Unity (orchestrator runs these in the background, one at a time per worktree, at most 2 on the machine): `unity test <project> --mode EditMode -o <xml>`; `unity run <project> --no-tail --log-file <log> --timeout <s> -- -executeMethod <Class.Method>`; queue check: `ps ax -o command | grep -i "[U]nity.app/Contents/MacOS/Unity .*-batchmode" | grep -vc AssetImportWorker`. Never drive the founders' editor on port 7800.
 
 ## Queue
-### 1. Merge T-002 (metric tools)
+### 1. Merge T-002 (metric tools) — DONE (merge e104f31; regression `evidence/regression/T-002.md`, commit 285413e)
 - Precondition: first line PASS in `evaluations/T-002/eval-arch.cycle3.md` (pending when this was written), `eval-style.cycle3.md` (PASS), `eval-feel.cycle3.md` (PASS). If eval-arch fails on its third cycle, do not loop: record the defect and ask the founders.
 - Sonnet / low: in the integration worktree `git merge --no-ff origin/task/T-002` (head 4e29ee9; dry run was clean), run `/opt/miniconda3/envs/kaiju/bin/python -m pytest Tools/Metrics -q` (about 5 minutes: start it in the background from the orchestrator and give the worker the result file), push, write `evidence/regression/T-002.md`.
 
