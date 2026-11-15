@@ -1,0 +1,39 @@
+registry_schema: metric_registry@v1
+revision: v1.0
+metric_status: registered
+date: '2026-11-15'
+metric: M-059
+spec: M-059@v1
+title: Hangar damage and repair carry-over round trip (D-017, hangar@v1)
+source: research/R-025.md section 4
+note: Producer is the C# test DotnetTests/Hangar.Tests M059Tests (3 fight -> hangar -> fight cycles x 3 seeds, a save + process-restart + load after
+  every phase change, floats compared as raw bits). Evidence evidence/T-034/m059.json. Thresholds are exact equality, so all are derived.
+  There is no Python producer; the registry entry fixes the thresholds the test asserts.
+submeasures:
+  M-059.carry_over:
+    title: Bitwise differences of the hangar state (damage plus repair state) across save, restart and load, per phase change
+    kind: gating
+    thresholds:
+      differing_values_max:
+        value: 0
+        unit: values
+        status: derived
+        source: "R-025 section 4: zero bitwise differences in every comparison over 3 cycles and 3 seeds"
+  M-059.repair:
+    title: Repaired parts equal their maximum integrity exactly; unrepaired parts bitwise unchanged; no part reset to full
+    kind: gating
+    thresholds:
+      violations_max:
+        value: 0
+        unit: parts
+        status: derived
+        source: "R-025 section 4: any part reset to full or repair applied to the wrong part fails"
+  M-059.negative_control:
+    title: One flipped damage bit in the saved file must be counted
+    kind: gating
+    thresholds:
+      differing_values_min:
+        value: 1
+        unit: values
+        status: derived
+        source: "R-025 section 4: negative control must give a nonzero count"
