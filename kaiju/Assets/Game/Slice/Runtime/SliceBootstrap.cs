@@ -8,6 +8,8 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using Game.AI;
+using Game.Combat;
+using Game.Audio.SliceBridge;
 using Game.Audio.SliceBridge.Unity;
 using Game.Cameras;
 using Game.Composition;
@@ -35,6 +37,8 @@ namespace Game.Slice
     {
         [Tooltip("Slice flag set (Assets/Game/Slice/Config/slice_m1.flags.json): the only flags this scene turns on.")]
         public TextAsset sliceFlags;
+        [Tooltip("T-189 feel-check flag set (Assets/Game/Slice/Config/slice_feelcheck.flags.json): the default; -sliceConfig m1 (or SliceBootstrap.ConfigName = \"m1\") uses sliceFlags instead.")]
+        public TextAsset feelcheckFlags;
         public TextAsset cameraSettings;
         [Tooltip("Assets/Game/Config/Control/control_tuning.json")]
         public TextAsset controlTuning;
@@ -47,6 +51,8 @@ namespace Game.Slice
         /// <summary>Smoke mode: run this many frames (after warm-up) with a scripted sequence, write evidence, then quit. Set by -sliceSmoke N or a test.</summary>
         public static int SmokeFrames;
         public static string SmokeOut;
+        /// <summary>"feelcheck" (default when the scene carries the file) or "m1" (the lean T-039b set). Set by -sliceConfig or a test.</summary>
+        public static string ConfigName;
         public static SliceBootstrap Instance { get; private set; }
         public bool Ready { get; private set; }
         public bool SmokeDone { get; private set; }
@@ -61,6 +67,7 @@ namespace Game.Slice
         GameCompositionResult _comp;
         GeoTileSetBuilder _builder;
         IEventBus _bus;
+        SliceCombatWorld _combatWorld; SliceFeelRig _feel; string _configUsed = "m1";
         SliceAudioBehaviour _audio;   // T-188: only when audio.slice is on
         readonly Dictionary<BuildingId, (double x, double z)> _audioPos = new Dictionary<BuildingId, (double x, double z)>();
         readonly SliceBuildingIndex _index = new SliceBuildingIndex();
@@ -107,7 +114,10 @@ namespace Game.Slice
             string so = Arg("-sliceSmokeOut"); if (so != null) SmokeOut = so;
             if (!CoreRuntime.IsBooted) { Debug.LogError("[Slice] Core is not booted"); yield break; }
             _root = CoreRuntime.Root;
-            _flags = FeatureFlagLoader.Parse(ApplyFlagOverrides(sliceFlags != null ? sliceFlags.text : null), "slice_m1.flags.json", _root.Errors);
+            string cfg = Arg("-sliceConfig") ?? ConfigName ?? "feelcheck";
+            var cfgAsset = cfg == "m1" || feelcheckFlags == null ? sliceFlags : feelcheckFlags;
+            _configUsed = cfgAsset == feelcheckFlags && feelcheckFlags != null ? "feelcheck" : "m1";
+            _flags = FeatureFlagLoader.Parse(ApplyFlagOverrides(cfgAsset != null ? cfgAsset.text : null), _configUsed == "feelcheck" ? "slice_feelcheck.flags.json" : "slice_m1.flags.json", _root.Errors);
             if (!_flags.IsOn(SliceFlags.M1)) { Debug.Log("[Slice] slice.m1 is off: nothing loaded"); yield break; }
             _bus = _root.Registry.Resolve<IEventBus>();
             var t0 = Time.realtimeSinceStartupAsDouble;
@@ -134,9 +144,12 @@ namespace Game.Slice
                 Districts = () => new DistrictRefs { GGX = GgRef.OriginX + 1024, GGZ = GgRef.OriginZ + 1024, SoMaX = SomaRef.OriginX + 1024, SoMaZ = SomaRef.OriginZ + 1024, TargetGG = false },
                 Step = () => _root.Services.Clock.Step,
             };
+            _combatWorld = new SliceCombatWorld((x, z) => _comp != null && _comp.Geo != null ? Ground(x, z) : 0.0);
+            if (_flags.IsOn(CombatFlags.Cannon) || _flags.IsOn(CombatFlags.Melee)) _root.Registry.Register<ICombatTargetQuery>(_combatWorld);   // T-189: real Combat sweeps the slice's volumes
             _comp = GameComposition.Install(_root.Registry, _flags, _root.Errors, inputs);
-            Log("install: geo=" + (_comp.Geo != null) + " destruction=" + (_comp.Destruction != null) + " seismic=" + (_comp.Seismic != null)
-                + " bridge=" + (_comp.ShakingBridge != null) + " brain=" + (_comp.Brain != null));
+            Log("config " + _configUsed + ": install: geo=" + (_comp.Geo != null) + " destruction=" + (_comp.Destruction != null) + " seismic=" + (_comp.Seismic != null)
+                + " bridge=" + (_comp.ShakingBridge != null) + " brain=" + (_comp.Brain != null)
+                + " combat=" + (_comp.Combat != null) + " hangar=" + (_comp.Hangar != null) + " audio=" + _flags.IsOn(SliceAudioFlags.Slice) + " emergence=" + _flags.IsOn("emergence.enabled"));
             if (_comp.Geo == null || _comp.Destruction == null) { Debug.LogError("[Slice] composition did not install Geo/Destruction: " + _lastMsg); yield break; }
             foreach (var inst in _builder.Instances) _comp.Geo.Add(inst);
             _bus.Subscribe<BuildingDamaged>(this); _bus.Subscribe<EmergencePoint>(this);
@@ -232,6 +245,7 @@ namespace Game.Slice
                 _comp.ShakingBridge?.AddBuilding(b.Id, x, z);
                 _index.Add(b.Id, x, z, Math.Sqrt(Math.Max(b.AreaM2, 20.0)) * 0.6);
                 if (_audio != null) _audioPos[b.Id] = (x, z);
+                _combatWorld.AddBuilding(b.Id, x - OriginX, z - OriginZ, Math.Sqrt(Math.Max(b.AreaM2, 20.0)) * 0.6, b.HeightM);
                 _footprints.Add(new SliceFootprint(x - OriginX, z - OriginZ, Math.Sqrt(Math.Max(b.AreaM2, 20.0)) * 0.6, b.HeightM));
             }
             _buildingCount = all.Count;
@@ -332,6 +346,11 @@ namespace Game.Slice
             _kaijuT = kj.transform;
             _kaiju = new SliceKaijuAgent(brain, EntityId.FromValue(1), 7, kx, kz, Mathf.Atan2(mz - kz, mx - kx), (float)_root.Services.Settings.FixedStepSeconds);
             PlaceKaiju();
+            if (_comp.Combat != null || _comp.Hangar != null)
+            {
+                _feel = new SliceFeelRig(_comp, _bus, _combatWorld, (x, z) => Ground(x, z), Log);
+                _feel.Attach(_body, _kaiju, _mech, OriginX, OriginZ);
+            }
         }
 
         const float KaijuHalfHeightM = 50f;   // capsule scale y 50 = 100 m tall
@@ -356,10 +375,13 @@ namespace Game.Slice
             var clock = _root.Services.Clock;
             // kaiju step
             var hit = _kaiju.Step(clock.Step, clock.TimeSeconds, (float)clock.StepSeconds, _targets);
-            if (hit != null && _body != null) { _body.Body.Damage.ApplyDamage(100f); hit.Hp = _body.Body.Damage.Fraction; hit.Alive = true; Log("kaiju melee hit; body hp " + hit.Hp.ToString("F2", CultureInfo.InvariantCulture)); if (_body.Body.Damage.HitPoints <= 0f) { _body.Body.Damage.RepairFully(); Log("mech repaired (stand-in respawn)"); } }
+            if (hit != null && _body != null) { _body.Body.Damage.ApplyDamage(100f); hit.Hp = _body.Body.Damage.Fraction; hit.Alive = true; Log("kaiju melee hit; body hp " + hit.Hp.ToString("F2", CultureInfo.InvariantCulture)); if (_body.Body.Damage.HitPoints <= 0f) { if (_feel == null || !_feel.HangarCycle(HangarGround)) { _body.Body.Damage.RepairFully(); Log("mech repaired (stand-in respawn)"); } } }
             else if (hit != null) { Log("kaiju melee hit; mech hp " + hit.Hp.ToString("F2", CultureInfo.InvariantCulture)); if (!hit.Alive) { hit.Hp = 1f; hit.Alive = true; Log("mech respawned"); } }
+            _feel?.FixedStep(clock.StepSeconds, clock.TimeSeconds);
             PlaceKaiju();
         }
+
+        double HangarGround(double bx, double bz) { return _comp.Geo.SampleTerrain(bx, bz); }
 
         void Update()
         {
@@ -375,7 +397,14 @@ namespace Game.Slice
             {
                 if (kb.qKey.wasPressedThisFrame) TriggerQuake();
                 if (kb.iKey.wasPressedThisFrame) TriggerImpact();
+                if (_feel != null)
+                {
+                    if (kb.fKey.wasPressedThisFrame) _feel.FireCannon();
+                    if (kb.rKey.wasPressedThisFrame) _feel.SwingArm();
+                    if (kb.hKey.wasPressedThisFrame) _feel.HangarCycle(HangarGround);
+                }
             }
+            var ms = Mouse.current; if (_feel != null && ms != null && ms.leftButton.wasPressedThisFrame && !AutoPilot) _feel.FireCannon();
             if (_binder != null && (_binder.outputSize.x != Screen.width || _binder.outputSize.y != Screen.height)) _binder.outputSize = new Vector2Int(Screen.width, Screen.height);
             if (SmokeFrames > 0 && !SmokeDone) SmokeTick();
         }
@@ -467,6 +496,7 @@ namespace Game.Slice
         static readonly CapPlan[] CapSchedule = {
             new CapPlan("follow", 2f, CapView.Follow), new CapPlan("follow", 4f, CapView.Follow), new CapPlan("follow", 6.5f, CapView.Follow), new CapPlan("follow", 9f, CapView.Follow),
             new CapPlan("follow", 14f, CapView.Follow), new CapPlan("follow", 19f, CapView.Follow), new CapPlan("bridge", 19.4f, CapView.Bridge), new CapPlan("destroy_after", 19.8f, CapView.DestroyAfter) };
+        float _nextShotAt, _hangarAtT = -1f; int _swingsDone; bool _duelDone;
         int _captureIdx, _destroyBeforeIdx = -1, _destroyAfterIdx = -1; bool _skyRefRequested, _capturePending, _destroyBeforeDone;
         int _capW, _capH; uint[] _skyRef;
         readonly List<uint[]> _frames = new List<uint[]>(); readonly List<string> _frameFiles = new List<string>(), _frameLabels = new List<string>(); readonly List<float> _frameT = new List<float>();
@@ -475,7 +505,7 @@ namespace Game.Slice
         Vector3 _destroyCamPos; Vector3 _destroyLookAt; bool _destroyViewSet;
 
         /// <summary>HUD text (top-left) and the "Development Build" label (bottom-right) are drawn over the presented frame; the pixel check ignores them.</summary>
-        static PixelRect[] HudRects(int w, int h) { return new[] { new PixelRect(0, 0, Math.Min(w, 940), Math.Min(h, 100)), new PixelRect(Math.Max(0, w - 220), Math.Max(0, h - 40), w, h) }; }
+        static PixelRect[] HudRects(int w, int h) { return new[] { new PixelRect(0, 0, Math.Min(w, 1120), Math.Min(h, 110)), new PixelRect(Math.Max(0, w - 220), Math.Max(0, h - 40), w, h) }; }
 
         void SmokeTick()
         {
@@ -484,6 +514,15 @@ namespace Game.Slice
             bool shoot = !string.IsNullOrEmpty(SmokeOut);
             if (_quakes == 0 && t >= QuakeAtS) TriggerQuake();
             if (_impacts == 0 && _impactor == null && t >= ImpactAtS) TriggerImpact();
+            if (_feel != null)
+            {   // T-189 scripted fight: a cannon round every 2 s from 3 s, arm swings at 8 s and 14 s, the hangar cycle once the captures are done
+                if (!_duelDone && t >= 13.5f) { _duelDone = true; _feel.ScriptedDuel(); _nextShotAt = t; }
+                if (t >= 3f && t >= _nextShotAt) { _feel.FireCannon(); _nextShotAt = t + 2f; }
+                if (_swingsDone == 0 && t >= 8f && _feel.SwingArm()) _swingsDone++;
+                else if (_swingsDone == 1 && t >= 14f && _feel.SwingArm()) _swingsDone++;
+                bool capsDone = !shoot || (_captureIdx >= CapSchedule.Length && _destroyBeforeDone && !_capturePending);
+                if (_feel.HangarOn && _feel.HangarCycles == 0 && t >= EndS - 0.05f && capsDone && _impacts > 0) { _feel.HangarCycle(HangarGround); _hangarAtT = t; }
+            }
             if (shoot && !_capturePending)
             {
                 if (!_skyRefRequested && t >= SkyRefAtS) { _skyRefRequested = true; _capturePending = true; StartCoroutine(CaptureFrame(-1, "sky", t)); }
@@ -492,7 +531,8 @@ namespace Game.Slice
             }
             if (_frame > Warmup) { _ms.Add(Time.unscaledDeltaTime * 1000f); _draw.Add(_drawRec.Valid ? _drawRec.LastValue : -1); }
             bool capturesDone = !shoot || (_captureIdx >= CapSchedule.Length && _destroyBeforeDone && !_capturePending);
-            if (_frame >= Warmup + SmokeFrames && t >= EndS && _impacts > 0 && capturesDone) FinishSmoke();
+            bool feelDone = _feel == null || !_feel.HangarOn || (_feel.HangarCycles > 0 && t >= _hangarAtT + 1.5f);
+            if (_frame >= Warmup + SmokeFrames && t >= EndS && _impacts > 0 && capturesDone && feelDone) FinishSmoke();
         }
 
         void BeginCapture(string label, CapView view, float t)
@@ -666,6 +706,9 @@ namespace Game.Slice
             for (int i = 0; i < _stateCounts.Length; i++) sb.Append(i > 0 ? ", " : "").Append(_stateCounts[i]);
             sb.Append("], \"buildings_removed_from_scene\": ").Append(_removedCount).Append(",\n");
             sb.Append("  \"kaiju\": { \"decisions\": ").Append(_kaiju.Decisions).Append(", \"melee_hits\": ").Append(_kaiju.Hits).Append(", \"state\": \"").Append(_kaiju.State).Append("\", \"distance_to_mech_m\": ").Append(F(Mathf.Sqrt((_mech.X - _kaiju.X) * (_mech.X - _kaiju.X) + (_mech.Y - _kaiju.Y) * (_mech.Y - _kaiju.Y)))).Append(" },\n");
+            _feel?.AppendJson(sb);
+            AppendAudioJson(sb);
+            sb.Append("  \"config\": \"").Append(_configUsed).Append("\", \"hangar_note\": \"").Append(_feel != null ? _feel.SpawnNote.Replace("\"", "'") : "").Append("\",\n");
             AppendPixelCheck(sb);
             sb.Append("  \"mech_travel_m\": ").Append(F(_mechTravel)).Append(",\n");
             sb.Append("  \"render_diag\": \"").Append(_diagAtCapture.Replace("\\", "/").Replace("\"", "'")).Append("\",\n");
@@ -712,18 +755,26 @@ namespace Game.Slice
               .Append(", \"shares_pass\": ").Append(v.SharesPass ? "true" : "false").Append(", \"richness_pass\": ").Append(v.RichnessPass ? "true" : "false").Append(", \"pairs_pass\": ").Append(v.PairsPass ? "true" : "false").Append(" },\n");
         }
 
+        void AppendAudioJson(StringBuilder sb)
+        {
+            if (_audio == null || _audio.Bridge == null) { sb.Append("  \"audio\": null,\n"); return; }
+            var st = _audio.Bridge.Stats;
+            sb.Append("  \"audio\": { \"received\": ").Append(st.Received).Append(", \"emitted\": ").Append(st.Emitted).Append(", \"dropped_no_position\": ").Append(st.DroppedNoPosition)
+              .Append(", \"dropped_filtered\": ").Append(st.DroppedFiltered).Append(", \"dropped_cap\": ").Append(st.DroppedCap).Append(", \"footfalls\": ").Append(_audio.FootfallCount).Append(" },\n");
+        }
+
         static string F(double v) { return v.ToString("0.###", CultureInfo.InvariantCulture); }
 
         // ---- HUD ----
         void OnGUI()
         {
             if (!Ready) { GUI.Label(new Rect(10, 10, 600, 24), "M1 slice: loading..."); return; }
-            var s = "M1 slice (TEMPORARY stand-ins)  " + (1f / Mathf.Max(Time.smoothDeltaTime, 1e-4f)).ToString("F0") + " fps   buildings destroyed " + _stateCounts[4] + "  damaged events " + _damagedEvents
-                + "\nWASD move   Q quake   I impactor   kaiju " + _kaiju.State + " d=" + Mathf.Sqrt((_mech.X - _kaiju.X) * (_mech.X - _kaiju.X) + (_mech.Y - _kaiju.Y) * (_mech.Y - _kaiju.Y)).ToString("F0") + " m   mech hp " + _mech.Hp.ToString("F2")
-                + "\n" + _lastMsg;
-            GUI.Label(new Rect(10, 10, 900, 80), s);
+            var s = (_configUsed == "feelcheck" ? "Kaiju feel check (TEMPORARY: capsule mech and kaiju; mech body awaits T-005)  " : "M1 slice (TEMPORARY stand-ins)  ") + (1f / Mathf.Max(Time.smoothDeltaTime, 1e-4f)).ToString("F0") + " fps   buildings destroyed " + _stateCounts[4] + "  damaged events " + _damagedEvents
+                + "\n" + (_feel != null ? SliceFeelRig.Help : "WASD move   Q quake   I impactor") + "   kaiju " + _kaiju.State + " d=" + Mathf.Sqrt((_mech.X - _kaiju.X) * (_mech.X - _kaiju.X) + (_mech.Y - _kaiju.Y) * (_mech.Y - _kaiju.Y)).ToString("F0") + " m   mech hp " + _mech.Hp.ToString("F2")
+                + (_feel != null ? "\n" + _feel.HudLine() : "") + "\n" + _lastMsg;
+            GUI.Label(new Rect(10, 10, 1100, 100), s);
         }
 
-        void OnDestroy() { if (_bus != null) { _bus.Unsubscribe<BuildingDamaged>(this); _bus.Unsubscribe<EmergencePoint>(this); } if (_drawRec.Valid) _drawRec.Dispose(); if (Instance == this) Instance = null; }
+        void OnDestroy() { _feel?.Dispose(); if (_bus != null) { _bus.Unsubscribe<BuildingDamaged>(this); _bus.Unsubscribe<EmergencePoint>(this); } if (_drawRec.Valid) _drawRec.Dispose(); if (Instance == this) Instance = null; }
     }
 }

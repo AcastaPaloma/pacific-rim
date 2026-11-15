@@ -45,6 +45,7 @@ namespace Game.Slice.Editor
             var go = new GameObject("SliceBootstrap");
             var b = go.AddComponent<SliceBootstrap>();
             b.sliceFlags = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Slice/Config/slice_m1.flags.json");
+            b.feelcheckFlags = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Slice/Config/slice_feelcheck.flags.json");   // T-189
             b.cameraSettings = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Config/Camera/ThirdPersonRig.json");
             b.geoSettings = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Config/WorldGeo.json");
             b.controlTuning = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Config/Control/control_tuning.json");
