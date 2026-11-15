@@ -42,7 +42,7 @@ def project_of(item):
 
 def download(url, dest):
     tmp = dest.with_name(dest.name + ".part")
-    for k in range(4):
+    for k in range(8):  # rockyweb answers HTTP 429 when hit fast: long back-off
         try:
             with urllib.request.urlopen(url, timeout=120) as r, open(tmp, "wb") as f:
                 while chunk := r.read(1 << 22):
@@ -50,7 +50,7 @@ def download(url, dest):
             os.replace(tmp, dest)
             return dest.stat().st_size
         except OSError:
-            time.sleep(5 * (k + 1))
+            time.sleep(30 * (k + 1))
     raise RuntimeError(f"download failed {url}")
 
 
