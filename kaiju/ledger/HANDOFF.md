@@ -131,3 +131,7 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 - Found and fixed on the way: step 6.1's waist keys leaked into the legacy waist (`curve` fell); split into `imp_waist_*` (c1ba9af).
 - eval-physics r2 FAIL, eval-arch r2 FAIL; defects DEF-T005r2-* in the ledger. Founder question **Q-073** (next approach; default R-008 (c) then (b)) is blocking the M0 walk gate. Q-073 is not yet mirrored into `GAME_BREAKDOWN.md` §11 (scribe item).
 - Run scripts: `evidence/T-005/round2/scripts/` (`final.sh`, `run65.sh`, variants). No agents running; no Unity jobs running. T-005 not merged; M1 untouched.
+
+### Decisions log: user offline (relayed from the top session, 2026-11-14)
+- Instruction relayed to orchestrator session 4 (T-005 round 2) and the M1 research batch: decide where the founders would be asked, using the recommended option, and log each choice here marked "decided autonomously (user offline)".
+- Not done (permission check refused it): extending the M1 research session into W2 implementation and autonomous answers to Q-100–Q-106. M1 implementation and Q-100 (T-005 contracts onto the integration branch) wait for the user's return.
