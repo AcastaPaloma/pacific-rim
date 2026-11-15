@@ -317,11 +317,11 @@ namespace Game.Units.Mech
             _mMeas[5] = Vector3.Dot(ah, fw3) - bx; _mMeas[6] = ah.Y - _groundY; _mMeas[7] = Vector3.Dot(at, fw3) - bx; _mMeas[8] = at.Y - _groundY;
         }
         /// <summary>Best row (within rows r0..r1) and node of the measured state: distance = RMS of the scaled feature differences; zmax = largest scaled difference of that best node.</summary>
-        double BestMatch(int r0, int r1, bool ssOnly, out int row, out int node, out double zmax)
+        double BestMatch(int r0, int r1, bool ssOnly, out int row, out int node, out double zmax, int kMax = int.MaxValue)
         {
             double best = double.MaxValue; row = r0; node = 0; zmax = 0;
             for (int r = r0; r <= r1; r++)
-                for (int k = 0; k < _mRef[r].Length; k++)
+                for (int k = 0; k < Math.Min(kMax, _mRef[r].Length); k++)
                 {
                     if (ssOnly && !_mSs[r][k]) continue;
                     double ss = 0, zm = 0; var rf = _mRef[r][k];
@@ -329,6 +329,18 @@ namespace Game.Units.Mech
                     double d = Math.Sqrt(ss / 9); if (d < best) { best = d; row = r; node = k; zmax = zm; }
                 }
             return best;
+        }
+
+        /// <summary>Step 9.5i (qp_td_rematch): after a QP touchdown, the measured state against the active row; when node 0 (where the re-anchor put the clock) is farther than qp_td_rematch, restart the row at its best node anchored on the landed heel (as the ladder climb).</summary>
+        void QpTouchdownRematch()
+        {
+            var c = _qp.Controller; var landed = (_qpLegNow ?? _qpLegs[0])[1 - c.Parity]; int tdk = _qpLegs[0][1] == landed ? 0 : 1;
+            MeasureMatch(tdk); var r0 = _mRef[_qpRow][0]; double ss = 0;
+            for (int i = 0; i < 9; i++) { double z = (_mMeas[i] - r0[i]) / _mScale[i]; ss += z * z; }
+            double d0 = Math.Sqrt(ss / 9), dm = BestMatch(_qpRow, _qpRow, false, out int mr, out int mk, out double zm, (int)(_t.qp_td_min_frac * _mRef[_qpRow].Length)); _qpMatchTds++;
+            _dbg.QpMatchTd = true; _dbg.QpMatchD = d0; _dbg.QpMatchZ = dm; _dbg.QpMatchRow = mr; _dbg.QpMatchNode = mk; _dbg.QpMatchTds = _qpMatchTds;
+            if (d0 <= _t.qp_td_rematch || mk == 0 || dm >= d0) return;
+            _qp = _qpRowDrv[_qpRow][tdk]; _qpLegNow = _qpLegs[tdk]; _qp.Reset(true, mk); _qpTime = mk * _qp.Controller.Reference.H;
         }
 
         /// <summary>imp = 3: while walking (not Stand) the QP torques replace the feed-forward of the six sagittal leg DOFs (last write wins); the QP clock restarts when walking starts.</summary>
@@ -405,7 +417,9 @@ namespace Game.Units.Mech
                 _qpScale += (st - _qpScale) * Math.Min(1.0, _dt / _t.qp_scale_tau);
             }
             _qp.TimeScale = _qpScale; _qp.DesiredYaw = _cmd.Heading;
+            int tdBefore = _qp.Controller.Touchdowns;
             _qp.Apply(_qpTime, _pelvisYaw, _groundY); _qpTime += _dt * _qpScale;
+            if (_qpMatch && _t.qp_td_rematch > 0 && _qp.Controller.Touchdowns > tdBefore) QpTouchdownRematch();
             if (_qpLat) QpLateralDrives();
             var c = _qp.Controller; _dbg.QpOn = true; _dbg.QpScale = _qpScale; _dbg.QpMs = (System.Diagnostics.Stopwatch.GetTimestamp() - t0) * 1e3 / System.Diagnostics.Stopwatch.Frequency; _dbg.QpIters = c.LastIterations; _dbg.QpTau ??= new double[6]; System.Array.Copy(c.Tau, _dbg.QpTau, 6);
             _dbg.QpRow = _qpRow;

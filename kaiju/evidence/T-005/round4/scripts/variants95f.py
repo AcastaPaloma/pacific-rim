@@ -78,6 +78,22 @@ SETS['h3'] = _seeded({
   'Kv4': dict(V4, qp_yaw_cap=0.035),
   'Kv3': {"qp_yaw_cap": 0.035},
 }, 4)
+# 9.5i: touchdown re-match (qp_td_rematch) and late CoM-x reference (qp_late_cx) on the 9.5h best config (J1cap035)
+J1 = dict(A4, qp_yaw_cap=0.035)
+SETS['i1'] = _seeded({
+  'Mbase': dict(J1),
+  'Mrm1': dict(J1, qp_td_rematch=1.0),
+  'Mrm15': dict(J1, qp_td_rematch=1.5),
+  'Mlate': dict(J1, qp_late_cx=1.0),
+  'Mrm1late': dict(J1, qp_td_rematch=1.0, qp_late_cx=1.0),
+}, 4)
+SETS['i2'] = _seeded({
+  'Nbase': dict(J1),
+  'Nem2': dict(J1, qp_cx_emax=2.0),
+  'Nem4': dict(J1, qp_cx_emax=4.0),
+  'Nrm1': dict(J1, qp_td_rematch=1.0),
+  'Nrm1em3': dict(J1, qp_td_rematch=1.0, qp_cx_emax=3.0),
+}, 4)
 def load_set(name):
     return SETS[name]
 def check_line(line):
