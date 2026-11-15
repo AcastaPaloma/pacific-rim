@@ -429,3 +429,14 @@ Worker escalated to Opus 5.5 high (§14) for the design; design `research/R-028.
 
 ## T-005 orchestrator, session 7 (2026-11-15): decisions log
 - 2026-11-15 · 9.3b-4 escalated to Opus 5.5 high (§14): subtle control/numerics (realised stick-slip shear vs the 0.4 budget, touchdown-tick QP feasibility, left/right step alternation); one worker, one cycle, writes `step3b4.md` and the 9.3 verdict `step3.md`. Friction criterion read against the 0.4 controller budget (stricter than plant μ 0.8); solver success counts only true QP solves — decided autonomously (founder asleep).
+
+## T-118 (M2 worker, 2026-11-15)
+- Money is whole-USD `long` (R-104 section 10), ratios integer basis points, mass `long` kg; no float in money paths. R-104 allowed cents or fixed-point; whole dollars chosen because every price is at the $1k to $1B scale — decided autonomously (founder asleep); alternative cents rejected (no benefit, 100x overflow headroom lost).
+- Debt rule: funds are never negative; a shortfall (upkeep, forfeited advance spent before failure) is explicit `Arrears`, collected from later income before it reaches funds. R-104 section 6.7 said "carried as a flag, never debt"; a number is needed for conservation and to stop advance farming — decided autonomously (founder asleep). Alternative (silently drop the shortfall) rejected: makes accept-spend-fail a money source.
+- Payout cap = 35% of the Balanced price computed from the data ($192.78M), not the rounded $193M; Balanced $550.8M, Brawler $562.8M, floor $331.4M exactly from the R-104 composition table.
+- Bay Bridge value uses the $6.45B midpoint of the sourced $6.4-6.5B; substation $57M flagged Assumed (bundled source) — decided autonomously (founder asleep).
+- Offer generator guarantee (R-104 7d): when no random offer reaches a $25M expected payout, the last offer is rebuilt from the largest pool assets; if the whole pool cannot reach it, the whole pool is used (documented limit). A new batch withdraws older offers.
+- Floor chassis rule lives in `IEconomyService.TryGrantFloorChassis(slot, flyableCount, step)` (brief put it in T-118; R-104 had it in Roster). Per-slot count saved in `economy@v1` (`floor:slot:N`). T-120 owns the "flyable" fact and must call it; no event published (only `ContractCompleted` exists in v1).
+- `meta.economy` flag is in a new `Config/FeatureFlags/Meta.json`; T-119/120/121 flags (`meta.salvage` etc.) must be added to that file by their workers (flag names must stay unique across files).
+- Economy Runtime references `Game.Core` (for `Json`) besides Contracts; flagged in MODULE.md. Alternative (own JSON reader) rejected as duplication. If L4 modules must see Contracts only, move `Json` to Core.Contracts later.
+- Not wired into `Game.Composition` (another track's file). Loading `economy_prices@v1.json` and registering with `SaveSystem` is the composition root's job.
