@@ -9,7 +9,7 @@ namespace Game.World.Destruction
         /// <summary>IDamageModel / BuildingDamaged shape.</summary>
         public const int DamageApi = 1;
         /// <summary>Version of the capacity and fragility tables; saved as `model_rev` (R-021 §5).</summary>
-        public const int ModelRevision = 1;
+        public const int ModelRevision = 2; // 2: Hazus code era from year_built (T-024 step 5)
     }
 
     /// <summary>Damage-state scale (R-021 §1, Hazus-style [S1]). Append only; the byte is saved and published.</summary>

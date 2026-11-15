@@ -27,7 +27,7 @@ namespace Game.World.Destruction.Tests
         static readonly BuildingAttributes Tower = new BuildingAttributes { HeightM = 160, Levels = 40, FootprintM2 = 1500 };
 
         [Test]
-        public void ModelRevision_IsOne() { Assert.AreEqual(1, DestructionContractVersions.ModelRevision); }
+        public void ModelRevision_IsTwo() { Assert.AreEqual(2, DestructionContractVersions.ModelRevision); }
 
         [Test]
         public void BuildingDamaged_IsUnmanagedEvent()
