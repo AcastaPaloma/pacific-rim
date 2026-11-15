@@ -91,5 +91,14 @@ namespace Game.Units.Mech.Contracts
         public double imp_ff_gravity = 1.0, imp_ff_coriolis = 1.0, imp_ff_accel = 1.0, imp_ff_stance_gravity_share = 0.0;   // round 2 step 4: gains on the body's inverse dynamics; share of the gravity term applied on stance-leg DOFs   // round 2 step 3: waist yaw and shoulder drive of the tracked upper body
         public double yaw_budget_flat_wl, yaw_budget_edge_wl, yaw_filter;
         public double id_gravity, id_coriolis_gain, id_inertia_gain, id_accel_span;
+        /// <summary>R-008 section 1 whole-stance schedule (imp = 1), one row per Froude number; required when imp &gt; 0 (ReferenceGait throws if absent).</summary>
+        public StanceScheduleRow[] imp_stance_schedule;
+    }
+
+    /// <summary>One row of the imp = 1 stance schedule (research/R-008/model.py): foot placement fraction, hip height (m at l = 42) with four Fourier terms (m), heel-strike pitch, foot-flat and heel-rise fractions of stance, toe-off pitch, pelvic tilt, pelvis yaw amplitude (deg).</summary>
+    [Serializable]
+    public sealed class StanceScheduleRow
+    {
+        public double froude, reach_frac, hip_height, hip_c1, hip_s1, hip_c2, hip_s2, heel_strike_deg, foot_flat_at, heel_rise_at, toe_off_deg, tilt_deg, yaw_deg;
     }
 }

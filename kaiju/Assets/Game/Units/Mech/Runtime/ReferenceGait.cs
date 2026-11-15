@@ -162,19 +162,19 @@ namespace Game.Units.Mech
         // knee >= 5 deg, hip excursion <= 0.05 l, single-support LIPM acceleration <= 0.1 g, foot flat >= 75 % of single support; leg length 42 m, duty 0.63) maximising the whole-stance joint margin.
         // Columns: Froude, foot placement at heel strike as a fraction of the step, hip height (m at l = 42, scaled) and the four Fourier terms of its two-per-stride variation (m),
         // heel-strike pitch (deg, toes up), foot flat from (fraction of stance), heel rise at (fraction of stance), toe-off pitch (deg, heel up), pelvic tilt (deg), pelvis yaw amplitude (deg). Linear in Froude; the end rows hold outside.
-        static readonly double[][] Schedule =
+        double[][] Schedule()
         {
-            new[] { 0.100, 0.6401, 41.147, 0.7026, -0.2374, -0.4100, 0.2271, 23.71, 0.2776, 0.7240, 10.81, 10.00, 8.0 },
-            new[] { 0.125, 0.6145, 41.053, 0.6866, -0.3409, -0.3309, 0.3318, 24.98, 0.2503, 0.6967, 12.87, 10.00, 8.0 },
-            new[] { 0.150, 0.5777, 40.983, 0.5941, -0.4104, -0.1699, 0.3948, 25.00, 0.2161, 0.6625, 15.84, 10.00, 8.0 },
-            new[] { 0.175, 0.5732, 40.875, 0.6021, -0.4769, -0.1361, 0.4114, 25.00, 0.2101, 0.6565, 17.31, 10.00, 8.0 },
-            new[] { 0.200, 0.5614, 41.060, 0.1521, -0.5277, 0.0488, 0.4258, 25.00, 0.2063, 0.6527, 20.37, 10.00, 8.0 },
-        };
+            var rows = _t.imp_stance_schedule;
+            if (rows == null || rows.Length < 2) throw new InvalidOperationException("walk_tuning.json: imp_stance_schedule is missing or has fewer than 2 rows (required when imp > 0)");
+            var r = new double[rows.Length][];
+            for (int i = 0; i < rows.Length; i++) { var w = rows[i]; r[i] = new[] { w.froude, w.reach_frac, w.hip_height, w.hip_c1, w.hip_s1, w.hip_c2, w.hip_s2, w.heel_strike_deg, w.foot_flat_at, w.heel_rise_at, w.toe_off_deg, w.tilt_deg, w.yaw_deg }; }
+            return r;
+        }
         double[] _sched;   // [1..12] of the interpolated row, angles in rad
         static double Cos01(double u) => 0.5 * (1 - Math.Cos(Math.PI * Clamp01(u)));
         void ApplySchedule(double fr, double l)
         {
-            var row = new double[13]; int n = Schedule.Length;
+            var Schedule = this.Schedule(); var row = new double[13]; int n = Schedule.Length;
             int i = 0; while (i < n - 2 && fr > Schedule[i + 1][0]) i++;
             double f = Math.Max(0, Math.Min(1, (fr - Schedule[i][0]) / (Schedule[i + 1][0] - Schedule[i][0])));
             for (int k = 1; k < 13; k++) row[k] = Schedule[i][k] + f * (Schedule[i + 1][k] - Schedule[i][k]);
