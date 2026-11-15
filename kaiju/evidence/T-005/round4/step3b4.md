@@ -6,7 +6,7 @@
 - `fr_meas 1, fr_margin 0.9`: the QP cone is 0.9 μ, plus a per-foot shear row |ΣFt_cmd| ≤ 0.9 μ ΣFn_meas (last tick's read-back; floor 1e-3 m g against GI degeneracy). The budget μ 0.4 and the metric are unchanged.
 - `kvs 5` as in b3. `solver_ok` counts only the full QP with every hard row; a fallback solve without the torque rows counts as a failure.
 - Design round: out/proto/sweep_9_3b4.log. land_k0 35.5 is better on A/B/D but worse on C (1/5); 35 gives speed 0.938.
-## 2. b4 set (`bash Tools/GaitOpt/run_9_3b4.sh b4`; table `qp_proto/summ_9_3b4.py b4`; log out/proto/b4.log)
+## 2. b4 set (`bash Tools/GaitOpt/qp_proto/run_9_3b4.sh b4 --preset b4`; table `qp_proto/summ_9_3b4.py b4`; log out/proto/b4.log)
 
 | run | fell | steps | speed | CoM z %l | pitch ° | foot % | sat % | fr>1 % ticks | fr max | solver % | A items |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -45,4 +45,4 @@ Every 7/8 row fails only `friction_le_1`. b3 reference set: b3ref_* in out/proto
 1. **Fix the reference, not the controller.** Re-solve v2 with a swing-heel smoothness / monotone-descent row over nodes 34-40, tangential heel speed ≤ 0.4 × normal at the touchdown node, and toe-down pitch-rate rows. Then re-run `land_xlead 0.2` on it: it already removes the toe-down slips and the tangential strike speed.
 2. **Mass robustness:** add an online mass/gravity-scale estimate from read-back ΣFn against CoM z̈ (or an integral term on CoM x/z). Also a support guard: the stance fmax does not ramp out while the swing foot is unloaded.
 3. Founders' decision: is a ratio ≤ 1 on every tick at Fn > 1e-3 W attainable for impacts on a stick-slip plant, or should impact ticks be counted against μ_plant?
-**Paths:** Tools/GaitOpt/{run_9_3b4.sh, qp_proto/{controller_fid.py, run_fid.py, run_A.py, summ_9_3b4.py}}; out/proto/{b4_*, b3ref_*, b4.log, sweep_9_3b4.log, sweep_9_3b4_r2.log}.
+**Paths:** Tools/GaitOpt/{qp_proto/{run_9_3b4.sh, controller_fid.py, run_fid.py, run_A.py, summ_9_3b4.py, test_controller_fid.py, yaw_stage1.py}}; out/proto/{b4_*, b3ref_*, b4.log, sweep_9_3b4.log, sweep_9_3b4_r2.log}.
