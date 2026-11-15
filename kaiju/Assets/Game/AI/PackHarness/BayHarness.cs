@@ -35,7 +35,7 @@ namespace Game.AI.PackHarness
         public float MechSpeed = 3f, MechCruise = 9.12f, MechRange = 300f, MechDps = 6f, MechTraverse = 0.6f, MechLockSeconds = 3f;
         public float MeleeDamageToMech = 25f, MechHpAbs = 100f, MeleeCooldown = 2f, KaijuHpRef = 400f;
         public float InfraDamageRate = 1f;         // hp/s per kaiju at the target (the coordinator plans with PackConfig.RaidDamageRate)
-        public PackConfig Pack = PackConfig.Default();
+        public PackConfig Pack = PackConfig.Bay();
         public EmergenceOptions Emergence = new EmergenceOptions { SiteCount = 5 };
 
         public double Duration => DurationSeconds > 0 ? DurationSeconds : Name == "hunt" ? 600 : Name == "churn" ? 900 : Name == "raid" ? 6000 : Name == "mixed" ? 3600 : 1200;
