@@ -454,6 +454,27 @@ SETS['r6'] = _seeded({
   'D4': dict(L7, qp_plan_lmin=0.8),
   'D5': dict(L7, qp_plan_lmin=0.7),
 }, 4)
+SETS['r7'] = _seeded({
+  'E1': dict(L7, qp_ladder_up=0.6),
+  'E2': dict(L7, qp_ladder_up=0.7),
+  'E3': dict(L7, qp_ladder_up=0.5),
+  'E4': dict(L7, qp_ladder_up=0.4),
+  'E5': dict(L7, qp_ladder_up=0.6, qp_r7_fp=0.5),
+}, 4)
+SETS['b1'] = _seeded({
+  'Qctl': dict(L7),
+  'QA': dict(L7, qp_ref_v5=2, exp_toe_m=7.0),
+  'QB': dict(L7, exp_ankle_limit_nm=1.6e9),
+  'QC': dict(L7, qp_ref_v5=4, exp_toe_m=7.0, exp_ankle_limit_nm=1.6e9),
+  'QAv5': dict(L7, exp_toe_m=7.0),
+  'QCv5': dict(L7, exp_toe_m=7.0, exp_ankle_limit_nm=1.6e9),
+}, 4)
+SETS['t1'] = _seeded({
+  'T1': dict(L7, qp_ref_v5=5),
+  'T2': dict(C7, qp_ref_v5=5),
+  'T3': dict(V5, qp_ref_v5=5),
+  'T4': dict(L7, qp_ref_v5=5, qp_pd_swing=0.1),
+}, 4)
 def load_set(name):
     return SETS[name]
 def check_line(line):

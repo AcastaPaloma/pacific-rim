@@ -1,0 +1,32 @@
+N=40 nodes, nz=557, eq=314, ineq=1258, schedule: A toe nodes 0..8, B heel 0..37, B flat 15..37, B toe 15..40, mu=0.39999999999999997
+/opt/miniconda3/envs/kaiju/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+warm start: f=1.1181 eq=5.47e+00 in=-1.57e+01 (1.9s)
+--lat: zc 42.14 m, omega 0.482, step 2.032 s, peak a_lat 0.154 g, mu_eff min 0.3691 (mu 0.4000)
+--v3: 75 extra rows (52 tight force-rate rows at 0.25 BW/0.11 s; heel descent from node 35 rho 0.3, heel x decel from 36, td tangential <= 0.4 x normal >= 0.1 m/s)
+--r7: 138 CoP / F_z rows (CoP in [heel + 1.5, heel + 12.5] m of a 15.0 m sole, F_z <= 1.5 W), T in [2.0, 3.0] s, hip z >= 36.0 m, flat=1 k_ds=8
+--trans: 4 Fn=0 rows, 200 force-rate rows (0.5 BW / 0.11 s -> 0.462 BW/node at ts_ref), 6 lift-off rows (vlift 0.5 m/s)
+trust-constr: N=40 nz=557 eq=270/318 ineq=1677 warm=Tools/GaitOpt/out/r7/t7_050.json
+warm start: f=92.68610 eq=6.71e+01 in=3.34e+01 (0.1s)
+it 1 f=92.68610 eq=6.71e+01 in=3.34e+01 tr=5.0e-02 mu=1.0e-03 t=1s (0.72s/it)
+it 2 f=17.06744 eq=2.70e+01 in=1.59e+01 tr=1.0e-01 mu=1.0e-03 t=2s (0.76s/it)
+it 3 f=25.67521 eq=3.11e+01 in=2.04e+01 tr=7.0e-01 mu=1.0e-03 t=2s (0.73s/it)
+it 4 f=14.97562 eq=2.14e+01 in=1.71e+01 tr=4.2e+00 mu=1.0e-03 t=3s (0.71s/it)
+it 5 f=17.34496 eq=2.21e+01 in=1.77e+01 tr=2.5e+01 mu=1.0e-03 t=4s (0.74s/it)
+it 6 f=5.71146 eq=1.09e+01 in=1.05e+01 tr=6.2e+01 mu=1.0e-03 t=5s (0.75s/it)
+it 7 f=4.71315 eq=9.49e+00 in=8.84e+00 tr=6.2e+01 mu=1.0e-03 t=5s (0.76s/it)
+it 8 f=2.45062 eq=4.97e+00 in=5.51e+00 tr=6.2e+01 mu=1.0e-03 t=6s (0.77s/it)
+it 9 f=2.02928 eq=4.01e+00 in=4.07e+00 tr=6.2e+01 mu=1.0e-03 t=7s (0.79s/it)
+it 10 f=1.55835 eq=2.27e+00 in=2.68e+00 tr=6.2e+01 mu=1.0e-03 t=8s (0.79s/it)
+it 11 f=1.45042 eq=1.90e+00 in=2.39e+00 tr=6.2e+01 mu=1.0e-03 t=9s (0.78s/it)
+it 12 f=1.30630 eq=1.12e+00 in=2.08e+00 tr=6.2e+01 mu=1.0e-03 t=9s (0.78s/it)
+it 13 f=1.27966 eq=9.85e-01 in=1.57e+00 tr=6.2e+01 mu=1.0e-03 t=10s (0.79s/it)
+it 14 f=1.23626 eq=6.61e-01 in=1.24e+00 tr=6.2e+01 mu=1.0e-03 t=11s (0.80s/it)
+it 15 f=1.22040 eq=6.32e-01 in=1.02e+00 tr=6.2e+01 mu=1.0e-03 t=12s (0.80s/it)
+it 16 f=1.25562 eq=4.42e-01 in=8.38e-01 tr=6.2e+01 mu=1.0e-03 t=13s (0.80s/it)
+it 17 f=1.25562 eq=4.42e-01 in=8.38e-01 tr=6.2e+00 mu=1.0e-03 t=14s (0.81s/it)
+it 18 f=1.32987 eq=4.11e-01 in=7.15e-01 tr=3.8e+01 mu=1.0e-03 t=14s (0.80s/it)
+it 19 f=1.53037 eq=3.00e-01 in=6.07e-01 tr=6.8e+01 mu=1.0e-03 t=15s (0.80s/it)
+it 20 f=1.53037 eq=3.00e-01 in=6.07e-01 tr=6.8e+00 mu=1.0e-03 t=16s (0.81s/it)
+it 21 f=1.65490 eq=2.88e-01 in=5.04e-01 tr=4.0e+01 mu=1.0e-03 t=17s (0.79s/it)
+it 22 f=2.13068 eq=1.96e-01 in=8.13e-01 tr=8.2e+01 mu=1.0e-03 t=18s (0.80s/it)

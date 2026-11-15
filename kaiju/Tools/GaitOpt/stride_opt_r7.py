@@ -21,6 +21,7 @@ def R7PATCH(src):
               "bnds = [(-300, 300) if i % 9 == 0 else (R7['zmin'], 45) if i % 9 == 1 else (-1.2, 1.2) for i in range(N * 9)] + [(R7['tmin'], R7['tmax'])]")
     src = rep(src, 'open("Assets/Game/Config/Mech/mech_frame_balanced.json")', 'open(R7.get("frame") or "Assets/Game/Config/Mech/mech_frame_balanced.json")')
     src = rep(src, 'open("Assets/Game/Config/Mech/body_tuning.json")', 'open(R7.get("body") or "Assets/Game/Config/Mech/body_tuning.json")')
+    src = rep(src, "LIMV = np.array([LIM[\"hip\"]", "LIM = {k_: v_ * R7.get('tau_frac', 1.0) for k_, v_ in LIM.items()}; LIMV = np.array([LIM[\"hip\"]")
     src = rep(src, "k_ds = int(round((BETA - 0.5) * 2 * N));", "k_ds = int(R7['k_ds']) if R7['flat'] else int(round((BETA - 0.5) * 2 * N));")
     src = rep(src, "    fl[k, 1] = k <= k_ds; fl[k, 2] = k < k_hr; fl[k, 3] = k >= k_ff",
               "    if R7['flat']: fl[k, 0] = fl[k, 1] = k <= k_ds; fl[k, 2] = fl[k, 3] = True\n    else: fl[k, 1] = k <= k_ds; fl[k, 2] = k < k_hr; fl[k, 3] = k >= k_ff")
