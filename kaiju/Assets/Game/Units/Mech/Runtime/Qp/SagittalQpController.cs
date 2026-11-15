@@ -19,6 +19,7 @@ namespace Game.Units.Mech.Qp
         public double WTau;   // step 9.5b: weight of sum (tau_j / LIM_j)^2 (0 = off, as the prototype); fixes the internal double-support force the other rows leave free
         public double SwJ, SwJOm = 2.0, SwJAmax = 6.0, SwJTd = 0.2; public bool SwJAnkle; public double SwFollow, SwAmax, TdAir, TdXoffMax; public bool Diag, TdHeel; public bool Rom, FpRom; public double RomMargin = 3 * Math.PI / 180, RomHorizon = 0.1, RomAmax = 30.0, FpRomBand = 3 * Math.PI / 180;   // step 9.5j (qp_rom, qp_fp_rom)
         public double CdxMax, SwCp;   // step 9.5m (qp_cdx_max, qp_sw_cp; 0 = off)
+        public bool Plan; public double PlanKxi = 1.0, PlanLmin = 0.5, PlanLmax = 1.3, PlanTdFrac = 0.8, PlanTdTol = 0.2, PlanZkp = 4.0, PlanZkd = 4.0, PlanWz = 1e5, PlanWx, PlanReplanM = 1.0, PlanFp = 1.0;   // step 6a (qp_plan*; Plan false = off)
         public double LateCx, CxEmax;   // CxEmax (qp_cx_emax, 9.5i): clamp of the CoM-x position error in the CoM row (0 = off)   // step 9.5i (qp_late_cx k): while the touchdown is late the CoM-x reference advances at k x the reference CoM speed (0 = frozen at the step end, as the prototype)
         public double ArmRefYawFf;   // step 9.5h (qp_arm_ref_yawff w): the filtered measured yaw-momentum rate of the arms in the feed-forward is replaced by (1 - w) measured + w predicted from the reference shoulder acceleration (DLArmRefPred)
         public bool YawTrunk; public double YawFf = 1.0, YawCap = 0.1, YawBudget = 0, YawBudgetFloor = 0.1;   // step 9.5e: trunk yaw task with the legs' and arms' yaw-momentum rate as feed-forward
@@ -31,7 +32,7 @@ namespace Game.Units.Mech.Qp
             Kvs = t.qp_kvs, OnBw = t.qp_on_bw, OffBw = t.qp_off_bw, TOut = t.qp_T_out, TIn = t.qp_T_in, TBlend = t.qp_T_blend, LoadThr = t.qp_load_thr, TdMinFrac = t.qp_td_min_frac, LateVz = t.qp_late_vz, FCap = t.qp_fcap, ZHold = Math.Max(t.qp_z_hold, t.qp_z_hold_ss),
             HoldSched = t.qp_hold_sched > 0.5, Onset = t.qp_onset > 0.5, Land = t.qp_land > 0.5, LandAct = t.qp_land_act > 0.5, FrMeas = t.qp_fr_meas > 0.5, FrMargin = t.qp_fr_margin, LandK0 = t.qp_land_k0, VTd = t.qp_v_td, LandPost = t.qp_land_post,
             MassEst = t.qp_mass_est, MassLo = t.qp_mass_lo, MassHi = t.qp_mass_hi, SgFloor = t.qp_sg_floor, SolverRegularisation = t.qp_solver_reg,
-            WTau = t.qp_w_tau, YawTrunk = t.qp_yaw_trunk > 0.5, YawFf = t.qp_yaw_ff, YawCap = t.qp_yaw_cap, YawBudget = t.qp_yaw_budget, YawBudgetFloor = t.qp_yaw_budget_floor, ArmRefYawFf = t.qp_arm_ref_yawff, LateCx = t.qp_late_cx, CxEmax = t.qp_cx_emax, Rom = t.qp_rom > 0.5, FpRom = t.qp_rom > 0.5 && t.qp_fp_rom > 0.5, RomMargin = t.qp_rom_margin_deg * Math.PI / 180, RomHorizon = t.qp_rom_horizon_s, RomAmax = t.qp_rom_amax, FpRomBand = t.qp_fp_rom_band_deg * Math.PI / 180, SwJ = t.qp_swj, SwJOm = t.qp_swj_om, SwJAmax = t.qp_swj_amax, SwJTd = t.qp_swj_td_frac, SwJAnkle = t.qp_swj_ankle > 0.5, CdxMax = t.qp_cdx_max, SwCp = t.qp_sw_cp, SwFollow = t.qp_sw_follow, SwAmax = t.qp_sw_amax, TdAir = t.qp_td_air_frac, TdXoffMax = t.qp_td_xoff_max, Diag = t.qp_diag > 0.5, TdHeel = t.qp_td_heel > 0.5, Lateral = t.qp_lateral > 0.5, OmY = t.qp_om_y, WCy = t.qp_w_cy, WRoll = t.qp_w_roll, KRoll = t.qp_k_roll, WYaw = t.qp_w_yaw, OmYaw = t.qp_om_yaw
+            WTau = t.qp_w_tau, YawTrunk = t.qp_yaw_trunk > 0.5, YawFf = t.qp_yaw_ff, YawCap = t.qp_yaw_cap, YawBudget = t.qp_yaw_budget, YawBudgetFloor = t.qp_yaw_budget_floor, ArmRefYawFf = t.qp_arm_ref_yawff, LateCx = t.qp_late_cx, CxEmax = t.qp_cx_emax, Rom = t.qp_rom > 0.5, FpRom = t.qp_rom > 0.5 && t.qp_fp_rom > 0.5, RomMargin = t.qp_rom_margin_deg * Math.PI / 180, RomHorizon = t.qp_rom_horizon_s, RomAmax = t.qp_rom_amax, FpRomBand = t.qp_fp_rom_band_deg * Math.PI / 180, SwJ = t.qp_swj, SwJOm = t.qp_swj_om, SwJAmax = t.qp_swj_amax, SwJTd = t.qp_swj_td_frac, SwJAnkle = t.qp_swj_ankle > 0.5, CdxMax = t.qp_cdx_max, SwCp = t.qp_sw_cp, Plan = t.qp_plan > 0.5, PlanKxi = t.qp_plan_kxi, PlanLmin = t.qp_plan_lmin, PlanLmax = t.qp_plan_lmax, PlanTdFrac = t.qp_plan_td_frac, PlanTdTol = t.qp_plan_td_tol, PlanZkp = t.qp_plan_zkp, PlanZkd = t.qp_plan_zkd, PlanWz = t.qp_plan_wz, PlanWx = t.qp_plan_wx, PlanReplanM = t.qp_plan_replan_m, PlanFp = t.qp_plan_fp, SwFollow = t.qp_sw_follow, SwAmax = t.qp_sw_amax, TdAir = t.qp_td_air_frac, TdXoffMax = t.qp_td_xoff_max, Diag = t.qp_diag > 0.5, TdHeel = t.qp_td_heel > 0.5, Lateral = t.qp_lateral > 0.5, OmY = t.qp_om_y, WCy = t.qp_w_cy, WRoll = t.qp_w_roll, KRoll = t.qp_k_roll, WYaw = t.qp_w_yaw, OmYaw = t.qp_om_yaw
         };
     }
 
@@ -100,6 +101,10 @@ namespace Game.Units.Mech.Qp
         readonly double[] _fprev = new double[8], _fmax = new double[4], _fn = new double[4], _pz = new double[4], _px = new double[4], _tdRef = new double[4], _r = new double[QpReference.Channels];
         readonly int[] _sIdx = new int[4]; bool _hasComd; double _comdPrevZ, _tPrev;
         double _planAnchor = double.NaN; int _planPar = -1;
+        // step 6a (qp_plan): LIPM constants of the row (omega, step length, capture-point offset b), the stance heel x of the current step, the current foothold / DCM, the end x of the landing quintic
+        double _pOm, _pL, _pB, _stHeelX = double.NaN, _pXfp, _planEnd = double.NaN;
+        /// <summary>Step 6a diagnostics (qp_plan): target heel x, DCM, reference DCM, desired CoP, CoM-x acceleration of the CoM row, stance heel x, time since touchdown, CoM x.</summary>
+        public readonly double[] PlanDiag = new double[8];
         // landing quintics per parity: coefficients [c * 6 + k] for channels x, z, pitch; start tau, duration, end state (p1, v1)
         readonly double[][] _lq = { new double[18], new double[18] }; readonly double[] _lqTau0 = new double[2], _lqTl = new double[2]; readonly double[][] _lqP1 = { new double[3], new double[3] }, _lqV1 = { new double[3], new double[3] };
         readonly double[] _ltPos = new double[3], _ltVel = new double[3], _ltAcc = new double[3];
@@ -132,8 +137,13 @@ namespace Game.Units.Mech.Qp
             for (int i = 0; i < NJ; i++) for (int c = 0; c < NQ; c++) { double s = 0; for (int k = 0; k < NJ; k++) s += g6[i * 2 * NJ + NJ + k] * _cj[k * NQ + c]; _pinv[i * NQ + c] = s; }
             double rt7 = 1.0 / Math.Sqrt(7.0); _n2[2] = rt7; for (int i = 0; i < 2; i++) { _n2[3 + 3 * i] = -rt7; _n2[4 + 3 * i] = -rt7; _n2[5 + 3 * i] = rt7; }
             _dd[0] = _dd[1] = _g0; for (int j = 2; j < NQ; j++) _dd[j] = _g0 / _l;
-            var sopt = new ContactScheduleOptions { OnBw = options.OnBw, OffBw = options.OffBw, TOut = options.TOut, TIn = options.TIn, TBlend = options.TBlend, TdMinFrac = options.TdMinFrac, LateVz = options.LateVz, FCap = options.FCap, ZHold = options.ZHold, HoldSched = options.HoldSched, HeelOnly = options.TdHeel, MinAirFrac = options.TdAir, XoffMax = options.TdXoffMax, MissedAfterS = 0.5 };
+            var sopt = new ContactScheduleOptions { OnBw = options.OnBw, OffBw = options.OffBw, TOut = options.TOut, TIn = options.TIn, TBlend = options.TBlend, TdMinFrac = options.Plan ? options.PlanTdFrac : options.TdMinFrac, LateVz = options.LateVz, FCap = options.FCap, ZHold = options.ZHold, HoldSched = options.HoldSched, HeelOnly = options.TdHeel, MinAirFrac = options.TdAir, XoffMax = options.TdXoffMax, MissedAfterS = 0.5 };
             _sch = new ContactSchedule(reference.Flags, reference.N2, _h, _ts, sopt);
+            if (options.Plan)
+            {
+                double zs = 0; for (int k = 0; k < reference.N; k++) zs += reference.Node(QpReference.Ccom + 1, k);
+                _pOm = Math.Sqrt(_g0 / (zs / reference.N)); _pL = reference.StepLength; _pB = _pL / (Math.Exp(_pOm * _ts) - 1.0); _sch.PlanOn = true;
+            }
             if (options.Land) { BuildLand(0); BuildLand(1); }
             Init();
         }
@@ -143,7 +153,7 @@ namespace Game.Units.Mech.Qp
         {
             _sch.Reset(0);
             for (int i = 0; i < 4; i++) { _sch.Inc[i] = _ref.Flags[StartNode * 4 + i]; _sch.FIn[i] = _ref.Node(QpReference.Cf + 2 * i + 1, StartNode); _sch.TIn[i] = -1.0; }
-            _anchorPending = AnchorXoff; Array.Clear(_fprev, 0, 8); Array.Clear(_fprevY, 0, 4); MassScale = 1.0; _hasComd = false; _planAnchor = double.NaN; _planPar = -1;
+            _anchorPending = AnchorXoff; Array.Clear(_fprev, 0, 8); Array.Clear(_fprevY, 0, 4); MassScale = 1.0; _hasComd = false; _planAnchor = double.NaN; _planPar = -1; _stHeelX = double.NaN; _planEnd = double.NaN;
             if (StartNode == 0) Array.Copy(_ref.Tau0, Tau, NJ); else _ref.TauAt(StartNode, Tau);
         }
 
@@ -176,12 +186,12 @@ namespace Game.Units.Mech.Qp
         }
 
         /// <summary>land_act: quintic from the measured state (x0, v0) at tau to the landing state of the reference (+ Xoff), ending at the step time; the heel x of the stored coefficients excludes Xoff.</summary>
-        void Replan(int par, double tau, double x0x, double x0z, double x0f, double v0x, double v0z, double v0f, double xoff)
+        void Replan(int par, double tau, double x0x, double x0z, double x0f, double v0x, double v0z, double v0f, double xoff, double xEnd = double.NaN)
         {
             double t = Math.Max(_ts - tau, 2 * _h); var co = _lq[par]; var p1 = _lqP1[par]; var v1 = _lqV1[par];
             for (int c = 0; c < 3; c++)
             {
-                double x0 = c == 0 ? x0x : c == 1 ? x0z : x0f, v0 = c == 0 ? v0x : c == 1 ? v0z : v0f, pe = p1[c] + (c == 0 ? xoff : 0.0);
+                double x0 = c == 0 ? x0x : c == 1 ? x0z : x0f, v0 = c == 0 ? v0x : c == 1 ? v0z : v0f, pe = c == 0 && !double.IsNaN(xEnd) ? xEnd : p1[c] + (c == 0 ? xoff : 0.0);
                 Solve3(t, pe - (x0 + v0 * t), v1[c] - v0, 0.0, out double c3, out double c4, out double c5);
                 co[c * 6] = x0; co[c * 6 + 1] = v0; co[c * 6 + 2] = 0.0; co[c * 6 + 3] = c3; co[c * 6 + 4] = c4; co[c * 6 + 5] = c5;
             }
@@ -257,6 +267,18 @@ namespace Game.Units.Mech.Qp
             }
         }
 
+        /// <summary>Step 6a: foothold of the current step from the capture point (see qp_plan in WalkTuning); sets the touchdown target of the schedule.</summary>
+        void PlanEval(double t, double W)
+        {
+            int st = 1 - _sch.Parity; double om = _pOm;
+            if (double.IsNaN(_stHeelX)) _stHeelX = _px[2 * st];
+            double xi = Com[0] + ComD[0] / om, fh = _fn[2 * st], ft = _fn[2 * st + 1];
+            double xcop = fh + ft > 0.05 * W ? (fh * _px[2 * st] + ft * _px[2 * st + 1]) / (fh + ft) : 0.5 * (_px[2 * st] + _px[2 * st + 1]);
+            double trem = Math.Max(_ts - (t - _sch.TAnchor), 0.05), xip = xcop + (xi - xcop) * Math.Exp(om * trem);
+            _pXfp = Math.Min(Math.Max(xip - _pB, _stHeelX + _o.PlanLmin * _pL), _stHeelX + _o.PlanLmax * _pL);
+            _sch.PlanTarget = _pXfp; _sch.PlanTol = _o.PlanTdTol * _pL; PlanDiag[0] = _pXfp; PlanDiag[1] = xi; PlanDiag[5] = _stHeelX;
+        }
+
         /// <summary>One control tick at clock time <paramref name="t"/> (s): fills <see cref="Tau"/> and returns true; on an infeasible QP the previous torques stay and false is returned.</summary>
         public bool Step(double t)
         {
@@ -277,8 +299,10 @@ namespace Game.Units.Mech.Qp
             if (_anchorPending) { _sch.Xoff = Pts[4] - _ref.Node(QpReference.Cpts + 4, StartNode); _anchorPending = false; }
             // measured contact, touchdown / phase
             _sch.UpdateContact(t, W, _fn, _pz);
+            if (o.Plan) PlanEval(t, W);
             int newPar = 1 - _sch.Parity; for (int p = 0; p < 4; p++) _tdRef[p] = _ref.NodePointX(newPar, p);
             _sch.TryTouchdown(t, _px, _tdRef);
+            if (o.Plan && _sch.LastCallReanchored) { _stHeelX = _px[2 * (1 - _sch.Parity)]; PlanEval(t, W); }
             int swLeg = _sch.Parity, stLeg = 1 - swLeg; double tau = t - _sch.TAnchor, late = _sch.Late(t), tref = _sch.RefTime(t), xoff = _sch.Xoff;
             _ref.At(tref, _r); var r = _r;
             double tsc = TimeScale;
@@ -322,11 +346,22 @@ namespace Game.Units.Mech.Qp
             double cdx = r[QpReference.Ccomdd] + o.OmX * o.OmX * ecx + 2 * o.OmX * (r[QpReference.Ccomd] - ComD[0]);
             if (o.CdxMax > 0) cdx = Math.Max(-o.CdxMax, Math.Min(o.CdxMax, cdx));
             double cdz = r[QpReference.Ccomdd + 1] + o.OmZ * o.OmZ * (r[QpReference.Ccom + 1] - cz) + 2 * o.OmZ * (r[QpReference.Ccomd + 1] - ComD[1]);
+            if (o.Plan)
+            {
+                // step 6a: DCM feedback. x_cop_des = xi - (xi_ref_dot - k (xi - xi_ref)) / omega on the support points; the CoM row asks only a_x = omega^2 (x_com - x_cop_des); the vertical row tracks the reference CoM z
+                double om = _pOm, xir = cxr + xoff + r[QpReference.Ccomd] / om, xird = r[QpReference.Ccomd] + r[QpReference.Ccomdd] / om, xi = cx + ComD[0] / om;
+                double xcd = xi - (xird - o.PlanKxi * (xi - xir)) / om, lo = double.MaxValue, hi = -double.MaxValue;
+                for (int i = 0; i < 4; i++) if (_sch.Inc[i]) { lo = Math.Min(lo, _px[i]); hi = Math.Max(hi, _px[i]); }
+                xcd = hi >= lo ? Math.Max(lo, Math.Min(hi, xcd)) : cx;
+                cdx = om * om * (cx - xcd);
+                cdz = r[QpReference.Ccomdd + 1] + o.PlanZkp * (r[QpReference.Ccom + 1] - cz) + o.PlanZkd * (r[QpReference.Ccomd + 1] - ComD[1]);
+                PlanDiag[2] = xir; PlanDiag[3] = xcd; PlanDiag[4] = cdx; PlanDiag[6] = tau; PlanDiag[7] = cx;
+            }
             double lm = AngMom * ms, ldd = r[QpReference.Cldot] + o.KL * (r[QpReference.Cl] - lm);
             _wd[0] = _mt * ms * cdx / W; _wd[1] = _mt * ms * (cdz + g0) / W; _wd[2] = ldd / (W * l);
             if (nb > 0)
             {
-                for (int k = 0; k < 3; k++) { ClearRow(nx); for (int c = 0; c < nb; c++) _row[NQ + c] = _gm[k * MaxNb + c]; AddRow(nx, k == 0 ? wcxEff : k == 1 ? o.WCz : o.WL, _wd[k]); }
+                for (int k = 0; k < 3; k++) { ClearRow(nx); for (int c = 0; c < nb; c++) _row[NQ + c] = _gm[k * MaxNb + c]; AddRow(nx, k == 0 ? (o.Plan && o.PlanWx > 0 ? o.PlanWx : wcxEff) : k == 1 ? (o.Plan ? o.PlanWz : o.WCz) : o.WL, _wd[k]); }
                 for (int k = 0; k < 2 * nS; k++)
                 {
                     int i = _sIdx[k / 2], d = k % 2; ClearRow(nx); for (int c = 0; c < nb; c++) _row[NQ + c] = _em[k * MaxNb + c];
@@ -358,14 +393,19 @@ namespace Game.Units.Mech.Qp
                 {
                     int i = 2 * leg; bl = _sch.SwingBlend(leg, t);
                     double xo = leg == swLeg ? xoffSw : xoff, prx = r[QpReference.Cpts + 2 * i] + xo, prz = r[QpReference.Cpts + 2 * i + 1], vrx = r[QpReference.Cptv + 2 * i], vrz = r[QpReference.Cptv + 2 * i + 1], arx = r[QpReference.Cpta + 2 * i], arz = r[QpReference.Cpta + 2 * i + 1];
-                    if (leg == swLeg && o.Land && o.LandAct && tau >= o.LandK0 * h && !(_planAnchor == _sch.TAnchor && _planPar == _sch.Parity))
-                        Replan(_sch.Parity, tau, Pts[2 * i], Pts[2 * i + 1], Q[fidx], _vp[2 * i] / tsc, _vp[2 * i + 1] / tsc, Qd[fidx] / tsc, xo);
+                    bool planFp = o.Plan && o.PlanFp > 0.5 && leg == swLeg;
+                    if (leg == swLeg && o.Land && o.LandAct && tau >= o.LandK0 * h && (!(_planAnchor == _sch.TAnchor && _planPar == _sch.Parity) || (planFp && Math.Abs(_pXfp - _planEnd) > o.PlanReplanM)))
+                    {
+                        Replan(_sch.Parity, tau, Pts[2 * i], Pts[2 * i + 1], Q[fidx], _vp[2 * i] / tsc, _vp[2 * i + 1] / tsc, Qd[fidx] / tsc, xo, planFp ? _pXfp : double.NaN);
+                        if (planFp) _planEnd = _pXfp;
+                    }
                     if (leg == swLeg && o.Land && tau >= _lqTau0[_sch.Parity])
                     {
                         LandTarget(_sch.Parity, tau); haveLt = true;
                         if (tsc != 1.0) for (int c = 0; c < 3; c++) { _ltVel[c] *= tsc; _ltAcc[c] *= tsc * tsc; }
                         prx = _ltPos[0] + xo; prz = _ltPos[1]; vrx = _ltVel[0]; vrz = _ltVel[1]; arx = _ltAcc[0]; arz = _ltAcc[1];
                     }
+                    if (planFp && !haveLt) { double sp0 = Math.Min(1.0, Math.Max(0.0, tau / ts)); prx += sp0 * sp0 * (3 - 2 * sp0) * (_pXfp - (_lqP1[_sch.Parity][0] + xo)); }   // step 6a: the reference heel path warped to the planned foothold
                     if (leg == swLeg && late > 0) { prz -= o.LateVz * late; vrz -= o.LateVz; }
                     if (o.SwCp > 0 && leg == swLeg)
                     {

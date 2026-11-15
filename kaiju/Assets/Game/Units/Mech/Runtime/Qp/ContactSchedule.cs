@@ -39,6 +39,7 @@ namespace Game.Units.Mech.Qp
         public readonly double[] TRel = new double[2];                                        // time the leg last became fully unloaded
         public int TouchdownCount;
         public bool LastCallReanchored;
+        public bool PlanOn; public double PlanTarget, PlanTol;   // step 6a (qp_plan): before the forced time (the step end) a touchdown needs the heel of the swing leg within PlanTol of PlanTarget
 
         /// <param name="flags">scheduled loaded flags, n2 nodes x 4 points, row-major (node-major).</param>
         public ContactSchedule(bool[] flags, int n2, double stepNodeSeconds, double stepSeconds, ContactScheduleOptions opt)
@@ -108,6 +109,7 @@ namespace Game.Units.Mech.Qp
             int landed = -1;
             for (int i = 2 * Parity; i <= (Opt.HeelOnly ? 2 * Parity : 2 * Parity + 1); i++) if (Inc[i] && TIn[i] > TAnchor + 1e-9) { landed = i; break; }
             if (landed < 0) return false;
+            if (PlanOn && tau < Clamp && Math.Abs(pointX[2 * Parity] - PlanTarget) > PlanTol) return false;
             if (Opt.MinAirFrac > 0 && t - TRel[Parity] < Opt.MinAirFrac * _ts) return false;
             if (Opt.XoffMax > 0 && Math.Abs(pointX[landed] - refPointX[landed] - Xoff) > Opt.XoffMax) return false;
             Parity = 1 - Parity; TAnchor = t; TouchdownCount++; LastCallReanchored = true;

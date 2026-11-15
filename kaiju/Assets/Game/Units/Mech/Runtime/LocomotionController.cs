@@ -283,7 +283,7 @@ namespace Game.Units.Mech
         }
 
         // ---- step 9.5c: state-matched hand-off ----
-        bool _qpMatch; double[][][] _mRef; bool[][] _mSs; int _qpTdSinceRow; int _qpMatchTds; readonly double[] _mMeas = new double[9];
+        bool _qpPlanTd; bool _qpMatch; double[][][] _mRef; bool[][] _mSs; int _qpTdSinceRow; int _qpMatchTds; readonly double[] _mMeas = new double[9];
         double[] _mScale;
         void BuildMatchFeatures()
         {
@@ -369,7 +369,9 @@ namespace Game.Units.Mech
                     }
                     if (ssMode ? ssOk : td && (_phase == LocoPhase.SingleSupport || _phase == LocoPhase.DoubleSupport))
                     {
-                        MeasureMatch(tdk); _qpMatchTds++; double dm = BestMatch(0, _qpRowDrv.Length - 1, ssMode, out int mr, out int mk, out double zm);
+                        int rowCap = _qpRowDrv.Length - 1;
+                        if (_t.qp_plan > 0.5) { double vfe = Vector2.Dot(_vel2, Fwd(_pelvisYaw)); rowCap = 0; while (rowCap + 1 < _qpRowDrv.Length && vfe >= _t.qp_plan_up * _qpRowV[rowCap + 1]) rowCap++; }   // qp_plan: hand-off row by speed
+                        MeasureMatch(tdk); _qpMatchTds++; double dm = BestMatch(0, rowCap, ssMode, out int mr, out int mk, out double zm);
                         _dbg.QpMatchTd = true; _dbg.QpMatchD = dm; _dbg.QpMatchZ = zm; _dbg.QpMatchRow = mr; _dbg.QpMatchNode = mk; _dbg.QpMatchTds = _qpMatchTds;
                         if (dm <= _t.qp_match_thr && zm <= _t.qp_match_zmax) { go = true; _qpRow = mr; startNode = mk; _qpTdSinceRow = 0; }
                     }
@@ -391,7 +393,17 @@ namespace Game.Units.Mech
                 for (int k = 0; k < 2; k++) { _b.GetFoot(_qpFoots[k], out var fk); if (fk.Contact && !_qpPrevContact[k]) { td = true; tdk = k; } _qpPrevContact[k] = fk.Contact; }
                 if (td) _qpTdSinceRow++;
                 int upNode = 0; bool up = false;
-                if (_qpMatch)
+                if (_t.qp_plan > 0.5)
+                {
+                    // step 6a: climb at a QP touchdown (the previous tick's re-anchor of the active row), speed-gated, to node 0 of the next row anchored on the landed heel
+                    int maxRowP = _t.qp_match_max_row < 0 ? _qpRowDrv.Length - 1 : Math.Min(_qpRowDrv.Length - 1, (int)_t.qp_match_max_row);
+                    if (_qpPlanTd && _qpRow + 1 <= maxRowP && Vector2.Dot(_vel2, Fwd(_pelvisYaw)) >= _t.qp_plan_up * _qpRowV[_qpRow + 1])
+                    {
+                        var landed = (_qpLegNow ?? _qpLegs[0])[1 - _qp.Controller.Parity]; tdk = _qpLegs[0][1] == landed ? 0 : 1; up = true; upNode = 0;
+                    }
+                    _qpPlanTd = false;
+                }
+                else if (_qpMatch)
                 {
                     // step 9.5c: climb to the next row (at most qp_match_max_row) once the QP has re-anchored on qp_match_hold touchdowns of its own on this row, from a single-support state that matches a node of that row (qp_match_ss) or at a touchdown
                     int maxRow = _t.qp_match_max_row < 0 ? _qpRowDrv.Length - 1 : Math.Min(_qpRowDrv.Length - 1, (int)_t.qp_match_max_row);
@@ -420,9 +432,9 @@ namespace Game.Units.Mech
             }
             _qp.TimeScale = _qpScale; _qp.DesiredYaw = _cmd.Heading;
             int tdBefore = _qp.Controller.Touchdowns;
-            _qp.Apply(_qpTime, _pelvisYaw, _groundY); _qpTime += _dt * _qpScale;
+            _qp.Apply(_qpTime, _pelvisYaw, _groundY); _qpTime += _dt * _qpScale; _qpPlanTd = _t.qp_plan > 0.5 && _qp.Controller.Schedule.LastCallReanchored;
             if (_qpPdSwing >= 0 || _qpPdRef > 0 || _qpDiag) QpSwingPd();
-            if (_qpMatch && _t.qp_td_rematch > 0 && _qp.Controller.Touchdowns > tdBefore) QpTouchdownRematch();
+            if (_qpMatch && _t.qp_td_rematch > 0 && _t.qp_plan < 0.5 && _qp.Controller.Touchdowns > tdBefore) QpTouchdownRematch();
             if (_qpLat) QpLateralDrives();
             var c = _qp.Controller; _dbg.QpOn = true; _dbg.QpScale = _qpScale; _dbg.QpMs = (System.Diagnostics.Stopwatch.GetTimestamp() - t0) * 1e3 / System.Diagnostics.Stopwatch.Frequency; _dbg.QpIters = c.LastIterations; _dbg.QpTau ??= new double[6]; System.Array.Copy(c.Tau, _dbg.QpTau, 6);
             _dbg.QpRow = _qpRow;
@@ -455,7 +467,7 @@ namespace Game.Units.Mech
             }
             if (_qpDiag)
             {
-                _dbg.QpK ??= new double[22];
+                _dbg.QpK ??= new double[_t.qp_plan > 0.5 ? 30 : 22];
                 for (int pl = 0; pl < 2; pl++)
                 {
                     var leg = legs[pl]; int[] d3 = { leg.Hip[0], leg.Knee, leg.Ankle[0] };
@@ -466,6 +478,7 @@ namespace Game.Units.Mech
                     }
                 }
                 for (int i = 0; i < 16; i++) _dbg.QpK[6 + i] = c.Diag[i];
+                if (_t.qp_plan > 0.5) for (int i = 0; i < 8; i++) _dbg.QpK[22 + i] = c.PlanDiag[i];
             }
         }
 
