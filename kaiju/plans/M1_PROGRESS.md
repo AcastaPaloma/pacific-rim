@@ -29,3 +29,7 @@ Session 3 (regression `evidence/regression/M1-merge-4.md`):
 6. Evaluators per track (eval-arch, eval-physics, eval-perf), Sonnet medium.
 
 ## Open worktrees (merged at their current heads, safe to remove): .wt/T-020b, .wt/T-021, .wt/T-022, .wt/T-024b, .wt/T-027, .wt/T-030, .wt/T-032, .wt/T-035, .wt/T-036.
+
+## Hand-over (M1 lead session 3, after all four tracks merged; 2026-11-15)
+- Batched EditMode on 89ccb70 (T-030b, T-023 step 2, T-036b, T-033 merged): 468/0/2, Core config unchanged (`evidence/regression/M1-merge-6.md`).
+- Not started (session at its context threshold): "Next" item 5 composition root (Destruction + Seismic + bridge + brain behind default-off flags, one Sonnet/medium step) and item 6 combined evaluator per track (Sonnet/low, §13; fix cycles only for blocking defects). Run both in a fresh session; merge lock `/tmp/kaiju-merge.lock`, §13/§14 apply.
