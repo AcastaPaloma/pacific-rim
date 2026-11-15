@@ -338,3 +338,10 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 
 ## Snapshot: M1 lead session 5 hand-over (§16, ~80k), 2026-11-15
 - State and next steps: `plans/M1_PROGRESS.md` "Session 5 hand-over". Running: T-033b (C1 fix cycle), T-039b (slice scene), T-041 worker (RL design, Opus high). §15 and §16 passed to tracks (rules 13–14 in the shared track rules). Successor start attempted; if refused, a proposal card was left. No fallback timer set: ScheduleWakeup works only in /loop mode here.
+
+## R-101 (M2 worker, 2026-11-15)
+- 2026-11-15 · `research/R-101.md` written: IO is not the Bay-streaming constraint (about 7 MB/s at 60 m/s); main-thread slicing, collider cooking and memory are; per-building GameObjects only inside the 512 m physics ring — decided autonomously (founder asleep).
+- 2026-11-15 · LOD selection threshold tau = 1/k output px (derived from the M-102 1 px RMS silhouette clause and integer upscale k), switch distance error_m x 1158 x k; ring radii computed from k at runtime — decided autonomously (founder asleep).
+- 2026-11-15 · Render ring radius = clamp(profile visual range V, 15, 60 km) with a skyline exception for towers >= 150 m and landmarks; physics ring 512 m (chunks of 256 m), design speed 30 m/s, cap 60 m/s — decided autonomously (founder asleep).
+- 2026-11-15 · Activity clusters (extent <= 5120 m, rebase at 3072 m, one PhysicsScene per cluster on the host) instead of a single global origin; M-015@v2, M-101, M-102 drafted with no threshold lowered — decided autonomously (founder asleep).
+- 2026-11-15 · Open defaults O1-O12 listed in the note (terrain collider form, curvature off, destruction journal `streaming@v1`); `destruction@v1` was not read, T-110 confirms — decided autonomously (founder asleep).
