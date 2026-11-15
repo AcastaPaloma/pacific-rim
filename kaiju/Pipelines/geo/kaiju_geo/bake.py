@@ -358,6 +358,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     recs = [(p, True, parent_props.get(p["part_of"])) for p in owned_parts]
     feats_parts = list(cf.ThreadPoolExecutor(threads).map(job, recs)) if threads > 1 else [job(a) for a in recs]
     bfeats = sorted(feats_outline + feats_parts, key=lambda f: vector.oid_key(f["id"]))
+    landmarks.lower_to_sourced(tile.id, bfeats)  # M1-cleanup: sourced landmark height replaces a taller OSM part (Ferry Building tower)
 
     # ---- water mask (cell-centred 2048^2, row 0 = north): OSM water AND surface < MSL, minus piers/buildings
     water_poly = read_water_polygons(tile, 64.0)
