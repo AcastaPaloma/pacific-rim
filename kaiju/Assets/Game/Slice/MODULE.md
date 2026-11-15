@@ -22,6 +22,6 @@ Layer: top (references every module; nothing references it). Behind `slice.m1` (
 - Smoke: `-sliceSmoke N [-sliceSmokeOut file]` (player) or the PlayMode test runs 60 warm-up + N frames with a scripted mech loop, records frame ms and draw calls (ProfilerRecorder, needs a development build) and the destruction counts, writes JSON, quits the player.
 
 ## TEMPORARY / known limits
-- Mech: a WASD capsule (`SliceTempMech`) until `Units.Placeholder` (T-030c) is merged and wired through the seat; kaiju: a capsule. Neither collides with buildings.
+- Mech: `Units.Placeholder` body (TEMPORARY) driven by `DevicePilotSource` (WASD / left stick, Space = stop) -> `SinglePilotArbiter` -> `PilotSeat` -> `IntentFrame` -> body, camera follows it as `ICameraTarget`; kaiju melee reduces its damage record (repaired at 0). If `units.placeholderBody` is off a WASD capsule stands in. Kaiju: a capsule. Neither collides with buildings; the placeholder body has no terrain following (y fixed at the spawn height).
 - No per-building colliders (cost); hits use the data index, not physics.
 - Frame numbers are Apple-silicon relative numbers (M-018 relative on Mac), not target-PC.
