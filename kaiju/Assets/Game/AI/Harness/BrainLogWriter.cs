@@ -43,7 +43,7 @@ namespace Game.AI.Harness
                .Append("\",\"seed\":").Append(s.Seed.ToString(Inv))
                .Append(",\"step_seconds\":").Append(F(s.StepSeconds))
                .Append(",\"brain_period_steps\":").Append(s.Brain.BrainPeriodSteps.ToString(Inv))
-               .Append(",\"brain_id\":\"").Append(s.Brain.DirectCharge ? "directcharge@1" : (s.Brain.WeightFocus == 0f ? "nofocus@1" : "scripted@1")).Append("\",\"config_hash\":\"").Append(ConfigHash(s).ToString("x16", Inv))
+               .Append(",\"brain_id\":\"").Append(s.BrainId ?? (s.Brain.DirectCharge ? "directcharge@1" : (s.Brain.WeightFocus == 0f ? "nofocus@1" : "scripted@1"))).Append("\",\"config_hash\":\"").Append(ConfigHash(s).ToString("x16", Inv))
                .Append("\",\"size_class\":{\"H_m\":80,\"mass_t\":10000},\"d_eng_m\":400,\"scenario\":\"").Append(s.Name).Append("\"}");
             Emit();
         }
