@@ -67,6 +67,40 @@ namespace Game.World.Destruction
         public byte Cause;
     }
 
+    /// <summary>
+    /// Mass and energy account of one building at its current state (R-021 §3, checked by M-052). Cumulative and a pure
+    /// function of (attributes, state), so any path to the same state gives the same account. Read-only for tools.
+    /// </summary>
+    public struct DebrisAccount
+    {
+        public BuildingId Id;
+        public byte State;
+        /// <summary>Building mass M0, kg.</summary>
+        public double MassKg;
+        /// <summary>Mass still standing, kg.</summary>
+        public double StandingKg;
+        /// <summary>Debris mass emitted so far, kg (equals <see cref="BuildingDamageState.DebrisKg"/>).</summary>
+        public double DebrisKg;
+        /// <summary>Number of debris bodies, at most 64; their masses sum to <see cref="DebrisKg"/> exactly.</summary>
+        public int PieceCount;
+        /// <summary>Sum of the piece masses as the spawner will assign them (last piece takes the remainder), kg.</summary>
+        public double PieceMassSumKg;
+        /// <summary>Heap height h_p = V_d / A_spread, m.</summary>
+        public double HeapHeightM;
+        /// <summary>Potential energy released by the debris, ΔPE = M_d g (H_c - h_c), J.</summary>
+        public double PotentialEnergyJ;
+        /// <summary>Impact work counted into the state so far (cumulative delivered energy), J. Not part of the balance.</summary>
+        public double ExternalWorkJ;
+        /// <summary>Fracture and comminution, J.</summary>
+        public double FractureJ;
+        /// <summary>Inelastic ground impact, J.</summary>
+        public double GroundJ;
+        /// <summary>Kinetic energy of ejected pieces at landing, J.</summary>
+        public double EjectaJ;
+        /// <summary>Unaccounted energy ΔPE - (E_frac + E_ground + KE_ej), J; must be in [0, 0.05 ΔPE].</summary>
+        public double ResidualJ;
+    }
+
     /// <summary>The attributes the capacity model reads (all available from geo_export@v1, R-021 §0).</summary>
     public struct BuildingAttributes
     {
@@ -107,6 +141,7 @@ namespace Game.World.Destruction
         /// </summary>
         DamageChange Apply(BuildingId id, double energyJ, DamageCause cause, EntityId source, long step);
         /// <summary>Energy to reach damage state 1..4 for the registered building, J, incl. its deterministic scatter.</summary>
+        bool TryGetDebrisAccount(BuildingId id, out DebrisAccount account);
         bool TryGetThresholds(BuildingId id, out double slightJ, out double moderateJ, out double extensiveJ, out double completeJ);
     }
 }

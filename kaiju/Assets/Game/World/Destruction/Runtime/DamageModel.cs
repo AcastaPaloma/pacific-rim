@@ -12,7 +12,7 @@ namespace Game.World.Destruction
             public BuildingDamageState State;
             public double S1, S2, S3, S4;
             public HazusType Type;
-            public double HeightM, PeriodS;
+            public double HeightM, PeriodS, MassKg, FootprintM2;
         }
 
         readonly Dictionary<BuildingId, Record> _records = new Dictionary<BuildingId, Record>();
@@ -30,6 +30,8 @@ namespace Game.World.Destruction
             _records.TryGetValue(id, out var r);
             r.State.Id = id;
             r.Type = cap.Type; r.HeightM = a_h(attributes); r.PeriodS = cap.PeriodS;
+            r.MassKg = cap.MassKg; r.FootprintM2 = attributes.FootprintM2;
+            r.State.DebrisKg = DebrisAccounting.DebrisKgAt(r.Type, r.MassKg, r.State.State);
             r.S1 = cap.S1; r.S2 = cap.S2; r.S3 = cap.S3; r.S4 = cap.S4;
             _records[id] = r;
         }
@@ -48,6 +50,7 @@ namespace Game.World.Destruction
             result.Known = true;
             result.PrevState = r.State.State;
             double prevE = r.State.CumulativeEnergyJ;
+            double debrisInc = 0;
             double u = CapacityModel.Uniform(id, eventIndex);
             byte k = ShakingFragility.StateFor(r.Type, r.HeightM, r.PeriodS, pgaG, u);
             if (k > r.State.State)
@@ -55,6 +58,7 @@ namespace Game.World.Destruction
                 double s = k == 4 ? r.S4 : k == 3 ? r.S3 : k == 2 ? r.S2 : r.S1;
                 if (s > r.State.CumulativeEnergyJ) r.State.CumulativeEnergyJ = s;
                 r.State.State = k; r.State.LastStep = step; r.State.Cause = (byte)DamageCause.Shaking;
+                debrisInc = SetDebris(ref r);
                 result.Changed = true;
                 _records[id] = r;
             }
@@ -64,10 +68,26 @@ namespace Game.World.Destruction
                 _bus.Publish(new BuildingDamaged
                 {
                     BuildingId = id, State = r.State.State, EnergyJ = (float)(r.State.CumulativeEnergyJ - prevE),
-                    PrevState = result.PrevState, Cause = (byte)DamageCause.Shaking, Source = default, DebrisKg = 0f,
+                    PrevState = result.PrevState, Cause = (byte)DamageCause.Shaking, Source = default, DebrisKg = (float)debrisInc,
                 });
             }
             return result;
+        }
+
+        /// <summary>Sets the debris mass for the record's current state; returns the increment, kg (never negative).</summary>
+        static double SetDebris(ref Record r)
+        {
+            double total = DebrisAccounting.DebrisKgAt(r.Type, r.MassKg, r.State.State);
+            double inc = total - r.State.DebrisKg;
+            r.State.DebrisKg = total;
+            return inc > 0 ? inc : 0;
+        }
+
+        public bool TryGetDebrisAccount(BuildingId id, out DebrisAccount account)
+        {
+            if (!_records.TryGetValue(id, out var r)) { account = default; return false; }
+            account = DebrisAccounting.Compute(id, r.Type, r.MassKg, r.HeightM, r.FootprintM2, r.State.State, r.State.CumulativeEnergyJ);
+            return true;
         }
 
         public bool TryGetState(BuildingId id, out BuildingDamageState state)
@@ -88,6 +108,7 @@ namespace Game.World.Destruction
             if (!_records.TryGetValue(id, out var r)) return result;
             result.Known = true;
             result.PrevState = r.State.State;
+            double debrisInc = 0;
             if (energyJ > 0 && !double.IsInfinity(energyJ) && !double.IsNaN(energyJ))
             {
                 r.State.CumulativeEnergyJ += energyJ;
@@ -96,6 +117,7 @@ namespace Game.World.Destruction
                 if (k > r.State.State)
                 {
                     r.State.State = k; r.State.LastStep = step; r.State.Cause = (byte)cause;
+                    debrisInc = SetDebris(ref r);
                     result.Changed = true;
                 }
                 _records[id] = r;
@@ -106,7 +128,7 @@ namespace Game.World.Destruction
                 var evt = new BuildingDamaged
                 {
                     BuildingId = id, State = r.State.State, EnergyJ = (float)energyJ,
-                    PrevState = result.PrevState, Cause = (byte)cause, Source = source, DebrisKg = 0f,
+                    PrevState = result.PrevState, Cause = (byte)cause, Source = source, DebrisKg = (float)debrisInc,
                 };
                 _bus.Publish(evt);
             }

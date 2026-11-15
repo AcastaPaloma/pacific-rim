@@ -75,5 +75,41 @@ namespace Game.World.Destruction
 
         /// <summary>Salt mixed into the ID hash for the capacity scatter (event index 0 of R-021 §2.5) [Assumed].</summary>
         public const ulong ScatterSalt = 0xD1B54A32D192ED03UL;
+
+        // ---- debris, mass and energy (R-021 §3) ----
+        /// <summary>Hazus collapse fraction phi of the Complete state: W1 0.03, C2.L 0.13, C2.M 0.10, C2.H 0.05 [S9].</summary>
+        public static double CollapsePhi(HazusType t)
+        {
+            switch (t) { case HazusType.W1: return 0.03; case HazusType.C2L: return 0.13; case HazusType.C2M: return 0.10; default: return 0.05; }
+        }
+        /// <summary>Debris share of building mass f_d: 0, 0.01, 0.05, 0.25 for k = 0..3 [Assumed]; Complete = phi + (1 - phi) 0.25.</summary>
+        public static double DebrisFraction(HazusType t, int k)
+        {
+            switch (k)
+            {
+                case 0: return 0.0;
+                case 1: return 0.01;
+                case 2: return 0.05;
+                case 3: return 0.25;
+                default: { double phi = CollapsePhi(t); return phi + (1.0 - phi) * 0.25; }
+            }
+        }
+        /// <summary>Bulk rubble density, kg/m3 [Assumed].</summary>
+        public const double RubbleDensity = 1200.0;
+        /// <summary>Heap ring width as a fraction of height H: spread = footprint plus a ring of 0.5 H [Assumed].</summary>
+        public const double SpreadRingFactor = 0.5;
+        /// <summary>Fracture and comminution energy, J per kg of debris [Assumed].</summary>
+        public const double FractureJPerKg = 500.0;
+        /// <summary>Fracture energy is at most this share of ΔPE (a low building's fall cannot pay 500 J/kg; the rest came from the impact work already in the state) [Assumed].</summary>
+        public const double FractureCapShare = 0.25;
+        /// <summary>Ejecta kinetic energy as a share of ΔPE [Assumed]; the account caps it at <see cref="EjectaCapShare"/>.</summary>
+        public const double EjectaShare = 0.05;
+        public const double EjectaCapShare = 0.10;
+        /// <summary>Share of the remaining energy that the inelastic ground impact takes; the rest is the residual [Assumed].</summary>
+        public const double GroundShare = 0.98;
+        /// <summary>Debris bodies per building, upper bound (R-021 §3).</summary>
+        public const int MaxPieces = 64;
+        /// <summary>Preferred mass of one debris body, kg [Assumed]; the piece count is ceil(M_d / this), capped at MaxPieces.</summary>
+        public const double PieceTargetKg = 2000.0;
     }
 }
