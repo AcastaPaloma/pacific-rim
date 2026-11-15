@@ -9,8 +9,33 @@ namespace Game.World.Destruction
     /// <summary>Hazus model building type chosen per rise class (a choice: geo_export has no structure type).</summary>
     public enum HazusType : byte { W1 = 0, C2L = 1, C2M = 2, C2H = 3 }
 
+    /// <summary>Hazus code era (R-021 §2.4): selects the PC / LC / MC / HC drift-median rows.</summary>
+    public enum CodeEra : byte { PreCode = 0, LowCode = 1, ModerateCode = 2, HighCode = 3 }
+
     public static class DamageParameters
     {
+        /// <summary>
+        /// Code era from year built for high-seismicity California (UBC Seismic Zone 4 / NEHRP map area 7):
+        /// pre-1941 Pre-Code, 1941-1975 Moderate-Code, post-1975 High-Code; there is no Low-Code band in Zone 4.
+        /// Source: USGS ShakeCast Appendix D, https://usgs.github.io/shakecast/v3_operator_appendd.html [S4]
+        /// (read 2026-11-14). year &lt;= 0 = unknown = ModerateCode (the behaviour before this step).
+        /// </summary>
+        public static CodeEra EraFromYear(int yearBuilt)
+        {
+            if (yearBuilt <= 0) return CodeEra.ModerateCode;
+            if (yearBuilt < 1941) return CodeEra.PreCode;
+            return yearBuilt <= 1975 ? CodeEra.ModerateCode : CodeEra.HighCode;
+        }
+
+        /// <summary>
+        /// Era actually used for a type: S4 says pre-1941 W1 is Moderate-Code (the same table, "W1 = Moderate-Code"),
+        /// so W1 PreCode maps to ModerateCode. The W1 PC row of [S9] stays available through the 3-argument DriftMedian.
+        /// </summary>
+        public static CodeEra EffectiveEra(HazusType t, CodeEra era)
+        {
+            return t == HazusType.W1 && era == CodeEra.PreCode ? CodeEra.ModerateCode : era;
+        }
+
         /// <summary>Levels from height: 4.22 m per level, median of 202 SF buildings [R-004 §1.4].</summary>
         public const double MetresPerLevel = 4.22;
         /// <summary>Rise class bounds on levels: A &lt;= 3, B &lt;= 7, C otherwise [S1, unverified bounds].</summary>
@@ -45,8 +70,15 @@ namespace Game.World.Destruction
         /// structural, beta 0.4 [S9]. W1 0.004/0.0099/0.0306/0.075; C2.L 0.004/0.0084/0.0232/0.06;
         /// C2.M 0.0027/0.0056/0.0154/0.04; C2.H 0.002/0.0042/0.0116/0.03.
         /// </summary>
-        public static double DriftMedian(HazusType t, int k)
+        public static double DriftMedian(HazusType t, int k) { return DriftMedian(t, k, CodeEra.ModerateCode); }
+
+        /// <summary>
+        /// Era rows of Hazus 6.1 structural fragility, median peak roof drift, beta 0.4, read from [S9] fragility.csv
+        /// (STR.W1|C2.L|C2.M|C2.H . PC|LC|MC|HC). All 16 rows sourced; no gaps.
+        /// </summary>
+        public static double DriftMedian(HazusType t, int k, CodeEra era)
         {
+            if (era != CodeEra.ModerateCode) { var r = EraRow(t, era); return r[(k < 1 ? 1 : k > 4 ? 4 : k) - 1]; }
             switch (t)
             {
                 case HazusType.W1:
@@ -59,6 +91,25 @@ namespace Game.World.Destruction
                     return k == 1 ? 0.002 : k == 2 ? 0.0042 : k == 3 ? 0.0116 : 0.03;
             }
         }
+
+        static double[] EraRow(HazusType t, CodeEra era)
+        {
+            switch (t)
+            {
+                case HazusType.W1:
+                    return era == CodeEra.PreCode ? W1PC : era == CodeEra.LowCode ? W1LC : W1HC;
+                case HazusType.C2L:
+                    return era == CodeEra.PreCode ? C2LPC : era == CodeEra.LowCode ? C2LLC : C2LHC;
+                case HazusType.C2M:
+                    return era == CodeEra.PreCode ? C2MPC : era == CodeEra.LowCode ? C2MLC : C2MHC;
+                default:
+                    return era == CodeEra.PreCode ? C2HPC : era == CodeEra.LowCode ? C2HLC : C2HHC;
+            }
+        }
+        static readonly double[] W1PC = { 0.0032, 0.0079, 0.0245, 0.06 }, W1LC = { 0.004, 0.0099, 0.0306, 0.075 }, W1HC = { 0.004, 0.012, 0.04, 0.1 };
+        static readonly double[] C2LPC = { 0.0032, 0.0061, 0.0158, 0.04 }, C2LLC = { 0.004, 0.0076, 0.0197, 0.05 }, C2LHC = { 0.004, 0.01, 0.03, 0.08 };
+        static readonly double[] C2MPC = { 0.0021, 0.0041, 0.0105, 0.0267 }, C2MLC = { 0.0027, 0.0051, 0.0132, 0.0333 }, C2MHC = { 0.0027, 0.0067, 0.02, 0.0533 };
+        static readonly double[] C2HPC = { 0.0016, 0.0031, 0.0079, 0.02 }, C2HLC = { 0.002, 0.0038, 0.0099, 0.025 }, C2HHC = { 0.002, 0.005, 0.015, 0.04 };
 
         /// <summary>Hazus 6.1 drift fragility beta of the capacity side, theta_k lognormal [S9] (R-021 §2.4).</summary>
         public const double ShakingBetaCapacity = 0.4;
