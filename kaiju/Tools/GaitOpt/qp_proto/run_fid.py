@@ -59,7 +59,11 @@ def extra_metrics(res, ctl, ref, model):
 
 PRESETS = {"b3": dict(kvs=5.0),                                                   # 9.3b-3 final (A_v2_final)
            "b4": dict(kvs=5.0, onset=1.0, land=1.0, land_act=1.0, land_k0=36.0,   # 9.3b-4 final: onset fix, landing quintic from the measured state at node 36,
-                      fr_meas=1.0, fr_margin=0.9)}                                  #   per-foot shear <= 0.9 mu x measured load, QP cone 0.9 mu
+                      fr_meas=1.0, fr_margin=0.9),                                  #   per-foot shear <= 0.9 mu x measured load, QP cone 0.9 mu
+           "b5x": dict(kvs=5.0, onset=1.0, land=1.0, land_act=1.0, land_k0=35.0, fr_meas=1.0, fr_margin=0.9,   # 9.3b-5 variant (reference v3): landing window from node 35, x/pitch lead 0.15 s, late descent 8 m/s
+                       land_xlead=0.15, late_vz=8.0, mass_est=0.05, sg_floor=0.3),            #   (steady speed 0.953: B(-) fails, Clim08aw falls)
+           "b5": dict(kvs=5.0, onset=1.0, land=1.0, land_act=1.0, land_k0=35.0, fr_meas=1.0, fr_margin=0.9,   # 9.3b-5 (reference v3): b4 with the landing window from node 35 (no x lead),
+                      mass_est=0.05, sg_floor=0.3)}                                          #   online mass-scale estimate, support guard (stance fmax floor until the swing foot is in contact)                    #   online mass-scale estimate, support guard (stance fmax floor until the swing foot is in contact)
 
 
 def main():
@@ -103,7 +107,7 @@ def main():
         mt["push"]["recovered_within_steps"] = rec; mt["push"]["PASS_B"] = (not res["fell"]) and rec is not None and rec <= 4
     L = ctl.log
     np.savez_compressed(out_dir / f"{a.tag}.npz", t=np.array(L["t"]), phase=np.array(L["tref"]), parity=np.array(L["parity"]), q=np.array(L["q"]), com=np.array(L["com"]), F=np.array(L["F"]), u=np.array(L["u"]),
-                        fn_meas=np.array(L["fn_meas"]), fmax=np.array(L["fmax"]), loaded=np.array(L["loaded"]), u_act=np.array(L["u_act"]), sat=res["sat"], Fn_plant=res["Fn"], Ft_plant=res["Ft"],
+                        fn_meas=np.array(L["fn_meas"]), fmax=np.array(L["fmax"]), mest=np.array(L["mest"]), loaded=np.array(L["loaded"]), u_act=np.array(L["u_act"]), sat=res["sat"], Fn_plant=res["Fn"], Ft_plant=res["Ft"],
                         status=np.array(L["status2"]), status1=np.array(L["status1"]), iters=np.array(L["iters"]), ms=np.array(L["ms"]), td_events=np.array(ctl.td_events), fell=res["fell"], q_plant=res["q"], fx=res["fx"])
     json.dump(mt, open(out_dir / f"{a.tag}.json", "w"), indent=1, default=float)
     keys = ["fell", "steps_done", "mean_speed_ratio", "com_z_rms_pct_l", "pelvis_pitch_rms_deg", "touchdowns", "foot_placement_rms_pct_step", "sat_ticks_pct", "qp_limit_row_active_ticks_pct",

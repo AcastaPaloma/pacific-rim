@@ -1,27 +1,25 @@
-# T-005 r4 step 9.3 verdict: **NO-GO for 9.4**
-Go/no-go rule (R-009 §7): A, B and C must all pass; D is informational. Status after 9.3b … 9.3b-4, i.e. several tuning rounds and two escalated fix cycles (§14). Details: step3b4.md.
+# T-005 r4 step 9.3 verdict: **NO-GO for 9.4** (after 9.3b-5)
+Go/no-go rule (R-009 §7): A, B and all five C must pass at full thresholds; D is informational. Status after 9.3b … 9.3b-5. Details: step3b5.md (b4: step3b4.md).
 
-| criterion | result | numbers (preset b4, v2 reference, stick plant μ 0.8) |
+| criterion | result | numbers (preset b5, reference v3, stick plant μ 0.8) |
 |---|---|---|
-| A (Fr 0.10, 20 steps, start +2 % speed, +1°) | **FAIL, 7/8** | no fall; speed 0.999; CoM z 0.18 % l; pitch 0.32°; foot 4.56 %; sat 0 %; solver 100 %. **Plant friction ratio vs 0.4: max 2.00, > 1 on 3.81 % of ticks** |
+| A (Fr 0.10, 20 steps, start +2 % speed, +1°) | **FAIL, 7/8** | no fall; speed 1.019; CoM z 0.14 % l; pitch 0.24°; foot 1.40 %; sat 0 %; solver 100 %. **Plant friction ratio vs 0.4: max 2.00, > 1 on 3.07 % of ticks** |
 | B (±0.15 v push at mid-stance) | **PASS** | no fall, back within 5 % after 1 step (both signs) |
-| C (robustness at A) | **FAIL, 0/5 full** | mass 0.9: 7/8; **mass 1.1: falls at 1.7 steps**; μ 0.6: 7/8; delay 2: 7/8; limit 80 %: falls (controller unaware), 7/8 (controller told, lim_frac 0.784). Every 7/8 fails the friction item only |
-| D (0.30 v push, Fr 0.15/0.20) | informational | +0.30 v falls at 5.5 steps, -0.30 v passes; Fr 0.15 (b3) falls at 1.8 steps; Fr 0.20 not run |
+| C (robustness at A) | **FAIL, 0/5 full** | no fall in any run: mass 0.9: 7/8; **mass 1.1: 7/8 (online mass estimate; was a fall)**; μ 0.6: 7/8; delay 2: 7/8; limit 80 % (controller told, lim_frac 0.784): 7/8 (unaware: 6/8, sat 16.9 %). Every row fails the friction item only |
+| D (0.30 v push) | informational | +0.30 v passes, -0.30 v falls at 5.9 steps |
 
-**What binds:**
-- Friction at heel strike: the heel lands 0.2 s early with vx 17 m/s.
-- Friction at toe-down: foot rocking on the soft contact.
-- The +10 % model-mass fall: hip runs ahead, stance unloads before the swing foot lands.
+**What binds (friction only):** the strike tick (heel Fn 1.2 W, shear 0.9 W), the tick after touchdown (old toe unloads to 0.1 W with its tangential spring still loaded), and the late single-support heel-off ticks (stance heel 0.09 W). All are ticks of a stick-slip patch at low or impact load, counted per point at Fn > 1e-3 W with impact ticks included (orchestrator decision).
+
+**Improved in 9.3b-5 vs b4:** Cm11 fall removed (mass estimate), Clim08aw 7/8, friction ticks 3.81 % -> 3.07 % (v3 reference gave heel touchdown vx ≈ 0), B passes both ways; the 2-3 % floor did not go away in any variant (sweeps s1-s4: 0.8-7 %, chaotic).
 
 **Best next step:**
-1. Re-solve the reference with a smooth swing-heel descent and touchdown tangential speed ≤ 0.4 × normal, then use `land_xlead 0.2`.
-2. Add online mass-scale estimation and a support guard.
-3. The founders decide how impact ticks count for the friction item.
+1. A per-point shear cap on the foot that lands or unloads (|Ft_cmd| <= 0.4 Fn_pred, zero shear while Fn is below ~0.15 W) and a slower vertical landing.
+2. If that fails, the founders decide whether low-load (Fn < 0.15 W) and strike ticks count against the 0.4 budget.
 
 R-009's no-go clause says: stop and report to the founders before any Unity work.
 
 **Controller config of record (for a later port, not to be started now):**
-- FIDWalker DEFAULT plus `kvs 5, onset 1, land 1, land_act 1, land_k0 36, fr_meas 1, fr_margin 0.9` (`run_fid.py --preset b4`).
-- Reference `out/stride_fr010_v2_n40p2.json`; μ 0.40; lim_frac 0.98; delay 1 tick.
+- FIDWalker DEFAULT plus `kvs 5, onset 1, land 1, land_act 1, land_k0 35, fr_meas 1, fr_margin 0.9, mass_est 0.05, sg_floor 0.3` (`run_fid.py --preset b5`).
+- Reference `out/stride_fr010_v3_n40p2.json`; μ 0.40; lim_frac 0.98 (0.784 when the controller is told an 80 % limit); delay 1 tick.
 
-Config/Mech/gait_reference_opt.json is not written: the 9.4 plan writes a new `gait_reference_qp.json` from v2 in 9.4 itself, not in 9.3.
+Config/Mech/gait_reference_opt.json is not written: the 9.4 plan writes a new `gait_reference_qp.json` from v3 in 9.4 itself, not in 9.3.

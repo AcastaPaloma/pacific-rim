@@ -18,6 +18,10 @@ ap.add_argument("--trans", action="store_true", help="9.3b-3: ADD transition-fea
                 "interval (complementarity), |dFn/dt| <= --frate BW per 0.11 s between all consecutive nodes of every point, lift-off point speed <= --vlift")
 ap.add_argument("--frate", type=float, default=0.5, help="--trans: max |Fn(k+1)-Fn(k)| in BW per 0.11 s of time (scaled by h = ts/N)")
 ap.add_argument("--vlift", type=float, default=0.5, help="--trans: max ground-relative point speed over the node interval after the last loaded node, m/s")
+ap.add_argument("--v3", action="store_true", help="9.3b-5 (needs --trans): ADD reference-v3 rows: monotone/convex/geometric swing-heel descent from node --v3_k0, decelerating heel x, touchdown tangential speed <= --v3_tan x normal "
+                "(normal >= --v3_vn_min), tighter Fn-rate bound --v3_frate (BW per 0.11 s) within +-3 nodes of every complementarity node")
+ap.add_argument("--v3_k0", type=int, default=35); ap.add_argument("--v3_kx", type=int, default=36); ap.add_argument("--v3_rho", type=float, default=0.3); ap.add_argument("--v3_tan", type=float, default=0.4)
+ap.add_argument("--v3_vn_min", type=float, default=0.1); ap.add_argument("--v3_frate", type=float, default=0.25)
 A = ap.parse_args()
 
 # ---------------- problem definition: exec stride_opt.py up to (not including) its SLSQP section
@@ -69,7 +73,7 @@ if A.lat:
     print(f"--lat: zc {zc_lat:.2f} m, omega {w_lat:.3f}, step {ts_lat:.3f} s, peak a_lat {np.abs(a_lat).max()/GR:.3f} g, mu_eff min {mue.min():.4f} (mu {MU:.4f})", flush=True)
 # ---------------- --trans (9.3b-3): transition-feasibility rows, all ADDED to the unchanged problem (linear in z and in the node outputs O)
 NOc = P["NO"]; fle = P["fle"]; aidx = P["aidx"]; SW4 = [2, 3, 0, 1]
-Sx_O = sp.csr_matrix((0, N * NOc)); Sx_z = sp.csr_matrix((0, nz)); Ex_z = sp.csr_matrix((0, nz)); lab_x, lab_e = [], []
+Sx_c = np.zeros(0); Sx_O = sp.csr_matrix((0, N * NOc)); Sx_z = sp.csr_matrix((0, nz)); Ex_z = sp.csr_matrix((0, nz)); lab_x, lab_e = [], []
 if A.trans:
     iFn = lambda k, p: N * 9 + 1 + 2 * aidx[(k, p)] + 1
     def fn_at(k, p):                      # z index of Fn of point p at node k (0..N; node N = node 0 with legs swapped), None if unloaded
@@ -96,12 +100,43 @@ if A.trans:
         for c_, sg, nm in ((0, 1.0, "lift_vx+"), (0, -1.0, "lift_vx-"), (1, 1.0, "lift_vy")):
             orr += [nr, nr]; oc += [k * NOc + 31 + 2 * p + c_, k * NOc + 15 + 2 * p + c_]; ov += [-sg, sg]
             zr.append(nr); zc_.append(N * 9); zv.append(A.vlift / N); lab_x.append((nm, k, p)); nr += 1
-    Sx_z = sp.csr_matrix((zv, (zr, zc_)), shape=(nr, nz)); Sx_O = sp.csr_matrix((ov, (orr, oc)), shape=(nr, N * NOc))
+    xc = [0.0] * nr                       # constants of the extra rows (row = Sx_O O + Sx_z z + xc >= 0)
+    if A.v3:
+        def Pc(k, p, c): return (N - 1) * NOc + 31 + 2 * p + c if k == N else k * NOc + 15 + 2 * p + c       # O column of point p coordinate c (0 x, 1 y) at node k (node N from Pp of node N-1)
+        def orow(terms, const, lab):      # terms: [(O column, coefficient)]
+            global nr
+            for c_, v_ in terms: orr.append(nr); oc.append(c_); ov.append(v_)
+            xc.append(const); lab_x.append(lab); nr += 1
+        k0, kx = A.v3_k0, A.v3_kx; n_v3 = nr
+        for k in range(k0, N):            # swing heel (A heel = point 0) height: monotone descent, geometric (no plunge), convex (decelerating approach)
+            orow([(Pc(k, 0, 1), 1.0), (Pc(k + 1, 0, 1), -1.0)], 0.0, ("v3_ymono", k, 0))
+            if k <= N - 2: orow([(Pc(k + 1, 0, 1), 1.0), (Pc(k, 0, 1), -A.v3_rho)], 0.0, ("v3_yratio", k, 0))
+            if k >= k0 + 1: orow([(Pc(k - 1, 0, 1), 1.0), (Pc(k, 0, 1), -2.0), (Pc(k + 1, 0, 1), 1.0)], 0.0, ("v3_yconvex", k, 0))
+        for k in range(kx, N):            # swing heel x: no backward motion, decelerating
+            orow([(Pc(k + 1, 0, 0), 1.0), (Pc(k, 0, 0), -1.0)], 0.0, ("v3_xfwd", k, 0))
+            if k <= N - 2: orow([(Pc(k, 0, 0), -1.0), (Pc(k + 1, 0, 0), 2.0), (Pc(k + 2, 0, 0), -1.0)], 0.0, ("v3_xdecel", k, 0))
+        vx_, vy_ = 23 + 2 * 2, 24 + 2 * 2            # touchdown (node 0, B heel = point 2) ground-relative velocity (m/s): |vx| <= tan * (-vy), -vy >= vn_min
+        orow([(vx_, -1.0), (vy_, -A.v3_tan)], 0.0, ("v3_tan-", 0, 2)); orow([(vx_, 1.0), (vy_, -A.v3_tan)], 0.0, ("v3_tan+", 0, 2)); orow([(vy_, -1.0)], -A.v3_vn_min, ("v3_vn", 0, 2))
+        Rh3 = A.v3_frate / 0.11 / N; wnd = set(); nfr = 0
+        for (k, p) in act:                # slower load transfer around every complementarity node
+            if (not fle[k, p]) or (not fl[k + 1, p]): wnd.update((((k + d_) % N, p if (k + d_) < N else SW4[p]) for d_ in range(-3, 4)))
+        for p in range(4):
+            for k in range(N):
+                if (k, p) not in wnd and (k + 1, p) not in wnd: continue
+                a_, b_ = fn_at(k + 1, p), fn_at(k, p)
+                if a_ is None and b_ is None: continue
+                for sg in (1.0, -1.0):
+                    zr.append(nr); zc_.append(N * 9); zv.append(Rh3)
+                    if a_ is not None: zr.append(nr); zc_.append(a_); zv.append(-sg)
+                    if b_ is not None: zr.append(nr); zc_.append(b_); zv.append(sg)
+                    xc.append(0.0); lab_x.append(("v3_frate+" if sg > 0 else "v3_frate-", k, p)); nr += 1; nfr += 1
+        print(f"--v3: {nr - n_v3} extra rows ({nfr} tight force-rate rows at {A.v3_frate} BW/0.11 s; heel descent from node {k0} rho {A.v3_rho}, heel x decel from {kx}, td tangential <= {A.v3_tan} x normal >= {A.v3_vn_min} m/s)", flush=True)
+    Sx_c = np.array(xc); Sx_z = sp.csr_matrix((zv, (zr, zc_)), shape=(nr, nz)); Sx_O = sp.csr_matrix((ov, (orr, oc)), shape=(nr, N * NOc))
     print(f"--trans: {len(lab_e)} Fn=0 rows, {sum(l[0].startswith('frate') for l in lab_x)} force-rate rows ({A.frate} BW / 0.11 s -> {Rh*Tref:.3f} BW/node at ts_ref), "
           f"{sum(l[0].startswith('lift') for l in lab_x)} lift-off rows (vlift {A.vlift} m/s)", flush=True)
 LAB_IN = LAB_IN + lab_x; labels_eq_all = labels_eq + lab_e
 eq_fun0 = lambda z: np.concatenate([Seq @ evalz(z)["O"].reshape(-1), Ex_z @ z])
-in_fun0 = lambda z: np.concatenate([Sin @ evalz(z)["O"].reshape(-1) + kin_c, Fr_m @ z, Sx_O @ evalz(z)["O"].reshape(-1) + Sx_z @ z])
+in_fun0 = lambda z: np.concatenate([Sin @ evalz(z)["O"].reshape(-1) + kin_c, Fr_m @ z, Sx_O @ evalz(z)["O"].reshape(-1) + Sx_z @ z + Sx_c])
 # ---------------- scaling: x = (z - z0) / sv ; constraint rows scaled to O(1)
 sv = np.ones(nz); Qs = np.tile([10.0, 5.0, 0.3, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5], N); sv[:N * 9] = Qs; sv[N * 9] = Tref; sv[N * 9 + 1:] = 1.0
 rs_in = np.array([1 / 30.0 if (isinstance(l, tuple) and l[0] in ("rom_lo", "rom_hi")) else 1.0 for l in LAB_IN])              # deg rows -> ~1
