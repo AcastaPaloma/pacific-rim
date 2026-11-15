@@ -97,22 +97,6 @@ namespace Game.AI
         {
             double now = obs.TimeSeconds;
             SelfObs self = obs.Self;
-            ulong id = self.Id.Value;
-
-            // ally summary
-            int liveAllies = 0, rank = 0; bool allyCharging = false;
-            float cx = self.Pos.X, cy = self.Pos.Y;
-            for (int i = 0; i < obs.AllyCount; i++)
-            {
-                ref readonly AllyObs a = ref obs.Allies[i];
-                if (!a.Alive || Dist(self.Pos, a.Pos) > _cfg.AllyAwarenessM) continue;
-                liveAllies++; cx += a.Pos.X; cy += a.Pos.Y;
-                if (a.Id.Value < id) rank++;
-                if (a.State == (byte)BrainState.Charge) allyCharging = true;
-            }
-            Float2 centroid = new Float2(cx / (liveAllies + 1), cy / (liveAllies + 1));
-            bool wing = liveAllies > 0 && (rank & 1) == 0;       // even rank = wing, odd = centre
-            float side = ((rank >> 1) & 1) == 0 ? 1f : -1f;      // wings alternate +1/-1
 
             // candidates
             int best = -1, cur = -1; float bestScore = 0f, curScore = 0f;
@@ -126,6 +110,7 @@ namespace Game.AI
             }
 
             ReasonCode reason = ReasonCode.None;
+            int liveAllies; bool wing, allyCharging; float side; Float2 centroid;
 
             // ---- transitions (at most one per decision) ----
             switch (_state)
@@ -185,9 +170,12 @@ namespace Game.AI
                         if (_state != BrainState.Approach) Enter(BrainState.Approach, now);
                         reason = ReasonCode.RetargetVoluntary; break;
                     }
+                    PackSummary(obs, self, out liveAllies, out wing, out side, out allyCharging, out centroid);
                     reason = StateExits(obs, self, cur, liveAllies, wing, side, allyCharging, centroid, now);
                     break;
             }
+            // the coordination group depends on the (possibly new) target: recompute for the intent
+            PackSummary(obs, self, out liveAllies, out wing, out side, out allyCharging, out centroid);
 
             // ---- intent for the (possibly new) state ----
             intent.State = _state; intent.Reason = reason; intent.Action = BrainAction.None;
@@ -243,6 +231,36 @@ namespace Game.AI
         }
 
 
+        // R-024 rev 4: the coordination group of a kaiju is its active pack on the same target: allies that are alive,
+        // within ally awareness, in a combat state (Approach/Flank/Charge) and whose public TargetId equals mine. This is
+        // the "engaged" set G_T of R-024 3.1 the metric measures. Retreating, withdrawn, idle and other-target allies take
+        // no part in roles, centroid, the assembly gate, the engaged spread or the "ally charging" trigger.
+        private bool InGroup(in AllyObs a, in SelfObs self)
+        {
+            if (!a.Alive || _target == 0 || a.TargetId.Value != _target) return false;
+            if (a.State != (byte)BrainState.Approach && a.State != (byte)BrainState.Flank && a.State != (byte)BrainState.Charge) return false;
+            return Dist(self.Pos, a.Pos) <= _cfg.AllyAwarenessM;
+        }
+
+        private void PackSummary(in BrainObservation obs, in SelfObs self, out int liveAllies, out bool wing, out float side,
+                                 out bool allyCharging, out Float2 centroid)
+        {
+            ulong id = self.Id.Value;
+            int rank = 0; liveAllies = 0; allyCharging = false;
+            float cx = self.Pos.X, cy = self.Pos.Y;
+            for (int i = 0; i < obs.AllyCount; i++)
+            {
+                ref readonly AllyObs a = ref obs.Allies[i];
+                if (!InGroup(a, self)) continue;
+                liveAllies++; cx += a.Pos.X; cy += a.Pos.Y;
+                if (a.Id.Value < id) rank++;
+                if (a.State == (byte)BrainState.Charge) allyCharging = true;
+            }
+            centroid = new Float2(cx / (liveAllies + 1), cy / (liveAllies + 1));
+            wing = liveAllies > 0 && (rank & 1) == 0;       // even rank = wing, odd = centre
+            side = ((rank >> 1) & 1) == 0 ? 1f : -1f;       // wings alternate +1/-1
+        }
+
         private Float2 FlankWaypoint(Float2 tp, Float2 centroid, float side)
         {
             float ang = Dir(tp, centroid) + side * _cfg.WingOffsetRad;
@@ -254,7 +272,7 @@ namespace Game.AI
             for (int i = 0; i < obs.AllyCount; i++)
             {
                 ref readonly AllyObs a = ref obs.Allies[i];
-                if (!a.Alive || Dist(self.Pos, a.Pos) > _cfg.AllyAwarenessM) continue;
+                if (!InGroup(a, self)) continue;
                 if (Dist(a.Pos, tp) > _cfg.AssemblyRadiusM) return false;
             }
             return true;
@@ -265,7 +283,7 @@ namespace Game.AI
             for (int i = 0; i < obs.AllyCount; i++)
             {
                 ref readonly AllyObs a = ref obs.Allies[i];
-                if (!a.Alive || Dist(self.Pos, a.Pos) > _cfg.AllyAwarenessM) continue;
+                if (!InGroup(a, self)) continue;
                 if (a.State == (byte)st) return true;
             }
             return false;
@@ -281,7 +299,7 @@ namespace Game.AI
             for (int i = 0; i < obs.AllyCount && n < b.Length; i++)
             {
                 ref readonly AllyObs a = ref obs.Allies[i];
-                if (!a.Alive || Dist(self.Pos, a.Pos) > _cfg.AllyAwarenessM) continue;
+                if (!InGroup(a, self)) continue;
                 if (Dist(a.Pos, tp) <= _cfg.EngageRadiusM) b[n++] = Dir(tp, a.Pos);
             }
             if (n < 2) return 0f;
