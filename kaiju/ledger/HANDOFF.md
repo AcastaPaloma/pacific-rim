@@ -440,3 +440,10 @@ Worker escalated to Opus 5.5 high (§14) for the design; design `research/R-028.
 - `meta.economy` flag is in a new `Config/FeatureFlags/Meta.json`; T-119/120/121 flags (`meta.salvage` etc.) must be added to that file by their workers (flag names must stay unique across files).
 - Economy Runtime references `Game.Core` (for `Json`) besides Contracts; flagged in MODULE.md. Alternative (own JSON reader) rejected as duplication. If L4 modules must see Contracts only, move `Json` to Core.Contracts later.
 - Not wired into `Game.Composition` (another track's file). Loading `economy_prices@v1.json` and registering with `SaveSystem` is the composition root's job.
+
+## T-112 (Units.Kaiju species specs, M-103)
+- Spec format: every number `{value, unit, source, status}` in SI; derived numbers are stored and recomputed by the validator (python and C# mirror), thresholds are constants in the validators, never read from a spec — decided autonomously (founder asleep); alternative (thresholds in spec) rejected because a spec could lower them.
+- Deviations from the R-102 section 10 sketch (flat blocks, `damage` block, `belly_clearance_m` instead of `swim_depth_min_m`, extra attack fields for Rush/Grapple) are listed in `Assets/Game/Units/Kaiju/MODULE.md` — decided autonomously (founder asleep).
+- R-102 prose inconsistencies found while recomputing (kept R-102 inputs, outputs follow): BASTION tail sweep 641 MJ (prose 661), head ram 480 MJ (476), grapple 196 MN kept although 5.1 MPa x 108 m2 = 551 MN. Not a threshold change — decided autonomously (founder asleep).
+- Assumed additions: `com_height_m` (back-derived from R-102 lateral limits), yaw inertia (trunk ellipsoid), elephant primitives reproducing 5.23 m3, attack muscle masses, duty_factor_cruise, role affinities from R-103 4.2. All flagged Assumed.
+- M-103.6 measured half (gait_log@v1 via M-001) needs T-117 bodies: not done, tracked here. Flag `units.kaiju.species` default off, not wired into Composition.
