@@ -7,7 +7,9 @@ indexing as `Game.World.Streaming` (`GeoTileId`: level, i, j; children of (n,I,J
 Forms (R-101 section 4):
   T1..T4  terrain r16 = node subsample of the L0 field (pixel-is-point: level-n node (r,c) is the L0 node at
           global index (r,c) x 2^n, so shared edges and parent/child nodes are identical, shorelines and
-          ridge tops keep their height) after an edge-preserving, error-bounded noise pre-filter (T-108b,
+          ridge tops keep their height) after the ground-only footprint fill (T-108c, `shaped_terrain`: nodes inside
+          building footprints take the harmonic fill of the surrounding ground, one-sided, <= height_m + 1 m) and an
+          edge-preserving, error-bounded noise pre-filter (T-108b,
           `prefiltered_terrain`: bilateral, change clamped to 0.5 x the RTIN threshold); slope.u8; RTIN triangle
           count measured at 0.1 x 2^n m on the filtered nodes.
   B1      merged building blocks per 256 m chunk, per-building index ranges (L1, L2).
@@ -48,7 +50,7 @@ from .common import SAMPLES, TILE_SIZE_M, Tile, canonical_json, sha256_bytes, sh
 from .terrain import decode_r16, quantise_r16
 
 SPEC = "geo_lod@v1"
-GENERATOR = "bake_lod.py@2"
+GENERATOR = "bake_lod.py@3"
 MAX_LEVEL = 4
 CHUNK_M = 256.0
 N = SAMPLES - 1                       # 2048 cells per tile edge
@@ -194,8 +196,9 @@ class ErrAccumulator:
         self.n = 0
         self.hist = np.zeros(self.NB + 1, dtype=np.int64)
 
-    def add(self, H: np.ndarray, s: int, C: np.ndarray | None = None):
-        """`C` = the coarse nodes of this L0 tile's footprint (default: plain subsample H[::s, ::s])."""
+    def add(self, H: np.ndarray, s: int, C: np.ndarray | None = None, keep: np.ndarray | None = None):
+        """`C` = the coarse nodes of this L0 tile's footprint (default: plain subsample H[::s, ::s]); `keep` = bool
+        [2049, 2049] selecting the L0 nodes that count (T-108c: inside / outside the replaced ground zone)."""
         if C is None:
             C = H[::s, ::s]
         m = C.shape[0]
@@ -206,6 +209,10 @@ class ErrAccumulator:
         tc = ((idx - i0 * s) / s)[None, :]
         F = R[:, i0] * (1 - tc) + R[:, i0 + 1] * tc
         e = np.abs(H - F)
+        if keep is not None:
+            e = e[keep]
+            if e.size == 0:
+                return
         self.max = max(self.max, float(e.max()))
         self.sum2 += float((e * e).sum())
         self.n += e.size
@@ -325,11 +332,9 @@ def bilateral_bounded(h: np.ndarray, eps: float, sigma_r: float, radius: int = P
     return h + np.clip(num / den - h, -eps, eps)
 
 
-def prefiltered_terrain(level: int, I: int, J: int, src: L0Source, threshold: float | None = None):
-    """(filtered h [2049,2049], raw h, covered, stats). The halo (radius nodes) comes from the 8 neighbouring
-    pyramid tiles' node subsamples, so shared edges filter identically in both tiles."""
-    thr = 0.1 * (1 << level) if threshold is None else threshold
-    r = PREFILTER_RADIUS
+def _halo_terrain(level: int, I: int, J: int, src: L0Source, r: int):
+    """(big [2049 + 2r]^2, centre raw h, centre covered): the tile's node subsample with an r-node halo taken from
+    the 8 neighbouring pyramid tiles' node subsamples (open ocean where nothing is baked)."""
     big = np.full((SAMPLES + 2 * r, SAMPLES + 2 * r), WATER_NAVD88_M, dtype=np.float64)
     h0 = cov0 = None
     for dj in (-1, 0, 1):
@@ -361,14 +366,150 @@ def prefiltered_terrain(level: int, I: int, J: int, src: L0Source, threshold: fl
                 cc = np.arange(C0 + c_lo, C0 + c_hi)
                 ok &= ~(((rr >= r) & (rr < r + SAMPLES))[:, None] & ((cc >= r) & (cc < r + SAMPLES))[None, :])
                 blk[ok] = h[r_lo:r_hi, c_lo:c_hi][ok]
-    eps = PREFILTER_EPS * thr
-    f = bilateral_bounded(big, eps, PREFILTER_SIGMA * thr)[r:r + SAMPLES, r:r + SAMPLES]
-    f = np.where(cov0, f, h0)
-    d = np.abs(f - h0)
-    stats = {"method": "bilateral_clamped", "radius_nodes": r, "sigma_m": round(PREFILTER_SIGMA * thr, 6),
-             "eps_m": round(eps, 6), "max_abs_change_m": round(float(d.max()), 6),
-             "mean_abs_change_m": round(float(d.mean()), 6)}
+    return big, h0, cov0
+
+
+# ---------------------------------------------------------------- ground-only far field (T-108c)
+# R-101 L1+ far-field terrain should carry the ground, not the buildings: the 3DEP "bare earth" DEM still holds
+# building residue in dense blocks (measured, evidence/T-108c/hypothesis.csv: up to 70 % of the nodes with a
+# laplacian > 6 cm sit in or within 3 nodes of a footprint on downtown tiles), and the B1/B2 forms already draw the
+# buildings from their own base + height (roofs are absolute NAVD88 tops, not terrain + height). Nodes inside a
+# footprint (rasterised on the node grid, every cell touched, dilated by GROUND_DILATE_M) form 4-connected
+# components; each component whose bounding box is at most GROUND_MAX_COMPONENT_M on both axes is replaced by the
+# harmonic (Laplace) interpolation of the ring of ground nodes around it, so by the maximum principle the fill never
+# leaves the min / max of that ring; the change is one-sided and clamped: a node only goes down, by at most the height_m + 1 m
+# of the tallest building covering it (a DEM cannot hold more building residue than the building is tall). Larger components (contiguous mega blocks) stay as in L0. The fill of a
+# component is a function of the component and its ring only, solved per component in raster order, and the halo is
+# larger than the component limit, so neighbouring pyramid tiles agree bit for bit on shared edges. L0 is not
+# touched. Nodes outside the dilated footprints are identical to the pre-ground field.
+GROUND_MAX_COMPONENT_M = 1024.0
+GROUND_DILATE_M = 4.0           # swept 2 / 4 / 6 m x 512 / 1024 m on the downtown tiles (evidence/T-108c/sweep.csv)
+
+
+def ground_params(level: int):
+    """(max component extent in nodes, dilation in nodes)."""
+    s = float(1 << level)
+    return max(2, int(round(GROUND_MAX_COMPONENT_M / s))), max(1, int(math.ceil(GROUND_DILATE_M / s)))
+
+
+def footprint_cap_window(level: int, I: int, J: int, src: L0Source, g: int, dilate: int) -> np.ndarray:
+    """float [2049 + 2g]^2 (row = z south first, col = x): for a node inside a footprint of any L0 building whose
+    tile overlaps the window (+ 400 m for straddlers), dilated by `dilate` nodes, the largest `height_m + 1 m` of
+    the buildings covering it (the most building residue the DEM can hold there); 0 elsewhere."""
+    from rasterio import features, transform
+    from scipy import ndimage as ndi
+    t = Tile(level, I, J)
+    s = t.spacing
+    W = SAMPLES + 2 * g
+    xa, xb = t.x0 - g * s - 400.0, t.x0 + (N + g) * s + 400.0
+    za, zb = t.z0 - g * s - 400.0, t.z0 + (N + g) * s + 400.0
+    geoms = []
+    for (a, b) in sorted(src.tiles):
+        if a * TILE_SIZE_M > xb or (a + 1) * TILE_SIZE_M < xa or b * TILE_SIZE_M > zb or (b + 1) * TILE_SIZE_M < za:
+            continue
+        for f in src.buildings(a, b):
+            hh = float(f["properties"].get("height_m") or 0.0)
+            geoms.append((hh + 1.0, f["id"], shape(f["geometry"])))
+    cap = np.zeros((W, W), dtype=np.float64)
+    if geoms:
+        geoms.sort(key=lambda q: (q[0], q[1]))         # ascending: where footprints overlap the tallest is burned last
+        tr = transform.from_origin(t.x0 - g * s - s / 2, t.z0 + (N + g + 0.5) * s, s, s)
+        cap = features.rasterize([(q[2], q[0]) for q in geoms], out_shape=(W, W), transform=tr, fill=0.0,
+                                 dtype="float64", all_touched=True)[::-1]
+        cap = np.ascontiguousarray(ndi.maximum_filter(cap, size=2 * dilate + 1, mode="constant", cval=0.0))
+    return cap
+
+
+def harmonic_fill_components(h: np.ndarray, mask: np.ndarray, max_extent: int):
+    """Replace the 4-connected components of `mask` (bbox <= max_extent nodes on both axes, not touching the array
+    border) by the harmonic fill of their ring. Returns (filled copy of h, bool mask of the nodes replaced)."""
+    from scipy import ndimage as ndi
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.linalg import spsolve
+    out = h.copy()
+    done = np.zeros(mask.shape, dtype=bool)
+    lab, n = ndi.label(mask)                       # 4-connectivity
+    H, W = mask.shape
+    for k, sl in enumerate(ndi.find_objects(lab), start=1):
+        y0, y1, x0, x1 = sl[0].start, sl[0].stop, sl[1].start, sl[1].stop
+        if y0 == 0 or x0 == 0 or y1 == H or x1 == W or (y1 - y0) > max_extent or (x1 - x0) > max_extent:
+            continue
+        sub = lab[y0 - 1:y1 + 1, x0 - 1:x1 + 1] == k
+        hv = h[y0 - 1:y1 + 1, x0 - 1:x1 + 1]
+        inner = sub[1:-1, 1:-1]
+        ids = -np.ones(sub.shape, dtype=np.int64)
+        ys, xs = np.nonzero(sub)                        # raster order
+        m = len(ys)
+        ids[ys, xs] = np.arange(m)
+        rhs = np.zeros(m)
+        rows, cols, vals = [np.arange(m)], [np.arange(m)], [np.full(m, 4.0)]
+        for dy, dx in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+            ny, nx = ys + dy, xs + dx
+            nid = ids[ny, nx]
+            inside = nid >= 0
+            rows.append(np.nonzero(inside)[0])
+            cols.append(nid[inside])
+            vals.append(np.full(int(inside.sum()), -1.0))
+            rhs[~inside] += hv[ny[~inside], nx[~inside]]
+        A = coo_matrix((np.concatenate(vals), (np.concatenate(rows), np.concatenate(cols))), shape=(m, m)).tocsc()
+        x = spsolve(A, rhs) if m > 1 else rhs / 4.0
+        blk = out[y0 - 1:y1 + 1, x0 - 1:x1 + 1]
+        blk[ys, xs] = x
+        done[y0 - 1:y1 + 1, x0 - 1:x1 + 1] |= sub
+    return out, done
+
+
+def shaped_terrain(level: int, I: int, J: int, src: L0Source, threshold: float | None = None,
+                   prefilter: bool = True, ground: bool = True):
+    """(h final [2049,2049], raw h, covered, stats). Order: ground-only footprint replacement (T-108c), then the
+    bounded bilateral pre-filter (T-108b, change measured against the ground field). stats["_mask"] is the centre
+    replaced-node mask (not for the manifest)."""
+    thr = 0.1 * (1 << level) if threshold is None else threshold
+    r = PREFILTER_RADIUS if prefilter else 0
+    C, D = ground_params(level)
+    g = (C + 2 if ground else 0) + r
+    big, h0, cov0 = _halo_terrain(level, I, J, src, g)
+    stats: dict = {}
+    mask_c = None
+    if ground:
+        capw = footprint_cap_window(level, I, J, src, g, D)
+        mask = capw > 0
+        filled, done = harmonic_fill_components(big, mask, C)
+        # one-sided and bounded: the node only goes down, by at most the height of the building(s) over it + 1 m
+        big = np.where(done, big - np.clip(big - filled, 0.0, capw), big)
+        gc = big[g:g + SAMPLES, g:g + SAMPLES]
+        mask_c = done[g:g + SAMPLES, g:g + SAMPLES] & cov0
+        gc = np.where(mask_c, gc, h0)
+        dh = gc - h0
+        kept = mask[g:g + SAMPLES, g:g + SAMPLES] & ~mask_c
+        stats["ground"] = {"method": "footprint_harmonic_fill", "max_component_m": C * (1 << level),
+                           "dilate_nodes": D, "nodes_replaced": int(mask_c.sum()),
+                           "replaced_pct": round(100.0 * float(mask_c.mean()), 3),
+                           "footprint_nodes_kept_pct": round(100.0 * float(kept.sum()) / max(int(mask[g:g + SAMPLES, g:g + SAMPLES].sum()), 1), 2),
+                           "max_drop_m": round(float(-dh.min()), 4), "bound": "drop <= height_m + 1 m of the covering building; never raised",
+                           "mean_abs_change_m": round(float(np.abs(dh[mask_c]).mean()) if mask_c.any() else 0.0, 4)}
+        big = big[g - r:g - r + SAMPLES + 2 * r, g - r:g - r + SAMPLES + 2 * r] if r else gc
+        base = gc
+    else:
+        base = h0
+    if prefilter:
+        eps = PREFILTER_EPS * thr
+        f = bilateral_bounded(big, eps, PREFILTER_SIGMA * thr)[r:r + SAMPLES, r:r + SAMPLES]
+        f = np.where(cov0, f, base)
+        d = np.abs(f - base)
+        stats["prefilter"] = {"method": "bilateral_clamped", "radius_nodes": r, "sigma_m": round(PREFILTER_SIGMA * thr, 6),
+                              "eps_m": round(eps, 6), "max_abs_change_m": round(float(d.max()), 6),
+                              "mean_abs_change_m": round(float(d.mean()), 6)}
+    else:
+        f = base
+    stats["_mask"] = mask_c
     return f, h0, cov0, stats
+
+
+def prefiltered_terrain(level: int, I: int, J: int, src: L0Source, threshold: float | None = None):
+    """T-108b entry point (no ground replacement): (filtered h, raw h, covered, prefilter stats)."""
+    f, h0, cov0, st = shaped_terrain(level, I, J, src, threshold, prefilter=True, ground=False)
+    return f, h0, cov0, st["prefilter"]
 
 
 # ---------------------------------------------------------------- water
@@ -805,7 +946,7 @@ def _attribution(src: L0Source, tiles) -> tuple[list[str], bool]:
 
 
 def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, rtin: bool = True,
-                    prefilter: bool = True) -> dict:
+                    prefilter: bool = True, ground: bool = True) -> dict:
     """Bake one pyramid tile into `<out_root>/L{level}/{I:02d}_{J:02d}/`; returns a report with sizes and timings."""
     assert 1 <= level <= MAX_LEVEL
     tile = Tile(level, I, J)
@@ -824,16 +965,19 @@ def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, r
     # terrain
     t = time.perf_counter()
     thr = 0.1 * (1 << level)
-    if prefilter:
-        h, h_raw, cov, pf = prefiltered_terrain(level, I, J, src, thr)
+    shaped = prefilter or ground
+    if shaped:
+        h, h_raw, cov, sst = shaped_terrain(level, I, J, src, thr, prefilter=prefilter, ground=ground)
+        pf, gr, gmask = sst.get("prefilter"), sst.get("ground"), sst["_mask"]
     else:
         h, cov = subsample_terrain(level, I, J, src)
-        h_raw, pf = h, None
+        h_raw, pf, gr, gmask = h, None, None, None
     v, hmin, hmax = quantise_r16(h)
     files["terrain.r16"] = v.astype("<u2").tobytes()
     hq = decode_r16(v, hmin, hmax)
     files["slope.u8"] = slope_u8(hq, tile.spacing).tobytes()
     acc = ErrAccumulator()
+    acc_in, acc_out = (ErrAccumulator(), ErrAccumulator()) if gmask is not None else (None, None)
     s_ = 1 << level
     per = N // s_
     for (a, b) in tiles:
@@ -842,20 +986,36 @@ def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, r
         # coarse nodes of this L0 tile's footprint incl. the shared far edge (filtered field, so the error is real)
         H = src.heights(a, b)
         C = None
-        if prefilter:
+        if shaped:
             Cr = H[::s_, ::s_]
             # far-edge nodes owned by a neighbour (or a placeholder) keep this tile's own L0 value, as before
             same = h_raw[r0:r0 + per + 1, c0:c0 + per + 1] == Cr
             C = np.where(same, h[r0:r0 + per + 1, c0:c0 + per + 1], Cr)
         acc.add(H, s_, C)
+        if gmask is not None:
+            # replaced zone on the L0 grid: an L0 node counts as inside when any corner node of its coarse cell is
+            idx = np.arange(SAMPLES)
+            i0 = np.minimum(idx // s_, per - 1)
+            Mz = gmask[r0:r0 + per + 1, c0:c0 + per + 1]
+            Mc = Mz[i0][:, i0] | Mz[i0 + 1][:, i0] | Mz[i0][:, i0 + 1] | Mz[i0 + 1][:, i0 + 1]
+            acc_in.add(H, s_, C, keep=Mc)
+            acc_out.add(H, s_, C, keep=~Mc)
     terr = acc.result()
+    if gmask is not None:
+        terr_in, terr_out = acc_in.result(), acc_out.result()
     lap("terrain", t)
     t = time.perf_counter()
     tri_t, thr_cap, tri_cap = rtin_for_cap(hq, thr, BUDGET["terrain_tris_cap"]) if rtin else (None, None, None)
-    tri_raw = tri_t
-    if rtin and prefilter:
+    tri_raw = tri_pf = tri_t
+    if rtin and shaped:
         vr, hr0, hr1 = quantise_r16(h_raw)
         tri_raw = rtin_triangles(decode_r16(vr, hr0, hr1), thr)
+        if ground and prefilter:      # the T-108b field (pre-filter only) for the before / after count
+            hp, _, _, _ = shaped_terrain(level, I, J, src, thr, prefilter=True, ground=False)
+            vp, hp0, hp1 = quantise_r16(hp)
+            tri_pf = rtin_triangles(decode_r16(vp, hp0, hp1), thr)
+        elif ground:
+            tri_pf = tri_raw
     lap("rtin", t)
 
     # water
@@ -926,16 +1086,18 @@ def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, r
         "coverage": round(float(cov.mean()), 6),
         "coverage_note": "uncovered nodes are open-ocean placeholder (terrain = MSL, water = 255), R-101 O11",
         "terrain": {"file": "terrain.r16", "samples": SAMPLES, "spacing_m": tile.spacing,
-                    "h_min": hmin, "h_max": hmax, "method": "node_subsample", "slope_q": "slope.u8",
+                    "h_min": hmin, "h_max": hmax, "method": "node_subsample" + ("+ground" if ground else ""), "slope_q": "slope.u8",
                     "format": "uint16 LE RAW 2049x2049, row 0 = south, col 0 = west, h = h_min + v*(h_max-h_min)/65535",
                     "rtin_threshold_m": thr, "rtin_triangles": ttri,
                     "rtin_threshold_for_cap_m": thr_cap, "rtin_triangles_at_cap_threshold": tri_cap,
-                    "prefilter": pf, "rtin_triangles_unfiltered": tri_raw},
+                    "prefilter": pf, "rtin_triangles_unfiltered": tri_raw,
+                    "ground": gr, "rtin_triangles_before_ground": tri_pf},
         "buildings": forms_meta,
         "water": {"file": "water.png", "format": "PNG 8-bit 2048x2048 cell-centred, row 0 = north, 255 = water",
                   "method": "majority"},
         "errors": {
             "terrain": terr,
+            "terrain_ground_zone": None if gmask is None else {"inside": terr_in, "outside": terr_out},
             "buildings": {"footprint_max_m": ferr["footprint_max_m"], "footprint_rms_m": ferr["footprint_rms_m"],
                           "height_max_m": 0.0, "forms": bstats},
             "switch_hint_m": {"k4_fov50_1080": round(max(terr["rms_m"], 1e-6) * 1158 * 4, 1)},
