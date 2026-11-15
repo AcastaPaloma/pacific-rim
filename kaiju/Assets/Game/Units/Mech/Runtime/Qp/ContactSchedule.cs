@@ -117,6 +117,12 @@ namespace Game.Units.Mech.Qp
             return true;
         }
 
+        /// <summary>Step 6b (qp_plan): support switch without a measured contact (the heel is within reach of the ground, or the step reached its maximum time); same bookkeeping as a touchdown of the heel.</summary>
+        public bool ForceTouchdown(double t, double[] pointX, double[] refPointX)
+        {
+            int landed = 2 * Parity; Parity = 1 - Parity; TAnchor = t; TouchdownCount++; LastCallReanchored = true; Xoff = pointX[landed] - refPointX[landed]; return true;
+        }
+
         /// <summary>Upper force bound of a contact point in body weights: ramps to 0 over TOut before the scheduled unload, and rises 1 per TIn after first contact.</summary>
         public double Fmax(int point, double t, double tref, double weightN)
         {

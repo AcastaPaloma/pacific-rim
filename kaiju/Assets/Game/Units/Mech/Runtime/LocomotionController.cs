@@ -283,7 +283,7 @@ namespace Game.Units.Mech
         }
 
         // ---- step 9.5c: state-matched hand-off ----
-        bool _qpPlanTd; bool _qpMatch; double[][][] _mRef; bool[][] _mSs; int _qpTdSinceRow; int _qpMatchTds; readonly double[] _mMeas = new double[9];
+        bool _qpPlanTd; double _qpStepX, _qpStepT = -1, _qpClock; bool _qpMatch; double[][][] _mRef; bool[][] _mSs; int _qpTdSinceRow; int _qpMatchTds; readonly double[] _mMeas = new double[9];
         double[] _mScale;
         void BuildMatchFeatures()
         {
@@ -392,12 +392,28 @@ namespace Game.Units.Mech
                 bool td = false; int tdk = 0;
                 for (int k = 0; k < 2; k++) { _b.GetFoot(_qpFoots[k], out var fk); if (fk.Contact && !_qpPrevContact[k]) { td = true; tdk = k; } _qpPrevContact[k] = fk.Contact; }
                 if (td) _qpTdSinceRow++;
-                int upNode = 0; bool up = false;
+                int upNode = 0, upRow = _qpRow + 1; bool up = false;
                 if (_t.qp_plan > 0.5)
                 {
                     // step 6a: climb at a QP touchdown (the previous tick's re-anchor of the active row), speed-gated, to node 0 of the next row anchored on the landed heel
                     int maxRowP = _t.qp_match_max_row < 0 ? _qpRowDrv.Length - 1 : Math.Min(_qpRowDrv.Length - 1, (int)_t.qp_match_max_row);
-                    if (_qpPlanTd && _qpRow + 1 <= maxRowP && Vector2.Dot(_vel2, Fwd(_pelvisYaw)) >= _t.qp_plan_up * _qpRowV[_qpRow + 1])
+                    if (_t.qp_plan_ladder > 0.5)
+                    {
+                        // step 6b: the row follows the mean speed of the last step (the next row up is the commanded speed); hysteresis qp_plan_vhyst, one row per step, at a QP touchdown, node 0
+                        if (_qpPlanTd)
+                        {
+                            var fw2 = Fwd(_pelvisYaw); double xc = Vector3.Dot(_com, new Vector3(fw2.X, 0, fw2.Y));
+                            if (_qpStepT >= 0)
+                            {
+                                double vbar = (xc - _qpStepX) / Math.Max(_qpClock - _qpStepT, 1e-3), hy = _t.qp_plan_vhyst; int nr = _qpRow;
+                                if (_qpRow + 1 <= maxRowP && vbar >= _qpRowV[_qpRow] + hy) nr = _qpRow + 1; else if (_qpRow > 0 && vbar < _qpRowV[_qpRow - 1] - hy) nr = _qpRow - 1;
+                                _dbg.QpMatchD = vbar;
+                                if (nr != _qpRow) { var landed = (_qpLegNow ?? _qpLegs[0])[1 - _qp.Controller.Parity]; tdk = _qpLegs[0][1] == landed ? 0 : 1; up = true; upNode = 0; upRow = nr; }
+                            }
+                            _qpStepX = xc; _qpStepT = _qpClock;
+                        }
+                    }
+                    else if (_qpPlanTd && _qpRow + 1 <= maxRowP && Vector2.Dot(_vel2, Fwd(_pelvisYaw)) >= _t.qp_plan_up * _qpRowV[_qpRow + 1])
                     {
                         var landed = (_qpLegNow ?? _qpLegs[0])[1 - _qp.Controller.Parity]; tdk = _qpLegs[0][1] == landed ? 0 : 1; up = true; upNode = 0;
                     }
@@ -420,11 +436,11 @@ namespace Game.Units.Mech
                 else up = td && _qpRow + 1 < _qpRowDrv.Length && Vector2.Dot(_vel2, Fwd(_pelvisYaw)) >= _t.qp_ladder_up * _qpRowV[_qpRow + 1];
                 if (up)
                 {
-                    _qpRow++; _qp = _qpRowDrv[_qpRow][tdk]; _qpLegNow = _qpLegs[tdk]; _qpVRef = _qpRowV[_qpRow];
+                    _qpRow = upRow; _qp = _qpRowDrv[_qpRow][tdk]; _qpLegNow = _qpLegs[tdk]; _qpVRef = _qpRowV[_qpRow];
                     _qp.Reset(true, upNode); _qpTime = upNode * _qp.Controller.Reference.H; _qpTdSinceRow = 0; _qpScale = Math.Min(1.0, Math.Max(_t.qp_scale_min, Vector2.Dot(_vel2, Fwd(_pelvisYaw)) / _qpVRef));
                 }
             }
-            long t0 = System.Diagnostics.Stopwatch.GetTimestamp();
+            long t0 = System.Diagnostics.Stopwatch.GetTimestamp(); _qpClock += _dt;
             if (_t.qp_scale_min < 1.0)
             {
                 double st = Math.Min(1.0, Math.Max(_t.qp_scale_min, Vector2.Dot(_vel2, Fwd(_pelvisYaw)) / _qpVRef));
@@ -467,7 +483,7 @@ namespace Game.Units.Mech
             }
             if (_qpDiag)
             {
-                _dbg.QpK ??= new double[_t.qp_plan > 0.5 ? 30 : 22];
+                _dbg.QpK ??= new double[_t.qp_plan > 0.5 ? 34 : 22];
                 for (int pl = 0; pl < 2; pl++)
                 {
                     var leg = legs[pl]; int[] d3 = { leg.Hip[0], leg.Knee, leg.Ankle[0] };
@@ -478,7 +494,7 @@ namespace Game.Units.Mech
                     }
                 }
                 for (int i = 0; i < 16; i++) _dbg.QpK[6 + i] = c.Diag[i];
-                if (_t.qp_plan > 0.5) for (int i = 0; i < 8; i++) _dbg.QpK[22 + i] = c.PlanDiag[i];
+                if (_t.qp_plan > 0.5) for (int i = 0; i < 12; i++) _dbg.QpK[22 + i] = c.PlanDiag[i];
             }
         }
 

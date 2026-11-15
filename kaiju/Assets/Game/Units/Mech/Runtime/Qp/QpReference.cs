@@ -119,6 +119,7 @@ namespace Game.Units.Mech.Qp
         }
 
         readonly double _lt, _ls, _heel, _toe, _ha;
+        public double ThighM => _lt; public double ShankM => _ls; public double HeelX => _heel; public double AnkleH => _ha;   // leg geometry (step 6b IK)
         /// <summary>Sole points of the planar model from q, qd, qdd channels of <paramref name="src"/> (position, velocity J qd, acceleration J qdd + Jdot qd) into <paramref name="dst"/>; same kinematics as planar_model.PlanarModel.kin.</summary>
         void PointKin(double[] src, double[] dst)
         {
