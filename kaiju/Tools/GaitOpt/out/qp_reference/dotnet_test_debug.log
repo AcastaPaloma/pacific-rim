@@ -1,0 +1,527 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Core.Contracts -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Core.Contracts/bin/Debug/netstandard2.1/Game.Core.Contracts.dll
+  Physics.Body.Contracts -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Physics.Body.Contracts/bin/Debug/netstandard2.1/Game.Physics.Body.Contracts.dll
+  Physics.Body -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Physics.Body/bin/Debug/netstandard2.1/Game.Physics.Body.dll
+  Core -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Core/bin/Debug/netstandard2.1/Game.Core.dll
+  Physics.Body.Tests -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Physics.Body.Tests/bin/Debug/net11.0/Game.Physics.Body.Tests.dll
+Test run for /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Physics.Body.Tests/bin/Debug/net11.0/Game.Physics.Body.Tests.dll (.NETCoreApp,Version=v11.0)
+A total of 1 test files matched the specified pattern.
+/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Physics.Body.Tests/bin/Debug/net11.0/Game.Physics.Body.Tests.dll
+NUnit Adapter 4.6.0.0: Test execution started
+Running all tests in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Physics.Body.Tests/bin/Debug/net11.0/Game.Physics.Body.Tests.dll
+   NUnit3TestExecutor discovered 112 of 112 NUnit test cases using Current Discovery mode, Non-Explicit run
+  Passed EffectiveInertias_MatchR005Table [17 ms]
+  Passed Frame_Loads_Validates_And_MassesSumToTotal [1 ms]
+  Passed Frame_UnknownSchema_IsRefused [1 ms]
+  Passed GainRule_IsKEqualsIOmegaSquared_AndScalesWithInertia [< 1 ms]
+  Passed Scale_FollowsR005Rule(76.0d,6000000.0d) [< 1 ms]
+  Passed Scale_FollowsR005Rule(88.0d,15000000.0d) [< 1 ms]
+  Passed Scale_FollowsR005Rule(80.0d,10000000.0d) [< 1 ms]
+  Passed Tuning_Loads_AndScalesLimitsWithMassTimesHeight [1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("random_0_n22_m56_e0") [3 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("random_1_n32_m70_e2") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("random_2_n29_m67_e0") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("random_3_n36_m54_e7") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("random_4_n40_m48_e0") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("random_5_n25_m33_e5") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("random_6_n27_m46_e0") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("random_7_n33_m70_e1") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("random_8_n27_m32_e0") [2 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("random_9_n7_m28_e1") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("random_10_n17_m66_e0") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("random_11_n35_m54_e3") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("random_12_n17_m45_e0") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("random_13_n28_m21_e7") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("s1_16_0") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("s1_16_1") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("s1_16_2") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("s1_32_0") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("s1_32_1") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("s1_32_2") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("s2_20_0") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("s2_20_1") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("s2_20_2") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("duplicate_rows") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("redundant_rows") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("redundant_equality") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("zero_gradient") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("zero_gradient_unconstrained_opt") [< 1 ms]
+random_0_n22_m56_e0: n=22 meq=0 min=56 cold iterations=39 active=19
+
+random_1_n32_m70_e2: n=32 meq=2 min=70 cold iterations=53 active=29
+
+random_2_n29_m67_e0: n=29 meq=0 min=67 cold iterations=32 active=22
+
+random_3_n36_m54_e7: n=36 meq=7 min=54 cold iterations=28 active=31
+
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("tight_H") [< 1 ms]
+  Passed DefaultCapAndRegularisationSolveEveryReferenceCase("bounds_only_corner") [< 1 ms]
+  Passed DetectsInfeasible("infeasible_boxes") [< 1 ms]
+  Passed DetectsInfeasible("infeasible_equalities") [< 1 ms]
+  Passed IterationLimitIsReportedAndCounted [< 1 ms]
+  Passed MatchesScipyAndKkt("random_0_n22_m56_e0") [< 1 ms]
+  Standard Output Messages:
+ random_0_n22_m56_e0: n=22 meq=0 min=56 cold iterations=39 active=19
+
+
+  Passed MatchesScipyAndKkt("random_1_n32_m70_e2") [< 1 ms]
+  Standard Output Messages:
+ random_1_n32_m70_e2: n=32 meq=2 min=70 cold iterations=53 active=29
+
+
+  Passed MatchesScipyAndKkt("random_2_n29_m67_e0") [< 1 ms]
+  Standard Output Messages:
+ random_2_n29_m67_e0: n=29 meq=0 min=67 cold iterations=32 active=22
+
+
+  Passed MatchesScipyAndKkt("random_3_n36_m54_e7") [< 1 ms]
+  Standard Output Messages:
+ random_3_n36_m54_e7: n=36 meq=7 min=54 cold iterations=28 active=31
+
+
+random_4_n40_m48_e0: n=40 meq=0 min=48 cold iterations=29 active=27
+
+random_5_n25_m33_e5: n=25 meq=5 min=33 cold iterations=21 active=20
+
+random_6_n27_m46_e0: n=27 meq=0 min=46 cold iterations=28 active=20
+
+random_7_n33_m70_e1: n=33 meq=1 min=70 cold iterations=32 active=29
+
+random_8_n27_m32_e0: n=27 meq=0 min=32 cold iterations=16 active=16
+
+random_9_n7_m28_e1: n=7 meq=1 min=28 cold iterations=8 active=7
+
+random_10_n17_m66_e0: n=17 meq=0 min=66 cold iterations=41 active=15
+
+random_11_n35_m54_e3: n=35 meq=3 min=54 cold iterations=26 active=23
+
+random_12_n17_m45_e0: n=17 meq=0 min=45 cold iterations=28 active=16
+
+  Passed MatchesScipyAndKkt("random_4_n40_m48_e0") [< 1 ms]
+  Standard Output Messages:
+ random_4_n40_m48_e0: n=40 meq=0 min=48 cold iterations=29 active=27
+
+
+  Passed MatchesScipyAndKkt("random_5_n25_m33_e5") [< 1 ms]
+  Standard Output Messages:
+ random_5_n25_m33_e5: n=25 meq=5 min=33 cold iterations=21 active=20
+
+
+  Passed MatchesScipyAndKkt("random_6_n27_m46_e0") [< 1 ms]
+  Standard Output Messages:
+ random_6_n27_m46_e0: n=27 meq=0 min=46 cold iterations=28 active=20
+
+
+  Passed MatchesScipyAndKkt("random_7_n33_m70_e1") [< 1 ms]
+  Standard Output Messages:
+ random_7_n33_m70_e1: n=33 meq=1 min=70 cold iterations=32 active=29
+
+
+  Passed MatchesScipyAndKkt("random_8_n27_m32_e0") [< 1 ms]
+  Standard Output Messages:
+ random_8_n27_m32_e0: n=27 meq=0 min=32 cold iterations=16 active=16
+
+
+  Passed MatchesScipyAndKkt("random_9_n7_m28_e1") [< 1 ms]
+  Standard Output Messages:
+ random_9_n7_m28_e1: n=7 meq=1 min=28 cold iterations=8 active=7
+
+
+  Passed MatchesScipyAndKkt("random_10_n17_m66_e0") [< 1 ms]
+  Standard Output Messages:
+ random_10_n17_m66_e0: n=17 meq=0 min=66 cold iterations=41 active=15
+
+
+  Passed MatchesScipyAndKkt("random_11_n35_m54_e3") [< 1 ms]
+  Standard Output Messages:
+ random_11_n35_m54_e3: n=35 meq=3 min=54 cold iterations=26 active=23
+
+
+  Passed MatchesScipyAndKkt("random_12_n17_m45_e0") [< 1 ms]
+  Standard Output Messages:
+ random_12_n17_m45_e0: n=17 meq=0 min=45 cold iterations=28 active=16
+
+
+random_13_n28_m21_e7: n=28 meq=7 min=21 cold iterations=10 active=15
+
+s1_16_0: n=16 meq=6 min=16 cold iterations=3 active=9
+
+s1_16_1: n=16 meq=6 min=16 cold iterations=1 active=7
+
+s1_16_2: n=16 meq=6 min=16 cold iterations=2 active=8
+
+s1_32_0: n=32 meq=6 min=32 cold iterations=8 active=14
+
+s1_32_1: n=32 meq=6 min=32 cold iterations=6 active=12
+
+s1_32_2: n=32 meq=6 min=32 cold iterations=10 active=16
+
+s2_20_0: n=20 meq=12 min=56 cold iterations=11 active=19
+
+s2_20_1: n=20 meq=12 min=56 cold iterations=8 active=18
+
+  Passed MatchesScipyAndKkt("random_13_n28_m21_e7") [< 1 ms]
+  Standard Output Messages:
+ random_13_n28_m21_e7: n=28 meq=7 min=21 cold iterations=10 active=15
+
+
+  Passed MatchesScipyAndKkt("s1_16_0") [< 1 ms]
+  Standard Output Messages:
+ s1_16_0: n=16 meq=6 min=16 cold iterations=3 active=9
+
+
+  Passed MatchesScipyAndKkt("s1_16_1") [< 1 ms]
+  Standard Output Messages:
+ s1_16_1: n=16 meq=6 min=16 cold iterations=1 active=7
+
+
+  Passed MatchesScipyAndKkt("s1_16_2") [< 1 ms]
+  Standard Output Messages:
+ s1_16_2: n=16 meq=6 min=16 cold iterations=2 active=8
+
+
+  Passed MatchesScipyAndKkt("s1_32_0") [< 1 ms]
+  Standard Output Messages:
+ s1_32_0: n=32 meq=6 min=32 cold iterations=8 active=14
+
+
+  Passed MatchesScipyAndKkt("s1_32_1") [< 1 ms]
+  Standard Output Messages:
+ s1_32_1: n=32 meq=6 min=32 cold iterations=6 active=12
+
+
+  Passed MatchesScipyAndKkt("s1_32_2") [< 1 ms]
+  Standard Output Messages:
+ s1_32_2: n=32 meq=6 min=32 cold iterations=10 active=16
+
+
+  Passed MatchesScipyAndKkt("s2_20_0") [1 ms]
+  Standard Output Messages:
+ s2_20_0: n=20 meq=12 min=56 cold iterations=11 active=19
+
+
+  Passed MatchesScipyAndKkt("s2_20_1") [< 1 ms]
+  Standard Output Messages:
+ s2_20_1: n=20 meq=12 min=56 cold iterations=8 active=18
+
+
+s2_20_2: n=20 meq=12 min=56 cold iterations=10 active=20
+
+duplicate_rows: n=8 meq=0 min=15 cold iterations=2 active=2
+
+redundant_rows: n=8 meq=0 min=8 cold iterations=2 active=2
+
+redundant_equality: n=8 meq=4 min=6 cold iterations=5 active=6
+
+zero_gradient: n=8 meq=0 min=6 cold iterations=2 active=2
+
+zero_gradient_unconstrained_opt: n=8 meq=0 min=6 cold iterations=0 active=0
+
+tight_H: n=10 meq=0 min=12 cold iterations=10 active=8
+
+bounds_only_corner: n=4 meq=0 min=8 cold iterations=4 active=4
+
+  Passed MatchesScipyAndKkt("s2_20_2") [< 1 ms]
+  Standard Output Messages:
+ s2_20_2: n=20 meq=12 min=56 cold iterations=10 active=20
+
+
+  Passed MatchesScipyAndKkt("duplicate_rows") [< 1 ms]
+  Standard Output Messages:
+ duplicate_rows: n=8 meq=0 min=15 cold iterations=2 active=2
+
+
+  Passed MatchesScipyAndKkt("redundant_rows") [< 1 ms]
+  Standard Output Messages:
+ redundant_rows: n=8 meq=0 min=8 cold iterations=2 active=2
+
+
+  Passed MatchesScipyAndKkt("redundant_equality") [< 1 ms]
+  Standard Output Messages:
+ redundant_equality: n=8 meq=4 min=6 cold iterations=5 active=6
+
+
+  Passed MatchesScipyAndKkt("zero_gradient") [< 1 ms]
+  Standard Output Messages:
+ zero_gradient: n=8 meq=0 min=6 cold iterations=2 active=2
+
+
+  Passed MatchesScipyAndKkt("zero_gradient_unconstrained_opt") [< 1 ms]
+  Standard Output Messages:
+ zero_gradient_unconstrained_opt: n=8 meq=0 min=6 cold iterations=0 active=0
+
+
+  Passed MatchesScipyAndKkt("tight_H") [< 1 ms]
+  Standard Output Messages:
+ tight_H: n=10 meq=0 min=12 cold iterations=10 active=8
+
+
+  Passed MatchesScipyAndKkt("bounds_only_corner") [< 1 ms]
+  Standard Output Messages:
+ bounds_only_corner: n=4 meq=0 min=8 cold iterations=4 active=4
+
+
+  Passed NoAllocationAfterFirstCall [35 ms]
+300 random QPs: max cold iterations 71
+
+stage-1 n=16: max cold iterations 12 (cap 60)
+
+stage-1 n=32: max cold iterations 22 (cap 60)
+
+TIMING stage-1 single support n=16 meq=6 min=16: p50 18.4 us, p99 27.2 us, max 125.5 us, mean warm iterations 0.03, failures 0
+
+TIMING stage-1 double support n=32 meq=6 min=32: p50 97.2 us, p99 141.6 us, max 215.0 us, mean warm iterations 0.04, failures 0
+
+TIMING stage-2 n=20 meq=12 min=56: p50 40.9 us, p99 51.4 us, max 144.5 us, mean warm iterations 0.02, failures 0
+
+random_0_n22_m56_e0: cold 39 warm 0
+
+random_1_n32_m70_e2: cold 53 warm 0
+
+random_2_n29_m67_e0: cold 32 warm 0
+
+  Passed RandomQpsPassKktCertificate [129 ms]
+  Standard Output Messages:
+ 300 random QPs: max cold iterations 71
+
+
+  Passed Stage1ShapeRandomWrenches(16) [14 ms]
+  Standard Output Messages:
+ stage-1 n=16: max cold iterations 12 (cap 60)
+
+
+  Passed Stage1ShapeRandomWrenches(32) [75 ms]
+  Standard Output Messages:
+ stage-1 n=32: max cold iterations 22 (cap 60)
+
+
+  Passed Timing(16,6,16,True,"stage-1 single support") [21 ms]
+  Standard Output Messages:
+ TIMING stage-1 single support n=16 meq=6 min=16: p50 18.4 us, p99 27.2 us, max 125.5 us, mean warm iterations 0.03, failures 0
+
+
+  Passed Timing(32,6,32,True,"stage-1 double support") [103 ms]
+  Standard Output Messages:
+ TIMING stage-1 double support n=32 meq=6 min=32: p50 97.2 us, p99 141.6 us, max 215.0 us, mean warm iterations 0.04, failures 0
+
+
+  Passed Timing(20,12,56,False,"stage-2") [45 ms]
+  Standard Output Messages:
+ TIMING stage-2 n=20 meq=12 min=56: p50 40.9 us, p99 51.4 us, max 144.5 us, mean warm iterations 0.02, failures 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("random_0_n22_m56_e0") [< 1 ms]
+  Standard Output Messages:
+ random_0_n22_m56_e0: cold 39 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("random_1_n32_m70_e2") [< 1 ms]
+  Standard Output Messages:
+ random_1_n32_m70_e2: cold 53 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("random_2_n29_m67_e0") [< 1 ms]
+  Standard Output Messages:
+ random_2_n29_m67_e0: cold 32 warm 0
+
+
+random_3_n36_m54_e7: cold 28 warm 0
+
+random_4_n40_m48_e0: cold 29 warm 0
+
+random_5_n25_m33_e5: cold 21 warm 0
+
+random_6_n27_m46_e0: cold 28 warm 0
+
+random_7_n33_m70_e1: cold 32 warm 0
+
+random_8_n27_m32_e0: cold 16 warm 0
+
+random_9_n7_m28_e1: cold 8 warm 0
+
+random_10_n17_m66_e0: cold 41 warm 0
+
+random_11_n35_m54_e3: cold 26 warm 0
+
+  Passed WarmStartSameOptimumFewerIterations("random_3_n36_m54_e7") [< 1 ms]
+  Standard Output Messages:
+ random_3_n36_m54_e7: cold 28 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("random_4_n40_m48_e0") [< 1 ms]
+  Standard Output Messages:
+ random_4_n40_m48_e0: cold 29 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("random_5_n25_m33_e5") [< 1 ms]
+  Standard Output Messages:
+ random_5_n25_m33_e5: cold 21 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("random_6_n27_m46_e0") [< 1 ms]
+  Standard Output Messages:
+ random_6_n27_m46_e0: cold 28 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("random_7_n33_m70_e1") [< 1 ms]
+  Standard Output Messages:
+ random_7_n33_m70_e1: cold 32 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("random_8_n27_m32_e0") [< 1 ms]
+  Standard Output Messages:
+ random_8_n27_m32_e0: cold 16 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("random_9_n7_m28_e1") [< 1 ms]
+  Standard Output Messages:
+ random_9_n7_m28_e1: cold 8 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("random_10_n17_m66_e0") [< 1 ms]
+  Standard Output Messages:
+ random_10_n17_m66_e0: cold 41 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("random_11_n35_m54_e3") [< 1 ms]
+  Standard Output Messages:
+ random_11_n35_m54_e3: cold 26 warm 0
+
+
+random_12_n17_m45_e0: cold 28 warm 0
+
+random_13_n28_m21_e7: cold 10 warm 0
+
+s1_16_0: cold 3 warm 0
+
+s1_16_1: cold 1 warm 0
+
+s1_16_2: cold 2 warm 0
+
+s1_32_0: cold 8 warm 0
+
+s1_32_1: cold 6 warm 0
+
+s1_32_2: cold 10 warm 0
+
+s2_20_0: cold 11 warm 0
+
+  Passed WarmStartSameOptimumFewerIterations("random_12_n17_m45_e0") [< 1 ms]
+  Standard Output Messages:
+ random_12_n17_m45_e0: cold 28 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("random_13_n28_m21_e7") [< 1 ms]
+  Standard Output Messages:
+ random_13_n28_m21_e7: cold 10 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("s1_16_0") [< 1 ms]
+  Standard Output Messages:
+ s1_16_0: cold 3 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("s1_16_1") [< 1 ms]
+  Standard Output Messages:
+ s1_16_1: cold 1 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("s1_16_2") [< 1 ms]
+  Standard Output Messages:
+ s1_16_2: cold 2 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("s1_32_0") [< 1 ms]
+  Standard Output Messages:
+ s1_32_0: cold 8 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("s1_32_1") [< 1 ms]
+  Standard Output Messages:
+ s1_32_1: cold 6 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("s1_32_2") [< 1 ms]
+  Standard Output Messages:
+ s1_32_2: cold 10 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("s2_20_0") [< 1 ms]
+  Standard Output Messages:
+ s2_20_0: cold 11 warm 0
+
+
+s2_20_1: cold 8 warm 0
+
+s2_20_2: cold 10 warm 0
+
+duplicate_rows: cold 2 warm 0
+
+redundant_rows: cold 2 warm 0
+
+redundant_equality: cold 5 warm 0
+
+zero_gradient: cold 2 warm 0
+
+zero_gradient_unconstrained_opt: cold 0 warm 0
+
+tight_H: cold 10 warm 0
+
+bounds_only_corner: cold 4 warm 0
+
+  Passed WarmStartSameOptimumFewerIterations("s2_20_1") [< 1 ms]
+  Standard Output Messages:
+ s2_20_1: cold 8 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("s2_20_2") [< 1 ms]
+  Standard Output Messages:
+ s2_20_2: cold 10 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("duplicate_rows") [< 1 ms]
+  Standard Output Messages:
+ duplicate_rows: cold 2 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("redundant_rows") [< 1 ms]
+  Standard Output Messages:
+ redundant_rows: cold 2 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("redundant_equality") [< 1 ms]
+  Standard Output Messages:
+ redundant_equality: cold 5 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("zero_gradient") [< 1 ms]
+  Standard Output Messages:
+ zero_gradient: cold 2 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("zero_gradient_unconstrained_opt") [< 1 ms]
+  Standard Output Messages:
+ zero_gradient_unconstrained_opt: cold 0 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("tight_H") [< 1 ms]
+  Standard Output Messages:
+ tight_H: cold 10 warm 0
+
+
+  Passed WarmStartSameOptimumFewerIterations("bounds_only_corner") [< 1 ms]
+  Standard Output Messages:
+ bounds_only_corner: cold 4 warm 0
+
+
+NUnit Adapter 4.6.0.0: Test execution complete
+  Passed ContactHysteresis_UsesOnAndOffThresholds [< 1 ms]
+  Passed JsonLine_WritesInvariantRoundTripNumbers [< 1 ms]
+  Passed QuaternionProduct_AppliesRightFactorFirst [< 1 ms]
+  Passed RotVec_RoundTrips_AndMatchesAxisAngle [< 1 ms]
+
+Test Run Successful.
+Total tests: 112
+     Passed: 112
+ Total time: 0.7578 Seconds
