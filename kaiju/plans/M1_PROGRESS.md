@@ -23,7 +23,7 @@ Workers: one Sonnet (medium; low for checks) per step, briefed in the QUEUE.md t
 ## Hand-over (2026-11-15 ~00:55; orchestrator context near 150k). Workers still running when this was written; check their branches for these commits:
 - T-029 step 3 is DONE: 7aab2c4, 50/50 tests (verified). Accepted deviation: host steps with no fresh intent can run to ≤ 2 in a row (50 Hz host steps against 60 Hz datagrams); lost intents still run to ≤ 1. Decided autonomously (user offline): the brief said ≤ 1, but ≤ 2 is the sampling limit. Log this in HANDOFF at the next ledger pass.
 - T-025 step 1 is DONE: f3d3ff3, 53/53 tests (verified). Its test assembly now references Game.Core for SaveCodec and SaveSystem, which is test-only and acceptable. Left for step 2: the MODULE.md save note, and the M-050 scale of 20,000 buildings (the tests use 2,000).
-- T-020 add-on (optional Assessor fields) on `task/T-020`, message "T-020 add-on: optional Assessor ...". Afterwards re-bake the 14 tiles from the cache (bake_tile only, `--force` if the fingerprint check needs it) and commit them.
+- T-020 add-on is DONE: 55ca01e (columns `year_property_built`, `number_of_stories`, `construction_type`, roll 2025). Re-bake of all 15 tiles in c35ccd1; pytest 72/72; match is about 75 % downtown and 43 % in the Presidio. Note: L0_30_36 is re-baked on `task/T-020` too. T-024's Geo adapter can now read `year_built` to choose Hazus code-era rows (a small follow-up step on T-024 or T-025).
 - For each: re-run its dotnet tests or pytest. If its commit is missing, read `tasks/T-0xx.progress.md` and re-brief one fresh worker for that step.
 
 ## Next (in order)
