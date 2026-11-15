@@ -375,6 +375,17 @@ SETS['p4'] = _seeded({
   'Uz1un1': dict(M7, qp_foot_zdip=1.0, qp_foot_unload=1.0),
   'Uz1pd01': dict(M7, qp_foot_zdip=1.0, qp_pd_swing=0.1),
 }, 4)
+# T-005 r6 7c cycle 2: stiffer CoM-height tracking for the reach-driven dip, shorter steps
+SETS['p5'] = _seeded({
+  'Vmeas': dict(M7),
+  'Vz1k10': dict(M7, qp_foot_zdip=1.0, qp_plan_zkp=10.0, qp_plan_zkd=8.0),
+  'Vz1k20': dict(M7, qp_foot_zdip=1.0, qp_plan_zkp=20.0, qp_plan_zkd=10.0),
+  'Vz1wz6': dict(M7, qp_foot_zdip=1.0, qp_plan_wz=1e6, qp_plan_zkp=10.0, qp_plan_zkd=8.0),
+  'Vz1l08': dict(M7, qp_foot_zdip=1.0, qp_plan_lmax=0.8, qp_plan_zkp=10.0, qp_plan_zkd=8.0),
+  'Vl08': dict(M7, qp_plan_lmax=0.8),
+  'Vz1ap05': dict(M7, qp_foot_zdip=1.0, qp_plan_apex=0.5, qp_plan_zkp=10.0, qp_plan_zkd=8.0),
+  'Vzkp10': dict(M7, qp_plan_zkp=10.0, qp_plan_zkd=8.0),
+}, 4)
 def load_set(name):
     return SETS[name]
 def check_line(line):
