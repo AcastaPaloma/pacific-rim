@@ -17,14 +17,18 @@ Workers: one Sonnet (medium; low for checks) per step, briefed in the QUEUE.md t
   - Tests: dotnet 39/39, Core 96/96.
 - **T-029 Net core** step 1/4 (`task/T-029`), 24e68ac: contracts, loopback with seeded delay/jitter/loss, handshake refusal. Tests 26/26.
 
-## Running
-- T-029 step 2 (snapshot codec and interpolation): a worker is on `.wt/T-029`.
-- T-020 add-on (optional Assessor `year_built`/`stories`/`struct_class` from DataSF `wv5m-vpq2`): a worker is on `.wt/T-020`. The tiles must be re-baked afterwards; the command will be in `tasks/T-020.progress.md`, rerun `$SCRATCH/t020/bake.sh` minus the fetches.
-- T-024 Unity EditMode compile check (the hand-written `.meta` and asmdef files): background `unity test` in `.wt/T-024/kaiju`, log `$SCRATCH/t024u/run.log`, results `editmode.xml`. If it fails, send one fix worker for the meta/asmdef errors only.
+- T-024 Unity EditMode (`.wt/T-024`): 266/268, all 39 Destruction cases pass. The one failure was Core `Adapter_ConfigAsset_PointsAtCommittedFiles` (5 flag files vs 4 in the asset), fixed by regenerating `GameCoreConfig.asset` with `-executeMethod Game.Core.Unity.CoreConfigAsset.CreateOrUpdate` (c810c81). The next Unity run on the branch confirms it. **Every new flag file needs this regeneration.**
+- T-029 step 2, 2d41593: snapshot codec and Hermite interpolation. Tests 37/37.
+
+## Hand-over (2026-11-15 ~00:55; orchestrator context near 150k). Workers still running when this was written; check their branches for these commits:
+- T-029 step 3 (intent sender and host buffer) on `task/T-029`, message "T-029 step 3: intent sender and host buffer".
+- T-025 step 1 (`destruction@v1` save) on `task/T-025` (worktree `.wt/T-025`, cut from `task/T-024`), message "T-025 step 1: destruction@v1 save section".
+- T-020 add-on (optional Assessor fields) on `task/T-020`, message "T-020 add-on: optional Assessor ...". Afterwards re-bake the 14 tiles from the cache (bake_tile only, `--force` if the fingerprint check needs it) and commit them.
+- For each: re-run its dotnet tests or pytest. If its commit is missing, read `tasks/T-0xx.progress.md` and re-brief one fresh worker for that step.
 
 ## Next (in order)
-1. T-029 steps 3 (host intent buffer; payload stays opaque until Q-100) and 4 (`net_log@v1`, two-peer in-process session, M-055/M-057 draft numbers). The brief bullets are in `tasks/T-029.progress.md`.
-2. T-025 save section `destruction@v1` + migration (2 steps). Branch from `task/T-024`; the spec is in `tasks/T-024.progress.md` "Step 4, save" and R-021 §5.
+1. T-029 step 4 (`net_log@v1`, two-peer in-process session, M-055/M-057 draft numbers). The brief bullet is in `tasks/T-029.progress.md`.
+2. T-025 step 2: migration v1 → v2 test (M-050 "across one migration").
 3. T-027 seismic core (4 steps, pure C#): R-022 §1–§4; the PGA feed goes to `IDamageModel.ApplyShaking`. Vs30 is an open question (R-022 Q-NEW-c); proposed default rock 760 / fill 270 m/s, mark it Assumed.
 4. T-035/T-036 metric tools (Python, R-026 §1, §5). M-060 is T-035's fourth step.
 5. Unity steps one at a time: T-021 multi-tile load (after T-020), then T-022 landmarks and T-023 bridge (R-020 §2–§3).
