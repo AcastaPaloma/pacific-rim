@@ -535,3 +535,12 @@ Brain coordination group = same-target active allies (m007_3v4 C1 0.86 PASS); re
 - Flush rides the `TileEvicted` bus event (fires inside `scheduler.Tick`, before `builder.Release`), not a new host callback; ordering is tested through the real scheduler and host. LOD (B1/B2 index ranges) replay waits for the geo_lod@v1 reader (T-108 follow-up); only L0 replays today, tracked in MODULE.md.
 - Nothing installs the journal yet (no composition root); the future installer does `journal.Attach(bus, locator)`, registers `StreamingSaveParticipant`, passes the journal to `GeoL0TileReader`.
 - Verification: dotnet Streaming.Host 20/20 (13 new), Streaming 36/36, WorldGeo 73/73. Host.Tests asmdef gained Game.Core and Game.World.Geo references: Unity EditMode awaiting Unity slot.
+
+## T-120 (M2 worker, 2026-11-15)
+- Flag `meta.permadeath` lives in `Config/FeatureFlags/Meta.Roster.json` (per-module file; Meta.json and EconomyTests untouched) — decided autonomously (founder asleep).
+- Scrapping the last flyable mech also grants the floor chassis (found by the 30-seed invariant test: without it a scrap left a slot with no flyable mech); the floor chassis itself cannot be scrapped, which closes a grant-and-scrap loop — decided autonomously (founder asleep). Alternative: allow floor scrap and cap re-grants (rejected: still a farming route).
+- R-104 rule 4 read literally: a loss sets pilot strain to at least 0.5 and owes one recovery sortie (cleared by the next sortie that keeps the mech); strain itself is passed in by the caller (F-008 is not in this module) — decided autonomously (founder asleep).
+- Wreck id = splitmix(mech id, loss step) in 1..999,999,999,999 (fits salvage's 12-digit keys), probed on collision, stored at the loss so replay and reload hand salvage the same id; the roster does not call salvage (T-122 adapter does) — decided autonomously (founder asleep).
+- `OnFightEnd` takes Hangar's `IBodyDamageRecord` (spec); Roster.Contracts therefore references Hangar.Contracts and WorldGeo.Contracts (contracts only). Core parts default `body`, `cockpit_torso`, `reactor`; a record with none throws.
+- Save advances the shared `EntityIdAllocator` past every saved mech id on load (allocator has no reserve call); composition must register the same allocator.
+- Verification: dotnet Roster 25/25 (M-106 roster 36 comparisons, 0 differences, 29 corruption cases), Economy 31/31, Salvage 25/25. Not run: Unity EditMode (new asmdefs and flag file, batched per §13; `GameCoreConfig.asset` regeneration pending).
