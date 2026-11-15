@@ -138,3 +138,4 @@ Lesson: workers' git commit/push are sometimes denied by the classifier; tell th
 ## Build lead 9 status (2026-11-15 13:58)
 - Session 8 workers still alive: T-115e (commit 450a089 on task/T-115e, Bay matrix rerun in .wt/T-115e, `m007_bay_matrix.sh` edit uncommitted) and T-108f (bake_lod re-bake running in .wt/T-108f, `lod.py` edit uncommitted, no commit yet). Not relaunched. Queue after them: T-104 (Bay landmarks), T-105 (infra bake), T-106 (M-005@v2 Bay run), then pack clauses via §14 Opus, T-123 open items.
 - T-115e: harness local-frame fix + translation tests; C2 re-measured on the real Bay (nofocus 200 seeds): fe -0.5464 FAIL, control ff 0.9748 stable; the swing was spawn/infrastructure geometry, not float32. Evidence/T-115/C2_T-115e.md.
+- T-115f: C2 made discriminating with scenario hunt_mv@v2 (control ff 0.506, cand 0.914, FE 0.826 PASS); only LL composition guard fails (pack-layer, bait+flanker pair). evidence/T-115/C2_T-115f.md.
