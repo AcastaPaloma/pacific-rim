@@ -1,0 +1,23 @@
+  Determining projects to restore...
+  Restored /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-119/kaiju/DotnetTests/Meta.Economy.Tests/Meta.Economy.Tests.csproj (in 160 ms).
+  4 of 5 projects are up-to-date for restore.
+  Core.Contracts -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-119/kaiju/DotnetTests/Core.Contracts/bin/Debug/netstandard2.1/Game.Core.Contracts.dll
+  Core -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-119/kaiju/DotnetTests/Core/bin/Debug/netstandard2.1/Game.Core.dll
+  Meta.Economy.Contracts -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-119/kaiju/DotnetTests/Meta.Economy.Contracts/bin/Debug/netstandard2.1/Game.Meta.Economy.Contracts.dll
+  Meta.Economy -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-119/kaiju/DotnetTests/Meta.Economy/bin/Debug/netstandard2.1/Game.Meta.Economy.dll
+  Meta.Economy.Tests -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-119/kaiju/DotnetTests/Meta.Economy.Tests/bin/Debug/net11.0/Game.Meta.Economy.Tests.dll
+Test run for /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-119/kaiju/DotnetTests/Meta.Economy.Tests/bin/Debug/net11.0/Game.Meta.Economy.Tests.dll (.NETCoreApp,Version=v11.0)
+A total of 1 test files matched the specified pattern.
+  Failed Flag_FileDefaultsOff [25 ms]
+  Error Message:
+     Expected: 1
+  But was:  2
+
+  Stack Trace:
+     at Game.Meta.Economy.Tests.EconomyTests.Flag_FileDefaultsOff() in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-119/kaiju/DotnetTests/Meta.Economy.Tests/Dotnet/EconomyTests.cs:line 20
+
+1)    at Game.Meta.Economy.Tests.EconomyTests.Flag_FileDefaultsOff() in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-119/kaiju/DotnetTests/Meta.Economy.Tests/Dotnet/EconomyTests.cs:line 20
+
+
+
+Failed!  - Failed:     1, Passed:    30, Skipped:     0, Total:    31, Duration: 681 ms - Game.Meta.Economy.Tests.dll (net11.0)
