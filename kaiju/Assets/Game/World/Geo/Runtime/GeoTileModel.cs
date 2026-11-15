@@ -22,7 +22,7 @@ namespace Game.World.Geo
         public int BuildingChunks { get; private set; }
 
         /// <summary>Default importer order. Add a layer: implement IGeoLayer and pass a list here (no other edits).</summary>
-        public static IGeoLayer[] DefaultLayers() => new IGeoLayer[] { new TerrainLayer(), new WaterLayer(), new BuildingsLayer(), new RoadsLayer(), new FaultsLayer() };
+        public static IGeoLayer[] DefaultLayers() => new IGeoLayer[] { new TerrainLayer(), new WaterLayer(), new BuildingsLayer(), new LandmarksLayer(), new RoadsLayer(), new FaultsLayer() };
 
         public GeoTileModel(GeoTileContext ctx, IEnumerable<IGeoLayer> layers = null)
         {
