@@ -48,11 +48,16 @@ namespace Game.Rendering.Pixel
         public static double Amount(int band, int bands) => bands <= 1 ? 0 : band / (double)(bands - 1);
 
         /// <summary>Distance (m) at which band <paramref name="band"/> starts.</summary>
-        public static double BandStart(int band, double startMetres, double fullMetres, int bands)
+        public static double BandStart(int band, double startMetres, double fullMetres, int bands) => BandStart(band, startMetres, fullMetres, bands, 1.0);
+
+        /// <summary>Distance (m) at which band <paramref name="band"/> starts under a curve gamma (the inverse of <see cref="Level"/>): start * (full / start)^((band / (bands - 1))^(1 / gamma)).</summary>
+        public static double BandStart(int band, double startMetres, double fullMetres, int bands, double gamma)
         {
+            if (!(gamma > 0)) throw new ArgumentOutOfRangeException(nameof(gamma));
             if (band <= 0) return 0;
             if (band > bands - 1) return double.PositiveInfinity;
-            return startMetres * Math.Pow(fullMetres / startMetres, band / (double)(bands - 1));
+            double u = band / (double)(bands - 1);
+            return startMetres * Math.Pow(fullMetres / startMetres, gamma == 1.0 ? u : Math.Pow(u, 1.0 / gamma));
         }
     }
 }
