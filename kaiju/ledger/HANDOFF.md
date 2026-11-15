@@ -440,3 +440,9 @@ Worker escalated to Opus 5.5 high (§14) for the design; design `research/R-028.
 - `meta.economy` flag is in a new `Config/FeatureFlags/Meta.json`; T-119/120/121 flags (`meta.salvage` etc.) must be added to that file by their workers (flag names must stay unique across files).
 - Economy Runtime references `Game.Core` (for `Json`) besides Contracts; flagged in MODULE.md. Alternative (own JSON reader) rejected as duplication. If L4 modules must see Contracts only, move `Json` to Core.Contracts later.
 - Not wired into `Game.Composition` (another track's file). Loading `economy_prices@v1.json` and registering with `SaveSystem` is the composition root's job.
+
+## M2/M3 lead orchestrator, session 2 (2026-11-15)
+- Did not relaunch T-101/T-107/T-118: all three session-1 workers show file activity within minutes; relaunching would duplicate writers — decided autonomously (founder asleep). Alternative: relaunch now (rejected, two writers per worktree).
+- T-113 starts in parallel with T-112 using its own minimal species-role input instead of waiting for `Units.Kaiju`; the adapter is a tracked follow-up, full species-driven packs stay in scope — decided autonomously (founder asleep). Alternative: serialize T-113 after T-112 (rejected, idles the track).
+- T-115 split: tool + spec now, Bay runs after T-113; win-rate clause kept as "pending T-041", not dropped — decided autonomously (founder asleep).
+- T-144b held until T-101 merges (both touch the bake) — decided autonomously (founder asleep).
