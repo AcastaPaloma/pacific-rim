@@ -101,7 +101,7 @@
 | Q-011 | todo | | | | 2026-11-14 |
 | Q-012 | todo | | | | 2026-11-14 |
 | Q-013 | todo | | | | 2026-11-14 |
-| Q-014 | todo | | | | 2026-11-14 |
+| Q-014 | answered | | | | 2026-11-15 |
 | Q-015 | todo | | | | 2026-11-14 |
 | Q-016 | todo | | | | 2026-11-14 |
 | Q-017 | todo | | | | 2026-11-14 |
@@ -164,7 +164,7 @@
 | T-002 | Headless metric tools for M-001 to M-004 | Tools/Metrics | M0 | merged (merge e104f31); fix cycle 3: eval-arch, eval-style, eval-feel all PASS; cycle 1: eval-arch FAIL (1 blocker, 1 major, 5 minor), eval-style PASS, eval-feel PASS | task/T-002 | 3 | expectations/T-002.md | 2026-11-14 | 2026-11-14 
 | T-003 | One real SF tile: terrain, bathymetry, OSM buildings, faults | Pipelines/geo, World.Geo | M0 | merged 06a373f; cycle 2: eval-bay PASS, eval-arch PASS, eval-perf PASS (bay-4 minor, bay-5, bay-8, bay-9, arch-6, perf-4..6 remain open or routed) | task/T-003 | 2 | expectations/T-003.md | 2026-11-14 | 2026-11-14 
 | T-004 | Pixel pipeline renderer features + third-person rig stabilisation | Rendering.Pixel, Camera | M0 | merged d5ef3b0 (fix cycle 2: eval-style, eval-arch, eval-perf all PASS; regression evidence/regression/T-004.md EditMode 229/229, pytest 386); evidence evaluations/T-004/*.cycle2.md; cycle 1: eval-arch PASS (7 minor), eval-perf FAIL (3 major, 2 minor), eval-style FAIL (3 major, 1 calibration, 4 minor) | task/T-004 | 2 | expectations/T-004.md | 2026-11-14 | 2026-11-14 
-| T-005 | One mech body that walks with physics and intent control | Physics.Body, Control, Units.Mech | M0 | round 3 stopped by its bound (8.5); gate not met; not merged. Evidence `evidence/T-005/round3/REPORT.md` on task/T-005 (head d76971d). Next approach is Q-074 | task/T-005 | r2 | expectations/T-005.md | 2026-11-14 |
+| T-005 | One mech body that walks with physics and intent control | Physics.Body, Control, Units.Mech | M0 | TEMPORARY: walk_mode 2 assisted walk merged (6966710; procedural gait + IK + capped pelvis servo, 4/4 seeds stable 63 s, 2.67 m/s); unblocks melee and cannon. Pure-physics walk (walk_mode 0, default) still OPEN, best 30.8 s (rounds 5-8 on task/T-005-r5..r8). Owner: T-005 orchestrator (pure-physics track, T-005-r8 line). Evidence `evidence/T-005/assist/assist.md` | claude/fable-orchestrator-prompt-83a0a8 | assist | expectations/T-005.md | 2026-11-15 |
 | T-006 | M0 style frame: SF tile + static mech through the pixel pipeline | integration of T-003/4/5/7 | M0 | merged 7c7052b (cycle 2: eval-style PASS 2 minor open + routed C2/C11/accent; eval-bay PASS by orchestrator ruling; eval-arch PASS 7 minor; eval-perf PASS 5 minor); checkpoint packet `checkpoints/M0/` | task/T-006 | 2 | evidence/T-006/EVIDENCE.md, evaluations/T-006/ | 2026-11-14 | 2026-11-14 
 | T-007 | Original greybox mech asset at true scale + concept prompt sheets | Units.Mech (asset) | M0 | integrated (cycle 3: all three evaluators PASS; 2 minor open); merge 93ad0b5 | task/T-007 | 3 | expectations/T-007.md | 2026-11-14 | 2026-11-14 
 
@@ -426,6 +426,12 @@ Mirrors `GAME_BREAKDOWN.md` §11 for questions raised after the initial breakdow
 | ID | Answer | Action |
 |---|---|---|
 | Q-073 | Approved: R-008 option (c), offline trajectory optimisation of a full stride at Fr 0.10/0.15/0.20 under torque, friction and ROM limits, as T-005 round 3; option (b) whole-body QP decided from its result. No assist, no body-data change, no threshold edits; T-005 stays unmerged. | T-005 round 3 started (QUEUE §6, `tasks/T-005.round3.md`). |
+
+### Founder answer, 2026-11-15 (after T-005 round 7): "bend around some of the physics rules, we just need an operable walking mecha"
+| ID | Answer | Action |
+|---|---|---|
+| Q-053 | Closed for gameplay: accept a declared assisted walk as a TEMPORARY M0 walk; pure-physics walk stays an open requirement (no body_tuning change; body variants did not help, r7 body.md). | walk_mode 2 merged 6966710, flag default 0; melee/cannon proceed on walk_mode 2; pure-physics track continues (owner T-005 orchestrator). |
+| Q-014 | Assisted balance allowed for walk_mode 2 (declared, logged: net force 6.6 % W, pelvis torque mean 29 % W·l, cap 50 %). The pure-physics gate is still judged with assistance off. | Assist magnitudes logged in evidence/T-005/assist/assist.md. |
 
 ### Founder answer, 2026-11-14 (after the T-005 round-3 report): "start Q-074 option b, the whole-body QP"
 | ID | Answer | Action |
