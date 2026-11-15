@@ -17,3 +17,8 @@ T-141 platform null impl, T-142/T-143 attribution + SteamPipe templates, T-144/T
 | T-189 | Slice scene polish on placeholder mech (combat, destruction, seismic, kaiju brain, hangar flags) | yes | queued |
 
 ## Log
+- T-187 ✓ merged 01cf79c (C11 0.96 px near/ref/far via rig-supplied near edge; C7 1 km passes 5 profiles, layers on/off identical; Q-260 decided). Open: Units.Mech near-subject bound, seam report on moving layered sequences.
+- T-148 ✓ merged 845723a (Pipelines/capture, pytest 25). Open: matrix/lint need T-147 masters.
+- T-140 BLOCKED (task/T-140 460e7a3 pushed, Python 43 pass, PlayerBuild.cs never compiled/run): disk 13 GB free (<25 GB rule). /tmp/kaiju_t115e_logs is 34 GB, owned by another worker; not deleted. Resume: free disk, APFS-clone Library, `Tools/Build/build.sh --repro --out /tmp/kaiju-build/t140`, fix, merge.
+- Integration branch pushes of T-187/T-148 merges denied by classifier; not routed around.
+- T-188 audio running. Unity-needing items (T-147, T-189, T-140) held until disk >= 25 GB.
