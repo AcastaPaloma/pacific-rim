@@ -1,0 +1,2040 @@
+{
+ "assumed_thresholds_decisive": [
+  "M-007.C2",
+  "M-007.C3"
+ ],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [],
+  "optional_not_provided": [],
+  "provided": [
+   "scripted runs",
+   "control runs"
+  ],
+  "required": [
+   "scripted runs",
+   "control runs"
+  ]
+ },
+ "exit_code": 1,
+ "extra": {
+  "m007": {
+   "control": {
+    "commits": 266,
+    "commits_flanked": 3,
+    "commits_multi": 161,
+    "deaths": 234,
+    "engaged_minutes": 356.1,
+    "fe": 0.906375008251,
+    "ff_ticks": 290719,
+    "flanked_ticks": 7188,
+    "fr_commit": 0.0186335403727,
+    "fr_time": 0.057102909166,
+    "hits": 11534,
+    "leaks": 0,
+    "mean_ff": 0.967689590292,
+    "mean_ff_chance": 0.654895460017,
+    "multi_ticks": 125878,
+    "sum_chance": 190390.553241,
+    "sum_ff": 281325.75,
+    "switch_rate": 0.117944397641,
+    "thrash": 0,
+    "thrash_fraction": 0.0,
+    "voluntary": 42
+   },
+   "runs": {
+    "control": 100,
+    "nofocus": 100,
+    "scripted": 100
+   },
+   "scripted": {
+    "commits": 94,
+    "commits_flanked": 39,
+    "commits_multi": 79,
+    "deaths": 136,
+    "engaged_minutes": 561.14,
+    "fe": 0.922918000478,
+    "ff_ticks": 374802,
+    "flanked_ticks": 16551,
+    "fr_commit": 0.493670886076,
+    "fr_time": 0.0769899895802,
+    "hits": 17780,
+    "leaks": 0,
+    "mean_ff": 0.972989960922,
+    "mean_ff_chance": 0.649593429775,
+    "multi_ticks": 214976,
+    "sum_chance": 243468.916667,
+    "sum_ff": 364678.583333,
+    "switch_rate": 0.0748476316071,
+    "thrash": 0,
+    "thrash_fraction": 0.0,
+    "voluntary": 42
+   },
+   "scripted_run_fr": [
+    null,
+    0.0,
+    null,
+    0.0,
+    1.0,
+    0.5,
+    null,
+    null,
+    0.0,
+    1.0,
+    null,
+    0.0,
+    0.0,
+    1.0,
+    1.0,
+    null,
+    0.0,
+    1.0,
+    0.0,
+    null,
+    null,
+    null,
+    0.0,
+    0.0,
+    0.5,
+    null,
+    0.0,
+    null,
+    0.5,
+    null,
+    1.0,
+    null,
+    1.0,
+    null,
+    0.0,
+    0.0,
+    null,
+    1.0,
+    null,
+    null,
+    1.0,
+    0.0,
+    1.0,
+    0.0,
+    1.0,
+    0.0,
+    1.0,
+    null,
+    0.0,
+    1.0,
+    null,
+    0.0,
+    1.0,
+    1.0,
+    0.0,
+    1.0,
+    0.0,
+    1.0,
+    1.0,
+    0.0,
+    null,
+    1.0,
+    null,
+    0.0,
+    null,
+    0.0,
+    null,
+    0.0,
+    0.5,
+    0.0,
+    1.0,
+    null,
+    0.0,
+    null,
+    1.0,
+    null,
+    0.0,
+    0.0,
+    null,
+    null,
+    1.0,
+    0.0,
+    1.0,
+    null,
+    0.5,
+    null,
+    0.0,
+    null,
+    1.0,
+    0.0,
+    null,
+    0.0,
+    0.0,
+    1.0,
+    1.0,
+    0.5,
+    null,
+    1.0,
+    1.0,
+    1.0
+   ]
+  }
+ },
+ "failing_gating": [
+  "M-007.C1"
+ ],
+ "failures_suppressed": false,
+ "flags": [],
+ "headless_verdict": "FAIL",
+ "headless_verdict_label": "FAIL",
+ "images": [],
+ "inputs": [
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_1.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "967a6cd6373d9d9ecbf10b57376a28325af7434f1d1411d275c9ee65fb897509"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_10.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a6de87e5ab947405c271267a01fa0c2dd9756e316785a44bf6b25e73946b1776"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_100.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6786fca1c20bfde3403e23f6798bab2306557447d0924e4ad004b688a74e8a6c"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_11.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "73ad659031be03062077f4b599b07ede4a299da44872418f9cc616e7436c8d7d"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_12.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8b2cfcdf27e591a22e6f1736c4292069b57eb37f7b38b069c857c3d123ea71ae"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_13.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6544ff70ecf1b677c76d45550b0e94696e594435ea0867b79a0ddb7c7a6742c7"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_14.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e52037ab2e77877487cd8ced43b3fb68630ab0668c09fca24ca9bd8a57ddf71d"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_15.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f0a73a1c6019c84a4ed2762fc375670c771169bfc16be745fb3fdc44db0f6548"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_16.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a81401f962419bfb04f268b10529d38c35f602bdf6c4a9f3426320b44da4b1d6"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_17.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "63d3f008ae8071584d8daf3bf0e112b5463ec88f53f3a242ae94480f558034b7"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_18.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7304dc017ace5f9aabf917e19f2b0c4de26523e9da5fbba5429e2cf857dd195f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_19.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "403117c0cd5cd418ba27bab249cce9cb8ff709b57eff86b34a0a2bebb6163155"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_2.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "648317eea43af95efadbd18c4bff23ad3b0f166555890248ef252a343eb614dd"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_20.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "17f4f9d761ed57c1f6019bded1c2a0d0464ad572ce22b04e1c394648d35345c1"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_21.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cf189f5777e6e34791b6faa0a60a889e75f0c5a69831159d1070514a41c7f7b6"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_22.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8251b5de0bda5aa0d239223aa135e10975ce885e9a73ad8be48aedf4acf6d14d"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_23.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "047df65eb81cc9bb5a821e12d2bd8d27fa166f27468d389828976f5bb383a9ba"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_24.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d5127786589695f627499461d97c1066d5b4f804ca396a868527d2bf71e6062e"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_25.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0c7b94b8836f0d78d315a2d6eade9d72d8ed9b65ab3e186a98684b764c450ced"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_26.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cb8c021a1483d4cac324a50b928468b2547f4d55cfb5c23ec169db793f04bcee"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_27.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0ccede6949e50fa1bd1b8582e49d90e7c5ec97cd00bb1c75a2bc175787724d52"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_28.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0729cefc554b55e3bc72ae159ee2e8bef0722119c021d8deb89b5da8e91b93d7"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_29.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6cf2d269cc1384aee181451f623ece3f18aec64cd3734ba094c3db1f29abed03"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_3.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "33c9caa296b6906a09cca0aa46506b678366b9ccd26716c0596b07850cd3d770"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_30.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "aa8e328b69cd7c2562bc018802d3b6830995b4c36adcc22bb8bccc6d6c26b1cb"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_31.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "5a63c8c4c71f57f6899e8f2cf9e91f621dc275307632efac7706d59bf752edf8"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_32.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "5a44bf2fd222c170cd4904bfe490268f8d92c1f4028509deef55db43f5e04939"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_33.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "86986b0e761f329bbdfde84a2e0dd0c5619e60e2b10ba9c17c4fb0b9ec3e1c02"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_34.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "39e5e4500d2c7adf5b0e8bf4430f35e577f25b3203f50cff46cf4f581d4a037d"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_35.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3b04a27cecf762a14bdca7d42c54ef4f8bd046607c139c285e87196668c3f789"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_36.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "da01240748bcd5b4d982c01ed057a0100bb880c80cc8ed83ae3356fc2c33f50a"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_37.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0611d5b1048e204cfd79e90706c90558bfee34144d78c1e96f98503223344765"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_38.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cc80ed97e251c623be914e385e02e428bf3408e8640005a48c4fc20777427bb3"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_39.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "59d838d27ecc3705aada8e520bf1d83b370a2632bcbcd31e63cdda4e0fb95afa"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_4.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "90c0ce552012acd928d9a6d049983d233123b88864ee847c8cdf9fc946abf771"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_40.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6d62c3515723140b956de659e170bf5416c6abdab7a3105fae20aeceaa91beb3"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_41.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "442a6ebc14bdcdc760b5cdb86350fcfa770f0acf05a25aee086795355667effb"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_42.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "303c7eb51de0dafdd488bdf851adee737079596e9f6fb936d2616db4806fdeae"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_43.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6f0697dde6ffc23416d469d16dc61a42bb2dd2fca53c52cf7875335555b1d32c"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_44.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "73a656f502140046acdd30dd863abeaa266b32631d028e3122e5ccf845333912"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_45.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bafcfeb2faf980542ff5cf22992584dcf3025f30bba9d4f55e53bf44ca8cffc5"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_46.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4b31e1163cfaaf1cd914fbeef02ec254e53299423878a4eddb2cd39c458e31a3"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_47.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3e861d14aee26399c043e7043b23376c731a78a4ddccf5f85a81da154f12e5c2"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_48.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "70dfa842d6c1ec75099c9bd083b898de919e379b2dd7bdeffbb12e5f5aab8e96"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_49.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "967f394e0d108a8df148e57f43ad69e183556f0562ccbc68926a2a7ab064dcdf"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_5.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2c91474a63132daf0c42311e19146abe34e92d482e5631f5aaab29f478a8a919"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_50.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "50bc6c86cf05aacfef4178c43df08595975db3df62f17ef1b413d355f4dc1174"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_51.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "92eb772b9cb4deaac071e982629e5968ea78f733d8aef7b4ff6a0272cb7d2ba5"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_52.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "15f3f84a68291141d0af5f4f694fd7050bc4305c9f557aa09c453fbfc38f9c2c"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_53.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1f89f47eff7050ea2ba24645e581c4d76082e022fe4c9db6c9762361729dd76f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_54.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "076b87ee0e82849052c689e3735853f5172adff2eb45824d7049e33c0e6c0ebd"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_55.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2e05dc9e22fa1f288b6cfdef8e813bbf39e141899c1051d90eb29d908ad975a4"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_56.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6e2afc5ebd27f2c4aa86085dcac0fde7d56ed804c15e91feb9285542e8911ca6"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_57.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2ee8bdb80a65082b02f4a765f8f0a745a5f1fda779d90a2c29b860e034da17f0"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_58.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c4f5942ad14a39b9877420e5814059bec04933b37c432b11e11595e3ec1df7a8"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_59.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a0adc081e41f6cafaf6ecf4f49a177c5251226e71e079fdb5c98c9eba531ca21"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_6.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c944c7a80db3e9d3b2c43c7b3076bef909b5a99f51f64232a723de6ba9327b08"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_60.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c1f061f6d56a6992b6b2b879eb6dbf44d65fcd836e5b951da16edd8ac80f741b"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_61.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "94f3f7e163b1f5d8a54bfb3bb5cd0f29ed4fd565035ab1b7996195e8899b2ca2"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_62.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "45217a29518725858780ebccb4c73fee355fdf62efe168f184cdbbb957fd66f9"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_63.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "109674f9d7f0391e582ec119c73cddf1b1bb1ee6b42ce5edf6709046453c0232"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_64.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "5f407a314a9b930e45a66897dfd5565def284fc3b92ac90801f8b3592c4e458e"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_65.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3bafded9f658f299e167312c958b12d998676ff87effb96a299197b4c11321cc"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_66.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d9b9cb44162620efcf9b04fb9b3ad98e16cd63319225728328cd1ee7f58beac5"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_67.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c2e09938b190815ff8d3abc04de10cdbbd3468bfe6cc4952d6b81638824a5982"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_68.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3262293941fb992a7a3338ca31ada5e7200e0358a7b551de90c3dbaa7ce91221"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_69.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "fd7f5545b1fd0aafcd13057bc3bd829d4eccd051b1334fe1e5c3d2a3e0a39711"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_7.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a615ac12dd39100f585398f8b6daa695010c5d0c7da0686d11904ea27c721143"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_70.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "57ba5595b876b6a71af4b020e942453189bc637cf2ef735d1795b15585861650"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_71.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "97c937726c5f712fbe3662ffe194e90aa99423b44f17501c9ff3f502e4987302"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_72.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d61ec42893c5994576a19bf97c02e68c881f6990b0f995c21a1517dcd7493759"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_73.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "08e7332616669ba4e1465e2bfefc240187a5d935d763331fdbba1874e0e218b2"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_74.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "71b8fee82b86306ea0453b66e815313fbd096fe40e0a6259b6dc4572b22fe854"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_75.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4a775363414745514db011fd2af11d7883f50d767a387bc05142ab7ddb893ff5"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_76.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "858552fa95b475c7444892bdd1b2f5590df5d03232f0d92b0a082d3bd1bdb31c"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_77.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2f7e65ecf7c6e76a58085e1edfc15df6187297fac58255f1a9be3556bbfcdc3a"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_78.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "87234dcf562c2b634b8bad8b65bf9fc5f9382b0d65019ce14cc49fdb5a5d1084"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_79.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "82148c4efc6c8217d1a7a4b764e14d02a128a2df6ed64bf130b17c561abac498"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_8.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e2ab8501b66ba6041d0690beefa47b72400b9e003ae1c29dcc12abb6066ca5a4"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_80.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "67324bb4d37714c4335e4f76238b225d4e867b4785094e27a077219630e54897"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_81.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a54a700b869d638b4a4a97f47e1c3413ea245b56e4f697dd132179e00b2753be"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_82.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9dad68ab3504d8587943f75f39d7bb66ab22371a5f45097e580ce2f974c89c18"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_83.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d419fe53758581b2121511e85bb8cdc94130507bdd6c6324a343678d5ee0dacd"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_84.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d516dabefaee323f53df9be3274c21f83fe770f7d6a89c1c76e71b605edc0974"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_85.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6180ea7f5e1c46c9988ef50aae8faea85f6f67d533d0fdfec432b16c2bee6b90"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_86.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "707db9a7f1372f235dafe78c0596b6b3f535c53f8c0dfe24e251de6528995b5a"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_87.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e6579dc86ab97016452f355cd07c92d18e43dd9b68d5d67d90fa8b0b10dbd515"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_88.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "62c70548f7a3eaec82c67030dfce8244c28367839aec1fd5126a006762906a18"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_89.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bf9c8bf2b7f063704f96f9047f48f5653ff537b9d8629739684e5d79bc15c20b"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_9.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ac18d7d47c1c422dcdd99eb8d49086304fd1c20563fd9872f675e6ab7efe4071"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_90.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "54b6afb843a83bce802f87874841e6d4377668a5c7f3708cef2ba067fbe2600b"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_91.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d76866aec8e2f3715eda54aeb9e583d16d36d886ea44e893151cb266ccb91a5f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_92.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3e7287bb3841c5a7edfd1282023ffeffe92e925a23288bb6b01f2d23de982cce"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_93.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0a8e85c778bc4d69b5aeab21b3de6a725fe20d4b24f5e52caf252787f8fb0d64"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_94.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "fec31c2ca6ba42a0ed84f14c0733633486b09f73a845615bd6a1c2ee2e331a38"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_95.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1cf850fa208e91839e13c768be958c0f79e3247e58fd8e5f2863b80d2aa76be5"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_96.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b40d486ce59904f5872347f8e94544b9aa34de5704128bfa8be70a39817a213b"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_97.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e9c66f94a8a7a493c91331d531bd1c29849091cd9634a617887b63ee2b64a5c7"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_98.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a28439fc0278a49226e7cc055078da0bfc1a96707933a8cfe1d71cd991bc30d7"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/directcharge/brain_log_m007_99.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "fc651fc2307de8696de77a8b0d57bb0b9d575016b31397af603528018e2d8dfc"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_1.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bd0e061ebfe798ace8741a88b226b5543fb6510ab9660d3ef9037b93298e9f49"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_10.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "613051ad1771efdbf660795b0682ca39db98f909b3503c973f86d2e175474f60"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_100.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f5922c1d4feb197a974cc72b3dfcb4d644911be670d92f326ef8b0727fbe14b5"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_11.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2df4e4bccda99f6e0254391fef0924b929b00ee4ec159d866c611bb08a78af44"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_12.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "db48c3285a840f7c137984542462c80eb2fc7b60a0d62a4bd2135dccf7292af6"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_13.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "05d4d8ef97531c50fc97b7a071fddedc49c66644951fff7a2b34ed2eb4905d3b"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_14.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1924e3eff4dde799f3e607e401e7b6baff0e9e7f1e9b7dc56072928e77207c7f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_15.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3a182412dcd3fdef9dbf2ad8ea8d5c2e02d2c0e4a09a94bc0e8537758d1d867e"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_16.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "df508a7ec70f3b7d6c3468bd58563a70943a227609a52ab25f30839124183735"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_17.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "aeea292cabad7e5a930b4a034b6df7138d280517a8995936cb6f7a6dd93322c7"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_18.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f61e547654ac5ef67bd2e3cc4e03e58b0c94516c8677e1434c5b6e2c8124e9a3"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_19.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2ceb0e2d6728aba9ac9669f7fe80c592a4ce9a57aa288e75c1415f54e74ac284"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_2.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9a39ad30bff3a5a4b739d03b0cd8fcb289ec81e86d4292b32fb15907a07a8fdc"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_20.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1adf5a65ee20e93b05b2d3b86af224e33a52b130bc9e6af70fba9961658c3f37"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_21.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1b42a677709dced489f615ba22c9dafd59b26732ddd26c9158e7652bc29f282c"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_22.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "455b5416984816ac2c6ccebf7cab8e15f794f46e731c2dedff2956713306815f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_23.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ecada614f382587b3b93db2e227861cbf19e40aa8b507fc7845f2206b5bf0e37"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_24.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a9594493c54fefcb711c3bd9a3cb0ae0656fc955b9b931adcf8e6cce0da70b05"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_25.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "49c21a3205bd279d537b1922561d5c764ecad9133ac39ea78b574a15aa49d4dc"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_26.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cc009712bd5d06c76e3e211d65a5cf640293968c5509c010a667875f10be9f28"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_27.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "27ed0885251c3485a1c808a463baaff2e3d8a7e7f2074f496f8f6b5c96947994"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_28.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "985e3c49385df27c47f152fb776b619b285346dc53cc87dc254d88a81434d41f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_29.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e0bec1c94ae387c0f7e28e1879de56923e04fd71c0c579dc22bd0537e305228d"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_3.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "673eb18895cb774b1b79f808a87c4e50482b5e07130829c25af705beedd6a485"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_30.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "082c6916d64334a2f925879981659d7837b954af9979b595dcdedcb6bd15a13f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_31.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6f1c734a00b4b9ee8e53945c439412253037078feb1fae67dc5fbd136d12bb97"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_32.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8fcccc77e7f056fca1d11356a5d2f5154c83bc02b28f10e74096a5cd0eed177f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_33.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bf9ab95ef10adf73ccd2e9aa20b9fdb2dbba931f35f69599c8354483f0f310d0"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_34.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "87484231affa9e9969914529f215eefb0cd2c77d860067c496a5515784fc4c9d"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_35.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0f1f71a075595e508c378c498c110372080de99057fa1bf6bead82e7dd707b96"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_36.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6978350f8ce38ba99f12d65c91d0c07260343c15d02b6371e5ed39f6842f8430"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_37.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ed1b256199e66cd6a919565c0c474eff6ba0ba4667ff21415351c1e85d7df4b1"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_38.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4093c93de82709e0c91257c5fbce380bcaae214c00808fc363ba2bdf2117d9ed"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_39.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "fa7c4947c6b8912a1274739bf78fc48851ba44244649ad0dbf32b9919446ddea"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_4.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2fb07884dedc8d1a467e3096df7b1e2a8e8f97eb75cb0dfceff451d29fe7700c"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_40.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "459a11c3bf7467e5d154106c8e97dc87258c81e0bfceed20754e90b7c75c371e"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_41.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "5d382ec881b3e01ada8a7777f1f44cffda9976c23c4c87e3df82dd8af6ec826d"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_42.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3a1dcc1a195e1d0830f2711aefa12d70537cbbd005551dca9001fb9ad7e158d0"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_43.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0ff0ca1f6ed5ac7ea491466e18dd1df56f170fd9dfaa333377686c8e77b30de5"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_44.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "09cc4a77a45997c21127c76e7a9eb584b9fd9b857309cee356cdc6a6bcdc23a0"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_45.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "140aad9dbf65edbad99a45841c1296cdec84036b581de2926ac316e536f575bd"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_46.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "541f2ea230eae51c2dc436bb5aba985197260db337dcb1194f133b170dc2a263"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_47.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c0f3412fcbaf6e2a6fbab995dc9f35d6b4a06ea8d9368a99cac213798411c3e6"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_48.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "025f93fc947fae8d951a04daeb349a8409713f08bbf5112d5a003af08e31a4f6"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_49.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d4d1a797884cc520c0f374f1731fdffa30a40dc9ca566d580f0998ed122ca5d7"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_5.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8c5d01771f185fea35d697498d03b33a11b3692f0b1d9e1eb4485e83862883f3"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_50.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c979d314ca4a4852a48adbef5a90b25d13c2604aea9a0a8f0709d3e2d5950b7b"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_51.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "dd4369265748da5df1cf1d1fd330b8fa5da736a7d84d7456fe4f6afeaef40ab8"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_52.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "fd0aee381da4cc474b7b03f8bc1556df730da755c589eb5703c63a771a05d15a"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_53.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a49084b14e736020c22a6d4b6c0e549dc1d3fd18684271e9ff50d3ebc9abf1d9"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_54.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "083123d8cc1d4233bdc0a831e40f6926cf8f0d0414a21581d4276c998e5ed233"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_55.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "95e79861705aa46e59323a56c33d32e2148f15199b59c5598543d014283a6e7f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_56.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bb41f6d846827625dbedec394cb8248a7d5cecbd18c98a2ea3aad8920dab506c"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_57.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "40b5528e288e6c8a6808b272c52cc8faac4a387e9e662dd5e100b864b300a86d"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_58.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6402ef4c21358ea1c3adb841d16818f04aefa91921c1c85b6d2b536249977218"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_59.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "06a3265a9dc5e51fabade816c0cba48cbe07a3a9140a099bf96b311f8dcca883"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_6.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "27fcc9f68ed30d5e3b02411cd48b624ddcb22f5b625c2671d74e31049077590c"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_60.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d6c28917a79710698fda3937a8b2044d62b528a9311b7cd042e12942611b3d46"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_61.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "5387af5346b0ed99ebe8a7bed739fb2c2d2f6dd6b7d34b8f802fa03d413b26cc"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_62.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "806237d0b763a1fff8b1303a55963db1082a04f601fea2bc9a6de70bdcea96e2"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_63.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b6a744e30b6f7576e87badb20ad059c9e67c57f986d0ca2c4a51e6ac0bd5adb3"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_64.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "43e5c2ccd08447c3eaad5326f75cb1664886fdc3d411878004bb96ee8c5b0d51"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_65.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "077b865eaebd810128d34e7ff70a4533d5aa7e35ab8f73239a27a9f44d27cf06"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_66.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e8cba2386c6bb9fdbbf1ac67d5b9987a6c28707f90cc54a2b65881d262ef54d6"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_67.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4e523fef0fcdf333ae670802fe8fb131989e6e0f97817d96e1f3c01f6f14842e"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_68.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "87d68cfc92b9c1e862f5f779c1153b1211e92531a75bdf566c73ed2a27a85500"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_69.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "20c3436499fa4441cf5c063259eab22a909240fbe86c2841d619099427b5b6cc"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_7.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3fc4f5022da2f7eb256388600959376f0b740795cfd64a8ac7ec8ad079b3c724"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_70.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "658c6594638e722ee11a8193ae35b954ec46c70f276c355f5327bafdb4acec52"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_71.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9beec8f8a1400682fb6f8ec1f517f403bc0afc7df0b12445c239399a722993a6"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_72.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c445c8a69b00a72e3749b25bdca3fafa17f0b81e965c196bf19912da4f3852da"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_73.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a3aebb7f8dbde49ec2fb5dfee9ee7b2fa641cda4d80af3da468ede147cc328b9"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_74.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d96b02431da6cbc3407c28119c3bdc34b9489b568fe7308ba6d49e3365a20b71"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_75.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e6310d3175fcaac542cc3189294d6a2d0cbbc3ef6360d64bfdf427c048184ab6"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_76.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "da2c45882ef348212b07082643e17662a1b42a0286f0d92d0ad9579db00c7175"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_77.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cd774f12b1e40ea8ab9bf7cda1236a4e81bf4763397def39f605835dfa2fa0bc"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_78.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "222a1243c5d637bc3f65ebaf15588baa816483163ea72cb7472dbcf1920b8c31"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_79.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9c15e6c0a4409358e71ed08f0cad143ef8574dccefb6effd28df79d87dd1f9fa"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_8.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "83fe06bf624872480bfa50515b5757f2e0477812fcfef1811c94fed5ef7425aa"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_80.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cb567aaf7bb1221e211d457f8b9c497e215183edb6601fd108cc0e73c80453fe"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_81.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1c8d7db7e62fa923afc2ec61b2d18e2c63c2efe3b020bafd79d61d433f7c32e3"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_82.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "432f232356cd3243790a22ebe026c51600a6d614b1fbbbe1b13286d6c34b9503"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_83.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ee5affd284bd5f04b9f3ddb84f6675fdc8b74ca3ac4bc28ea8e8819b6b728cc1"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_84.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1534329b52429f11ebbb8103767d129c7826ace1fcaacc199dec694467cf9bb4"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_85.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ea51f6afdbde670010abc80064dc65a947278ae8874ebff5f8aad124fb3f5e22"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_86.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bb019d43f1dd09fe1f4169817080657277bceb26ad2cfc6b81361fc96376caae"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_87.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8b87897e332b8ff04e0beea66e68babadeed0c2cc84cdfe6092f6f23821fc27b"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_88.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d64c286874d8d4b3fe7075c739aa492e4b24a0218087d060a0369beedb0e8a17"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_89.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "47e3a79a4a3333cc9171af979ac5ca0b5a6abbf93b3e33f8df0f7d8a6e32bb9f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_9.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4e675bb31fe14ca76ab840cdd378b7de3de8003ae83d70d59d366795700b37f1"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_90.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "225f816dbb3568b56e676b666fee29cc7679182e78243580275a41dc09b10b5a"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_91.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7aae2a3a2cb1241f7f363b99cc5e116398c6878ce87cfeaf41a7d6e77baa4b42"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_92.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "20836c9eb3ddb871a6f67e60bac847add18efc8425b62fedb720cdfce4229d21"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_93.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "57478e95edd211d455ea68ac0f054e3994707bc911417522326c94d280f50e2f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_94.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9144614d4af194f9124b2b0c21531cef4bf4e0120fe3f88552b4261126a9b65e"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_95.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ee40b0e2a6e7a4f5a3bc12317ef202d7eba4b8f596034c63a9920596d4fa3dac"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_96.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e4db0a3029d6c354a4a491eb4e58f422ee415fa31aeef23dbba85705e30c89c2"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_97.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8dc31864c38e70dae12cf3b8fffa89628635f831af9a75e2b9d2f709ccf42301"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_98.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "48c9dd14f5cc21f450decd8aeed79013dffa23b8bdeaad6b64036a5b05c7e707"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/nofocus/brain_log_m007_99.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bdd0bde583e65257a8a0c1e979f9e3708ebfbd543331d59bc7479304f87901cb"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_1.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f7ba9d659dced293602f601d21cdd6811837077e81e09c0fd70d3b6501bab520"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_10.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7cd67218e3f523fb947580133ad0d3654b1be700885940235501bd1aa79089b2"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_100.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cfe7568052eb1a8b65b6d3021a6fc45d5a056944a5902d182e5b3f5ab46f1f46"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_11.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8dbdc2d8beec06966db5b902a2578e880923751e53f06fc12ef7cd2df64a03dd"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_12.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7d0a8bf1944d6bcc50fd66b40adddee4978fbb2a959fdf005a4fc96a0dfc6e3b"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_13.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "386858ec2e439f207279ae53a5062f22072779a1db8feba2e871ecd6def20860"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_14.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "48d1a6be2d2d35d0c75a33477bef4a0fc6bc65e8a3db68b07b4d2749ecc0aa4c"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_15.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1ad2b59f8c751285febfdedb4079a46323ce9e8473bbc94111042d4506e3c167"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_16.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f83b3d9b3a6e0f97fd3bfe2f5ff553a00a903e6ebfb60ca103817f325c503b84"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_17.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "61b6436c66bae751b7bcfb5504571eac85d0692cd270168562340d640186b96e"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_18.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "303c7320d54d5865ff97d2a75f27238be6670c1bbb1bc85f5af1c10476e25129"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_19.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d8f1ed2fcb05b8bfcd115464e315428d4d5a5ec1e10793dc393c894f277845a7"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_2.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3d3facfd6e9a225cd2c0f11c291aa296327f89328071292a0d6bb8c3a61abbbd"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_20.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7e4ba3b822b7c7d38c6a08add681da10eb6d338bd6c915d35f845ac218447ee9"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_21.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "13e15f4fbc8c78c3cc10076f29e1ba2db6f32e6683a1645c0f9902a6d1f0f105"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_22.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "009c7dfd23acc0d241ef0bd81a4e19a4d710451d2370f074b868b59875b596b3"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_23.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "fc6fe15ce4ae49134e4392c2d901357d57cf272cef180899843efdd850908cd4"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_24.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "929f0ff38e88694f5e4fe3af438d9bea0b5ab4df238083912bf57d6d48f39af6"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_25.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "76ddcdc23afba6d72a48affa5ab5bc146c4266bcfccb1137ca674df1b07f497e"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_26.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9a928c9d2f9ff2756c91bcf28a40987033b46a05a51c58deffb3a5a0b0f91e44"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_27.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bf0d7564409b5f6a240e9498f42ba51d267dfb40a3798a6845ddab79ba741b41"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_28.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e9101e5cacabd22a9c98f749675ffaa332cb8523132eed9fdaa2d8b446119b10"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_29.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "199442737a86c97035adae7c2995e9177a96f44ba5cfa21e9fac6f49313f0f6c"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_3.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "22578f60cdb33136e9d3776d7455b713b4c5c95ef6e238619a1dcb8457871b26"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_30.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "62357d6c4675a31616fff77be39a6bd326637fbd717f606a17dbdafb618820e7"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_31.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6f1abb4f64f0fa03671fbbaaa3d25eff330aae557a57ae8b7fd23f92be535a94"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_32.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "25c529c846b73edfa204a89cfb64f2da460159f9ce0c26b4f6f47ff59f8504ff"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_33.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "272d2f8fb2b2a0593d2444c6e0e0aa2a7d9c15ad4fd6f8fd37337ada20900684"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_34.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "05983c53720d96052090da8f2f6f14cad2d37bf2c6095462aeb74f91c58352f8"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_35.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0445f53cc71bf5fbd7108f9c3dbe84c6c227e084cca9a633a1ee6c167a361417"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_36.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "80fc494b28f5b890bce09889f13012a7813b3b820508975304150519f1a1a05f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_37.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8380aa360412ae81ea58ca2e777ed58114d45f87c2abbccbf94266bf8ebc8445"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_38.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f8eb7e97793c0a59e7459a8ad18c3175ad632fd18c2fe16bc8096b94a1ed0a7a"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_39.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6d216f4a96fbbd777a1796db60f8b278201f26e68ac06e5d206460a924728c8b"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_4.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cd5f93ea1a36d193c83794d564c27fb27f77d694a3df9529b23afe3998f8e6a9"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_40.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "60116a3555a9ca9c1bdb4d5b1a7a8639ad6f6ce13bf25c760bc272bd266fca74"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_41.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3518685ae62b35fd9abe9a18025b37d4eaa47333c6acdb273e9a276c226f6854"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_42.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9e476b04cac3f73e6f70fd718406bf9eb13a685cc7708f4297434ce235299225"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_43.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "527dac1dcacbfed093441a10fbf27bae0081f8b1fb7d0e993a43b047129c6966"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_44.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "10e411ed6f5b2a13ea653279ebb7328b42027115d792c8fe7ab9a58fb708e155"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_45.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "06124c8dbf510ab2a150414b04654c7f5aca64de91f9d59a6977562a5e5e5cdf"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_46.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6312e269d098b4afb1e09e2a5174025d48348e04bb2f832b34cadffc5536a5ef"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_47.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "45f7a7a02edb686686403f6c84041083707818ee0475b33d72fe8b7160eea51c"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_48.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cc30e9c8bf9bdb7d1bc593802ad24bcc9e4248a9b024d22d6dd98ae6cd85e188"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_49.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "514d5194f0201959283e4fd1841f6054ed5eeb7f43ee5ea87c16522e8a3391fb"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_5.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a64850c4efc098e0720f3944854bd03a1aa5e599f736a773ba651b51f32223da"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_50.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9a3413314b3f5ee1f1ea0432e3a69a3a3907880fc9e8db4c9fc7648d7c777ae8"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_51.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "708c40df380196044361819c449c7d8ebb711a559294fa41c26b96b7d641bb81"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_52.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3029e7753f21c8425aefc03dc517b6768a7a349aa65e3d6b3e052f0d09646a5f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_53.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3e9e432fad1a1118e55c7418e5225504fce42c18de3a18cabd716bc80aeed65a"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_54.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "aa2e25caf4daaa1f66f67c6292ee705ef7bc07714a7766d6fbe0e09050abd7c6"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_55.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "215b83ee098ab92914b2155f08f6eb7e538a5fa945bb60845881d3f43850d674"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_56.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "353d734313bd648652df68d1e5c45cb67a0ce090f6d9e73321e6a4d9211c0f4b"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_57.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "544f9f34559c3ecf77a647c4b17b49b66244d2330332c3dd4d5f9d396b29c069"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_58.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2f45e208d8b166bd33c99b3e1413d8649210226fcd8460f8f6b796745ed54b01"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_59.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a9b69eea33f6a59c5255b1158fc7869370c72943fb117444469ee8855d372b4b"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_6.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ff28c8ea70b751f2c726f2ed5c47e50573d8d12c0eb7e135dab36187f5a21ab1"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_60.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d2be33d0cd4e6c3552e0d79b8bf6ea6a272dd342982719a971177597ad8f7235"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_61.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9da9fe4d99142bb3e0175a49db5767318365aa3b343086b19778420d6e315087"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_62.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "eab4c781d929d8bfe4186fab40d848305205a487a9be2e297b5be8f8ab373a21"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_63.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e95080e23cb27bef00b9e4a12095e3ccecffbb6724a8692e93fa14bd16a2346c"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_64.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1a56caf06b9f4bfaeb614bd038a092f3858e862019b71e380b8dabe3b3ecc2fc"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_65.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "67947e243faedf11dcf8ee589f65c81ea5f79d0ab649b1d9958aabcffb2be351"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_66.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "36bbc21bcb1151289f6766fe0860862699464ec37aa19fb46b51e11edaf7ee2d"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_67.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2c962675e48a8c8dc084ed5bcea8cccd1b464e714587cdf1af24da3efaaa014e"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_68.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6a6283c0de7f61133bb17da86eb572e38b35029f944145d41f0bf79a90a9525e"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_69.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8962ea458d5cdf0498f9fa778fb8fd940b148b1ab2b107627e8e286447e41953"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_7.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c34f044e1830c1bfdd8cab5f1a07c06005473cee0c1fc612138875c5e3eecb85"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_70.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bd0da05b1abc5521e8b50d00a9243493267373cb682f8552bd060ceb915d4d4e"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_71.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3a73c77bbeaeff7984430f219be86ef4d0aed35b70baa4e5eb980d3f79bd7842"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_72.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "54912b47c9d6c9fb060a6491d3892d4786a5e0fcaad41204b01ff1e70f3549f5"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_73.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1149b7c923ca103dec67d0fad4f58d92c2a6e2ac5ea94f7c4724ea312fc6e072"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_74.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0082c4c4a6c48c4b5834fdae869e6c5ceaa47cba92a98b730e40b6bc19b338d8"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_75.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b48ed0633691268972cb42040a4a3db08112679a4e122a84a2fcde69ae774e6e"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_76.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "72aae406ff0320f8398e6b64fc4ec92a5c83d0b1833c8df56ad5e56505d8c570"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_77.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8f8c2295e81d2c0b6b575fe33905d475c3aaf6c34cdc4a2d4ae35575f5306840"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_78.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "68f6ce1d1a61280b27a88a238250de21b12c42fa50dff7d9323fdd326cd76ed5"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_79.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6629a7e4ba5458a503b5d5b8b53b2c68225204e618dde596fc36b55c22e56831"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_8.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1878c8e8e230c5b642ad2c685a1e3111a2ec0fe34bfd7b48e5a088b000492cee"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_80.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f176afb1468507d40e120e8bb5880705f0df4bd3c603957b18d1fcf48a0938eb"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_81.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b80ac5b16a83cf1144c2c7ad21b1ef3a98e1acaee50fab921d995998ddad0694"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_82.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2f37c9a0091518f46c436c3b66b9fa1f7e61f890fc101a4550f0773149eb2561"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_83.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f5c408e289fd6472c8ac273b9e62d6f1794d95c9ae093cf339cc68da0a5f8c91"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_84.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a04cc9123450998fe4d67b25545a1f2fbb292961b49982e0a464eac945216635"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_85.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6e3be718b8738f2d726e5c5e9845a80a779376f0e4cc6416333da7551a4519dd"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_86.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e11f0ee097c09bddde289e54213f27ffdcf74369ef45cc2791701abdce884ea5"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_87.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4f288a57898607ef436f8c20e3912776ca22f21e32fdbadc21627be2b0c2e5f1"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_88.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b7304662b782d066f6c8525c36511e38fd48373187704e3fab1cc459b1edd169"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_89.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "eb79b8ea4df893eed1de6eccbd0bf981388e985d0288976461bbd587facc2c77"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_9.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c6ce45e04053c54761aabf244be2a4019d295f9b69f845af31159a0489e8cf04"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_90.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cb08550b46a757f22bddd6e8d4127aaf23ec41c71ceb3645eb88f592ce835909"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_91.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a22305892a1d5efb0a9803d4cf56a0bf930fe6e0a953fe5f5322f170e31bdbed"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_92.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ceb7683d3a7157ac6fcd4be5a36727161925a84a6c6cb54f5e75d0d512e779db"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_93.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f6fa68c93cf50de0dadbebaf953a8f04f32d1e6b5f0130c76ab9b07c0c0797a2"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_94.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d56292511b96701bf9907181c510a927daac0c6662896b2843895267e9984c14"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_95.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a1e53d85c6e0fb27cf99bde0ef62ff31941b5074c715f8d75dce1b8b8c13a36f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_96.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0bb1d2e1ab42496578d41d2c9a666cea7567b0192aea7eeaad0da843f150152f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_97.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "714bbf41b940875505b1fea94ee9d002f6d2731cc504f9ac90b1d08b65b51e92"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_98.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "16b6e796a83f1c9731f4734db4d83a9b6f6d8eae83deb47b0c99a49399bfae8f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4/scripted/brain_log_m007_99.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b0fc2228239360b93442bc6e88eba338910b7570453694c0dfac157c14a75335"
+  }
+ ],
+ "invocation": {
+  "command": "m007",
+  "inputs": [
+   "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/943fc76e-5f93-4a8a-a014-9b884b42677c/scratchpad/m3v4"
+  ],
+  "label": "m3v4",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "m3v4",
+ "metric": "M-007",
+ "metric_version": "M-007@v1",
+ "normalisers": {},
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-007@v1.yaml",
+  "revision": "v1.0",
+  "sha256": "6f2b54f4289a9cd860f0601aed57d2ef9286cedf9f0d54563951b1f7f4fa6f57",
+  "spec": "M-007@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "revw-172-31-218-200.rn.uwaterloo.ca",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-15T06:16:17Z",
+  "wall_time_s": 44.366
+ },
+ "submeasures": [
+  {
+   "decisive_part": "scripted_runs",
+   "diagnostics": {},
+   "id": "M-007.runs",
+   "kind": "gating",
+   "margin": 0.0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.0,
+     "margin_rel": 0.0,
+     "name": "scripted_runs",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 100.0,
+     "unit": "runs",
+     "value": 100
+    },
+    {
+     "margin": 0.0,
+     "margin_rel": 0.0,
+     "name": "control_runs",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 100.0,
+     "unit": "runs",
+     "value": 100
+    }
+   ],
+   "status": "PASS",
+   "threshold": 100.0,
+   "threshold_status": "derived",
+   "title": "Seeded run count per brain",
+   "unit": "runs",
+   "value": 100
+  },
+  {
+   "decisive_part": "fr_commit",
+   "diagnostics": {
+    "commit_events": 94,
+    "commit_events_flanked": 39,
+    "commit_events_multi": 79,
+    "discrimination_vs_null": {
+     "ci_overlap": false,
+     "control_ci95": [
+      0.0,
+      0.0428571428571
+     ],
+     "scripted_better_non_overlapping": true,
+     "scripted_ci95": [
+      0.381578947368,
+      0.602564102564
+     ]
+    },
+    "fr_commit_ci95_bootstrap": [
+     0.381578947368,
+     0.602564102564
+    ],
+    "fr_commit_null": 0.0186335403727,
+    "fr_time": 0.0769899895802,
+    "null_commit_events_flanked": 3,
+    "null_commit_events_multi": 161
+   },
+   "id": "M-007.C1",
+   "kind": "gating",
+   "margin": -0.106329113924,
+   "margin_rel": -0.177215189873,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": -0.106329113924,
+     "margin_rel": -0.177215189873,
+     "name": "fr_commit",
+     "op": ">=",
+     "status": "FAIL",
+     "threshold": 0.6,
+     "unit": "ratio",
+     "value": 0.493670886076
+    },
+    {
+     "margin": 0.456403805331,
+     "margin_rel": 0.456403805331,
+     "name": "fr_commit_over_null",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.0,
+     "unit": "ratio excess",
+     "value": 0.456403805331
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 0.6,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "C1 Flank commit rate FR_commit",
+   "unit": "ratio",
+   "value": 0.493670886076
+  },
+  {
+   "decisive_part": "focus_excess",
+   "diagnostics": {
+    "discrimination_vs_nofocus": {
+     "ci_overlap": false,
+     "control_ci95": [
+      0.651192739472,
+      0.80210377259
+     ],
+     "scripted_better_non_overlapping": true,
+     "scripted_ci95": [
+      0.870863173198,
+      0.962441921904
+     ]
+    },
+    "discrimination_vs_null": {
+     "ci_overlap": true,
+     "control_ci95": [
+      0.847960767373,
+      0.953299151209
+     ],
+     "scripted_better_non_overlapping": false,
+     "scripted_ci95": [
+      0.870863173198,
+      0.962441921904
+     ]
+    },
+    "fe_ci95_bootstrap": [
+     0.870863173198,
+     0.962441921904
+    ],
+    "fe_nofocus": 0.731084876299,
+    "fe_null": 0.906375008251,
+    "ff_ticks": 374802,
+    "mean_ff": 0.972989960922,
+    "mean_ff_chance": 0.649593429775
+   },
+   "id": "M-007.C2",
+   "kind": "gating",
+   "margin": 0.422918000478,
+   "margin_rel": 0.845836000957,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.422918000478,
+     "margin_rel": 0.845836000957,
+     "name": "focus_excess",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.5,
+     "unit": "ratio",
+     "value": 0.922918000478
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.5,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "C2 Focus-fire excess FE",
+   "unit": "ratio",
+   "value": 0.922918000478
+  },
+  {
+   "decisive_part": "switch_rate_per_kaiju_min",
+   "diagnostics": {
+    "discrimination_switch_rate_vs_nofocus": {
+     "ci_overlap": false,
+     "control_ci95": [
+      0.117685999044,
+      0.319756935724
+     ],
+     "scripted_better_non_overlapping": true,
+     "scripted_ci95": [
+      0.0442820768294,
+      0.113872903147
+     ]
+    },
+    "discrimination_switch_rate_vs_null": {
+     "ci_overlap": true,
+     "control_ci95": [
+      0.0712966856182,
+      0.177964885423
+     ],
+     "scripted_better_non_overlapping": false,
+     "scripted_ci95": [
+      0.0442820768294,
+      0.113872903147
+     ]
+    },
+    "discrimination_thrash_fraction_vs_nofocus": {
+     "ci_overlap": true,
+     "control_ci95": [
+      0.0,
+      0.0
+     ],
+     "scripted_better_non_overlapping": false,
+     "scripted_ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "discrimination_thrash_fraction_vs_null": {
+     "ci_overlap": true,
+     "control_ci95": [
+      0.0,
+      0.0
+     ],
+     "scripted_better_non_overlapping": false,
+     "scripted_ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "engaged_kaiju_minutes": 561.14,
+    "switch_rate_nofocus": 0.20787925365,
+    "switch_rate_null": 0.117944397641,
+    "thrash": 0,
+    "thrash_fraction_null": 0.0,
+    "voluntary_switches": 42
+   },
+   "id": "M-007.C3",
+   "kind": "gating",
+   "margin": 2.92515236839,
+   "margin_rel": 0.975050789464,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.1,
+     "margin_rel": 1.0,
+     "name": "thrash_fraction",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.1,
+     "unit": "ratio",
+     "value": 0.0
+    },
+    {
+     "margin": 2.92515236839,
+     "margin_rel": 0.975050789464,
+     "name": "switch_rate_per_kaiju_min",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 3.0,
+     "unit": "1/kaiju-min",
+     "value": 0.0748476316071
+    }
+   ],
+   "status": "PASS",
+   "threshold": 3.0,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "C3 Target switching (thrash fraction, voluntary switch rate)",
+   "unit": "1/kaiju-min",
+   "value": 0.0748476316071
+  },
+  {
+   "decisive_part": "leaks",
+   "diagnostics": {
+    "control_leaks": 0
+   },
+   "id": "M-007.C4",
+   "kind": "gating",
+   "margin": 0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "leaks",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "ticks",
+     "value": 0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "C4 Information fairness (leaks)",
+   "unit": "ticks",
+   "value": 0
+  },
+  {
+   "diagnostics": {},
+   "id": "M-007.C5",
+   "kind": "gating",
+   "note": "panel: >= 12 raters x 6 blinded clips (human step; no ratings file format yet)",
+   "parts": [],
+   "status": "PENDING",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "C5 Human panel smart / cheap",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-007.C6",
+   "kind": "gating",
+   "note": "win rate vs scripted baseline needs a policy (R-024 section 5)",
+   "parts": [],
+   "spec_clause": "R-024 section 5 C6: deferred, waits for a trained policy",
+   "status": "NOT_APPLICABLE",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "C6 Win rate vs scripted baseline (deferred)",
+   "unit": "",
+   "value": null
+  }
+ ],
+ "tool": {
+  "git_commit": "ff10856056c7e0a7960b216deb347b96969a1ba6",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "FAIL",
+ "verdict_label": "FAIL",
+ "warnings": []
+}

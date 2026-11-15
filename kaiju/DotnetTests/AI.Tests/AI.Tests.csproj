@@ -9,8 +9,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Dotnet/**/*.cs" />
+    <Compile Include="../../Assets/Game/AI/Tests/EditMode/**/*.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="../AI.Harness/AI.Harness.csproj" />
     <ProjectReference Include="../AI.Scripted/AI.Scripted.csproj" />
     <ProjectReference Include="../AI.Contracts/AI.Contracts.csproj" />
     <ProjectReference Include="../Core.Contracts/Core.Contracts.csproj" />
