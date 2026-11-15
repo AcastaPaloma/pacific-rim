@@ -1,0 +1,107 @@
+== gait (v m/s, stride m, period s, f Hz, beta, swing s, swing/pend_half, peak BW/foot, sum BW ripple)
+-- Q graviportal quadruped l=36.0 m
+Fr 0.02: v 2.66  stride 25.6  T 9.6  f 0.104  beta 0.80  swing 1.9  sw/pend 0.39  peak[fore 0.59, hind 0.39]  sum[0.95,1.05]
+Fr 0.05: v 4.20  stride 33.7  T 8.0  f 0.125  beta 0.77  swing 1.8  sw/pend 0.37  peak[fore 0.61, hind 0.41]  sum[0.93,1.05]
+Fr 0.08: v 5.32  stride 38.8  T 7.3  f 0.137  beta 0.75  swing 1.8  sw/pend 0.37  peak[fore 0.63, hind 0.42]  sum[0.91,1.05]
+Fr 0.10: v 5.94  stride 41.5  T 7.0  f 0.143  beta 0.73  swing 1.9  sw/pend 0.38  peak[fore 0.65, hind 0.43]  sum[0.92,1.05]
+Fr 0.15: v 7.28  stride 46.9  T 6.4  f 0.155  beta 0.69  swing 2.0  sw/pend 0.41  peak[fore 0.69, hind 0.46]  sum[0.93,1.07]
+Fr 0.20: v 8.40  stride 51.1  T 6.1  f 0.164  beta 0.64  swing 2.2  sw/pend 0.44  peak[fore 0.73, hind 0.49]  sum[0.93,1.07]
+Fr 0.25: v 9.40  stride 54.6  T 5.8  f 0.172  beta 0.60  swing 2.3  sw/pend 0.47  peak[fore 0.79, hind 0.52]  sum[0.90,1.06]
+Fr 0.35: v 11.12  stride 60.4  T 5.4  f 0.184  beta 0.57  swing 2.3  sw/pend 0.48  peak[fore 0.83, hind 0.55]  sum[0.85,1.08]
+Fr 0.50: v 13.29  stride 67.3  T 5.1  f 0.198  beta 0.52  swing 2.4  sw/pend 0.49  peak[fore 0.91, hind 0.60]  sum[0.71,1.12]
+-- B upright tailed biped l=34.0 m
+Fr 0.02: v 2.58  stride 24.2  T 9.4  f 0.107  beta 0.68  swing 3.0  sw/pend 0.63  peak[foot 1.15]  sum[0.85,1.15]
+Fr 0.05: v 4.08  stride 31.8  T 7.8  f 0.128  beta 0.67  swing 2.6  sw/pend 0.54  peak[foot 1.18]  sum[0.83,1.18]
+Fr 0.08: v 5.17  stride 36.7  T 7.1  f 0.141  beta 0.65  swing 2.5  sw/pend 0.51  peak[foot 1.20]  sum[0.81,1.20]
+Fr 0.10: v 5.78  stride 39.2  T 6.8  f 0.147  beta 0.65  swing 2.4  sw/pend 0.50  peak[foot 1.22]  sum[0.79,1.22]
+Fr 0.15: v 7.07  stride 44.3  T 6.3  f 0.160  beta 0.62  swing 2.4  sw/pend 0.49  peak[foot 1.26]  sum[0.73,1.26]
+Fr 0.20: v 8.17  stride 48.3  T 5.9  f 0.169  beta 0.60  swing 2.4  sw/pend 0.49  peak[foot 1.31]  sum[0.66,1.31]
+Fr 0.25: v 9.13  stride 51.6  T 5.6  f 0.177  beta 0.58  swing 2.4  sw/pend 0.50  peak[foot 1.35]  sum[0.57,1.35]
+Fr 0.35: v 10.80  stride 57.1  T 5.3  f 0.189  beta 0.56  swing 2.3  sw/pend 0.49  peak[foot 1.41]  sum[0.44,1.41]
+Fr 0.50: v 12.91  stride 63.5  T 4.9  f 0.203  beta 0.52  swing 2.4  sw/pend 0.49  peak[foot 1.51]  sum[0.18,1.51]
+-- T horizontal tail-balanced biped l=45.0 m
+Fr 0.02: v 2.97  stride 32.0  T 10.8  f 0.093  beta 0.68  swing 3.4  sw/pend 0.63  peak[foot 1.15]  sum[0.85,1.15]
+Fr 0.05: v 4.70  stride 42.1  T 9.0  f 0.112  beta 0.67  swing 3.0  sw/pend 0.54  peak[foot 1.18]  sum[0.83,1.18]
+Fr 0.08: v 5.94  stride 48.5  T 8.2  f 0.122  beta 0.65  swing 2.8  sw/pend 0.51  peak[foot 1.20]  sum[0.81,1.20]
+Fr 0.10: v 6.64  stride 51.9  T 7.8  f 0.128  beta 0.65  swing 2.8  sw/pend 0.50  peak[foot 1.22]  sum[0.79,1.22]
+Fr 0.15: v 8.14  stride 58.6  T 7.2  f 0.139  beta 0.62  swing 2.7  sw/pend 0.49  peak[foot 1.26]  sum[0.73,1.26]
+Fr 0.20: v 9.40  stride 63.9  T 6.8  f 0.147  beta 0.60  swing 2.7  sw/pend 0.49  peak[foot 1.31]  sum[0.66,1.31]
+Fr 0.25: v 10.51  stride 68.3  T 6.5  f 0.154  beta 0.58  swing 2.7  sw/pend 0.50  peak[foot 1.35]  sum[0.57,1.35]
+Fr 0.35: v 12.43  stride 75.5  T 6.1  f 0.165  beta 0.56  swing 2.7  sw/pend 0.49  peak[foot 1.41]  sum[0.44,1.41]
+Fr 0.50: v 14.86  stride 84.1  T 5.7  f 0.177  beta 0.52  swing 2.7  sw/pend 0.49  peak[foot 1.51]  sum[0.18,1.51]
+== quad_beta_sweep_fr008: beta, frac>=3 feet, frac 2 feet, min SSM (m), min SSM while >=3 feet, static
+beta 0.55: ge3 0.20  two 0.80  ssm None  ssm3 -0.33  static False
+beta 0.60: ge3 0.40  two 0.60  ssm None  ssm3 -0.87  static False
+beta 0.65: ge3 0.60  two 0.40  ssm None  ssm3 -1.42  static False
+beta 0.70: ge3 0.80  two 0.20  ssm None  ssm3 -1.96  static False
+beta 0.75: ge3 1.00  two 0.00  ssm -2.51  ssm3 -2.51  static False
+beta 0.80: ge3 1.00  two 0.00  ssm -1.96  ssm3 -1.96  static False
+beta 0.85: ge3 1.00  two 0.00  ssm -1.42  ssm3 -1.42  static False
+beta 0.90: ge3 1.00  two 0.00  ssm -0.87  ssm3 -0.87  static False
+== quad_beta_sweep_fr020: beta, frac>=3 feet, frac 2 feet, min SSM (m), min SSM while >=3 feet, static
+beta 0.55: ge3 0.20  two 0.80  ssm None  ssm3 0.39  static False
+beta 0.60: ge3 0.40  two 0.60  ssm None  ssm3 -0.37  static False
+beta 0.65: ge3 0.60  two 0.40  ssm None  ssm3 -1.13  static False
+beta 0.70: ge3 0.80  two 0.20  ssm None  ssm3 -1.89  static False
+beta 0.75: ge3 1.00  two 0.00  ssm -2.66  ssm3 -2.66  static False
+beta 0.80: ge3 1.00  two 0.00  ssm -1.89  ssm3 -1.89  static False
+beta 0.85: ge3 1.00  two 0.00  ssm -1.13  ssm3 -1.13  static False
+beta 0.90: ge3 1.00  two 0.00  ssm -0.37  ssm3 -0.37  static False
+== quad_beta_sweep_fr008_pads: beta, frac>=3 feet, frac 2 feet, min SSM (m), min SSM while >=3 feet, static
+beta 0.55: ge3 0.20  two 0.80  ssm None  ssm3 5.22  static False
+beta 0.60: ge3 0.40  two 0.60  ssm None  ssm3 4.67  static False
+beta 0.65: ge3 0.60  two 0.40  ssm None  ssm3 4.12  static False
+beta 0.70: ge3 0.80  two 0.20  ssm None  ssm3 3.58  static False
+beta 0.75: ge3 1.00  two 0.00  ssm 3.03  ssm3 3.03  static True
+beta 0.80: ge3 1.00  two 0.00  ssm 3.58  ssm3 3.58  static True
+beta 0.85: ge3 1.00  two 0.00  ssm 4.12  ssm3 4.12  static True
+beta 0.90: ge3 1.00  two 0.00  ssm 4.67  ssm3 4.67  static True
+== quad_beta_sweep_fr002_pads: beta, frac>=3 feet, frac 2 feet, min SSM (m), min SSM while >=3 feet, static
+beta 0.55: ge3 0.20  two 0.80  ssm None  ssm3 4.48  static False
+beta 0.60: ge3 0.40  two 0.60  ssm None  ssm3 4.15  static False
+beta 0.65: ge3 0.60  two 0.40  ssm None  ssm3 3.81  static False
+beta 0.70: ge3 0.80  two 0.20  ssm None  ssm3 3.47  static False
+beta 0.75: ge3 1.00  two 0.00  ssm 3.13  ssm3 3.13  static True
+beta 0.80: ge3 1.00  two 0.00  ssm 3.47  ssm3 3.47  static True
+beta 0.85: ge3 1.00  two 0.00  ssm 3.81  ssm3 3.81  static True
+beta 0.90: ge3 1.00  two 0.00  ssm 4.15  ssm3 4.15  static True
+== quad_beta_sweep_fr008_pads_halfstride: beta, frac>=3 feet, frac 2 feet, min SSM (m), min SSM while >=3 feet, static
+beta 0.55: ge3 0.20  two 0.80  ssm None  ssm3 4.17  static False
+beta 0.60: ge3 0.40  two 0.60  ssm None  ssm3 3.92  static False
+beta 0.65: ge3 0.60  two 0.40  ssm None  ssm3 3.67  static False
+beta 0.70: ge3 0.80  two 0.20  ssm None  ssm3 3.42  static False
+beta 0.75: ge3 1.00  two 0.00  ssm 3.17  ssm3 3.17  static True
+beta 0.80: ge3 1.00  two 0.00  ssm 3.42  ssm3 3.42  static True
+beta 0.85: ge3 1.00  two 0.00  ssm 3.67  ssm3 3.67  static True
+beta 0.90: ge3 1.00  two 0.00  ssm 3.92  ssm3 3.92  static True
+== quad dynamic {"omega0": 0.5371493384196856, "lateral_ceiling_4feet_g": 0.31764705882352945}
+== tail
+Q {"I_body_yaw_ex_tail": 4549600000.0, "tail_to_body_yaw_inertia": 0.1604, "body_yaw_from_80deg_tail_sweep_deg": 11.0562, "tail_base_torque_limit_Nm": 1000000000.0, "tail_torque_body_yaw_accel_dps2": 12.5936, "tail_accel_at_limit_dps2": 78.5304} tail: {"mass_kg": 600000.0, "com_behind_hip_m": 34.0, "I_yaw_about_hip": 729600000.0, "I_about_base": 96000000.0, "I_base_check_mL2_over_10": 96000000.0}
+B {"I_body_yaw_ex_tail": 401800000.0, "tail_to_body_yaw_inertia": 3.2972, "body_yaw_from_80deg_tail_sweep_deg": 61.3831, "com_ahead_of_hip_m": -2.37, "com_ahead_of_hip_over_l": -0.0697, "static_hip_pitch_torque_Nm_total": -232496971.0298, "static_hip_pitch_torque_no_tail_Nm": 182466000.0, "tail_frac_for_com_0p10l": -0.0655, "front_offset_for_com_over_hip_m": 6.8226, "upright_lean_for_com_over_hip_deg": 19.9457, "tail_base_torque_limit_Nm": 1000000000.0, "ankle_toe_authority_Nm": 1324350000.0, "ankle_heel_authority_Nm": 618030000.0, "ankle_strategy_ceiling_g_fwd": 0.375, "ankle_strategy_ceiling_g_back": 0.175, "free_moment_budget_Nm": 215820000.0, "tail_torque_body_yaw_accel_dps2": 142.5978, "tail_accel_at_limit_dps2": 43.2486} tail: {"mass_kg": 1800000.0, "com_behind_hip_m": 23.5, "I_yaw_about_hip": 1325000000.0, "I_about_base": 882000000.0, "I_base_check_mL2_over_10": 882000000.0}
+T {"I_body_yaw_ex_tail": 1920000000.0, "tail_to_body_yaw_inertia": 1.0625, "body_yaw_from_80deg_tail_sweep_deg": 41.2121, "com_ahead_of_hip_m": 6.1, "com_ahead_of_hip_over_l": 0.1356, "static_hip_pitch_torque_Nm_total": 598410045.9844, "static_hip_pitch_torque_no_tail_Nm": 1187010000.0, "tail_frac_for_com_0p10l": 0.3167, "front_offset_for_com_over_hip_m": 10.9091, "upright_lean_for_com_over_hip_deg": null, "tail_base_torque_limit_Nm": 1000000000.0, "ankle_toe_authority_Nm": 1589220000.0, "ankle_heel_authority_Nm": 529740000.0, "ankle_strategy_ceiling_g_fwd": 0.3447, "ankle_strategy_ceiling_g_back": 0.1149, "free_moment_budget_Nm": 235440000.0, "tail_torque_body_yaw_accel_dps2": 29.8416, "tail_accel_at_limit_dps2": 28.0862} tail: {"mass_kg": 2500000.0, "com_behind_hip_m": 24.0, "I_yaw_about_hip": 2040000000.0, "I_about_base": 1600000000.0, "I_base_check_mL2_over_10": 1600000000.0}
+== biped
+B {"omega0": 0.5220153254455275, "time_constant_s": 1.9156525704423026, "double_support_lateral_margin_m": 14.0, "double_support_lateral_ceiling_g": 0.35, "single_support_lateral_ceiling_g": 0.15000000000000002, "v_capture_ankle_only_mps": 7.0472068935146215, "tripod": {"tail_contact_behind_ankle_m": 50.0, "margin_two_feet_m": 7.0, "margin_tripod_m": 14.0, "back_reach_two_feet_m": 7.0, "back_reach_tripod_m": 50.0, "back_push_ceiling_two_feet_g": 0.175, "back_push_ceiling_tripod_g": 1.25, "tail_load_bw_com_back_5m": 0.1}}
+T {"omega0": 0.4568625660472952, "time_constant_s": 2.1888420595538096, "double_support_lateral_margin_m": 15.0, "double_support_lateral_ceiling_g": 0.2872340425531915, "single_support_lateral_ceiling_g": 0.11489361702127661, "v_capture_ankle_only_mps": 7.401173569966182}
+== ground (pressure kPa, sink m by soil)
+Q fore, static: F 29.4 MN, A 100, p 294 kPa, sink {"bay_mud": 14.68, "soft_clay": 6.42, "stiff_clay": 0.0, "loose_sand": 0.0, "dense_sand": 0.0}, q_u0 {"bay_mud": 74, "soft_clay": 185, "stiff_clay": 741, "loose_sand": 1340, "dense_sand": 2736}
+Q fore, walk peak Fr0.08: F 61.8 MN, A 100, p 618 kPa, sink {"bay_mud": 30.0, "soft_clay": 25.47, "stiff_clay": 0.0, "loose_sand": 0.0, "dense_sand": 0.0}, q_u0 {"bay_mud": 74, "soft_clay": 185, "stiff_clay": 741, "loose_sand": 1340, "dense_sand": 2736}
+B/T single stance static: F 98.1 MN, A 211, p 465 kPa, sink {"bay_mud": 26.06, "soft_clay": 16.46, "stiff_clay": 0.0, "loose_sand": 0.0, "dense_sand": 0.0}, q_u0 {"bay_mud": 74, "soft_clay": 185, "stiff_clay": 741, "loose_sand": 1946, "dense_sand": 3974}
+B/T walk peak Fr0.10: F 119.4 MN, A 211, p 566 kPa, sink {"bay_mud": 30.0, "soft_clay": 22.4, "stiff_clay": 0.0, "loose_sand": 0.0, "dense_sand": 0.0}, q_u0 {"bay_mud": 74, "soft_clay": 185, "stiff_clay": 741, "loose_sand": 1946, "dense_sand": 3974}
+Q fore, geometric-scaled pad 23 m2: F 29.4 MN, A 23, p 1280 kPa, sink {"bay_mud": 30.0, "soft_clay": 30.0, "stiff_clay": 28.35, "loose_sand": 1.67, "dense_sand": 0.0}, q_u0 {"bay_mud": 74, "soft_clay": 185, "stiff_clay": 741, "loose_sand": 642, "dense_sand": 1312}
+== seismic
+Q fore on stiff ground: impulse 0.90 MN s, E 2.2 MJ (impact 0.3, sink 1.9), M {"eta_0.001": -0.97, "eta_0.01": -0.31, "eta_0.1": 0.36}
+Q fore on soft clay: impulse 0.90 MN s, E 38.5 MJ (impact 0.3, sink 38.3), M {"eta_0.001": -0.14, "eta_0.01": 0.52, "eta_0.1": 1.19}
+B/T on stiff ground: impulse 2.50 MN s, E 5.2 MJ (impact 1.2, sink 3.9), M {"eta_0.001": -0.72, "eta_0.01": -0.06, "eta_0.1": 0.61}
+B/T on bay mud: impulse 2.50 MN s, E 236.7 MJ (impact 1.2, sink 235.4), M {"eta_0.001": 0.38, "eta_0.01": 1.05, "eta_0.1": 1.72}
+B tail slam: impulse 10.80 MN s, E 42.2 MJ (impact 32.4, sink 9.8), M {"eta_0.001": -0.12, "eta_0.01": 0.55, "eta_0.1": 1.22}
+== torque (column-limb offset)
+Q Fr 0.08: peak GRF 61.8 MN, offset 0.03 l -> 6.68e+07 N m
+Q Fr 0.08: peak GRF 61.8 MN, offset 0.08 l -> 1.78e+08 N m
+Q Fr 0.08: peak GRF 61.8 MN, offset 0.15 l -> 3.34e+08 N m
+B Fr 0.1: peak GRF 119.4 MN, offset 0.03 l -> 1.22e+08 N m
+B Fr 0.1: peak GRF 119.4 MN, offset 0.08 l -> 3.25e+08 N m
+B Fr 0.1: peak GRF 119.4 MN, offset 0.15 l -> 6.09e+08 N m
+T Fr 0.1: peak GRF 119.4 MN, offset 0.03 l -> 1.61e+08 N m
+T Fr 0.1: peak GRF 119.4 MN, offset 0.08 l -> 4.30e+08 N m
+T Fr 0.1: peak GRF 119.4 MN, offset 0.15 l -> 8.06e+08 N m
+== qp {"exponent": 2.1967829085793307, "mech planar full-ID (9 dof, 4 pts)": {"n": 17, "est_ms": 0.031074765973521327}, "mech 3D full-ID (29 nv, 8 pts x4)": {"n": 61, "est_ms": 0.514470851639438}, "biped kaiju 3D full-ID (35 nv, 8 pts x4)": {"n": 67, "est_ms": 0.6322205709164351}, "quad kaiju 3D full-ID (60 nv, 16 pts x4)": {"n": 124, "est_ms": 2.444396677100047}, "quad centroidal wrench QP (4 feet x 6)": {"n": 24, "est_ms": 0.06628315502038014}, "quad centroidal force QP (16 pts x 3)": {"n": 48, "est_ms": 0.3038790232000516}}
