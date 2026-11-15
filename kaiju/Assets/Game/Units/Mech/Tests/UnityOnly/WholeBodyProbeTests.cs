@@ -103,180 +103,247 @@ namespace Game.Units.Mech.UnityTests
             }
         }
 
-        // ---------------------------------------------------------------- 1. Jacobian layout
-        sealed class Snap
-        {
-            public double[] Jac; public int Rows, Cols; public double[] QdModel; public int[] RowOf; public Quaternion[] LinkRot; public Quaternion RootRot;
-            public Vector3[] VCom, VOrig, W, Com, Origin; public Vector3 RootVCom, RootVOrig, RootW;
-        }
-
-        static Snap Capture(Rig r, int seed)
-        {
-            var rng = new System.Random(seed); var b = r.Body;
-            r.SetPose(RandomPose(r, rng, 0.25), new Vector3(0, 39, 0), Quaternion.Euler((float)(rng.NextDouble() * 40 - 20), (float)(rng.NextDouble() * 40 - 20), (float)(rng.NextDouble() * 40 - 20)));
-            r.Step();   // the pose takes effect; zero velocity, zero gravity, zero drive: it stays
-            var qd = new double[b.DofCount]; for (int d = 0; d < qd.Length; d++) qd[d] = (rng.NextDouble() * 2 - 1) * 0.05;
-            r.SetJointVelocities(qd);
-            var root = b.EngineLink(0); root.linearVelocity = RandVec(rng, 1.0); root.angularVelocity = RandVec(rng, 0.05);
-            r.Step();
-            var s = new Snap(); int nl = b.LinkCount;
-            s.Jac = new double[nl * 6 * b.ModelColumns + 64];
-            Assert.That(b.GetBodyJacobian(s.Jac, out s.Rows, out s.Cols), Is.True, "GetBodyJacobian");
-            s.QdModel = new double[s.Cols]; s.RowOf = new int[nl]; s.LinkRot = new Quaternion[nl];
-            s.VCom = new Vector3[nl]; s.VOrig = new Vector3[nl]; s.W = new Vector3[nl]; s.Com = new Vector3[nl]; s.Origin = new Vector3[nl];
-            for (int d = 0; d < b.DofCount; d++) { int c = b.ModelColumnOfDof(d); Assert.That(c, Is.InRange(0, s.Cols - 1), "model column of dof " + d); s.QdModel[c] = b.DofVelocity(d); }
-            for (int l = 0; l < nl; l++)
-            {
-                var ab = b.EngineLink(l); s.RowOf[l] = ab.index * 6; s.LinkRot[l] = ab.transform.rotation; s.Origin[l] = ab.transform.position; s.Com[l] = ab.worldCenterOfMass;
-                s.VCom[l] = ab.linearVelocity; s.VOrig[l] = ab.GetPointVelocity(ab.transform.position); s.W[l] = ab.angularVelocity;
-            }
-            s.RootRot = root.transform.rotation; s.RootVCom = root.linearVelocity; s.RootVOrig = root.GetPointVelocity(root.transform.position); s.RootW = root.angularVelocity;
-            return s;
-        }
-
-        static readonly string[] RefNames = { "COM", "origin" }, RowFrameNames = { "world", "link-local", "root-local" }, OrderNames = { "lin,ang", "ang,lin" }, BaseFrameNames = { "world", "root-local" }, BaseLinNames = { "rootCOM", "rootOrigin" };
-
-        sealed class Hyp { public int Ref, RowFrame, Order, BaseFrame, BaseLin; public double ELin, EAng; public double Score => Math.Max(ELin, EAng); public override string ToString() => $"ref={RefNames[Ref]} rows={RowFrameNames[RowFrame]} base={OrderNames[Order]} basevec={BaseFrameNames[BaseFrame]} baselin={BaseLinNames[BaseLin]} eLin={ELin:E2} eAng={EAng:E2}"; }
-
-        static Vector3 Frame3(int frame, Quaternion link, Quaternion root, Vector3 worldVec) => frame == 0 ? worldVec : Quaternion.Inverse(frame == 1 ? link : root) * worldVec;
-
-        static List<Hyp> ScoreHypotheses(Rig r, Snap[] snaps)
-        {
-            var b = r.Body; var list = new List<Hyp>();
-            for (int rf = 0; rf < 2; rf++) for (int fr = 0; fr < 3; fr++) for (int od = 0; od < 2; od++) for (int bf = 0; bf < 2; bf++) for (int bl = 0; bl < 2; bl++)
-            {
-                double nl = 0, dl = 0, na = 0, da = 0;
-                foreach (var s in snaps)
-                {
-                    var qd = (double[])s.QdModel.Clone();
-                    Vector3 lin = bl == 0 ? s.RootVCom : s.RootVOrig; if (bf == 1) { lin = Quaternion.Inverse(s.RootRot) * lin; }
-                    Vector3 ang = bf == 1 ? Quaternion.Inverse(s.RootRot) * s.RootW : s.RootW;
-                    double[] bv = od == 0 ? new double[] { lin.x, lin.y, lin.z, ang.x, ang.y, ang.z } : new double[] { ang.x, ang.y, ang.z, lin.x, lin.y, lin.z };
-                    for (int k = 0; k < 6; k++) qd[b.ModelBaseColumn(k)] = bv[k];
-                    for (int l = 0; l < b.LinkCount; l++)
-                    {
-                        int row = s.RowOf[l]; double[] p = new double[6];
-                        for (int c = 0; c < s.Cols; c++) { double q = qd[c]; if (q == 0) continue; for (int k = 0; k < 6; k++) p[k] += s.Jac[(row + k) * s.Cols + c] * q; }
-                        Vector3 tl = Frame3(fr, s.LinkRot[l], s.RootRot, rf == 0 ? s.VCom[l] : s.VOrig[l]), ta = Frame3(fr, s.LinkRot[l], s.RootRot, s.W[l]);
-                        nl += Sq(p[0] - tl.x) + Sq(p[1] - tl.y) + Sq(p[2] - tl.z); dl += tl.sqrMagnitude;
-                        na += Sq(p[3] - ta.x) + Sq(p[4] - ta.y) + Sq(p[5] - ta.z); da += ta.sqrMagnitude;
-                    }
-                }
-                list.Add(new Hyp { Ref = rf, RowFrame = fr, Order = od, BaseFrame = bf, BaseLin = bl, ELin = Math.Sqrt(nl / Math.Max(dl, 1e-30)), EAng = Math.Sqrt(na / Math.Max(da, 1e-30)) });
-            }
-            list.Sort((x, y) => x.Score.CompareTo(y.Score));
-            return list;
-        }
+        // ---------------------------------------------------------------- shared helpers (step 9.4c-2)
+        // Every experiment runs on a FRESH rig: re-using one rig through SetPose/teleport left state behind (link speeds grew about 5x per experiment, which is what made the first layout probe fit nothing).
         static double Sq(double x) => x * x;
 
-        [Test, Explicit("step 9.4c probe still open, see evidence/T-005/round4/step4c.md")]
-        public void JacobianLayout_IsSettledByJqdotAgainstLinkVelocities()
+        static void Prepare(Rig r, int seed, double amp)
         {
-            using (var r = new Rig(false))
-            {
-                var b = r.Body;
-                var snaps = new[] { Capture(r, 11), Capture(r, 12), Capture(r, 13) };
-                var ab0 = b.EngineLink(0); var starts = new List<int>(); ab0.GetDofStartIndices(starts); var g = new List<float>(); ab0.GetJointGravityForces(g);
-                var sb = new StringBuilder("jacobian layout: rows=" + snaps[0].Rows + " cols=" + snaps[0].Cols + " ModelColumns=" + b.ModelColumns + " biasLen=" + g.Count + " immovable=" + ab0.immovable + " dofCount(root)=" + ab0.dofCount + " starts=[" + string.Join(",", starts) + "]\n  linkRow=[");
-                for (int l = 0; l < b.LinkCount; l++) sb.Append(b.LinkId(l) + ":" + snaps[0].RowOf[l] / 6 + " ");
-                sb.Append("]\n  dofColumns=["); for (int d = 0; d < b.DofCount; d++) sb.Append(b.ModelColumnOfDof(d) + " ");
-                sb.Append("] baseColumns=["); for (int k = 0; k < 6; k++) sb.Append(b.ModelBaseColumn(k) + " "); sb.Append("]");
-                // diagnostic: consistency of the engine's two velocity readouts, v_origin = v_com + w x (origin - com)
-                double worst = 0; foreach (var s in snaps) for (int l = 0; l < b.LinkCount; l++) worst = Math.Max(worst, (s.VOrig[l] - (s.VCom[l] + Vector3.Cross(s.W[l], s.Origin[l] - s.Com[l]))).magnitude / (s.VCom[l].magnitude + 1e-6));
-                sb.Append("\n  |v_orig - (v_com + w x (o - c))| worst rel = " + worst.ToString("E2"));
-                var hyps = ScoreHypotheses(r, snaps);
-                for (int i = 0; i < 6; i++) sb.Append("\n  #" + i + " " + hyps[i]);
-                Log(sb.ToString());
-                Assert.That(hyps[0].Score, Is.LessThan(TolVel), "no layout hypothesis reproduces the link velocities: " + hyps[0]);
-                Assert.That(hyps[1].Score, Is.GreaterThan(10 * hyps[0].Score), "the best hypothesis is not unique: " + hyps[0] + " vs " + hyps[1]);
-            }
+            NoColliders(r);
+            var rng = new System.Random(seed);
+            r.SetPose(RandomPose(r, rng, amp), new Vector3(0, 39, 0), Quaternion.Euler((float)(rng.NextDouble() * 40 - 20), (float)(rng.NextDouble() * 40 - 20), (float)(rng.NextDouble() * 40 - 20)));
+            r.Step();   // the pose takes effect; zero velocity, zero drive
         }
 
-        // ---------------------------------------------------------------- 2. mass matrix diagonal
-        [Test, Explicit("step 9.4c probe still open, see evidence/T-005/round4/step4c.md")]
-        public void MassMatrixDiagonal_FromJacobians_MatchesEngineTorqueForUnitAcceleration()
+        /// <summary>The engine's reduced velocity vector in the model's coordinates: base from the root link (world), joints from the engine list; active DOFs in anatomical sign (as GetBodyJacobian's columns), inert slots raw.</summary>
+        static double[] ModelVelocity(Rig r)
         {
-            using (var r = new Rig(false))
+            var b = r.Body; var root = b.EngineLink(0); var jv = new List<float>(); root.GetJointVelocities(jv);
+            var q = new double[b.ModelColumns]; Assert.That(jv.Count, Is.EqualTo(q.Length));
+            for (int c = 6; c < q.Length; c++) q[c] = jv[c];
+            var v = root.linearVelocity; var w = root.angularVelocity; q[0] = v.x; q[1] = v.y; q[2] = v.z; q[3] = w.x; q[4] = w.y; q[5] = w.z;
+            for (int d = 0; d < b.DofCount; d++) { int c = b.ModelColumnOfDof(d); q[c] = q[c] * b.GetDof(d).Sign; }
+            return q;
+        }
+
+        static double[] Jacobian(Rig r, out int cols)
+        {
+            var b = r.Body; var jac = new double[b.LinkCount * 6 * b.ModelColumns + 64];
+            Assert.That(b.GetBodyJacobian(jac, out int rows, out cols), Is.True, "GetBodyJacobian"); Assert.That(rows, Is.EqualTo(6 * b.LinkCount));
+            return jac;
+        }
+
+        /// <summary>M = sum_l J_l^T diag(m_l I3, I_world,l) J_l with the Jacobian rows measured at the link COM in the world frame; principal inertias are about the link axes (inertiaTensorRotation identity, asserted).</summary>
+        static double[,] MassMatrix(Rig r, double[] jac, int cols)
+        {
+            var b = r.Body; var M = new double[cols, cols];
+            for (int l = 0; l < b.LinkCount; l++)
             {
-                var b = r.Body; var s = Capture(r, 21); int nl = b.LinkCount;
-                var engine = new double[b.DofCount]; for (int d = 0; d < engine.Length; d++) engine[d] = b.DofTorqueForAcceleration(d, 1.0);
-                var sb = new StringBuilder("mass diagonal (anatomical SI), engine = DofTorqueForAcceleration(d,1):");
-                var results = new List<KeyValuePair<double, string>>(); 
-                for (int rf = 0; rf < 2; rf++) for (int fr = 0; fr < 3; fr++)
-                {
-                    double worst = 0; var ratio = new StringBuilder();
-                    for (int d = 0; d < b.DofCount; d++)
+                var ab = b.EngineLink(l); Assert.That(Quaternion.Angle(ab.inertiaTensorRotation, Quaternion.identity), Is.LessThan(1e-3f), b.LinkId(l) + " inertia axes = link axes");
+                var seg = r.Frame.segments[l]; int row = ab.index * 6; var R = Matrix4x4.Rotate(ab.transform.rotation);
+                var iw = new double[3, 3];
+                for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) for (int k = 0; k < 3; k++) iw[i, j] += R[i, k] * seg.inertia_principal_kgm2[k] * R[j, k];
+                for (int c1 = 0; c1 < cols; c1++)
+                    for (int c2 = 0; c2 < cols; c2++)
                     {
-                        int c = b.ModelColumnOfDof(d); double m = 0;
-                        for (int l = 0; l < nl; l++)
-                        {
-                            int row = s.RowOf[l]; var seg = r.Frame.segments[l];
-                            Vector3 jl = new Vector3((float)s.Jac[row * s.Cols + c], (float)s.Jac[(row + 1) * s.Cols + c], (float)s.Jac[(row + 2) * s.Cols + c]);
-                            Vector3 ja = new Vector3((float)s.Jac[(row + 3) * s.Cols + c], (float)s.Jac[(row + 4) * s.Cols + c], (float)s.Jac[(row + 5) * s.Cols + c]);
-                            if (fr == 1) { jl = s.LinkRot[l] * jl; ja = s.LinkRot[l] * ja; } else if (fr == 2) { jl = s.RootRot * jl; ja = s.RootRot * ja; }
-                            Vector3 vcom = rf == 0 ? jl : jl + Vector3.Cross(ja, s.Com[l] - s.Origin[l]);
-                            Vector3 jal = Quaternion.Inverse(s.LinkRot[l]) * ja;
-                            double iw = seg.inertia_principal_kgm2[0] * Sq(jal.x) + seg.inertia_principal_kgm2[1] * Sq(jal.y) + seg.inertia_principal_kgm2[2] * Sq(jal.z);
-                            m += seg.mass_kg * vcom.sqrMagnitude + iw;
-                        }
-                        double rel = Math.Abs(m - engine[d]) / Math.Abs(engine[d]); worst = Math.Max(worst, rel);
-                        if (d < 12) ratio.Append((m / engine[d]).ToString("F4") + " ");
+                        double lin = jac[row * cols + c1] * jac[row * cols + c2] + jac[(row + 1) * cols + c1] * jac[(row + 1) * cols + c2] + jac[(row + 2) * cols + c1] * jac[(row + 2) * cols + c2], ang = 0;
+                        for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) ang += jac[(row + 3 + i) * cols + c1] * iw[i, j] * jac[(row + 3 + j) * cols + c2];
+                        M[c1, c2] += seg.mass_kg * lin + ang;
                     }
-                    results.Add(new KeyValuePair<double, string>(worst, "ref=" + RefNames[rf] + " rows=" + RowFrameNames[fr] + " worst rel err=" + worst.ToString("E2") + " ratio(first 12 dofs)= " + ratio));
+            }
+            return M;
+        }
+        static double[] Mul(double[,] M, double[] a) { int n = a.Length; var y = new double[n]; for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) y[i] += M[i, j] * a[j]; return y; }
+        static List<int> ActiveRows(Rig r) { var rows = new List<int>(); for (int k = 0; k < 6; k++) rows.Add(r.Body.ModelBaseColumn(k)); for (int d = 0; d < r.Body.DofCount; d++) rows.Add(r.Body.ModelColumnOfDof(d)); return rows; }
+
+        // ---------------------------------------------------------------- 1. Jacobian layout
+        [Test]
+        public void JacobianLayout_JqdotReproducesEveryLinkVelocity_AndColumnsAreTheEnginesReducedCoordinates()
+        {
+            var sb = new StringBuilder("Jacobian layout: rows block of link i = engine index*6 (COM linear, world; angular, world); columns = engine reduced coordinates (base 0..2 root COM linear, 3..5 root angular, world)");
+            foreach (int seed in new[] { 11, 12, 13 })
+                using (var r = new Rig(false))
+                {
+                    var b = r.Body; Prepare(r, seed, 0.25); var rng = new System.Random(seed + 100);
+                    var qd = new double[b.DofCount]; for (int d = 0; d < qd.Length; d++) qd[d] = (rng.NextDouble() * 2 - 1) * 0.05;
+                    r.SetJointVelocities(qd); var root = b.EngineLink(0); root.linearVelocity = RandVec(rng, 1.0); root.angularVelocity = RandVec(rng, 0.05);
+                    r.Step();
+                    var jac = Jacobian(r, out int cols); var q = ModelVelocity(r);
+                    for (int k = 0; k < 6; k++) Assert.That(b.ModelBaseColumn(k), Is.EqualTo(k));
+                    var jvRaw = new List<float>(); root.GetJointVelocities(jvRaw);
+                    for (int d = 0; d < b.DofCount; d++) Assert.That(b.DofVelocity(d), Is.EqualTo(b.GetDof(d).Sign * jvRaw[b.ModelColumnOfDof(d)]).Within(1e-4), "DofVelocity(" + d + ") is the engine list entry of its model column");
+                    var active = new double[q.Length]; foreach (int c in ActiveRows(r)) active[c] = q[c];
+                    foreach (var variant in new[] { "full engine vector", "active DOFs only" })
+                    {
+                        var qq = variant[0] == 'f' ? q : active; double nl = 0, dl = 0, na = 0, da = 0;
+                        for (int l = 0; l < b.LinkCount; l++)
+                        {
+                            var ab = b.EngineLink(l); int row = ab.index * 6; var p = new double[6];
+                            for (int k = 0; k < 6; k++) for (int c = 0; c < cols; c++) p[k] += jac[(row + k) * cols + c] * qq[c];
+                            var vl = ab.linearVelocity; var va = ab.angularVelocity;
+                            nl += Sq(p[0] - vl.x) + Sq(p[1] - vl.y) + Sq(p[2] - vl.z); dl += vl.sqrMagnitude; na += Sq(p[3] - va.x) + Sq(p[4] - va.y) + Sq(p[5] - va.z); da += va.sqrMagnitude;
+                        }
+                        double eLin = Math.Sqrt(nl / dl), eAng = Math.Sqrt(na / da);
+                        sb.Append("\n  seed " + seed + " " + variant + ": eLin=" + eLin.ToString("E2") + " eAng=" + eAng.ToString("E2"));
+                        if (variant[0] == 'f') { Assert.That(eLin, Is.LessThan(TolVel), "J qdot linear (COM, world), seed " + seed); Assert.That(eAng, Is.LessThan(TolVel), "J qdot angular (world), seed " + seed); }
+                    }
                 }
-                results.Sort((x, y) => x.Key.CompareTo(y.Key));
-                foreach (var kv in results) sb.Append("\n  " + kv.Value);
-                sb.Append("\n  engine diag: "); for (int d = 0; d < engine.Length; d++) sb.Append(b.GetDof(d).JointId + "." + b.GetDof(d).Name + "=" + engine[d].ToString("E3") + " ");
-                Log(sb.ToString());
-                Assert.That(results[0].Key, Is.LessThan(TolMass), "no (reference point, row frame) hypothesis reproduces the engine's diagonal: " + results[0].Value);
+            Log(sb.ToString());
+        }
+
+        // ---------------------------------------------------------------- 2. mass matrix: M from the Jacobian against the measured response to a joint torque (inverse-dynamics reference)
+        // The engine's own references are unusable: DofTorqueForAcceleration(d, 1) returns acceleration x mass unit (1e5) for every DOF, i.e. it does not use the inertia, and GetJointForcesForAcceleration is a one-body call.
+        // Reference used: free-floating body, gravity 0, one feed-forward torque tau on one DOF for one step, a = (qd_after - qd_before)/dt in model coordinates; then M a must equal tau e_d on the base and active rows
+        // (inert rows carry the soft-lock reaction). The torque is scaled so the largest velocity after the step is about 0.004 (one-step finite differences carry an error of about 0.5 |qd| in the residual).
+        const double TolMassDyn = 4e-3;
+
+        static double[] Response(int d, double tauNm, out double tauApplied, out double[,] M, out int cols, out double scaleVel)
+        {
+            using (var r = new Rig(false))
+            {
+                var b = r.Body; Prepare(r, 41, 0.25); var q0 = ModelVelocity(r);
+                b.SetDofFeedForward(d, tauNm); r.Step(); b.SetDofFeedForward(d, 0);
+                var q1 = ModelVelocity(r); var jac = Jacobian(r, out cols); M = MassMatrix(r, jac, cols); tauApplied = b.DofAppliedTorque(d);
+                var a = new double[cols]; scaleVel = 0;
+                for (int c = 0; c < cols; c++) { a[c] = (q1[c] - q0[c]) / Dt; double v = Math.Abs(q1[c] - q0[c]); if (c < 3) v *= 0.1; scaleVel = Math.Max(scaleVel, v); }
+                return a;
             }
         }
 
-        // ---------------------------------------------------------------- 3. bias sign
-        [Test, Explicit("step 9.4c probe still open, see evidence/T-005/round4/step4c.md")]
-        public void BiasForce_AtRest_IsMinusTheGravityGeneralisedForce_AndEqualsDofGravityTorque()
+        static bool LinkHasInertSlot(Rig r, int link) { int n = 0; for (int d = 0; d < r.Body.DofCount; d++) if (r.Body.GetDof(d).ChildLink == link) n++; return r.Body.EngineLink(link).dofCount > n; }
+
+        static void MassCheck(bool lockedAxisJoints)
+        {
+            var sb = new StringBuilder("mass matrix vs torque response, " + (lockedAxisJoints ? "joints WITH a locked axis (ankles), all active rows" : "fully active joints, rows of fully active joints + base") + " (anatomical SI): diag = (M a)[d]/tau, resid = |(M a - tau e_d)|rows| / |tau|"); double worstDiag = 0, worstRes = 0; string worstName = "";
+            int nd; var skip = new List<bool>(); var rowsOk = new List<int>();
+            using (var r0 = new Rig(false))
+            {
+                var b0 = r0.Body; nd = b0.DofCount; for (int k = 0; k < 6; k++) rowsOk.Add(b0.ModelBaseColumn(k));
+                for (int d = 0; d < nd; d++) { bool locked = LinkHasInertSlot(r0, b0.GetDof(d).ChildLink); skip.Add(locked != lockedAxisJoints); if (!locked || lockedAxisJoints) rowsOk.Add(b0.ModelColumnOfDof(d)); }
+            }
+            for (int d = 0; d < nd; d++)
+            {
+                if (skip[d]) continue;
+                Response(d, 1e8, out _, out _, out _, out double v1);
+                double tau = 1e8 * Math.Min(1.0, 0.004 / Math.Max(v1, 1e-9));
+                var a = Response(d, tau, out double tauApplied, out var M, out int cols, out _);
+                using (var r = new Rig(false))
+                {
+                    var b = r.Body; var y = Mul(M, a); int col = b.ModelColumnOfDof(d); double num = 0;
+                    foreach (int c in rowsOk) { double e = y[c] - (c == col ? tauApplied : 0); num += e * e; }
+                    double diag = y[col] / tauApplied, res = Math.Sqrt(num) / Math.Abs(tauApplied);
+                    sb.Append("\n  " + b.GetDof(d).JointId + "." + b.GetDof(d).Name + ": tau=" + tauApplied.ToString("E2") + " diag=" + diag.ToString("F5") + " resid=" + res.ToString("E2"));
+                    if (Math.Abs(diag - 1) > worstDiag) { worstDiag = Math.Abs(diag - 1); worstName = b.GetDof(d).JointId + "." + b.GetDof(d).Name; }
+                    worstRes = Math.Max(worstRes, res);
+                }
+            }
+            Log(sb.ToString());
+            Assert.That(worstDiag, Is.LessThan(TolMass), "worst |diag - 1| at " + worstName);
+            Assert.That(worstRes, Is.LessThan(TolMassDyn), "worst active-row residual");
+        }
+
+        [Test]
+        public void MassMatrix_FromJacobians_ReproducesTheTorqueResponse_FullyActiveJoints() => MassCheck(false);
+
+        // Known gap: the ankle (spherical joint with one locked axis) rows do not satisfy M a = tau: diag 0.969..1.0008, residual up to 4e-2 |tau|; the soft lock of the inert slot acts on the active ankle slots. Red on purpose, like the KnownGap gait tests.
+        [Test, Explicit("known gap: ankle rows carry the soft-lock reaction, see evidence/T-005/round4/step4c.md")]
+        public void MassMatrix_FromJacobians_ReproducesTheTorqueResponse_LockedAxisJoints_KnownGap() => MassCheck(true);
+
+        // ---------------------------------------------------------------- 3. bias: free fall from rest (zero torque): M a = Q_gravity, so h = -Q_gravity satisfies M a + h = 0
+        [Test]
+        public void BiasForce_InFreeFall_BalancesMassTimesMeasuredAcceleration_AndWeightSignIsPositiveUp()
         {
             using (var r = new Rig(true))
             {
-                var b = r.Body; var rng = new System.Random(31);
-                r.SetPose(RandomPose(r, rng, 0.25), new Vector3(0, 39, 0), Quaternion.Euler(10, -15, 5)); r.Step();
-                // gravity stays on through the one pose step (the engine bias uses the gravity of the last step; zeroing it made h = 0 in run 3): v = g dt = 0.16 m/s, Coriolis terms are second order
-                int nl = b.LinkCount; var jac = new double[nl * 6 * b.ModelColumns + 64]; Assert.That(b.GetBodyJacobian(jac, out int rows, out int cols), Is.True);
-                var h = new double[cols]; b.GetBiasForce(h);
-                var com = new Vector3[nl]; var org = new Vector3[nl]; var rowOf = new int[nl]; var rot = new Quaternion[nl];
-                for (int l = 0; l < nl; l++) { var ab = b.EngineLink(l); rowOf[l] = ab.index * 6; com[l] = ab.worldCenterOfMass; org[l] = ab.transform.position; rot[l] = ab.transform.rotation; }
-                // the row convention (reference point, frame) comes from the Jacobian probe; here both reference points are tried and the better one is reported
-                var sb = new StringBuilder("bias at rest: cols=" + cols);
-                double hmax = 0; for (int c = 0; c < cols; c++) hmax = Math.Max(hmax, Math.Abs(h[c]));
-                double bestErr = double.MaxValue; string bestName = "";
-                for (int rf = 0; rf < 2; rf++) for (int fr = 0; fr < 3; fr++)
-                {
-                    double err = 0;
-                    for (int c = 0; c < cols; c++)
-                    {
-                        double q = 0;
-                        for (int l = 0; l < nl; l++)
-                        {
-                            int row = rowOf[l];
-                            Vector3 jl = new Vector3((float)jac[row * cols + c], (float)jac[(row + 1) * cols + c], (float)jac[(row + 2) * cols + c]);
-                            Vector3 ja = new Vector3((float)jac[(row + 3) * cols + c], (float)jac[(row + 4) * cols + c], (float)jac[(row + 5) * cols + c]);
-                            if (fr == 1) { jl = rot[l] * jl; ja = rot[l] * ja; } else if (fr == 2) { jl = rot[0] * jl; ja = rot[0] * ja; }
-                            Vector3 vcom = rf == 0 ? jl : jl + Vector3.Cross(ja, com[l] - org[l]);
-                            q += r.Frame.segments[l].mass_kg * -9.81 * vcom.y;   // generalised gravity force
-                        }
-                        err = Math.Max(err, Math.Abs(h[c] + q));
-                    }
-                    sb.Append("\n  ref=" + RefNames[rf] + " rows=" + RowFrameNames[fr] + " max|h + Q_gravity|/max|h| = " + (err / hmax).ToString("E2"));
-                    if (err < bestErr) { bestErr = err; bestName = RefNames[rf] + "/" + RowFrameNames[fr]; }
-                }
-                double dofErr = 0; for (int d = 0; d < b.DofCount; d++) dofErr = Math.Max(dofErr, Math.Abs(h[b.ModelColumnOfDof(d)] - b.DofGravityTorque(d)));
-                sb.Append("\n  best=" + bestName + " relErr=" + (bestErr / hmax).ToString("E2") + "; max|h[col(d)] - DofGravityTorque(d)|/max|h| = " + (dofErr / hmax).ToString("E2") + "; h[base]=");
-                for (int k = 0; k < 6; k++) sb.Append(h[b.ModelBaseColumn(k)].ToString("E3") + " ");
-                sb.Append(" (total weight " + (b.TotalMassKg * 9.81).ToString("E3") + ")");
-                Log(sb.ToString());
-                Assert.That(bestErr / hmax, Is.LessThan(TolBias), "h is not minus the gravity generalised force under any row convention");
-                Assert.That(dofErr / hmax, Is.LessThan(TolBias), "GetBiasForce DOF entries differ from DofGravityTorque");
+                var b = r.Body; Prepare(r, 31, 0.25); var q0 = ModelVelocity(r); r.Step(); var q1 = ModelVelocity(r);
+                var jac = Jacobian(r, out int cols); var M = MassMatrix(r, jac, cols); var h = new double[cols]; b.GetBiasForce(h);
+                var a = new double[cols]; for (int c = 0; c < cols; c++) a[c] = (q1[c] - q0[c]) / Dt;
+                var y = Mul(M, a); double hmax = 0; foreach (int c in ActiveRows(r)) hmax = Math.Max(hmax, Math.Abs(h[c])); double err = 0; foreach (int c in ActiveRows(r)) err = Math.Max(err, Math.Abs(y[c] + h[c]));
+                var jg = new List<float>(); b.EngineLink(0).GetJointGravityForces(jg); double jgMax = 0; foreach (var v in jg) jgMax = Math.Max(jgMax, Math.Abs(v));
+                double weight = b.TotalMassKg * 9.81;
+                Log("bias in free fall: max|M a + h|/max|h| = " + (err / hmax).ToString("E2") + "; h[base y]=" + h[1].ToString("E4") + " weight=" + weight.ToString("E4") + " a_base_y=" + a[1].ToString("F4") + "; engine GetJointGravityForces max |entry| x unit = " + (jgMax * r.World.MassUnit.KilogramsPerUnit).ToString("E2") + " N m (base entries " + jg[0] + ".." + jg[5] + ")");
+                Assert.That(h[1], Is.EqualTo(weight).Within(1e-5 * weight), "h on the base y column is +weight (the force that must be supplied to hold the body up)");
+                Assert.That(a[1], Is.EqualTo(-9.81).Within(1e-3 * 9.81), "free-fall acceleration");
+                Assert.That(err / hmax, Is.LessThan(TolBias), "M a + h = 0 on the base and active rows");
             }
+        }
+
+        // ---------------------------------------------------------------- 0. raw data dump for offline layout analysis (step 9.4c-2)
+        static string F(float v) => v.ToString("R", System.Globalization.CultureInfo.InvariantCulture);
+        static string V3(Vector3 v) => F(v.x) + " " + F(v.y) + " " + F(v.z);
+        static void Snapshot(Rig r, StringBuilder sb, string tag, List<float> jvBefore, double tauAnat)
+        {
+            var b = r.Body; var ab0 = b.EngineLink(0); int nl = b.LinkCount;
+            var jv = new List<float>(); ab0.GetJointVelocities(jv); var jg = new List<float>(); ab0.GetJointGravityForces(jg); var jc = new List<float>(); ab0.GetJointCoriolisCentrifugalForces(jc);
+            sb.Append("S " + tag + " tau=" + tauAnat.ToString("R", System.Globalization.CultureInfo.InvariantCulture) + "\n");
+            for (int l = 0; l < nl; l++)
+            {
+                var ab = b.EngineLink(l); var q = ab.transform.rotation;
+                sb.Append("L " + l + " " + ab.index + " pos " + V3(ab.transform.position) + " rot " + F(q.x) + " " + F(q.y) + " " + F(q.z) + " " + F(q.w) + " com " + V3(ab.worldCenterOfMass) + " vcom " + V3(ab.linearVelocity) + " vorig " + V3(ab.GetPointVelocity(ab.transform.position)) + " w " + V3(ab.angularVelocity) + "\n");
+            }
+            sb.Append("JV " + string.Join(" ", jv.ConvertAll(F)) + "\n");
+            if (jvBefore != null) sb.Append("JV0 " + string.Join(" ", jvBefore.ConvertAll(F)) + "\n");
+            sb.Append("JG " + string.Join(" ", jg.ConvertAll(F)) + "\n"); sb.Append("JC " + string.Join(" ", jc.ConvertAll(F)) + "\n");
+            var jac = new ArticulationJacobian(nl * 6, jg.Count); ab0.GetDenseJacobian(ref jac);
+            var js = new StringBuilder("J " + jac.rows + " " + jac.columns);
+            for (int i = 0; i < jac.rows; i++) for (int c = 0; c < jac.columns; c++) js.Append(" " + F(jac[i, c]));
+            sb.Append(js + "\n");
+        }
+        static List<float> JointVel(Rig r) { var l = new List<float>(); r.Body.EngineLink(0).GetJointVelocities(l); return l; }
+
+        static void NoColliders(Rig r) { for (int l = 0; l < r.Body.LinkCount; l++) foreach (var c in r.Body.EngineLink(l).GetComponentsInChildren<Collider>(true)) c.enabled = false; }
+        static double VMax(Rig r) { double m = 0; for (int l = 0; l < r.Body.LinkCount; l++) { var ab = r.Body.EngineLink(l); m = Math.Max(m, Math.Max(ab.linearVelocity.magnitude, ab.angularVelocity.magnitude)); } return m; }
+
+        // one reduced coordinate at a time on a FRESH rig (the first dump showed state leaking between experiments on one rig: link speeds grew by about 5x per experiment)
+        static void ColumnExperiment(StringBuilder sb, string variant, string e, bool zeroPose, bool noCol)
+        {
+            using (var r = new Rig(false))
+            {
+                var b = r.Body; if (noCol) NoColliders(r);
+                var rng = new System.Random(41); var pose = RandomPose(r, rng, 0.25); if (zeroPose) pose = new double[b.DofCount];
+                r.SetPose(pose, new Vector3(0, 39, 0), Quaternion.Euler(12, -17, 8)); r.Step(); double pre = VMax(r);
+                var root = b.EngineLink(0); int w = e.StartsWith("base") ? int.Parse(e.Substring(4)) : -1;
+                if (w >= 0) { if (w < 3) root.linearVelocity = new Vector3(w == 0 ? 1 : 0, w == 1 ? 1 : 0, w == 2 ? 1 : 0); else root.angularVelocity = new Vector3(w == 3 ? 0.5f : 0, w == 4 ? 0.5f : 0, w == 5 ? 0.5f : 0); }
+                else { var p = e.Split(' '); var ab = b.EngineLink(int.Parse(p[1])); var v = new float[3]; v[int.Parse(p[2])] = 0.5f; ab.jointVelocity = Reduced(ab.dofCount, v); }
+                r.Step(); Snapshot(r, sb, variant + " " + e.Replace(' ', '_') + " pre=" + pre.ToString("E1"), null, 0);
+            }
+        }
+
+        [Test, Explicit("raw engine data dump for offline analysis; set PROBE_DUMP to the output path")]
+        public void DumpEngineData()
+        {
+            string path = Environment.GetEnvironmentVariable("PROBE_DUMP"); Assert.That(path, Is.Not.Null.And.Not.Empty, "PROBE_DUMP");
+            var sb = new StringBuilder(); var exps = new List<string>(); int nd = 0;
+            using (var r = new Rig(false))
+            {
+                var b = r.Body; nd = b.DofCount; var starts = new List<int>(); b.EngineLink(0).GetDofStartIndices(starts);
+                sb.Append("H starts " + string.Join(" ", starts) + " immovable " + b.EngineLink(0).immovable + " dt " + Dt + " unit " + r.World.MassUnit.KilogramsPerUnit + "\n");
+                for (int l = 0; l < b.LinkCount; l++) { var ab = b.EngineLink(l); var s = r.Frame.segments[l]; sb.Append("HL " + l + " " + b.LinkId(l) + " idx " + ab.index + " dofCount " + ab.dofCount + " mass_kg " + s.mass_kg + " inertia " + string.Join(" ", Array.ConvertAll(s.inertia_principal_kgm2, x => x.ToString("R", System.Globalization.CultureInfo.InvariantCulture))) + " parent " + (ab.transform.parent != null && ab.transform.parent.GetComponent<ArticulationBody>() != null ? ab.transform.parent.GetComponent<ArticulationBody>().index : -1) + " jointType " + ab.jointType + " comLocal " + V3(ab.centerOfMass) + " inertiaRot " + F(ab.inertiaTensorRotation.x) + " " + F(ab.inertiaTensorRotation.y) + " " + F(ab.inertiaTensorRotation.z) + " " + F(ab.inertiaTensorRotation.w) + "\n"); }
+                for (int d = 0; d < b.DofCount; d++) { var i = b.GetDof(d); sb.Append("HD " + d + " " + i.JointId + "." + i.Name + " link " + i.ChildLink + " sign " + i.Sign + " axis " + i.AxisIndex + " slotCompact " + r.Slot(d) + "\n"); }
+                for (int k = 0; k < 6; k++) exps.Add("base" + k);
+                for (int l = 0; l < b.LinkCount; l++) for (int k = 0; k < b.EngineLink(l).dofCount; k++) exps.Add("joint " + l + " " + k);
+            }
+            foreach (var e in exps) { ColumnExperiment(sb, "colZ", e, true, false); ColumnExperiment(sb, "colR", e, false, false); ColumnExperiment(sb, "colN", e, false, true); }
+            // B. one feed-forward torque at a time on a fresh rig without colliders (mass-matrix column via the measured acceleration)
+            for (int d = 0; d < nd; d++)
+                using (var r = new Rig(false))
+                {
+                    var b = r.Body; NoColliders(r); var rng = new System.Random(41); var pose = RandomPose(r, rng, 0.25);
+                    r.SetPose(pose, new Vector3(0, 39, 0), Quaternion.Euler(12, -17, 8)); r.Step();
+                    b.SetDofFeedForward(d, 1e8); r.Step(); b.SetDofFeedForward(d, 0);
+                    Snapshot(r, sb, "mass " + d + " pre=0", null, b.DofAppliedTorque(d));
+                }
+            // C. gravity bias, colliders on and off, read after one and after two steps
+            foreach (bool nc in new[] { false, true })
+                using (var r = new Rig(true))
+                {
+                    if (nc) NoColliders(r);
+                    var rng = new System.Random(31); r.SetPose(RandomPose(r, rng, 0.25), new Vector3(0, 39, 0), Quaternion.Euler(10, -15, 5)); r.Step();
+                    var ab0 = r.Body.EngineLink(0);
+                    sb.Append("G gravity " + V3(UnityEngine.Physics.gravity) + " useGravity " + ab0.useGravity + " sleeping " + ab0.IsSleeping() + " noColliders " + nc + "\n");
+                    Snapshot(r, sb, "bias" + (nc ? "N" : "C") + "1 pre=0", null, 0); r.Step(); Snapshot(r, sb, "bias" + (nc ? "N" : "C") + "2 pre=0", null, 0);
+                }
+            File.WriteAllText(path, sb.ToString());
         }
 
         // ---------------------------------------------------------------- 4. sign / DOF mapping of the sagittal leg joints
