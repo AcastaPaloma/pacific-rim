@@ -1063,17 +1063,20 @@ def roads_faults(tile):
     classes = {}
     for f in rf:
         classes[f["properties"]["class"]] = classes.get(f["properties"]["class"], 0) + 1
-    bb = [f for f in rf if f["properties"]["bridge"] and "Eisenhower" in (f["properties"].get("name") or "")]
+    # Bay Bridge segments by OSM way id (config/bay_bridge_ways.json): names are not shipped in baked tiles (T-144b, M-126)
+    bw = J(PIPE / "config" / "bay_bridge_ways.json")
+    wids = set(bw["wids"]) if bw["tile"] == tile.id else set()
+    bb = [f for f in rf if f["properties"]["bridge"] and f["properties"]["wid"] in wids]
     fc = J(tile_paths(tile) / "faults.geojson")
     g = J(GLOBAL_ROOT / "faults_bay.geojson")
     fields = {"fault_name", "section", "linetype", "slip_rate", "slip_sense", "age"}
     return res({"roads": len(rf), "with_width": sum(1 for f in rf if f["properties"]["width_m"] > 0), "classes": classes,
                 "bridges": sum(f["properties"]["bridge"] for f in rf), "tunnels": sum(f["properties"]["tunnel"] for f in rf),
-                "bay_bridge_segments_flagged_bridge": len(bb), "faults_global": len(g["features"]),
+                "bay_bridge_segments_flagged_bridge": len(bb), "bay_bridge_ways_expected": len(wids), "faults_global": len(g["features"]),
                 "faults_global_fields_ok": all(fields <= set(f["properties"]) for f in g["features"]),
                 "faults_tile": len(fc["features"]), "empty_by_design": fc["empty_by_design"], "nearest_faults": fc["nearest_faults"][:4]},
                "roads with class/width; bridges/tunnels flagged (decks not draped on the ground); global faults baked; tile clip empty by design",
-               len(rf) > 0 and len(bb) > 0 and fc["empty_by_design"] and len(g["features"]) > 3000,
+               len(rf) > 0 and len(wids) > 0 and len(bb) == len(wids) and fc["empty_by_design"] and len(g["features"]) > 3000,
                rendering="roads are painted into the terrain albedo (no coplanar geometry, no flicker); bridge and tunnel ways are not drawn at M0 (deck heights are not in the data; F-041)")
 
 

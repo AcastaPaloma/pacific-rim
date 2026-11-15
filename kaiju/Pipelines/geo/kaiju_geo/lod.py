@@ -50,7 +50,10 @@ from .common import SAMPLES, TILE_SIZE_M, Tile, canonical_json, sha256_bytes, sh
 from .terrain import decode_r16, quantise_r16
 
 SPEC = "geo_lod@v1"
-GENERATOR = "bake_lod.py@5"
+GENERATOR = "bake_lod.py@6"
+# bake_lod.py@5 manifests are what @6 writes (same geometry bytes) for every tile whose forms fit their caps at the nominal tolerance
+# (@6 only differs where the nominal tolerance missed a cap); bake_bay.lod_current accepts them for such tiles so only the others re-bake.
+GENERATOR_COMPAT = ("bake_lod.py@5",)
 MAX_LEVEL = 4
 CHUNK_M = 256.0
 N = SAMPLES - 1                       # 2048 cells per tile edge
@@ -60,10 +63,34 @@ WATER_NAVD88_M = 0.969
 
 # Footprint simplification tolerance per level (m), R-101 "footprint_max_m 2.0" at B1; coarser levels scale 2x.
 FOOTPRINT_TOL_M = {1: 1.0, 2: 2.0, 3: 4.0, 4: 8.0}
-# Per-tile footprint tolerance override (build lead decision after T-111b, 2026-11-15): L1_14_18 B1 at 2 m fits the 100k
-# cap (97,315 tris, max footprint error 3.3 m). L2_07_09 (needs 6 m, 11.1 m max error) is deliberately NOT listed: it stays
-# over the cap until M-102 render evidence says whether that error is visible. Nothing else changes.
-FOOTPRINT_TOL_OVERRIDE_M = {("L1_14_18", "b1"): 2.0}
+# Adaptive per-tile footprint tolerance (T-102b, lead decision 2026-11-15: caps stay, the footprint tolerance is the only lever).
+# A tile whose B1/B2 form exceeds its cap at the nominal tolerance climbs the ladder nominal x 2^(i/2) and is baked at the smallest
+# rung that fits the cap, provided the measured footprint error stays inside the M-102 error budget of its level. A tile that cannot
+# fit inside the budget is baked at its largest in-budget rung and stays flagged over cap (manifest `fit` + `ladder`, never silent).
+# Budget: the R-101 section 8 B1 error envelope (manifest example `errors.buildings`: footprint_max 2.0 m, footprint_rms 0.6 m at L1),
+# doubling per level like the tolerance ladder (FOOTPRINT_TOL_M). M-102 cross-check (R-101 section 2, (a) RMS silhouette <= 1 px
+# => e_out <= 1/k, guard err_max x 1158 / d <= 4/k, k = K_DESIGN = 4): the envelope's max is exact at d = max x 1158 x k / 4 =
+# 2.3 / 4.6 / 9.3 / 18.5 km for L1..L4, its rms at d = rms x 1158 x k = 2.8 / 5.6 / 11.1 / 22.3 km. Level n is first selectable at
+# the edge of the level n-1 tile when the camera sits at the edge of the centre tile of the 3 x 3 ring (2.05 / 4.1 / 8.2 / 16.4 km),
+# so the envelope is up to 12 % (max) / 26 % (rms) looser than the strict ring bound at k = 4; both d values are written next to the
+# budget in the manifest so M-102 render evidence can tighten it. Never relaxed beyond this envelope.
+PX_PER_M_AT_1M = 1158.0                     # output px per metre at 1 m, 1080 rows, 50 deg vfov (R-101 section 2)
+K_DESIGN = 4
+BUDGET_MAX_L1_M, BUDGET_RMS_L1_M = 2.0, 0.6
+LADDER_STEPS = 14                            # rungs nominal x 2^(i/2), i = 0..LADDER_STEPS (up to 128 x nominal)
+LADDER_PLATEAU = 0.005                       # stop when two successive rungs each remove under 0.5 % of the triangles
+
+
+def footprint_error_budget_m(level: int) -> dict:
+    """Footprint error budget of a level: max / rms (m) plus the M-102 selection distances (m) at which they are exact (k = K_DESIGN)
+    and the strict ring distance (edge of the level n-1 tile) they are compared with."""
+    f = 1 << (level - 1)
+    mx, rms = BUDGET_MAX_L1_M * f, BUDGET_RMS_L1_M * f
+    return {"max_m": mx, "rms_m": rms,
+            "m102_d_max_m": round(mx * PX_PER_M_AT_1M * K_DESIGN / 4.0), "m102_d_rms_m": round(rms * PX_PER_M_AT_1M * K_DESIGN),
+            "ring_d_min_m": TILE_SIZE_M * f}
+
+
 FORMS = {1: ("b1",), 2: ("b1", "b2"), 3: ("b2",), 4: ("b2",)}
 # R-101 budget numbers (section 4 table, section 1 table). Terrain cap is a hard cap; B1/B2 are "about" numbers
 # that this pipeline treats as caps and reports against (never relaxed).
@@ -745,9 +772,9 @@ def collect_pieces(feats: list[dict], landmarks: set[str]):
     return out
 
 
-def _simplify_pieces(items, tol: float, tall_only: bool | None, landmarks: set[str], mb: MeshBuilder):
-    """-> list[Piece]. tall_only True: only height >= TALL_M; False: only below; None: all."""
-    pieces: list[Piece] = []
+def _piece_inputs(items, tall_only: bool | None):
+    """Parsed, tolerance-independent inputs of the footprint simplification: [(bid, part_of, ext, gmin, bottom, top)]."""
+    out = []
     for geom, p, bid in sorted(items, key=lambda t: t[2]):
         h = float(p["height_m"])
         if tall_only is True and h < TALL_M:
@@ -763,20 +790,87 @@ def _simplify_pieces(items, tol: float, tall_only: bool | None, landmarks: set[s
         for poly in polys:
             if poly.is_empty or poly.area < 1e-6:
                 continue
-            ext = shapely.Polygon(poly.exterior)
-            s = shapely.simplify(ext, tol, preserve_topology=True) if tol > 0 else ext
-            if s.is_empty or s.geom_type != "Polygon" or s.area < 1e-6:
-                s = ext
-            s = orient(s, 1.0)
-            ring = np.asarray(s.exterior.coords)[:-1]
-            if len(ring) < 3:
-                continue
-            err = float(shapely.hausdorff_distance(ext.exterior, s.exterior))
-            pieces.append(Piece(bid, ring, gmin, bottom, top, bid in landmarks or p.get("part_of") in landmarks,
-                                err, part_of=p.get("part_of")))
-            c = s.representative_point()
-            pieces[-1].chunk = mb.chunk_of(c.x, c.y)
+            out.append((bid, p.get("part_of"), shapely.Polygon(poly.exterior), gmin, bottom, top))
+    return out
+
+
+def _simplify_inputs(inputs, tol: float, landmarks: set[str], mb: MeshBuilder) -> list[Piece]:
+    pieces: list[Piece] = []
+    for bid, part_of, ext, gmin, bottom, top in inputs:
+        s = shapely.simplify(ext, tol, preserve_topology=True) if tol > 0 else ext
+        if s.is_empty or s.geom_type != "Polygon" or s.area < 1e-6:
+            s = ext
+        s = orient(s, 1.0)
+        ring = np.asarray(s.exterior.coords)[:-1]
+        if len(ring) < 3:
+            continue
+        err = float(shapely.hausdorff_distance(ext.exterior, s.exterior))
+        pieces.append(Piece(bid, ring, gmin, bottom, top, bid in landmarks or part_of in landmarks, err, part_of=part_of))
+        c = s.representative_point()
+        pieces[-1].chunk = mb.chunk_of(c.x, c.y)
     return pieces
+
+
+def _simplify_pieces(items, tol: float, tall_only: bool | None, landmarks: set[str], mb: MeshBuilder):
+    """-> list[Piece]. tall_only True: only height >= TALL_M; False: only below; None: all."""
+    return _simplify_inputs(_piece_inputs(items, tall_only), tol, landmarks, mb)
+
+
+def prism_triangles_est(pieces: list[Piece]) -> int:
+    """Upper bound of the prism mesh: n walls x 2 + (n - 2) roof triangles per ring (degenerate faces only lower it)."""
+    return sum(3 * len(p.ring) - 2 for p in pieces)
+
+
+def prism_triangles(pieces: list[Piece], mb: MeshBuilder, room: int) -> int:
+    """Triangle count used to compare with the cap: the cheap upper bound, or the exact mesh count when the bound is within 5 % above
+    `room` (degenerate faces are dropped by the mesh builder, so a tile that fits at its nominal tolerance is never pushed up)."""
+    est = prism_triangles_est(pieces)
+    if room < est <= room * 1.05:
+        scratch = MeshBuilder(mb.x0, mb.z0)
+        build_prisms(pieces, scratch)
+        return scratch.triangles
+    return est
+
+
+def _err_stats(pieces: list[Piece]) -> tuple[float, float]:
+    errs = np.array([p.err_m for p in pieces]) if pieces else np.zeros(1)
+    return float(errs.max()), float(np.sqrt((errs ** 2).mean()))
+
+
+def fit_footprint_tolerance(inputs, nominal: float, level: int, landmarks: set[str], mb: MeshBuilder, tri_cap: int,
+                            reserve: int = 0) -> dict:
+    """Pick the footprint tolerance of one form. `reserve` triangles of the cap are spoken for (B2 rooftop surface at its coarsest cell).
+    Returns {'tol', 'pieces', 'fit', 'ladder', 'budget'}: fit is 'nominal' (fits at the nominal tolerance), 'adaptive' (fits at a
+    larger tolerance whose measured error is inside the budget) or 'over_cap_error_budget' (cannot fit inside the budget: the
+    largest in-budget rung is returned). `ladder` lists every rung tried (tol, tris upper bound, err max, err rms, in_budget)."""
+    bud = footprint_error_budget_m(level)
+    room = tri_cap - reserve
+    ladder, last = [], None
+    best = None                       # largest in-budget rung seen
+    flat = 0
+    for i in range(LADDER_STEPS + 1):
+        tol = round(nominal * 2.0 ** (i / 2.0), 4)
+        pieces = _simplify_inputs(inputs, tol, landmarks, mb)
+        est = prism_triangles(pieces, mb, room)
+        emax, erms = _err_stats(pieces)
+        inb = emax <= bud["max_m"] and erms <= bud["rms_m"]
+        ladder.append({"tol_m": tol, "prism_triangles": est, "err_max_m": round(emax, 3), "err_rms_m": round(erms, 3),
+                       "in_budget": bool(inb)})
+        if inb:
+            best = (tol, pieces)
+        if est <= room:
+            if i == 0 or inb:         # the nominal tolerance is the design value (R-101); only climbing is bounded by the budget
+                return {"tol": tol, "pieces": pieces, "fit": "nominal" if i == 0 else "adaptive", "ladder": ladder, "budget": bud}
+            break                     # fits only outside the budget: report it, never accept it
+        if last is not None:
+            flat = flat + 1 if (last - est) < LADDER_PLATEAU * max(last, 1) else 0
+            if flat >= 2:
+                break
+        last = est
+    if best is None:                  # not even the nominal rung is inside the budget: keep nominal, flagged
+        tol0 = ladder[0]["tol_m"]
+        best = (tol0, _simplify_inputs(inputs, tol0, landmarks, mb))
+    return {"tol": best[0], "pieces": best[1], "fit": "over_cap_error_budget", "ladder": ladder, "budget": bud}
 
 
 def _extrude(piece: Piece):
@@ -837,10 +931,8 @@ def building_index(pieces: list[Piece], form: str, tile: Tile) -> dict:
     return {"spec": SPEC, "form": form, "tile": tile.id, "chunk_m": CHUNK_M, "buildings": rows}
 
 
-def rooftop_surface(items, level: int, tile: Tile, hterr: np.ndarray, tri_cap: int, mb: MeshBuilder):
-    """Max-pooled rooftop surface of the buildings below TALL_M (R-101 B2). Base cells are 2 x 2^level m (1024^2
-    per tile); the cell size doubles while the mesh would exceed `tri_cap` (never above CHUNK_M). Returns
-    (cell_m, columns, triangles_cap_ok)."""
+def rooftop_grids(items, level: int, tile: Tile):
+    """Max-pooled rooftop height / ground grids (1024^2 cells of 2 x 2^level m) of the buildings below TALL_M."""
     n0 = 1024
     cell0 = tile.size / n0
     top = np.full((n0, n0), -np.inf)
@@ -868,6 +960,23 @@ def rooftop_surface(items, level: int, tile: Tile, hterr: np.ndarray, tri_cap: i
                 top[b, a] = t_top
             if g_min < gnd[b, a]:
                 gnd[b, a] = g_min
+    return top, gnd, n0, cell0
+
+
+def rooftop_coarsest_triangles(grids) -> int:
+    """Triangles of the rooftop surface at the coarsest allowed cell (CHUNK_M): the least it can cost."""
+    top, _, n0, cell0 = grids
+    f = 1
+    while cell0 * f < CHUNK_M:
+        f *= 2
+    T = top.reshape(n0 // f, f, n0 // f, f).max(axis=(1, 3)) if f > 1 else top
+    return _surface_triangles(T)
+
+
+def rooftop_emit(grids, tile: Tile, tri_cap: int, mb: MeshBuilder):
+    """Emit the rooftop surface; the cell size doubles while the mesh would exceed `tri_cap` (never above CHUNK_M).
+    Returns (cell_m, columns, triangles_cap_ok)."""
+    top, gnd, n0, cell0 = grids
     f = 1
     while True:
         if f > 1:
@@ -888,6 +997,13 @@ def rooftop_surface(items, level: int, tile: Tile, hterr: np.ndarray, tri_cap: i
         for ci in np.nonzero(occ[cj])[0]:
             _emit_column(mb, tile, cell, int(ci), cj, T, G, pad)
     return cell, cols, tris <= tri_cap
+
+
+def rooftop_surface(items, level: int, tile: Tile, hterr: np.ndarray, tri_cap: int, mb: MeshBuilder):
+    """Max-pooled rooftop surface of the buildings below TALL_M (R-101 B2). Base cells are 2 x 2^level m (1024^2
+    per tile); the cell size doubles while the mesh would exceed `tri_cap` (never above CHUNK_M). Returns
+    (cell_m, columns, triangles_cap_ok)."""
+    return rooftop_emit(rooftop_grids(items, level, tile), tile, tri_cap, mb)
 
 
 def _surface_triangles(T: np.ndarray) -> int:
@@ -1042,22 +1158,22 @@ def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, r
         items += collect_pieces(src.buildings(a, b), lm)
     forms = FORMS[level]
     bstats: dict = {}
+    grids = rooftop_grids(items, level, tile) if "b2" in forms else None
     for form in forms:
-        tol = FOOTPRINT_TOL_OVERRIDE_M.get((tile.id, form), FOOTPRINT_TOL_M[level])
+        nominal = FOOTPRINT_TOL_M[level]
         mb = MeshBuilder(tile.x0, tile.z0)
+        cap = BUDGET["b1_tris_cap"] if form == "b1" else BUDGET["b2_tris_cap"]
+        inputs = _piece_inputs(items, None if form == "b1" else True)
+        # b2: the rooftop surface needs at least its coarsest-cell triangles, the prisms get the rest of the cap
+        reserve = rooftop_coarsest_triangles(grids) if form == "b2" else 0
+        fit = fit_footprint_tolerance(inputs, nominal, level, lm, mb, cap, reserve)
+        tol, pieces = fit["tol"], fit["pieces"]
+        build_prisms(pieces, mb)
         if form == "b1":
-            pieces = _simplify_pieces(items, tol, None, lm, mb)
-            build_prisms(pieces, mb)
-            cell = None
-            cap_ok = mb.triangles <= BUDGET["b1_tris_cap"]
-            cap = BUDGET["b1_tris_cap"]
-            cols = 0
+            cell, cols = None, 0
+            cap_ok = mb.triangles <= cap
         else:
-            pieces = _simplify_pieces(items, tol, True, lm, mb)
-            build_prisms(pieces, mb)
-            cap = BUDGET["b2_tris_cap"]
-            cell, cols, cap_ok = rooftop_surface(items, level, tile, hq.reshape(SAMPLES, SAMPLES),
-                                                 max(0, cap - mb.triangles), mb)
+            cell, cols, cap_ok = rooftop_emit(grids, tile, max(0, cap - mb.triangles), mb)
             cap_ok = cap_ok and mb.triangles <= cap
         idx = building_index(pieces, form, tile)
         if form == "b2":
@@ -1065,13 +1181,20 @@ def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, r
         sorted_bids = [r["bid"] for r in idx["buildings"]]
         files[f"{form}.lodmesh"] = mb.encode(sorted_bids)
         files[f"{form}.index.json"] = (canonical_json(idx, indent=1) + "\n").encode()
-        errs = np.array([p.err_m for p in pieces]) if pieces else np.zeros(1)
+        emax, erms = _err_stats(pieces)
         bstats[form] = {"triangles": mb.triangles, "vertices": mb.vertices, "buildings": len(sorted_bids),
                         "tri_cap": cap, "within_cap": bool(cap_ok), "footprint_tol_m": tol,
-                        "footprint_max_m": round(float(errs.max()), 3),
-                        "footprint_rms_m": round(float(np.sqrt((errs ** 2).mean())), 3),
+                        "footprint_max_m": round(emax, 3),
+                        "footprint_rms_m": round(erms, 3),
                         "surface_cell_m": cell, "surface_columns": cols,
                         "file_bytes": len(files[f"{form}.lodmesh"])}
+        if fit["fit"] != "nominal":     # tiles that fit at the nominal tolerance keep the @5 form record byte for byte
+            bstats[form].update({"footprint_tol_nominal_m": nominal, "footprint_fit": fit["fit"],
+                                 "footprint_error_budget_m": {"max": fit["budget"]["max_m"], "rms": fit["budget"]["rms_m"], "k": K_DESIGN,
+                                                              "m102_d_max_m": fit["budget"]["m102_d_max_m"],
+                                                              "m102_d_rms_m": fit["budget"]["m102_d_rms_m"],
+                                                              "ring_d_min_m": fit["budget"]["ring_d_min_m"]},
+                                 "footprint_ladder": fit["ladder"]})
     lap("buildings", t)
 
     # manifest

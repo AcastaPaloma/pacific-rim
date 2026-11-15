@@ -124,7 +124,10 @@ def lod_current(lod, src, out: Path, level: int, I: int, J: int) -> bool:
         return False
     man = json.loads(mp_.read_text())
     if man.get("generator") != lod.GENERATOR:
-        return False
+        # @5 manifests equal what @6 writes for tiles whose forms fit their caps at the nominal tolerance (T-102b)
+        forms = ((man.get("errors") or {}).get("buildings") or {}).get("forms") or {}
+        if not (man.get("generator") in lod.GENERATOR_COMPAT and forms and all(f.get("within_cap") for f in forms.values())):
+            return False
     tiles = lod.contributing(level, I, J, src)
     fp = sha256_bytes("\n".join(sorted(sha256_file(src.tiles[k] / "manifest.json") for k in tiles)).encode())
     return man.get("source_fingerprint") == fp and all((d / n).exists() for n in man.get("files", {}))

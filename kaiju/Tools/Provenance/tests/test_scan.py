@@ -245,3 +245,24 @@ def test_exit_code_reflects_gates(tree, tmp_path):
     put(root, "Assets/a/PROVENANCE.json", json.dumps({"spec": "provenance@v1", "records": [
         {"paths": ["x.png"], "class": "human-made", "tool": "t", "author": "a"}]}))
     assert scan.main(["--root", root, "--out", str(tmp_path / "o"), "--denylist", deny]) == 0
+
+
+def test_build_exclusions_remove_unshipped_paths_but_m126_still_scans_them(tree):
+    root, _ = tree
+    put(root, "art/style_refs/ref_01.png", "x")
+    put(root, "Assets/Game/X/a.png", "x")
+    put(root, "art/style_refs/notes.txt", "toho")
+    assert report(tree)["m120"]["shippable"] == 2
+    put(root, "Tools/Provenance/build_exclusions.json", json.dumps(
+        {"spec": "build_exclusions@v1", "exclusions": [{"paths": ["art/style_refs/**"], "reason": "inputs only"}]}))
+    r = report(tree)
+    assert r["m120"]["shippable"] == 1 and r["m120"]["excluded_from_inventory"]["not-in-player-build"] == 1
+    assert r["m126"]["hits"] == 1
+
+
+def test_build_exclusions_need_a_reason(tree):
+    root, _ = tree
+    put(root, "Tools/Provenance/build_exclusions.json", json.dumps(
+        {"spec": "build_exclusions@v1", "exclusions": [{"paths": ["a/**"]}]}))
+    with pytest.raises(ValueError):
+        report(tree)

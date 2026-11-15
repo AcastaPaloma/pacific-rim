@@ -278,7 +278,7 @@ namespace Game.World.Streaming.Tests
         public void Hysteresis_NoThrashAtRingEdge_LoadedOnceNeverEvicted()
         {
             var h = new Harness();
-            // an L0 tile whose nearest edge is at the L0 ring radius from the focus; the focus oscillates +-150 m across it
+            // an L0 tile whose nearest edge is at the L0 ring radius from the focus; the focus oscillates +-150 m over it
             var tile = GeoTileId.From(0, 30, 30);
             var key = ResidencyKey.Render(tile);
             double ring = 1536.0;

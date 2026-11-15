@@ -1,0 +1,6 @@
+{
+  "_doc": "OSM way ids of the Bay Bridge (I-80 western span deck segments) that fall in L0_30_36, kept as ids so checks need no OSM `name` text (T-144b dropped names from shipped tiles). Found once from the pre-T-144b baked roads (git 1417add): motorway ways with bridge=1 whose OSM name contains the bridge's name. m005_check.roads_faults requires these wids to be present and bridge-flagged in the baked tile.",
+  "spec": "bay_bridge_ways@v1",
+  "tile": "L0_30_36",
+  "wids": ["osm:w661905446", "osm:w8921938"]
+}

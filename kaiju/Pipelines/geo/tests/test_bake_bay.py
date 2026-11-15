@@ -1,5 +1,6 @@
 """T-102: bake_bay driver (injected runner), per-class source plan, T-144b name drop, placeholders, LOD decisions."""
 import json
+import math
 import os
 import sys
 
@@ -9,6 +10,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import bake_bay  # noqa: E402
 from kaiju_geo import lod  # noqa: E402
 from kaiju_geo.common import CACHE  # noqa: E402
+from shapely.geometry import Polygon, mapping  # noqa: E402
 
 try:
     from test_lod import feat, box, write_l0  # noqa: E402
@@ -24,7 +26,8 @@ TILES = [
 ]
 
 
-def test_plan_of_follows_manifest_sources():
+def test_plan_of_follows_manifest_sources(tmp_path, monkeypatch):
+    monkeypatch.setattr(bake_bay, "CACHE", tmp_path)        # hermetic: the real cache holds datasf and 3dep files for some of these tiles
     assert bake_bay.plan_of(TILES[0]) == {"cudem": True, "dep3": True, "osm": True, "datasf": True}
     assert bake_bay.plan_of(TILES[1]) == {"cudem": False, "dep3": True, "osm": True, "datasf": False}
     assert bake_bay.plan_of(TILES[2]) == {"cudem": False, "dep3": False, "osm": False, "datasf": False}
@@ -98,15 +101,46 @@ def test_refuses_streamingassets_output(tmp_path):
 
 
 # ---------------------------------------------------------------- LOD decisions (build lead, after T-111b)
-def test_footprint_tolerance_override_applies_to_the_named_tile_and_form_only(tmp_path, monkeypatch):
-    assert lod.FOOTPRINT_TOL_OVERRIDE_M == {("L1_14_18", "b1"): 2.0} and lod.GENERATOR == "bake_lod.py@5"
+def test_adaptive_footprint_tolerance_fits_cap_within_budget_or_flags(tmp_path, monkeypatch):
+    assert lod.GENERATOR == "bake_lod.py@6" and not hasattr(lod, "FOOTPRINT_TOL_OVERRIDE_M")
+    bud = lod.footprint_error_budget_m(1)
+    assert bud["max_m"] == 2.0 and bud["rms_m"] == 0.6 and bud["ring_d_min_m"] == 2048.0 and bud["m102_d_max_m"] == 2316
+    assert lod.footprint_error_budget_m(4)["max_m"] == 16.0 and lod.footprint_error_budget_m(3)["rms_m"] == 2.4
+    root = tmp_path / "src"
+    # a 200-vertex circle of radius 100 m: about 16 vertices at the level-2 nominal 2 m tolerance, fewer at larger ones
+    pts = [(500 + 100 * math.cos(t / 200 * 2 * math.pi), 500 + 100 * math.sin(t / 200 * 2 * math.pi)) for t in range(200)]
+    boxes = [feat(f"osm:w{10 + k}", box(700 + 30 * k, 100, 720 + 30 * k, 120), 12.0) for k in range(30)]   # exact at any tolerance
+    write_l0(root, 0, 0, feats=[feat("osm:w1", mapping(Polygon(pts)), 24.0)] + boxes)
+    src = lod.L0Source(root)
+    nom = lod.bake_level_tile(2, 0, 0, src, tmp_path / "a", rtin=False)["forms"]["b1"]
+    assert nom["within_cap"] and "footprint_fit" not in nom      # fits at the nominal tolerance: @5-identical record
+    monkeypatch.setitem(lod.BUDGET, "b1_tris_cap", nom["triangles"] - 6)
+    ad = lod.bake_level_tile(2, 0, 0, src, tmp_path / "b", rtin=False)["forms"]["b1"]
+    assert ad["footprint_fit"] == "adaptive" and ad["within_cap"] and ad["footprint_tol_m"] > 2.0
+    assert ad["footprint_max_m"] <= ad["footprint_error_budget_m"]["max"] and ad["triangles"] < nom["triangles"]
+    assert ad["footprint_ladder"][0]["tol_m"] == 2.0 and ad["footprint_ladder"][-1]["in_budget"]
+    monkeypatch.setitem(lod.BUDGET, "b1_tris_cap", 12)             # 30 boxes alone are 300 triangles: nothing fits
+    fl = lod.bake_level_tile(2, 0, 0, src, tmp_path / "c", rtin=False)["forms"]["b1"]
+    assert fl["footprint_fit"] == "over_cap_error_budget" and not fl["within_cap"]
+    assert fl["footprint_max_m"] <= fl["footprint_error_budget_m"]["max"]
+    assert fl["footprint_ladder"][-1]["prism_triangles"] > 12 and len(fl["footprint_ladder"]) >= 3  # ladder kept as the record
+
+
+def test_lod_current_accepts_at5_manifest_only_when_all_forms_fit(tmp_path):
     root = tmp_path / "src"
     write_l0(root, 0, 0, feats=[feat("osm:w1", box(100, 100, 140, 130), 24.0)])
     src = lod.L0Source(root)
-    monkeypatch.setitem(lod.FOOTPRINT_TOL_OVERRIDE_M, ("L1_00_00", "b1"), 3.0)
-    lod.bake_level_tile(1, 0, 0, src, tmp_path / "o", rtin=False)
-    man = json.loads((tmp_path / "o" / "L1" / "00_00" / "manifest.json").read_text())
-    assert man["errors"]["buildings"]["forms"]["b1"]["footprint_tol_m"] == 3.0
+    out = tmp_path / "o"
+    lod.bake_level_tile(1, 0, 0, src, out, rtin=False)
+    mp = out / "L1" / "00_00" / "manifest.json"
+    man = json.loads(mp.read_text())
+    assert bake_bay.lod_current(lod, src, out, 1, 0, 0)
+    man["generator"] = "bake_lod.py@5"
+    mp.write_text(json.dumps(man))
+    assert bake_bay.lod_current(lod, src, out, 1, 0, 0)
+    man["errors"]["buildings"]["forms"]["b1"]["within_cap"] = False
+    mp.write_text(json.dumps(man))
+    assert not bake_bay.lod_current(lod, src, out, 1, 0, 0)
 
 
 def test_tile_over_cap_is_baked_at_its_cap_threshold(tmp_path, monkeypatch):

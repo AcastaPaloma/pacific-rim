@@ -1,0 +1,9 @@
+{
+ "spec": "build_exclusions@v1",
+ "_doc": "Paths the player build does not ship (stand-in for the T-140 build manifest, T-144b). Not an allow-list of unknown assets: each entry states where the exclusion is enforced. T-140 must make the build match this list (EditorBuildSettings still lists SampleScene.unity until then).",
+ "exclusions": [
+  {"paths": ["art/style_refs/**"], "reason": "reference images used as inputs only; never copied into the player (D-022)"},
+  {"paths": ["Assets/TutorialInfo/**"], "reason": "Unity URP template readme tooling; editor-only, excluded from the player build"},
+  {"paths": ["Assets/Scenes/SampleScene.unity"], "reason": "Unity URP template scene; the demo build scene list (T-140) does not include it"}
+ ]
+}

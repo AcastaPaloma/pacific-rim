@@ -23,7 +23,8 @@ from pathlib import Path
 # ---------------------------------------------------------------- paths
 PIPE = Path(__file__).resolve().parent.parent          # Pipelines/geo
 PROJECT = PIPE.parent.parent                            # kaiju/
-CACHE = PIPE / "cache"                                  # git-ignored raw downloads
+# git-ignored raw downloads; KAIJU_GEO_CACHE points a task worktree at the integration checkout's cache (T-102b; no symlinks)
+CACHE = Path(os.environ["KAIJU_GEO_CACHE"]).resolve() if os.environ.get("KAIJU_GEO_CACHE") else PIPE / "cache"
 CONFIG = PIPE / "config"
 # Baked, committed geo_tile@v1 output (outside the cache; readable by the Unity importer and
 # shipped with players): see README "Where the baked data lives".

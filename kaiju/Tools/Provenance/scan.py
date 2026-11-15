@@ -102,13 +102,39 @@ def classify_kind(path, include_config):
     return "other", ""
 
 
+EXCLUSIONS_FILE = "Tools/Provenance/build_exclusions.json"
+EXCLUSIONS_SPEC = "build_exclusions@v1"
+
+
+def load_build_exclusions(root):
+    """Globs of paths the player build does not ship, from the build-manifest stand-in `build_exclusions.json` (T-144b;
+    T-140's build manifest replaces it). Each entry needs `paths` and a `reason`. Excluded paths are not inventoried for M-120
+    (M-126 still scans them). Never a way to hide an asset that ships: T-140 must drop these from the build scene list / content."""
+    path = os.path.join(root, EXCLUSIONS_FILE)
+    if not os.path.exists(path):
+        return []
+    with open(path, encoding="utf-8") as fh:
+        doc = json.load(fh)
+    out = []
+    if doc.get("spec") != EXCLUSIONS_SPEC:
+        raise ValueError("%s: spec must be %s" % (EXCLUSIONS_FILE, EXCLUSIONS_SPEC))
+    for e in doc.get("exclusions", []):
+        if not (isinstance(e.get("paths"), list) and e["paths"] and isinstance(e.get("reason"), str) and e["reason"].strip()):
+            raise ValueError("%s: every exclusion needs paths and a reason" % EXCLUSIONS_FILE)
+        out += [glob_re(g) for g in e["paths"]]
+    return out
+
+
 def inventory(root, include_config):
     items, excluded = [], {}
+    not_shipped = load_build_exclusions(root)
     for top in ("Assets", "art"):
         if not os.path.isdir(os.path.join(root, top)):
             continue
         for p in walk_files(root, top):
             kind, why = classify_kind(p, include_config)
+            if kind is not None and any(g.match(p) for g in not_shipped):
+                kind, why = None, "not-in-player-build"
             if kind is None:
                 if why not in ("meta-or-housekeeping",):
                     excluded.setdefault(why, []).append(p)

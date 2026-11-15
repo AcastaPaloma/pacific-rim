@@ -1,0 +1,1160 @@
+{
+ "assets": [
+  {
+   "class": "code-generated",
+   "kind": "material",
+   "path": "Assets/Game/Slice/Materials/SliceImpactor.mat",
+   "record": "Tools/Provenance/records/m2_data_and_slice.json",
+   "tool": "Unity batch editor script (flat colour URP materials and an empty scene filled at runtime; no hand authoring)"
+  },
+  {
+   "class": "code-generated",
+   "kind": "material",
+   "path": "Assets/Game/Slice/Materials/SliceKaiju.mat",
+   "record": "Tools/Provenance/records/m2_data_and_slice.json",
+   "tool": "Unity batch editor script (flat colour URP materials and an empty scene filled at runtime; no hand authoring)"
+  },
+  {
+   "class": "code-generated",
+   "kind": "material",
+   "path": "Assets/Game/Slice/Materials/SliceMech.mat",
+   "record": "Tools/Provenance/records/m2_data_and_slice.json",
+   "tool": "Unity batch editor script (flat colour URP materials and an empty scene filled at runtime; no hand authoring)"
+  },
+  {
+   "class": "code-generated",
+   "kind": "scene",
+   "path": "Assets/Game/Slice/Scenes/M1Slice.unity",
+   "record": "Tools/Provenance/records/m2_data_and_slice.json",
+   "tool": "Unity batch editor script (flat colour URP materials and an empty scene filled at runtime; no hand authoring)"
+  },
+  {
+   "class": "code-generated",
+   "influenced_by": [
+    "art/concepts/mech_frame_balanced (pre-generated AI concept layers, D-023)"
+   ],
+   "kind": "material",
+   "path": "Assets/Game/Units/Mech/Art/Materials/mech_accent.mat",
+   "record": "Tools/Provenance/records/mech_frame_balanced.json",
+   "tool": "Unity batch import script (flat URP Lit colours from palette_roles.json; prefab and part map built from the model)"
+  },
+  {
+   "class": "code-generated",
+   "influenced_by": [
+    "art/concepts/mech_frame_balanced (pre-generated AI concept layers, D-023)"
+   ],
+   "kind": "material",
+   "path": "Assets/Game/Units/Mech/Art/Materials/mech_joint.mat",
+   "record": "Tools/Provenance/records/mech_frame_balanced.json",
+   "tool": "Unity batch import script (flat URP Lit colours from palette_roles.json; prefab and part map built from the model)"
+  },
+  {
+   "class": "code-generated",
+   "influenced_by": [
+    "art/concepts/mech_frame_balanced (pre-generated AI concept layers, D-023)"
+   ],
+   "kind": "material",
+   "path": "Assets/Game/Units/Mech/Art/Materials/mech_primary.mat",
+   "record": "Tools/Provenance/records/mech_frame_balanced.json",
+   "tool": "Unity batch import script (flat URP Lit colours from palette_roles.json; prefab and part map built from the model)"
+  },
+  {
+   "class": "code-generated",
+   "influenced_by": [
+    "art/concepts/mech_frame_balanced (pre-generated AI concept layers, D-023)"
+   ],
+   "kind": "material",
+   "path": "Assets/Game/Units/Mech/Art/Materials/mech_secondary.mat",
+   "record": "Tools/Provenance/records/mech_frame_balanced.json",
+   "tool": "Unity batch import script (flat URP Lit colours from palette_roles.json; prefab and part map built from the model)"
+  },
+  {
+   "class": "code-generated",
+   "influenced_by": [
+    "art/concepts/mech_frame_balanced (pre-generated AI concept layers, D-023)"
+   ],
+   "kind": "model",
+   "path": "Assets/Game/Units/Mech/Art/Models/mech_frame_balanced.fbx",
+   "record": "Tools/Provenance/records/mech_frame_balanced.json",
+   "tool": "Blender 5.3 (batch), script-built from mech_frame@v1 dimensions; no hand modelling"
+  },
+  {
+   "class": "code-generated",
+   "influenced_by": [
+    "art/concepts/mech_frame_balanced (pre-generated AI concept layers, D-023)"
+   ],
+   "kind": "prefab",
+   "path": "Assets/Game/Units/Mech/Art/Prefabs/MechFrameBalanced.prefab",
+   "record": "Tools/Provenance/records/mech_frame_balanced.json",
+   "tool": "Unity batch import script (flat URP Lit colours from palette_roles.json; prefab and part map built from the model)"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/crs/baytm_v1.proj4.txt",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/crs/baytm_v1.wkt",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/global/v1/bay_manifest.json",
+   "record": "Tools/Provenance/records/m2_data_and_slice.json",
+   "tool": "Pipelines/geo/bay_manifest.py (tile plan from the Bay config, OSM extract and water polygons fingerprints)"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/global/v1/faults_bay.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/global/v1/faults_bay.manifest.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/global/v1/landmarks.json",
+   "record": "Tools/Provenance/records/m2_data_and_slice.json",
+   "tool": "Pipelines/geo bake_tile.py (landmark rows from config/landmarks.json: positions and heights cited from public sources)"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_36/build_info.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_36/buildings.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_36/faults.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_36/manifest.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_36/roads.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_36/terrain.r16",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_36/terrain.tif",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_36/water.png",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_37/build_info.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_37/buildings.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_37/faults.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_37/manifest.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_37/roads.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_37/terrain.r16",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_37/terrain.tif",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_37/water.png",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_38/build_info.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_38/buildings.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_38/faults.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_38/manifest.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_38/roads.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_38/terrain.r16",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_38/terrain.tif",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/25_38/water.png",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_36/build_info.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_36/buildings.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_36/faults.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_36/manifest.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_36/roads.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_36/terrain.r16",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_36/terrain.tif",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_36/water.png",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_37/build_info.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_37/buildings.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_37/faults.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_37/landmarks.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_37/manifest.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_37/roads.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_37/terrain.r16",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_37/terrain.tif",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_37/water.png",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_38/build_info.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_38/buildings.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_38/faults.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_38/landmarks.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_38/manifest.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_38/roads.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_38/terrain.r16",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_38/terrain.tif",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/26_38/water.png",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_36/build_info.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_36/buildings.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_36/faults.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_36/manifest.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_36/roads.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_36/terrain.r16",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_36/terrain.tif",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_36/water.png",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_37/build_info.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_37/buildings.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_37/faults.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_37/manifest.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_37/roads.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_37/terrain.r16",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_37/terrain.tif",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_37/water.png",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_38/build_info.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_38/buildings.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_38/faults.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_38/manifest.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_38/roads.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_38/terrain.r16",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_38/terrain.tif",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/27_38/water.png",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/29_35/build_info.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/29_35/buildings.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/29_35/faults.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/29_35/manifest.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/29_35/roads.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/29_35/terrain.r16",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/29_35/terrain.tif",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/29_35/water.png",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/29_36/build_info.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/29_36/buildings.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/29_36/faults.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/29_36/manifest.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/29_36/roads.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/29_36/terrain.r16",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/29_36/terrain.tif",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/29_36/water.png",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_35/build_info.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_35/buildings.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_35/faults.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_35/manifest.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_35/roads.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_35/terrain.r16",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_35/terrain.tif",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_35/water.png",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_36/build_info.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_36/buildings.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_36/faults.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_36/landmarks.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_36/manifest.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_36/roads.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_36/terrain.r16",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_36/terrain.tif",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/30_36/water.png",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/31_35/build_info.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/31_35/buildings.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/31_35/faults.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/31_35/manifest.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/31_35/roads.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/31_35/terrain.r16",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/31_35/terrain.tif",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/31_35/water.png",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/31_36/build_info.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/31_36/buildings.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/31_36/faults.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/31_36/manifest.json",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/31_36/roads.geojson",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/31_36/terrain.r16",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/31_36/terrain.tif",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "data-derived",
+   "kind": "data",
+   "path": "Assets/StreamingAssets/Geo/tiles/v1/L0/31_36/water.png",
+   "record": "geo manifests (licence+attribution+url complete)",
+   "tool": "Pipelines/geo"
+  },
+  {
+   "class": "pre-generated-ai",
+   "kind": "image",
+   "path": "art/concepts/mech_frame_balanced/layer1_silhouettes-A_030477f2-cd72-437d-9a46-c1352f153159_0.jpg",
+   "record": "art/concepts/mech_frame_balanced/PROVENANCE.md",
+   "tool": "Midjourney web app, https://www.midjourney.com/imagine, driven through the Claude in Chrome extension in the founder's already signed-in Chrome (D-023; founders"
+  },
+  {
+   "class": "pre-generated-ai",
+   "kind": "image",
+   "path": "art/concepts/mech_frame_balanced/layer1_silhouettes-B_030477f2-cd72-437d-9a46-c1352f153159_2.jpg",
+   "record": "art/concepts/mech_frame_balanced/PROVENANCE.md",
+   "tool": "Midjourney web app, https://www.midjourney.com/imagine, driven through the Claude in Chrome extension in the founder's already signed-in Chrome (D-023; founders"
+  },
+  {
+   "class": "pre-generated-ai",
+   "kind": "image",
+   "path": "art/concepts/mech_frame_balanced/layer2_turnaround-final_2fa84a4e-3d89-445e-84a3-bebe971a8b3c_2.jpg",
+   "record": "art/concepts/mech_frame_balanced/PROVENANCE.md",
+   "tool": "Midjourney web app, https://www.midjourney.com/imagine, driven through the Claude in Chrome extension in the founder's already signed-in Chrome (D-023; founders"
+  },
+  {
+   "class": "pre-generated-ai",
+   "kind": "image",
+   "path": "art/concepts/mech_frame_balanced/layer2_turnaround_4d4eda80-57f4-4f41-8a02-a1c23192d6a5_1.jpg",
+   "record": "art/concepts/mech_frame_balanced/PROVENANCE.md",
+   "tool": "Midjourney web app, https://www.midjourney.com/imagine, driven through the Claude in Chrome extension in the founder's already signed-in Chrome (D-023; founders"
+  },
+  {
+   "class": "pre-generated-ai",
+   "kind": "image",
+   "path": "art/concepts/mech_frame_balanced/layer3_joints_b1c655d7-811f-4413-85da-dbd5d55c2346_3.jpg",
+   "record": "art/concepts/mech_frame_balanced/PROVENANCE.md",
+   "tool": "Midjourney web app, https://www.midjourney.com/imagine, driven through the Claude in Chrome extension in the founder's already signed-in Chrome (D-023; founders"
+  },
+  {
+   "class": "pre-generated-ai",
+   "kind": "image",
+   "path": "art/concepts/mech_frame_balanced/layer3_plate-breakup_77faf417-aabb-4415-afb6-788705e1c8f4_2.jpg",
+   "record": "art/concepts/mech_frame_balanced/PROVENANCE.md",
+   "tool": "Midjourney web app, https://www.midjourney.com/imagine, driven through the Claude in Chrome extension in the founder's already signed-in Chrome (D-023; founders"
+  },
+  {
+   "class": "pre-generated-ai",
+   "kind": "image",
+   "path": "art/concepts/mech_frame_balanced/layer4_mood-cold_6ba8d2aa-8808-4122-8f68-af97d7ed2be4_1.png",
+   "record": "art/concepts/mech_frame_balanced/PROVENANCE.md",
+   "tool": "Midjourney web app, https://www.midjourney.com/imagine, driven through the Claude in Chrome extension in the founder's already signed-in Chrome (D-023; founders"
+  },
+  {
+   "class": "pre-generated-ai",
+   "kind": "image",
+   "path": "art/concepts/mech_frame_balanced/layer4_mood-v2_af67b340-b21d-4861-b15d-57f351cebe0c_0.png",
+   "record": "art/concepts/mech_frame_balanced/PROVENANCE.md",
+   "tool": "Midjourney web app, https://www.midjourney.com/imagine, driven through the Claude in Chrome extension in the founder's already signed-in Chrome (D-023; founders"
+  },
+  {
+   "class": "pre-generated-ai",
+   "kind": "image",
+   "path": "art/concepts/mech_frame_balanced/layer4_mood-warm_c3ce3ab4-7bd4-45bf-9d83-49b30fe05d97_2.png",
+   "record": "art/concepts/mech_frame_balanced/PROVENANCE.md",
+   "tool": "Midjourney web app, https://www.midjourney.com/imagine, driven through the Claude in Chrome extension in the founder's already signed-in Chrome (D-023; founders"
+  },
+  {
+   "class": "code-generated",
+   "influenced_by": [
+    "art/concepts/mech_frame_balanced (pre-generated AI concept layers, D-023)"
+   ],
+   "kind": "model",
+   "path": "art/models/mech_frame_balanced/mech_frame_balanced.blend",
+   "record": "Tools/Provenance/records/mech_frame_balanced.json",
+   "tool": "Blender 5.3 (batch), script-built from mech_frame@v1 dimensions; no hand modelling"
+  },
+  {
+   "class": "code-generated",
+   "influenced_by": [
+    "art/concepts/mech_frame_balanced (pre-generated AI concept layers, D-023)"
+   ],
+   "kind": "model",
+   "path": "art/models/mech_frame_balanced/mech_frame_balanced.fbx",
+   "record": "Tools/Provenance/records/mech_frame_balanced.json",
+   "tool": "Blender 5.3 (batch), script-built from mech_frame@v1 dimensions; no hand modelling"
+  }
+ ],
+ "disclosure_inputs": {
+  "assets_influenced_by_pre_generated_ai": [
+   "Assets/Game/Units/Mech/Art/Materials/mech_accent.mat",
+   "Assets/Game/Units/Mech/Art/Materials/mech_joint.mat",
+   "Assets/Game/Units/Mech/Art/Materials/mech_primary.mat",
+   "Assets/Game/Units/Mech/Art/Materials/mech_secondary.mat",
+   "Assets/Game/Units/Mech/Art/Models/mech_frame_balanced.fbx",
+   "Assets/Game/Units/Mech/Art/Prefabs/MechFrameBalanced.prefab",
+   "art/models/mech_frame_balanced/mech_frame_balanced.blend",
+   "art/models/mech_frame_balanced/mech_frame_balanced.fbx"
+  ],
+  "concept_generations": {
+   "art/concepts/mech_frame_balanced": {
+    "budget": 16,
+    "used": 15
+   }
+  },
+  "pre_generated_ai_files": 9,
+  "runtime_ai_services_called": 0
+ },
+ "m120": {
+  "by_class": {
+   "code-generated": 12,
+   "data-derived": 129,
+   "pre-generated-ai": 9
+  },
+  "by_kind": {
+   "data": {
+    "total": 129,
+    "unknown": 0
+   },
+   "image": {
+    "total": 9,
+    "unknown": 0
+   },
+   "material": {
+    "total": 7,
+    "unknown": 0
+   },
+   "model": {
+    "total": 3,
+    "unknown": 0
+   },
+   "prefab": {
+    "total": 1,
+    "unknown": 0
+   },
+   "scene": {
+    "total": 1,
+    "unknown": 0
+   }
+  },
+  "coverage_pct": 100.0,
+  "covered": 150,
+  "excluded_from_inventory": {
+   "configuration-data": 64,
+   "developer-doc": 28,
+   "editor-or-test-code-not-shipped": 131,
+   "editor-tooling-not-shipped": 17,
+   "not-in-player-build": 11,
+   "source-code": 293
+  },
+  "include_config": false,
+  "invalid_records": [],
+  "pass": true,
+  "shippable": 150,
+  "threshold_pct": 100.0,
+  "unknown": 0
+ },
+ "m126": {
+  "denylist_terms": 78,
+  "hit_list": [],
+  "hits": 0,
+  "pass": true,
+  "scanned": {
+   "names": 921,
+   "text_files": 631
+  },
+  "threshold_hits": 0
+ },
+ "spec": "provenance_scan@v1",
+ "unknown_assets": []
+}
