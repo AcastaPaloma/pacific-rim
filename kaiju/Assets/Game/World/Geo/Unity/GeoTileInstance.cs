@@ -68,7 +68,70 @@ namespace Game.World.Geo.Unity
                 _objects[b.Id] = go;
             }
 
+            BuildLandmarks(model);
+
             if (opt.TerrainCollider) PhysicsSurface = BuildTerrainCollider(model);
+        }
+
+        /// <summary>Landmark physics layer (R-020 §3): static, never destroyed, not indexed by BuildingId (RemoveBuilding cannot touch them).</summary>
+        public const string LandmarkLayerName = "LandmarkStatic";
+        static bool _layerErrorLogged;
+        public Transform LandmarksRoot { get; private set; }
+
+        void BuildLandmarks(GeoTileModel model)
+        {
+            var list = model.Layer("landmarks")?.Landmarks;
+            if (list == null || list.Count == 0) return;
+            int layer = LayerMask.NameToLayer(LandmarkLayerName);
+            if (layer < 0)
+            {
+                if (!_layerErrorLogged) { _layerErrorLogged = true; Debug.LogError("[World.Geo] physics layer '" + LandmarkLayerName + "' is not defined (ProjectSettings/TagManager); landmarks stay on layer 0"); }
+                layer = 0;
+            }
+            LandmarksRoot = Child("Landmarks");
+            foreach (var lm in list)
+            {
+                var go = new GameObject(lm.Lid);
+                go.transform.SetParent(LandmarksRoot, false);
+                go.layer = layer; go.isStatic = true;
+                if (lm.Mesh != null && lm.Mesh.VertexCount > 0)
+                {
+                    go.AddComponent<MeshFilter>().sharedMesh = GeoTileBuilder.ToMesh(lm.Mesh);
+                    var mr = go.AddComponent<MeshRenderer>();
+                    mr.sharedMaterial = GeoMaterials.Building;
+                    _renderers.Add(mr);
+                }
+                for (int i = 0; i < lm.Colliders.Count; i++)
+                {
+                    var c = lm.Colliders[i];
+                    var cg = new GameObject(lm.Lid + "_c" + i);
+                    cg.transform.SetParent(go.transform, false);
+                    cg.layer = layer; cg.isStatic = true;
+                    var p0 = new Vector3((float)c.P0X, (float)c.P0Y, (float)c.P0Z);
+                    var p1 = new Vector3((float)c.P1X, (float)c.P1Y, (float)c.P1Z);
+                    var d = p1 - p0;
+                    float len = d.magnitude;
+                    cg.transform.localPosition = (p0 + p1) * 0.5f;
+                    if (len < 1e-6f) { cg.transform.localRotation = Quaternion.identity; }
+                    else if (c.Shape == GeoColliderShape.Box)
+                    {
+                        // local Z = P0->P1, local X = horizontal side vector (cos yaw, 0, sin yaw), local Y = Z x X (= Depth axis; vertical-ish for deck, horizontal for a vertical leg)
+                        var f = d / len;
+                        var w = new Vector3((float)Math.Cos(c.YawRad), 0f, (float)Math.Sin(c.YawRad));
+                        var up = Vector3.Cross(f, w);
+                        cg.transform.localRotation = up.sqrMagnitude > 1e-12f ? Quaternion.LookRotation(f, up) : Quaternion.LookRotation(f);
+                        var bc = cg.AddComponent<BoxCollider>();
+                        bc.size = new Vector3((float)c.Width, (float)c.Depth, len);
+                    }
+                    else
+                    {
+                        var f = d / len;
+                        cg.transform.localRotation = Quaternion.LookRotation(f, Mathf.Abs(f.y) < 0.99f ? Vector3.up : Vector3.right);
+                        var cc = cg.AddComponent<CapsuleCollider>();
+                        cc.direction = 2; cc.radius = (float)c.Radius; cc.height = len + 2f * (float)c.Radius;
+                    }
+                }
+            }
         }
 
         Transform Child(string n)
@@ -224,6 +287,44 @@ namespace Game.World.Geo.Unity
                     ["footprint"] = polys,
                 });
             }
+            var landmarks = new List<object>();
+            if (LandmarksRoot != null)
+                foreach (var lm in Model.Layer("landmarks").Landmarks)
+                {
+                    var t = LandmarksRoot.Find(lm.Lid);
+                    double top = double.NaN, bot = double.NaN;
+                    if (t != null)
+                    {
+                        bool any = false; Bounds bb = default;
+                        var mr = t.GetComponent<MeshRenderer>();
+                        if (mr != null) { bb = mr.bounds; any = true; }
+                        else foreach (var col in t.GetComponentsInChildren<Collider>()) { if (!any) { bb = col.bounds; any = true; } else bb.Encapsulate(col.bounds); }
+                        if (any)
+                        {
+                            ToWorld(bb.max, out _, out double ty, out _); ToWorld(bb.min, out _, out double by, out _);
+                            top = ty; bot = by;
+                        }
+                    }
+                    List<object> fp = null;
+                    if (lm.Footprint != null)
+                    {
+                        fp = new List<object>();
+                        foreach (var ring in lm.Footprint)
+                        {
+                            var pts = new List<object>(ring.Length / 2);
+                            for (int i = 0; i + 1 < ring.Length; i += 2)
+                                pts.Add(new List<object> { Math.Round(root.x + (double)(float)ring[i] + FloatingOriginX, 4), Math.Round(root.z + (double)(float)ring[i + 1] + FloatingOriginZ, 4) });
+                            fp.Add(pts);
+                        }
+                    }
+                    landmarks.Add(new Dictionary<string, object>
+                    {
+                        ["lid"] = lm.Lid, ["bid"] = lm.Bid, ["kind"] = lm.Kind, ["piece"] = lm.Piece,
+                        ["base_navd88_m"] = Round(bot), ["top_navd88_m"] = Round(top), ["height_m"] = Round(top - bot),
+                        ["anchor"] = new List<object> { Math.Round(root.x + (double)(float)lm.AnchorLocalX + FloatingOriginX, 4), Math.Round(root.z + (double)(float)lm.AnchorLocalZ + FloatingOriginZ, 4) },
+                        ["footprint"] = fp, ["colliders"] = lm.Colliders.Count,
+                    });
+                }
             var samples = new List<object>();
             if (controlPoints != null)
                 foreach (var p in controlPoints)
@@ -252,6 +353,7 @@ namespace Game.World.Geo.Unity
                 ["tile_root_scene_position"] = new List<object> { (double)root.x, (double)root.y, (double)root.z },
                 ["water_level_navd88_m"] = Model.Context.WaterLevelNavd88,
                 ["buildings"] = buildings,
+                ["landmarks"] = landmarks,
                 ["terrain_samples_columns"] = new List<object> { "x", "z", "physics_navd88_m", "render_navd88_m", "data_navd88_m" },
                 ["terrain_samples"] = samples,
                 ["stats"] = stats,
