@@ -26,12 +26,12 @@ namespace Game.World.Destruction
         }
 
         /// <summary>P(state &gt;= k | PGA) = Phi(ln(theta / theta_k) / beta_tot), k in 1..4 [S9, Assumed beta_D].</summary>
-        public static double Exceedance(HazusType type, double heightM, double periodS, double pgaG, int k)
+        public static double Exceedance(HazusType type, double heightM, double periodS, double pgaG, int k, CodeEra era = CodeEra.ModerateCode)
         {
             if (k < 1) return 1.0;
             if (k > 4 || !(pgaG > 0) || double.IsInfinity(pgaG) || !(heightM > 0) || !(periodS > 0)) return 0.0;
             double theta = DriftDemand(pgaG, periodS, heightM);
-            return NormalCdf(Math.Log(theta / DamageParameters.DriftMedian(type, k)) / DamageParameters.ShakingBetaTotal);
+            return NormalCdf(Math.Log(theta / DamageParameters.DriftMedian(type, k, DamageParameters.EffectiveEra(type, era))) / DamageParameters.ShakingBetaTotal);
         }
 
         /// <summary>P(state &gt;= k | PGA) for a building, k = 1..4. Pure; this is the function the M-051 tool compares.</summary>
@@ -41,14 +41,14 @@ namespace Game.World.Destruction
             int n = CapacityModel.ResolveLevels(a);
             var type = CapacityModel.TypeOf(CapacityModel.ClassOf(n), a.Residential);
             double t = DamageParameters.PeriodCt * Math.Pow(h, DamageParameters.PeriodExponent);
-            return Exceedance(type, h, t, pgaG, k);
+            return Exceedance(type, h, t, pgaG, k, DamageParameters.EraFromYear(a.YearBuilt));
         }
 
         /// <summary>State drawn from uniform u: max k with u &lt; P_k (0 if none). Monotone in PGA for fixed u.</summary>
-        public static byte StateFor(HazusType type, double heightM, double periodS, double pgaG, double u)
+        public static byte StateFor(HazusType type, double heightM, double periodS, double pgaG, double u, CodeEra era = CodeEra.ModerateCode)
         {
             for (int k = 4; k >= 1; k--)
-                if (u < Exceedance(type, heightM, periodS, pgaG, k)) return (byte)k;
+                if (u < Exceedance(type, heightM, periodS, pgaG, k, era)) return (byte)k;
             return 0;
         }
 

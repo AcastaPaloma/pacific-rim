@@ -112,6 +112,8 @@ namespace Game.World.Destruction
         public double FootprintM2;
         /// <summary>use = residential (selects the light wood-frame class).</summary>
         public bool Residential;
+        /// <summary>Year built from the assessor roll, or 0 when unknown (then the Moderate-Code era, as before).</summary>
+        public int YearBuilt;
     }
 
     /// <summary>Result of <see cref="IDamageModel.Apply"/>.</summary>

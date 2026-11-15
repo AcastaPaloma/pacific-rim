@@ -8,6 +8,7 @@ namespace Game.World.Destruction
     {
         public RiseClass Rise;
         public HazusType Type;
+        public CodeEra Era;
         public int Levels;
         public double MassKg;      // M0
         public double PeriodS;     // T
@@ -43,11 +44,11 @@ namespace Game.World.Destruction
         }
 
         /// <summary>Median energy to reach state k (1..4), J: work under an elastic-perfectly-plastic pushover (§2.2).</summary>
-        public static double MedianEnergy(HazusType type, RiseClass rise, double heightM, double effMassKg, double periodS, int k)
+        public static double MedianEnergy(HazusType type, RiseClass rise, double heightM, double effMassKg, double periodS, int k, CodeEra era = CodeEra.ModerateCode)
         {
             double ay = DamageParameters.YieldCoefficient(rise) * DamageParameters.Gravity;
             double dy = ay * periodS * periodS / (4.0 * Math.PI * Math.PI);
-            double sd = DamageParameters.RoofToSpectral * DamageParameters.DriftMedian(type, k) * heightM;
+            double sd = DamageParameters.RoofToSpectral * DamageParameters.DriftMedian(type, k, DamageParameters.EffectiveEra(type, era)) * heightM;
             return sd >= dy
                 ? effMassKg * ay * (0.5 * dy + (sd - dy))
                 : 0.5 * effMassKg * ay * sd * sd / dy;
@@ -61,16 +62,17 @@ namespace Game.World.Destruction
             c.Levels = n;
             c.Rise = ClassOf(n);
             c.Type = TypeOf(c.Rise, a.Residential);
+            c.Era = DamageParameters.EffectiveEra(c.Type, DamageParameters.EraFromYear(a.YearBuilt));
             double rho = a.Residential && n <= DamageParameters.LowRiseMaxLevels
                 ? DamageParameters.LightFloorMassKgPerM2 : DamageParameters.FloorMassKgPerM2;
             double area = a.FootprintM2 > 0 ? a.FootprintM2 : 1.0;
             c.MassKg = rho * area * n;
             c.PeriodS = DamageParameters.PeriodCt * Math.Pow(h, DamageParameters.PeriodExponent);
             double me = DamageParameters.ModalMassFactor * c.MassKg;
-            c.E1 = MedianEnergy(c.Type, c.Rise, h, me, c.PeriodS, 1);
-            c.E2 = MedianEnergy(c.Type, c.Rise, h, me, c.PeriodS, 2);
-            c.E3 = MedianEnergy(c.Type, c.Rise, h, me, c.PeriodS, 3);
-            c.E4 = MedianEnergy(c.Type, c.Rise, h, me, c.PeriodS, 4);
+            c.E1 = MedianEnergy(c.Type, c.Rise, h, me, c.PeriodS, 1, c.Era);
+            c.E2 = MedianEnergy(c.Type, c.Rise, h, me, c.PeriodS, 2, c.Era);
+            c.E3 = MedianEnergy(c.Type, c.Rise, h, me, c.PeriodS, 3, c.Era);
+            c.E4 = MedianEnergy(c.Type, c.Rise, h, me, c.PeriodS, 4, c.Era);
             double f = Math.Exp(DamageParameters.BetaE * ScatterZ(id, 0));
             c.S1 = c.E1 * f; c.S2 = c.E2 * f; c.S3 = c.E3 * f; c.S4 = c.E4 * f;
             return c;
