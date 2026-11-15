@@ -128,10 +128,11 @@ internal static class Program
     private sealed class SquarePilot : IPilotSource
     {
         public long Step;
-        private static readonly Vector3[] Wp = { new Vector3(400, 0, 0), new Vector3(400, 0, 400), new Vector3(0, 0, 400), new Vector3(0, 0, 0) };
+        // Two far targets 600 m apart, swapped every 8 s: the body keeps walking and swings its heading by about 0.2 rad (inside the turn-first limit).
+        private static readonly Vector3[] Wp = { new Vector3(100, 0, 3000), new Vector3(700, 0, 3000) };
         public PilotInput Read()
         {
-            int leg = (int)(Step / (Hz * 6)) % Wp.Length; // retarget every 6 s
+            int leg = (int)(Step / (Hz * 8)) % Wp.Length;
             return new PilotInput { move = MoveId.Walk, target = Wp[leg], effort = 0.8f, valid = true };
         }
     }
@@ -167,7 +168,7 @@ internal static class Program
                 if (session.State == ClientState.Joined)
                 {
                     if (joinedAt < 0) { joinedAt = clientStep; slots[phase - 1] = session.Slot.Index; events.Append("joined,").Append(phase).Append(',').Append(session.Slot.Index).Append(',').Append(clientStep).Append('\n'); }
-                    session.Update(clientStep);
+                    session.Update(link.Step); // the link owns the step clock the session was polled with
                     foreach (var b in session.Interpolator.Bodies)
                         if (b.Id == BodyId(session.Slot.Index))
                             view.Append(phase).Append(',').Append(clientStep).Append(',').Append(session.Interpolator.RenderStep.ToString("F3", Inv)).Append(',').Append(b.PosX.ToString("F4", Inv)).Append(',').Append(b.PosZ.ToString("F4", Inv)).Append(',').Append(b.Stale ? 1 : 0).Append('\n');
@@ -189,8 +190,9 @@ internal static class Program
         if (ok)
         {
             // idle gap with the old link gone, then a fresh socket (a new client process in spirit: new endpoint, new sequence numbers)
-            long gapEnd = clientStep + (long)(gap * Hz);
-            while (clientStep < gapEnd) { Thread.Sleep(20); clientStep++; }
+            double gapEndMs = sw.Elapsed.TotalMilliseconds + gap * 1000.0;
+            while (sw.Elapsed.TotalMilliseconds < gapEndMs) Thread.Sleep(5);
+            clientStep = (long)Math.Ceiling(sw.Elapsed.TotalMilliseconds / (StepS * 1000.0)); // keep the step clock on the wall clock
             ok = Phase(2, seconds2);
         }
         File.WriteAllText(Path.Combine(outDir, "client_view.csv"), view.ToString());

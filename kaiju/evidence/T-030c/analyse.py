@@ -23,3 +23,9 @@ print(f"client view rows {rows}, stale rows {stale}")
 for ph in (1, 2):
     e = errs[ph]
     if e: print(f"phase {ph}: remote-body error vs host truth (render-time matched): n={len(e)} p50 {pct(e,.5):.3f} m, p95 {pct(e,.95):.3f} m, max {max(e):.3f} m")
+
+t = truth[1]; steps = sorted(t)
+def dist(a, b): return ((t[b][0]-t[a][0])**2 + (t[b][1]-t[a][1])**2) ** 0.5
+rel = [int(l.split(',')[1]) for l in open(f"{d}/host_events.csv").read().splitlines()[1:] if l.startswith("release")]
+join = [int(l.split(',')[1]) for l in open(f"{d}/host_events.csv").read().splitlines()[1:] if l.startswith("join")]
+print(f"host body of slot 1: max speed {max(v[2] for v in t.values()):.2f} m/s, end position ({t[steps[-1]][0]:.1f}, {t[steps[-1]][1]:.1f}), path straight-line {dist(steps[0], steps[-1]):.1f} m")
