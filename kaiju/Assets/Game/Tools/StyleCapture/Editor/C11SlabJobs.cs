@@ -60,19 +60,22 @@ namespace Game.Tools.StyleCapture
             var baseFlags = s.Flags;
             var geometric = GeometricDepths(StyleCaptureJobs.Eye70Tower.Pose(), s.Capture.World.fieldOfView);
             UnityEngine.Debug.Log("[C11Slab] geometric class depths (m): near " + F(geometric[0]) + ", reference " + F(geometric[1]) + ", far " + F(geometric[2]));
-            var configs = new List<(string name, string mode, float near, float main, float far, bool layer, bool depthShift)>();
+            var configs = new List<(string name, string mode, float near, float main, float far, bool layer, bool depthShift, float nearEdge)>();
             foreach (float main in MainDepths)
-                foreach (string mode in Modes) configs.Add((ConfigName(main, mode), mode, NearDepth, main, FarDepth, mode == "layersnap", mode == "depthshift"));
+                foreach (string mode in Modes) configs.Add((ConfigName(main, mode), mode, NearDepth, main, FarDepth, mode == "layersnap", mode == "depthshift", 0f));
             // The class edges sit at their geometric depths (the near corner at about 123.5 m, not the 124.2 m of the R-131 class table; the far corner at about 10371 m): the lock is exact or
             // nothing (T-181), so the layers are also captured at the geometric depths, to separate "slabs cannot lock the edge" from "the configured depth is 0.2-0.6 % off".
-            configs.Add(("exact_layersnap", "layersnap", geometric[0], geometric[1], geometric[2], true, false));
+            configs.Add(("exact_layersnap", "layersnap", geometric[0], geometric[1], geometric[2], true, false, 0f));
+            // T-187: the layer depths the rig supplies. Near = the focus depth 124.2 m with the near silhouette 0.71 m in front of it (ThirdPersonRig.SetScriptedNearEdgeOffset, the offset between the
+            // R-131 class depth and the geometric corner depth), main and far = the rig's skyline / far design depths. This is the configuration C11 is judged on (Q-260, ledger/HANDOFF.md T-187).
+            configs.Add(("rigedge_layersnap", "layersnap", NearDepth, 664.874f, FarDepth, true, false, NearDepth - geometric[0]));
             foreach (var c in configs)
             {
                 if (filter.Length > 0 && Array.FindIndex(filter.Split(','), f => c.name.Contains(f)) < 0) continue;
                 s.Flags = baseFlags.With(PixelFlags.SubPixelPresent, true).With(PixelFlags.DepthShift, c.depthShift).With(PixelFlags.LayerSnap, c.layer);
                 s.Apply();
                 foreach (var g in Groups(phases))
-                    for (int j = 0; j < g.Phases; j++) Sequence(s, "c11slab_" + c.name, g.Tag + j.ToString("D2", CultureInfo.InvariantCulture), c.name, c.mode, c.near, c.main, c.far, geometric, g, j, StartOffsetM(j, g.StartM, g.SpanM), frames);
+                    for (int j = 0; j < g.Phases; j++) Sequence(s, "c11slab_" + c.name, g.Tag + j.ToString("D2", CultureInfo.InvariantCulture), c.name, c.mode, c.near, c.main, c.far, geometric, g, j, StartOffsetM(j, g.StartM, g.SpanM), frames, c.nearEdge);
             }
             // depthShift is ignored when layerSnap is on (MODULE.md): both on must render exactly like layerSnap alone.
             if (filter.Length == 0 || filter.Contains("both"))
@@ -82,6 +85,39 @@ namespace Game.Tools.StyleCapture
                 Sequence(s, "c11slab_ref663_layersnap_and_depthshift", "B00", "ref663_layersnap_and_depthshift", "layersnap", NearDepth, 663.0f, FarDepth, geometric, g, 0, StartOffsetM(0, g.StartM, g.SpanM), frames);
             }
             s.Flags = baseFlags; s.Apply();
+        }
+
+        /// <summary>
+        /// T-185 / T-187: C7 (the 80 m block against its background at about 150 m and 1 km; the 1.8 m marker at 600 m) with layered rendering off and on, all five profiles, the eye70 stations
+        /// and the scale view, through the same writer as the M-003 stills. Sets <c>c7layers_off_stills</c> / <c>c7layers_on_stills</c> (+ <c>_details</c>); <c>c7layers.json</c> records which frames
+        /// took the layered path. Analysis: <c>pixel_checks.py blocks</c> and <c>scale</c> on both.
+        /// </summary>
+        public static void C7Layers(StyleCaptureSession s)
+        {
+            var baseFlags = s.Flags; var rig = s.Rig; var rows = new List<string>();
+            foreach (bool layerOn in new[] { false, true })
+            {
+                string set = layerOn ? "c7layers_on_stills" : "c7layers_off_stills", detailSet = set.Replace("stills", "details");
+                foreach (string profile in StyleCaptureJobs.AllProfiles)
+                {
+                    s.SetProfile(profile); s.Capture.SetOutputSize(1920, 1080);
+                    s.Flags = baseFlags.With(PixelFlags.SubPixelPresent, true).With(PixelFlags.LayerSnap, layerOn).With(PixelFlags.DepthShift, false); s.Apply();
+                    float depth = layerOn ? NearDepth : StyleCaptureJobs.ReferenceDepth; int layered = 0;
+                    rig.Cut(); rig.SetScriptedLayerReferences(0f, 0f); rig.SetScriptedNearEdgeOffset(0f);
+                    var v = StyleCaptureJobs.Eye70;
+                    var w = s.Begin(set, profile + "_eye70", "T-187", new MotionSpec { Type = "scripted", Axis = "stations", Notes = "twelve fixed stations, layerSnap " + (layerOn ? "on" : "off") }, 12, v.Name);
+                    for (int i = 0; i < 12; i++) { w.FrameScripted(i, StyleCaptureJobs.OnGrid(s, StyleCaptureJobs.Station(v, i)), depth); if (s.Capture.Binder.Layered) layered++; }
+                    w.End();
+                    var d = s.Begin(detailSet, profile + "_detail_scale", "T-187", new MotionSpec(), 1, "detail_scale");
+                    d.FrameScripted(0, StyleCaptureJobs.OnGrid(s, StyleCaptureJobs.ScalePose()), depth); int layeredScale = s.Capture.Binder.Layered ? 1 : 0;
+                    d.End();
+                    rows.Add("{\"layerSnap\": " + (layerOn ? "true" : "false") + ", \"profile\": \"" + profile + "\", \"eye70_layered_frames\": " + layered + ", \"eye70_frames\": 12, \"scale_layered\": " + layeredScale + "}");
+                    UnityEngine.Debug.Log("[C7Layers] layerSnap " + layerOn + " " + profile + ": layered " + layered + "/12 eye70 frames, scale view " + layeredScale);
+                }
+            }
+            s.Flags = baseFlags; s.Apply();
+            Directory.CreateDirectory(s.OutRoot);
+            File.WriteAllText(Path.Combine(s.OutRoot, "c7layers.json"), "{\"schema\": \"c7_layers@v1\", \"rows\": [\n " + string.Join(",\n ", rows) + "\n]}\n");
         }
 
         /// <summary>Eye depth (forward distance, m) of the three class points from a pose: constant along the T1 motion (the camera moves along its right axis).</summary>
@@ -154,7 +190,7 @@ namespace Game.Tools.StyleCapture
             if (!ok) throw new InvalidOperationException("layercheck failed: the layered path was not taken or the output holds a colour outside the palette (see layercheck.json)");
         }
 
-        static void Sequence(StyleCaptureSession s, string set, string seq, string config, string mode, float nearDepth, float mainDepth, float farDepth, float[] geometric, Group group, int phase, float startM, int frames)
+        static void Sequence(StyleCaptureSession s, string set, string seq, string config, string mode, float nearDepth, float mainDepth, float farDepth, float[] geometric, Group group, int phase, float startM, int frames, float nearEdgeOffset = 0f)
         {
             var cap = s.Capture; var rig = s.Rig; var v = StyleCaptureJobs.Eye70Tower;
             s.Grid(StyleCaptureJobs.ReferenceDepth, out float metresPerTexel, out float degreesPerTexel);
@@ -163,6 +199,7 @@ namespace Game.Tools.StyleCapture
             bool layer = mode == "layersnap";
             rig.Cut();
             rig.SetScriptedLayerReferences(layer ? mainDepth : 0f, layer ? farDepth : 0f);
+            rig.SetScriptedNearEdgeOffset(layer ? nearEdgeOffset : 0f);
             var points = ClassPoints; var json = new StringBuilder(1 << 20); int layeredFrames = 0; string rejection = null;
             json.Append('[');
             cap.Binder.controlDepthOutput = true;
@@ -220,7 +257,8 @@ namespace Game.Tools.StyleCapture
             var m = new StringBuilder();
             m.Append("{\n \"schema\": \"").Append(Schema).Append("\",\n \"config\": ").Append(StyleCaptureSession.Str(config)).Append(",\n \"mode\": ").Append(StyleCaptureSession.Str(mode));
             m.Append(",\n \"main_depth_m\": ").Append(F(mainDepth)).Append(",\n \"snap_reference_depth_m\": ").Append(F(layer ? nearDepth : mainDepth));
-            m.Append(",\n \"layer_depths_m\": ").Append(layer ? "[" + F(nearDepth) + ", " + F(mainDepth) + ", " + F(farDepth) + "]" : "null");
+            m.Append(",\n \"layer_depths_m\": ").Append(layer ? "[" + F(CameraLayerStabiliser.NearEdgeDepth(nearDepth, nearEdgeOffset)) + ", " + F(mainDepth) + ", " + F(farDepth) + "]" : "null");
+            m.Append(",\n \"near_edge_offset_m\": ").Append(F(nearEdgeOffset));
             m.Append(",\n \"class_depths_geometric_m\": [").Append(F(geometric[0])).Append(", ").Append(F(geometric[1])).Append(", ").Append(F(geometric[2])).Append("]");
             m.Append(",\n \"flags\": {\"subPixelPresent\": ").Append(s.Flags.IsOn(PixelFlags.SubPixelPresent) ? "true" : "false").Append(", \"depthShift\": ").Append(s.Flags.IsOn(PixelFlags.DepthShift) ? "true" : "false").Append(", \"layerSnap\": ").Append(s.Flags.IsOn(PixelFlags.LayerSnap) ? "true" : "false").Append("}");
             m.Append(",\n \"group\": ").Append(StyleCaptureSession.Str(group.Tag)).Append(",\n \"group_classes\": [").Append(string.Join(", ", Array.ConvertAll(group.Classes, StyleCaptureSession.Str))).Append("]").Append(",\n \"phase_index\": ").Append(phase).Append(",\n \"start_offset_m\": ").Append(F(startM)).Append(",\n \"frames\": ").Append(frames).Append(",\n \"layered_frames\": ").Append(layeredFrames);

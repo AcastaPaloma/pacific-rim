@@ -33,11 +33,12 @@ namespace Game.Cameras
         CameraPose m_ScriptedPose, m_Wanted, m_Rendered;
         float m_ScriptedReferenceDepth;
         double m_FocusX, m_FocusY, m_FocusZ;
-        float m_OrbitYawDeg, m_ReferenceDepth;
+        float m_OrbitYawDeg, m_ReferenceDepth, m_NearEdgeOffset;
         PixelStabilisationHints m_Hints;
         SnapState m_Snap;
         LayerSnapState m_LayerSnap;
         bool m_LayerSnapOn;
+        float m_ScriptedNearEdgeOffset;            // scripted poses: metres from the focus depth to the near silhouette (0 = none)
         float m_LayerMainDepth, m_LayerFarDepth;   // 0 = take the settings value
 
         public string RigId => Id;
@@ -72,6 +73,9 @@ namespace Game.Cameras
 
         /// <summary>Overrides the main and far slab reference depths (capture sequences, for example 663.0 for the reference-class edge); 0 restores the settings values.</summary>
         public void SetScriptedLayerReferences(float mainDepth, float farDepth) { m_LayerMainDepth = mainDepth; m_LayerFarDepth = farDepth; }
+
+        /// <summary>Scripted poses (capture sequences): how far the near subject's nearest silhouette lies in front of the reference depth, so the near slab is snapped at the true edge depth (T-187). 0 = the reference depth.</summary>
+        public void SetScriptedNearEdgeOffset(float metres) { m_ScriptedNearEdgeOffset = metres; }
 
         /// <summary>Play Mode wiring through the Core registry: flags, the event bus subscription, and registration as the active rig.</summary>
         public void Bind(IServiceRegistry registry)
@@ -136,7 +140,7 @@ namespace Game.Cameras
                 hasGrid = m_GridSource.TryGetGrid(out grid);
             }
 
-            if (m_Scripted) { m_Wanted = m_ScriptedPose; m_ReferenceDepth = m_ScriptedReferenceDepth; }
+            if (m_Scripted) { m_Wanted = m_ScriptedPose; m_ReferenceDepth = m_ScriptedReferenceDepth; m_NearEdgeOffset = m_ScriptedNearEdgeOffset; }
             else if (m_Target != null && m_Target.TryGetTarget(out CameraVec3 ground, out float height))
             {
                 double fx = ground.X, fy = ground.Y + height * s.focusHeightFraction, fz = ground.Z;
@@ -150,12 +154,13 @@ namespace Game.Cameras
                 float distance = height * s.distanceInTargetHeights;
                 m_Wanted = RigFraming.Orbit(new CameraVec3((float)m_FocusX, (float)m_FocusY, (float)m_FocusZ), m_OrbitYawDeg, s.pitchDeg, distance);
                 m_ReferenceDepth = Mathf.Max(s.minReferenceDepthM, distance);
+                m_NearEdgeOffset = s.nearEdgeOffsetInTargetHeights * height;
             }
             else
             {
                 Vector3 e = transform.eulerAngles;
                 m_Wanted = new CameraPose { Position = new CameraVec3(transform.position.x, transform.position.y, transform.position.z), YawDeg = e.y, PitchDeg = -Mathf.DeltaAngle(0f, e.x) };
-                m_ReferenceDepth = s.minReferenceDepthM;
+                m_ReferenceDepth = s.minReferenceDepthM; m_NearEdgeOffset = 0f;
             }
 
             var wanted = m_Wanted;
@@ -171,7 +176,7 @@ namespace Game.Cameras
                 StabilisedPose result;
                 var layers = new LayerSettings
                 {
-                    SnapPosition = m_SnapPosition, QuantiseRotation = m_QuantiseRotation, NearDepth = m_ReferenceDepth,
+                    SnapPosition = m_SnapPosition, QuantiseRotation = m_QuantiseRotation, NearDepth = CameraLayerStabiliser.NearEdgeDepth(m_ReferenceDepth, m_NearEdgeOffset),
                     MainDepth = m_LayerMainDepth > 0f ? m_LayerMainDepth : s.skylineDepthM, FarDepth = m_LayerFarDepth > 0f ? m_LayerFarDepth : s.farDepthM,
                 };
                 if (m_LayerSnapOn && CameraLayerStabiliser.TryStabilise(wanted, grid, layers, cut, ref m_LayerSnap, out result)) m_Snap = default;

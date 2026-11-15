@@ -93,6 +93,7 @@ namespace Game.Tools.StyleCapture
                 if (jobs.Contains("m004ab")) StyleCaptureJobs.M004Ab(s);
                 if (jobs.Contains("subpixel")) StyleCaptureJobs.SubPixel(s);
                 if (jobs.Contains("layercheck")) C11SlabJobs.LayerCheck(s);   // T-181d acceptance (layered vs single render); on request
+                if (jobs.Contains("c7layers")) C11SlabJobs.C7Layers(s);   // T-187 / T-185: C7 with layered rendering off and on; on request
                 if (jobs.Contains("c11slab")) C11SlabJobs.Run(s);   // T-182; not in the default list: request it explicitly
                 if (jobs.Contains("orbit")) StyleCaptureJobs.Orbit(s);
                 if (jobs.Contains("dolly")) StyleCaptureJobs.Dolly(s);

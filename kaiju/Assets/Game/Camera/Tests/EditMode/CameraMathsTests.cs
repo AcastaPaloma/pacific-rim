@@ -361,6 +361,29 @@ public void ForwardMotion_IsContinuous_AtAnyHeading()
         }
 
         [Test]
+        public void NearEdgeDepth_IsTheFocusDepthMinusTheOffset_NeverAboveTheFocusDepth_NeverBelowTheMinimum()
+        {
+            Assert.AreEqual(123.49f, CameraLayerStabiliser.NearEdgeDepth(124.2f, 0.71f), 1e-4f);
+            Assert.AreEqual(124.2f, CameraLayerStabiliser.NearEdgeDepth(124.2f, 0f), 0f, "no offset: the focus depth (v1 behaviour)");
+            Assert.AreEqual(124.2f, CameraLayerStabiliser.NearEdgeDepth(124.2f, -3f), 0f);
+            Assert.AreEqual(1f, CameraLayerStabiliser.NearEdgeDepth(5f, 50f), 0f);
+            Assert.AreEqual(5f, CameraLayerStabiliser.NearEdgeDepth(5f, float.PositiveInfinity), 0f);
+        }
+
+        [Test]
+        public void SubjectNearEdgeDepth_IsTheBoxSupportAlongForward()
+        {
+            var pose = Pose(0f, 0f, 0f, 0f, 0f);   // looking along +Z
+            Assert.AreEqual(90.0, CameraLayerStabiliser.SubjectNearEdgeDepth(pose, new CameraVec3(7f, 3f, 100f), new CameraVec3(20f, 20f, 10f)), 1e-9);
+            var yawed = Pose(0f, 0f, 0f, 90f, 0f); // looking along +X: the box's X half-extent now counts
+            Assert.AreEqual(95.0, CameraLayerStabiliser.SubjectNearEdgeDepth(yawed, new CameraVec3(100f, 0f, 3f), new CameraVec3(5f, 1f, 50f)), 1e-6);
+            // A near layer snapped at that depth is a valid layering and its reference depth is the one reported in the hints.
+            var st = new LayerSnapState(); var s = T1(); s.NearDepth = CameraLayerStabiliser.NearEdgeDepth(124.2f, 0.71f);
+            Assert.IsTrue(CameraLayerStabiliser.TryStabilise(PathAt(0), Grid(), s, true, ref st, out var r));
+            Assert.AreEqual(123.49f, r.Hints.LayerNear.ReferenceDepth, 1e-4f);
+        }
+
+        [Test]
         public void ALayerCut_FiresOnlyForTheLayerWhoseReferenceDepthChanged_AndAGlobalCutFiresAll()
         {
             var st = new LayerSnapState();

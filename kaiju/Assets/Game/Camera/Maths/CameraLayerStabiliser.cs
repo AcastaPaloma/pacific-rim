@@ -84,6 +84,30 @@ namespace Game.Cameras
             };
         }
 
+        /// <summary>
+        /// Reference depth of the near layer (T-187): the eye depth of the near subject's nearest silhouette, not of its focus point. The C11 lock is exact or nothing (T-181), so a near
+        /// layer snapped at the focus depth (124.2 m) while the edge a viewer tracks is 0.7 m closer (123.49 m) flips a whole texel once in a few tens of snap steps (T-184: 4.58 px).
+        /// <paramref name="edgeOffsetM"/> is how far the nearest silhouette lies in front of the focus depth; a non-positive offset keeps the focus depth.
+        /// Never below <paramref name="minDepthM"/>; the caller's layer check (near &lt; main) still applies.
+        /// </summary>
+        public static float NearEdgeDepth(float focusDepthM, float edgeOffsetM, float minDepthM = 1f)
+        {
+            if (!(edgeOffsetM > 0f) || float.IsInfinity(edgeOffsetM)) return focusDepthM;
+            return Math.Min(focusDepthM, Math.Max(minDepthM, focusDepthM - edgeOffsetM));
+        }
+
+        /// <summary>
+        /// Eye depth (m, along the pose's forward axis) of the nearest point of a world-space box around a subject: the centre's depth minus the box's support along the forward axis.
+        /// Planner-side helper for a subject whose bounds are known (the capture tool, a later mech bounds provider).
+        /// </summary>
+        public static double SubjectNearEdgeDepth(CameraPose pose, CameraVec3 centre, CameraVec3 halfExtents)
+        {
+            double yaw = pose.YawDeg * Math.PI / 180.0, pitch = pose.PitchDeg * Math.PI / 180.0;
+            double fx = Math.Sin(yaw) * Math.Cos(pitch), fy = Math.Sin(pitch), fz = Math.Cos(yaw) * Math.Cos(pitch);
+            double centreDepth = (centre.X - pose.Position.X) * fx + (centre.Y - pose.Position.Y) * fy + (centre.Z - pose.Position.Z) * fz;
+            return centreDepth - (Math.Abs(fx) * halfExtents.X + Math.Abs(fy) * halfExtents.Y + Math.Abs(fz) * halfExtents.Z);
+        }
+
         static StabiliserSettings Settings(in LayerSettings s, float depth) => new StabiliserSettings { SnapPosition = true, QuantiseRotation = s.QuantiseRotation, ReferenceDepth = depth };
 
         static bool Changed(float previous, float now) => Math.Abs(now / (double)previous - 1.0) > GridTolerance;
