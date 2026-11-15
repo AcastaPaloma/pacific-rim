@@ -22,7 +22,9 @@ import subprocess
 import sys
 
 SPEC = "build_manifest@v1"
-VOLATILE = ("built_utc",)
+VOLATILE = ("built_utc", "build_guid")   # build_guid: Unity's random per-build id (boot.config), see normalised_sha256
+ANCHOR = b"blank\x00"
+SIGNATURE_FILES = ("Contents/_CodeSignature/CodeResources",)   # a hash list of the other files incl. the guid-bearing ones
 
 
 def sha256_file(path):
@@ -41,7 +43,33 @@ def canon(obj):
     return json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()
 
 
-def hash_tree(root):
+def read_build_guid(app_dir):
+    p = os.path.join(app_dir, "Contents", "Resources", "Data", "boot.config")
+    if os.path.exists(p):
+        m = re.search(rb"^build-guid=([0-9a-f]{32})\s*$", open(p, "rb").read(), re.M)
+        if m:
+            return m.group(1).decode()
+    return None
+
+
+def normalised_sha256(path, guid):
+    """sha256 with Unity's per-build random build-guid zeroed out (M-121: the only proven non-deterministic input; it is
+    embedded in boot.config and the player executable). Files without the guid hash as they are."""
+    if not guid:
+        return sha256_file(path)
+    data = open(path, "rb").read()
+    if guid.encode() in data:
+        data = data.replace(guid.encode(), b"0" * 32)
+    if "/Contents/MacOS/" in path.replace(os.sep, "/"):
+        # Unity 6000.6 player executable: a random 32-byte blob follows the "blank\0" string (proven by a byte compare of two
+        # builds of one commit: the only differing bytes). If the anchor is absent the file hashes whole and M-121 reports it.
+        i = data.find(ANCHOR)
+        if i >= 0:
+            data = data[:i + len(ANCHOR)] + b"0" * 32 + data[i + len(ANCHOR) + 32:]
+    return _sha(data)
+
+
+def hash_tree(root, guid=None):
     """Every file under root as {path, size, sha256} (symlinks as {path, link}); sorted by path, POSIX separators."""
     entries = []
     for d, dirs, files in os.walk(root):
@@ -52,7 +80,10 @@ def hash_tree(root):
             if os.path.islink(p):
                 entries.append({"path": rel, "link": os.readlink(p)})
             elif os.path.isfile(p):
-                entries.append({"path": rel, "size": os.path.getsize(p), "sha256": sha256_file(p)})
+                if rel in SIGNATURE_FILES and guid:
+                    entries.append({"path": rel, "size": os.path.getsize(p), "sha256": "derived-signature"})
+                else:
+                    entries.append({"path": rel, "size": os.path.getsize(p), "sha256": normalised_sha256(p, guid)})
     entries.sort(key=lambda e: e["path"])
     return entries
 
@@ -123,7 +154,8 @@ def build_manifest(repo_root, app_dir, unity_json, tile_set, attribution_dir, bu
         bv = re.search(r"^\s*bundleVersion:\s*(\S+)", f.read(), re.M).group(1)
     commit = git(repo_root, "rev-parse", "HEAD")
     dirty = bool(git(repo_root, "status", "--porcelain", "--untracked-files=no", "--", "."))
-    files = hash_tree(app_dir)
+    guid = read_build_guid(app_dir)
+    files = hash_tree(app_dir, guid)
     flags = flag_snapshot(repo_root)
     if tiles_root is None:
         tiles_root = os.path.join(repo_root, "Assets", "StreamingAssets", "Geo", "tiles", "v1")
@@ -137,6 +169,7 @@ def build_manifest(repo_root, app_dir, unity_json, tile_set, attribution_dir, bu
         "commit": commit,
         "dirty": dirty,
         "version_stamp": "%s+%s%s" % (bv, commit[:10], ".dirty" if dirty else ""),
+        "build_guid": guid,
         "built_utc": built_utc or datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "unity": {k: ub[k] for k in ("unity_version", "target", "development", "result")},
         "scenes": ub["scenes"],

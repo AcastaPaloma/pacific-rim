@@ -91,8 +91,8 @@ def test_extra_file_and_flag_change_detected(tmp_path):
     assert any("platform.steam" in k or "feature_flags" in k for k, _, _ in bm.diff_manifests(a, c))
 
 
-def test_volatile_fields_are_only_built_utc():
-    assert bm.VOLATILE == ("built_utc",)
+def test_volatile_fields_are_only_built_utc_and_guid():
+    assert bm.VOLATILE == ("built_utc", "build_guid")
     assert bm.diff_manifests({"built_utc": "a", "x": 1}, {"built_utc": "b", "x": 1}) == []
     assert bm.diff_manifests({"commit": "a"}, {"commit": "b"}) == [("/commit", "a", "b")]
 
@@ -140,3 +140,20 @@ def test_cli_write_exit_1_on_gate_failure(tmp_path):
     r = subprocess.run([PY, SCRIPT, "write", "--repo-root", str(repo), "--app-dir", str(make_app(tmp_path)), "--unity-json", str(ub),
                         "--tile-set", str(ts), "--attribution-dir", str(ad), "--out", str(tmp_path / "m.json")], capture_output=True, text=True)
     assert r.returncode == 1 and "BUILD GATE FAILED" in r.stderr
+
+
+def test_unity_build_guid_is_normalised_and_signature_derived(tmp_path):
+    repo = make_repo(tmp_path)
+
+    def app(name, guid):
+        return make_app(tmp_path, name, {
+            "Contents/Resources/Data/boot.config": ("gfx=1\nbuild-guid=%s\n" % guid).encode(),
+            "Contents/MacOS/G": b"head" + guid.encode() + b"blank\x00" + bytes([ord(guid[0])]) * 32 + b"tail",
+            "Contents/_CodeSignature/CodeResources": guid.encode() + b"sig"})
+    a = manifest(tmp_path, repo, app("one", "a" * 32), "t1")
+    b = manifest(tmp_path, repo, app("two", "b" * 32), "t2")
+    assert a["build_guid"] != b["build_guid"] and bm.diff_manifests(a, b) == []
+    c = manifest(tmp_path, repo, make_app(tmp_path, "three", {
+        "Contents/Resources/Data/boot.config": ("gfx=2\nbuild-guid=%s\n" % ("b" * 32)).encode(),
+        "Contents/MacOS/G": b"head" + b"b" * 32 + b"blank\x00" + b"b" * 32 + b"tailX", "Contents/_CodeSignature/CodeResources": b"x"}), "t")
+    assert bm.diff_manifests(a, c)   # a real content change is still caught

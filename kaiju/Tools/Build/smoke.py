@@ -46,7 +46,7 @@ def player_binary(app):
     return os.path.join(macos, names[0])
 
 
-def run(app, out_dir, frames=120, timeout=600):
+def run(app, out_dir, frames=120, timeout=600, width=1280, height=720):
     os.makedirs(out_dir, exist_ok=True)
     log = os.path.join(out_dir, "smoke_player.log")
     sj = os.path.join(out_dir, "smoke_slice.json")
@@ -54,7 +54,7 @@ def run(app, out_dir, frames=120, timeout=600):
         if os.path.exists(p):
             os.remove(p)
     cmd = [player_binary(app), "-sliceSmoke", str(frames), "-sliceSmokeOut", sj, "-logFile", log,
-           "-screen-width", "640", "-screen-height", "360", "-screen-fullscreen", "0", "-popupwindow"]
+           "-screen-width", str(width), "-screen-height", str(height), "-screen-fullscreen", "0", "-popupwindow"]
     t0 = time.time()
     try:
         code = subprocess.run(cmd, timeout=timeout, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode
@@ -83,8 +83,10 @@ def main(argv=None):
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--frames", type=int, default=120)
     ap.add_argument("--timeout", type=int, default=600)
+    ap.add_argument("--width", type=int, default=1280)
+    ap.add_argument("--height", type=int, default=720)
     a = ap.parse_args(argv)
-    r = run(a.app, a.out_dir, a.frames, a.timeout)
+    r = run(a.app, a.out_dir, a.frames, a.timeout, a.width, a.height)
     print("SMOKE %s: exit=%s tiles=%s buildings=%s %.0fs log=%s" % ("PASS" if r["pass"] else "FAIL", r["exit_code"], r["tiles"], r["buildings_registered"], r["seconds"], r["log"]))
     for f in r["failures"]:
         print("  - " + f, file=sys.stderr)
