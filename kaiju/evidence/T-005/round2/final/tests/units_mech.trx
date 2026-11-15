@@ -1,0 +1,803 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="c27371ff-a375-4219-b4ec-1b1e398bf1de" name="@revw-172-31-218-200 2026-11-14 19:08:21" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-11-14T19:08:21.6203660-05:00" queuing="2026-11-14T19:08:21.6203660-05:00" start="2026-11-14T19:08:21.1647020-05:00" finish="2026-11-14T19:08:24.0678670-05:00" />
+  <TestSettings name="default" id="f596577e-9840-48e0-ab5f-e507a0ddf147">
+    <Deployment runDeploymentRoot="_revw-172-31-218-200_2026-11-14_19_08_21" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="dcb77877-321e-4878-a3f4-aceef1310615" testId="cc07723a-c514-5933-6f52-d85563a54d0f" testName="FootIsFlat_ForAtLeastThreeQuartersOfSingleSupport(0.15d)" computerName="revw-172-31-218-200" duration="00:00:00.0249899" startTime="2026-11-14T19:08:23.6019730-05:00" endTime="2026-11-14T19:08:23.6269630-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dcb77877-321e-4878-a3f4-aceef1310615" />
+    <UnitTestResult executionId="b9de2cca-1ba7-4a89-8e89-f21d9fabd75e" testId="a592078d-ffa0-cf1a-679d-3196950550c8" testName="DcmAtEnd_MatchesNumericalIntegration_WithMovingCop" computerName="revw-172-31-218-200" duration="00:00:00.0002750" startTime="2026-11-14T19:08:21.5966770-05:00" endTime="2026-11-14T19:08:21.5969520-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b9de2cca-1ba7-4a89-8e89-f21d9fabd75e" />
+    <UnitTestResult executionId="e7192ca4-7052-4e4c-bedd-36df9670c489" testId="ea88aa89-6746-3443-bb69-64ee877bca3d" testName="FeatureFlags_OfTheseModules_ShipSwitchedOff" computerName="revw-172-31-218-200" duration="00:00:00.0033790" startTime="2026-11-14T19:08:21.5442390-05:00" endTime="2026-11-14T19:08:21.5476170-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e7192ca4-7052-4e4c-bedd-36df9670c489" />
+    <UnitTestResult executionId="e9f6109d-cbae-47d7-92e8-5b5a82b24d6e" testId="ca9c8219-4da1-3305-2f57-7e3b53b04339" testName="HipExcursion_IsAtMostFiveHundredthsOfLegLength(0.1d)" computerName="revw-172-31-218-200" duration="00:00:00.0236660" startTime="2026-11-14T19:08:23.6745570-05:00" endTime="2026-11-14T19:08:23.6982230-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e9f6109d-cbae-47d7-92e8-5b5a82b24d6e" />
+    <UnitTestResult executionId="f6a57961-cf1c-4f8f-b66f-b468dd349ae6" testId="9e4730b5-6f0d-b1b5-b9c7-9ad0b6daf845" testName="InstantReversal_SlowsThenTurnsOnTheSpot" computerName="revw-172-31-218-200" duration="00:00:00.0029600" startTime="2026-11-14T19:08:21.5866550-05:00" endTime="2026-11-14T19:08:21.5896140-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f6a57961-cf1c-4f8f-b66f-b468dd349ae6" />
+    <UnitTestResult executionId="02497242-8e2d-428d-a47f-b80f99dd9c0e" testId="11b953a0-f996-d1dc-13d9-9e7aa3a3ccf9" testName="ShippedConfig_HasWaistAndArmGains_AndImpStaysOff" computerName="revw-172-31-218-200" duration="00:00:00.0005260" startTime="2026-11-14T19:08:24.0409220-05:00" endTime="2026-11-14T19:08:24.0414480-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="02497242-8e2d-428d-a47f-b80f99dd9c0e" />
+    <UnitTestResult executionId="64aab8f4-8321-4f7d-934e-d78334a52be2" testId="5211ee5a-c4f5-738b-36fd-5fa4d6f3f149" testName="CompositionRootAssemblies_AreNotCompiledIntoPlayers" computerName="revw-172-31-218-200" duration="00:00:00.0168010" startTime="2026-11-14T19:08:21.5244560-05:00" endTime="2026-11-14T19:08:21.5412570-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="64aab8f4-8321-4f7d-934e-d78334a52be2" />
+    <UnitTestResult executionId="4ced96ce-5d85-414d-bc54-b9cbc8f9641b" testId="f369e4ef-ca0b-05bc-eb8c-281332bbf0b4" testName="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.0213d)" computerName="revw-172-31-218-200" duration="00:00:00.0060770" startTime="2026-11-14T19:08:21.7367830-05:00" endTime="2026-11-14T19:08:21.7428590-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4ced96ce-5d85-414d-bc54-b9cbc8f9641b">
+      <Output>
+        <StdOut>Fr 0.0213: largest sample-to-sample change 0.0355 (m or 0.1 rad) at dt 2.95 ms, largest second difference 148.5 (coordinate 4 at phase 0.3150)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="563fd302-b66f-448f-bc39-e6b53883cfe6" testId="5314f6a6-0e17-7a0e-a292-d441068c04ad" testName="FreeMomentUtilisation_IsAtMostTwoThirds_AfterTheDeclaredTrunkShare(0.1d)" computerName="revw-172-31-218-200" duration="00:00:00.0237320" startTime="2026-11-14T19:08:23.6270250-05:00" endTime="2026-11-14T19:08:23.6507570-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="563fd302-b66f-448f-bc39-e6b53883cfe6" />
+    <UnitTestResult executionId="ff83e523-bc13-4edd-a61b-0ea49bb138ad" testId="b11f1549-f42e-42ca-dbd8-a59700fd58e3" testName="Solve_ReachesTheAnkleTarget_WithTheKneeForward(0.0f,-36.0f,6.0f,0.0f)" computerName="revw-172-31-218-200" duration="00:00:00.0003010" startTime="2026-11-14T19:08:21.5961470-05:00" endTime="2026-11-14T19:08:21.5964480-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ff83e523-bc13-4edd-a61b-0ea49bb138ad" />
+    <UnitTestResult executionId="31757a4e-6f0b-4d9c-a7aa-56f3638926d0" testId="19231b66-126d-2828-fd04-5b253e204065" testName="Share_PureCancel_IsOne" computerName="revw-172-31-218-200" duration="00:00:00.0000510" startTime="2026-11-14T19:08:24.0407820-05:00" endTime="2026-11-14T19:08:24.0408330-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="31757a4e-6f0b-4d9c-a7aa-56f3638926d0" />
+    <UnitTestResult executionId="7f073999-430e-4376-a2c8-ae223d5006d5" testId="34f7bb59-be86-16f4-d444-5e1d3b3cf132" testName="Sum_AppliesGains_AndStanceGravityShare" computerName="revw-172-31-218-200" duration="00:00:00.0061040" startTime="2026-11-14T19:08:21.5796540-05:00" endTime="2026-11-14T19:08:21.5857580-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7f073999-430e-4376-a2c8-ae223d5006d5" />
+    <UnitTestResult executionId="e235fc7f-0d6a-45c3-a610-362342415207" testId="89ad664e-6232-ca9b-3207-3317e322a550" testName="EveryModule_HasContractsRuntimeTestsAndModuleDoc" computerName="revw-172-31-218-200" duration="00:00:00.0021110" startTime="2026-11-14T19:08:21.5421010-05:00" endTime="2026-11-14T19:08:21.5442120-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e235fc7f-0d6a-45c3-a610-362342415207" />
+    <UnitTestResult executionId="a5208317-c2c9-48ad-b6dc-f7dfcbbc377c" testId="1bbe8783-ba76-e390-fb44-6cb0a6349da4" testName="WalkToATarget_StopsByTheStoppingDistanceRule_AndEmergencyStopIsFasterButLimited" computerName="revw-172-31-218-200" duration="00:00:00.0018670" startTime="2026-11-14T19:08:21.5935340-05:00" endTime="2026-11-14T19:08:21.5954010-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a5208317-c2c9-48ad-b6dc-f7dfcbbc377c" />
+    <UnitTestResult executionId="c379d3d7-24ca-48ea-821e-2bdad415b69b" testId="ec29a7cf-fa8a-fb61-d91a-56661ef0f7bb" testName="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.0213d)" computerName="revw-172-31-218-200" duration="00:00:00.0022080" startTime="2026-11-14T19:08:23.5453840-05:00" endTime="2026-11-14T19:08:23.5475920-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c379d3d7-24ca-48ea-821e-2bdad415b69b">
+      <Output>
+        <StdOut>Fr 0.0213: fastest descent in the last 0.5 s 0.61 m/s, forward speed of the foot in the world at touchdown 0.000 m/s</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="649cee29-1968-4766-9396-dbc2983d4e05" testId="5beb7112-2c29-f527-0976-d38f18ce656f" testName="EveryJoint_HasFiveDegreesToSpare(0.3d)" computerName="revw-172-31-218-200" duration="00:00:00.0062730" startTime="2026-11-14T19:08:21.6524160-05:00" endTime="2026-11-14T19:08:21.6586900-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="649cee29-1968-4766-9396-dbc2983d4e05">
+      <Output>
+        <StdOut>Fr 0.3: step 33.7 m, hip flexion [-21.0, 36.1], knee [10.7, 64.6], ankle plantarflexion [-30.2, 13.9] deg</StdOut>
+        <ErrorInfo>
+          <Message>  Expected: greater than or equal to -15.0d
+  But was:  -21.008730669744132d
+</Message>
+          <StackTrace>   at Game.Units.Mech.Tests.ReferenceGaitTests.JointRanges(Double fr, Double margin) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 89
+   at Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 70
+   at InvokeStub_ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Object, Span`1)
+
+1)    at Game.Units.Mech.Tests.ReferenceGaitTests.JointRanges(Double fr, Double margin) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 89
+   at Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 70
+   at InvokeStub_ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Object, Span`1)
+
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="219ad5cc-49b6-4cda-a380-11841dcc6d4d" testId="5b085098-252b-b9dd-a93e-bd555badf5a4" testName="ScanParameters" computerName="revw-172-31-218-200" duration="00:00:01.7617860" startTime="2026-11-14T19:08:21.7625420-05:00" endTime="2026-11-14T19:08:23.5243310-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="219ad5cc-49b6-4cda-a380-11841dcc6d4d">
+      <Output>
+        <StdOut>SCAN bias -0.05 preswing 20 rise 0.45 toe 30 yaw 10 duty 0.6: worst violation 14.3 deg</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="87980e73-4521-4aef-8b4d-8dbf548a9b63" testId="f87d6f1e-0458-1732-29b6-6a6aed6de205" testName="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.05d)" computerName="revw-172-31-218-200" duration="00:00:00.0019560" startTime="2026-11-14T19:08:23.5476150-05:00" endTime="2026-11-14T19:08:23.5495710-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="87980e73-4521-4aef-8b4d-8dbf548a9b63">
+      <Output>
+        <StdOut>Fr 0.05: fastest descent in the last 0.5 s 0.61 m/s, forward speed of the foot in the world at touchdown 0.000 m/s</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a1f87da1-35e5-4581-a6aa-2a8fb640bb74" testId="d2702886-23bc-2a8b-31bf-e197bf5a406e" testName="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.3d)" computerName="revw-172-31-218-200" duration="00:00:00.0054330" startTime="2026-11-14T19:08:21.7570480-05:00" endTime="2026-11-14T19:08:21.7624810-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a1f87da1-35e5-4581-a6aa-2a8fb640bb74">
+      <Output>
+        <StdOut>Fr 0.3: largest sample-to-sample change 0.1026 (m or 0.1 rad) at dt 2.52 ms, largest second difference 417.0 (coordinate 4 at phase 0.3150)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6485f195-eacf-4820-a75a-a18240950293" testId="d7022d5a-f796-ef65-fa6b-1eb19994bb7e" testName="EveryJoint_HasFiveDegreesToSpare(0.2d)" computerName="revw-172-31-218-200" duration="00:00:00.0072390" startTime="2026-11-14T19:08:21.6451420-05:00" endTime="2026-11-14T19:08:21.6523810-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6485f195-eacf-4820-a75a-a18240950293">
+      <Output>
+        <StdOut>Fr 0.2: step 29.8 m, hip flexion [-10.1, 32.4], knee [10.8, 63.7], ankle plantarflexion [-24.5, 11.3] deg</StdOut>
+        <ErrorInfo>
+          <Message>  dorsiflexion
+  Expected: greater than or equal to -15.0d
+  But was:  -24.503977770579727d
+</Message>
+          <StackTrace>   at Game.Units.Mech.Tests.ReferenceGaitTests.JointRanges(Double fr, Double margin) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 91
+   at Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 70
+   at InvokeStub_ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Object, Span`1)
+
+1)    at Game.Units.Mech.Tests.ReferenceGaitTests.JointRanges(Double fr, Double margin) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 91
+   at Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 70
+   at InvokeStub_ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Object, Span`1)
+
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c8e9a382-8c01-4a54-bf35-8685450ce467" testId="20f8912f-296a-b044-afdb-f9b670e9a760" testName="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.0213d)" computerName="revw-172-31-218-200" duration="00:00:00.0113969" startTime="2026-11-14T19:08:21.6807680-05:00" endTime="2026-11-14T19:08:21.6921650-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c8e9a382-8c01-4a54-bf35-8685450ce467" />
+    <UnitTestResult executionId="e13d837d-eb7e-416e-9b29-6c2df2e86233" testId="4d154e0a-e636-8292-4ae0-ed19769ffa2b" testName="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.1d)" computerName="revw-172-31-218-200" duration="00:00:00.0019020" startTime="2026-11-14T19:08:23.5495940-05:00" endTime="2026-11-14T19:08:23.5514960-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e13d837d-eb7e-416e-9b29-6c2df2e86233">
+      <Output>
+        <StdOut>Fr 0.1: fastest descent in the last 0.5 s 0.61 m/s, forward speed of the foot in the world at touchdown -0.000 m/s</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="71cbfdff-0c7d-4b0a-9e3a-3684314e9f10" testId="dcae909a-b92a-27a3-b09f-86745fabf2c3" testName="ReferenceAcceleration_OfASinusoid_IsMinusWSquaredQ" computerName="revw-172-31-218-200" duration="00:00:00.0005010" startTime="2026-11-14T19:08:21.5791260-05:00" endTime="2026-11-14T19:08:21.5796270-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="71cbfdff-0c7d-4b0a-9e3a-3684314e9f10" />
+    <UnitTestResult executionId="bba19f31-a01e-4f6d-ae52-10be662061dd" testId="3299ae1a-938c-5a2b-4c57-4e07099da0bf" testName="CopRange_ToeReachesToeLine_FlatStaysInside_HeelReachesHeelLine" computerName="revw-172-31-218-200" duration="00:00:00.0002370" startTime="2026-11-14T19:08:24.0363280-05:00" endTime="2026-11-14T19:08:24.0365650-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bba19f31-a01e-4f6d-ae52-10be662061dd" />
+    <UnitTestResult executionId="7af0926a-7864-480b-9dc0-bdfaef90a68b" testId="b8b300dd-941c-079e-af49-eb6891afc559" testName="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth(0.1d)" computerName="revw-172-31-218-200" duration="00:00:00.0038910" startTime="2026-11-14T19:08:23.5723200-05:00" endTime="2026-11-14T19:08:23.5762110-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7af0926a-7864-480b-9dc0-bdfaef90a68b">
+      <Output>
+        <StdOut>Fr 0.1: peak yaw moment of the reference 1.38E+008 N m against the budget 1.65E+008</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a58e0f09-72a5-4aca-be10-2aa38a8b654f" testId="4517b88e-bed2-fa1b-e890-317b110b85d3" testName="FootIsFlat_ForAtLeastThreeQuartersOfSingleSupport(0.1d)" computerName="revw-172-31-218-200" duration="00:00:00.0256039" startTime="2026-11-14T19:08:23.5763450-05:00" endTime="2026-11-14T19:08:23.6019490-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a58e0f09-72a5-4aca-be10-2aa38a8b654f" />
+    <UnitTestResult executionId="30c90547-4403-4bcd-8783-4a72e726bcdc" testId="38b38b03-28cf-4289-a418-241c018ff84c" testName="GainLookup_ReturnsConfiguredGains_ForHeelFlatToe" computerName="revw-172-31-218-200" duration="00:00:00.0014290" startTime="2026-11-14T19:08:24.0365860-05:00" endTime="2026-11-14T19:08:24.0380150-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="30c90547-4403-4bcd-8783-4a72e726bcdc" />
+    <UnitTestResult executionId="6f39622c-9a36-4d64-bf5a-2c89e27084a0" testId="b36990e3-821a-50e4-40ba-9ced38eb2fbf" testName="ImpOff_ByDefault_AndFlatCopRangeIsTheLegacySole" computerName="revw-172-31-218-200" duration="00:00:00.0004750" startTime="2026-11-14T19:08:24.0380320-05:00" endTime="2026-11-14T19:08:24.0385070-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6f39622c-9a36-4d64-bf5a-2c89e27084a0" />
+    <UnitTestResult executionId="c63b9704-ebe3-4fa1-93ba-30ab440c0b1a" testId="9fdc6611-e7fe-6bd8-44ab-97eaf58ee37e" testName="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.2d)" computerName="revw-172-31-218-200" duration="00:00:00.0018850" startTime="2026-11-14T19:08:23.5515160-05:00" endTime="2026-11-14T19:08:23.5534010-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c63b9704-ebe3-4fa1-93ba-30ab440c0b1a">
+      <Output>
+        <StdOut>Fr 0.2: fastest descent in the last 0.5 s 0.61 m/s, forward speed of the foot in the world at touchdown 0.000 m/s</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1bde7a78-0f37-4aab-9484-6ba382b59788" testId="6d66e750-5143-dbd6-6a21-cf3a7a35406e" testName="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.1d)" computerName="revw-172-31-218-200" duration="00:00:00.0042750" startTime="2026-11-14T19:08:21.7475840-05:00" endTime="2026-11-14T19:08:21.7518590-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1bde7a78-0f37-4aab-9484-6ba382b59788">
+      <Output>
+        <StdOut>Fr 0.1: largest sample-to-sample change 0.0713 (m or 0.1 rad) at dt 3.14 ms, largest second difference 272.2 (coordinate 4 at phase 0.3150)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="3b5e89ef-c491-4386-bf48-6d04c466a408" testId="bb0ec342-b764-cb84-3146-2b88d9da473a" testName="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.1d)" computerName="revw-172-31-218-200" duration="00:00:00.0095700" startTime="2026-11-14T19:08:21.7038220-05:00" endTime="2026-11-14T19:08:21.7133910-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3b5e89ef-c491-4386-bf48-6d04c466a408" />
+    <UnitTestResult executionId="9a850adf-77ab-449c-bf71-936924ca531a" testId="74ef8141-4282-348e-4c67-ebb461313b6f" testName="StepTime_FollowsAlexander_AndIsCappedWhenSlow" computerName="revw-172-31-218-200" duration="00:00:00.0001960" startTime="2026-11-14T19:08:21.5972440-05:00" endTime="2026-11-14T19:08:21.5974400-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9a850adf-77ab-449c-bf71-936924ca531a" />
+    <UnitTestResult executionId="6c573fce-cc0b-42d8-b35a-22f08cdead95" testId="f0af6a87-8a43-a9a3-307b-b03a84f795c8" testName="EngineFreeAssemblies_DeclareNoEngineReferences" computerName="revw-172-31-218-200" duration="00:00:00.0007700" startTime="2026-11-14T19:08:21.5413080-05:00" endTime="2026-11-14T19:08:21.5420790-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6c573fce-cc0b-42d8-b35a-22f08cdead95" />
+    <UnitTestResult executionId="a8444386-9800-4bde-9f71-67380fb69d71" testId="8438b197-9c12-1ccb-7437-bc7112f29b33" testName="StanceKnee_IsNeverLocked(0.1d)" computerName="revw-172-31-218-200" duration="00:00:00.0242579" startTime="2026-11-14T19:08:23.9866180-05:00" endTime="2026-11-14T19:08:24.0108760-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a8444386-9800-4bde-9f71-67380fb69d71" />
+    <UnitTestResult executionId="1e6e22b5-de71-4d15-946d-dc14b1e10c54" testId="452c0ed4-fb33-56b6-b8d3-b7132d1b6d5d" testName="Limits_ComeFromFroudeAndR001" computerName="revw-172-31-218-200" duration="00:00:00.0005130" startTime="2026-11-14T19:08:21.5896280-05:00" endTime="2026-11-14T19:08:21.5901420-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1e6e22b5-de71-4d15-946d-dc14b1e10c54" />
+    <UnitTestResult executionId="0771caf3-3142-45c1-8cc4-aaccc0c08b87" testId="e4faa211-f5ca-7d99-34e1-5852903d0eb4" testName="StepLengthAndCadence_MatchTheTarget(0.3d)" computerName="revw-172-31-218-200" duration="00:00:00.0018200" startTime="2026-11-14T19:08:23.5434650-05:00" endTime="2026-11-14T19:08:23.5452860-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0771caf3-3142-45c1-8cc4-aaccc0c08b87" />
+    <UnitTestResult executionId="32961ede-51ba-44d6-b08d-57137eeb0a9e" testId="d4060708-2691-59a9-214c-5f864f1ddd91" testName="SingleSupportLipmAcceleration_IsAtMostATenthG_WithTheCopInTheActiveSupport(0.1d)" computerName="revw-172-31-218-200" duration="00:00:00.0244540" startTime="2026-11-14T19:08:23.9377170-05:00" endTime="2026-11-14T19:08:23.9621710-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="32961ede-51ba-44d6-b08d-57137eeb0a9e" />
+    <UnitTestResult executionId="4e0a55de-06bb-43ee-a901-ee69a57c8f3c" testId="42e060b8-6e46-3ab0-b159-70a0f27f9801" testName="EveryJoint_HasFiveDegreesToSpare(0.0213d)" computerName="revw-172-31-218-200" duration="00:00:00.0307810" startTime="2026-11-14T19:08:21.5974780-05:00" endTime="2026-11-14T19:08:21.6282590-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4e0a55de-06bb-43ee-a901-ee69a57c8f3c">
+      <Output>
+        <StdOut>Fr 0.0213: step 10.5 m, hip flexion [8.0, 27.2], knee [11.5, 61.5], ankle plantarflexion [-18.4, -0.4] deg</StdOut>
+        <ErrorInfo>
+          <Message>  dorsiflexion
+  Expected: greater than or equal to -15.0d
+  But was:  -18.387882777686144d
+</Message>
+          <StackTrace>   at Game.Units.Mech.Tests.ReferenceGaitTests.JointRanges(Double fr, Double margin) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 91
+   at Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 70
+
+1)    at Game.Units.Mech.Tests.ReferenceGaitTests.JointRanges(Double fr, Double margin) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 91
+   at Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 70
+
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2492e29e-c89e-428e-abc8-f56eb7a171dc" testId="96061088-f42e-5d8a-df7a-10f0a8d9f5e1" testName="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.05d)" computerName="revw-172-31-218-200" duration="00:00:00.0115980" startTime="2026-11-14T19:08:21.6922010-05:00" endTime="2026-11-14T19:08:21.7037990-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2492e29e-c89e-428e-abc8-f56eb7a171dc" />
+    <UnitTestResult executionId="f76e2edc-26f6-42bd-9437-82d61e1fefe8" testId="55dd3715-fd15-a356-8657-4873b77609dc" testName="FreeMomentUtilisation_IsAtMostTwoThirds_AfterTheDeclaredTrunkShare(0.15d)" computerName="revw-172-31-218-200" duration="00:00:00.0237180" startTime="2026-11-14T19:08:23.6507820-05:00" endTime="2026-11-14T19:08:23.6745000-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f76e2edc-26f6-42bd-9437-82d61e1fefe8" />
+    <UnitTestResult executionId="1ca230d4-9bbe-4e98-889f-042c7203cc55" testId="d28b6e13-9142-445a-8fc5-0f3e93bf7be6" testName="ReportAllChecks_AtEveryFroude" computerName="revw-172-31-218-200" duration="00:00:00.1672460" startTime="2026-11-14T19:08:23.7704150-05:00" endTime="2026-11-14T19:08:23.9376620-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1ca230d4-9bbe-4e98-889f-042c7203cc55">
+      <Output>
+        <StdOut>Fr 0.050: v 4.54 m/s, step 17.8 m | joint margin -6.18 deg (ankle L@0.013) (&gt;= 5) | hip excursion 1.87 m (&lt;= 2.10) | LIPM acc 1.116 m/s2 = 0.114 g at 0.456 Toe (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.113 (9.62E+006 of 8.49E+007 at 0.174 Heel) (&lt;= 0.67) | trunk share 0.83, waist peak 8.3 deg, torque 9.08E+007 N m | min stance knee 10.1 deg (&gt;= 5)
+Fr 0.075: v 5.56 m/s, step 21.9 m | joint margin 1.41 deg (ankle L@0.018) (&gt;= 5) | hip excursion 1.87 m (&lt;= 2.10) | LIPM acc 0.867 m/s2 = 0.088 g at 0.456 Toe (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.131 (1.11E+007 of 8.49E+007 at 0.174 Heel) (&lt;= 0.67) | trunk share 0.86, waist peak 10.2 deg, torque 1.37E+008 N m | min stance knee 8.8 deg (&gt;= 5)
+Fr 0.100: v 6.42 m/s, step 24.2 m | joint margin 5.30 deg (knee R@0.428) (&gt;= 5) | hip excursion 1.87 m (&lt;= 2.10) | LIPM acc 0.907 m/s2 = 0.092 g at 0.130 Heel (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.140 (2.31E+007 of 1.65E+008 at 0.224 Flat) (&lt;= 0.67) | trunk share 0.86, waist peak 11.0 deg, torque 2.08E+008 N m | min stance knee 5.6 deg (&gt;= 5)
+Fr 0.125: v 7.18 m/s, step 25.9 m | joint margin 5.30 deg (knee R@0.131) (&gt;= 5) | hip excursion 1.91 m (&lt;= 2.10) | LIPM acc 0.907 m/s2 = 0.092 g at 0.130 Heel (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.160 (2.64E+007 of 1.65E+008 at 0.220 Flat) (&lt;= 0.67) | trunk share 0.87, waist peak 12.7 deg, torque 2.37E+008 N m | min stance knee 5.6 deg (&gt;= 5)
+Fr 0.150: v 7.86 m/s, step 27.3 m | joint margin 5.30 deg (knee R@0.131) (&gt;= 5) | hip excursion 1.75 m (&lt;= 2.10) | LIPM acc 0.799 m/s2 = 0.081 g at 0.130 Heel (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.179 (2.95E+007 of 1.65E+008 at 0.210 Flat) (&lt;= 0.67) | trunk share 0.85, waist peak 14.6 deg, torque 2.66E+008 N m | min stance knee 5.6 deg (&gt;= 5)
+Fr 0.175: v 8.49 m/s, step 28.6 m | joint margin 4.25 deg (hip R@0.141) (&gt;= 5) | hip excursion 1.83 m (&lt;= 2.10) | LIPM acc 0.869 m/s2 = 0.089 g at 0.130 Heel (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.278 (4.58E+007 of 1.65E+008 at 0.189 Flat) (&lt;= 0.67) | trunk share 0.79, waist peak 17.4 deg, torque 4.12E+008 N m | min stance knee 5.6 deg (&gt;= 5)
+Fr 0.200: v 9.08 m/s, step 29.8 m | joint margin 0.62 deg (hip R@0.168) (&gt;= 5) | hip excursion 1.67 m (&lt;= 2.10) | LIPM acc 0.873 m/s2 = 0.089 g at 0.130 Flat (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.288 (4.75E+007 of 1.65E+008 at 0.170 Flat) (&lt;= 0.67) | trunk share 0.70, waist peak 18.1 deg, torque 4.28E+008 N m | min stance knee 5.6 deg (&gt;= 5)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7107e43c-b968-45b5-bcb7-982a2a2d0a1a" testId="68e811f5-5bc1-da28-6bb3-0d378b297b33" testName="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.3d)" computerName="revw-172-31-218-200" duration="00:00:00.0117030" startTime="2026-11-14T19:08:21.7249840-05:00" endTime="2026-11-14T19:08:21.7366880-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7107e43c-b968-45b5-bcb7-982a2a2d0a1a" />
+    <UnitTestResult executionId="ea1267b3-6a81-4ec2-97cc-2bf0bbb21c0f" testId="bbd339ba-14e8-5a83-234e-4e86ab113a42" testName="PhysicsBody_ReferencesNeitherControlNorUnits" computerName="revw-172-31-218-200" duration="00:00:00.0018440" startTime="2026-11-14T19:08:21.5476620-05:00" endTime="2026-11-14T19:08:21.5495060-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ea1267b3-6a81-4ec2-97cc-2bf0bbb21c0f" />
+    <UnitTestResult executionId="cfd7cea7-6442-46ea-8539-5970fb9ee85a" testId="509be6ca-6c27-3286-05da-5a8f1bd5a28b" testName="EveryJoint_HasFiveDegreesToSpare(0.05d)" computerName="revw-172-31-218-200" duration="00:00:00.0105500" startTime="2026-11-14T19:08:21.6283490-05:00" endTime="2026-11-14T19:08:21.6388990-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cfd7cea7-6442-46ea-8539-5970fb9ee85a">
+      <Output>
+        <StdOut>Fr 0.05: step 17.8 m, hip flexion [5.6, 29.6], knee [11.2, 62.3], ankle plantarflexion [-19.6, 3.7] deg</StdOut>
+        <ErrorInfo>
+          <Message>  dorsiflexion
+  Expected: greater than or equal to -15.0d
+  But was:  -19.589269568183386d
+</Message>
+          <StackTrace>   at Game.Units.Mech.Tests.ReferenceGaitTests.JointRanges(Double fr, Double margin) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 91
+   at Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 70
+   at InvokeStub_ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Object, Span`1)
+
+1)    at Game.Units.Mech.Tests.ReferenceGaitTests.JointRanges(Double fr, Double margin) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 91
+   at Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 70
+   at InvokeStub_ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Object, Span`1)
+
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8bd5019d-4608-4089-8ec7-a1bad6812e93" testId="8da0328e-e895-659a-9efa-7026975a0100" testName="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.2d)" computerName="revw-172-31-218-200" duration="00:00:00.0115149" startTime="2026-11-14T19:08:21.7134290-05:00" endTime="2026-11-14T19:08:21.7249440-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8bd5019d-4608-4089-8ec7-a1bad6812e93" />
+    <UnitTestResult executionId="22435605-1e2c-45fc-b53e-6e37e0838939" testId="1735addd-cb79-60bc-419d-1959b79c88ea" testName="StepLengthAndCadence_MatchTheTarget(0.0213d)" computerName="revw-172-31-218-200" duration="00:00:00.0132280" startTime="2026-11-14T19:08:23.5244260-05:00" endTime="2026-11-14T19:08:23.5376530-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="22435605-1e2c-45fc-b53e-6e37e0838939" />
+    <UnitTestResult executionId="c4738ca6-1649-4f55-8932-2155f608ba79" testId="a9335881-1e28-f211-2790-3cd0f2aef277" testName="OverCommandedSpeed_IsClamped_Ramped_AndReported" computerName="revw-172-31-218-200" duration="00:00:00.0027540" startTime="2026-11-14T19:08:21.5901480-05:00" endTime="2026-11-14T19:08:21.5929010-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c4738ca6-1649-4f55-8932-2155f608ba79" />
+    <UnitTestResult executionId="08b6b861-46b8-430b-a503-4a3801c83525" testId="4ce22024-8bea-049d-24bf-b2aa1a20d4bd" testName="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove(0.2d)" computerName="revw-172-31-218-200" duration="00:00:00.0047570" startTime="2026-11-14T19:08:23.5553560-05:00" endTime="2026-11-14T19:08:23.5601130-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="08b6b861-46b8-430b-a503-4a3801c83525">
+      <Output>
+        <StdOut>Fr 0.2: peak yaw moment of the reference 3.03E+008 N m against the budget 1.65E+008</StdOut>
+        <ErrorInfo>
+          <Message>  Expected: less than or equal to 165000000.0d
+  But was:  302760196.81049848d
+</Message>
+          <StackTrace>   at Game.Units.Mech.Tests.ReferenceGaitTests.YawBudgetCheck(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 187
+   at Game.Units.Mech.Tests.ReferenceGaitTests.YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 179
+
+1)    at Game.Units.Mech.Tests.ReferenceGaitTests.YawBudgetCheck(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 187
+   at Game.Units.Mech.Tests.ReferenceGaitTests.YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 179
+
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7ea875df-d25e-4c6f-ae38-299c59f0c766" testId="7c19cdf6-cf23-3cf8-be3e-a03a94f62dec" testName="EveryJoint_StaysInsideItsRange_UpToFroudeTenth(0.0213d)" computerName="revw-172-31-218-200" duration="00:00:00.0056429" startTime="2026-11-14T19:08:21.6587390-05:00" endTime="2026-11-14T19:08:21.6643790-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7ea875df-d25e-4c6f-ae38-299c59f0c766">
+      <Output>
+        <StdOut>Fr 0.0213: step 10.5 m, hip flexion [8.0, 27.2], knee [11.5, 61.5], ankle plantarflexion [-18.4, -0.4] deg</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="290bcd2e-4824-4cd0-a802-7b483bbf7466" testId="eb4c510c-2e3b-3c66-3828-d41cae00bc60" testName="Util_IsMomentOverBudget_AndNullWithoutBudget" computerName="revw-172-31-218-200" duration="00:00:00.0001730" startTime="2026-11-14T19:08:24.0414640-05:00" endTime="2026-11-14T19:08:24.0416370-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="290bcd2e-4824-4cd0-a802-7b483bbf7466" />
+    <UnitTestResult executionId="9827512b-b621-4e3f-bbe3-d610595206cd" testId="3f762edb-86ce-8f7b-3357-229e9713294a" testName="RuntimeAssemblies_UseOtherModulesOnlyThroughContracts" computerName="revw-172-31-218-200" duration="00:00:00.0019940" startTime="2026-11-14T19:08:21.5495280-05:00" endTime="2026-11-14T19:08:21.5515220-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9827512b-b621-4e3f-bbe3-d610595206cd" />
+    <UnitTestResult executionId="ad2cab7b-767f-4bc5-8ea9-e8b84454492c" testId="cabcdb3e-5790-2c1d-d42b-f6ada7fe74e6" testName="EveryJoint_HasFiveDegreesToSpare(0.1d)" computerName="revw-172-31-218-200" duration="00:00:00.0061860" startTime="2026-11-14T19:08:21.6389320-05:00" endTime="2026-11-14T19:08:21.6451180-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ad2cab7b-767f-4bc5-8ea9-e8b84454492c">
+      <Output>
+        <StdOut>Fr 0.1: step 24.2 m, hip flexion [1.3, 32.3], knee [10.9, 65.4], ankle plantarflexion [-17.8, 7.6] deg</StdOut>
+        <ErrorInfo>
+          <Message>  dorsiflexion
+  Expected: greater than or equal to -15.0d
+  But was:  -17.826501693535924d
+</Message>
+          <StackTrace>   at Game.Units.Mech.Tests.ReferenceGaitTests.JointRanges(Double fr, Double margin) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 91
+   at Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 70
+   at InvokeStub_ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Object, Span`1)
+
+1)    at Game.Units.Mech.Tests.ReferenceGaitTests.JointRanges(Double fr, Double margin) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 91
+   at Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 70
+   at InvokeStub_ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(Object, Span`1)
+
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8c20ed88-7485-49ed-bfd0-d25ea00e4c69" testId="c4e47997-46e8-bed0-5fa2-a44d7a830979" testName="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove(0.3d)" computerName="revw-172-31-218-200" duration="00:00:00.0041920" startTime="2026-11-14T19:08:23.5601500-05:00" endTime="2026-11-14T19:08:23.5643420-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8c20ed88-7485-49ed-bfd0-d25ea00e4c69">
+      <Output>
+        <StdOut>Fr 0.3: peak yaw moment of the reference 7.02E+008 N m against the budget 1.65E+008</StdOut>
+        <ErrorInfo>
+          <Message>  Expected: less than or equal to 165000000.0d
+  But was:  701915831.09714746d
+</Message>
+          <StackTrace>   at Game.Units.Mech.Tests.ReferenceGaitTests.YawBudgetCheck(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 187
+   at Game.Units.Mech.Tests.ReferenceGaitTests.YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 179
+   at InvokeStub_ReferenceGaitTests.YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove(Object, Span`1)
+
+1)    at Game.Units.Mech.Tests.ReferenceGaitTests.YawBudgetCheck(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 187
+   at Game.Units.Mech.Tests.ReferenceGaitTests.YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove(Double fr) in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:line 179
+   at InvokeStub_ReferenceGaitTests.YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove(Object, Span`1)
+
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="11c866bd-a609-4c06-a038-493b0354fee6" testId="88e871db-c357-c82c-360e-ab0bcbc3a31f" testName="StepLengthAndCadence_MatchTheTarget(0.05d)" computerName="revw-172-31-218-200" duration="00:00:00.0019650" startTime="2026-11-14T19:08:23.5376920-05:00" endTime="2026-11-14T19:08:23.5396570-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="11c866bd-a609-4c06-a038-493b0354fee6" />
+    <UnitTestResult executionId="a884f6eb-9ff0-4493-98d4-b6340652dada" testId="2a5cc891-3bcb-21dd-9e33-cb168752ccd4" testName="LinkMomentum_SpinAndOrbit" computerName="revw-172-31-218-200" duration="00:00:00.0003379" startTime="2026-11-14T19:08:24.0399280-05:00" endTime="2026-11-14T19:08:24.0402660-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a884f6eb-9ff0-4493-98d4-b6340652dada" />
+    <UnitTestResult executionId="637a1608-c802-47c1-8289-1de388cdae7c" testId="626365b7-9138-2957-84b3-9d01c4e6a0d6" testName="LoadGains_SizeStiffnessFromTheCarriedLoad_AndNeverSofterThanHz" computerName="revw-172-31-218-200" duration="00:00:00.0008210" startTime="2026-11-14T19:08:24.0385250-05:00" endTime="2026-11-14T19:08:24.0393470-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="637a1608-c802-47c1-8289-1de388cdae7c" />
+    <UnitTestResult executionId="024390d6-bfab-4d7a-add8-5a6e611ce4a3" testId="e0bd8901-df8b-7359-c5f4-a37a59d07f84" testName="EveryJoint_StaysInsideItsRange_UpToFroudeTenth(0.05d)" computerName="revw-172-31-218-200" duration="00:00:00.0095430" startTime="2026-11-14T19:08:21.6644190-05:00" endTime="2026-11-14T19:08:21.6739610-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="024390d6-bfab-4d7a-add8-5a6e611ce4a3">
+      <Output>
+        <StdOut>Fr 0.05: step 17.8 m, hip flexion [5.6, 29.6], knee [11.2, 62.3], ankle plantarflexion [-19.6, 3.7] deg</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f9f0bd05-9192-4c89-9ffd-1245f3813dca" testId="fce412ac-2d3e-d7c5-a216-3e426abdad1c" testName="Solve_ReachesTheAnkleTarget_WithTheKneeForward(2.0f,-30.0f,-10.0f,0.3f)" computerName="revw-172-31-218-200" duration="00:00:00.0001710" startTime="2026-11-14T19:08:21.5964510-05:00" endTime="2026-11-14T19:08:21.5966220-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f9f0bd05-9192-4c89-9ffd-1245f3813dca" />
+    <UnitTestResult executionId="c7bd24dd-a7f3-4a90-8079-7b5b5777132b" testId="08c4437c-0835-9aff-f2c4-0cbfa8fd5e72" testName="BehaviourCode_KeepsItsTuningNumbersInConfig" computerName="revw-172-31-218-200" duration="00:00:00.0069060" startTime="2026-11-14T19:08:21.5167730-05:00" endTime="2026-11-14T19:08:21.5236420-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c7bd24dd-a7f3-4a90-8079-7b5b5777132b" />
+    <UnitTestResult executionId="babf2b93-fb8a-433e-b2b1-702d1e353a7d" testId="417df06d-e9c0-db48-f4e1-7824d54edf35" testName="StepLengthAndCadence_MatchTheTarget(0.1d)" computerName="revw-172-31-218-200" duration="00:00:00.0019090" startTime="2026-11-14T19:08:23.5396840-05:00" endTime="2026-11-14T19:08:23.5415930-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="babf2b93-fb8a-433e-b2b1-702d1e353a7d" />
+    <UnitTestResult executionId="c9f0af3d-af55-4605-8125-9dfb6f0bd167" testId="914f1e74-a4a1-5eb2-f1a1-ce955a773766" testName="StepLengthAndCadence_MatchTheTarget(0.2d)" computerName="revw-172-31-218-200" duration="00:00:00.0018280" startTime="2026-11-14T19:08:23.5416150-05:00" endTime="2026-11-14T19:08:23.5434430-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c9f0af3d-af55-4605-8125-9dfb6f0bd167" />
+    <UnitTestResult executionId="56c04a87-09fb-4f40-84e7-4c23fc4c21a2" testId="2aadd914-5049-6e33-aab0-a1ce5e852fc6" testName="HipExcursion_IsAtMostFiveHundredthsOfLegLength(0.15d)" computerName="revw-172-31-218-200" duration="00:00:00.0235800" startTime="2026-11-14T19:08:23.6982470-05:00" endTime="2026-11-14T19:08:23.7218270-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="56c04a87-09fb-4f40-84e7-4c23fc4c21a2" />
+    <UnitTestResult executionId="4b3dd999-0bbe-4b77-a977-35fd47e9ab57" testId="6a21cc37-6dfa-ae05-fb74-3778b26fc9a2" testName="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.3d)" computerName="revw-172-31-218-200" duration="00:00:00.0018800" startTime="2026-11-14T19:08:23.5534250-05:00" endTime="2026-11-14T19:08:23.5553050-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4b3dd999-0bbe-4b77-a977-35fd47e9ab57">
+      <Output>
+        <StdOut>Fr 0.3: fastest descent in the last 0.5 s 0.61 m/s, forward speed of the foot in the world at touchdown -0.002 m/s</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="fae8b5cf-b8dc-4c49-9da1-42df77bb6b46" testId="621d1fd1-a77e-e5db-2af4-52f9746c9ec2" testName="JointMargin_IsAtLeastFiveDegrees_OverTheWholeCycle(0.1d)" computerName="revw-172-31-218-200" duration="00:00:00.0248950" startTime="2026-11-14T19:08:23.7218790-05:00" endTime="2026-11-14T19:08:23.7467730-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fae8b5cf-b8dc-4c49-9da1-42df77bb6b46">
+      <Output>
+        <StdOut>Fr 0.100: v 6.42 m/s, step 24.2 m | joint margin 5.30 deg (knee R@0.428) (&gt;= 5) | hip excursion 1.87 m (&lt;= 2.10) | LIPM acc 0.907 m/s2 = 0.092 g at 0.130 Heel (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.140 (2.31E+007 of 1.65E+008 at 0.224 Flat) (&lt;= 0.67) | trunk share 0.86, waist peak 11.0 deg, torque 2.08E+008 N m | min stance knee 5.6 deg (&gt;= 5)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e691fe35-d121-4c44-a983-7f7d7368a23e" testId="2edec68c-3659-efad-a7dc-81a0de125f17" testName="Solve_ClampsAnUnreachableTarget_InsteadOfStretchingTheLeg" computerName="revw-172-31-218-200" duration="00:00:00.0006450" startTime="2026-11-14T19:08:21.5954840-05:00" endTime="2026-11-14T19:08:21.5961280-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e691fe35-d121-4c44-a983-7f7d7368a23e" />
+    <UnitTestResult executionId="7003b4bb-c557-4498-888b-71ebc5004e7f" testId="91b9034f-e642-4558-a60e-8af5da55055f" testName="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth(0.05d)" computerName="revw-172-31-218-200" duration="00:00:00.0039320" startTime="2026-11-14T19:08:23.5683680-05:00" endTime="2026-11-14T19:08:23.5723000-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7003b4bb-c557-4498-888b-71ebc5004e7f">
+      <Output>
+        <StdOut>Fr 0.05: peak yaw moment of the reference 6.33E+007 N m against the budget 1.65E+008</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6b8581ed-9659-4a77-9249-df31425732e5" testId="a18c24ae-bd31-fea1-d776-b6544281509f" testName="SteadyGaitOffsets_ArePeriodic" computerName="revw-172-31-218-200" duration="00:00:00.0001290" startTime="2026-11-14T19:08:21.5971130-05:00" endTime="2026-11-14T19:08:21.5972420-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6b8581ed-9659-4a77-9249-df31425732e5" />
+    <UnitTestResult executionId="8d53d329-6423-4b02-8de9-ab549a11926d" testId="8a35bd04-a51d-c384-55c9-ffcd9089afaa" testName="Shipped_GainsAreAllPositive" computerName="revw-172-31-218-200" duration="00:00:00.0004840" startTime="2026-11-14T19:08:24.0393650-05:00" endTime="2026-11-14T19:08:24.0398490-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8d53d329-6423-4b02-8de9-ab549a11926d" />
+    <UnitTestResult executionId="511492b8-5bab-4af6-b728-55ab3cd15745" testId="003ae4e0-e5ca-6d3a-5628-8fb4e177f90c" testName="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth(0.0213d)" computerName="revw-172-31-218-200" duration="00:00:00.0039430" startTime="2026-11-14T19:08:23.5643970-05:00" endTime="2026-11-14T19:08:23.5683400-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="511492b8-5bab-4af6-b728-55ab3cd15745">
+      <Output>
+        <StdOut>Fr 0.0213: peak yaw moment of the reference 4.54E+007 N m against the budget 1.65E+008</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ae8089d6-5485-4998-8e75-a19cc7da50d2" testId="17d87f60-2856-e99c-5796-c398fb9ca7a6" testName="Total_IsClampedToTheDriveForceLimit_BothSigns" computerName="revw-172-31-218-200" duration="00:00:00.0004370" startTime="2026-11-14T19:08:21.5857950-05:00" endTime="2026-11-14T19:08:21.5862320-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ae8089d6-5485-4998-8e75-a19cc7da50d2" />
+    <UnitTestResult executionId="6412e596-233f-4fdc-8ecf-e2c4ccba74a8" testId="a5c04692-f2fc-da9c-91be-63d78bc57485" testName="StickJitterAt30Hz_NeverExceedsTheRates" computerName="revw-172-31-218-200" duration="00:00:00.0006130" startTime="2026-11-14T19:08:21.5929140-05:00" endTime="2026-11-14T19:08:21.5935270-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6412e596-233f-4fdc-8ecf-e2c4ccba74a8" />
+    <UnitTestResult executionId="4e6c8dd7-558b-477c-b6b8-6eb5f02e4af9" testId="87aa2fa4-d688-2a26-3d49-720c6ef95e1e" testName="EveryJoint_StaysInsideItsRange_UpToFroudeTenth(0.1d)" computerName="revw-172-31-218-200" duration="00:00:00.0067190" startTime="2026-11-14T19:08:21.6740070-05:00" endTime="2026-11-14T19:08:21.6807260-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4e6c8dd7-558b-477c-b6b8-6eb5f02e4af9">
+      <Output>
+        <StdOut>Fr 0.1: step 24.2 m, hip flexion [1.3, 32.3], knee [10.9, 65.4], ankle plantarflexion [-17.8, 7.6] deg</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e56bb6b3-1983-473f-adc5-4091782a9c5a" testId="a28835d1-eaa5-c252-18be-00d45b901b3b" testName="DeadbeatOffset_BringsTheDcmToItsTarget" computerName="revw-172-31-218-200" duration="00:00:00.0001490" startTime="2026-11-14T19:08:21.5969630-05:00" endTime="2026-11-14T19:08:21.5971120-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e56bb6b3-1983-473f-adc5-4091782a9c5a" />
+    <UnitTestResult executionId="886bb925-c5c8-4ee7-9c9e-6013dd43bfd0" testId="be97c6a9-d2ec-3555-3b40-eef1751b4708" testName="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.05d)" computerName="revw-172-31-218-200" duration="00:00:00.0046600" startTime="2026-11-14T19:08:21.7428910-05:00" endTime="2026-11-14T19:08:21.7475510-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="886bb925-c5c8-4ee7-9c9e-6013dd43bfd0">
+      <Output>
+        <StdOut>Fr 0.05: largest sample-to-sample change 0.0538 (m or 0.1 rad) at dt 3.28 ms, largest second difference 224.9 (coordinate 4 at phase 0.3150)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="10268ed8-d0d6-4a0a-99ed-dcc6741b7d6e" testId="395dc666-3c05-a567-42bd-a15392792257" testName="Share_NullUntilWindowFull_AndWhenLegsAreStill" computerName="revw-172-31-218-200" duration="00:00:00.0001830" startTime="2026-11-14T19:08:24.0405960-05:00" endTime="2026-11-14T19:08:24.0407790-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="10268ed8-d0d6-4a0a-99ed-dcc6741b7d6e" />
+    <UnitTestResult executionId="b8c42d5f-d710-4e62-9ecc-d1556de41c99" testId="42cae176-dc51-8f97-b0e8-2423a518353c" testName="Share_Half_IsHalf" computerName="revw-172-31-218-200" duration="00:00:00.0003010" startTime="2026-11-14T19:08:24.0402800-05:00" endTime="2026-11-14T19:08:24.0405810-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b8c42d5f-d710-4e62-9ecc-d1556de41c99" />
+    <UnitTestResult executionId="6fbe65f7-edec-4f2e-adc8-f6bebd41e1a4" testId="75c5b75a-2f97-2370-fb29-e12c80ab351c" testName="SingleSupportLipmAcceleration_IsAtMostATenthG_WithTheCopInTheActiveSupport(0.15d)" computerName="revw-172-31-218-200" duration="00:00:00.0243730" startTime="2026-11-14T19:08:23.9621980-05:00" endTime="2026-11-14T19:08:23.9865710-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6fbe65f7-edec-4f2e-adc8-f6bebd41e1a4" />
+    <UnitTestResult executionId="8fe6c934-21ab-48ee-94cb-b444c67b5358" testId="0c9d0081-3461-79af-7a47-77de3909c28b" testName="StanceKnee_IsNeverLocked(0.15d)" computerName="revw-172-31-218-200" duration="00:00:00.0252800" startTime="2026-11-14T19:08:24.0109020-05:00" endTime="2026-11-14T19:08:24.0361820-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8fe6c934-21ab-48ee-94cb-b444c67b5358" />
+    <UnitTestResult executionId="efdf16e5-e548-4304-9eb1-f7648b9d55a7" testId="b63bcf01-b285-c54f-6a52-6161b76a5e41" testName="WalkTuning_Loads_WithItsSchema" computerName="revw-172-31-218-200" duration="00:00:00.0262080" startTime="2026-11-14T19:08:21.5515450-05:00" endTime="2026-11-14T19:08:21.5777530-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="efdf16e5-e548-4304-9eb1-f7648b9d55a7" />
+    <UnitTestResult executionId="a89aed93-7529-49c9-a8f1-c2e8027a0cd2" testId="b130f954-9c77-9bab-cec3-191eaf6e1ee1" testName="ZeroGains_GiveZero_AndShippedDefaultsAreOne" computerName="revw-172-31-218-200" duration="00:00:00.0003320" startTime="2026-11-14T19:08:21.5862370-05:00" endTime="2026-11-14T19:08:21.5865680-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a89aed93-7529-49c9-a8f1-c2e8027a0cd2" />
+    <UnitTestResult executionId="4fd2cb8d-1180-4618-91d3-8778273d2298" testId="76b60701-3167-4273-f4a8-c6ab31dedc72" testName="Share_UsesOnlyTheLastWindow" computerName="revw-172-31-218-200" duration="00:00:00.0000840" startTime="2026-11-14T19:08:24.0408360-05:00" endTime="2026-11-14T19:08:24.0409190-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4fd2cb8d-1180-4618-91d3-8778273d2298" />
+    <UnitTestResult executionId="58fadc36-520a-4d90-b458-d55c906e7cdd" testId="e4d46269-c11b-6488-003b-42d34755af80" testName="Solve_ReachesTheAnkleTarget_WithTheKneeForward(-1.0f,-37.5f,0.0f,-0.2f)" computerName="revw-172-31-218-200" duration="00:00:00.0000060" startTime="2026-11-14T19:08:21.5966250-05:00" endTime="2026-11-14T19:08:21.5966310-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="58fadc36-520a-4d90-b458-d55c906e7cdd" />
+    <UnitTestResult executionId="959eef20-cfda-4abf-be6e-c909b803fcef" testId="6dbde469-29d7-5685-dc28-ee692e834928" testName="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.2d)" computerName="revw-172-31-218-200" duration="00:00:00.0051260" startTime="2026-11-14T19:08:21.7518880-05:00" endTime="2026-11-14T19:08:21.7570140-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="959eef20-cfda-4abf-be6e-c909b803fcef">
+      <Output>
+        <StdOut>Fr 0.2: largest sample-to-sample change 0.0896 (m or 0.1 rad) at dt 2.74 ms, largest second difference 354.5 (coordinate 4 at phase 0.3150)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="aca561d7-3fe7-43dc-a179-db77d4507e34" testId="ef685386-07ff-cc2d-baba-11676c054f54" testName="JointMargin_IsAtLeastFiveDegrees_OverTheWholeCycle(0.15d)" computerName="revw-172-31-218-200" duration="00:00:00.0235860" startTime="2026-11-14T19:08:23.7467890-05:00" endTime="2026-11-14T19:08:23.7703740-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aca561d7-3fe7-43dc-a179-db77d4507e34">
+      <Output>
+        <StdOut>Fr 0.150: v 7.86 m/s, step 27.3 m | joint margin 5.30 deg (knee R@0.131) (&gt;= 5) | hip excursion 1.75 m (&lt;= 2.10) | LIPM acc 0.799 m/s2 = 0.081 g at 0.130 Heel (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.179 (2.95E+007 of 1.65E+008 at 0.210 Flat) (&lt;= 0.67) | trunk share 0.85, waist peak 14.6 deg, torque 2.66E+008 N m | min stance knee 5.6 deg (&gt;= 5)</StdOut>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.05d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="be97c6a9-d2ec-3555-3b40-eef1751b4708">
+      <Execution id="886bb925-c5c8-4ee7-9c9e-6013dd43bfd0" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.05d)" />
+    </UnitTest>
+    <UnitTest name="ShippedConfig_HasWaistAndArmGains_AndImpStaysOff" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="11b953a0-f996-d1dc-13d9-9e7aa3a3ccf9">
+      <Execution id="02497242-8e2d-428d-a47f-b80f99dd9c0e" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.YawCompensationTests" name="ShippedConfig_HasWaistAndArmGains_AndImpStaysOff" />
+    </UnitTest>
+    <UnitTest name="OverCommandedSpeed_IsClamped_Ramped_AndReported" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="a9335881-1e28-f211-2790-3cd0f2aef277">
+      <Execution id="c4738ca6-1649-4f55-8932-2155f608ba79" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.IntentLimiterTests" name="OverCommandedSpeed_IsClamped_Ramped_AndReported" />
+    </UnitTest>
+    <UnitTest name="StepLengthAndCadence_MatchTheTarget(0.1d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="417df06d-e9c0-db48-f4e1-7824d54edf35">
+      <Execution id="babf2b93-fb8a-433e-b2b1-702d1e353a7d" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="StepLengthAndCadence_MatchTheTarget(0.1d)" />
+    </UnitTest>
+    <UnitTest name="Shipped_GainsAreAllPositive" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="8a35bd04-a51d-c384-55c9-ffcd9089afaa">
+      <Execution id="8d53d329-6423-4b02-8de9-ab549a11926d" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.StanceImpedanceTests" name="Shipped_GainsAreAllPositive" />
+    </UnitTest>
+    <UnitTest name="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.3d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="d2702886-23bc-2a8b-31bf-e197bf5a406e">
+      <Execution id="a1f87da1-35e5-4581-a6aa-2a8fb640bb74" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.3d)" />
+    </UnitTest>
+    <UnitTest name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove(0.2d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="4ce22024-8bea-049d-24bf-b2aa1a20d4bd">
+      <Execution id="08b6b861-46b8-430b-a503-4a3801c83525" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove(0.2d)" />
+    </UnitTest>
+    <UnitTest name="JointMargin_IsAtLeastFiveDegrees_OverTheWholeCycle(0.1d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="621d1fd1-a77e-e5db-2af4-52f9746c9ec2">
+      <Execution id="fae8b5cf-b8dc-4c49-9da1-42df77bb6b46" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceValidityTests" name="JointMargin_IsAtLeastFiveDegrees_OverTheWholeCycle(0.1d)" />
+    </UnitTest>
+    <UnitTest name="InstantReversal_SlowsThenTurnsOnTheSpot" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="9e4730b5-6f0d-b1b5-b9c7-9ad0b6daf845">
+      <Execution id="f6a57961-cf1c-4f8f-b66f-b468dd349ae6" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.IntentLimiterTests" name="InstantReversal_SlowsThenTurnsOnTheSpot" />
+    </UnitTest>
+    <UnitTest name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth(0.0213d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="003ae4e0-e5ca-6d3a-5628-8fb4e177f90c">
+      <Execution id="511492b8-5bab-4af6-b728-55ab3cd15745" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth(0.0213d)" />
+    </UnitTest>
+    <UnitTest name="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.05d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="96061088-f42e-5d8a-df7a-10f0a8d9f5e1">
+      <Execution id="2492e29e-c89e-428e-abc8-f56eb7a171dc" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.05d)" />
+    </UnitTest>
+    <UnitTest name="FreeMomentUtilisation_IsAtMostTwoThirds_AfterTheDeclaredTrunkShare(0.1d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="5314f6a6-0e17-7a0e-a292-d441068c04ad">
+      <Execution id="563fd302-b66f-448f-bc39-e6b53883cfe6" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceValidityTests" name="FreeMomentUtilisation_IsAtMostTwoThirds_AfterTheDeclaredTrunkShare(0.1d)" />
+    </UnitTest>
+    <UnitTest name="StepLengthAndCadence_MatchTheTarget(0.3d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="e4faa211-f5ca-7d99-34e1-5852903d0eb4">
+      <Execution id="0771caf3-3142-45c1-8cc4-aaccc0c08b87" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="StepLengthAndCadence_MatchTheTarget(0.3d)" />
+    </UnitTest>
+    <UnitTest name="EveryJoint_HasFiveDegreesToSpare(0.2d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="d7022d5a-f796-ef65-fa6b-1eb19994bb7e">
+      <Execution id="6485f195-eacf-4820-a75a-a18240950293" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="EveryJoint_HasFiveDegreesToSpare(0.2d)" />
+    </UnitTest>
+    <UnitTest name="Sum_AppliesGains_AndStanceGravityShare" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="34f7bb59-be86-16f4-d444-5e1d3b3cf132">
+      <Execution id="7f073999-430e-4376-a2c8-ae223d5006d5" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.FeedForwardTests" name="Sum_AppliesGains_AndStanceGravityShare" />
+    </UnitTest>
+    <UnitTest name="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.2d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="8da0328e-e895-659a-9efa-7026975a0100">
+      <Execution id="8bd5019d-4608-4089-8ec7-a1bad6812e93" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.2d)" />
+    </UnitTest>
+    <UnitTest name="ReportAllChecks_AtEveryFroude" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="d28b6e13-9142-445a-8fc5-0f3e93bf7be6">
+      <Execution id="1ca230d4-9bbe-4e98-889f-042c7203cc55" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceValidityTests" name="ReportAllChecks_AtEveryFroude" />
+    </UnitTest>
+    <UnitTest name="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.1d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="4d154e0a-e636-8292-4ae0-ed19769ffa2b">
+      <Execution id="e13d837d-eb7e-416e-9b29-6c2df2e86233" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.1d)" />
+    </UnitTest>
+    <UnitTest name="Share_UsesOnlyTheLastWindow" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="76b60701-3167-4273-f4a8-c6ab31dedc72">
+      <Execution id="4fd2cb8d-1180-4618-91d3-8778273d2298" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.YawCompensationTests" name="Share_UsesOnlyTheLastWindow" />
+    </UnitTest>
+    <UnitTest name="SingleSupportLipmAcceleration_IsAtMostATenthG_WithTheCopInTheActiveSupport(0.15d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="75c5b75a-2f97-2370-fb29-e12c80ab351c">
+      <Execution id="6fbe65f7-edec-4f2e-adc8-f6bebd41e1a4" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceValidityTests" name="SingleSupportLipmAcceleration_IsAtMostATenthG_WithTheCopInTheActiveSupport(0.15d)" />
+    </UnitTest>
+    <UnitTest name="EveryJoint_StaysInsideItsRange_UpToFroudeTenth(0.1d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="87aa2fa4-d688-2a26-3d49-720c6ef95e1e">
+      <Execution id="4e6c8dd7-558b-477c-b6b8-6eb5f02e4af9" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="EveryJoint_StaysInsideItsRange_UpToFroudeTenth(0.1d)" />
+    </UnitTest>
+    <UnitTest name="EngineFreeAssemblies_DeclareNoEngineReferences" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="f0af6a87-8a43-a9a3-307b-b03a84f795c8">
+      <Execution id="6c573fce-cc0b-42d8-b35a-22f08cdead95" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ArchitectureTests" name="EngineFreeAssemblies_DeclareNoEngineReferences" />
+    </UnitTest>
+    <UnitTest name="Share_NullUntilWindowFull_AndWhenLegsAreStill" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="395dc666-3c05-a567-42bd-a15392792257">
+      <Execution id="10268ed8-d0d6-4a0a-99ed-dcc6741b7d6e" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.YawCompensationTests" name="Share_NullUntilWindowFull_AndWhenLegsAreStill" />
+    </UnitTest>
+    <UnitTest name="HipExcursion_IsAtMostFiveHundredthsOfLegLength(0.15d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="2aadd914-5049-6e33-aab0-a1ce5e852fc6">
+      <Execution id="56c04a87-09fb-4f40-84e7-4c23fc4c21a2" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceValidityTests" name="HipExcursion_IsAtMostFiveHundredthsOfLegLength(0.15d)" />
+    </UnitTest>
+    <UnitTest name="EveryJoint_HasFiveDegreesToSpare(0.05d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="509be6ca-6c27-3286-05da-5a8f1bd5a28b">
+      <Execution id="cfd7cea7-6442-46ea-8539-5970fb9ee85a" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="EveryJoint_HasFiveDegreesToSpare(0.05d)" />
+    </UnitTest>
+    <UnitTest name="ScanParameters" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="5b085098-252b-b9dd-a93e-bd555badf5a4">
+      <Execution id="219ad5cc-49b6-4cda-a380-11841dcc6d4d" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="ScanParameters" />
+    </UnitTest>
+    <UnitTest name="Util_IsMomentOverBudget_AndNullWithoutBudget" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="eb4c510c-2e3b-3c66-3828-d41cae00bc60">
+      <Execution id="290bcd2e-4824-4cd0-a802-7b483bbf7466" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.YawCompensationTests" name="Util_IsMomentOverBudget_AndNullWithoutBudget" />
+    </UnitTest>
+    <UnitTest name="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.2d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="9fdc6611-e7fe-6bd8-44ab-97eaf58ee37e">
+      <Execution id="c63b9704-ebe3-4fa1-93ba-30ab440c0b1a" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.2d)" />
+    </UnitTest>
+    <UnitTest name="Total_IsClampedToTheDriveForceLimit_BothSigns" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="17d87f60-2856-e99c-5796-c398fb9ca7a6">
+      <Execution id="ae8089d6-5485-4998-8e75-a19cc7da50d2" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.FeedForwardTests" name="Total_IsClampedToTheDriveForceLimit_BothSigns" />
+    </UnitTest>
+    <UnitTest name="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.0213d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="f369e4ef-ca0b-05bc-eb8c-281332bbf0b4">
+      <Execution id="4ced96ce-5d85-414d-bc54-b9cbc8f9641b" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.0213d)" />
+    </UnitTest>
+    <UnitTest name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth(0.05d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="91b9034f-e642-4558-a60e-8af5da55055f">
+      <Execution id="7003b4bb-c557-4498-888b-71ebc5004e7f" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth(0.05d)" />
+    </UnitTest>
+    <UnitTest name="HipExcursion_IsAtMostFiveHundredthsOfLegLength(0.1d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="ca9c8219-4da1-3305-2f57-7e3b53b04339">
+      <Execution id="e9f6109d-cbae-47d7-92e8-5b5a82b24d6e" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceValidityTests" name="HipExcursion_IsAtMostFiveHundredthsOfLegLength(0.1d)" />
+    </UnitTest>
+    <UnitTest name="CopRange_ToeReachesToeLine_FlatStaysInside_HeelReachesHeelLine" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="3299ae1a-938c-5a2b-4c57-4e07099da0bf">
+      <Execution id="bba19f31-a01e-4f6d-ae52-10be662061dd" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.StanceImpedanceTests" name="CopRange_ToeReachesToeLine_FlatStaysInside_HeelReachesHeelLine" />
+    </UnitTest>
+    <UnitTest name="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.1d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="6d66e750-5143-dbd6-6a21-cf3a7a35406e">
+      <Execution id="1bde7a78-0f37-4aab-9484-6ba382b59788" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.1d)" />
+    </UnitTest>
+    <UnitTest name="LoadGains_SizeStiffnessFromTheCarriedLoad_AndNeverSofterThanHz" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="626365b7-9138-2957-84b3-9d01c4e6a0d6">
+      <Execution id="637a1608-c802-47c1-8289-1de388cdae7c" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.StanceImpedanceTests" name="LoadGains_SizeStiffnessFromTheCarriedLoad_AndNeverSofterThanHz" />
+    </UnitTest>
+    <UnitTest name="SteadyGaitOffsets_ArePeriodic" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="a18c24ae-bd31-fea1-d776-b6544281509f">
+      <Execution id="6b8581ed-9659-4a77-9249-df31425732e5" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.LipmTests" name="SteadyGaitOffsets_ArePeriodic" />
+    </UnitTest>
+    <UnitTest name="RuntimeAssemblies_UseOtherModulesOnlyThroughContracts" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="3f762edb-86ce-8f7b-3357-229e9713294a">
+      <Execution id="9827512b-b621-4e3f-bbe3-d610595206cd" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ArchitectureTests" name="RuntimeAssemblies_UseOtherModulesOnlyThroughContracts" />
+    </UnitTest>
+    <UnitTest name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove(0.3d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="c4e47997-46e8-bed0-5fa2-a44d7a830979">
+      <Execution id="8c20ed88-7485-49ed-bfd0-d25ea00e4c69" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove(0.3d)" />
+    </UnitTest>
+    <UnitTest name="StepTime_FollowsAlexander_AndIsCappedWhenSlow" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="74ef8141-4282-348e-4c67-ebb461313b6f">
+      <Execution id="9a850adf-77ab-449c-bf71-936924ca531a" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.LipmTests" name="StepTime_FollowsAlexander_AndIsCappedWhenSlow" />
+    </UnitTest>
+    <UnitTest name="EveryJoint_HasFiveDegreesToSpare(0.1d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="cabcdb3e-5790-2c1d-d42b-f6ada7fe74e6">
+      <Execution id="ad2cab7b-767f-4bc5-8ea9-e8b84454492c" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="EveryJoint_HasFiveDegreesToSpare(0.1d)" />
+    </UnitTest>
+    <UnitTest name="StepLengthAndCadence_MatchTheTarget(0.05d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="88e871db-c357-c82c-360e-ab0bcbc3a31f">
+      <Execution id="11c866bd-a609-4c06-a038-493b0354fee6" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="StepLengthAndCadence_MatchTheTarget(0.05d)" />
+    </UnitTest>
+    <UnitTest name="DeadbeatOffset_BringsTheDcmToItsTarget" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="a28835d1-eaa5-c252-18be-00d45b901b3b">
+      <Execution id="e56bb6b3-1983-473f-adc5-4091782a9c5a" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.LipmTests" name="DeadbeatOffset_BringsTheDcmToItsTarget" />
+    </UnitTest>
+    <UnitTest name="StanceKnee_IsNeverLocked(0.15d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="0c9d0081-3461-79af-7a47-77de3909c28b">
+      <Execution id="8fe6c934-21ab-48ee-94cb-b444c67b5358" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceValidityTests" name="StanceKnee_IsNeverLocked(0.15d)" />
+    </UnitTest>
+    <UnitTest name="CompositionRootAssemblies_AreNotCompiledIntoPlayers" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="5211ee5a-c4f5-738b-36fd-5fa4d6f3f149">
+      <Execution id="64aab8f4-8321-4f7d-934e-d78334a52be2" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ArchitectureTests" name="CompositionRootAssemblies_AreNotCompiledIntoPlayers" />
+    </UnitTest>
+    <UnitTest name="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.0213d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="ec29a7cf-fa8a-fb61-d91a-56661ef0f7bb">
+      <Execution id="c379d3d7-24ca-48ea-821e-2bdad415b69b" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.0213d)" />
+    </UnitTest>
+    <UnitTest name="Solve_ReachesTheAnkleTarget_WithTheKneeForward(0.0f,-36.0f,6.0f,0.0f)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="b11f1549-f42e-42ca-dbd8-a59700fd58e3">
+      <Execution id="ff83e523-bc13-4edd-a61b-0ea49bb138ad" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.LegIkTests" name="Solve_ReachesTheAnkleTarget_WithTheKneeForward(0.0f,-36.0f,6.0f,0.0f)" />
+    </UnitTest>
+    <UnitTest name="WalkTuning_Loads_WithItsSchema" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="b63bcf01-b285-c54f-6a52-6161b76a5e41">
+      <Execution id="efdf16e5-e548-4304-9eb1-f7648b9d55a7" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ArchitectureTests" name="WalkTuning_Loads_WithItsSchema" />
+    </UnitTest>
+    <UnitTest name="JointMargin_IsAtLeastFiveDegrees_OverTheWholeCycle(0.15d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="ef685386-07ff-cc2d-baba-11676c054f54">
+      <Execution id="aca561d7-3fe7-43dc-a179-db77d4507e34" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceValidityTests" name="JointMargin_IsAtLeastFiveDegrees_OverTheWholeCycle(0.15d)" />
+    </UnitTest>
+    <UnitTest name="ReferenceAcceleration_OfASinusoid_IsMinusWSquaredQ" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="dcae909a-b92a-27a3-b09f-86745fabf2c3">
+      <Execution id="71cbfdff-0c7d-4b0a-9e3a-3684314e9f10" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.FeedForwardTests" name="ReferenceAcceleration_OfASinusoid_IsMinusWSquaredQ" />
+    </UnitTest>
+    <UnitTest name="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.3d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="6a21cc37-6dfa-ae05-fb74-3778b26fc9a2">
+      <Execution id="4b3dd999-0bbe-4b77-a977-35fd47e9ab57" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.3d)" />
+    </UnitTest>
+    <UnitTest name="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.05d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="f87d6f1e-0458-1732-29b6-6a6aed6de205">
+      <Execution id="87980e73-4521-4aef-8b4d-8dbf548a9b63" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.05d)" />
+    </UnitTest>
+    <UnitTest name="Solve_ReachesTheAnkleTarget_WithTheKneeForward(-1.0f,-37.5f,0.0f,-0.2f)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="e4d46269-c11b-6488-003b-42d34755af80">
+      <Execution id="58fadc36-520a-4d90-b458-d55c906e7cdd" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.LegIkTests" name="Solve_ReachesTheAnkleTarget_WithTheKneeForward(-1.0f,-37.5f,0.0f,-0.2f)" />
+    </UnitTest>
+    <UnitTest name="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.1d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="bb0ec342-b764-cb84-3146-2b88d9da473a">
+      <Execution id="3b5e89ef-c491-4386-bf48-6d04c466a408" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.1d)" />
+    </UnitTest>
+    <UnitTest name="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.3d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="68e811f5-5bc1-da28-6bb3-0d378b297b33">
+      <Execution id="7107e43c-b968-45b5-bcb7-982a2a2d0a1a" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.3d)" />
+    </UnitTest>
+    <UnitTest name="LinkMomentum_SpinAndOrbit" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="2a5cc891-3bcb-21dd-9e33-cb168752ccd4">
+      <Execution id="a884f6eb-9ff0-4493-98d4-b6340652dada" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.YawCompensationTests" name="LinkMomentum_SpinAndOrbit" />
+    </UnitTest>
+    <UnitTest name="GainLookup_ReturnsConfiguredGains_ForHeelFlatToe" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="38b38b03-28cf-4289-a418-241c018ff84c">
+      <Execution id="30c90547-4403-4bcd-8783-4a72e726bcdc" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.StanceImpedanceTests" name="GainLookup_ReturnsConfiguredGains_ForHeelFlatToe" />
+    </UnitTest>
+    <UnitTest name="FreeMomentUtilisation_IsAtMostTwoThirds_AfterTheDeclaredTrunkShare(0.15d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="55dd3715-fd15-a356-8657-4873b77609dc">
+      <Execution id="f76e2edc-26f6-42bd-9437-82d61e1fefe8" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceValidityTests" name="FreeMomentUtilisation_IsAtMostTwoThirds_AfterTheDeclaredTrunkShare(0.15d)" />
+    </UnitTest>
+    <UnitTest name="PhysicsBody_ReferencesNeitherControlNorUnits" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="bbd339ba-14e8-5a83-234e-4e86ab113a42">
+      <Execution id="ea1267b3-6a81-4ec2-97cc-2bf0bbb21c0f" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ArchitectureTests" name="PhysicsBody_ReferencesNeitherControlNorUnits" />
+    </UnitTest>
+    <UnitTest name="EveryJoint_StaysInsideItsRange_UpToFroudeTenth(0.05d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="e0bd8901-df8b-7359-c5f4-a37a59d07f84">
+      <Execution id="024390d6-bfab-4d7a-add8-5a6e611ce4a3" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="EveryJoint_StaysInsideItsRange_UpToFroudeTenth(0.05d)" />
+    </UnitTest>
+    <UnitTest name="Share_Half_IsHalf" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="42cae176-dc51-8f97-b0e8-2423a518353c">
+      <Execution id="b8c42d5f-d710-4e62-9ecc-d1556de41c99" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.YawCompensationTests" name="Share_Half_IsHalf" />
+    </UnitTest>
+    <UnitTest name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth(0.1d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="b8b300dd-941c-079e-af49-eb6891afc559">
+      <Execution id="7af0926a-7864-480b-9dc0-bdfaef90a68b" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth(0.1d)" />
+    </UnitTest>
+    <UnitTest name="ImpOff_ByDefault_AndFlatCopRangeIsTheLegacySole" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="b36990e3-821a-50e4-40ba-9ced38eb2fbf">
+      <Execution id="6f39622c-9a36-4d64-bf5a-2c89e27084a0" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.StanceImpedanceTests" name="ImpOff_ByDefault_AndFlatCopRangeIsTheLegacySole" />
+    </UnitTest>
+    <UnitTest name="StepLengthAndCadence_MatchTheTarget(0.0213d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="1735addd-cb79-60bc-419d-1959b79c88ea">
+      <Execution id="22435605-1e2c-45fc-b53e-6e37e0838939" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="StepLengthAndCadence_MatchTheTarget(0.0213d)" />
+    </UnitTest>
+    <UnitTest name="FootIsFlat_ForAtLeastThreeQuartersOfSingleSupport(0.1d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="4517b88e-bed2-fa1b-e890-317b110b85d3">
+      <Execution id="a58e0f09-72a5-4aca-be10-2aa38a8b654f" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceValidityTests" name="FootIsFlat_ForAtLeastThreeQuartersOfSingleSupport(0.1d)" />
+    </UnitTest>
+    <UnitTest name="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.2d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="6dbde469-29d7-5685-dc28-ee692e834928">
+      <Execution id="959eef20-cfda-4abf-be6e-c909b803fcef" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.2d)" />
+    </UnitTest>
+    <UnitTest name="StanceKnee_IsNeverLocked(0.1d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="8438b197-9c12-1ccb-7437-bc7112f29b33">
+      <Execution id="a8444386-9800-4bde-9f71-67380fb69d71" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceValidityTests" name="StanceKnee_IsNeverLocked(0.1d)" />
+    </UnitTest>
+    <UnitTest name="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.0213d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="20f8912f-296a-b044-afdb-f9b670e9a760">
+      <Execution id="c8e9a382-8c01-4a54-bf35-8685450ce467" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.0213d)" />
+    </UnitTest>
+    <UnitTest name="WalkToATarget_StopsByTheStoppingDistanceRule_AndEmergencyStopIsFasterButLimited" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="1bbe8783-ba76-e390-fb44-6cb0a6349da4">
+      <Execution id="a5208317-c2c9-48ad-b6dc-f7dfcbbc377c" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.IntentLimiterTests" name="WalkToATarget_StopsByTheStoppingDistanceRule_AndEmergencyStopIsFasterButLimited" />
+    </UnitTest>
+    <UnitTest name="DcmAtEnd_MatchesNumericalIntegration_WithMovingCop" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="a592078d-ffa0-cf1a-679d-3196950550c8">
+      <Execution id="b9de2cca-1ba7-4a89-8e89-f21d9fabd75e" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.LipmTests" name="DcmAtEnd_MatchesNumericalIntegration_WithMovingCop" />
+    </UnitTest>
+    <UnitTest name="Limits_ComeFromFroudeAndR001" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="452c0ed4-fb33-56b6-b8d3-b7132d1b6d5d">
+      <Execution id="1e6e22b5-de71-4d15-946d-dc14b1e10c54" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.IntentLimiterTests" name="Limits_ComeFromFroudeAndR001" />
+    </UnitTest>
+    <UnitTest name="EveryJoint_HasFiveDegreesToSpare(0.3d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="5beb7112-2c29-f527-0976-d38f18ce656f">
+      <Execution id="649cee29-1968-4766-9396-dbc2983d4e05" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="EveryJoint_HasFiveDegreesToSpare(0.3d)" />
+    </UnitTest>
+    <UnitTest name="EveryJoint_HasFiveDegreesToSpare(0.0213d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="42e060b8-6e46-3ab0-b159-70a0f27f9801">
+      <Execution id="4e0a55de-06bb-43ee-a901-ee69a57c8f3c" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="EveryJoint_HasFiveDegreesToSpare(0.0213d)" />
+    </UnitTest>
+    <UnitTest name="BehaviourCode_KeepsItsTuningNumbersInConfig" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="08c4437c-0835-9aff-f2c4-0cbfa8fd5e72">
+      <Execution id="c7bd24dd-a7f3-4a90-8079-7b5b5777132b" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ArchitectureTests" name="BehaviourCode_KeepsItsTuningNumbersInConfig" />
+    </UnitTest>
+    <UnitTest name="EveryJoint_StaysInsideItsRange_UpToFroudeTenth(0.0213d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="7c19cdf6-cf23-3cf8-be3e-a03a94f62dec">
+      <Execution id="7ea875df-d25e-4c6f-ae38-299c59f0c766" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="EveryJoint_StaysInsideItsRange_UpToFroudeTenth(0.0213d)" />
+    </UnitTest>
+    <UnitTest name="StickJitterAt30Hz_NeverExceedsTheRates" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="a5c04692-f2fc-da9c-91be-63d78bc57485">
+      <Execution id="6412e596-233f-4fdc-8ecf-e2c4ccba74a8" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.IntentLimiterTests" name="StickJitterAt30Hz_NeverExceedsTheRates" />
+    </UnitTest>
+    <UnitTest name="FootIsFlat_ForAtLeastThreeQuartersOfSingleSupport(0.15d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="cc07723a-c514-5933-6f52-d85563a54d0f">
+      <Execution id="dcb77877-321e-4878-a3f4-aceef1310615" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceValidityTests" name="FootIsFlat_ForAtLeastThreeQuartersOfSingleSupport(0.15d)" />
+    </UnitTest>
+    <UnitTest name="Solve_ReachesTheAnkleTarget_WithTheKneeForward(2.0f,-30.0f,-10.0f,0.3f)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="fce412ac-2d3e-d7c5-a216-3e426abdad1c">
+      <Execution id="f9f0bd05-9192-4c89-9ffd-1245f3813dca" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.LegIkTests" name="Solve_ReachesTheAnkleTarget_WithTheKneeForward(2.0f,-30.0f,-10.0f,0.3f)" />
+    </UnitTest>
+    <UnitTest name="SingleSupportLipmAcceleration_IsAtMostATenthG_WithTheCopInTheActiveSupport(0.1d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="d4060708-2691-59a9-214c-5f864f1ddd91">
+      <Execution id="32961ede-51ba-44d6-b08d-57137eeb0a9e" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceValidityTests" name="SingleSupportLipmAcceleration_IsAtMostATenthG_WithTheCopInTheActiveSupport(0.1d)" />
+    </UnitTest>
+    <UnitTest name="Share_PureCancel_IsOne" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="19231b66-126d-2828-fd04-5b253e204065">
+      <Execution id="31757a4e-6f0b-4d9c-a7aa-56f3638926d0" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.YawCompensationTests" name="Share_PureCancel_IsOne" />
+    </UnitTest>
+    <UnitTest name="EveryModule_HasContractsRuntimeTestsAndModuleDoc" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="89ad664e-6232-ca9b-3207-3317e322a550">
+      <Execution id="e235fc7f-0d6a-45c3-a610-362342415207" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ArchitectureTests" name="EveryModule_HasContractsRuntimeTestsAndModuleDoc" />
+    </UnitTest>
+    <UnitTest name="FeatureFlags_OfTheseModules_ShipSwitchedOff" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="ea88aa89-6746-3443-bb69-64ee877bca3d">
+      <Execution id="e7192ca4-7052-4e4c-bedd-36df9670c489" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ArchitectureTests" name="FeatureFlags_OfTheseModules_ShipSwitchedOff" />
+    </UnitTest>
+    <UnitTest name="Solve_ClampsAnUnreachableTarget_InsteadOfStretchingTheLeg" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="2edec68c-3659-efad-a7dc-81a0de125f17">
+      <Execution id="e691fe35-d121-4c44-a983-7f7d7368a23e" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.LegIkTests" name="Solve_ClampsAnUnreachableTarget_InsteadOfStretchingTheLeg" />
+    </UnitTest>
+    <UnitTest name="StepLengthAndCadence_MatchTheTarget(0.2d)" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="914f1e74-a4a1-5eb2-f1a1-ce955a773766">
+      <Execution id="c9f0af3d-af55-4605-8125-9dfb6f0bd167" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.ReferenceGaitTests" name="StepLengthAndCadence_MatchTheTarget(0.2d)" />
+    </UnitTest>
+    <UnitTest name="ZeroGains_GiveZero_AndShippedDefaultsAreOne" storage="/users/kuanw/me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/t-005/kaiju/dotnettests/units.mech.tests/bin/debug/net11.0/game.units.mech.tests.dll" id="b130f954-9c77-9bab-cec3-191eaf6e1ee1">
+      <Execution id="a89aed93-7529-49c9-a8f1-c2e8027a0cd2" />
+      <TestMethod codeBase="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Game.Units.Mech.Tests.FeedForwardTests" name="ZeroGains_GiveZero_AndShippedDefaultsAreOne" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="cc07723a-c514-5933-6f52-d85563a54d0f" executionId="dcb77877-321e-4878-a3f4-aceef1310615" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a592078d-ffa0-cf1a-679d-3196950550c8" executionId="b9de2cca-1ba7-4a89-8e89-f21d9fabd75e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ea88aa89-6746-3443-bb69-64ee877bca3d" executionId="e7192ca4-7052-4e4c-bedd-36df9670c489" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ca9c8219-4da1-3305-2f57-7e3b53b04339" executionId="e9f6109d-cbae-47d7-92e8-5b5a82b24d6e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9e4730b5-6f0d-b1b5-b9c7-9ad0b6daf845" executionId="f6a57961-cf1c-4f8f-b66f-b468dd349ae6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="11b953a0-f996-d1dc-13d9-9e7aa3a3ccf9" executionId="02497242-8e2d-428d-a47f-b80f99dd9c0e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5211ee5a-c4f5-738b-36fd-5fa4d6f3f149" executionId="64aab8f4-8321-4f7d-934e-d78334a52be2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f369e4ef-ca0b-05bc-eb8c-281332bbf0b4" executionId="4ced96ce-5d85-414d-bc54-b9cbc8f9641b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5314f6a6-0e17-7a0e-a292-d441068c04ad" executionId="563fd302-b66f-448f-bc39-e6b53883cfe6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b11f1549-f42e-42ca-dbd8-a59700fd58e3" executionId="ff83e523-bc13-4edd-a61b-0ea49bb138ad" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="19231b66-126d-2828-fd04-5b253e204065" executionId="31757a4e-6f0b-4d9c-a7aa-56f3638926d0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="34f7bb59-be86-16f4-d444-5e1d3b3cf132" executionId="7f073999-430e-4376-a2c8-ae223d5006d5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="89ad664e-6232-ca9b-3207-3317e322a550" executionId="e235fc7f-0d6a-45c3-a610-362342415207" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1bbe8783-ba76-e390-fb44-6cb0a6349da4" executionId="a5208317-c2c9-48ad-b6dc-f7dfcbbc377c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ec29a7cf-fa8a-fb61-d91a-56661ef0f7bb" executionId="c379d3d7-24ca-48ea-821e-2bdad415b69b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5beb7112-2c29-f527-0976-d38f18ce656f" executionId="649cee29-1968-4766-9396-dbc2983d4e05" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5b085098-252b-b9dd-a93e-bd555badf5a4" executionId="219ad5cc-49b6-4cda-a380-11841dcc6d4d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f87d6f1e-0458-1732-29b6-6a6aed6de205" executionId="87980e73-4521-4aef-8b4d-8dbf548a9b63" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d2702886-23bc-2a8b-31bf-e197bf5a406e" executionId="a1f87da1-35e5-4581-a6aa-2a8fb640bb74" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d7022d5a-f796-ef65-fa6b-1eb19994bb7e" executionId="6485f195-eacf-4820-a75a-a18240950293" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="20f8912f-296a-b044-afdb-f9b670e9a760" executionId="c8e9a382-8c01-4a54-bf35-8685450ce467" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4d154e0a-e636-8292-4ae0-ed19769ffa2b" executionId="e13d837d-eb7e-416e-9b29-6c2df2e86233" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dcae909a-b92a-27a3-b09f-86745fabf2c3" executionId="71cbfdff-0c7d-4b0a-9e3a-3684314e9f10" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3299ae1a-938c-5a2b-4c57-4e07099da0bf" executionId="bba19f31-a01e-4f6d-ae52-10be662061dd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b8b300dd-941c-079e-af49-eb6891afc559" executionId="7af0926a-7864-480b-9dc0-bdfaef90a68b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4517b88e-bed2-fa1b-e890-317b110b85d3" executionId="a58e0f09-72a5-4aca-be10-2aa38a8b654f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="38b38b03-28cf-4289-a418-241c018ff84c" executionId="30c90547-4403-4bcd-8783-4a72e726bcdc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b36990e3-821a-50e4-40ba-9ced38eb2fbf" executionId="6f39622c-9a36-4d64-bf5a-2c89e27084a0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9fdc6611-e7fe-6bd8-44ab-97eaf58ee37e" executionId="c63b9704-ebe3-4fa1-93ba-30ab440c0b1a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6d66e750-5143-dbd6-6a21-cf3a7a35406e" executionId="1bde7a78-0f37-4aab-9484-6ba382b59788" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bb0ec342-b764-cb84-3146-2b88d9da473a" executionId="3b5e89ef-c491-4386-bf48-6d04c466a408" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="74ef8141-4282-348e-4c67-ebb461313b6f" executionId="9a850adf-77ab-449c-bf71-936924ca531a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f0af6a87-8a43-a9a3-307b-b03a84f795c8" executionId="6c573fce-cc0b-42d8-b35a-22f08cdead95" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8438b197-9c12-1ccb-7437-bc7112f29b33" executionId="a8444386-9800-4bde-9f71-67380fb69d71" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="452c0ed4-fb33-56b6-b8d3-b7132d1b6d5d" executionId="1e6e22b5-de71-4d15-946d-dc14b1e10c54" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e4faa211-f5ca-7d99-34e1-5852903d0eb4" executionId="0771caf3-3142-45c1-8cc4-aaccc0c08b87" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d4060708-2691-59a9-214c-5f864f1ddd91" executionId="32961ede-51ba-44d6-b08d-57137eeb0a9e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="42e060b8-6e46-3ab0-b159-70a0f27f9801" executionId="4e0a55de-06bb-43ee-a901-ee69a57c8f3c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="96061088-f42e-5d8a-df7a-10f0a8d9f5e1" executionId="2492e29e-c89e-428e-abc8-f56eb7a171dc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="55dd3715-fd15-a356-8657-4873b77609dc" executionId="f76e2edc-26f6-42bd-9437-82d61e1fefe8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d28b6e13-9142-445a-8fc5-0f3e93bf7be6" executionId="1ca230d4-9bbe-4e98-889f-042c7203cc55" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="68e811f5-5bc1-da28-6bb3-0d378b297b33" executionId="7107e43c-b968-45b5-bcb7-982a2a2d0a1a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bbd339ba-14e8-5a83-234e-4e86ab113a42" executionId="ea1267b3-6a81-4ec2-97cc-2bf0bbb21c0f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="509be6ca-6c27-3286-05da-5a8f1bd5a28b" executionId="cfd7cea7-6442-46ea-8539-5970fb9ee85a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8da0328e-e895-659a-9efa-7026975a0100" executionId="8bd5019d-4608-4089-8ec7-a1bad6812e93" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1735addd-cb79-60bc-419d-1959b79c88ea" executionId="22435605-1e2c-45fc-b53e-6e37e0838939" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a9335881-1e28-f211-2790-3cd0f2aef277" executionId="c4738ca6-1649-4f55-8932-2155f608ba79" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4ce22024-8bea-049d-24bf-b2aa1a20d4bd" executionId="08b6b861-46b8-430b-a503-4a3801c83525" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7c19cdf6-cf23-3cf8-be3e-a03a94f62dec" executionId="7ea875df-d25e-4c6f-ae38-299c59f0c766" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="eb4c510c-2e3b-3c66-3828-d41cae00bc60" executionId="290bcd2e-4824-4cd0-a802-7b483bbf7466" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3f762edb-86ce-8f7b-3357-229e9713294a" executionId="9827512b-b621-4e3f-bbe3-d610595206cd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cabcdb3e-5790-2c1d-d42b-f6ada7fe74e6" executionId="ad2cab7b-767f-4bc5-8ea9-e8b84454492c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c4e47997-46e8-bed0-5fa2-a44d7a830979" executionId="8c20ed88-7485-49ed-bfd0-d25ea00e4c69" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="88e871db-c357-c82c-360e-ab0bcbc3a31f" executionId="11c866bd-a609-4c06-a038-493b0354fee6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2a5cc891-3bcb-21dd-9e33-cb168752ccd4" executionId="a884f6eb-9ff0-4493-98d4-b6340652dada" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="626365b7-9138-2957-84b3-9d01c4e6a0d6" executionId="637a1608-c802-47c1-8289-1de388cdae7c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e0bd8901-df8b-7359-c5f4-a37a59d07f84" executionId="024390d6-bfab-4d7a-add8-5a6e611ce4a3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fce412ac-2d3e-d7c5-a216-3e426abdad1c" executionId="f9f0bd05-9192-4c89-9ffd-1245f3813dca" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="08c4437c-0835-9aff-f2c4-0cbfa8fd5e72" executionId="c7bd24dd-a7f3-4a90-8079-7b5b5777132b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="417df06d-e9c0-db48-f4e1-7824d54edf35" executionId="babf2b93-fb8a-433e-b2b1-702d1e353a7d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="914f1e74-a4a1-5eb2-f1a1-ce955a773766" executionId="c9f0af3d-af55-4605-8125-9dfb6f0bd167" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2aadd914-5049-6e33-aab0-a1ce5e852fc6" executionId="56c04a87-09fb-4f40-84e7-4c23fc4c21a2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6a21cc37-6dfa-ae05-fb74-3778b26fc9a2" executionId="4b3dd999-0bbe-4b77-a977-35fd47e9ab57" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="621d1fd1-a77e-e5db-2af4-52f9746c9ec2" executionId="fae8b5cf-b8dc-4c49-9da1-42df77bb6b46" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2edec68c-3659-efad-a7dc-81a0de125f17" executionId="e691fe35-d121-4c44-a983-7f7d7368a23e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="91b9034f-e642-4558-a60e-8af5da55055f" executionId="7003b4bb-c557-4498-888b-71ebc5004e7f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a18c24ae-bd31-fea1-d776-b6544281509f" executionId="6b8581ed-9659-4a77-9249-df31425732e5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8a35bd04-a51d-c384-55c9-ffcd9089afaa" executionId="8d53d329-6423-4b02-8de9-ab549a11926d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="003ae4e0-e5ca-6d3a-5628-8fb4e177f90c" executionId="511492b8-5bab-4af6-b728-55ab3cd15745" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="17d87f60-2856-e99c-5796-c398fb9ca7a6" executionId="ae8089d6-5485-4998-8e75-a19cc7da50d2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a5c04692-f2fc-da9c-91be-63d78bc57485" executionId="6412e596-233f-4fdc-8ecf-e2c4ccba74a8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="87aa2fa4-d688-2a26-3d49-720c6ef95e1e" executionId="4e6c8dd7-558b-477c-b6b8-6eb5f02e4af9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a28835d1-eaa5-c252-18be-00d45b901b3b" executionId="e56bb6b3-1983-473f-adc5-4091782a9c5a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="be97c6a9-d2ec-3555-3b40-eef1751b4708" executionId="886bb925-c5c8-4ee7-9c9e-6013dd43bfd0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="395dc666-3c05-a567-42bd-a15392792257" executionId="10268ed8-d0d6-4a0a-99ed-dcc6741b7d6e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="42cae176-dc51-8f97-b0e8-2423a518353c" executionId="b8c42d5f-d710-4e62-9ecc-d1556de41c99" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="75c5b75a-2f97-2370-fb29-e12c80ab351c" executionId="6fbe65f7-edec-4f2e-adc8-f6bebd41e1a4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0c9d0081-3461-79af-7a47-77de3909c28b" executionId="8fe6c934-21ab-48ee-94cb-b444c67b5358" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b63bcf01-b285-c54f-6a52-6161b76a5e41" executionId="efdf16e5-e548-4304-9eb1-f7648b9d55a7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b130f954-9c77-9bab-cec3-191eaf6e1ee1" executionId="a89aed93-7529-49c9-a8f1-c2e8027a0cd2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="76b60701-3167-4273-f4a8-c6ab31dedc72" executionId="4fd2cb8d-1180-4618-91d3-8778273d2298" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e4d46269-c11b-6488-003b-42d34755af80" executionId="58fadc36-520a-4d90-b458-d55c906e7cdd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6dbde469-29d7-5685-dc28-ee692e834928" executionId="959eef20-cfda-4abf-be6e-c909b803fcef" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ef685386-07ff-cc2d-baba-11676c054f54" executionId="aca561d7-3fe7-43dc-a179-db77d4507e34" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="84" executed="84" passed="77" failed="7" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>NUnit Adapter 4.6.0.0: Test execution started
+Running all tests in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/DotnetTests/Units.Mech.Tests/bin/Debug/net11.0/Game.Units.Mech.Tests.dll
+   NUnit3TestExecutor discovered 84 of 84 NUnit test cases using Current Discovery mode, Non-Explicit run
+Fr 0.0213: step 10.5 m, hip flexion [8.0, 27.2], knee [11.5, 61.5], ankle plantarflexion [-18.4, -0.4] deg
+
+Fr 0.05: step 17.8 m, hip flexion [5.6, 29.6], knee [11.2, 62.3], ankle plantarflexion [-19.6, 3.7] deg
+
+Fr 0.1: step 24.2 m, hip flexion [1.3, 32.3], knee [10.9, 65.4], ankle plantarflexion [-17.8, 7.6] deg
+
+Fr 0.2: step 29.8 m, hip flexion [-10.1, 32.4], knee [10.8, 63.7], ankle plantarflexion [-24.5, 11.3] deg
+
+Fr 0.3: step 33.7 m, hip flexion [-21.0, 36.1], knee [10.7, 64.6], ankle plantarflexion [-30.2, 13.9] deg
+
+Fr 0.0213: step 10.5 m, hip flexion [8.0, 27.2], knee [11.5, 61.5], ankle plantarflexion [-18.4, -0.4] deg
+
+Fr 0.05: step 17.8 m, hip flexion [5.6, 29.6], knee [11.2, 62.3], ankle plantarflexion [-19.6, 3.7] deg
+
+Fr 0.1: step 24.2 m, hip flexion [1.3, 32.3], knee [10.9, 65.4], ankle plantarflexion [-17.8, 7.6] deg
+
+Fr 0.0213: largest sample-to-sample change 0.0355 (m or 0.1 rad) at dt 2.95 ms, largest second difference 148.5 (coordinate 4 at phase 0.3150)
+
+Fr 0.05: largest sample-to-sample change 0.0538 (m or 0.1 rad) at dt 3.28 ms, largest second difference 224.9 (coordinate 4 at phase 0.3150)
+
+Fr 0.1: largest sample-to-sample change 0.0713 (m or 0.1 rad) at dt 3.14 ms, largest second difference 272.2 (coordinate 4 at phase 0.3150)
+
+Fr 0.2: largest sample-to-sample change 0.0896 (m or 0.1 rad) at dt 2.74 ms, largest second difference 354.5 (coordinate 4 at phase 0.3150)
+
+Fr 0.3: largest sample-to-sample change 0.1026 (m or 0.1 rad) at dt 2.52 ms, largest second difference 417.0 (coordinate 4 at phase 0.3150)
+
+SCAN bias -0.05 preswing 20 rise 0.45 toe 30 yaw 10 duty 0.6: worst violation 14.3 deg
+
+Fr 0.0213: fastest descent in the last 0.5 s 0.61 m/s, forward speed of the foot in the world at touchdown 0.000 m/s
+
+Fr 0.05: fastest descent in the last 0.5 s 0.61 m/s, forward speed of the foot in the world at touchdown 0.000 m/s
+
+Fr 0.1: fastest descent in the last 0.5 s 0.61 m/s, forward speed of the foot in the world at touchdown -0.000 m/s
+
+Fr 0.2: fastest descent in the last 0.5 s 0.61 m/s, forward speed of the foot in the world at touchdown 0.000 m/s
+
+Fr 0.3: fastest descent in the last 0.5 s 0.61 m/s, forward speed of the foot in the world at touchdown -0.002 m/s
+
+Fr 0.2: peak yaw moment of the reference 3.03E+008 N m against the budget 1.65E+008
+
+Fr 0.3: peak yaw moment of the reference 7.02E+008 N m against the budget 1.65E+008
+
+Fr 0.0213: peak yaw moment of the reference 4.54E+007 N m against the budget 1.65E+008
+
+Fr 0.05: peak yaw moment of the reference 6.33E+007 N m against the budget 1.65E+008
+
+Fr 0.1: peak yaw moment of the reference 1.38E+008 N m against the budget 1.65E+008
+
+Fr 0.100: v 6.42 m/s, step 24.2 m | joint margin 5.30 deg (knee R@0.428) (&gt;= 5) | hip excursion 1.87 m (&lt;= 2.10) | LIPM acc 0.907 m/s2 = 0.092 g at 0.130 Heel (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.140 (2.31E+007 of 1.65E+008 at 0.224 Flat) (&lt;= 0.67) | trunk share 0.86, waist peak 11.0 deg, torque 2.08E+008 N m | min stance knee 5.6 deg (&gt;= 5)
+
+Fr 0.150: v 7.86 m/s, step 27.3 m | joint margin 5.30 deg (knee R@0.131) (&gt;= 5) | hip excursion 1.75 m (&lt;= 2.10) | LIPM acc 0.799 m/s2 = 0.081 g at 0.130 Heel (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.179 (2.95E+007 of 1.65E+008 at 0.210 Flat) (&lt;= 0.67) | trunk share 0.85, waist peak 14.6 deg, torque 2.66E+008 N m | min stance knee 5.6 deg (&gt;= 5)
+
+Fr 0.050: v 4.54 m/s, step 17.8 m | joint margin -6.18 deg (ankle L@0.013) (&gt;= 5) | hip excursion 1.87 m (&lt;= 2.10) | LIPM acc 1.116 m/s2 = 0.114 g at 0.456 Toe (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.113 (9.62E+006 of 8.49E+007 at 0.174 Heel) (&lt;= 0.67) | trunk share 0.83, waist peak 8.3 deg, torque 9.08E+007 N m | min stance knee 10.1 deg (&gt;= 5)
+Fr 0.075: v 5.56 m/s, step 21.9 m | joint margin 1.41 deg (ankle L@0.018) (&gt;= 5) | hip excursion 1.87 m (&lt;= 2.10) | LIPM acc 0.867 m/s2 = 0.088 g at 0.456 Toe (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.131 (1.11E+007 of 8.49E+007 at 0.174 Heel) (&lt;= 0.67) | trunk share 0.86, waist peak 10.2 deg, torque 1.37E+008 N m | min stance knee 8.8 deg (&gt;= 5)
+Fr 0.100: v 6.42 m/s, step 24.2 m | joint margin 5.30 deg (knee R@0.428) (&gt;= 5) | hip excursion 1.87 m (&lt;= 2.10) | LIPM acc 0.907 m/s2 = 0.092 g at 0.130 Heel (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.140 (2.31E+007 of 1.65E+008 at 0.224 Flat) (&lt;= 0.67) | trunk share 0.86, waist peak 11.0 deg, torque 2.08E+008 N m | min stance knee 5.6 deg (&gt;= 5)
+Fr 0.125: v 7.18 m/s, step 25.9 m | joint margin 5.30 deg (knee R@0.131) (&gt;= 5) | hip excursion 1.91 m (&lt;= 2.10) | LIPM acc 0.907 m/s2 = 0.092 g at 0.130 Heel (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.160 (2.64E+007 of 1.65E+008 at 0.220 Flat) (&lt;= 0.67) | trunk share 0.87, waist peak 12.7 deg, torque 2.37E+008 N m | min stance knee 5.6 deg (&gt;= 5)
+Fr 0.150: v 7.86 m/s, step 27.3 m | joint margin 5.30 deg (knee R@0.131) (&gt;= 5) | hip excursion 1.75 m (&lt;= 2.10) | LIPM acc 0.799 m/s2 = 0.081 g at 0.130 Heel (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.179 (2.95E+007 of 1.65E+008 at 0.210 Flat) (&lt;= 0.67) | trunk share 0.85, waist peak 14.6 deg, torque 2.66E+008 N m | min stance knee 5.6 deg (&gt;= 5)
+Fr 0.175: v 8.49 m/s, step 28.6 m | joint margin 4.25 deg (hip R@0.141) (&gt;= 5) | hip excursion 1.83 m (&lt;= 2.10) | LIPM acc 0.869 m/s2 = 0.089 g at 0.130 Heel (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.278 (4.58E+007 of 1.65E+008 at 0.189 Flat) (&lt;= 0.67) | trunk share 0.79, waist peak 17.4 deg, torque 4.12E+008 N m | min stance knee 5.6 deg (&gt;= 5)
+Fr 0.200: v 9.08 m/s, step 29.8 m | joint margin 0.62 deg (hip R@0.168) (&gt;= 5) | hip excursion 1.67 m (&lt;= 2.10) | LIPM acc 0.873 m/s2 = 0.089 g at 0.130 Flat (&lt;= 0.1) | foot flat 76.0 % of single support (&gt;= 75) | yaw utilisation 0.288 (4.75E+007 of 1.65E+008 at 0.170 Flat) (&lt;= 0.67) | trunk share 0.70, waist peak 18.1 deg, torque 4.28E+008 N m | min stance knee 5.6 deg (&gt;= 5)
+
+NUnit Adapter 4.6.0.0: Test execution complete
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

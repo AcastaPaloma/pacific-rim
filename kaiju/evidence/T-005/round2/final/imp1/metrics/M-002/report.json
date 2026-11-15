@@ -1,0 +1,2305 @@
+{
+ "assumed_thresholds_decisive": [],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [
+   "walk_fr010",
+   "walk_fr020",
+   "walk_fr030",
+   "start",
+   "stop",
+   "estop",
+   "turn90_inplace",
+   "curve",
+   "stomp"
+  ],
+  "optional_not_provided": [
+   "walk_fr020_terrain"
+  ],
+  "provided": [
+   "start@imp1cap025",
+   "stop@imp1cap025",
+   "walk_fr010@imp1cap025"
+  ],
+  "required": [
+   "walk_fr010",
+   "walk_fr020",
+   "walk_fr030",
+   "start",
+   "stop",
+   "estop",
+   "turn90_inplace",
+   "curve",
+   "stomp"
+  ]
+ },
+ "exit_code": 1,
+ "extra": {
+  "contacts": [
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 1,
+    "foot": "L",
+    "n_begin": 1,
+    "per_point_m": [
+     0.0131361770005,
+     0.0134598300005,
+     0.0134199586638,
+     0.0128576246356,
+     0.0128177752892
+    ],
+    "samples": 449,
+    "slip_m": 0.0134598300005,
+    "tags": []
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 2,
+    "foot": "R",
+    "n_begin": 1,
+    "per_point_m": [
+     0.0108540133469,
+     0.0109649100176,
+     0.0107604476154,
+     0.0109498943828,
+     0.010745146174
+    ],
+    "samples": 450,
+    "slip_m": 0.0109649100176,
+    "tags": []
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 3,
+    "foot": "L",
+    "n_begin": 451,
+    "per_point_m": [
+     0.517239171789,
+     1.50121035064,
+     1.16459267138,
+     1.13606700289,
+     0.567624511296
+    ],
+    "samples": 235,
+    "slip_m": 1.50121035064,
+    "tags": []
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 4,
+    "foot": "R",
+    "n_begin": 620,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 5,
+    "foot": "R",
+    "n_begin": 622,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 6,
+    "foot": "R",
+    "n_begin": 632,
+    "per_point_m": [
+     1.41583937343,
+     3.14009781334,
+     3.01111314352,
+     0.878316567918,
+     1.28054281569
+    ],
+    "samples": 313,
+    "slip_m": 3.14009781334,
+    "tags": []
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 7,
+    "foot": "L",
+    "n_begin": 895,
+    "per_point_m": [
+     0.0299213326574,
+     0.0,
+     0.0,
+     0.0323257027543,
+     0.0421711234188
+    ],
+    "samples": 2,
+    "slip_m": 0.0421711234188,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 8,
+    "foot": "L",
+    "n_begin": 906,
+    "per_point_m": [
+     0.502613833828,
+     1.00325323016,
+     0.862890003558,
+     1.17425047609,
+     0.735257215248
+    ],
+    "samples": 281,
+    "slip_m": 1.17425047609,
+    "tags": []
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 9,
+    "foot": "R",
+    "n_begin": 1136,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0590595586132,
+     0.064686721593
+    ],
+    "samples": 7,
+    "slip_m": 0.064686721593,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 10,
+    "foot": "R",
+    "n_begin": 1150,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0770984294958,
+     0.0796569243154
+    ],
+    "samples": 51,
+    "slip_m": 0.0796569243154,
+    "tags": []
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 11,
+    "foot": "R",
+    "n_begin": 1204,
+    "per_point_m": [
+     1.97151623786,
+     4.17273288348,
+     5.18338680828,
+     1.99755070118,
+     0.494468054269
+    ],
+    "samples": 259,
+    "slip_m": 5.18338680828,
+    "tags": []
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 12,
+    "foot": "L",
+    "n_begin": 1408,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     null
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 13,
+    "foot": "L",
+    "n_begin": 1419,
+    "per_point_m": [
+     0.393404284138,
+     0.681055114433,
+     0.479571096975,
+     0.814558397927,
+     0.826447278525
+    ],
+    "samples": 303,
+    "slip_m": 0.826447278525,
+    "tags": []
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 14,
+    "foot": "R",
+    "n_begin": 1648,
+    "per_point_m": [
+     0.00492778115948,
+     0.00944732931381,
+     0.00769732908417,
+     0.00490765800623,
+     0.000452737799497
+    ],
+    "samples": 2,
+    "slip_m": 0.00944732931381,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 15,
+    "foot": "R",
+    "n_begin": 1661,
+    "per_point_m": [
+     0.308702236154,
+     0.865301381543,
+     0.372003013566,
+     0.398900233553,
+     0.404913917201
+    ],
+    "samples": 310,
+    "slip_m": 0.865301381543,
+    "tags": []
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 16,
+    "foot": "L",
+    "n_begin": 1924,
+    "per_point_m": [
+     0.0219020426184,
+     0.0147531307571,
+     0.0294188794036,
+     0.0218436896417,
+     0.0332827397075
+    ],
+    "samples": 2,
+    "slip_m": 0.0332827397075,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 17,
+    "foot": "L",
+    "n_begin": 1944,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.073378580176,
+     0.0812247491823
+    ],
+    "samples": 25,
+    "slip_m": 0.0812247491823,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 18,
+    "foot": "L",
+    "n_begin": 1972,
+    "per_point_m": [
+     0.71217302992,
+     0.773851728762,
+     0.725878173337,
+     0.621774751554,
+     1.23214283888
+    ],
+    "samples": 226,
+    "slip_m": 1.23214283888,
+    "tags": []
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 19,
+    "foot": "R",
+    "n_begin": 2160,
+    "per_point_m": [
+     0.0188942021727,
+     0.0214003012289,
+     0.0164612314761,
+     0.021888873025,
+     0.0172938477628
+    ],
+    "samples": 2,
+    "slip_m": 0.021888873025,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 20,
+    "foot": "R",
+    "n_begin": 2172,
+    "per_point_m": [
+     0.709870569496,
+     0.585625696343,
+     2.74614691913,
+     0.632029155012,
+     1.94562633767
+    ],
+    "samples": 308,
+    "slip_m": 2.74614691913,
+    "tags": []
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 21,
+    "foot": "L",
+    "n_begin": 2215,
+    "per_point_m": [
+     null,
+     null,
+     0.0375702784923,
+     null,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.0375702784923,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 22,
+    "foot": "L",
+    "n_begin": 2223,
+    "per_point_m": [
+     null,
+     null,
+     0.0573500670886,
+     null,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.0573500670886,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 23,
+    "foot": "L",
+    "n_begin": 2409,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     null,
+     null
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start@imp1cap025",
+    "contact_id": 24,
+    "foot": "L",
+    "n_begin": 2422,
+    "per_point_m": [
+     3.44744913068,
+     2.0915398622,
+     1.03224540685,
+     5.10114240396,
+     5.24406780512
+    ],
+    "samples": 279,
+    "slip_m": 5.24406780512,
+    "tags": [
+     "truncated_end"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 1,
+    "foot": "L",
+    "n_begin": 1,
+    "per_point_m": [
+     0.0115429926836,
+     0.0117622821005,
+     0.0113886589513,
+     0.0117065159874,
+     0.0113333537311
+    ],
+    "samples": 329,
+    "slip_m": 0.0117622821005,
+    "tags": []
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 2,
+    "foot": "R",
+    "n_begin": 1,
+    "per_point_m": [
+     0.0108540133469,
+     0.0109649100176,
+     0.0107604476154,
+     0.0109498943828,
+     0.010745146174
+    ],
+    "samples": 330,
+    "slip_m": 0.0109649100176,
+    "tags": []
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 3,
+    "foot": "L",
+    "n_begin": 331,
+    "per_point_m": [
+     0.533243685287,
+     1.31641863648,
+     1.29393495266,
+     0.922961068363,
+     0.661961056094
+    ],
+    "samples": 240,
+    "slip_m": 1.31641863648,
+    "tags": []
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 4,
+    "foot": "R",
+    "n_begin": 501,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 5,
+    "foot": "R",
+    "n_begin": 503,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 6,
+    "foot": "R",
+    "n_begin": 512,
+    "per_point_m": [
+     null,
+     null,
+     0.224690509948,
+     0.132488121101,
+     0.10486312439
+    ],
+    "samples": 87,
+    "slip_m": 0.224690509948,
+    "tags": []
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 7,
+    "foot": "R",
+    "n_begin": 600,
+    "per_point_m": [
+     0.434944274673,
+     0.340846050814,
+     4.18514612734,
+     1.48446213957,
+     0.943069239559
+    ],
+    "samples": 214,
+    "slip_m": 4.18514612734,
+    "tags": []
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 8,
+    "foot": "L",
+    "n_begin": 760,
+    "per_point_m": [
+     0.0271840630887,
+     0.0273037430945,
+     0.027422862841,
+     0.0269469935197,
+     0.0270647622535
+    ],
+    "samples": 2,
+    "slip_m": 0.027422862841,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 9,
+    "foot": "L",
+    "n_begin": 769,
+    "per_point_m": [
+     0.103722300447,
+     0.131522508981,
+     null,
+     0.112514850902,
+     null
+    ],
+    "samples": 4,
+    "slip_m": 0.131522508981,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 10,
+    "foot": "L",
+    "n_begin": 774,
+    "per_point_m": [
+     1.53671315068,
+     1.59145135596,
+     1.11754840795,
+     1.50985014674,
+     1.47055332235
+    ],
+    "samples": 292,
+    "slip_m": 1.59145135596,
+    "tags": []
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 11,
+    "foot": "R",
+    "n_begin": 1006,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     null,
+     null
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 12,
+    "foot": "R",
+    "n_begin": 1017,
+    "per_point_m": [
+     0.918925060086,
+     1.35439894429,
+     0.908072198206,
+     1.10940602299,
+     1.09016843809
+    ],
+    "samples": 317,
+    "slip_m": 1.35439894429,
+    "tags": []
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 13,
+    "foot": "L",
+    "n_begin": 1264,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     null,
+     null
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 14,
+    "foot": "L",
+    "n_begin": 1282,
+    "per_point_m": [
+     null,
+     0.042336037246,
+     null,
+     0.453763051232,
+     0.0830923639043
+    ],
+    "samples": 27,
+    "slip_m": 0.453763051232,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 15,
+    "foot": "L",
+    "n_begin": 1317,
+    "per_point_m": [
+     0.224676644656,
+     0.231600827384,
+     0.351493478775,
+     0.120527260112,
+     0.470888817101
+    ],
+    "samples": 19,
+    "slip_m": 0.470888817101,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 16,
+    "foot": "L",
+    "n_begin": 1337,
+    "per_point_m": [
+     0.504305256121,
+     0.519699102125,
+     0.919837662391,
+     0.982274416667,
+     0.568642713846
+    ],
+    "samples": 236,
+    "slip_m": 0.982274416667,
+    "tags": []
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 17,
+    "foot": "R",
+    "n_begin": 1509,
+    "per_point_m": [
+     0.0319372145335,
+     0.0319805864631,
+     0.0319810294439,
+     0.0318934139814,
+     0.0318938567332
+    ],
+    "samples": 2,
+    "slip_m": 0.0319810294439,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 18,
+    "foot": "R",
+    "n_begin": 1516,
+    "per_point_m": [
+     0.862955455401,
+     0.840783781692,
+     0.898756682467,
+     0.824118747599,
+     0.886126692936
+    ],
+    "samples": 38,
+    "slip_m": 0.898756682467,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 19,
+    "foot": "R",
+    "n_begin": 1561,
+    "per_point_m": [
+     0.35733279149,
+     0.426080783303,
+     0.943628771941,
+     0.7891579316,
+     0.301371586698
+    ],
+    "samples": 228,
+    "slip_m": 0.943628771941,
+    "tags": []
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 20,
+    "foot": "L",
+    "n_begin": 1746,
+    "per_point_m": [
+     0.0234775932617,
+     0.0,
+     0.0,
+     0.0288132331061,
+     0.0359938294231
+    ],
+    "samples": 2,
+    "slip_m": 0.0359938294231,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 21,
+    "foot": "L",
+    "n_begin": 1761,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.132313929436,
+     0.0410319725363
+    ],
+    "samples": 30,
+    "slip_m": 0.132313929436,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 22,
+    "foot": "L",
+    "n_begin": 1793,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0674881207611,
+     null
+    ],
+    "samples": 3,
+    "slip_m": 0.0674881207611,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 23,
+    "foot": "L",
+    "n_begin": 1799,
+    "per_point_m": [
+     0.263283018388,
+     0.425800032584,
+     0.314622420153,
+     0.410024757101,
+     0.312706640289
+    ],
+    "samples": 215,
+    "slip_m": 0.425800032584,
+    "tags": []
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 24,
+    "foot": "R",
+    "n_begin": 1983,
+    "per_point_m": [
+     0.0136838474019,
+     0.018439781685,
+     0.0105880813778,
+     0.019276571061,
+     0.0122089599412
+    ],
+    "samples": 2,
+    "slip_m": 0.019276571061,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 25,
+    "foot": "R",
+    "n_begin": 1996,
+    "per_point_m": [
+     0.197151056882,
+     null,
+     0.0704356075816,
+     0.172620347838,
+     0.219102745873
+    ],
+    "samples": 32,
+    "slip_m": 0.219102745873,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 26,
+    "foot": "R",
+    "n_begin": 2034,
+    "per_point_m": [
+     0.310654388607,
+     0.333656968768,
+     0.239686352702,
+     0.361518318578,
+     0.677631263094
+    ],
+    "samples": 302,
+    "slip_m": 0.677631263094,
+    "tags": []
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 27,
+    "foot": "L",
+    "n_begin": 2238,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 28,
+    "foot": "L",
+    "n_begin": 2267,
+    "per_point_m": [
+     0.0,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 29,
+    "foot": "L",
+    "n_begin": 2269,
+    "per_point_m": [
+     0.215667585358,
+     0.198265743843,
+     0.114658720306,
+     0.28798955814,
+     0.241986698658
+    ],
+    "samples": 294,
+    "slip_m": 0.28798955814,
+    "tags": []
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 30,
+    "foot": "R",
+    "n_begin": 2506,
+    "per_point_m": [
+     0.0326949614625,
+     0.0328488519237,
+     0.0332862939848,
+     0.0321039604809,
+     0.0325444711382
+    ],
+    "samples": 4,
+    "slip_m": 0.0332862939848,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 31,
+    "foot": "R",
+    "n_begin": 2512,
+    "per_point_m": [
+     0.907404186689,
+     1.24771130848,
+     0.71146567895,
+     1.29960923998,
+     0.799143134772
+    ],
+    "samples": 295,
+    "slip_m": 1.29960923998,
+    "tags": []
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 32,
+    "foot": "L",
+    "n_begin": 2744,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 33,
+    "foot": "L",
+    "n_begin": 2753,
+    "per_point_m": [
+     0.0423541826928,
+     0.0422132191254,
+     0.0419108511412,
+     0.0427999286933,
+     0.0424993488715
+    ],
+    "samples": 281,
+    "slip_m": 0.0427999286933,
+    "tags": []
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 34,
+    "foot": "R",
+    "n_begin": 2981,
+    "per_point_m": [
+     0.00100532095562,
+     0.00103497257682,
+     0.00104682797821,
+     0.000964017971349,
+     0.000976734883985
+    ],
+    "samples": 620,
+    "slip_m": 0.00104682797821,
+    "tags": [
+     "truncated_end"
+    ]
+   },
+   {
+    "capture": "stop@imp1cap025",
+    "contact_id": 35,
+    "foot": "L",
+    "n_begin": 3039,
+    "per_point_m": [
+     0.00906325568791,
+     0.0089753243573,
+     0.00905769863681,
+     0.00906976290707,
+     0.00915128715183
+    ],
+    "samples": 562,
+    "slip_m": 0.00915128715183,
+    "tags": [
+     "truncated_end"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 1,
+    "foot": "L",
+    "n_begin": 1,
+    "per_point_m": [
+     0.0115429926836,
+     0.0117622821005,
+     0.0113886589513,
+     0.0117065159874,
+     0.0113333537311
+    ],
+    "samples": 329,
+    "slip_m": 0.0117622821005,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 2,
+    "foot": "R",
+    "n_begin": 1,
+    "per_point_m": [
+     0.0108540133469,
+     0.0109649100176,
+     0.0107604476154,
+     0.0109498943828,
+     0.010745146174
+    ],
+    "samples": 330,
+    "slip_m": 0.0109649100176,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 3,
+    "foot": "L",
+    "n_begin": 331,
+    "per_point_m": [
+     0.533243685287,
+     1.31641863648,
+     1.29393495266,
+     0.922961068363,
+     0.661961056094
+    ],
+    "samples": 240,
+    "slip_m": 1.31641863648,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 4,
+    "foot": "R",
+    "n_begin": 501,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 5,
+    "foot": "R",
+    "n_begin": 503,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 6,
+    "foot": "R",
+    "n_begin": 512,
+    "per_point_m": [
+     null,
+     null,
+     0.224690509948,
+     0.132488121101,
+     0.10486312439
+    ],
+    "samples": 87,
+    "slip_m": 0.224690509948,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 7,
+    "foot": "R",
+    "n_begin": 600,
+    "per_point_m": [
+     0.434944274673,
+     0.340846050814,
+     4.18514612734,
+     1.48446213957,
+     0.943069239559
+    ],
+    "samples": 214,
+    "slip_m": 4.18514612734,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 8,
+    "foot": "L",
+    "n_begin": 760,
+    "per_point_m": [
+     0.0271840630887,
+     0.0273037430945,
+     0.027422862841,
+     0.0269469935197,
+     0.0270647622535
+    ],
+    "samples": 2,
+    "slip_m": 0.027422862841,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 9,
+    "foot": "L",
+    "n_begin": 769,
+    "per_point_m": [
+     0.103722300447,
+     0.131522508981,
+     null,
+     0.112514850902,
+     null
+    ],
+    "samples": 4,
+    "slip_m": 0.131522508981,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 10,
+    "foot": "L",
+    "n_begin": 774,
+    "per_point_m": [
+     1.53671315068,
+     1.59145135596,
+     1.11754840795,
+     1.50985014674,
+     1.47055332235
+    ],
+    "samples": 292,
+    "slip_m": 1.59145135596,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 11,
+    "foot": "R",
+    "n_begin": 1006,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     null,
+     null
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 12,
+    "foot": "R",
+    "n_begin": 1017,
+    "per_point_m": [
+     0.918925060086,
+     1.35439894429,
+     0.908072198206,
+     1.10940602299,
+     1.09016843809
+    ],
+    "samples": 317,
+    "slip_m": 1.35439894429,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 13,
+    "foot": "L",
+    "n_begin": 1264,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     null,
+     null
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 14,
+    "foot": "L",
+    "n_begin": 1282,
+    "per_point_m": [
+     null,
+     0.042336037246,
+     null,
+     0.453763051232,
+     0.0830923639043
+    ],
+    "samples": 27,
+    "slip_m": 0.453763051232,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 15,
+    "foot": "L",
+    "n_begin": 1317,
+    "per_point_m": [
+     0.224676644656,
+     0.231600827384,
+     0.351493478775,
+     0.120527260112,
+     0.470888817101
+    ],
+    "samples": 19,
+    "slip_m": 0.470888817101,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 16,
+    "foot": "L",
+    "n_begin": 1337,
+    "per_point_m": [
+     0.504305256121,
+     0.519699102125,
+     0.919837662391,
+     0.982274416667,
+     0.568642713846
+    ],
+    "samples": 236,
+    "slip_m": 0.982274416667,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 17,
+    "foot": "R",
+    "n_begin": 1509,
+    "per_point_m": [
+     0.0319372145335,
+     0.0319805864631,
+     0.0319810294439,
+     0.0318934139814,
+     0.0318938567332
+    ],
+    "samples": 2,
+    "slip_m": 0.0319810294439,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 18,
+    "foot": "R",
+    "n_begin": 1516,
+    "per_point_m": [
+     0.862955455401,
+     0.840783781692,
+     0.898756682467,
+     0.824118747599,
+     0.886126692936
+    ],
+    "samples": 38,
+    "slip_m": 0.898756682467,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 19,
+    "foot": "R",
+    "n_begin": 1561,
+    "per_point_m": [
+     0.35733279149,
+     0.426080783303,
+     0.943628771941,
+     0.7891579316,
+     0.301371586698
+    ],
+    "samples": 228,
+    "slip_m": 0.943628771941,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 20,
+    "foot": "L",
+    "n_begin": 1746,
+    "per_point_m": [
+     0.0234775932617,
+     0.0,
+     0.0,
+     0.0288132331061,
+     0.0359938294231
+    ],
+    "samples": 2,
+    "slip_m": 0.0359938294231,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 21,
+    "foot": "L",
+    "n_begin": 1761,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.132313929436,
+     0.0410319725363
+    ],
+    "samples": 30,
+    "slip_m": 0.132313929436,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 22,
+    "foot": "L",
+    "n_begin": 1793,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0674881207611,
+     null
+    ],
+    "samples": 3,
+    "slip_m": 0.0674881207611,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 23,
+    "foot": "L",
+    "n_begin": 1799,
+    "per_point_m": [
+     0.263283018388,
+     0.425800032584,
+     0.314622420153,
+     0.410024757101,
+     0.312706640289
+    ],
+    "samples": 215,
+    "slip_m": 0.425800032584,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 24,
+    "foot": "R",
+    "n_begin": 1983,
+    "per_point_m": [
+     0.0136838474019,
+     0.018439781685,
+     0.0105880813778,
+     0.019276571061,
+     0.0122089599412
+    ],
+    "samples": 2,
+    "slip_m": 0.019276571061,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 25,
+    "foot": "R",
+    "n_begin": 1996,
+    "per_point_m": [
+     0.197151056882,
+     null,
+     0.0704356075816,
+     0.172620347838,
+     0.219102745873
+    ],
+    "samples": 32,
+    "slip_m": 0.219102745873,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 26,
+    "foot": "R",
+    "n_begin": 2034,
+    "per_point_m": [
+     0.242081405523,
+     0.343715717353,
+     0.886347801992,
+     0.370905796848,
+     0.710981273896
+    ],
+    "samples": 225,
+    "slip_m": 0.886347801992,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 27,
+    "foot": "L",
+    "n_begin": 2222,
+    "per_point_m": [
+     0.0154666700894,
+     0.0,
+     0.0,
+     0.0159838095925,
+     0.0200055526265
+    ],
+    "samples": 2,
+    "slip_m": 0.0200055526265,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 28,
+    "foot": "L",
+    "n_begin": 2238,
+    "per_point_m": [
+     0.183510091063,
+     0.746023204903,
+     0.639510797269,
+     0.586612537908,
+     0.627040327519
+    ],
+    "samples": 252,
+    "slip_m": 0.746023204903,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 29,
+    "foot": "R",
+    "n_begin": 2451,
+    "per_point_m": [
+     0.0,
+     null,
+     null,
+     0.0232048485584,
+     0.0246225369949
+    ],
+    "samples": 2,
+    "slip_m": 0.0246225369949,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 30,
+    "foot": "R",
+    "n_begin": 2460,
+    "per_point_m": [
+     0.379711600994,
+     0.85472651021,
+     1.23801842046,
+     0.980664675641,
+     1.08169090527
+    ],
+    "samples": 294,
+    "slip_m": 1.23801842046,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 31,
+    "foot": "L",
+    "n_begin": 2692,
+    "per_point_m": [
+     0.0200651922307,
+     0.0,
+     0.0,
+     0.0282306015613,
+     0.0364840247466
+    ],
+    "samples": 2,
+    "slip_m": 0.0364840247466,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 32,
+    "foot": "L",
+    "n_begin": 2708,
+    "per_point_m": [
+     0.246972396656,
+     1.06544929214,
+     0.502414891632,
+     0.522661597945,
+     0.575385123783
+    ],
+    "samples": 278,
+    "slip_m": 1.06544929214,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 33,
+    "foot": "R",
+    "n_begin": 2931,
+    "per_point_m": [
+     0.0182776550351,
+     0.0,
+     0.0,
+     0.0283979087437,
+     0.0197179433912
+    ],
+    "samples": 2,
+    "slip_m": 0.0283979087437,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 34,
+    "foot": "R",
+    "n_begin": 2945,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0506946315865,
+     0.0957778967421
+    ],
+    "samples": 40,
+    "slip_m": 0.0957778967421,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 35,
+    "foot": "R",
+    "n_begin": 2986,
+    "per_point_m": [
+     0.223963235724,
+     0.740185623065,
+     1.08778313964,
+     0.417734529327,
+     0.146290844457
+    ],
+    "samples": 246,
+    "slip_m": 1.08778313964,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 36,
+    "foot": "L",
+    "n_begin": 3171,
+    "per_point_m": [
+     0.0160022755618,
+     0.0,
+     0.0,
+     0.0150689983447,
+     0.0188272915487
+    ],
+    "samples": 2,
+    "slip_m": 0.0188272915487,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 37,
+    "foot": "L",
+    "n_begin": 3186,
+    "per_point_m": [
+     0.189660303553,
+     1.05961287351,
+     0.480381205311,
+     0.223196139162,
+     0.271548468188
+    ],
+    "samples": 279,
+    "slip_m": 1.05961287351,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 38,
+    "foot": "R",
+    "n_begin": 3408,
+    "per_point_m": [
+     0.034326228016,
+     0.0,
+     0.0,
+     0.0424086149771,
+     0.0331598437267
+    ],
+    "samples": 2,
+    "slip_m": 0.0424086149771,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 39,
+    "foot": "R",
+    "n_begin": 3422,
+    "per_point_m": [
+     0.166622526176,
+     0.427172484499,
+     0.977077861476,
+     0.377919772609,
+     0.302304305004
+    ],
+    "samples": 289,
+    "slip_m": 0.977077861476,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 40,
+    "foot": "L",
+    "n_begin": 3649,
+    "per_point_m": [
+     0.0192501675892,
+     0.0,
+     0.0,
+     0.022074421004,
+     0.0311046203277
+    ],
+    "samples": 2,
+    "slip_m": 0.0311046203277,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010@imp1cap025",
+    "contact_id": 41,
+    "foot": "L",
+    "n_begin": 3664,
+    "per_point_m": [
+     0.269059997783,
+     0.229061867957,
+     0.369786933656,
+     0.377233665956,
+     0.398878418126
+    ],
+    "samples": 117,
+    "slip_m": 0.398878418126,
+    "tags": [
+     "truncated_end"
+    ]
+   }
+  ]
+ },
+ "failing_gating": [
+  "M-002.1"
+ ],
+ "failures_suppressed": false,
+ "flags": [
+  {
+   "code": "NON_REFERENCE_NORMALISERS",
+   "detail": {
+    "differs": {
+     "I_yaw_kgm2": {
+      "header": 619689864,
+      "reference": 475000000.0
+     },
+     "com_height_stand_m": {
+      "header": 42.5405,
+      "reference": 44.8
+     },
+     "foot_length_m": {
+      "header": 15,
+      "reference": 19.6
+     },
+     "foot_width_m": {
+      "header": 10,
+      "reference": 7.65
+     },
+     "mu_assumed": {
+      "header": 0.6,
+      "reference": 0.4
+     },
+     "reactor_power_W": {
+      "header": 300000000.0,
+      "reference": 200000000.0
+     }
+    },
+    "file": "start.gait.jsonl"
+   }
+  },
+  {
+   "code": "NON_REFERENCE_NORMALISERS",
+   "detail": {
+    "differs": {
+     "I_yaw_kgm2": {
+      "header": 619689864,
+      "reference": 475000000.0
+     },
+     "com_height_stand_m": {
+      "header": 42.5405,
+      "reference": 44.8
+     },
+     "foot_length_m": {
+      "header": 15,
+      "reference": 19.6
+     },
+     "foot_width_m": {
+      "header": 10,
+      "reference": 7.65
+     },
+     "mu_assumed": {
+      "header": 0.6,
+      "reference": 0.4
+     },
+     "reactor_power_W": {
+      "header": 300000000.0,
+      "reference": 200000000.0
+     }
+    },
+    "file": "stop.gait.jsonl"
+   }
+  },
+  {
+   "code": "NON_REFERENCE_NORMALISERS",
+   "detail": {
+    "differs": {
+     "I_yaw_kgm2": {
+      "header": 619689864,
+      "reference": 475000000.0
+     },
+     "T_stride_nom_s": {
+      "header": 7.54254617409,
+      "reference": 6.6
+     },
+     "com_height_stand_m": {
+      "header": 42.5405,
+      "reference": 44.8
+     },
+     "foot_length_m": {
+      "header": 15,
+      "reference": 19.6
+     },
+     "foot_width_m": {
+      "header": 10,
+      "reference": 7.65
+     },
+     "fr_cruise_nom": {
+      "header": 0.1,
+      "reference": 0.2
+     },
+     "mu_assumed": {
+      "header": 0.6,
+      "reference": 0.4
+     },
+     "reactor_power_W": {
+      "header": 300000000.0,
+      "reference": 200000000.0
+     }
+    },
+    "file": "walk_fr010.gait.jsonl"
+   }
+  }
+ ],
+ "headless_verdict": "FAIL",
+ "headless_verdict_label": "FAIL",
+ "images": [
+  "diag_slip.png"
+ ],
+ "inputs": [
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g1/start.gait.jsonl",
+   "role": "gait_log@v1 start@imp1cap025",
+   "sha256": "1f0d2eb207a676f68411a3e6ef5c246795ca9d1928fce6f9c304d5dea153cf26"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g1/stop.gait.jsonl",
+   "role": "gait_log@v1 stop@imp1cap025",
+   "sha256": "becf7b577eb7d78c0d513fe7d9bc8f8dece638125a6e685e4e41998ffd74a97a"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g1/walk_fr010.gait.jsonl",
+   "role": "gait_log@v1 walk_fr010@imp1cap025",
+   "sha256": "34bda33b35905b68854071614d9c6a3ffdf5a20b62eb298e4a7bac08d9a82952"
+  }
+ ],
+ "invocation": {
+  "command": "m002",
+  "inputs": [
+   "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g1"
+  ],
+  "label": "T-005",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "T-005",
+ "metric": "M-002",
+ "metric_version": "M-002@v1",
+ "normalisers": {
+  "start.gait.jsonl": {
+   "F_off_N_header": 981000,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 15,
+   "P_W": 300000000.0,
+   "T_nom_s": 6.56616782054,
+   "W_f_m": 10,
+   "capture": "start@imp1cap025",
+   "fr_cruise_nom": 0.2,
+   "g": 9.81,
+   "h_m": 42.5405,
+   "l_m": 42,
+   "m_kg": 10000000.0,
+   "unit_id": "ent:1"
+  },
+  "stop.gait.jsonl": {
+   "F_off_N_header": 981000,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 15,
+   "P_W": 300000000.0,
+   "T_nom_s": 6.56616782054,
+   "W_f_m": 10,
+   "capture": "stop@imp1cap025",
+   "fr_cruise_nom": 0.2,
+   "g": 9.81,
+   "h_m": 42.5405,
+   "l_m": 42,
+   "m_kg": 10000000.0,
+   "unit_id": "ent:1"
+  },
+  "walk_fr010.gait.jsonl": {
+   "F_off_N_header": 981000,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 15,
+   "P_W": 300000000.0,
+   "T_nom_s": 7.54254617409,
+   "W_f_m": 10,
+   "capture": "walk_fr010@imp1cap025",
+   "fr_cruise_nom": 0.1,
+   "g": 9.81,
+   "h_m": 42.5405,
+   "l_m": 42,
+   "m_kg": 10000000.0,
+   "unit_id": "ent:1"
+  }
+ },
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-002@v1.1.yaml",
+  "revision": "v1.1",
+  "sha256": "dd104137882d9d95ebfcdeaedc03f076cd546ae278068fa276db55db880b5745",
+  "spec": "M-002@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "revw-172-31-218-200.rn.uwaterloo.ca",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-15T00:10:33Z",
+  "wall_time_s": 0.764
+ },
+ "submeasures": [
+  {
+   "decisive_part": "start@imp1cap025:start.gait.jsonl max s_c/L_f",
+   "diagnostics": {
+    "contacts_total": 100,
+    "contacts_used": 100,
+    "scuffs": 54,
+    "truncated": 4,
+    "where": "start@imp1cap025 foot L contact 24 n=2422 t=40.3667s slip 5.2441 m (34.960 % L_f); start@imp1cap025 foot R contact 11 n=1204 t=20.0667s slip 5.1834 m (34.556 % L_f); stop@imp1cap025 foot R contact 7 n=600 t=10.0s slip 4.1851 m (27.901 % L_f)",
+    "worst_contacts": [
+     {
+      "capture": "start@imp1cap025",
+      "contact_id": 24,
+      "file": "start.gait.jsonl",
+      "foot": "L",
+      "n_begin": 2422,
+      "slip_m": 5.24406780512,
+      "slip_pct_Lf": 34.9604520341,
+      "sole_point": 4,
+      "t_begin_s": 40.3667,
+      "t_worst_s": 43.3833,
+      "tags": [
+       "truncated_end"
+      ]
+     },
+     {
+      "capture": "start@imp1cap025",
+      "contact_id": 11,
+      "file": "start.gait.jsonl",
+      "foot": "R",
+      "n_begin": 1204,
+      "slip_m": 5.18338680828,
+      "slip_pct_Lf": 34.5559120552,
+      "sole_point": 2,
+      "t_begin_s": 20.0667,
+      "t_worst_s": 23.7167,
+      "tags": []
+     },
+     {
+      "capture": "stop@imp1cap025",
+      "contact_id": 7,
+      "file": "stop.gait.jsonl",
+      "foot": "R",
+      "n_begin": 600,
+      "slip_m": 4.18514612734,
+      "slip_pct_Lf": 27.9009741822,
+      "sole_point": 2,
+      "t_begin_s": 10.0,
+      "t_worst_s": 13.1333,
+      "tags": []
+     },
+     {
+      "capture": "walk_fr010@imp1cap025",
+      "contact_id": 7,
+      "file": "walk_fr010.gait.jsonl",
+      "foot": "R",
+      "n_begin": 600,
+      "slip_m": 4.18514612734,
+      "slip_pct_Lf": 27.9009741822,
+      "sole_point": 2,
+      "t_begin_s": 10.0,
+      "t_worst_s": 13.1333,
+      "tags": []
+     },
+     {
+      "capture": "start@imp1cap025",
+      "contact_id": 6,
+      "file": "start.gait.jsonl",
+      "foot": "R",
+      "n_begin": 632,
+      "slip_m": 3.14009781334,
+      "slip_pct_Lf": 20.9339854223,
+      "sole_point": 1,
+      "t_begin_s": 10.5333,
+      "t_worst_s": 15.1,
+      "tags": []
+     }
+    ]
+   },
+   "id": "M-002.1",
+   "kind": "gating",
+   "margin": -0.344604520341,
+   "margin_rel": -68.9209040683,
+   "note": null,
+   "op": "<",
+   "parts": [
+    {
+     "contact_id": 24,
+     "foot": "L",
+     "margin": -0.344604520341,
+     "margin_rel": -68.9209040683,
+     "n_begin": 2422,
+     "name": "start@imp1cap025:start.gait.jsonl max s_c/L_f",
+     "op": "<",
+     "slip_m": 5.24406780512,
+     "status": "FAIL",
+     "threshold": 0.005,
+     "unit": "L_f",
+     "value": 0.349604520341
+    },
+    {
+     "contact_id": 7,
+     "foot": "R",
+     "margin": -0.274009741822,
+     "margin_rel": -54.8019483645,
+     "n_begin": 600,
+     "name": "stop@imp1cap025:stop.gait.jsonl max s_c/L_f",
+     "op": "<",
+     "slip_m": 4.18514612734,
+     "status": "FAIL",
+     "threshold": 0.005,
+     "unit": "L_f",
+     "value": 0.279009741822
+    },
+    {
+     "contact_id": 7,
+     "foot": "R",
+     "margin": -0.274009741822,
+     "margin_rel": -54.8019483645,
+     "n_begin": 600,
+     "name": "walk_fr010@imp1cap025:walk_fr010.gait.jsonl max s_c/L_f",
+     "op": "<",
+     "slip_m": 4.18514612734,
+     "status": "FAIL",
+     "threshold": 0.005,
+     "unit": "L_f",
+     "value": 0.279009741822
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 0.005,
+   "threshold_status": "derived",
+   "title": "Worst planted-foot slip, max over all contacts of all captures, s_c / L_f",
+   "unit": "L_f",
+   "value": 0.349604520341
+  },
+  {
+   "decisive_part": "p95 s_c/L_f",
+   "diagnostics": {},
+   "id": "M-002.2",
+   "kind": "advisory",
+   "margin": -0.181889630923,
+   "margin_rel": -72.7558523692,
+   "note": null,
+   "op": "<",
+   "parts": [
+    {
+     "margin": -0.181889630923,
+     "margin_rel": -72.7558523692,
+     "name": "p95 s_c/L_f",
+     "op": "<",
+     "status": "FAIL",
+     "threshold": 0.0025,
+     "unit": "L_f",
+     "value": 0.184389630923
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 0.0025,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "p95 slip s_c / L_f (regression guard; reported)",
+   "unit": "L_f",
+   "value": 0.184389630923
+  },
+  {
+   "decisive_part": "start@imp1cap025:fixed_dt_s",
+   "diagnostics": {},
+   "id": "M-002.3",
+   "kind": "gating",
+   "margin": 0.00333333333333,
+   "margin_rel": 0.166666666667,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.00333333333333,
+     "margin_rel": 0.166666666667,
+     "name": "start@imp1cap025:fixed_dt_s",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.02,
+     "unit": "s",
+     "value": 0.0166666666667
+    },
+    {
+     "margin": 0.00333333333333,
+     "margin_rel": 0.166666666667,
+     "name": "stop@imp1cap025:fixed_dt_s",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.02,
+     "unit": "s",
+     "value": 0.0166666666667
+    },
+    {
+     "margin": 0.00333333333333,
+     "margin_rel": 0.166666666667,
+     "name": "walk_fr010@imp1cap025:fixed_dt_s",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.02,
+     "unit": "s",
+     "value": 0.0166666666667
+    },
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "every_step_logged",
+     "note": "n contiguous (validated: a gap is INVALID_INPUT)",
+     "op": null,
+     "status": "PASS",
+     "threshold": null,
+     "unit": "",
+     "value": true
+    },
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "float64_positions",
+     "note": "float32-quantised positions are INVALID_INPUT",
+     "op": null,
+     "status": "PASS",
+     "threshold": null,
+     "unit": "",
+     "value": true
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.02,
+   "threshold_status": "derived",
+   "title": "Sampling validity (fixed_dt <= 0.02 s, every step logged, float64 positions)",
+   "unit": "s",
+   "value": 0.0166666666667
+  },
+  {
+   "decisive_part": "start@imp1cap025:start.gait.jsonl",
+   "diagnostics": {
+    "disagreeing_steps_n": {
+     "start@imp1cap025": [],
+     "stop@imp1cap025": [],
+     "walk_fr010@imp1cap025": []
+    },
+    "where": ""
+   },
+   "id": "M-002.4",
+   "kind": "gating",
+   "margin": 0.01,
+   "margin_rel": 0.010101010101,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.01,
+     "margin_rel": 0.010101010101,
+     "name": "start@imp1cap025:start.gait.jsonl",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.99,
+     "unit": "share of foot-steps",
+     "value": 1.0
+    },
+    {
+     "margin": 0.01,
+     "margin_rel": 0.010101010101,
+     "name": "stop@imp1cap025:stop.gait.jsonl",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.99,
+     "unit": "share of foot-steps",
+     "value": 1.0
+    },
+    {
+     "margin": 0.01,
+     "margin_rel": 0.010101010101,
+     "name": "walk_fr010@imp1cap025:walk_fr010.gait.jsonl",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.99,
+     "unit": "share of foot-steps",
+     "value": 1.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.99,
+   "threshold_status": "derived",
+   "title": "Contact detection consistency (emitter flag versus F_on / F_off hysteresis on fn)",
+   "unit": "share of foot-steps",
+   "value": 1.0
+  },
+  {
+   "decisive_part": "excluded contacts",
+   "diagnostics": {
+    "excluded": [],
+    "where": ""
+   },
+   "id": "M-002.5",
+   "kind": "gating",
+   "margin": 0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "excluded contacts",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "contacts",
+     "value": 0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "Excluded contacts in locomotion captures (external force > 0.05 m g)",
+   "unit": "contacts",
+   "value": 0
+  }
+ ],
+ "tool": {
+  "git_commit": "c6819fc58b850eafa3b8d2b5ae792b2b9963a1d1",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "FAIL",
+ "verdict_label": "FAIL",
+ "warnings": [
+  "ADVISORY M-002.2 failed: value 0.1844 vs < 0.0025"
+ ]
+}

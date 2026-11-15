@@ -1,0 +1,65 @@
+{
+ "metric": "M-006@v1",
+ "tool": "Tools/PhysicsMetrics/m006.py v1",
+ "commit": "c1ba9af",
+ "verdict": "FAIL",
+ "sub_measure_verdicts": {
+  "M-006.7": true
+ },
+ "not_measured": [
+  "M-006.1",
+  "M-006.2",
+  "M-006.3",
+  "M-006.4",
+  "M-006.5",
+  "M-006.6",
+  "M-006.8"
+ ],
+ "items": [
+  {
+   "sub_measure": "M-006.7",
+   "name": "NaN records in 1 physics logs",
+   "value": 0,
+   "threshold": "= 0",
+   "pass": true,
+   "source": "physics/*",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.7",
+   "name": "max link speed outside falls (m/s)",
+   "value": 21.53003599512021,
+   "threshold": "<= 60",
+   "pass": true,
+   "source": "physics/*",
+   "note": "walk_fr010@imp1cap025"
+  },
+  {
+   "sub_measure": "M-006.7",
+   "name": "max leg joint speed outside falls (rad/s)",
+   "value": 2.9619,
+   "threshold": "<= 3",
+   "pass": true,
+   "source": "physics/*",
+   "note": "walk_fr010@imp1cap025:ankle_L"
+  },
+  {
+   "sub_measure": "M-006.7",
+   "name": "max arm / waist joint speed outside falls (rad/s)",
+   "value": 0.48865,
+   "threshold": "<= 10",
+   "pass": true,
+   "source": "physics/*",
+   "note": "walk_fr010@imp1cap025:waist"
+  },
+  {
+   "sub_measure": "M-006.7",
+   "name": "largest one-step energy gain without external work (J)",
+   "value": 36935182.58090973,
+   "threshold": "<= 7.8e7 (0.01 m g H)",
+   "pass": true,
+   "source": "physics/*",
+   "note": "walk_fr010@imp1cap025 t=40.87; actuator work is not external work, so walking steps count here"
+  }
+ ]
+}

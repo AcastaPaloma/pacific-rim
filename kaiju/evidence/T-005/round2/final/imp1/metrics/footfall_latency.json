@@ -1,0 +1,72 @@
+{
+ "tool": "Tools/PhysicsMetrics/m006.py v1",
+ "commit": "c1ba9af",
+ "definition": "L_step = step of the FootContact event minus first step whose logged contact flag is 1 (R-001 section 6); threshold L_step = 0 in >= 99 %, <= 1 in 100 %",
+ "total_contacts": 209,
+ "share_same_step": 1.0,
+ "captures": {
+  "repeat60@imp1cap025": {
+   "contacts_in_log": 25,
+   "contact_begin_events": 25,
+   "events_in_the_contact_step": 25,
+   "cam_impulses": 25,
+   "cam_impulses_same_step": 25,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "stand@imp1cap025": {
+   "contacts_in_log": 2,
+   "contact_begin_events": 2,
+   "events_in_the_contact_step": 2,
+   "cam_impulses": 2,
+   "cam_impulses_same_step": 2,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "start@imp1cap025": {
+   "contacts_in_log": 24,
+   "contact_begin_events": 24,
+   "events_in_the_contact_step": 24,
+   "cam_impulses": 24,
+   "cam_impulses_same_step": 24,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "stop@imp1cap025": {
+   "contacts_in_log": 35,
+   "contact_begin_events": 35,
+   "events_in_the_contact_step": 35,
+   "cam_impulses": 35,
+   "cam_impulses_same_step": 35,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "walk_fr010@imp1cap025": {
+   "contacts_in_log": 41,
+   "contact_begin_events": 41,
+   "events_in_the_contact_step": 41,
+   "cam_impulses": 41,
+   "cam_impulses_same_step": 41,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "walk_fr015@imp1cap025": {
+   "contacts_in_log": 41,
+   "contact_begin_events": 41,
+   "events_in_the_contact_step": 41,
+   "cam_impulses": 41,
+   "cam_impulses_same_step": 41,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "walk_fr020@imp1cap025": {
+   "contacts_in_log": 41,
+   "contact_begin_events": 41,
+   "events_in_the_contact_step": 41,
+   "cam_impulses": 41,
+   "cam_impulses_same_step": 41,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  }
+ }
+}
