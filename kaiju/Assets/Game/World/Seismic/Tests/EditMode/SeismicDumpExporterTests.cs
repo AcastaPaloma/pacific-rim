@@ -40,9 +40,9 @@ namespace Game.World.Seismic.Tests
             foreach (int[] run in runs)
             {
                 Assert.Greater(run[1], run[0]);
-                for (int v = run[0]; v < run[1]; v++) { Assert.IsFalse(s.Bridge[v]); Assert.AreEqual(s.SectionOfVertex[run[0]], s.SectionOfVertex[v + 1]); covered++; }
+                for (int v = run[0]; v < run[1]; v++) { Assert.IsFalse(s.Bridge[v]); Assert.IsFalse(s.Chord[v]); Assert.AreEqual(s.SectionOfVertex[run[0]], s.SectionOfVertex[v + 1]); covered++; }
             }
-            int mapped = 0; for (int v = r.VertexStart; v < r.VertexEnd; v++) if (!s.Bridge[v]) mapped++;
+            int mapped = 0; for (int v = r.VertexStart; v < r.VertexEnd; v++) if (!s.Bridge[v] && !s.Chord[v]) mapped++;
             Assert.AreEqual(mapped, covered, "every mapped segment of the rupture is in exactly one run");
         }
 
@@ -93,6 +93,24 @@ namespace Game.World.Seismic.Tests
             StringAssert.Contains("\"mw\":" + r.Mw.ToString("R", System.Globalization.CultureInfo.InvariantCulture), d);
             StringAssert.Contains("\"trace_length_km\":" + (s.LengthM / 1000.0).ToString("R", System.Globalization.CultureInfo.InvariantCulture), d);
             Assert.Throws<ArgumentException>(() => SeismicDumpExporter.BuildRuptureDump(null));
+        }
+
+        [Test]
+        public void JoinChord_IsFlagged_AndSplitsTheRun_ButStaysRuptured()
+        {
+            // one section made of two pieces 20 m apart (joined within the 50 m tolerance): the chord is not on any baked piece
+            var set = FaultTraceSet.Build(new[] { Piece("A section", "11", 0, 30000, 0), Piece("A section", "11", 30020, 60000, 0) });
+            FaultSystem s = set.Systems[0];
+            int chords = s.Chord.Count(c => c);
+            Assert.AreEqual(1, chords);
+            Assert.AreEqual(0, s.BridgeCount);
+            int c0 = Array.IndexOf(s.Chord, true);
+            Assert.AreEqual(20.0, s.ArcM[c0 + 1] - s.ArcM[c0], 1e-9);
+            RuptureResult r = Rupture(s, 30000, 1, 6.9);
+            Assert.Less(r.VertexStart, c0); Assert.Greater(r.VertexEnd, c0 + 1);
+            Assert.AreEqual(2, SeismicDumpExporter.Runs(r).Count);
+            foreach (int[] run in SeismicDumpExporter.Runs(r)) Assert.IsFalse(run[0] <= c0 && run[1] > c0, "no run crosses the chord");
+            Assert.Greater(r.SegmentSlip(c0), 0.0, "the chord is still ruptured (shaking and slip account)");
         }
 
         [Test]

@@ -32,7 +32,7 @@ namespace Game.World.Seismic
         }
 
         /// <summary>
-        /// A run is a maximal range of ruptured vertices joined by mapped (non-bridged) segments inside one section: exactly what M-053 can
+        /// A run is a maximal range of ruptured vertices joined by baked piece segments (not bridges, not join chords) inside one section: exactly what M-053 can
         /// compare with the dissolved trace of one (fault_id, section). Single-vertex runs have no polyline and are not returned.
         /// </summary>
         public static List<int[]> Runs(RuptureResult r)
@@ -42,7 +42,7 @@ namespace Game.World.Seismic
             for (int v = r.VertexStart; v <= r.VertexEnd; v++)
             {
                 bool last = v == r.VertexEnd;
-                bool cut = last || sys.Bridge[v] || sys.SectionOfVertex[v + 1] != sys.SectionOfVertex[v];
+                bool cut = last || sys.Bridge[v] || (sys.Chord != null && sys.Chord[v]) || sys.SectionOfVertex[v + 1] != sys.SectionOfVertex[v];
                 if (!cut) continue;
                 if (v > a) runs.Add(new[] { a, v });
                 a = v + 1;
@@ -64,7 +64,7 @@ namespace Game.World.Seismic
             if (faultsPath != null) sb.Append(",\"faults_path\":").Append(Str(faultsPath));
             if (faultsSha256 != null) sb.Append(",\"faults_sha256\":").Append(Str(faultsSha256));
             sb.Append(",\"ruptures\":[");
-            var unresolved = new List<string>();
+            var unresolved = new List<string>(); var noSlip = new List<string>();
             int emitted = 0;
             foreach (RuptureResult r in results)
             {
@@ -75,6 +75,15 @@ namespace Game.World.Seismic
                     int sec = sys.SectionOfVertex[run[0]];
                     string id = bakedIdOf != null ? bakedIdOf(sys, sec) : (sys.SectionBakedIds != null ? sys.SectionBakedIds[sec] : null);
                     if (id == null) { unresolved.Add(sys.Name + "|" + sys.Sections[sec] + " v" + run[0] + "-" + run[1]); continue; }
+                    var slip = new StringBuilder();
+                    for (int v = run[0]; v <= run[1]; v++)
+                    {
+                        double e = expected[v - r.VertexStart];
+                        if (e < MinExpectedSlipM) continue;
+                        if (slip.Length > 0) slip.Append(',');
+                        slip.Append("{\"applied_m\":").Append(Num(r.Slip[v - r.VertexStart])).Append(",\"expected_m\":").Append(Num(e)).Append('}');
+                    }
+                    if (slip.Length == 0) { noSlip.Add(sys.Name + "|" + sys.Sections[sec] + " v" + run[0] + "-" + run[1]); continue; }   // taper end: nothing to compare
                     if (emitted++ > 0) sb.Append(',');
                     sb.Append("{\"event_id\":").Append(r.EventId.ToString(CultureInfo.InvariantCulture))
                       .Append(",\"fault_id\":").Append(Str(id)).Append(",\"section\":").Append(Str(sys.Sections[sec]))
@@ -82,23 +91,14 @@ namespace Game.World.Seismic
                       .Append(",\"vertex_end\":").Append(run[1].ToString(CultureInfo.InvariantCulture)).Append(",\"polyline\":[");
                     for (int v = run[0]; v <= run[1]; v++)
                         sb.Append(v > run[0] ? "," : "").Append('[').Append(Num(sys.X[v])).Append(',').Append(Num(sys.Z[v])).Append(']');
-                    sb.Append("],\"slip\":[");
-                    bool first = true;
-                    for (int v = run[0]; v <= run[1]; v++)
-                    {
-                        double e = expected[v - r.VertexStart];
-                        if (e < MinExpectedSlipM) continue;
-                        if (!first) sb.Append(',');
-                        first = false;
-                        sb.Append("{\"applied_m\":").Append(Num(r.Slip[v - r.VertexStart])).Append(",\"expected_m\":").Append(Num(e)).Append('}');
-                    }
-                    sb.Append("]}");
-                    if (first) throw new InvalidOperationException("Run with no slip sample above " + MinExpectedSlipM + " m: " + sys.Name);
+                    sb.Append("],\"slip\":[").Append(slip).Append("]}");
                 }
             }
             if (emitted == 0) throw new ArgumentException("No rupture run has a baked fault_id (first: " + (unresolved.Count > 0 ? unresolved[0] : "none") + ")", nameof(results));
             sb.Append("],\"unresolved_runs\":[");
             for (int i = 0; i < unresolved.Count; i++) sb.Append(i > 0 ? "," : "").Append(Str(unresolved[i]));
+            sb.Append("],\"no_slip_runs\":[");
+            for (int i = 0; i < noSlip.Count; i++) sb.Append(i > 0 ? "," : "").Append(Str(noSlip[i]));
             sb.Append("]}");
             return sb.ToString();
         }

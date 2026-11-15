@@ -99,6 +99,12 @@ namespace Game.World.Seismic
         public ushort[] SectionOfVertex;
         /// <summary>Bridge[i] is true when segment i (vertex i to i+1) is a bridged gap. Length VertexCount - 1.</summary>
         public bool[] Bridge;
+        /// <summary>
+        /// Chord[i] is true when segment i is not a bridge but also not a segment of any baked piece: the straight join across a digitisation gap of up to
+        /// <see cref="FaultTraceSet.DefaultJoinToleranceM"/> between two pieces. It is still ruptured and shaken (the gap is far below the mapped-scale
+        /// uncertainty of 25 to 137 m), but it is not mapped trace, so the M-053 dump leaves it out (T-036c: it measured 20 m off the trace). Length VertexCount - 1.
+        /// </summary>
+        public bool[] Chord;
 
         public int VertexCount { get { return X.Length; } }
         public double LengthM { get { return ArcM[ArcM.Length - 1]; } }
@@ -164,6 +170,7 @@ namespace Game.World.Seismic
         public static FaultTraceSet Build(IEnumerable<FaultPiece> pieces, double joinToleranceM = DefaultJoinToleranceM)
         {
             var set = new FaultTraceSet { JoinToleranceM = joinToleranceM };
+            var pieceSegs = new Dictionary<string, HashSet<SegKey>>(StringComparer.Ordinal);
             var groups = new SortedDictionary<string, List<FaultPiece>>(StringComparer.Ordinal);
             foreach (FaultPiece p in pieces)
             {
@@ -172,6 +179,14 @@ namespace Game.World.Seismic
                 List<FaultPiece> l;
                 if (!groups.TryGetValue(key, out l)) groups[key] = l = new List<FaultPiece>();
                 l.Add(p);
+                string nm = (p.FaultName ?? "").Trim();
+                HashSet<SegKey> hs;
+                if (!pieceSegs.TryGetValue(nm, out hs)) pieceSegs[nm] = hs = new HashSet<SegKey>();
+                for (int i = 0; i + 3 < p.Xz.Length; i += 2)
+                {
+                    if (p.Xz[i] == p.Xz[i + 2] && p.Xz[i + 1] == p.Xz[i + 3]) continue;   // repeated vertex (dropped by the dissolve)
+                    hs.Add(new SegKey(p.Xz[i], p.Xz[i + 1], p.Xz[i + 2], p.Xz[i + 3]));
+                }
             }
             // SectionIdx = rank of the section among the sorted sections of the same FaultName.
             var rank = new Dictionary<string, int>(StringComparer.Ordinal);
@@ -205,11 +220,29 @@ namespace Game.World.Seismic
             {
                 FaultSystem sys = BuildSystem(kv.Key, kv.Value);
                 if (sys == null) continue;
+                HashSet<SegKey> known;
+                pieceSegs.TryGetValue(kv.Key, out known);
+                sys.Chord = new bool[sys.Bridge.Length];
+                for (int i = 0; i < sys.Chord.Length; i++)
+                    sys.Chord[i] = !sys.Bridge[i] && (known == null || !known.Contains(new SegKey(sys.X[i], sys.Z[i], sys.X[i + 1], sys.Z[i + 1])));
                 if (set._sysById.ContainsKey(sys.FaultId)) throw new InvalidOperationException("FaultId hash collision on system " + sys.Name);
                 set._sysById[sys.FaultId] = sys;
                 set._systems.Add(sys);
             }
             return set;
+        }
+
+        /// <summary>A segment as an unordered pair of end points (exact double equality: system vertices are copies of piece vertices).</summary>
+        readonly struct SegKey : IEquatable<SegKey>
+        {
+            readonly double _ax, _az, _bx, _bz;
+            public SegKey(double x0, double z0, double x1, double z1)
+            {
+                if (x0 < x1 || (x0 == x1 && z0 <= z1)) { _ax = x0; _az = z0; _bx = x1; _bz = z1; } else { _ax = x1; _az = z1; _bx = x0; _bz = z0; }
+            }
+            public bool Equals(SegKey o) { return _ax == o._ax && _az == o._az && _bx == o._bx && _bz == o._bz; }
+            public override bool Equals(object o) { return o is SegKey k && Equals(k); }
+            public override int GetHashCode() { unchecked { int h = _ax.GetHashCode(); h = h * 31 + _az.GetHashCode(); h = h * 31 + _bx.GetHashCode(); return h * 31 + _bz.GetHashCode(); } }
         }
 
         // ---- chain the sections of one FaultName along strike ----
