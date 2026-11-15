@@ -15,7 +15,7 @@ internal static class Program
     private static int Main(string[] args)
     {
         string map = "flat"; bool plan = true; string scenario = "hunt", brain = BayBrains.Candidate, comps = "LLH", seeds = "1-1", outDir = "m007_bay_out", speciesDir = null, costRaster = null;
-        bool defaults = false; int par = Math.Max(1, Environment.ProcessorCount - 2);
+        BayLayout huntShift = null; bool defaults = false; int par = Math.Max(1, Environment.ProcessorCount - 2);
         for (int i = 0; i < args.Length; i++)
         {
             switch (args[i])
@@ -28,6 +28,7 @@ internal static class Program
                 case "--species-dir": speciesDir = args[++i]; break;
                 case "--map": map = args[++i]; break;
                 case "--no-route": plan = false; break;
+                case "--hunt-shift": { var q = args[++i].Split(','); huntShift = BayLayout.SyntheticHuntShifted(float.Parse(q[0]), float.Parse(q[1])); break; }
                 case "--cost-raster": costRaster = args[++i]; break;
                 case "--defaults": defaults = true; break;
                 case "--parallel": par = int.Parse(args[++i]); break;
@@ -58,7 +59,7 @@ internal static class Program
         long decisions = 0, blocked = 0;
         Parallel.ForEach(jobs, new ParallelOptions { MaxDegreeOfParallelism = par }, job =>
         {
-            var sc = new BayScenario { Name = scenario, Composition = job.comp, Seed = job.seed, BrainId = brain, Species = table, Map = map, PlanRoutes = plan, Field = realField };
+            var sc = new BayScenario { Name = scenario, Composition = job.comp, Seed = job.seed, BrainId = brain, Species = table, Map = map, PlanRoutes = plan, Field = realField, Layout = huntShift };
             string path = Path.Combine(dir, job.comp + "_" + job.seed + ".jsonl");
             using (var w = new StreamWriter(path, false, new System.Text.UTF8Encoding(false), 1 << 16))
             {

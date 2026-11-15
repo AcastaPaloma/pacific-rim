@@ -688,3 +688,8 @@ Brain coordination group = same-target active allies (m007_3v4 C1 0.86 PASS); re
 
 ## T-182 Rendering.Pixel slab captures (M2 worker, 2026-11-15; merge 3e0d4ce; entry written by build lead 8)
 - Slab rendering (T-181d minimal) plus the c11slab capture jobs and analysis ran in one task. Numbers in `evidence/T-182/C11_SLAB.md`: reference class passes exactly (0.96 px worst, 72/72 starts); near and far fail the worst-case 1 px gate only through single-texel tie flips (23/24 and 47/48 starts within 1 px, median 0.96). Gate unchanged. — decided autonomously (founder asleep): next step is a tie-flip fix on the snap phase (T-184), not a threshold change.
+
+## T-115d (M2 worker, 2026-11-15)
+- Composition adapter `BayRasterCostField` (IBayCostField over the T-102 raster) and scenario `m007_bay_real@v1` merged. Raster exported from the baked L3 tiles (`Pipelines/geo/export_bay_cost.py`, 256 m cells, committed 995 kB in `evidence/T-115/`); **softness is a proxy (low land <= 3 m), tracked until the USGS susceptibility layer is fetched** — decided autonomously (founder asleep).
+- Result: I1 raid_completion 1.0 with planned routes vs 0.0 straight-line (Marin raid, 160/160 vs 0/160). All other clauses equal the straight control; statuses unchanged: FAIL C1 LLMH, C2, P1 (member_fit 0.636), P4, P5 (0.902 vs 1.25), P6 (0.710), I3 (1.008). No threshold changed.
+- Finding for the lead: C2 `fe_vs_nofocus` depends on the absolute map position (the `nofocus@1` control mean ff ranges 0.70-1.00 under pure translation; candidate 0.99995), so 0.4658 -> 0.0109 is harness float precision / control noise, not the candidate. Research item: local-frame (or double) harness positions + a larger nofocus sample before any C2 verdict. Details `tasks/T-115d.progress.md`.

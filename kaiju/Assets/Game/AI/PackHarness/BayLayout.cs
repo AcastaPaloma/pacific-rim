@@ -25,6 +25,12 @@ namespace Game.AI.PackHarness
         public static readonly BayLayout Synthetic = BuildSynthetic();
         public static readonly BayLayout Real = BuildReal();
 
+        /// <summary>Diagnostic copy of the synthetic layout with the hunt spawn / patrol ring moved (translation-sensitivity check of T-115d).</summary>
+        public static BayLayout SyntheticHuntShifted(float dx, float dy)
+        {
+            var l = (BayLayout)Synthetic.MemberwiseClone(); l.HuntX += dx; l.HuntY += dy; l.RaidX = l.HuntX; l.RaidY = l.HuntY; return l;
+        }
+
         public static BayLayout For(string map) => map == "real" ? Real : Synthetic;
 
         static BayLayout BuildSynthetic()
