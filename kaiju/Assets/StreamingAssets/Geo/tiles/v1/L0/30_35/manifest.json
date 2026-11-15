@@ -12,10 +12,10 @@
   37.786873
  ],
  "build": {
-  "built_utc": "2026-11-15T00:44:53Z",
-  "git": "c132da18e075dfd83a5288d804932bd827af1a05",
-  "git_dirty_pipeline": true,
-  "inputs_sha256": "69682a9e3051d8afdad6c489b52e78a41084ef65f1ae366dad78a092959456cc",
+  "built_utc": "2026-11-15T00:55:08Z",
+  "git": "55ca01eb72e87e57ecbb1874c13cac04643fe257",
+  "git_dirty_pipeline": false,
+  "inputs_sha256": "138b8c3a15e3be14405c389ad02327b1070700c77e128735211afd4736562232",
   "script": "Pipelines/geo/bake_tile.py"
  },
  "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
@@ -2629,6 +2629,8 @@
    "water_level_navd88_m": 0.969
   },
   {
+   "assessor_roll_year": 2025,
+   "assessor_rule": "optional additive properties year_built, stories, struct_class (Assessor construction_type code, raw) from the pinned roll year; a parcel centroid is joined to the smallest footprint containing it; most common value per footprint; parts inherit their structure's; absent when unknown",
    "base_rule": "base_navd88_m = 10th percentile of the surface along the footprint ring (1 m steps); ground_min_navd88_m = minimum under the footprint; walls reach ground_min - skirt",
    "count": 1976,
    "count_excluded": 1,
@@ -2636,6 +2638,9 @@
    "count_parts": 512,
    "count_rendered": 1921,
    "count_structures": 1464,
+   "count_with_stories": 1202,
+   "count_with_struct_class": 1315,
+   "count_with_year_built": 1239,
    "exclusion_rule": "kept as records, not extruded: location=underground, or layer<0 with building:levels:underground or level<0 (underground stations), building=ship; parts inherit their structure's exclusion",
    "extra_fields": [
     "has_parts",
@@ -2645,7 +2650,10 @@
     "datasf_iou",
     "ground_min_navd88_m",
     "excluded",
-    "height_capped_to_parent"
+    "height_capped_to_parent",
+    "year_built",
+    "stories",
+    "struct_class"
    ],
    "file": "buildings.geojson",
    "height_source_counts": {
@@ -2659,7 +2667,7 @@
    "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
    "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
    "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
-   "sha256": "f1150b6a3a24613adab134cf63de75c8df660c63ef0681620d9dd8a1a6e1c3de",
+   "sha256": "878affdb54b1e80bd3006d98f644397cbbc7845b4a6639f92a4b932da9013cff",
    "sources": [
     {
      "attribution": "© OpenStreetMap contributors (ODbL)",
@@ -2686,6 +2694,17 @@
      "upstream_etag": "W/\"Z29sZi4yNTI1Nl8zXzExMDhNSFYtb2JWM2E1YWd5bU9HYWVXTmVqM2RuVnc---gzioRktEVjjqTGGXKSjCYT6tVRxoD6g--gzip--gzip\"",
      "upstream_last_modified": "Fri, 13 Nov 2026 18:25:53 GMT",
      "url": "https://data.sfgov.org/resource/ynuv-fyni.geojson?$where=within_box(shape,37.789759,-122.411168,37.765516,-122.380625)&$order=sf16_bldgid&$limit=50000"
+    },
+    {
+     "attribution": "City and County of San Francisco, Office of the Assessor-Recorder",
+     "fetched_utc": "2026-11-15T00:54:32Z",
+     "item": "wv5m-vpq2",
+     "licence": "PDDL-1.0",
+     "product": "DataSF Assessor Historical Secured Property Tax Rolls wv5m-vpq2",
+     "source_sha256": "fa787e222aa242c68066a645d971ea3f73290537a28cd549459b9730c12d5964",
+     "upstream_etag": "W/\"Zm94dHJvdC40NTg5OF8xNV8xMDcxNldaenZNaXIzeWNoM1ZVcXkycXJ2eDZQNElBRQ---gzipUMGEPN4yHeVVk-JQm08fD5C2Yr--gzip--gzip\"",
+     "upstream_last_modified": "Fri, 26 Jun 2026 22:25:22 GMT",
+     "url": "https://data.sfgov.org/resource/wv5m-vpq2.json?$select=closed_roll_year,parcel_number,year_property_built,number_of_stories,construction_type,the_geom&$where=closed_roll_year=2025%20AND%20within_box(the_geom,37.789759,-122.411168,37.765516,-122.380625)&$order=row_id&$limit=50000"
     }
    ]
   },

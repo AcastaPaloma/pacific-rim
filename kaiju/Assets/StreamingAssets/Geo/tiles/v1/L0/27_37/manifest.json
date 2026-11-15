@@ -12,10 +12,10 @@
   37.823706
  ],
  "build": {
-  "built_utc": "2026-11-15T00:42:30Z",
-  "git": "c132da18e075dfd83a5288d804932bd827af1a05",
-  "git_dirty_pipeline": true,
-  "inputs_sha256": "79860bcbc55ee68712fbb988dc584557642826b3f69f66b2ad1b3d1f03a4a85a",
+  "built_utc": "2026-11-15T00:53:20Z",
+  "git": "55ca01eb72e87e57ecbb1874c13cac04643fe257",
+  "git_dirty_pipeline": false,
+  "inputs_sha256": "055ad39ea1b615feea9d2c8a9c7c421757337089c180f1aca2591b0b0b5d9752",
   "script": "Pipelines/geo/bake_tile.py"
  },
  "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
@@ -220,6 +220,8 @@
    "water_level_navd88_m": 0.969
   },
   {
+   "assessor_roll_year": 2025,
+   "assessor_rule": "optional additive properties year_built, stories, struct_class (Assessor construction_type code, raw) from the pinned roll year; a parcel centroid is joined to the smallest footprint containing it; most common value per footprint; parts inherit their structure's; absent when unknown",
    "base_rule": "base_navd88_m = 10th percentile of the surface along the footprint ring (1 m steps); ground_min_navd88_m = minimum under the footprint; walls reach ground_min - skirt",
    "count": 115,
    "count_excluded": 0,
@@ -227,6 +229,9 @@
    "count_parts": 9,
    "count_rendered": 108,
    "count_structures": 106,
+   "count_with_stories": 0,
+   "count_with_struct_class": 0,
+   "count_with_year_built": 0,
    "exclusion_rule": "kept as records, not extruded: location=underground, or layer<0 with building:levels:underground or level<0 (underground stations), building=ship; parts inherit their structure's exclusion",
    "extra_fields": [
     "has_parts",
@@ -236,7 +241,10 @@
     "datasf_iou",
     "ground_min_navd88_m",
     "excluded",
-    "height_capped_to_parent"
+    "height_capped_to_parent",
+    "year_built",
+    "stories",
+    "struct_class"
    ],
    "file": "buildings.geojson",
    "height_source_counts": {
@@ -277,6 +285,17 @@
      "upstream_etag": "W/\"Z29sZi4yNTI1Nl8zXzExMDluU1ZaSDh0ZVNUNTFWcjdjSnhDdXJpbk4tS28---gziri9l2xTn7BpbHUHRdRYuVcaqCD1Q--gzip--gzip\"",
      "upstream_last_modified": "Sat, 14 Nov 2026 18:23:32 GMT",
      "url": "https://data.sfgov.org/resource/ynuv-fyni.geojson?$where=within_box(shape,37.826594,-122.481011,37.802333,-122.450430)&$order=sf16_bldgid&$limit=50000"
+    },
+    {
+     "attribution": "City and County of San Francisco, Office of the Assessor-Recorder",
+     "fetched_utc": "2026-11-15T00:53:12Z",
+     "item": "wv5m-vpq2",
+     "licence": "PDDL-1.0",
+     "product": "DataSF Assessor Historical Secured Property Tax Rolls wv5m-vpq2",
+     "source_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+     "upstream_etag": "W/\"Zm94dHJvdC40NTg5OF8xNV8xMDcxNkNxdXlaWVlSVUJNNVNZR0Fwcl9JMmI0emhOaw---gzirtInHQiSEFiOH8a7bwe4D_c-YS5--gzip--gzip\"",
+     "upstream_last_modified": "Fri, 26 Jun 2026 22:25:22 GMT",
+     "url": "https://data.sfgov.org/resource/wv5m-vpq2.json?$select=closed_roll_year,parcel_number,year_property_built,number_of_stories,construction_type,the_geom&$where=closed_roll_year=2025%20AND%20within_box(the_geom,37.826594,-122.481011,37.802333,-122.450430)&$order=row_id&$limit=50000"
     }
    ]
   },
