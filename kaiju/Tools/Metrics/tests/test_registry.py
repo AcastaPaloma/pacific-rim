@@ -300,4 +300,4 @@ def test_provisional_label_counts_assumed(tmp_path):
 
 def test_list_metrics():
     info = list_metrics()
-    assert sorted({m["metric"] for m in info}) == ["M-001", "M-002", "M-003", "M-004", "M-050", "M-052"]
+    assert sorted({m["metric"] for m in info}) == ["M-001", "M-002", "M-003", "M-004", "M-005", "M-050", "M-052"]

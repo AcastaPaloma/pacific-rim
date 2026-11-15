@@ -38,7 +38,7 @@ submeasures:
     thresholds:
       max: {value: 0.001, unit: m, status: derived, source: "R-020 §4 M-005.10(a)"}
   M-005.10b.clipped_area:
-    title: Clipped pieces, sum of piece areas against full footprint (also bid ownership: exactly one tile)
+    title: "Clipped pieces, sum of piece areas against full footprint (also bid ownership: exactly one tile)"
     kind: gating
     thresholds:
       max: {value: 0.001, unit: relative, status: derived, source: "R-020 §4 M-005.10(b)"}
