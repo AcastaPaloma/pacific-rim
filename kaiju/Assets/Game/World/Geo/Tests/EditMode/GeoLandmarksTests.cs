@@ -13,7 +13,7 @@ namespace Game.World.Geo.Tests
 
         static GeoTileModel Load(int i, int j)
         {
-            var dir = Path.Combine(TileSetData.TilesRoot, "L0", i.ToString("00") + "_" + j.ToString("00"));
+            var dir = Path.Combine(GeoTestData.ProjectRoot(), "Assets", "StreamingAssets", "Geo", "tiles", "v1", "L0", i.ToString("00") + "_" + j.ToString("00"));
             if (!File.Exists(Path.Combine(dir, "landmarks.geojson"))) Assert.Ignore("tile " + dir + " has no landmarks (bake with Pipelines/geo, T-023)");
             return new GeoTileModel(new GeoTileContext(dir, GeoTestData.Settings(), verifyHashes: false), Only);
         }
