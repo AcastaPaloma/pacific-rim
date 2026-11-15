@@ -223,3 +223,18 @@ This section overrides every earlier rule that sends a decision to the founders,
     - delegate every file-heavy step;
     - don't re-read big files.
 - Archive sessions that have finished or been replaced as soon as their result is checked. Never archive a session that still has work running, or whose side sessions do.
+
+## 14. Context cost and session hygiene (founder instruction, 2026-11-15)
+**Context cost**
+- Orchestrator sessions write state and hand over at ~80k tokens (workers/tracks keep the ~150k reap).
+- Sessions message the orchestrator only on: a merge, a blocker, or a hand-over. No progress chatter.
+- Keep tool output small (tail/grep, `--stat`, `-q`); never dump whole logs or transcripts into context.
+- After a gap of more than ~1h (cache expiry), prefer a fresh session that reloads from the progress file over waking a long one.
+**Hygiene sweep (no timed polling)**
+- On every wake-up it already has (merge, report, blocker), the orchestrator runs one `list_sessions` (linked) and `git log --since=2.hours --oneline` on the integration branch. Do not read transcripts. Rules:
+  - running, no commit and no report for 2h → ask for a one-line status; no useful answer by the next wake → stop and archive it, and re-dispatch the work.
+  - waiting on a question → answer it (founder offline: decide and log in HANDOFF.md).
+  - duplicate or superseded → stop and archive it.
+  - near its token cap → tell it to hand over.
+- Before starting any session, check the list for one that already covers the task.
+- While the founder is offline, one fallback wake-up every 2–3h; no shorter timers.
