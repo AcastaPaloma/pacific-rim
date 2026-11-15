@@ -31,6 +31,7 @@ internal static class Program
                 default: Console.Error.WriteLine("unknown arg " + args[i]); return 2;
             }
         }
+        if (Environment.GetEnvironmentVariable("KAIJU_PACK_DEBUG") == "1") PackCoordinator.DebugSink = Console.Error.WriteLine;
         SpeciesRole[] table = null;
         if (!defaults)
         {

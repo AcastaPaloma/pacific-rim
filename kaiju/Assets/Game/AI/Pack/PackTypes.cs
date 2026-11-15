@@ -79,6 +79,7 @@ namespace Game.AI.Pack
         public Float2 SlotPos;           // where the role wants the member (standoff slot, flank slot, bait point)
         public Float2 RoutePos;          // transit waypoint (straight line in T-113; IRoutePlanner later)
         public bool AllowMelee;          // false for Bait, Regroup, and a Raider in transit
+        public bool CommitReady;         // hunt: the formation is in place (slots held, Bait drawing) or the gate timed out; Anchor/Flanker may commit
         public bool Valid;
     }
 
@@ -148,6 +149,18 @@ namespace Game.AI.Pack
         public float RegroupMinSeconds;
         public float WeightCrane, WeightPower, WeightBridge, WeightAirport;
         public float TransitDistanceM;       // farther than this from the slot a member walks at full speed (Bay-scale transit)
+        public bool BayTactics;              // Bay-scale hunt tactics (T-115b): approach latch, ring-up stage, commit gate, Bait staging, D_eng-bounded slots; off = the T-113 unit-scale behaviour
+        public float SlotApproachFrac;       // speed fraction on the last stretch to a slot (floor of the tactical speed)
+        public float StageFrac;              // before the advance the hunt slots sit on a ring this many times wider than the engagement slots
+        public float StageTimeoutSeconds;    // advance this long after every member is within twice its stage radius
+        public float SlotTolFrac;            // a slot counts as held within max(SlotTolMinM, this x standoff)
+        public float SlotTolMinM;
+        public float BaitDrawSeconds;        // Bait inside its band this long counts as drawing fire (mech lock is 3 s)
+        public float GateTimeoutSeconds;     // the commit gate opens this long after the first member is near the target, ready or not
+        public float CommitRangeFrac;        // a member commits only within this x standoff of the target
+        public float BaitOffsetRad;          // Bait slot offset against the first flanker's side (strike geometry, P4)
+        public float AnchorOffsetRad;        // Anchor slot offset against the first flanker's side (keeps the engaged spread above 90 degrees)
+        public float LatchReleaseM;          // the approach bearing is re-latched while the pack centroid is farther than this from the target
 
         public static PackConfig Default()
         {
@@ -161,7 +174,21 @@ namespace Game.AI.Pack
                 MechStrength = 2.5f, MechValue = 4f, HuntHandlingBaseSeconds = 120f, RaidDamageRate = 1f,
                 DefenseRadiusM = 3000f, RiskScale = 1f, AnchorMinFit = 0.3f, RegroupMinSeconds = 30f,
                 WeightCrane = 1f, WeightPower = 2f, WeightBridge = 3f, WeightAirport = 3f, TransitDistanceM = 1500f,
+                SlotApproachFrac = 0f, StageFrac = 1.6f, StageTimeoutSeconds = 45f, SlotTolFrac = 0.4f, SlotTolMinM = 80f, BaitDrawSeconds = 4f, GateTimeoutSeconds = 60f, CommitRangeFrac = 1.6f,
+                BaitOffsetRad = 0.9f, AnchorOffsetRad = 0.6f, LatchReleaseM = 700f,
             };
+        }
+
+        /// <summary>
+        /// Tuned for the 60 km Bay (T-115b, M-007@v2 harness): the pack rings up outside the engagement radius, engages together, the Bait draws the
+        /// lock from a band inside mech range while every other member holds slightly behind it, and Anchor/Flanker commit together on the gate.
+        /// All numbers *Assumed* (R-103 0.2 numbers where they exist); thresholds of the metric are untouched.
+        /// </summary>
+        public static PackConfig Bay()
+        {
+            PackConfig c = Default();
+            c.BayTactics = true; c.BaitBandFrac = 0.8f; c.TransitDistanceM = 400f; c.SlotApproachFrac = 0.8f;
+            return c;
         }
     }
 

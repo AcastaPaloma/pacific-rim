@@ -47,8 +47,8 @@ namespace Game.AI.Pack
             {
                 case PackRole.Raider: PostRaider(obs, d, ref intent); break;
                 case PackRole.Bait: PostBait(obs, d, ref intent); break;
-                case PackRole.Anchor: PostAnchor(d, me, ref intent); break;
-                case PackRole.Flanker: PostFlanker(d, me, ref intent); break;
+                case PackRole.Anchor: PostAnchor(obs, d, me, ref intent); break;
+                case PackRole.Flanker: PostFlanker(obs, d, me, ref intent); break;
                 default: if (d.Goal == PackGoal.Regroup) PostRegroup(d, me, ref intent); break;
             }
         }
@@ -116,15 +116,46 @@ namespace Game.AI.Pack
             }
             else
             {
-                intent.DesiredHeadingRad = Dir(me, d.SlotPos); intent.SpeedFrac = _cfg.SpeedApproach; intent.State = BrainState.Approach;
+                intent.DesiredHeadingRad = Dir(me, d.SlotPos); intent.SpeedFrac = TransitSpeed(me, d.SlotPos, _cfg.SpeedApproach); intent.State = BrainState.Approach;
             }
         }
 
-        /// <summary>Bay-scale transit: beyond <see cref="PackConfig.TransitDistanceM"/> from the slot a member walks at full cruise speed instead of its tactical approach speed.</summary>
-        private float TransitSpeed(Float2 me, Float2 slot, float tactical) => Dist(me, slot) > _pcfg.TransitDistanceM ? 1f : tactical;
-
-        private void PostAnchor(in PackDirective d, Float2 me, ref BrainIntent intent)
+        /// <summary>
+        /// Hunt commit (R-103 4.2): Anchor and Flanker hold their slot while the gate is closed (an inner Charge is suppressed) and charge the focus target together
+        /// when it opens. Retreat of the inner brain always wins.
+        /// </summary>
+        private bool HoldOrCommit(in BrainObservation obs, in PackDirective d, Float2 me, ref BrainIntent intent)
         {
+            if (!_pcfg.BayTactics) return false;
+            if (intent.State == BrainState.Retreat || intent.State == BrainState.Withdrawn) return true;
+            if (d.Goal != PackGoal.Hunt || !d.FocusTargetId.IsValid) return false;
+            if (d.CommitReady)
+            {
+                if (FindTarget(obs, d.FocusTargetId, out Float2 tp))
+                {
+                    float dist = Dist(me, tp);
+                    // within the commit range only: a straggler still in transit keeps walking to its slot
+                    if (dist <= _pcfg.CommitRangeFrac * _stand(obs))
+                    {
+                        intent.DesiredHeadingRad = Dir(me, tp); intent.SpeedFrac = _cfg.SpeedCharge; intent.State = BrainState.Charge; intent.TargetId = d.FocusTargetId;
+                        intent.Action = dist <= _cfg.MeleeReachM ? BrainAction.Melee : BrainAction.None;
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return false;
+        }
+
+        private float _stand(in BrainObservation obs) => _cfg.StandoffM;
+
+        /// <summary>Bay-scale transit: beyond <see cref="PackConfig.TransitDistanceM"/> from the slot a member walks at full cruise speed instead of its tactical approach speed.</summary>
+        private float TransitSpeed(Float2 me, Float2 slot, float tactical) => Dist(me, slot) > _pcfg.TransitDistanceM ? 1f : Math.Max(tactical, _pcfg.SlotApproachFrac);
+
+        private void PostAnchor(in BrainObservation obs, in PackDirective d, Float2 me, ref BrainIntent intent)
+        {
+            if (HoldOrCommit(obs, d, me, ref intent)) return;
+            if (HoldSlot(obs, d, me, ref intent, _cfg.SpeedApproach, BrainState.Approach)) return;
             if (intent.State == BrainState.Charge) return;
             if (Dist(me, d.SlotPos) > 60f)
             {
@@ -134,14 +165,30 @@ namespace Game.AI.Pack
             else intent.SpeedFrac *= _pcfg.AnchorSpeedFrac;
         }
 
-        private void PostFlanker(in PackDirective d, Float2 me, ref BrainIntent intent)
+        private void PostFlanker(in BrainObservation obs, in PackDirective d, Float2 me, ref BrainIntent intent)
         {
+            if (HoldOrCommit(obs, d, me, ref intent)) return;
+            if (HoldSlot(obs, d, me, ref intent, _cfg.SpeedFlank, BrainState.Flank)) return;
             if (intent.State == BrainState.Charge || intent.State == BrainState.Retreat) return;
             if (Dist(me, d.SlotPos) > 60f)
             {
                 intent.DesiredHeadingRad = Dir(me, d.SlotPos); intent.SpeedFrac = TransitSpeed(me, d.SlotPos, _cfg.SpeedFlank); intent.State = BrainState.Flank;
                 if (d.FocusTargetId.IsValid) intent.TargetId = d.FocusTargetId;
             }
+        }
+
+        /// <summary>Hunt with the gate closed: walk to the slot (full speed far away), then stand on it facing the target. Returns false outside a hunt or once the gate is open.</summary>
+        private bool HoldSlot(in BrainObservation obs, in PackDirective d, Float2 me, ref BrainIntent intent, float tactical, BrainState label)
+        {
+            if (!_pcfg.BayTactics || d.Goal != PackGoal.Hunt || d.CommitReady || !d.FocusTargetId.IsValid) return false;
+            intent.Action = BrainAction.None; intent.TargetId = d.FocusTargetId; intent.State = label;
+            if (Dist(me, d.SlotPos) > 40f) { intent.DesiredHeadingRad = Dir(me, d.SlotPos); intent.SpeedFrac = TransitSpeed(me, d.SlotPos, tactical); }
+            else
+            {
+                intent.SpeedFrac = 0f;
+                intent.DesiredHeadingRad = FindTarget(obs, d.FocusTargetId, out Float2 tp) ? Dir(me, tp) : Dir(me, d.SlotPos);
+            }
+            return true;
         }
 
         private void PostRegroup(in PackDirective d, Float2 me, ref BrainIntent intent)
