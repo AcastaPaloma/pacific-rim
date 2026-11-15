@@ -384,3 +384,8 @@ Mirrors `GAME_BREAKDOWN.md` §11 for questions raised after the initial breakdow
 | ID | Answer | Action |
 |---|---|---|
 | Q-073 | Approved: R-008 option (c), offline trajectory optimisation of a full stride at Fr 0.10/0.15/0.20 under torque, friction and ROM limits, as T-005 round 3; option (b) whole-body QP decided from its result. No assist, no body-data change, no threshold edits; T-005 stays unmerged. | T-005 round 3 started (QUEUE §6, `tasks/T-005.round3.md`). |
+
+### Founder answer, 2026-11-14 (after the T-005 round-3 report): "start Q-074 option b, the whole-body QP"
+| ID | Answer | Action |
+|---|---|---|
+| Q-074 | Approved: R-008 option (b). A whole-body QP controller solves contact forces and joint torques each tick, under the same friction-cone and torque limits, and tracks the round-3 optimised strides (`Config/Mech/gait_reference_opt.json`). No assist, no body-data change, no threshold edits. | T-005 round 4 started (brief `tasks/T-005.round4.md`, QUEUE §6). |
