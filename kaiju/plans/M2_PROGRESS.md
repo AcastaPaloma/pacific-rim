@@ -34,3 +34,21 @@ table below. Unity: M1 + T-005 hold the slots; M2/M3 steps are Python/dotnet unt
 
 ## Launched workers (session 1)
 (filled in as they launch; agent ids are session-local — a successor relies on branches `task/<ID>` and `tasks/<ID>.progress.md`)
+W1 (2026-11-15, Sonnet/medium, background): T-100 (R-100 + bay_manifest), R-101, R-102, R-103, R-104, R-120 (+R-121), T-141 (Platform; merges only after a Unity run), T-142 (+T-143).
+If the lead hands over before they report: check `git log` on the integration branch for `Merge task/<ID>` and each `.wt/<ID>` / `tasks/<ID>.progress.md`; relaunch any step with no merge and no progress file.
+- T-141: task/T-141 01ed286 pushed, dotnet 15/15, NOT merged — needs one Unity run (GameCoreConfig + EditMode) when < 2 batch Unity run; then merge + evidence/regression/T-141.md. Follow-up: composition installer for IPlatformServices.
+- T-142/T-143 ✓ merged c7300af (pytest 29, M-125 94/94 on district tiles). Integration push was refused for the worker (not retried by the lead); goes out with the next normal commit.sh push. Follow-ups: copy_tiles assumes bay_manifest {"tiles":[...]} (align with T-100), landmarks.json has no licence field, wire into T-140 build.sh.
+- R-120/R-121 ✓ merged a93bb75 (disclosure: pre-generated AI yes, live-generated no — our reading; store sizes in R-120). M-124 99 % share unsourced → T-148 validates via R-121 §6. Launched T-144/T-145 (provenance + disclosure draft) and T-146 (capture plan).
+
+## Hand-over (M2/M3 lead session 1 → session 2, 2026-11-15, §16 80k cap)
+- Applied §16 (1a50cb3): rule 17 added to `m2-track-rules.md`; hygiene sweep done (no duplicate/stale M2 sessions; the M1 family is the M1 lead's to sweep).
+- Still running as this session's Agent workers (they merge themselves; check `git log --oneline --since=4.hours | grep 'Merge task/'`): T-100 (R-100 + bay_manifest), R-101, R-102, R-103, R-104, T-144/T-145, T-146. A step with no merge and no `tasks/<ID>.progress.md` after ~2 h is relaunched.
+- Waiting on a Unity slot (< 2 batch): T-141 — run GameCoreConfig + EditMode on `task/T-141`, then merge.
+- Next to launch, in order, as each input merges:
+  1. after T-100: T-101 bulk fetch driver (background, status files; check `df -h /` first) and align `Pipelines/build/copy_tiles.py` with the real `bay_manifest@v1` shape;
+  2. after R-101: T-107 `World.Streaming` contracts + engine-free scheduler (dotnet) and T-108 `bake_lod.py`;
+  3. after R-102: T-112 species specs + `Units.Kaiju` contracts; after R-103: T-113 `Game.AI.Pack` (new assembly) and T-115 M-007@v2 tool;
+  4. after R-104: T-118 `Meta.Economy` → T-119 Salvage → T-120 Roster → T-121 Refit (one worker each, dotnet; new asmdefs need one batched Unity run);
+  5. after T-144/T-146: T-147 capture driver when a Unity slot frees; T-148 checks.
+- Batch Unity: T-141 + the Meta asmdefs in one run when a slot frees (§13).
+- Register new metrics/R in GAME_BREAKDOWN via the scribe once R-100–R-104 land (one Sonnet/low scribe pass).
