@@ -68,6 +68,13 @@ namespace Game.AI
         public float CentreHoldTimeoutSeconds;
         public float FlankTimeoutSeconds;
         public float FlankBearingTolRad;
+        public float FlankTimeoutMargin;       // R-024 rev2: timeout = margin * arc/speed + slack, floored at FlankTimeoutSeconds
+        public float FlankTimeoutSlackSeconds;
+        public float AssemblyRadiusM;          // pack-assembly gate: all live allies within this of the target
+        public float AssemblyTimeoutSeconds;   // wings stop waiting for assembly after this
+        public float FlankSpreadMinRad;        // charge from a flank slot only when the engaged spread reaches this
+        public bool DirectCharge;              // M-007 null control: Approach then Charge, no Flank / hold
+        public float CentreHoldMaxSeconds;     // absolute cap of the centre hold
         public float ChargeNoContactSeconds;
         public float RetreatSafeDistanceM;
         public float RetreatSafeSeconds;
@@ -85,6 +92,8 @@ namespace Game.AI
                 WeightDistance = 1.0f, WeightHp = 0.8f, WeightFacing = 0.6f, WeightFocus = 0.5f,
                 SpeedApproach = 0.6f, SpeedApproachWing = 0.8f, SpeedFlank = 0.8f, SpeedCharge = 1.0f, SpeedRetreat = 0.7f,
                 CentreHoldTimeoutSeconds = 6f, FlankTimeoutSeconds = 10f, FlankBearingTolRad = 15f * deg,
+                FlankTimeoutMargin = 1.5f, FlankTimeoutSlackSeconds = 6f, AssemblyRadiusM = 375f, AssemblyTimeoutSeconds = 60f,
+                FlankSpreadMinRad = 90f * deg, CentreHoldMaxSeconds = 90f,
                 ChargeNoContactSeconds = 8f, RetreatSafeDistanceM = 600f, RetreatSafeSeconds = 10f,
             };
         }

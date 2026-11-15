@@ -20,6 +20,9 @@ namespace Game.AI
         private double _lastSwitch;
         private double _holdStart;       // centre hold at standoff; <0 = unset
         private double _flankStart;
+        private double _flankDeadline;   // absolute time
+        private double _assemblyStart;   // wing waiting at standoff for the pack; <0 = unset
+        private double _holdExtendedTo;  // centre hold: time of last flanking/unassembled evidence
         private double _chargeLastContact;
         private double _farSince;        // retreat: time first beyond safe distance; <0 = unset
 
@@ -36,7 +39,7 @@ namespace Game.AI
             _held = default;
             _state = BrainState.Idle; _withdrawn = false; _target = 0;
             _lastSwitch = double.NegativeInfinity;
-            _holdStart = -1; _flankStart = 0; _chargeLastContact = 0; _farSince = -1;
+            _holdStart = -1; _assemblyStart = -1; _holdExtendedTo = 0; _flankDeadline = 0; _flankStart = 0; _chargeLastContact = 0; _farSince = -1;
         }
 
         public void Decide(in BrainObservation obs, ref BrainIntent intent)
@@ -83,7 +86,7 @@ namespace Game.AI
 
         private void Enter(BrainState s, double now)
         {
-            _state = s; _holdStart = -1; _flankStart = now; _chargeLastContact = now; _farSince = -1;
+            _state = s; _holdStart = -1; _assemblyStart = -1; _flankStart = now; _chargeLastContact = now; _farSince = -1;
         }
 
         private void Think(in BrainObservation obs, ref BrainIntent intent)
@@ -187,7 +190,7 @@ namespace Game.AI
                 case BrainState.Approach:
                 {
                     Float2 tp = obs.Targets[cur].Pos;
-                    bool hold = liveAllies > 0 && !wing && Dist(self.Pos, tp) <= _cfg.StandoffM;
+                    bool hold = liveAllies > 0 && Dist(self.Pos, tp) <= _cfg.StandoffM;
                     intent.DesiredHeadingRad = Dir(self.Pos, tp);
                     intent.SpeedFrac = hold ? 0f : (wing ? _cfg.SpeedApproachWing : _cfg.SpeedApproach);
                     intent.TargetId = obs.Targets[cur].Id;
@@ -196,8 +199,7 @@ namespace Game.AI
                 case BrainState.Flank:
                 {
                     Float2 tp = obs.Targets[cur].Pos;
-                    float ang = Dir(tp, centroid) + side * _cfg.WingOffsetRad;
-                    Float2 w = new Float2(tp.X + _cfg.StandoffM * MathF.Cos(ang), tp.Y + _cfg.StandoffM * MathF.Sin(ang));
+                    Float2 w = FlankWaypoint(tp, centroid, side);
                     intent.DesiredHeadingRad = Dir(self.Pos, w);
                     intent.SpeedFrac = _cfg.SpeedFlank;
                     intent.TargetId = obs.Targets[cur].Id;
@@ -234,6 +236,56 @@ namespace Game.AI
             }
         }
 
+
+        private Float2 FlankWaypoint(Float2 tp, Float2 centroid, float side)
+        {
+            float ang = Dir(tp, centroid) + side * _cfg.WingOffsetRad;
+            return new Float2(tp.X + _cfg.StandoffM * MathF.Cos(ang), tp.Y + _cfg.StandoffM * MathF.Sin(ang));
+        }
+
+        private bool Assembled(in BrainObservation obs, in SelfObs self, Float2 tp)
+        {
+            for (int i = 0; i < obs.AllyCount; i++)
+            {
+                ref readonly AllyObs a = ref obs.Allies[i];
+                if (!a.Alive || Dist(self.Pos, a.Pos) > _cfg.AllyAwarenessM) continue;
+                if (Dist(a.Pos, tp) > _cfg.AssemblyRadiusM) return false;
+            }
+            return true;
+        }
+
+        private bool AnyAllyInState(in BrainObservation obs, in SelfObs self, BrainState st)
+        {
+            for (int i = 0; i < obs.AllyCount; i++)
+            {
+                ref readonly AllyObs a = ref obs.Allies[i];
+                if (!a.Alive || Dist(self.Pos, a.Pos) > _cfg.AllyAwarenessM) continue;
+                if (a.State == (byte)st) return true;
+            }
+            return false;
+        }
+
+        // Minimal arc (rad) containing the bearings from the target of me and every live ally within EngageRadius of it.
+        private float EngagedSpread(in BrainObservation obs, in SelfObs self, Float2 tp)
+        {
+            const float TwoPi = 6.2831853071795864f;
+            int n = 0;
+            Span<float> b = stackalloc float[BrainContracts.MaxAllies + 1];
+            if (Dist(self.Pos, tp) <= _cfg.EngageRadiusM) b[n++] = Dir(tp, self.Pos);
+            for (int i = 0; i < obs.AllyCount && n < b.Length; i++)
+            {
+                ref readonly AllyObs a = ref obs.Allies[i];
+                if (!a.Alive || Dist(self.Pos, a.Pos) > _cfg.AllyAwarenessM) continue;
+                if (Dist(a.Pos, tp) <= _cfg.EngageRadiusM) b[n++] = Dir(tp, a.Pos);
+            }
+            if (n < 2) return 0f;
+            for (int i = 0; i < n; i++) { float v = b[i] % TwoPi; if (v < 0) v += TwoPi; b[i] = v; }
+            for (int i = 1; i < n; i++) { float v = b[i]; int j = i - 1; while (j >= 0 && b[j] > v) { b[j + 1] = b[j]; j--; } b[j + 1] = v; }
+            float maxGap = b[0] + TwoPi - b[n - 1];
+            for (int i = 1; i < n; i++) { float g = b[i] - b[i - 1]; if (g > maxGap) maxGap = g; }
+            return TwoPi - maxGap;
+        }
+
         // Exit rules for Approach / Flank / Charge against a valid current target (index cur).
         private ReasonCode StateExits(in BrainObservation obs, in SelfObs self, int cur, int liveAllies, bool wing, float side,
                                       bool allyCharging, Float2 centroid, double now)
@@ -243,13 +295,33 @@ namespace Game.AI
             switch (_state)
             {
                 case BrainState.Approach:
+                {
                     if (d > _cfg.StandoffM) return ReasonCode.None;
-                    if (liveAllies == 0) { Enter(BrainState.Charge, now); return ReasonCode.InStandoffSolo; }
-                    if (wing) { Enter(BrainState.Flank, now); return ReasonCode.InStandoffWing; }
-                    if (_holdStart < 0) _holdStart = now;
+                    if (liveAllies == 0 || _cfg.DirectCharge) { Enter(BrainState.Charge, now); return ReasonCode.InStandoffSolo; }
+                    bool assembled = Assembled(obs, self, tp);
+                    if (wing)
+                    {
+                        // pack-assembly gate: hold at standoff until every live ally is near the target (or timeout)
+                        if (_assemblyStart < 0) _assemblyStart = now;
+                        if (allyCharging) { Enter(BrainState.Charge, now); return ReasonCode.AllyCharging; }
+                        if (!assembled && now - _assemblyStart < _cfg.AssemblyTimeoutSeconds) return ReasonCode.None;
+                        Enter(BrainState.Flank, now);
+                        float slot0 = Dir(tp, centroid) + side * _cfg.WingOffsetRad;
+                        float arc = d * MathF.Abs(Wrap(Dir(tp, self.Pos) - slot0)) ;
+                        float spd = _cfg.SpeedFlank * _cfg.CruiseSpeedMps; if (spd < 0.1f) spd = 0.1f;
+                        float t = _cfg.FlankTimeoutMargin * arc / spd + _cfg.FlankTimeoutSlackSeconds;
+                        if (t < _cfg.FlankTimeoutSeconds) t = _cfg.FlankTimeoutSeconds;
+                        _flankDeadline = now + t;
+                        return ReasonCode.InStandoffWing;
+                    }
+                    if (_holdStart < 0) { _holdStart = now; _holdExtendedTo = now; }
                     if (allyCharging) { Enter(BrainState.Charge, now); return ReasonCode.AllyCharging; }
-                    if (now - _holdStart >= _cfg.CentreHoldTimeoutSeconds) { Enter(BrainState.Charge, now); return ReasonCode.CentreHoldTimeout; }
+                    // centre waits while the wings are still assembling or flanking (extends the 6 s hold), capped
+                    if (!assembled || AnyAllyInState(obs, self, BrainState.Flank)) _holdExtendedTo = now;
+                    if (now - _holdStart >= _cfg.CentreHoldMaxSeconds || now - _holdExtendedTo >= _cfg.CentreHoldTimeoutSeconds)
+                    { Enter(BrainState.Charge, now); return ReasonCode.CentreHoldTimeout; }
                     return ReasonCode.None;
+                }
 
                 case BrainState.Flank:
                 {
@@ -257,8 +329,9 @@ namespace Game.AI
                     if (allyCharging) { Enter(BrainState.Charge, now); return ReasonCode.AllyCharging; }
                     float slot = Dir(tp, centroid) + side * _cfg.WingOffsetRad;
                     float err = MathF.Abs(Wrap(Dir(tp, self.Pos) - slot));
-                    if (err <= _cfg.FlankBearingTolRad) { Enter(BrainState.Charge, now); return ReasonCode.FlankSlotReached; }
-                    if (now - _flankStart >= _cfg.FlankTimeoutSeconds) { Enter(BrainState.Charge, now); return ReasonCode.FlankTimeout; }
+                    if (err <= _cfg.FlankBearingTolRad && EngagedSpread(obs, self, tp) >= _cfg.FlankSpreadMinRad)
+                    { Enter(BrainState.Charge, now); return ReasonCode.FlankSlotReached; }
+                    if (now >= _flankDeadline) { Enter(BrainState.Charge, now); return ReasonCode.FlankTimeout; }
                     return ReasonCode.None;
                 }
 

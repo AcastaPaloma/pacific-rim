@@ -27,6 +27,18 @@ namespace Game.AI.Harness
         public float MechFleeRadiusM = 400f;      // harness constant
         public float MechRespawnSeconds = 0f;     // 0 = dead mechs stay dead
         public bool MeasureTiming;
+
+        /// <summary>M-007@v1 scenario (R-024 5 rev 2): 3 kaiju vs 2 slow decoy mechs, 300 s (90 s cannot fit approach 600-900 m + assembly + flank arc).</summary>
+        public static HarnessScenario M007(ulong seed, bool directCharge)
+        {
+            var sc = new HarnessScenario
+            {
+                Name = "m007", Seed = seed, KaijuCount = 3, MechCount = 2, DurationSeconds = 300.0,
+                MechWalkMps = 1.5f, MechFleeRadiusM = 0f, MechRespawnSeconds = 0f,
+            };
+            sc.Brain.DirectCharge = directCharge;
+            return sc;
+        }
         public BrainConfig Brain = BrainConfig.Default();
     }
 

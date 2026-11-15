@@ -76,7 +76,7 @@ namespace Game.AI.Tests
         [Test]
         public void Approach_Wing_GoesToFlank_AtStandoff()
         {
-            var r = new Rig(selfId: 1).Allies(A(2, -200, 300)).Targets(T(100, 800));
+            var r = new Rig(selfId: 1).Allies(A(2, 100, 200)).Targets(T(100, 800));
             var i = r.Tick(0);
             Assert.AreEqual(0.8f, i.SpeedFrac); // wing approach speed
             i = r.Targets(T(100, 200)).Tick(1);
@@ -86,13 +86,13 @@ namespace Game.AI.Tests
         [Test]
         public void Approach_Centre_HoldsThenChargesOnAllyCharge()
         {
-            var r = new Rig(selfId: 2).Allies(A(1, -200, 300)).Targets(T(100, 800));
+            var r = new Rig(selfId: 2).Allies(A(1, 100, 200)).Targets(T(100, 800));
             Assert.AreEqual(0.6f, r.Tick(0).SpeedFrac);
             var i = r.Targets(T(100, 240)).Tick(1);
             Assert.AreEqual(BrainState.Approach, i.State); Assert.AreEqual(0f, i.SpeedFrac);
             i = r.Tick(3);
             Assert.AreEqual(BrainState.Approach, i.State);
-            r.Allies(A(1, -200, 300, BrainState.Charge));
+            r.Allies(A(1, 100, 200, BrainState.Charge));
             i = r.Tick(4);
             Assert.AreEqual(BrainState.Charge, i.State); Assert.AreEqual(ReasonCode.AllyCharging, i.Reason);
         }
@@ -100,7 +100,7 @@ namespace Game.AI.Tests
         [Test]
         public void Approach_Centre_ChargesAfterHoldTimeout()
         {
-            var r = new Rig(selfId: 2).Allies(A(1, -200, 300)).Targets(T(100, 240));
+            var r = new Rig(selfId: 2).Allies(A(1, 100, 200)).Targets(T(100, 240));
             r.Tick(0); // acquire
             r.Tick(1); // hold starts at t=1
             Assert.AreEqual(BrainState.Approach, r.Tick(6.9).State);
@@ -112,7 +112,7 @@ namespace Game.AI.Tests
         public void Flank_SlotReached_Charges()
         {
             // target at origin; self on bearing 0 at 250 m; ally placed so the pack-centroid bearing is -70 deg => slot bearing 0.
-            const float r = 300f; float a = -70f * (float)Math.PI / 180f;
+            const float r = 150f; float a = -70f * (float)Math.PI / 180f;
             float cx = r * (float)Math.Cos(a), cy = r * (float)Math.Sin(a);
             var self = new Float2(250, 0);
             var rig = new Rig(selfId: 1).Allies(A(2, 2 * cx - self.X, 2 * cy - self.Y)).Targets(T(100, 0));
@@ -128,24 +128,26 @@ namespace Game.AI.Tests
         [Test]
         public void Flank_HeadsToWaypoint_Timeout_AndAllyCharge()
         {
-            var rig = new Rig(selfId: 1).Allies(A(2, 0, -600)).Targets(T(100, 200, 0));
+            var rig = new Rig(selfId: 1).Allies(A(2, 200, -300)).Targets(T(100, 200, 0));
             rig.Obs.Self.Pos = new Float2(0, 0);
             rig.Tick(0);
             var i = rig.Tick(1);
             Assert.AreEqual(BrainState.Flank, i.State);
             i = rig.Tick(5);
             Assert.AreEqual(BrainState.Flank, i.State);
-            // waypoint: centroid (0,-300) seen from target (200,0): bearing atan2(-300,-200); +70 deg
-            float ang = (float)Math.Atan2(-300, -200) + 70f * (float)Math.PI / 180f;
+            // waypoint: centroid (100,-150) seen from target (200,0): bearing atan2(-150,-100); +70 deg
+            float ang = (float)Math.Atan2(-150, -100) + 70f * (float)Math.PI / 180f;
             float wx = 200 + 250 * (float)Math.Cos(ang), wy = 250 * (float)Math.Sin(ang);
             Assert.AreEqual(Math.Atan2(wy, wx), i.DesiredHeadingRad, 1e-4);
-            Assert.AreEqual(BrainState.Flank, rig.Tick(10.9).State);
-            i = rig.Tick(11.0);
-            Assert.AreEqual(BrainState.Charge, i.State); Assert.AreEqual(ReasonCode.FlankTimeout, i.Reason);
+            // R-024 rev 2: deadline = margin * arc / speed + slack (>= 10 s); self is ~180 deg round the arc => a long timeout
+            double tCharge = -1; ReasonCode rc = ReasonCode.None;
+            for (double t = 6; t < 300; t += 0.5) { i = rig.Tick(t); if (i.State == BrainState.Charge) { tCharge = t; rc = i.Reason; break; } }
+            Assert.AreEqual(ReasonCode.FlankTimeout, rc);
+            Assert.Greater(tCharge, 30.0, "arc-derived timeout must exceed the old fixed 10 s");
 
-            var rig2 = new Rig(selfId: 1).Allies(A(2, 0, -600)).Targets(T(100, 200, 0));
+            var rig2 = new Rig(selfId: 1).Allies(A(2, 200, -300)).Targets(T(100, 200, 0));
             rig2.Tick(0); rig2.Tick(1);
-            rig2.Allies(A(2, 0, 600, BrainState.Charge));
+            rig2.Allies(A(2, 200, 300, BrainState.Charge));
             i = rig2.Tick(2);
             Assert.AreEqual(BrainState.Charge, i.State); Assert.AreEqual(ReasonCode.AllyCharging, i.Reason);
         }
@@ -178,7 +180,7 @@ namespace Game.AI.Tests
                 Assert.AreEqual(BrainAction.None, i.Action);
                 Assert.AreEqual(Math.PI, Math.Abs(i.DesiredHeadingRad), 1e-5); // away from target on +x
             }
-            var rf = new Rig(selfId: 1).Allies(A(2, 0, -600)).Targets(T(100, 200));
+            var rf = new Rig(selfId: 1).Allies(A(2, 100, 200)).Targets(T(100, 200));
             rf.Tick(0); Assert.AreEqual(BrainState.Flank, rf.Tick(1).State);
             rf.Obs.Self.HpFrac = 0.1f;
             Assert.AreEqual(BrainState.Retreat, rf.Tick(2).State);

@@ -84,13 +84,45 @@ namespace Game.AI.Tests
             Assert.Greater(rep.MeanFf, 0.5, "no focus fire observed");
         }
 
-        [Test, Explicit("FR_commit 0.182 measured (13 commits, 11 multi, 2 flanked) vs M-007 C1 bar 0.60: R-024 spec finding, FlankTimeout 10 s < ~40 s kinematic need")]
-        public void ThreeVsFour_FrCommit_MeetsC1Bar()
+        [Test]
+        public void M007_Scenario_FrCommit_MeetsC1Bar_AndBeatsDirectChargeNull()
         {
-            string log = RunLog(new HarnessScenario { Name = "3v4", Seed = 7, MechRespawnSeconds = 20f }, out _);
-            PackReport rep = PackMetrics.Compute(log.Split('\n', StringSplitOptions.RemoveEmptyEntries));
-            foreach (string dg in rep.CommitDiag) TestContext.Out.WriteLine(dg);
-            Assert.GreaterOrEqual(rep.FrCommit, 0.60, "FR_commit " + rep.FrCommit.ToString("F3", CultureInfo.InvariantCulture));
+            int[] tot = new int[4]; // [scripted multi, flanked, null multi, null flanked]
+            for (ulong seed = 1; seed <= 12; seed++)
+                for (int d = 0; d < 2; d++)
+                {
+                    string log = RunLog(HarnessScenario.M007(seed, d == 1), out _);
+                    PackReport rep = PackMetrics.Compute(log.Split('\n', StringSplitOptions.RemoveEmptyEntries));
+                    tot[d * 2] += rep.CommitEventsMulti; tot[d * 2 + 1] += rep.CommitEventsFlanked;
+                }
+            Assert.Greater(tot[0], 8, "too few multi-kaiju commit events");
+            double fr = (double)tot[1] / tot[0], nul = tot[2] > 0 ? (double)tot[3] / tot[2] : 0.0;
+            TestContext.Out.WriteLine($"FR_commit {fr:F3} null {nul:F3}");
+            Assert.GreaterOrEqual(fr, 0.60);
+            Assert.GreaterOrEqual(fr, 2 * nul);
+        }
+
+        [Test, Explicit("Runs M-007 scenario over N seeds for scripted and DirectCharge; prints FR_commit; writes logs when KAIJU_M007_OUT is set")]
+        public void M007_Scenario_Sweep()
+        {
+            string outDir = Environment.GetEnvironmentVariable("KAIJU_M007_OUT");
+            int n = int.Parse(Environment.GetEnvironmentVariable("KAIJU_M007_N") ?? "20");
+            foreach (bool direct in new[] { false, true })
+            {
+                int c = 0, m = 0, f = 0;
+                for (ulong seed = 1; seed <= (ulong)n; seed++)
+                {
+                    string log = RunLog(HarnessScenario.M007(seed, direct), out _);
+                    if (outDir != null)
+                    {
+                        string d = Path.Combine(outDir, direct ? "directcharge" : "scripted"); Directory.CreateDirectory(d);
+                        File.WriteAllText(Path.Combine(d, "brain_log_m007_" + seed + ".jsonl"), log, new UTF8Encoding(false));
+                    }
+                    PackReport rep = PackMetrics.Compute(log.Split('\n', StringSplitOptions.RemoveEmptyEntries));
+                    c += rep.CommitEvents; m += rep.CommitEventsMulti; f += rep.CommitEventsFlanked;
+                }
+                TestContext.Out.WriteLine($"M007 direct={direct} n={n} commits={c} multi={m} flanked={f} FR={(m > 0 ? (double)f / m : double.NaN):F3}");
+            }
         }
 
         [Test, Explicit("Writes kaiju/evidence/T-032/brain_log_sample.jsonl and m058_tick_cost.json")]
