@@ -40,6 +40,7 @@ namespace Game.AI.PackHarness
         public string Map = "flat";               // flat | water (T-115c synthetic Bay with a depth / soft-ground field) | real (T-115d m007_bay_real@v1: Field = the Composition adapter over the T-102 raster)
         public Game.AI.Pack.IBayCostField Field;   // required for Map = real
         public BayLayout Layout;                   // null = by map (Synthetic, or Real for Map = real)
+        public int MechCountOverride = 0;          // T-124: 0 = by scenario (unchanged); > 0 = exactly that many mechs (M-008 harness: 2 bay, 1 reference)
         public bool PlanRoutes = true;             // water map: pack layer and solo arm route with GridRoutePlanner (false = straight-line control)
         public PackConfig Pack = PackConfig.Bay();
         public EmergenceOptions Emergence = new EmergenceOptions { SiteCount = 5 };
@@ -121,6 +122,32 @@ namespace Game.AI.PackHarness
         readonly double _ox, _oy;
         float AX(float x) => (float)(x + _ox);
         float AY(float y) => (float)(y + _oy);
+
+        /// <summary>T-124: called at the end of every simulated step (step index, simulated seconds). Null = M1..T-115 behaviour, bit for bit. The M-008 Bay performance harness uses it to interleave the Unity frame loop.</summary>
+        public Action<BayHarness, long, double> AfterStep;
+        public BayResult Result => _res;
+        public int KaijuCount => _k.Count;
+        public int MechCount => _m.Count;
+        public int InfraCount => _infra.N.Count;
+        /// <summary>Absolute BayTM position (x east, y north as the harness names it; z in World terms), double. Read-only view for drivers.</summary>
+        public bool TryGetKaiju(int i, out ulong id, out int species, out double x, out double y, out float heading, out bool alive)
+        {
+            id = 0; species = 0; x = y = 0; heading = 0; alive = false;
+            if (i < 0 || i >= _k.Count) return false;
+            var k = _k[i]; id = k.Id.Value; species = k.Sp; x = k.X + _ox; y = k.Y + _oy; heading = k.Heading; alive = k.Alive && k.Emerged; return true;
+        }
+        public bool TryGetMech(int i, out ulong id, out double x, out double y, out float heading, out bool alive)
+        {
+            id = 0; x = y = 0; heading = 0; alive = false;
+            if (i < 0 || i >= _m.Count) return false;
+            var m = _m[i]; id = m.Id.Value; x = m.X + _ox; y = m.Y + _oy; heading = m.Heading; alive = m.Alive; return true;
+        }
+        public bool TryGetInfra(int i, out double x, out double y, out float hp, out bool alive)
+        {
+            x = y = 0; hp = 0; alive = false;
+            if (i < 0 || i >= _infra.N.Count) return false;
+            var n = _infra.N[i]; x = n.X + _ox; y = n.Y + _oy; hp = n.Hp; alive = n.Alive; return true;
+        }
 
         public BayHarness(BayScenario sc, TextWriter w)
         {
@@ -226,6 +253,7 @@ namespace Game.AI.PackHarness
             int n = (_sc.Seed % 2UL == 1UL) ? 3 : 4;
             bool guard = _sc.Name == "mixed";
             if (guard) n = 3;
+            if (_sc.MechCountOverride > 0) n = _sc.MechCountOverride;
             if (_sc.Mv2 && !guard)
             {
                 // hunt_mv@v2 (T-115f): a picket line facing the pack. Each mech holds a post (500 m patrol) 900 m ahead of the pack axis and 1400 m from its neighbour, the pack members are
@@ -341,6 +369,7 @@ namespace Game.AI.PackHarness
                 for (int i = 0; i < _k.Count; i++) if (_k[i].Alive && _k[i].Emerged) StepKaiju(_k[i], dt, step);
                 MechFire(step, dt);
                 _res.Steps++;
+                AfterStep?.Invoke(this, step, _now);
             }
             _w.Flush();
             return _res;
