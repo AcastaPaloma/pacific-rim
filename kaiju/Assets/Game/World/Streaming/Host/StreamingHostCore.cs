@@ -37,6 +37,21 @@ namespace Game.World.Streaming.Host
         void ShiftOrigin(double originX, double originZ);
     }
 
+    /// <summary>
+    /// Optional second face of a builder (T-111, R-101 section 6): one physics scene per activity cluster. Physics chunks live in the frame of the
+    /// cluster whose body needs them (tile corner minus the cluster origin); render keys keep the single render origin of ITileBuilder.ShiftOrigin.
+    /// All calls are main thread. When a builder implements this, ShiftOrigin must leave physics chunk nodes alone.
+    /// </summary>
+    public interface IClusterBuilder
+    {
+        /// <summary>The physics key will be built for this cluster (called right before ITileBuilder.Build; -1 = no body claims it).</summary>
+        void AssignCluster(in ResidencyKey key, int clusterId);
+        /// <summary>The cluster appeared or its origin moved (exact tile corner): its physics nodes move by the exact integer difference.</summary>
+        void ShiftClusterOrigin(int clusterId, double originX, double originZ);
+        /// <summary>The cluster has no members any more (its scene may be dropped once empty).</summary>
+        void RemoveCluster(int clusterId);
+    }
+
     public interface IWorkRunner { void Run(Action work); }
 
     public sealed class ThreadPoolWorkRunner : IWorkRunner
@@ -73,12 +88,25 @@ namespace Game.World.Streaming.Host
         readonly Dictionary<ResidencyKey, bool> _reading = new Dictionary<ResidencyKey, bool>();   // key -> urgent
         readonly HashSet<ResidencyKey> _resident = new HashSet<ResidencyKey>();
         readonly CancellationTokenSource _cts = new CancellationTokenSource();
+        readonly IClusterBuilder _clusterBuilder;
+        readonly Dictionary<int, (double x, double z)> _clusterOrigins = new Dictionary<int, (double, double)>();
+        readonly HashSet<int> _physicsFoci = new HashSet<int>();
+        readonly List<int> _scratchIds = new List<int>();
+        readonly List<ResidencyKey> _scratchKeys = new List<ResidencyKey>();
+        readonly Dictionary<ResidencyKey, int> _chunkOwner = new Dictionary<ResidencyKey, int>();
+        ulong _assignHash;
         int _readsRender, _readsPhysics;
 
         /// <summary>Origin of the render frame (anchor cluster's origin); NaN until the first tick with a focus.</summary>
         public double RenderOriginX { get; private set; } = double.NaN;
         public double RenderOriginZ { get; private set; } = double.NaN;
         public int AnchorClusterId { get; private set; } = -1;
+        /// <summary>Cluster origin shifts delivered to an IClusterBuilder (appearance of a cluster is not counted).</summary>
+        public int ClusterShifts { get; private set; }
+        /// <summary>Physics chunks built while no body of any cluster claimed them.</summary>
+        public int UnclaimedChunks { get; private set; }
+        /// <summary>Resident physics chunks moved to another cluster because clusters merged, split or traded bodies.</summary>
+        public int ChunkReassignments { get; private set; }
         /// <summary>Origin changes after the first placement (each is one exact integer shift of all tile roots).</summary>
         public int RebaseCount { get; private set; }
         public int LoadsDispatched { get; private set; }
@@ -96,6 +124,14 @@ namespace Game.World.Streaming.Host
             _builder = builder ?? throw new ArgumentNullException(nameof(builder));
             _runner = runner ?? new ThreadPoolWorkRunner();
             _opt = options ?? new StreamingHostOptions();
+            _clusterBuilder = builder as IClusterBuilder;
+        }
+
+        /// <summary>Cluster of a body in the last plan (-1 when unknown).</summary>
+        public int ClusterOf(int focusId)
+        {
+            for (int i = 0; i < _plan.Assignments.Count; i++) if (_plan.Assignments[i].FocusId == focusId) return _plan.Assignments[i].ClusterId;
+            return -1;
         }
 
         public IReadOnlyCollection<ResidencyKey> Resident => _resident;
@@ -116,10 +152,15 @@ namespace Game.World.Streaming.Host
             {
                 var k = _plan.Evict[i];
                 _builder.Release(k);
+                _chunkOwner.Remove(k);
                 _resident.Remove(k);
                 _sched.Released(k);
             }
             ApplyOrigin(foci);
+            _physicsFoci.Clear();
+            for (int i = 0; i < foci.Length; i++) if (foci[i].Kind == FocusKind.Body && foci[i].NeedsPhysics) _physicsFoci.Add(foci[i].Id);
+            ApplyClusters();
+            ReassignChunks();
             for (int i = 0; i < _plan.Load.Count; i++) _pending.Add(_plan.Load[i]);
             Dispatch();
             Pump();
@@ -148,6 +189,78 @@ namespace Game.World.Streaming.Host
                 if (!first) { RebaseCount++; OriginShifted?.Invoke(ox, oz, c.OriginX, c.OriginZ); }
                 return;
             }
+        }
+
+        void ApplyClusters()
+        {
+            if (_clusterBuilder == null) return;
+            for (int i = 0; i < _plan.Clusters.Count; i++)
+            {
+                var c = _plan.Clusters[i];
+                if (_clusterOrigins.TryGetValue(c.ClusterId, out var o) && o.x == c.OriginX && o.z == c.OriginZ) continue;
+                if (c.OriginX % GeoTileId.BaseSizeM != 0 || c.OriginZ % GeoTileId.BaseSizeM != 0) throw new InvalidOperationException("cluster origin is not a tile corner");
+                bool known = _clusterOrigins.ContainsKey(c.ClusterId);
+                _clusterBuilder.ShiftClusterOrigin(c.ClusterId, c.OriginX, c.OriginZ);
+                _clusterOrigins[c.ClusterId] = (c.OriginX, c.OriginZ);
+                if (known) ClusterShifts++;
+            }
+            if (_clusterOrigins.Count > _plan.Clusters.Count)
+            {
+                _scratchIds.Clear();
+                foreach (var id in _clusterOrigins.Keys)
+                {
+                    bool live = false;
+                    for (int i = 0; i < _plan.Clusters.Count && !live; i++) live = _plan.Clusters[i].ClusterId == id;
+                    if (!live) _scratchIds.Add(id);
+                }
+                for (int i = 0; i < _scratchIds.Count; i++) { _clusterBuilder.RemoveCluster(_scratchIds[i]); _clusterOrigins.Remove(_scratchIds[i]); }
+            }
+        }
+
+        void ReassignChunks()
+        {
+            if (_clusterBuilder == null) return;
+            ulong h = 1469598103934665603UL;
+            for (int i = 0; i < _plan.Assignments.Count; i++)
+            {
+                var a = _plan.Assignments[i];
+                h = (h ^ (ulong)(uint)a.FocusId) * 1099511628211UL;
+                h = (h ^ (ulong)(uint)a.ClusterId) * 1099511628211UL;
+            }
+            if (h == _assignHash) return;
+            _assignHash = h;
+            _scratchKeys.Clear();
+            foreach (var kv in _chunkOwner) _scratchKeys.Add(kv.Key);
+            for (int i = 0; i < _scratchKeys.Count; i++)
+            {
+                var k = _scratchKeys[i];
+                if (!_resident.Contains(k)) continue;
+                int o = OwnerCluster(k);
+                if (o < 0 || o == _chunkOwner[k]) continue;
+                _chunkOwner[k] = o; ChunkReassignments++;
+                _clusterBuilder.AssignCluster(k, o);
+            }
+        }
+
+        /// <summary>Cluster of the body (with physics) nearest to the chunk; ties go to the lower id. -1 when no body is known.</summary>
+        int OwnerCluster(in ResidencyKey key)
+        {
+            key.Bounds(out double x0, out double z0, out double x1, out double z1);
+            int best = -1; double bd = double.MaxValue;
+            for (int pass = 0; pass < 2 && best < 0; pass++)
+                for (int i = 0; i < _plan.Assignments.Count; i++)
+                {
+                    var a = _plan.Assignments[i];
+                    if (pass == 0 && !_physicsFoci.Contains(a.FocusId)) continue;
+                    double ox = 0, oz = 0; bool f = false;
+                    for (int k = 0; k < _plan.Clusters.Count; k++) if (_plan.Clusters[k].ClusterId == a.ClusterId) { ox = _plan.Clusters[k].OriginX; oz = _plan.Clusters[k].OriginZ; f = true; break; }
+                    if (!f) continue;
+                    double x = ox + a.LocalX, z = oz + a.LocalZ;
+                    double dx = Math.Max(0, Math.Max(x0 - x, x - x1)), dz = Math.Max(0, Math.Max(z0 - z, z - z1));
+                    double d = dx * dx + dz * dz;
+                    if (d < bd || (d == bd && a.ClusterId < best)) { bd = d; best = a.ClusterId; }
+                }
+            return best;
         }
 
         void Dispatch()
@@ -199,6 +312,13 @@ namespace Game.World.Streaming.Host
                 if (st != TileState.Requested && st != TileState.Reading && st != TileState.Building) { Dropped++; continue; }
                 if (r.Error != null) { Failures++; _sched.Failed(r.Key, r.Error); continue; }
                 _sched.Advance(r.Key, TileState.Building);
+                if (_clusterBuilder != null && r.Key.Kind == ResidencyKind.Physics)
+                {
+                    int owner = OwnerCluster(r.Key);
+                    if (owner < 0) UnclaimedChunks++;
+                    _clusterBuilder.AssignCluster(r.Key, owner);
+                    _chunkOwner[r.Key] = owner;
+                }
                 try { _builder.Build(r.Key, r.Payload, this); }
                 catch (Exception e) { Failures++; _sched.Failed(r.Key, "build: " + e.Message); }
             }
