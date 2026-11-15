@@ -1,0 +1,25 @@
+{
+ "frame": "evidence/T-187/captures_local/c7layers_off_details/warm_amber_haze_detail_scale",
+ "marker_distance_m": 594.6756768913488,
+ "marker_pixels": 1,
+ "marker_L": 78.40006265576429,
+ "surround_L": 45.51549590524029,
+ "marker_dL": 32.884566750523994,
+ "marker_index": [
+  7
+ ],
+ "surround_index": [
+  2,
+  3,
+  10
+ ],
+ "marker_height_px": 1,
+ "block80_distance_m": 1042.9649282961761,
+ "block80_height_px": 31.949638733203187,
+ "block80_L": 45.51549590524029,
+ "block80_background_L": 59.36460572966899,
+ "block80_dL": 13.849109824428695,
+ "pass": true,
+ "criterion": "C7: the 1.8 m marker at 600 m is 1-2 internal pixels with dL* >= 10 to its surround; the 80 m block at about 1 km is at least 10 px taller than the marker (block contrast is judged over twelve views by the `blocks` check)",
+ "tool": "Tools/Rendering/Pixel/pixel_checks.py scale"
+}
