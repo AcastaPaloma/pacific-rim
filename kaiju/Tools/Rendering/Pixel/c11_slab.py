@@ -26,6 +26,8 @@ SKY_CODE = 16777215
 MIN_FRAMES = 100                 # a sequence counts for a class when the edge is tracked over at least this many of the 180 frames
 GATE_PX = 1.0                     # C11 (unchanged): displacement error within 1 px
 K = 4                             # output pixels per texel in the model (1080p)
+BORDER_PX = 4 * K                 # T-184: frames whose class point is within 4 texels of the output border are not scored (the shifted image leaves the guard band there, so the border pixels are fill, not content)
+OUT_W = 1920
 
 
 # ---- depth code ------------------------------------------------------------------------------------------------------
@@ -45,14 +47,22 @@ def encode_depth(z):
     return np.stack([v // 65536, (v // 256) % 256, v % 256], axis=1).astype(np.uint8).tobytes()
 
 
-def edge_candidates(z, x0):
-    """Output-pixel boundaries i (between pixel i-1 and i) with a relative depth jump above the threshold; sky counts as a jump."""
+ID_TOL = 0.02   # T-184: an edge belongs to a class when its nearer side is within 2 % of the class point's geometric eye depth
+
+
+def edge_candidates(z, x0, depth=None):
+    """Output-pixel boundaries i (between pixel i-1 and i) with a relative depth jump above the threshold; sky counts as a jump.
+    depth (T-184): keep only boundaries whose nearer side is the class surface (within ID_TOL of that eye depth). Without it the tracker can latch onto a
+    different silhouette that happens to lie within a few pixels of the class edge in the first frame (a foreground occluder moving at 2 px/frame)."""
     a, b = z[:-1], z[1:]
     lo = np.minimum(a, b)
     with np.errstate(invalid="ignore", divide="ignore"):
         rel = np.abs(a - b) / lo
     rel = np.where(np.isinf(a) != np.isinf(b), np.inf, np.where(np.isinf(a) & np.isinf(b), 0.0, rel))
-    return np.where(rel > EDGE_MIN_REL_JUMP)[0] + 1 + x0
+    keep = rel > EDGE_MIN_REL_JUMP
+    if depth is not None:
+        with np.errstate(invalid="ignore"): keep &= np.abs(lo / depth - 1.0) <= ID_TOL
+    return np.where(keep)[0] + 1 + x0
 
 
 # ---- one sequence ----------------------------------------------------------------------------------------------------
@@ -64,15 +74,16 @@ def load_sequence(d):
     return meta, frames
 
 
-def track_class(frames, cls_index):
+def track_class(frames, cls_index, depth=None):
     """Tracks the edge of one class over the frames. Returns (frame indices, measured x, commanded px) as arrays; frames without a visible edge are skipped."""
     idx, meas, cmd = [], [], []
     offset = None   # measured - commanded of the first measured frame: the tracker looks for the discontinuity nearest to commanded + offset
     for fr in frames:
         c = fr["classes"][cls_index]
         if not c["visible"] or "depth_code_b64" not in c: continue
+        if not (BORDER_PX <= c["px"] <= OUT_W - BORDER_PX): continue
         z = decode_depth(c["depth_code_b64"])
-        cand = edge_candidates(z, c["x0"])
+        cand = edge_candidates(z, c["x0"], depth)
         if len(cand) == 0: continue
         target = c["px"] + (offset if offset is not None else 0.0)
         i = cand[np.argmin(np.abs(cand - target))]
@@ -82,11 +93,11 @@ def track_class(frames, cls_index):
     return np.array(idx), np.array(meas), np.array(cmd)
 
 
-def sequence_errors(frames):
+def sequence_errors(frames, depths=None):
     """Per class: max |displacement error| over frames (the R-131 per-phase figure), max absolute error, frames measured."""
     out = {}
     for ci, name in enumerate(CLASSES):
-        idx, m, c = track_class(frames, ci)
+        idx, m, c = track_class(frames, ci, None if depths is None else depths[ci])
         if len(idx) < 2:
             out[name] = {"frames": int(len(idx)), "max_disp_error_px": None, "max_abs_error_px": None}; continue
         disp = (m - m[0]) - (c - c[0])
@@ -159,7 +170,7 @@ def analyse(root, r131_json=None):
     for name, dirs in cfgs.items():
         metas, per_phase = [], []
         for d in dirs:
-            meta, frames = load_sequence(d); metas.append(meta); per_phase.append(sequence_errors(frames))
+            meta, frames = load_sequence(d); metas.append(meta); per_phase.append(sequence_errors(frames, meta["class_depths_geometric_m"]))
         m0 = metas[0]
         entry = {"mode": m0["mode"], "main_depth_m": m0["main_depth_m"], "snap_reference_depth_m": m0["snap_reference_depth_m"], "sequences": len(dirs), "groups": sorted({m["group"] for m in metas}),
                  "frames_per_phase": m0["frames"], "layered_frames_min": min(m["layered_frames"] for m in metas), "layer_rejections": sorted({m["layer_rejection"] for m in metas if m["layer_rejection"]}), "classes": {}}
@@ -231,6 +242,17 @@ def selftest():
     idx, m, c = track_class(frames, 0)
     disp = (m - m[0]) - (c - c[0])
     assert len(idx) == 40 and abs(np.abs(disp).max() - 3.5) < 1.0, (len(idx), np.abs(disp).max())
+    # T-184 identity: a foreground occluder edge (136 m, moving 2 px/frame) 1.5 px from the class edge (10372 m) must not capture the tracker
+    frames = []
+    for i in range(40):
+        px = 987.5 - 0.02 * i; occ = 986 - 2 * i; x0 = 859
+        zz = np.full(257, 31000.0); zz[: 990 - x0] = 10372.0; zz[: max(0, occ - x0)] = 136.0
+        frames.append({"i": i, "classes": [{"visible": False}, {"visible": False}, {"visible": True, "px": px, "py": 10.0, "x0": x0, "n": 257, "depth_code_b64": base64.b64encode(encode_depth(zz)).decode()}]})
+    idx, m, cm = track_class(frames, 2, 10372.0)
+    assert len(idx) == 40 and np.all(m == 990), (len(idx), m[:5])
+    # T-184 border: frames with the class point within BORDER_PX of the output edge are not scored
+    f2 = [dict(f, classes=[dict(f["classes"][0]), dict(f["classes"][1]), dict(f["classes"][2], px=5.0)]) for f in frames[:3]]
+    assert len(track_class(f2, 2, 10372.0)[0]) == 0
     assert model_stats("layersnap", 664.874, 124.2, 124.2)[0] < 1.0
     assert not check_model_against_r131(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "research", "R-131", "out_c11_sim.json"))
     print("selftest ok")
