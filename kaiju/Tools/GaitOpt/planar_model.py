@@ -17,6 +17,8 @@ API NOTE (for step 9.3b)
       in the (x right, z up) plane, L = sum I w + m (r-c) x v.   d/dt [px,pz,L] = [Fx, Fz - m g, sum (p_i - c) x F_i].
   Reference: load_reference(path=None) -> Reference with 2N periodic nodes (two mirrored steps), fields t, q, qd, qdd, F (2N,4,2),
       u_json (2N,6), com (2N,2), comd, comdd, L (about CoM, ccw), Ldot, hip-relative com x, and spline evaluators ref.at(t) -> dict.
+      ref.at(t)["qdd"] = periodic spline of the node central-difference qdd (= ref.qdd at nodes), i.e. consistent with F, comdd and Ldot
+      (fixed in 9.3b-2; before it was the q-spline 2nd derivative, kept as ref.at(t)["qdd_qspline"], which misses the wrench by up to 0.7 m g).
       The force-consistency check sum F = m (cdd + g) is asserted in load_reference (tolerance 5 % of m g, max residual stored in ref.fc_resid).
   Contact schedule of the reference: step 1 (nodes 0..N-1): leg B is the new stance leg (heel down from node 0), leg A toe-off at k_ds.
 """
@@ -204,10 +206,10 @@ def load_reference(path=None, model=None, tol_frac=0.05):
         return CubicSpline(tt, yy, bc_type="periodic")
     dr = np.zeros(9); dr[0] = 2 * d; drc = np.array([2 * d, 0.0])
     sq = per(q, dr); sqd = per(qd); suj = per(uj); sF = per(F.reshape(n2, 8)); scom = per(com, drc); scd = per(comd); sL = per(L[:, None])
-    scdd = per(comdd); sLd = per(Ldot[:, None])
+    scdd = per(comdd); sLd = per(Ldot[:, None]); sqdd = per(qdd)   # node central-difference qdd: the one consistent with F, comdd, Ldot (9.3b-2 fix)
     def at(tq):
         tq = float(tq); nw = np.floor(tq / T2); tl = tq - nw * T2; fr = tl / T2 + nw; out = {}
-        out["q"] = sq(tl) + dr * fr; out["qd"] = sqd(tl); out["qdd"] = sq(tl, 2); out["u"] = suj(tl); out["F"] = sF(tl).reshape(4, 2)
+        out["q"] = sq(tl) + dr * fr; out["qd"] = sqd(tl); out["qdd"] = sqdd(tl); out["qdd_qspline"] = sq(tl, 2); out["u"] = suj(tl); out["F"] = sF(tl).reshape(4, 2)
         out["com"] = scom(tl) + drc * fr; out["comd"] = scd(tl); out["comdd"] = scdd(tl); out["L"] = float(sL(tl)[0]); out["Ldot"] = float(sLd(tl)[0])
         return out
     r.at = at; r.T2 = T2
