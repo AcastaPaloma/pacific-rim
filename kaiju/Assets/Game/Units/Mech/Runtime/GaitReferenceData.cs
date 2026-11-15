@@ -14,11 +14,14 @@ namespace Game.Units.Mech
     {
         public double hip_deg, knee_deg, ankle_deg, hip_dps, knee_dps, ankle_dps, foot_pitch_deg, ankle_x_m, ankle_height_m, hip_tau_nm, knee_tau_nm, ankle_tau_nm, heel_ft_n, heel_fn_n, toe_ft_n, toe_fn_n;
         public bool heel_contact, toe_contact;
+        // 9.5g optional (absent in older rows, then 0): shoulder flexion (+ hand forward), rate and torque of the straight arm on the same lateral side as this leg; anti-phase pair from the 3D-aware stride (stride_opt_tc.py --yaw)
+        public double shoulder_deg, shoulder_dps, shoulder_tau_nm;
     }
 
     [Serializable]
     public sealed class GaitRefNode
     {
+        public double yaw_mz_nm, yaw_m0_nm, yaw_mt_nm, yaw_budget_nm, yaw_cone_use;   // 9.5g optional (0 when absent): yaw moment of legs + arms about the CoM, of the planned shear, free ground torsion, torsion capacity left, shared-cone use
         public double phase, t_s, pelvis_x_m, pelvis_x_rel_m, pelvis_z_m, pelvis_pitch_deg;
         public GaitRefLeg stance, swing;
         // @v2 additions (gait_reference_qp.json; absent in @v1 files, then null / 0): planar q9, qd9, forces [ft, fn] of the 4 sole points, CoM and its derivatives, angular momentum about the CoM, sole points (position, velocity, acceleration), SI
