@@ -17,7 +17,7 @@ namespace Game.Units.Mech.Qp
         public double SolverRegularisation = 1e-12;
         /// <summary>Step 9.5b (stage 2, qp_lateral): 3D contact forces at 2 sole corners per heel / toe point (diamond pyramid |fx| + |fy| &lt;= mu' fz shared by both shears), lateral CoM, roll and yaw momentum rows. Off = the planar QP unchanged.</summary>
         public double WTau;   // step 9.5b: weight of sum (tau_j / LIM_j)^2 (0 = off, as the prototype); fixes the internal double-support force the other rows leave free
-        public double SwFollow, SwAmax, TdAir, TdXoffMax; public bool Diag, TdHeel; public bool Rom, FpRom; public double RomMargin = 3 * Math.PI / 180, RomHorizon = 0.1, RomAmax = 30.0, FpRomBand = 3 * Math.PI / 180;   // step 9.5j (qp_rom, qp_fp_rom)
+        public double SwJ, SwJOm = 2.0, SwJAmax = 6.0, SwJTd = 0.2; public bool SwJAnkle; public double SwFollow, SwAmax, TdAir, TdXoffMax; public bool Diag, TdHeel; public bool Rom, FpRom; public double RomMargin = 3 * Math.PI / 180, RomHorizon = 0.1, RomAmax = 30.0, FpRomBand = 3 * Math.PI / 180;   // step 9.5j (qp_rom, qp_fp_rom)
         public double LateCx, CxEmax;   // CxEmax (qp_cx_emax, 9.5i): clamp of the CoM-x position error in the CoM row (0 = off)   // step 9.5i (qp_late_cx k): while the touchdown is late the CoM-x reference advances at k x the reference CoM speed (0 = frozen at the step end, as the prototype)
         public double ArmRefYawFf;   // step 9.5h (qp_arm_ref_yawff w): the filtered measured yaw-momentum rate of the arms in the feed-forward is replaced by (1 - w) measured + w predicted from the reference shoulder acceleration (DLArmRefPred)
         public bool YawTrunk; public double YawFf = 1.0, YawCap = 0.1, YawBudget = 0, YawBudgetFloor = 0.1;   // step 9.5e: trunk yaw task with the legs' and arms' yaw-momentum rate as feed-forward
@@ -30,7 +30,7 @@ namespace Game.Units.Mech.Qp
             Kvs = t.qp_kvs, OnBw = t.qp_on_bw, OffBw = t.qp_off_bw, TOut = t.qp_T_out, TIn = t.qp_T_in, TBlend = t.qp_T_blend, LoadThr = t.qp_load_thr, TdMinFrac = t.qp_td_min_frac, LateVz = t.qp_late_vz, FCap = t.qp_fcap, ZHold = Math.Max(t.qp_z_hold, t.qp_z_hold_ss),
             HoldSched = t.qp_hold_sched > 0.5, Onset = t.qp_onset > 0.5, Land = t.qp_land > 0.5, LandAct = t.qp_land_act > 0.5, FrMeas = t.qp_fr_meas > 0.5, FrMargin = t.qp_fr_margin, LandK0 = t.qp_land_k0, VTd = t.qp_v_td, LandPost = t.qp_land_post,
             MassEst = t.qp_mass_est, MassLo = t.qp_mass_lo, MassHi = t.qp_mass_hi, SgFloor = t.qp_sg_floor, SolverRegularisation = t.qp_solver_reg,
-            WTau = t.qp_w_tau, YawTrunk = t.qp_yaw_trunk > 0.5, YawFf = t.qp_yaw_ff, YawCap = t.qp_yaw_cap, YawBudget = t.qp_yaw_budget, YawBudgetFloor = t.qp_yaw_budget_floor, ArmRefYawFf = t.qp_arm_ref_yawff, LateCx = t.qp_late_cx, CxEmax = t.qp_cx_emax, Rom = t.qp_rom > 0.5, FpRom = t.qp_rom > 0.5 && t.qp_fp_rom > 0.5, RomMargin = t.qp_rom_margin_deg * Math.PI / 180, RomHorizon = t.qp_rom_horizon_s, RomAmax = t.qp_rom_amax, FpRomBand = t.qp_fp_rom_band_deg * Math.PI / 180, SwFollow = t.qp_sw_follow, SwAmax = t.qp_sw_amax, TdAir = t.qp_td_air_frac, TdXoffMax = t.qp_td_xoff_max, Diag = t.qp_diag > 0.5, TdHeel = t.qp_td_heel > 0.5, Lateral = t.qp_lateral > 0.5, OmY = t.qp_om_y, WCy = t.qp_w_cy, WRoll = t.qp_w_roll, KRoll = t.qp_k_roll, WYaw = t.qp_w_yaw, OmYaw = t.qp_om_yaw
+            WTau = t.qp_w_tau, YawTrunk = t.qp_yaw_trunk > 0.5, YawFf = t.qp_yaw_ff, YawCap = t.qp_yaw_cap, YawBudget = t.qp_yaw_budget, YawBudgetFloor = t.qp_yaw_budget_floor, ArmRefYawFf = t.qp_arm_ref_yawff, LateCx = t.qp_late_cx, CxEmax = t.qp_cx_emax, Rom = t.qp_rom > 0.5, FpRom = t.qp_rom > 0.5 && t.qp_fp_rom > 0.5, RomMargin = t.qp_rom_margin_deg * Math.PI / 180, RomHorizon = t.qp_rom_horizon_s, RomAmax = t.qp_rom_amax, FpRomBand = t.qp_fp_rom_band_deg * Math.PI / 180, SwJ = t.qp_swj, SwJOm = t.qp_swj_om, SwJAmax = t.qp_swj_amax, SwJTd = t.qp_swj_td_frac, SwJAnkle = t.qp_swj_ankle > 0.5, SwFollow = t.qp_sw_follow, SwAmax = t.qp_sw_amax, TdAir = t.qp_td_air_frac, TdXoffMax = t.qp_td_xoff_max, Diag = t.qp_diag > 0.5, TdHeel = t.qp_td_heel > 0.5, Lateral = t.qp_lateral > 0.5, OmY = t.qp_om_y, WCy = t.qp_w_cy, WRoll = t.qp_w_roll, KRoll = t.qp_k_roll, WYaw = t.qp_w_yaw, OmYaw = t.qp_om_yaw
         };
     }
 
@@ -365,13 +365,27 @@ namespace Game.Units.Mech.Qp
                         prx = _ltPos[0] + xo; prz = _ltPos[1]; vrx = _ltVel[0]; vrz = _ltVel[1]; arx = _ltAcc[0]; arz = _ltAcc[1];
                     }
                     if (leg == swLeg && late > 0) { prz -= o.LateVz * late; vrz -= o.LateVz; }
+                    double whl = 1.0;   // step 9.5l (qp_swj): heel-task blend, 0 until the last SwJTd of the swing, smoothstep to 1 (1 when late)
+                    if (o.SwJ > 0 && leg == swLeg)
+                    {
+                        double sp = (tref - swLeg * ts) / ts, f0 = Math.Max(o.SwJTd, 1e-3), u = late > 0 ? 1.0 : Math.Max(0.0, Math.Min(1.0, (sp - (1.0 - f0)) / f0)); whl = u * u * (3 - 2 * u);
+                        double kj = o.SwJOm * o.SwJOm, kjd = 2 * o.SwJOm; int nj = o.SwJAnkle ? 3 : 2;
+                        for (int jj = 0; jj < nj; jj++)
+                        {
+                            int j = 3 * leg + jj; double ddq = 0, dq = 0, dqd = 0, qr = 0, qdr = 0;
+                            for (int c = 0; c < NQ; c++) { double cj = _cj[j * NQ + c]; if (cj == 0) continue; ddq += cj * r[QpReference.Cqdd + c]; qr += cj * r[QpReference.Cq + c]; qdr += cj * r[QpReference.Cqd + c]; dq += cj * Q[c]; dqd += cj * Qd[c]; }
+                            double aj = ddq + kj * (qr - dq) + kjd * (qdr - dqd); if (o.SwJAmax > 0) aj = Math.Max(-o.SwJAmax, Math.Min(o.SwJAmax, aj));
+                            ClearRow(nx); for (int c = 0; c < NQ; c++) _row[c] = _cj[j * NQ + c] * (c < 2 ? l : 1.0); AddRow(nx, o.SwJ * bl * (1.0 - 0.5 * whl), aj / (g0 / l));
+                            if (o.Diag && jj == 0) { Diag[15] = whl; }
+                        }
+                    }
                     double adx = arx + kp * (prx - Pts[2 * i]) + kd * (vrx - _vp[2 * i]), adz = arz + kp * (prz - Pts[2 * i + 1]) + kd * (vrz - _vp[2 * i + 1]);
                     if (o.SwAmax > 0 && leg == swLeg) { double am = Math.Sqrt(adx * adx + adz * adz); if (am > o.SwAmax) { double k = o.SwAmax / am; adx *= k; adz *= k; } }   // step 9.5k (qp_sw_amax): the commanded heel acceleration is limited to what the hip can deliver
                     if (o.Diag && leg == swLeg) { Diag[0] = swLeg; Diag[4] = bl; Diag[6] = prx - Pts[2 * i]; Diag[7] = prz - Pts[2 * i + 1]; Diag[8] = adx; Diag[9] = adz; Diag[10] = haveLt ? 1 : 0; Diag[11] = prz; Diag[12] = Pts[2 * i + 1]; }
                     for (int d = 0; d < 2; d++)
                     {
                         ClearRow(nx); for (int j = 0; j < NQ; j++) _row[j] = Jp[i * 18 + d * 9 + j] * (j < 2 ? 1.0 : 1.0 / l);
-                        AddRow(nx, o.WSwing * bl, ((d == 0 ? adx : adz) - Bp[2 * i + d]) / g0);
+                        if (whl > 1e-6) AddRow(nx, o.WSwing * bl * whl, ((d == 0 ? adx : adz) - Bp[2 * i + d]) / g0);
                     }
                 }
                 double af = r[QpReference.Cqdd + fidx] + kf * (r[QpReference.Cq + fidx] - Q[fidx]) + kfd * (r[QpReference.Cqd + fidx] - Qd[fidx]);

@@ -155,6 +155,42 @@ SETS['k3'] = _seeded({
   'Ma20airom2': dict(B, qp_sw_amax=20.0, qp_td_air_frac=0.3, qp_td_heel=1, qp_om_sw=2.0),
   'Ma20airxo': dict(B, qp_sw_amax=20.0, qp_td_air_frac=0.3, qp_td_heel=1, qp_td_xoff_max=8.0),
 }, 4)
+# 9.5l: joint-space swing task (qp_swj) + heel task blended in at the end of the swing; C = 9.5k best (amax 20 + air gate 0.3 + heel-only touchdown + om_sw 2)
+C = dict(B, qp_sw_amax=20.0, qp_td_air_frac=0.3, qp_td_heel=1, qp_om_sw=2.0)
+SETS['l1'] = _seeded({
+  'Ubase': dict(C),
+  'Uj1': dict(C, qp_swj=1e3),
+  'Uj1om3': dict(C, qp_swj=1e3, qp_swj_om=3.0),
+  'Uj1f3': dict(C, qp_swj=1e3, qp_swj_td_frac=0.3),
+  'Uj1a3': dict(C, qp_swj=1e3, qp_swj_amax=3.0),
+  'Uj1ank': dict(C, qp_swj=1e3, qp_swj_ankle=1),
+  'Uj100': dict(C, qp_swj=100.0),
+  'Uj1noam': dict(C, qp_swj=1e3, qp_sw_amax=0.0),
+}, 4)
+# 9.5l cycle 2: om 3 and the ankle joint were the best of cycle 1
+D = dict(C, qp_swj=1e3, qp_swj_om=3.0)
+SETS['l2'] = _seeded({
+  'Vom3ank': dict(D, qp_swj_ankle=1),
+  'Vom3ankf3': dict(D, qp_swj_ankle=1, qp_swj_td_frac=0.3),
+  'Vom4': dict(D, qp_swj_om=4.0),
+  'Vom4ank': dict(D, qp_swj_om=4.0, qp_swj_ankle=1),
+  'Vom3noam': dict(D, qp_sw_amax=0.0),
+  'Vom3ankam40': dict(D, qp_swj_ankle=1, qp_sw_amax=40.0),
+  'Vom3ankja10': dict(D, qp_swj_ankle=1, qp_swj_amax=10.0),
+  'Vom3ankw3': dict(D, qp_swj_ankle=1, qp_swj=3e3),
+}, 4)
+# 9.5l cycle 3: late swings (heel 12-22 m off at tau 5-9 s) on the best (D + ankle, weight 1e3 / 3e3)
+DA = dict(D, qp_swj_ankle=1)
+SETS['l3'] = _seeded({
+  'Wfol05': dict(DA, qp_sw_follow=0.5),
+  'Wxo8': dict(DA, qp_td_xoff_max=8.0),
+  'Wf1': dict(DA, qp_swj_td_frac=0.1),
+  'Wom25': dict(DA, qp_swj_om=2.5),
+  'Ww3a30': dict(DA, qp_swj=3e3, qp_sw_amax=30.0),
+  'Ww3ja4': dict(DA, qp_swj=3e3, qp_swj_amax=4.0),
+  'Ww3fol05': dict(DA, qp_swj=3e3, qp_sw_follow=0.5),
+  'Ww3f1': dict(DA, qp_swj=3e3, qp_swj_td_frac=0.1),
+}, 4)
 def load_set(name):
     return SETS[name]
 def check_line(line):
