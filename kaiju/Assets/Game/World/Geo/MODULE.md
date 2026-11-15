@@ -23,6 +23,7 @@ Layer: L2. References only `Game.Core.Contracts` and its own assemblies (checked
   Same rules as `Pipelines/geo/kaiju_geo/manifest.py`.
 - `IGeoLayer.Build(IGeoTileContext) -> GeoLayerOutput` (LayerApi 1). Order: terrain, water, buildings, roads, faults.
   **Add a layer:** implement `IGeoLayer`, pass it in the list given to `GeoTileModel`; nothing else changes.
+- Faults: `GeoFaultData.FaultId` is the baked `fault_id` string (T-036c; `Id` stays the feature id). `GeoFaultsLoader.LoadGlobal(path)` reads the global `faults_bay.geojson` (manifest hash checked) as the same records, origin 0: the production fault source for World.Seismic, since every baked district tile carries none (empty by design). The tile bake already writes `fault_id` in feature properties, so no re-bake was needed.
 - `geo_export@v1`: as-built facts in float64 BayTM (scene position + floating origin): buildings with `bid`, Core id,
   `part_of`, base, top, as-built height, anchor, footprint; terrain samples (physics, render, data surfaces) at given
   control points; statistics; attributions.

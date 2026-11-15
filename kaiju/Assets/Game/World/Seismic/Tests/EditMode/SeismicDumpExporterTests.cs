@@ -129,5 +129,18 @@ namespace Game.World.Seismic.Tests
             Assert.AreEqual(0.0, r.SegmentSlip(r.VertexEnd));
             Assert.AreEqual(0.0, r.SegmentSlip(r.VertexStart - 1));
         }
+
+        [Test]
+        public void PiecesFromGeo_CarriesTheBakedFaultId_IntoTheSystemAndTheDump()
+        {
+            var g = new Game.World.Geo.GeoFaultData { Id = "qf:1:1", FaultId = "42", FaultName = "Geo fault zone", Section = "North section", SlipSense = "Right lateral" };
+            var l = new List<double>(); for (double x = 0; x <= 40000; x += 500) { l.Add(x - 61440); l.Add(10 - 73728); }
+            g.Lines.Add(l.ToArray());
+            var set = FaultTraceSet.Build(FaultTraceSet.PiecesFromGeo(new[] { g }, 61440, 73728));
+            FaultSystem s = set.Systems[0];
+            CollectionAssert.AreEqual(new[] { "42" }, s.SectionBakedIds);
+            RuptureResult r = RuptureSolver.Solve(s, new QuakeScenario { EventId = 1, Mw = 6.9f, FaultId = s.FaultId, HypoX = 20000, HypoZ = 10, Seed = 1 });
+            StringAssert.Contains("\"fault_id\":\"42\"", SeismicDumpExporter.BuildFaultRuptureDump(new[] { r }));
+        }
     }
 }
