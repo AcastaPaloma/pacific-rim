@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="15" result="Passed" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.1172887">
+  <test-suite type="TestSuite" id="1000" name="KaijuGame" fullname="KaijuGame" runstate="Runnable" testcasecount="561" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.117289" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1083" name="Game.Composition.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-030c/kaiju/Library/ScriptAssemblies/Game.Composition.Tests.dll" runstate="Runnable" testcasecount="15" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.106879" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="23668" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1084" name="Game" fullname="Game" runstate="Runnable" testcasecount="15" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.106196" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1085" name="Composition" fullname="Game.Composition" runstate="Runnable" testcasecount="15" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.102269" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1086" name="Tests" fullname="Game.Composition.Tests" runstate="Runnable" testcasecount="15" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.101762" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1065" name="CompositionTests" fullname="Game.Composition.Tests.CompositionTests" classname="Game.Composition.Tests.CompositionTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.055136" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1066" name="AllFlagsOff_RegistersNothing" fullname="Game.Composition.Tests.CompositionTests.AllFlagsOff_RegistersNothing" methodname="AllFlagsOff_RegistersNothing" classname="Game.Composition.Tests.CompositionTests" runstate="Runnable" seed="1074566357" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.005353" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1067" name="AllFlagsOn_InstallsEveryModule" fullname="Game.Composition.Tests.CompositionTests.AllFlagsOn_InstallsEveryModule" methodname="AllFlagsOn_InstallsEveryModule" classname="Game.Composition.Tests.CompositionTests" runstate="Runnable" seed="188562018" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.016801" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1070" name="CommittedConfig_BootedRoot_InstallsNothing" fullname="Game.Composition.Tests.CompositionTests.CommittedConfig_BootedRoot_InstallsNothing" methodname="CommittedConfig_BootedRoot_InstallsNothing" classname="Game.Composition.Tests.CompositionTests" runstate="Runnable" seed="716496910" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.022795" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1068" name="SeismicOn_WithoutFaultInput_IsReportedNotInstalled" fullname="Game.Composition.Tests.CompositionTests.SeismicOn_WithoutFaultInput_IsReportedNotInstalled" methodname="SeismicOn_WithoutFaultInput_IsReportedNotInstalled" classname="Game.Composition.Tests.CompositionTests" runstate="Runnable" seed="1978186404" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.002194" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1069" name="SeismicWithoutDestruction_HasNoBridge" fullname="Game.Composition.Tests.CompositionTests.SeismicWithoutDestruction_HasNoBridge" methodname="SeismicWithoutDestruction_HasNoBridge" classname="Game.Composition.Tests.CompositionTests" runstate="Runnable" seed="1012939432" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.000259" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1071" name="CoopPlaceholderCompositionTests" fullname="Game.Composition.Tests.CoopPlaceholderCompositionTests" classname="Game.Composition.Tests.CoopPlaceholderCompositionTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.038129" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1075" name="ClientInstall_JoinsOverTheSuppliedLink" fullname="Game.Composition.Tests.CoopPlaceholderCompositionTests.ClientInstall_JoinsOverTheSuppliedLink" methodname="ClientInstall_JoinsOverTheSuppliedLink" classname="Game.Composition.Tests.CoopPlaceholderCompositionTests" runstate="Runnable" seed="285439274" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.023312" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1078" name="CommittedFlagFiles_RegisterTheNewFlagsOff" fullname="Game.Composition.Tests.CoopPlaceholderCompositionTests.CommittedFlagFiles_RegisterTheNewFlagsOff" methodname="CommittedFlagFiles_RegisterTheNewFlagsOff" classname="Game.Composition.Tests.CoopPlaceholderCompositionTests" runstate="Runnable" seed="1620198535" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.004728" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1076" name="Hangar_NeedsBothHangarStubAndPlaceholderBody" fullname="Game.Composition.Tests.CoopPlaceholderCompositionTests.Hangar_NeedsBothHangarStubAndPlaceholderBody" methodname="Hangar_NeedsBothHangarStubAndPlaceholderBody" classname="Game.Composition.Tests.CoopPlaceholderCompositionTests" runstate="Runnable" seed="391290443" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.001905" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1073" name="HostInstall_RegistersSessionAndPump_AndSeatDrivesPlaceholderBody" fullname="Game.Composition.Tests.CoopPlaceholderCompositionTests.HostInstall_RegistersSessionAndPump_AndSeatDrivesPlaceholderBody" methodname="HostInstall_RegistersSessionAndPump_AndSeatDrivesPlaceholderBody" classname="Game.Composition.Tests.CoopPlaceholderCompositionTests" runstate="Runnable" seed="1483205758" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.005674" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1072" name="NetNeedsBothFlags" fullname="Game.Composition.Tests.CoopPlaceholderCompositionTests.NetNeedsBothFlags" methodname="NetNeedsBothFlags" classname="Game.Composition.Tests.CoopPlaceholderCompositionTests" runstate="Runnable" seed="100465458" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.000184" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1074" name="NetOn_WithoutInputs_IsReportedNotInstalled" fullname="Game.Composition.Tests.CoopPlaceholderCompositionTests.NetOn_WithoutInputs_IsReportedNotInstalled" methodname="NetOn_WithoutInputs_IsReportedNotInstalled" classname="Game.Composition.Tests.CoopPlaceholderCompositionTests" runstate="Runnable" seed="2060866320" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.000193" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1077" name="PlaceholderFlagOff_NothingRegistered" fullname="Game.Composition.Tests.CoopPlaceholderCompositionTests.PlaceholderFlagOff_NothingRegistered" methodname="PlaceholderFlagOff_NothingRegistered" classname="Game.Composition.Tests.CoopPlaceholderCompositionTests" runstate="Runnable" seed="625198697" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.000084" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1079" name="PlaceholderDamageAdapterTests" fullname="Game.Composition.Tests.PlaceholderDamageAdapterTests" classname="Game.Composition.Tests.PlaceholderDamageAdapterTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.007466" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1081" name="ApplyParts_WritesBackAndIgnoresUnknownParts" fullname="Game.Composition.Tests.PlaceholderDamageAdapterTests.ApplyParts_WritesBackAndIgnoresUnknownParts" methodname="ApplyParts_WritesBackAndIgnoresUnknownParts" classname="Game.Composition.Tests.PlaceholderDamageAdapterTests" runstate="Runnable" seed="16972019" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.001626" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1080" name="CopyParts_ReportsOneBodyPart_WithRecordNumbers" fullname="Game.Composition.Tests.PlaceholderDamageAdapterTests.CopyParts_ReportsOneBodyPart_WithRecordNumbers" methodname="CopyParts_ReportsOneBodyPart_WithRecordNumbers" classname="Game.Composition.Tests.PlaceholderDamageAdapterTests" runstate="Runnable" seed="1732233468" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.001865" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1082" name="FightHangarFight_DamageIsCarriedUntilRepaired_ThreeCycles_Exact" fullname="Game.Composition.Tests.PlaceholderDamageAdapterTests.FightHangarFight_DamageIsCarriedUntilRepaired_ThreeCycles_Exact" methodname="FightHangarFight_DamageIsCarriedUntilRepaired_ThreeCycles_Exact" classname="Game.Composition.Tests.PlaceholderDamageAdapterTests" runstate="Runnable" seed="1661007316" result="Passed" start-time="2026-11-15 06:34:57Z" end-time="2026-11-15 06:34:57Z" duration="0.002590" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/kuanw/Library/Application Support/DefaultCompany/KaijuGame/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
