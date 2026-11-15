@@ -35,6 +35,7 @@
 | D-025 | in-progress | T-007 (mech frame asset done) | evidence/regression/T-007.md (merge 93ad0b5, dotnet 96/96, EditMode 111/111); evaluations/T-007/eval-style.cycle3.md, eval-physics.cycle3.md, eval-arch.cycle3.md (all PASS); evidence/T-007/EVIDENCE.md (mech frame asset done) | 2 minor: DEF-T007-style-11, DEF-T007-style-12 | 2026-11-14 |
 | D-026 | todo |  | | | 2026-11-14 |
 | D-027 | in-progress | T-004 | | | 2026-11-14 |
+| D-028 | accepted | T-005 | PhysX mass unit 1e5 kg for articulated bodies (sim_mass_unit_kg in Config/Mech/body_tuning.json; logs and contracts stay SI kg); landed with Q-100 on the integration branch (decided autonomously, user offline); evidence/regression/Q-100.md | DEF-T005-physics-10 (see Q-051) | 2026-11-14 |
 | F-001 | in-progress | R-005, T-005, T-007 (mech frame asset done) | evidence/regression/T-007.md (merge 93ad0b5, dotnet 96/96, EditMode 111/111); evaluations/T-007/eval-style.cycle3.md, eval-physics.cycle3.md, eval-arch.cycle3.md (all PASS); evidence/T-007/EVIDENCE.md (mech frame asset done) | 2 minor: DEF-T007-style-11, DEF-T007-style-12 | 2026-11-14 |
 | F-002 | in-progress | T-005 | | | 2026-11-14 |
 | F-003 | in-progress | T-005 | | | 2026-11-14 |

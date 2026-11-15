@@ -4,7 +4,7 @@ Only the scribe and the orchestrator allocate IDs. IDs never change and are neve
 
 | Prefix | Meaning | Highest used | Next free |
 |---|---|---|---|
-| D- | Design decision | D-027 | D-028 |
+| D- | Design decision | D-028 | D-029 |
 | F- | Feature | F-064 | F-065 |
 | M- | Quality metric | M-020 | M-021 |
 | Q- | Open question | Q-073 | Q-074 |

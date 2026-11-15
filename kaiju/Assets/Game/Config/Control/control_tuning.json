@@ -1,0 +1,7 @@
+{
+  "schema": "control_tuning@v1",
+  "notes": "Device pilot mapping (Input System). The stick picks where the mech should go, never a joint: target = mech position + stick direction x target_distance_m, effort = stick magnitude after the dead zone.",
+  "stick_dead_zone": 0.15,
+  "target_distance_m": 400.0,
+  "stop_button_emergency_hold_s": 0.5
+}
