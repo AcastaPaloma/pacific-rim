@@ -122,6 +122,39 @@ SETS['j3'] = _seeded({
   'Srl': dict(RF, qp_td_rematch=1.0, qp_late_cx=1.0),
   'Sfpz': dict(J1, qp_rom=1, qp_fp_rom=1, qp_z_hold_ss=1.0, qp_rom_amax=60.0, qp_rom_horizon_s=0.2),
 }, 4)
+# 9.5k: the PD under the QP feed-forward on the swing leg (qp_pd_swing, qp_pd_ref), on the best 9.5j stack (B), qp_diag 1 (log block qp.k) on all
+B = dict(RFZ, qp_z_hold_ss=3.0, qp_rom_margin_deg=6.0, qp_td_rematch=1.0, qp_late_cx=1.0, qp_diag=1)
+SETS['k1'] = _seeded({
+  'Kbase': dict(B),
+  'Ksw0': dict(B, qp_pd_swing=0.0),
+  'Ksw05': dict(B, qp_pd_swing=0.05),
+  'Kref': dict(B, qp_pd_ref=1),
+  'Kref1': dict(B, qp_pd_ref=1, qp_pd_swing=1.0),
+  'Kref05': dict(B, qp_pd_ref=1, qp_pd_swing=0.05),
+  'Kref2': dict(B, qp_pd_ref=2),
+}, 4)
+# 9.5k cycle 2: the swing heel task is saturating the hip (kp = om_sw^2 = 16 /s2, errors of 3-6 m): gains (qp_om_sw, qp_w_swing), swing target tied to the CoM (qp_sw_follow), heel-only touchdown (qp_td_heel)
+SETS['k2'] = _seeded({
+  'Lom2': dict(B, qp_om_sw=2.0),
+  'Lom1': dict(B, qp_om_sw=1.0),
+  'Lw100': dict(B, qp_w_swing=100.0),
+  'Lheel': dict(B, qp_td_heel=1),
+  'Lf1': dict(B, qp_sw_follow=1.0),
+  'Lf05': dict(B, qp_sw_follow=0.5),
+  'Lom2f1': dict(B, qp_om_sw=2.0, qp_sw_follow=1.0),
+  'Lom1f1h': dict(B, qp_om_sw=1.0, qp_sw_follow=1.0, qp_td_heel=1),
+}, 4)
+# 9.5k cycle 3: swing heel acceleration limit (qp_sw_amax), touchdown validity (qp_td_air_frac, qp_td_xoff_max, qp_td_heel)
+SETS['k3'] = _seeded({
+  'Ma20': dict(B, qp_sw_amax=20.0),
+  'Ma10': dict(B, qp_sw_amax=10.0),
+  'Mair': dict(B, qp_td_air_frac=0.3),
+  'Mairh': dict(B, qp_td_air_frac=0.3, qp_td_heel=1),
+  'Mxo8': dict(B, qp_td_xoff_max=8.0),
+  'Ma20air': dict(B, qp_sw_amax=20.0, qp_td_air_frac=0.3, qp_td_heel=1),
+  'Ma20airom2': dict(B, qp_sw_amax=20.0, qp_td_air_frac=0.3, qp_td_heel=1, qp_om_sw=2.0),
+  'Ma20airxo': dict(B, qp_sw_amax=20.0, qp_td_air_frac=0.3, qp_td_heel=1, qp_td_xoff_max=8.0),
+}, 4)
 def load_set(name):
     return SETS[name]
 def check_line(line):

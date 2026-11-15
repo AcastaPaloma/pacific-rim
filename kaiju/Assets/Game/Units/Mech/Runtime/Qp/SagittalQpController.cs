@@ -17,7 +17,7 @@ namespace Game.Units.Mech.Qp
         public double SolverRegularisation = 1e-12;
         /// <summary>Step 9.5b (stage 2, qp_lateral): 3D contact forces at 2 sole corners per heel / toe point (diamond pyramid |fx| + |fy| &lt;= mu' fz shared by both shears), lateral CoM, roll and yaw momentum rows. Off = the planar QP unchanged.</summary>
         public double WTau;   // step 9.5b: weight of sum (tau_j / LIM_j)^2 (0 = off, as the prototype); fixes the internal double-support force the other rows leave free
-        public bool Rom, FpRom; public double RomMargin = 3 * Math.PI / 180, RomHorizon = 0.1, RomAmax = 30.0, FpRomBand = 3 * Math.PI / 180;   // step 9.5j (qp_rom, qp_fp_rom)
+        public double SwFollow, SwAmax, TdAir, TdXoffMax; public bool Diag, TdHeel; public bool Rom, FpRom; public double RomMargin = 3 * Math.PI / 180, RomHorizon = 0.1, RomAmax = 30.0, FpRomBand = 3 * Math.PI / 180;   // step 9.5j (qp_rom, qp_fp_rom)
         public double LateCx, CxEmax;   // CxEmax (qp_cx_emax, 9.5i): clamp of the CoM-x position error in the CoM row (0 = off)   // step 9.5i (qp_late_cx k): while the touchdown is late the CoM-x reference advances at k x the reference CoM speed (0 = frozen at the step end, as the prototype)
         public double ArmRefYawFf;   // step 9.5h (qp_arm_ref_yawff w): the filtered measured yaw-momentum rate of the arms in the feed-forward is replaced by (1 - w) measured + w predicted from the reference shoulder acceleration (DLArmRefPred)
         public bool YawTrunk; public double YawFf = 1.0, YawCap = 0.1, YawBudget = 0, YawBudgetFloor = 0.1;   // step 9.5e: trunk yaw task with the legs' and arms' yaw-momentum rate as feed-forward
@@ -30,7 +30,7 @@ namespace Game.Units.Mech.Qp
             Kvs = t.qp_kvs, OnBw = t.qp_on_bw, OffBw = t.qp_off_bw, TOut = t.qp_T_out, TIn = t.qp_T_in, TBlend = t.qp_T_blend, LoadThr = t.qp_load_thr, TdMinFrac = t.qp_td_min_frac, LateVz = t.qp_late_vz, FCap = t.qp_fcap, ZHold = Math.Max(t.qp_z_hold, t.qp_z_hold_ss),
             HoldSched = t.qp_hold_sched > 0.5, Onset = t.qp_onset > 0.5, Land = t.qp_land > 0.5, LandAct = t.qp_land_act > 0.5, FrMeas = t.qp_fr_meas > 0.5, FrMargin = t.qp_fr_margin, LandK0 = t.qp_land_k0, VTd = t.qp_v_td, LandPost = t.qp_land_post,
             MassEst = t.qp_mass_est, MassLo = t.qp_mass_lo, MassHi = t.qp_mass_hi, SgFloor = t.qp_sg_floor, SolverRegularisation = t.qp_solver_reg,
-            WTau = t.qp_w_tau, YawTrunk = t.qp_yaw_trunk > 0.5, YawFf = t.qp_yaw_ff, YawCap = t.qp_yaw_cap, YawBudget = t.qp_yaw_budget, YawBudgetFloor = t.qp_yaw_budget_floor, ArmRefYawFf = t.qp_arm_ref_yawff, LateCx = t.qp_late_cx, CxEmax = t.qp_cx_emax, Rom = t.qp_rom > 0.5, FpRom = t.qp_rom > 0.5 && t.qp_fp_rom > 0.5, RomMargin = t.qp_rom_margin_deg * Math.PI / 180, RomHorizon = t.qp_rom_horizon_s, RomAmax = t.qp_rom_amax, FpRomBand = t.qp_fp_rom_band_deg * Math.PI / 180, Lateral = t.qp_lateral > 0.5, OmY = t.qp_om_y, WCy = t.qp_w_cy, WRoll = t.qp_w_roll, KRoll = t.qp_k_roll, WYaw = t.qp_w_yaw, OmYaw = t.qp_om_yaw
+            WTau = t.qp_w_tau, YawTrunk = t.qp_yaw_trunk > 0.5, YawFf = t.qp_yaw_ff, YawCap = t.qp_yaw_cap, YawBudget = t.qp_yaw_budget, YawBudgetFloor = t.qp_yaw_budget_floor, ArmRefYawFf = t.qp_arm_ref_yawff, LateCx = t.qp_late_cx, CxEmax = t.qp_cx_emax, Rom = t.qp_rom > 0.5, FpRom = t.qp_rom > 0.5 && t.qp_fp_rom > 0.5, RomMargin = t.qp_rom_margin_deg * Math.PI / 180, RomHorizon = t.qp_rom_horizon_s, RomAmax = t.qp_rom_amax, FpRomBand = t.qp_fp_rom_band_deg * Math.PI / 180, SwFollow = t.qp_sw_follow, SwAmax = t.qp_sw_amax, TdAir = t.qp_td_air_frac, TdXoffMax = t.qp_td_xoff_max, Diag = t.qp_diag > 0.5, TdHeel = t.qp_td_heel > 0.5, Lateral = t.qp_lateral > 0.5, OmY = t.qp_om_y, WCy = t.qp_w_cy, WRoll = t.qp_w_roll, KRoll = t.qp_k_roll, WYaw = t.qp_w_yaw, OmYaw = t.qp_om_yaw
         };
     }
 
@@ -57,6 +57,10 @@ namespace Game.Units.Mech.Qp
         /// <summary>Reference joint-space velocity q9 (index i) of the current tick (rad/s, real time), valid after Step.</summary>
         public double RefQd(int i) => _r[QpReference.Cqd + i];
         /// <summary>Step 9.5h: reference shoulder flexion (rad, + hand forward) of the arm on the lateral side of leg A (arm 0) / leg B (arm 1) of the current tick, its rate (rad/s) and acceleration (rad/s2, real time); valid after Step. 0 when the row has no shoulder reference.</summary>
+        /// <summary>Step 9.5k: reference planar joint angle q9 (index i, rad) of the current tick, valid after Step.</summary>
+        public double RefQ(int i) => _r[QpReference.Cq + i];
+        /// <summary>Step 9.5k diagnostics (qp_diag): swing leg, reference time, time since the anchor, late, swing blend, contact points in the set (bit mask), swing heel x / z error (target - measured), commanded heel acceleration x / z (m/s2), landing quintic active, swing heel target z, measured z, foot-pitch scale, touchdowns.</summary>
+        public readonly double[] Diag = new double[16];
         public double RefArm(int arm) => _r[QpReference.Carm + arm];
         public double RefArmQd(int arm) => _r[QpReference.CarmD + arm] * TimeScale;
         public double RefArmQdd(int arm) => _r[QpReference.CarmDD + arm] * TimeScale * TimeScale;
@@ -127,7 +131,7 @@ namespace Game.Units.Mech.Qp
             for (int i = 0; i < NJ; i++) for (int c = 0; c < NQ; c++) { double s = 0; for (int k = 0; k < NJ; k++) s += g6[i * 2 * NJ + NJ + k] * _cj[k * NQ + c]; _pinv[i * NQ + c] = s; }
             double rt7 = 1.0 / Math.Sqrt(7.0); _n2[2] = rt7; for (int i = 0; i < 2; i++) { _n2[3 + 3 * i] = -rt7; _n2[4 + 3 * i] = -rt7; _n2[5 + 3 * i] = rt7; }
             _dd[0] = _dd[1] = _g0; for (int j = 2; j < NQ; j++) _dd[j] = _g0 / _l;
-            var sopt = new ContactScheduleOptions { OnBw = options.OnBw, OffBw = options.OffBw, TOut = options.TOut, TIn = options.TIn, TBlend = options.TBlend, TdMinFrac = options.TdMinFrac, LateVz = options.LateVz, FCap = options.FCap, ZHold = options.ZHold, HoldSched = options.HoldSched, MissedAfterS = 0.5 };
+            var sopt = new ContactScheduleOptions { OnBw = options.OnBw, OffBw = options.OffBw, TOut = options.TOut, TIn = options.TIn, TBlend = options.TBlend, TdMinFrac = options.TdMinFrac, LateVz = options.LateVz, FCap = options.FCap, ZHold = options.ZHold, HoldSched = options.HoldSched, HeelOnly = options.TdHeel, MinAirFrac = options.TdAir, XoffMax = options.TdXoffMax, MissedAfterS = 0.5 };
             _sch = new ContactSchedule(reference.Flags, reference.N2, _h, _ts, sopt);
             if (options.Land) { BuildLand(0); BuildLand(1); }
             Init();
@@ -341,6 +345,8 @@ namespace Game.Units.Mech.Qp
                 }
             }
             // feet
+            if (o.Diag) Array.Clear(Diag, 6, 7);
+            double xoffSw = xoff + o.SwFollow * (cx - r[QpReference.Ccom] - xoff);   // step 9.5k (qp_sw_follow beta): the swing foot's reference is tied to the measured CoM by beta (beta = 1: foot minus CoM as in the reference, whatever the CoM-x error), not to the stance-foot anchor
             double kp = o.OmSw * o.OmSw, kd = 2 * o.OmSw, kf = o.OmFp * o.OmFp, kfd = 2 * o.OmFp; bool landOn = false, haveLt = false;
             for (int leg = 0; leg < 2; leg++)
             {
@@ -349,17 +355,19 @@ namespace Game.Units.Mech.Qp
                 if (ns == 0)
                 {
                     int i = 2 * leg; bl = _sch.SwingBlend(leg, t);
-                    double prx = r[QpReference.Cpts + 2 * i] + xoff, prz = r[QpReference.Cpts + 2 * i + 1], vrx = r[QpReference.Cptv + 2 * i], vrz = r[QpReference.Cptv + 2 * i + 1], arx = r[QpReference.Cpta + 2 * i], arz = r[QpReference.Cpta + 2 * i + 1];
+                    double xo = leg == swLeg ? xoffSw : xoff, prx = r[QpReference.Cpts + 2 * i] + xo, prz = r[QpReference.Cpts + 2 * i + 1], vrx = r[QpReference.Cptv + 2 * i], vrz = r[QpReference.Cptv + 2 * i + 1], arx = r[QpReference.Cpta + 2 * i], arz = r[QpReference.Cpta + 2 * i + 1];
                     if (leg == swLeg && o.Land && o.LandAct && tau >= o.LandK0 * h && !(_planAnchor == _sch.TAnchor && _planPar == _sch.Parity))
-                        Replan(_sch.Parity, tau, Pts[2 * i], Pts[2 * i + 1], Q[fidx], _vp[2 * i] / tsc, _vp[2 * i + 1] / tsc, Qd[fidx] / tsc, xoff);
+                        Replan(_sch.Parity, tau, Pts[2 * i], Pts[2 * i + 1], Q[fidx], _vp[2 * i] / tsc, _vp[2 * i + 1] / tsc, Qd[fidx] / tsc, xo);
                     if (leg == swLeg && o.Land && tau >= _lqTau0[_sch.Parity])
                     {
                         LandTarget(_sch.Parity, tau); haveLt = true;
                         if (tsc != 1.0) for (int c = 0; c < 3; c++) { _ltVel[c] *= tsc; _ltAcc[c] *= tsc * tsc; }
-                        prx = _ltPos[0] + xoff; prz = _ltPos[1]; vrx = _ltVel[0]; vrz = _ltVel[1]; arx = _ltAcc[0]; arz = _ltAcc[1];
+                        prx = _ltPos[0] + xo; prz = _ltPos[1]; vrx = _ltVel[0]; vrz = _ltVel[1]; arx = _ltAcc[0]; arz = _ltAcc[1];
                     }
                     if (leg == swLeg && late > 0) { prz -= o.LateVz * late; vrz -= o.LateVz; }
                     double adx = arx + kp * (prx - Pts[2 * i]) + kd * (vrx - _vp[2 * i]), adz = arz + kp * (prz - Pts[2 * i + 1]) + kd * (vrz - _vp[2 * i + 1]);
+                    if (o.SwAmax > 0 && leg == swLeg) { double am = Math.Sqrt(adx * adx + adz * adz); if (am > o.SwAmax) { double k = o.SwAmax / am; adx *= k; adz *= k; } }   // step 9.5k (qp_sw_amax): the commanded heel acceleration is limited to what the hip can deliver
+                    if (o.Diag && leg == swLeg) { Diag[0] = swLeg; Diag[4] = bl; Diag[6] = prx - Pts[2 * i]; Diag[7] = prz - Pts[2 * i + 1]; Diag[8] = adx; Diag[9] = adz; Diag[10] = haveLt ? 1 : 0; Diag[11] = prz; Diag[12] = Pts[2 * i + 1]; }
                     for (int d = 0; d < 2; d++)
                     {
                         ClearRow(nx); for (int j = 0; j < NQ; j++) _row[j] = Jp[i * 18 + d * 9 + j] * (j < 2 ? 1.0 : 1.0 / l);
@@ -370,9 +378,10 @@ namespace Game.Units.Mech.Qp
                 if (ns == 0 && leg == swLeg && haveLt) { af = _ltAcc[2] + kf * (_ltPos[2] - Q[fidx]) + kfd * (_ltVel[2] - Qd[fidx]); landOn = true; }
                 double fps = 1.0;
                 if (o.FpRom) { int aj = 3 * leg + 2; double qa = 0; for (int c = 0; c < NQ; c++) qa += _cj[aj * NQ + c] * Q[c]; double dist = Math.Min(qa - RomLo[aj], RomHi[aj] - qa) - o.RomMargin; fps = Math.Max(0.0, Math.Min(1.0, dist / Math.Max(o.FpRomBand, 1e-6))); }
-                FpScale[leg] = fps;
+                FpScale[leg] = fps; if (o.Diag && leg == swLeg) Diag[13] = fps;
                 ClearRow(nx); _row[fidx] = 1.0; AddRow(nx, o.WFp * bl * fps, af / (g0 / l));
             }
+            if (o.Diag) { Diag[1] = tref; Diag[2] = tau; Diag[3] = late; Diag[5] = (_sch.Inc[0] ? 1 : 0) + (_sch.Inc[1] ? 2 : 0) + (_sch.Inc[2] ? 4 : 0) + (_sch.Inc[3] ? 8 : 0); Diag[14] = _sch.TouchdownCount; }
             // trunk
             { double ath = r[QpReference.Cqdd + 2] + o.OmTh * o.OmTh * (r[QpReference.Cq + 2] - Q[2]) + 2 * o.OmTh * (r[QpReference.Cqd + 2] - Qd[2]); ClearRow(nx); _row[2] = 1.0; AddRow(nx, o.WTrunk, ath / (g0 / l)); }
             // posture (joint space)

@@ -12,6 +12,8 @@ namespace Game.Units.Mech.Qp
         public double FCap;                 // fmax cap in body weights
         public double ZHold;                // a scheduled-loaded point still below this height (m) stays 'in contact' through a force dropout
         public bool HoldSched;
+        public double MinAirFrac, XoffMax;  // step 9.5k (qp_td_air_frac, qp_td_xoff_max): a touchdown needs the swing leg continuously unloaded for MinAirFrac x ts, and a re-anchor offset within XoffMax (m) of the current one (0 = off)
+        public bool HeelOnly;               // step 9.5k (qp_td_heel): only a heel contact of the swing leg is a touchdown (a toe scuff is not: it stays in the contact set but does not swap the legs or re-anchor)
         public double MissedAfterS;         // late time after which the touchdown counts as missed
         public static ContactScheduleOptions Default => new ContactScheduleOptions
         {
@@ -104,8 +106,10 @@ namespace Game.Units.Mech.Qp
             double tau = t - TAnchor;
             if (tau <= Opt.TdMinFrac * _ts) return false;
             int landed = -1;
-            for (int i = 2 * Parity; i <= 2 * Parity + 1; i++) if (Inc[i] && TIn[i] > TAnchor + 1e-9) { landed = i; break; }
+            for (int i = 2 * Parity; i <= (Opt.HeelOnly ? 2 * Parity : 2 * Parity + 1); i++) if (Inc[i] && TIn[i] > TAnchor + 1e-9) { landed = i; break; }
             if (landed < 0) return false;
+            if (Opt.MinAirFrac > 0 && t - TRel[Parity] < Opt.MinAirFrac * _ts) return false;
+            if (Opt.XoffMax > 0 && Math.Abs(pointX[landed] - refPointX[landed] - Xoff) > Opt.XoffMax) return false;
             Parity = 1 - Parity; TAnchor = t; TouchdownCount++; LastCallReanchored = true;
             Xoff = pointX[landed] - refPointX[landed];
             return true;
