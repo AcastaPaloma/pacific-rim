@@ -35,6 +35,8 @@ DEFAULT = dict(
     start_par=0.0,    # 1: start in the mirrored step (state = ref node N, leg A new stance) for left/right symmetry tests
     fr_meas=0.0,      # 1: per-foot shear row |sum Ft_cmd| <= mu fr_margin * sum Fn_meas (last tick's read-back): the shear also fits the load the plant actually carries
     fmin_td=0.0, T_hold=0.3,   # > 0: a point keeps Fn_cmd >= min(fmin_td m g, fmax/2) for T_hold s after its first contact (no heel bounce after touchdown)
+    land_xlead=0.0,   # > 0 (s): with land_act, the re-planned heel x (to rest) and foot pitch reach the landing state land_xlead s before heel z touches (vertical final approach)
+    land_vclip=0.0,   # 1: the re-planned landing quintic's z channel starts from a clipped heel z-velocity (bisection) so that heel z stays >= 0 before T
     land_nounder=0.0, # 1: the re-planned landing quintic is lengthened (h/4 steps) until its heel z stays >= 0 before the end (no early impact)
 )
 
@@ -97,10 +99,27 @@ class FIDWalker:
             A = np.array([[T**3, T**4, T**5], [3 * T**2, 4 * T**3, 5 * T**4], [6 * T, 12 * T**2, 20 * T**3]]); co = np.zeros((6, 3))
             for c in range(3):
                 b = np.array([p1[c] - (x0[c] + v0[c] * T), v1[c] - v0[c], 0.0]); co[:, c] = [x0[c], v0[c], 0.0, *np.linalg.solve(A, b)]
+            if self.p["land_vclip"] and v0[1] < 0:          # 9.3b-4 r2: z channel must not reach the ground before T (early strike with the heel still moving fast in x)
+                ss = np.linspace(0, T, 41)[:-2]
+                def zmin(vz):
+                    b = np.array([p1[1] - (x0[1] + vz * T), v1[1] - vz, 0.0]); cz = np.array([x0[1], vz, 0.0, *np.linalg.solve(A, b)]); return np.polyval(cz[::-1], ss).min(), cz
+                zm, cz = zmin(v0[1])
+                if zm < 0:
+                    lo, hi = v0[1], 0.0
+                    for _ in range(30):
+                        mid = 0.5 * (lo + hi); zm, _ = zmin(mid)
+                        lo, hi = (mid, hi) if zm < 0 else (lo, mid)
+                    _, cz = zmin(hi); co[:, 1] = cz
             if not self.p["land_nounder"]: break
             ss = np.linspace(0, T, 41)[:-2]; zz = np.polyval(co[::-1, 1], ss)
             if zz.min() >= 0: break
             T += 0.25 * self.h
+        self.LQx = None
+        if self.p["land_xlead"] > 0:                      # 9.3b-4 r2: x and pitch reach the landing state land_xlead s before z does, then hold (no tangential heel speed at strike)
+            Tx = max(T - self.p["land_xlead"], 2 * self.h); Ax = np.array([[Tx**3, Tx**4, Tx**5], [3 * Tx**2, 4 * Tx**3, 5 * Tx**4], [6 * Tx, 12 * Tx**2, 20 * Tx**3]])
+            for c in (0, 2):
+                b = np.array([p1[c] - (x0[c] + v0[c] * Tx), 0.0 - v0[c] if c == 0 else v1[c] - v0[c], 0.0]); co[:, c] = [x0[c], v0[c], 0.0, *np.linalg.solve(Ax, b)]
+            self.LQx = Tx
         co[0, 0] -= xo[0]                       # stored without Xoff (added back at use, as for the reference quintic)
         self.LQ[par] = (tau, T, co); self.land_plan = (self.t_anchor, par)
 
@@ -109,6 +128,10 @@ class FIDWalker:
         tau0, Tl, co = self.LQ[par]; s = float(np.clip(tau - tau0, 0.0, Tl)); ex = max(0.0, tau - tau0 - Tl)
         P_ = np.array([1, s, s**2, s**3, s**4, s**5]); V_ = np.array([0, 1, 2 * s, 3 * s**2, 4 * s**3, 5 * s**4]); A_ = np.array([0, 0, 2, 6 * s, 12 * s**2, 20 * s**3])
         pos, vel, acc = P_ @ co, V_ @ co, A_ @ co
+        if getattr(self, "LQx", None) and self.p["land_act"]:
+            sx = float(np.clip(tau - tau0, 0.0, self.LQx)); Px = np.array([1, sx, sx**2, sx**3, sx**4, sx**5]); Vx = np.array([0, 1, 2 * sx, 3 * sx**2, 4 * sx**3, 5 * sx**4]); Axx = np.array([0, 0, 2, 6 * sx, 12 * sx**2, 20 * sx**3])
+            for c in (0, 2): pos[c], vel[c], acc[c] = Px @ co[:, c], Vx @ co[:, c], Axx @ co[:, c]
+            if tau - tau0 > self.LQx: vel[0] = vel[2] = 0.0; acc[0] = acc[2] = 0.0
         if ex > 0: pos = pos + np.array([0.0, -self.p["v_td"] * ex, 0.0]); vel = np.array([0.0, -self.p["v_td"], 0.0]); acc = np.zeros(3)
         return pos, vel, acc
 
