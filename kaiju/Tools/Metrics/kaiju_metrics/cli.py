@@ -62,6 +62,8 @@ def build_parser():
     p4.add_argument("--fixture", action="store_true", help="fixture mode: 60-frame sequences allowed (labelled)")
     p4.add_argument("--jobs", type=int, default=1, help="worker processes (results identical for any value)")
 
+    add("m007", "M-007@v1 kaiju look intelligent, behaviour clauses C1-C4 (brain_log@v1 runs: scripted@1 and the directcharge@1 control)",
+        "brain_log@v1 .jsonl files or directories holding them (one file per run; 100 seeds per brain)")
     add("m050", "M-050@v1 persistent destruction save round trip (two Core-envelope saves: <before> <after>)",
         "exactly two kaiju-save JSON files holding a destruction@v1 section")
     add("m051", "M-051@v1 damage state versus fragility (fragility_dump@v1 JSON)",
@@ -74,10 +76,10 @@ def build_parser():
         "destruction_dump.json files (schema: kaiju_metrics/destruction/m052.py)")
 
     pv = sub.add_parser("validate", help="validate a contract file (standalone; lists all errors)",
-                        description="Validate gait_log@v1, style_capture@v1 or palette_set@v1 input. Exit 0 when "
+                        description="Validate gait_log@v1, style_capture@v1, palette_set@v1 or brain_log@v1 input. Exit 0 when "
                                     "valid, 2 when not. Errors: file:line/key: what, expected, found.",
                         epilog=EXIT_HELP, formatter_class=argparse.RawDescriptionHelpFormatter)
-    pv.add_argument("contract", choices=["gait_log", "style_capture", "palette_set"])
+    pv.add_argument("contract", choices=["gait_log", "style_capture", "palette_set", "brain_log"])
     pv.add_argument("paths", nargs="+", help="files or directories to validate")
     pv.add_argument("--palettes", help="palette_set@v1 used to check style captures (default research/R-002)")
     pv.add_argument("--json", action="store_true", help="machine-readable error list on stdout")
@@ -166,7 +168,7 @@ def _dispatch(args, argv):
                 for sid, e in m["submeasures"].items():
                     print(f"    {sid:<22} {e['kind']:<9} {e['title']}")
         return 0
-    if args.cmd in ("m001", "m002", "m003", "m004", "m050", "m051", "m052", "m053", "m054"):
+    if args.cmd in ("m001", "m002", "m003", "m004", "m007", "m050", "m051", "m052", "m053", "m054"):
         from .runner import run_metric_cli
         return run_metric_cli(args.cmd, args, argv)
     if args.cmd == "calibrate":
@@ -193,6 +195,11 @@ def _validate(args):
             files = _expand(p, ".jsonl")
             for f in files:
                 all_errs += gait_log.validate_file(f)
+                checked += 1
+        elif args.contract == "brain_log":
+            from .brain.brain_log import load_brain_log
+            for f in _expand(p, ".jsonl"):
+                all_errs += load_brain_log(f)[1]
                 checked += 1
         elif args.contract == "palette_set":
             all_errs += palette_set.validate_file(p)

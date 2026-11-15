@@ -8,7 +8,7 @@ from .common import InvalidInput, rel_path
 from .registry import load_registry
 from .report import Report
 
-METRIC_OF = {"m001": "M-001", "m002": "M-002", "m003": "M-003", "m004": "M-004", "m050": "M-050", "m051": "M-051", "m052": "M-052", "m053": "M-053", "m054": "M-054"}
+METRIC_OF = {"m001": "M-001", "m002": "M-002", "m003": "M-003", "m004": "M-004", "m007": "M-007", "m050": "M-050", "m051": "M-051", "m052": "M-052", "m053": "M-053", "m054": "M-054"}
 
 
 def _label(inputs, label):
@@ -39,7 +39,10 @@ def run_metric(cmd, inputs, registry=None, out_dir=None, label=None, ratings=Non
             from .ratings import load_ratings
             rt = load_ratings(ratings)
             rep.add_input(ratings, _sha(ratings), "panel_ratings@v1")
-        if cmd in ("m050", "m051", "m052", "m053", "m054"):
+        if cmd == "m007":
+            from .brain import m007
+            m007.run(rep, inputs, reg, options=options)
+        elif cmd in ("m050", "m051", "m052", "m053", "m054"):
             mod = importlib.import_module(f".destruction.{cmd}", __package__)
             mod.run(rep, inputs, reg, options=options)
         elif cmd in ("m001", "m002"):

@@ -225,6 +225,8 @@ ALLOW.update({
     ("gait/m001.py", "1.0"): "division guard where v = 0",
 })
 ALLOW_FILES = {
+    "brain/brain_log.py": "contract validator ranges (state 0..5, reason 0..14) and counts",
+    "brain/m007.py": "arithmetic only (zero accumulators, 60 s/min, bounds); thresholds and R-024 primitives come from the registry",
     "colour.py": "sRGB / CIELAB / CIEDE2000 formula constants (2.4 gamma, 6/29, 25^7, 0.20 ... of the standards)",
     "diagnostics.py": "plot colours and styling only",
     "png.py": "PNG byte layout (signature 8 bytes, chunk header 12 bytes, bit depths 8 / 16)",
@@ -316,4 +318,4 @@ def test_provisional_label_counts_assumed(tmp_path):
 
 def test_list_metrics():
     info = list_metrics()
-    assert sorted({m["metric"] for m in info}) == ["M-001", "M-002", "M-003", "M-004", "M-005", "M-050", "M-051", "M-052", "M-053", "M-054"]
+    assert sorted({m["metric"] for m in info}) == ["M-001", "M-002", "M-003", "M-004", "M-005", "M-007", "M-050", "M-051", "M-052", "M-053", "M-054"]

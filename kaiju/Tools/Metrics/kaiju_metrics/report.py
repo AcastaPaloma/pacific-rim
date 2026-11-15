@@ -37,7 +37,7 @@ SEMANTIC_CHANGES = {
         "M-004": "C_px not measurable (no dithered pixels) is NOT_RUN, verdict INCOMPLETE",
         "M-003": "d-iv reads each frame's own output_block_offset_px (per-frame offsets now valid)"},
 }
-PANEL_IDS = ("M-001.13", "M-003.f")
+PANEL_IDS = ("M-001.13", "M-003.f", "M-007.C5")
 
 
 _SETTINGS = {}

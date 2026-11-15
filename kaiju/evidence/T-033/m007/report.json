@@ -1,0 +1,1449 @@
+{
+ "assumed_thresholds_decisive": [
+  "M-007.C1",
+  "M-007.C2",
+  "M-007.C3"
+ ],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [],
+  "optional_not_provided": [],
+  "provided": [
+   "scripted runs",
+   "control runs"
+  ],
+  "required": [
+   "scripted runs",
+   "control runs"
+  ]
+ },
+ "exit_code": 3,
+ "extra": {
+  "m007": {
+   "control": {
+    "commits": 147,
+    "commits_flanked": 1,
+    "commits_multi": 68,
+    "deaths": 142,
+    "engaged_minutes": 195.203333333,
+    "fe": 0.945985808459,
+    "ff_ticks": 111193,
+    "flanked_ticks": 2483,
+    "fr_commit": 0.0147058823529,
+    "fr_time": 0.0509835325038,
+    "hits": 568,
+    "leaks": 0,
+    "mean_ff": 0.986496452115,
+    "mean_ff_chance": 0.75,
+    "multi_ticks": 48702,
+    "sum_chance": 83394.75,
+    "sum_ff": 109691.5,
+    "switch_rate": 0.0102457266782,
+    "thrash": 0,
+    "thrash_fraction": 0.0,
+    "voluntary": 2
+   },
+   "runs": {
+    "control": 100,
+    "scripted": 100
+   },
+   "scripted": {
+    "commits": 125,
+    "commits_flanked": 107,
+    "commits_multi": 117,
+    "deaths": 108,
+    "engaged_minutes": 452.86,
+    "fe": 0.936239052035,
+    "ff_ticks": 177925,
+    "flanked_ticks": 42986,
+    "fr_commit": 0.91452991453,
+    "fr_time": 0.328360489187,
+    "hits": 433,
+    "leaks": 0,
+    "mean_ff": 0.984059763009,
+    "mean_ff_chance": 0.75,
+    "multi_ticks": 130911,
+    "sum_chance": 133443.75,
+    "sum_ff": 175088.833333,
+    "switch_rate": 0.0154573157267,
+    "thrash": 0,
+    "thrash_fraction": 0.0,
+    "voluntary": 7
+   },
+   "scripted_run_fr": [
+    1.0,
+    1.0,
+    0.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.0,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    0.0,
+    null,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    null,
+    0.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    0.0,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    0.0,
+    null,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    0.5,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    0.5,
+    null,
+    null,
+    null,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    null,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    1.0
+   ]
+  }
+ },
+ "failing_gating": [],
+ "failures_suppressed": false,
+ "flags": [],
+ "headless_verdict": "PASS",
+ "headless_verdict_label": "PASS (provisional: 3 assumed)",
+ "images": [],
+ "inputs": [
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_1.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d0f6611d888687040c95cc856b706ec6b281dafecf4533e20e4c13b69ca808e6"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_10.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ac74701479b17472dfa97f09c67d71919c220797a7294f75c7cde49db3d331b6"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_100.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7e972e7674bd837da5a5d7619fa164de06efb94286195ecd837e975a9b15e7dc"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_11.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e2049f62f91eedd41bd82c98a5057a547fa117bdc45bca3f2ad48a2020022d5d"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_12.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "460ed323b54617da98ebfb859305a047978d0cc902706a51a690274e54ec0c9b"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_13.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "74a91be2dbf8a31a6eb89e22296c76c7cf0f03ba388f8b51b00e5c5c3b0952cd"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_14.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "183fb08203f7a1e2a75160b0fa30083dfa1ef8237ba5f9158f5cc7f28d404075"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_15.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d01abf3fe440e9975128db2848b580a9463e2bc3d812ef3b9282ee33e5f68c87"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_16.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "22f09b880612a3c7cb54790447c0dc5c94af774e9c1d0fac73f5e07fe5019128"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_17.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "02cea4d8d1b28257f5517c7eee203dc34592af3d98d3797f670ea383189ef32f"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_18.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b5c3a9237bb5d28915b4726ae7f4172266858e843f0a359d18858689f35638f1"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_19.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b3eacfa4baf9cd4103488c435dc17476333f15860294fd7f5528019770ee02ec"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_2.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "547c95d95650e558b3c0c377386e6edc6445eb8da0a7a3adaff13e39003e606e"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_20.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "601d715ca82bf642a9eea238da08d138b72197a8201c95ec901fa7e02890fb76"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_21.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "5c54b8746650c7ea66bc92c742c0df22742a5fc6b8a313f1f6254fbea6298058"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_22.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "20014220ddae7d5d54bf933e1f6b09080acfa3e7492401725a349d27b2eacd39"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_23.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a32d31186feecce804e64cec2bcd2c30ba9df60fc39f250e13f9b0bcd3c96d03"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_24.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "dffa0856ddb34c470b15a9b3e89ab35eda84d625e2c3f923ff35c7d9668da1af"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_25.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b75c03a6211981ca59a998d4f2197b90090a2341427c853654bf7b546bd07aeb"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_26.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6027c83b74fa0cab4afdf020fec9100142e68d3a00179daebbfea27416089e0b"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_27.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ffd80b4030663c8550e3196483abf9ca58494cbd80f94d74643940a673aa5f89"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_28.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6c43b15dd3321ed302d59d3fc7e7396acb6da1e6ce1071878c20d26610a4d3ca"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_29.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "173db2c3b795e3a048ec9ae80f57535987c198713d186df8cda4867a9176456c"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_3.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9c8e3e20f65edc6b9a6ab013a8c57e99314d94eddaf910072421ab806bdd5aff"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_30.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9ba82748869e3cb9ddecd6174a187a14f2c95ba251221985879ff0196ba23c03"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_31.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2fe5ab289bd20d03d2fb87537b788741dce100b73ef4ebfd3defe7dfe9a1b59b"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_32.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "91c567d13b6f015a2c969deb1008549bee97093c7d1d6fe2db8d9b459980df5a"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_33.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "69c283f94cab88a9dbd7ccd7f05b8ab2487fe8703f39bf2927942080ed2ab237"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_34.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "42075dceb894f8d61552b35257a812e1bcb66e436ff8d86f2a1d909e6c2ab71e"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_35.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7c184151f4a23a7ebb3337911e1d8d5b31352016cf6626870bc902f020bdb8d2"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_36.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c7c2f05e70da391778859a7a1985e35959d4fd6e475279d655977984328936dc"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_37.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8502ed3d2a15d5a8505faeae429ef7d6400b1edf07e8bd4607c4505d2cca89bb"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_38.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "be56f15c7e2ff127e54939d6efde05ea9605a970fbf06c0c8d2a4309d07ab516"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_39.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "aa4cc1abaa3496e2b7dd010160eb1fcaee863da8c59fa9cf1d0284d66ed48037"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_4.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "01151a91a657517736966cf4d96e4b496ac17376829a50b5d6963a606771d6f1"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_40.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ceb880382c399fd1d0975fb364a2eb13eac91cf9103d541a04d89b6a29516071"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_41.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ca2d6f7a6feccc76d530cd9c920236b53c04c47123ce82af56f669df1fd5434d"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_42.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cbd179dd1fc7f648e9f06e6b4dfd3227257eb911afbfeee949673a0903020ebb"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_43.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "afaa1cf0e9331e667d90dbce357e28e891e0596a2c2b286afdbdc9e9ff811661"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_44.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3ab91808b0664d2e7dbdd680c704859b0b2bed38c30c089d16ef582c4be88a99"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_45.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8745b1a1cbe78564e6a52e0c3fed414048d734dcb6b4f240a442f4d4c61bfc11"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_46.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6ee9c2e1456d8e5b70f4b0e2ac231926a038439a887440a3e1bbb1c6f813fe53"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_47.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3fd5a283be135e3f2f578e3823a07b14e6c3a39cec94fbbdc8d15e1be6eb3fb6"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_48.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "14e8fdf51259c17118cc4fc6798618f6640a9edf24efd3adce02e46271b32b9b"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_49.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8c0b05a90d8bc05c99e0537eae40d4d3217cc6b6cf4135edfdb4f4603e70c481"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_5.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a6473e585c28fbd2bbba10f7b4de3e6968b3c58de96e99d8d7df4c7b8769d607"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_50.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "98059c7e6e5a3bf1f14864685204998bc57358998a1762e80b794e07e481533d"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_51.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9b6844ab3a658dc9c119f4bf49c97f482eb3653d47e70308365380487aa3d558"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_52.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f8062a1acd4e02786ba87dc0264aed37c7604de4d2d414e400d7de2b8d7c0c10"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_53.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "365b7dc9400bb4ebbc9967f4027500540f3d7b542399e6babfa170cd2fbfbd72"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_54.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c55b84c2167a40416e2950d0afbc09ca41ea9ee560302a047a62474a15b9303d"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_55.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b295d4c4895e587157a477171ec7cda36ba14cff7ac65db748faa2a9de63b166"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_56.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "55b233b1cd32f17ac64e84c5d7d5e74bd326e4087724581c4f0064675ba250ad"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_57.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f81d5fc117be8c53cd6d1b467981a2a9c8309f6ad737e76aad9be2fa5d815327"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_58.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0e1c441fabbb3159a7a2a4f5a17b3feb8b1bb58a0ff7dfca4eff8a10548f45c8"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_59.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8f9aec6aaab93173e78eca205e62e913efcf5726bed0ba677997a1cf46d53120"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_6.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "05972a2299af9a5f117341f2f8742103319614fce38ba6975febdb52b45eb785"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_60.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d3ac9f5f743195aa61a75440b33cd7c59e214898d13d72f1eac3067fd580bc34"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_61.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4725c5a74316f106e737abb0f971fa5b60292ad85ace6ba4cd22abd3a9af9f95"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_62.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "166d17e554f57d2e27aac19619511cf7a99c9dde8a572ec084caa85996add571"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_63.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cd810bbe65495198ebe0a16765d5fb36d457b674c4c3f1c949496b2680c01f8e"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_64.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "94206506eb4cb2c04804280c560d2a62dbc6741ddfef93c84ea96087bed03b24"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_65.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7f4bbaaa83d725d793521b8e17fbc13731e5205a410e717d63c3a25b03f418ea"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_66.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4ac765703672af88455a0eecc6c0ba0c1391298da66a8f748b7a9966dccb2e93"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_67.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "46f37bfa6b2cb0b94cf8363f51483b93d18bdb16274377337d3ab0025fc7b595"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_68.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4fbfc529f53f484c5202db067d52e2116e1dc7c9a6a8d295996fd69d45899877"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_69.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a1ff19da1d66bb6850c59d98dca8e0709660fef2536c78a6c75e937e69a50f47"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_7.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "473c0458767fc074af8fb7e94f39b439f8d32d53001195eb03098f956b9fb756"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_70.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f8c5b687ccdc251e93155d84b55b8047eeeb238e8f312faf738a9373df77d42c"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_71.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0e7cb923651ea88ff278be7dc8f851da41165537c86c5b38eeba421c0ca2d7f2"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_72.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "db3fcffa71c60a9c6cf39d8a1202ebde327d1ba68a38d8dbfd85a1b9fe926a2d"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_73.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2a92c77564e6fbc1b3cf57588f7bc182958cb510e56152c38b0ce8e16a37133f"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_74.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3185ae5e5f42fd507a3c8fcafcc24852bd8c50668f6c72c807698ea8327abcb4"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_75.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0af3e1fcfd418bede18fa77afa0b7c55f0c50a5f8a5a630e070c4cfb3bdabd4d"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_76.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3558bd6530dc71c146664225faed1b1d876a8f80963b995640c5252997311793"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_77.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e9b03d2fd9e713e101cce3dfa07f278846073ee86469af71b8d4775690435cd1"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_78.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b47ace1097375a352ba60f636354a243c686b31153ba518f910220b8dfae6334"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_79.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a520a7f2e12aab73e02db5524478828a938f3559fc7738b9ad25bcfb7ec239d7"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_8.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8fe7b7ed56667fa8e51aeb8165cf5c6870e641bdba8e6eaad4bd95c084be3810"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_80.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e6d8a24f9e29d4930359a06b7a2c050e499cd666319401c60d13d0ec521d8683"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_81.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "16416b6b3ea603c8c507195535e23b90b478f63ef32fd8e6ebf8d23965adb145"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_82.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b784c20525cf9c6a0de9f824075a0523c969c3d17e403db4501c12c2ef007af6"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_83.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bd98ffc348f9e1cce84a91099ac1b922b5ae7b7ddb22e97e431971070e1630ed"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_84.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1e6f57c8c573acb6dd74867c4cc18603f8bb85fc3810ca14e2719a6924591d09"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_85.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7a8f1cf99c4499c8aff402a88400248693f85ceaebdd56dab0dad613ba25cc6d"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_86.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "eb795d36f292f82d958b5fa30aaedec67f4b4a3c3ed675b7b701ee46bf0534b5"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_87.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e9a32dd07605e440fb5458f63b166e94feb76d9562ed0033c0fb309f35a8992a"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_88.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9d5a4dbfb5560533d1ab39585a5f86ec7836200642ace6f0cab2c817d772929f"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_89.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "128678c0c53a77366d4d954e770619ba141ec080d019e424935745fdddfb082f"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_9.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b40caf4b977bf011a13f655c3eadef0c6615006b6e1cc3bae3f95c378e582e16"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_90.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e8ad58cf8d22e309ce4398fa9eb409ea780404c4d273f19198090d7ab1c56724"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_91.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "53b79a298e298d7bceb996748247ad12e531f9a9d7e3c52d9282be0ba2579fef"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_92.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "42edef7704a906986d79f1935752c290d40880f0f7285f715b716d108c2cc7d9"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_93.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1e90c8f0f0786d4e9bc4c52c5730a4f108e3647e641e62522500f9d0eef76755"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_94.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9db2309c1d8b0a42f261d3eaa6dd51fb924cf5823feeeb4bb623191516042270"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_95.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "86e4a750ba3db3ce499769079c7d8e988cec3c37c0f46e84b8630589223ee312"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_96.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "08d927c3a8cdf6fe8070e8d0dfde2549c06fff1bc88457a2112b8ebd8143c90b"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_97.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "be4a5bbf9b826ba60f7552fa933fe5ed784c63fc85edb913afcfda20bfe75377"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_98.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "320e54c802c3b3a7b7804321d44bdbd3fe738797dbf8038398d429e224775a57"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/directcharge/brain_log_m007_99.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "71c73da1a8419f86b646579517ffebb27f661643a05693473f4a60531e5cc0ce"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_1.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "25a2e12e56598946da3f8b796be4d0da1191681afbbad8e8911e50014e017ffb"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_10.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "feb222689526b27abaae14977520a7193ef6aaee73c1e484ec772a6510d8d8b3"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_100.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "916f5d0721a2315191a168ea5936f8ca3811087c2cbdb3545f41c9a5f220a0e7"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_11.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3f781ff988b0f39b07ac04f193c029adf62f7e568f5aef7a94ae87bc744df507"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_12.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e84cbff4281ecc0b934d1040596a66c01859869fc37ed51460e0e58d16161c56"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_13.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "59ba851f95d97b163d9a4a8bd1e8122f5bdfcd02d615303cc4bf421868a3a308"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_14.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "5fc51a33d7070090a80271ef7b9ca62528b06552e1392e3f93c1037a60770090"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_15.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8bc0ac426e0c851d3f5eb3737f9458907d6f04dc57f3e73ef43a0bcf1cff4792"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_16.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "27fd620eeeae714d5941ff54e47966c3a0899efd97cd1719024341b469c5393c"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_17.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6aabf8390a642b5f056a5f63513193f359aeb34306c212cad00129cb4d19ddef"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_18.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e0e85aa2ab9e3524f12bb49d57227702d3aca78d4bda473fff212b01a0ed28c5"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_19.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "be391bae823a199ce9d8df46f7b98f2043d0902128b13762c9d1cd0e1e41a4ae"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_2.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b259a9394d7e216d67d50ae3e73def7a2b8c09687489e18f0f565fcfb0b224ec"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_20.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "86a110a1af83ebb58afb0c1471b78bb39a9384a26adfa308a6de8bd9c9dfb3ad"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_21.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ea234a2fa9627053e02b220d02087e1b2826c8f82e685de825d47a8026696051"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_22.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "79bbde9370db1a5307ae139e5c6581f335c302fcd8ca529ea9cd1e10a47e8164"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_23.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e2a4df96dce8f047394557e2cf42b8151a3cb1f17664f54bfd3b0bc991183523"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_24.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e757249796eb8e751acbf7909d614869954ecf044a49f302f4cc8aa1a8c3d33e"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_25.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ad54e02865306873744b90e2109e1ab6f8415810e0ca5f58aa50be503493715f"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_26.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "672b7936bec63cd27ef02a492edd77fd2f4fa7f032bd4ccf13d6b5495b48d928"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_27.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ead31653e57589cca460cd698e39f17e71e7aaa207792be0c30e8d25db0cd5f5"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_28.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "37a296ddf3123cb78161eda3161a667ec11c39c02cfa1d9c84cdc18e89157099"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_29.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2410cc5f0f69e7ce5e662975a8346234b0f5ccf521af928856dbd8f44ad1c964"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_3.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "85dba488502dcc96fc1de51409ccec8715604534ac53fc1b1189ae11883cdd2a"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_30.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0f39d9e9094742e1c35b3cc23a84db74e9bb550d993e8b921dc9b643d04d57b9"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_31.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8a0c7481348759065af5d8d4e02fad3aabecab5786f7ac089ff194ff4caba3ce"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_32.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "98c654ab8d8e05eeb34b5f66dcce7fd3af6cec5a862a2580e30982ce96bd4c60"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_33.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ff5cc17db6466b214dd782601115454fec9b03935e1fa48fcd83db9cb5d8c7f9"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_34.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a63b3a8b6fde95f1f61d84bf63a2aeecb29cc55234f0b64041baac03b3148fe0"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_35.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2d8c8da2eb9df6a2f1d61a3978344d87a1aa2601ad72236f6753d3991e8cfdaa"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_36.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ac8ada4816d4d4a78287ffc2d259c17b9d96c91e0892bf820c0d891eb9e41c7f"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_37.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9169fefd4dcd68bc229b847bc435d01058779740ed7d802dd7a8d6996dcd4b41"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_38.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a418806be1947feaf6ffc1c7ad46c673c9c97102e06a262fcf91971915af9e03"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_39.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f76fee4a7ae50f01b9d33396bb4b6d38f33d4502256aceaa087b86bd2b6fc307"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_4.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7d1d39b1da5479975d8f6e9873a2d3374801d158969152db844418dc4289519b"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_40.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bcdf7f841aede1c46e31660238cea0965c1a526c3d18bd61deb3e2cf705f8a7f"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_41.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3765b904b65847feec4659ff96a1252c7f62f71f0773cd5ecf88c9a330469422"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_42.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "eb3df5e81e0aa774fbe8fb76c9ce99ac9e19ea326105b7e730e3552306583112"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_43.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "56d5b3e09f4a07ba49320bd370b1dc10d7a0628b31e8c7367288e2f46120bb4b"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_44.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ce39a0d9d7998d1012fd2ee1e82887e0dbf455b91e1622c6c4b91bc2cad90cff"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_45.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1e3630daccb8473c7eab2c1a18e1f7c6b8e5dc6e48412cbbb0254363b6ebc807"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_46.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c0ca1be9b08493089bfc5c0e23b6f5922f00b3fe00f8c156be0d273671c31775"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_47.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ff703f94410c68c15385d656a2af437ab9aa456f1c0745581192c7ec5764eb75"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_48.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9d74ed263fac1cf7e2617dcf9b76ebc12d00c3b71abe2cc4c68d83772e7a1b3f"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_49.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "09ea3ad7fc033509074643bf9acaf77a35e50c574e79b1bd3cd38a27220d3684"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_5.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9045aa8a564024f56a65855884f92083ac6b563af5bced50ba7383a9aa3b4905"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_50.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bdbf19653c9d3c0f7bdd02e52df6c42e03b1b44039687a053468aeddb6f9fb4d"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_51.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "aff98a5b1771d22a69b0e0d93051865c0ab800e2195d7cb1dd78705b49d6377f"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_52.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "29fbccff81cd43177b7d3b50333db16e2044a712eb1cc2046c933705114b2122"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_53.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d9bf2de8819a390ea0164bafd0fc476655b8fb91d38c97db4f0718849c9d6a14"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_54.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9b333d412fdab32845baafa6cbab02a1200b6ef77dc7679d165722325b29b4d0"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_55.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "47b79f5eaf7982ecfe1735ce93c1404c091d72b101f776990ad2a1f7224b96b4"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_56.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "88ea66ed8a85e353cef25a004939c369c92d52f95cf2b0a1f3d8856a75b9c389"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_57.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "00bfa06e2ff492db0dafda9e04e85deca25d91797d3d2021e1fa878ba65e9583"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_58.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "350b51e711ac5a3c95e705d470c2115ffe480729bce22631ab22c8579eb9df13"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_59.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1b8b86bb74b616c9c3ecbd1dfce989c122321d9ee94001f76c257fcc279b15cf"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_6.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "eab9e389a22b957513d72f2bc089a263575fb4da8a9b66073851a55df8ce445b"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_60.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ff9a6d93345ac04f25791d34db77a42e70dbb7ccb0e9d600026739ba50363884"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_61.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c8a3589c1d9f90faf2be5b5f1afbc82706fbe56e3b1c2d19d8e45016e5fca3bb"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_62.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "01fc24988c2f856497262c6e0eaee477ac8f7e28e44a7c3b712a5ab890dda337"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_63.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "915415e24a8029433be8bdf7918bd0fe2ae59d3c885e6eae5c723c5679cefd06"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_64.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cbc713b8266f360c842c28f0d84c1b62143222cbd017da684a035c4b757208f6"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_65.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "eecad43c913799e5bdf51fcbbbcacc5374ab93466cea8ef90633c5993d2c7f40"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_66.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c34b90093eb083a451a6cf59fb9d34c07958ee4e6a84eefec296bfc0d27cc25b"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_67.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "125eb44b6412927157b2b02c6384e7d252872a10e85954bdcaaa81fa57a885c5"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_68.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c970d7173fea79d567f070c4ce258f122aa1a8033de0176bd677445d76f4dad7"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_69.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "5e61a87d95e9c80691729d30458c12d3d887620744f93f129db484e3e6d2bb4a"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_7.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7cda3f7bf96d0ee72ffaf468e320f1e0c8cbe1220a777b4d8aff5ededacd4417"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_70.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f7787cdb5e8dfcef8b73f50547cb27b3c87249f9dd882a170408e6574db8b762"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_71.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f9b852cb308cd16ad0985839495a4065861e1167616407b115db97b9bae8b3fa"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_72.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2a82dc6c3f5b824000565a6ee7755d9d74ac4000a7a30cf3a955e2e1490eddd9"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_73.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "dd9ca26da72bb1a6ae2e67238d5b25b72afb1f85bcfa255ac6bb359d4fb117a3"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_74.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6ff0a06e484116f8f988d767988c08078eb0f9fb3184ae2a42b66e485cf41d6a"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_75.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "782f20ba4ed02151a43249ecaa15c728ca6dfd86d6ee84d72dc80f68eb72e66f"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_76.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7ec1eae923ab501b3b27aab08805fa457b7b6f24d2efd3c550d5a5500cae6fee"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_77.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "105d540eed31effb7aaf687b60a06ac9f1ebe23677d4234e1234b023ed43b27e"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_78.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "06e22b88940ff54025aee1a05bdae2fa632baa1ae5f4a94a6edfae27e10d362b"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_79.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bf298641cfbf97032822fe6fe5d5ee654c44ca9c3a04384d5c064f0bf0ba8f42"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_8.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2f69de18a0d383f6c94d1bd7622cc05c53280c626e810e17bc2eaa3cb89222ad"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_80.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "30af08a0cb49d30746226a80ec84d4ba7699501ad29f8bd886239fc08259b555"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_81.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "fde11481f5eb7c5b5b379a7977ff64af1852ef0afa5ce9ca1b9ca871ad355721"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_82.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3c00a3e9b6d26cc505fde8ec55d066fda584fb6283a74ff7d75cd73e6d3dfc8c"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_83.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "20f5baa393cfac143091a4a72c583035820e283c9f8ae37d25f00cf103f0e760"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_84.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "757fda20dcb4275722f298d03562058c94b04091e36a5c8a8d2b78a04244e380"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_85.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b3e63ddf56528a7fa3972c017337f6da8e01dd7f22fd6abfbe7b48a91e3cdd14"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_86.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "fd3b6c05f6ea4cd941a94e3897d9021cd8f08daecd7b450a7f3c81d2c3e88ee4"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_87.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "213bfd74508f3fa0cbff13ab61cb353d160cdea0976afcb9946cf4db4c8c6262"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_88.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "589b85e55fe5a97e295ac18aee70c1ce4708b5d2d1d427f8a5b1a47f35f645e5"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_89.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e170abc59f91f7e0b56590b7cbda7d94b287f7341882227c16e4541e5eaf65ec"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_9.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d43577959c26c1f18a7ee0d3b14c69ac4a6efddc361b4f87010b5113b50ef25b"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_90.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c5005abd7b5e8463d6abdce63b2e8ea0df108b93f27f0a3787d3106f2b772eb2"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_91.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c62e4356a9cda985546607eff32df0c7e76a19b619cb0750370b808397e189ac"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_92.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "383b5a7bcb4786db1ef92d70c1b40a5dc975682f3291f4be13dbd412927dac1e"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_93.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b313b2d0ab70a8f01077ce2914dcec8a648a2165186c0612431792bfaffd4afb"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_94.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "92449f8621329fa4bdc9a583ecb169cececb2805e1e725bd11269d3eba7ebe16"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_95.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8913ecfb0a1a1af10d7a1d92ece9646ae5cf622b5b8f6d8833d4f95a16fd542c"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_96.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f2efe97d14ec30cefb04858adf03d9db631d8e03c191c909493b69712e21ff76"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_97.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ab64d211252c13eccb03c4f27c4921b60227c58ec19528d54e8adef73e5f699c"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_98.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "edb01cc8644793aa3e23217fcf8e18fa1099129d778b334320d325dde854811c"
+  },
+  {
+   "path": "/private/tmp/claude-501/m007/scripted/brain_log_m007_99.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1189d4a0f5d47ffddb621090ebaf78c6090584343a1d5e7a3fc167d7f914a05d"
+  }
+ ],
+ "invocation": {
+  "command": "m007",
+  "inputs": [
+   "/private/tmp/claude-501/m007"
+  ],
+  "label": "m007",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "m007",
+ "metric": "M-007",
+ "metric_version": "M-007@v1",
+ "normalisers": {},
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-007@v1.yaml",
+  "revision": "v1.0",
+  "sha256": "5817fbdefeb4dfe560938684987f2c608e835bc55ab920d059b39b698687f28e",
+  "spec": "M-007@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "revw-172-31-218-200.rn.uwaterloo.ca",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-15T04:48:05Z",
+  "wall_time_s": 12.412
+ },
+ "submeasures": [
+  {
+   "decisive_part": "scripted_runs",
+   "diagnostics": {},
+   "id": "M-007.runs",
+   "kind": "gating",
+   "margin": 0.0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.0,
+     "margin_rel": 0.0,
+     "name": "scripted_runs",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 100.0,
+     "unit": "runs",
+     "value": 100
+    },
+    {
+     "margin": 0.0,
+     "margin_rel": 0.0,
+     "name": "control_runs",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 100.0,
+     "unit": "runs",
+     "value": 100
+    }
+   ],
+   "status": "PASS",
+   "threshold": 100.0,
+   "threshold_status": "derived",
+   "title": "Seeded run count per brain",
+   "unit": "runs",
+   "value": 100
+  },
+  {
+   "decisive_part": "fr_commit",
+   "diagnostics": {
+    "commit_events": 125,
+    "commit_events_flanked": 107,
+    "commit_events_multi": 117,
+    "fr_commit_ci95_bootstrap": [
+     0.857142857143,
+     0.963963963964
+    ],
+    "fr_commit_null": 0.0147058823529,
+    "fr_time": 0.328360489187,
+    "null_commit_events_flanked": 1,
+    "null_commit_events_multi": 68
+   },
+   "id": "M-007.C1",
+   "kind": "gating",
+   "margin": 0.31452991453,
+   "margin_rel": 0.524216524217,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.31452991453,
+     "margin_rel": 0.524216524217,
+     "name": "fr_commit",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.6,
+     "unit": "ratio",
+     "value": 0.91452991453
+    },
+    {
+     "margin": 0.885118149824,
+     "margin_rel": 0.885118149824,
+     "name": "fr_commit_over_null",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.0,
+     "unit": "ratio excess",
+     "value": 0.885118149824
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.6,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "C1 Flank commit rate FR_commit",
+   "unit": "ratio",
+   "value": 0.91452991453
+  },
+  {
+   "decisive_part": "focus_excess",
+   "diagnostics": {
+    "fe_ci95_bootstrap": [
+     0.837538232635,
+     0.998787684707
+    ],
+    "ff_ticks": 177925,
+    "mean_ff": 0.984059763009,
+    "mean_ff_chance": 0.75
+   },
+   "id": "M-007.C2",
+   "kind": "gating",
+   "margin": 0.436239052035,
+   "margin_rel": 0.87247810407,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.436239052035,
+     "margin_rel": 0.87247810407,
+     "name": "focus_excess",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.5,
+     "unit": "ratio",
+     "value": 0.936239052035
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.5,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "C2 Focus-fire excess FE",
+   "unit": "ratio",
+   "value": 0.936239052035
+  },
+  {
+   "decisive_part": "switch_rate_per_kaiju_min",
+   "diagnostics": {
+    "engaged_kaiju_minutes": 452.86,
+    "thrash": 0,
+    "voluntary_switches": 7
+   },
+   "id": "M-007.C3",
+   "kind": "gating",
+   "margin": 2.98454268427,
+   "margin_rel": 0.994847561424,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.1,
+     "margin_rel": 1.0,
+     "name": "thrash_fraction",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.1,
+     "unit": "ratio",
+     "value": 0.0
+    },
+    {
+     "margin": 2.98454268427,
+     "margin_rel": 0.994847561424,
+     "name": "switch_rate_per_kaiju_min",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 3.0,
+     "unit": "1/kaiju-min",
+     "value": 0.0154573157267
+    }
+   ],
+   "status": "PASS",
+   "threshold": 3.0,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "C3 Target switching (thrash fraction, voluntary switch rate)",
+   "unit": "1/kaiju-min",
+   "value": 0.0154573157267
+  },
+  {
+   "decisive_part": "leaks",
+   "diagnostics": {
+    "control_leaks": 0
+   },
+   "id": "M-007.C4",
+   "kind": "gating",
+   "margin": 0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "leaks",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "ticks",
+     "value": 0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "C4 Information fairness (leaks)",
+   "unit": "ticks",
+   "value": 0
+  },
+  {
+   "diagnostics": {},
+   "id": "M-007.C5",
+   "kind": "gating",
+   "note": "panel: >= 12 raters x 6 blinded clips (human step; no ratings file format yet)",
+   "parts": [],
+   "status": "PENDING",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "C5 Human panel smart / cheap",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-007.C6",
+   "kind": "gating",
+   "note": "win rate vs scripted baseline needs a policy (R-024 section 5)",
+   "parts": [],
+   "spec_clause": "R-024 section 5 C6: deferred, waits for a trained policy",
+   "status": "NOT_APPLICABLE",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "C6 Win rate vs scripted baseline (deferred)",
+   "unit": "",
+   "value": null
+  }
+ ],
+ "tool": {
+  "git_commit": "8c42e911f1e2fafe8f82303836805b0bbe628fe0",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "INCOMPLETE",
+ "verdict_label": "INCOMPLETE",
+ "warnings": []
+}
