@@ -70,6 +70,39 @@ namespace Game.AI.Pack.Tests
         }
 
         [Test]
+        public void Bay_BaitFirst_StrikersHoldOutsideWeaponRangeAtLeast90DegreesFromTheBait()
+        {
+            // T-113b: Strider Bait, Strider + Breacher Flankers, Bastion Anchor; every striker slot is >= 90 deg from the Bait slot (P4, C1) and outside weapon range
+            var sim = BaySim();
+            sim.Add(1, S, -3000, 0, () => new HoldBrain()); sim.Add(2, S, -3000, 150, () => new HoldBrain());
+            sim.Add(3, M, -3000, -150, () => new HoldBrain()); sim.Add(4, H, -3100, 0, () => new HoldBrain());
+            sim.AddMech(100, 0, 0);
+            int checkedTicks = 0;
+            for (int t = 0; t < 600; t++)
+            {
+                sim.Run(1f);
+                float bait = float.NaN; var strikers = new System.Collections.Generic.List<(float ang, float r)>();
+                foreach (var m in sim.Members)
+                {
+                    Assert.IsTrue(sim.Coord.TryGetDirective(m.S.Id, out var d));
+                    if (d.Goal != PackGoal.Hunt) continue;
+                    float a = MathF.Atan2(d.SlotPos.Y, d.SlotPos.X), r = PackSim.Dist(new Float2(0, 0), d.SlotPos);
+                    if (d.Role == PackRole.Bait) bait = a;
+                    else if (d.Role == PackRole.Anchor || d.Role == PackRole.Flanker) strikers.Add((a, r));
+                }
+                if (float.IsNaN(bait) || sim.Coord.TryGetDirective(sim.Members[0].S.Id, out var d0) && d0.CommitReady) continue;
+                if (strikers.Count == 3) checkedTicks++;
+                foreach (var (a, r) in strikers)
+                {
+                    float diff = MathF.Abs(a - bait); if (diff > MathF.PI) diff = 2 * MathF.PI - diff;
+                    Assert.GreaterOrEqual(diff, 90f * MathF.PI / 180f - 1e-3f, "striker slot vs Bait slot at t=" + t);
+                    Assert.GreaterOrEqual(r, sim.Cfg.MechWeaponRangeM + sim.Cfg.HoldOutsideMarginM - 1f, "striker holds outside weapon range");
+                }
+            }
+            Assert.Greater(checkedTicks, 30, "the Bait + three strikers formation was checked before the gate opened");
+        }
+
+        [Test]
         public void Bay_ABaitBelowItsRetreatHpLeavesForGoodEvenWithoutADirective()
         {
             var cfg = PackConfig.Bay();

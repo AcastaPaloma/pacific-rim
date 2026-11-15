@@ -449,9 +449,12 @@ namespace Game.AI.Pack
             else _baseSet = false;
 
             int flankIdx = 0, anchorIdx = 0; float minAng = 0f, maxAng = 0f; int slotsUsed = 0;
-            int nFlank = 0;
-            for (int i = 0; i < _n; i++) if (_curRole[i] == PackRole.Flanker) nFlank++;
+            int nFlank = 0, nAnchor = 0, nBait = 0;
+            for (int i = 0; i < _n; i++) { if (_curRole[i] == PackRole.Flanker) nFlank++; else if (_curRole[i] == PackRole.Anchor) nAnchor++; else if (_curRole[i] == PackRole.Bait) nBait++; }
             float holdR = _cfg.BaitBandFrac * _cfg.MechWeaponRangeM + 40f;   // Anchor/Flanker never stand nearer to a mech than the Bait does
+            // T-113b bait-first: strikers on one side of the axis outside weapon range, the Bait wide on the other side (every striker >= 90 deg from it)
+            bool baitFirst = _cfg.BayTactics && _cfg.BaitFirst && Goal == PackGoal.Hunt && haveFocus && nBait > 0 && nAnchor + nFlank > 0;
+            int nStrike = nAnchor + nFlank, strikeIdx = 0;
             _dirN = _n;
             for (int i = 0; i < _n; i++)
             {
@@ -459,6 +462,35 @@ namespace Game.AI.Pack
                 PackDirective d = default;
                 d.Valid = true; d.Goal = Goal; d.Role = _curRole[i];
                 d.FocusTargetId = Goal == PackGoal.Raid && d.Role == PackRole.Raider ? RaidTargetId : FocusTargetId;
+                if (baitFirst && (d.Role == PackRole.Anchor || d.Role == PackRole.Flanker || d.Role == PackRole.Bait))
+                {
+                    float ang, r;
+                    if (d.Role == PackRole.Bait)
+                    {
+                        ang = -_flankSide * _cfg.BaitWideOffsetRad;
+                        r = StageScale(m.Species, _baitGo ? _cfg.BaitBandFrac * _cfg.MechWeaponRangeM : _cfg.MechWeaponRangeM * 1.05f);
+                        d.AllowMelee = false;
+                    }
+                    else
+                    {
+                        // anchors take the slots nearest the axis, flankers the wide ones (striker order = EntityId order within each role)
+                        int j = d.Role == PackRole.Anchor ? AnchorOrdinal(i) : nAnchor + FlankOrdinal(i);
+                        float u = nStrike > 1 ? (float)j / (nStrike - 1) : (d.Role == PackRole.Flanker ? 1f : 0f);
+                        ang = _flankSide * (_cfg.StrikeArcMinRad + u * (_cfg.StrikeArcMaxRad - _cfg.StrikeArcMinRad));
+                        // outside the mech's weapon range (only the Bait is shot before the strike); T-113b iteration 3 also held outside the member's own
+                        // engagement radius and was rejected on data (C1 0.85 -> 0.49, P4 bs 0.60 -> 0.04): tasks/T-113b.progress.md
+                        float hr = Math.Max(SlotRadius(m.Species, holdR), _cfg.MechWeaponRangeM + _cfg.HoldOutsideMarginM);
+                        r = StageScale(m.Species, hr);
+                        d.CommitRangeM = hr + 80f;
+                        d.AllowMelee = true;
+                        strikeIdx++;
+                    }
+                    d.SlotPos = At(tp, baseAng + ang, r);
+                    Track(ang, ref minAng, ref maxAng, ref slotsUsed);
+                    d.RoutePos = _route.NextWaypoint(m.Pos, d.SlotPos, m.Species);
+                    _dirId[i] = m.Id; _dir[i] = d;
+                    continue;
+                }
                 switch (d.Role)
                 {
                     case PackRole.Anchor:
@@ -516,7 +548,7 @@ namespace Game.AI.Pack
                 _dirId[i] = m.Id; _dir[i] = d;
             }
             EngagedSpreadRad = slotsUsed >= 2 ? maxAng - minAng : 0f;
-            if (_cfg.BayTactics) UpdateGate(now, tp, haveFocus && Goal == PackGoal.Hunt);
+            if (_cfg.BayTactics) UpdateGate(now, tp, haveFocus && Goal == PackGoal.Hunt, baitFirst);
             if (_cfg.BayTactics && _cfg.PaceMinFrac > 0f && Goal == PackGoal.Hunt && haveFocus && !_advance)
             {
                 // synchronised arrival: every member walks so that it reaches its (stage) slot when the slowest member does
@@ -531,6 +563,7 @@ namespace Game.AI.Pack
             for (int i = 0; i < _n; i++)
             {
                 _dir[i].CommitReady = !_cfg.BayTactics || Goal != PackGoal.Hunt || _gateOpen;
+                _dir[i].GateOpenAt = _gateOpenAt; _dir[i].BaitFirst = baitFirst;
                 _dir[i].BaitJoin = _cfg.BayTactics && _cfg.BaitJoinDelaySeconds > 0f && Goal == PackGoal.Hunt && _gateOpen && now - _gateOpenAt >= _cfg.BaitJoinDelaySeconds;
             }
             if (DebugSink != null && Goal == PackGoal.Hunt)
@@ -540,7 +573,7 @@ namespace Game.AI.Pack
 
         // Commit gate (hunt): Anchor and Flanker hold their slots until every one of them is within tolerance of its slot and the Bait (if any)
         // has been inside its band long enough to draw the lock, or until GateTimeoutSeconds after the first member came near. Reset by a new focus.
-        private void UpdateGate(double now, Float2 tp, bool hunting)
+        private void UpdateGate(double now, Float2 tp, bool hunting, bool baitFirst = false)
         {
             if (!hunting) { _gateOpen = false; _baitGo = false; _advance = false; _stageNearSince = double.NegativeInfinity; _gateNearSince = double.NegativeInfinity; _baitSince = double.NegativeInfinity; _gateFocus = default; return; }
             if (_gateFocus != FocusTargetId) { _gateFocus = FocusTargetId; _gateOpen = false; _baitGo = false; _advance = false; _stageNearSince = double.NegativeInfinity; _gateNearSince = double.NegativeInfinity; _baitSince = double.NegativeInfinity; }
@@ -571,7 +604,8 @@ namespace Game.AI.Pack
                 if (r == PackRole.Flanker || r == PackRole.Anchor)   // the heavy Anchor holds a looser tolerance (it closes slowly and charges from further out)
                 {
                     haveHolder = true;
-                    float tol = Math.Max(_cfg.SlotTolMinM, _cfg.SlotTolFrac * m.Species.StandoffM) * (r == PackRole.Anchor ? _cfg.AnchorTolMul : 1f);
+                    // bait-first: every striker (the Anchor too) must really be on its hold slot before the Bait steps in and draws the lock
+                    float tol = Math.Max(_cfg.SlotTolMinM, _cfg.SlotTolFrac * m.Species.StandoffM) * (r == PackRole.Anchor && !(baitFirst && _cfg.StrictAnchorTol) ? _cfg.AnchorTolMul : 1f);
                     float ds = Dist(m.Pos, _dir[i].SlotPos);
                     if (ds > tol) allHeld = false;
                     if (ds > _cfg.BaitStepInM) holdersNear = false;
@@ -602,6 +636,9 @@ namespace Game.AI.Pack
 
         // Before the advance every slot sits on a wider ring (StageFrac x, and outside the member's engagement radius): the pack rings up, then engages together.
         private float StageScale(in SpeciesRole sp, float r) => _advance || !_cfg.BayTactics ? r : Math.Max(r * _cfg.StageFrac, 1.15f * 5f * sp.HeightM);
+
+        private int AnchorOrdinal(int i) { int k = 0; for (int j = 0; j < i; j++) if (_curRole[j] == PackRole.Anchor) k++; return k; }
+        private int FlankOrdinal(int i) { int k = 0; for (int j = 0; j < i; j++) if (_curRole[j] == PackRole.Flanker) k++; return k; }
 
         private static void Track(float ang, ref float min, ref float max, ref int n)
         {
