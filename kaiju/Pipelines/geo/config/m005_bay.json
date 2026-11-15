@@ -1,0 +1,44 @@
+{
+  "spec": "m005_bay@v1",
+  "metric_version": "M-005@v2",
+  "_doc": "T-106: thresholds and sample definitions of the Bay-scale M-005@v2 (research/R-100.md section 6, plans/M2.md Track 1). Thresholds are the R-100 / R-004 / R-020 values and are never lowered; a failing sub-measure is a finding. Boxes are (W, S, E, N) WGS84. A box without a sourced reference depth is `reported` (R-100: USACE project depths Assumed until sourced), never passed.",
+  "thresholds": {
+    "default_height_share_bay": 0.02,
+    "default_height_share_county": 0.02,
+    "county_min_area_m2": 10000.0,
+    "landmark_a_vs_import_m": 0.5,
+    "landmark_b_p95_m": 5.0,
+    "landmark_b_max_m": 10.0,
+    "summit_pos_m": 15.0,
+    "summit_vertical_m": 3.0,
+    "crane_pos_m": 50.0,
+    "shallow_below_m": 5.0,
+    "shallow_share": 0.66,
+    "shallow_tol": 0.03
+  },
+  "bay_polygon_lonlat": [[-122.42, 37.40], [-121.75, 37.40], [-121.75, 38.20], [-122.47, 38.20], [-122.47, 37.79], [-122.42, 37.79]],
+  "bay_polygon_note": "R-004 section 6.3: lon -122.47 to -121.75, lat 37.40 to 38.20, excluding the Pacific (lat < 37.79 and lon < -122.42); includes diked cells below MSL in the reference, our water mask is OSM water AND below MSL",
+  "bathymetry_boxes": [
+    {"name": "golden_gate_channel", "box": [-122.484, 37.814, -122.472, 37.823], "source": "R-004 6.3 (USGS 113 m bedrock channel)", "gated": true,
+     "rule": {"min_navd88_m": [-117.0, -109.0], "p5_max_navd88_m": -100.0}},
+    {"name": "oakland_inner_harbor", "box": [-122.300, 37.793, -122.285, 37.800], "source": "R-004 6.3 (USACE -50 ft MLLW = -15.22 m NAVD88)", "gated": true,
+     "rule": {"median_navd88_m": [-16.2, -14.2]}},
+    {"name": "san_pablo_shoal", "box": [-122.40, 38.04, -122.38, 38.06], "source": "R-004 6.3 (CUDEM derivation)", "gated": true,
+     "rule": {"median_navd88_m": [-3.3, -2.3]}},
+    {"name": "carquinez_strait", "box": [-122.240, 38.050, -122.200, 38.075], "source": "R-100 section 6 new spot; USACE project depth not sourced (Assumed)", "gated": false},
+    {"name": "raccoon_strait", "box": [-122.455, 37.855, -122.435, 37.875], "source": "R-100 section 6 new spot; USACE project depth not sourced (Assumed)", "gated": false},
+    {"name": "richmond_harbor", "box": [-122.372, 37.905, -122.345, 37.920], "source": "R-100 section 6 new spot; USACE project depth not sourced (Assumed)", "gated": false},
+    {"name": "redwood_city_channel", "box": [-122.215, 37.500, -122.180, 37.520], "source": "R-100 section 6 new spot; USACE project depth not sourced (Assumed)", "gated": false},
+    {"name": "suisun_bay_ship_channel", "box": [-122.120, 38.035, -122.070, 38.060], "source": "R-100 section 6 new spot; USACE project depth not sourced (Assumed)", "gated": false},
+    {"name": "sf_bar", "box": [-122.560, 37.760, -122.500, 37.800], "source": "R-100 section 6 new spot; USACE project depth not sourced (Assumed)", "gated": false}
+  ],
+  "not_run": {
+    "M-005.2_ngs": "needs NGS NDE radial queries (network) stratified by county; no Bay mark set fetched. Owner: T-106b research/fetch step",
+    "M-005.2_pipeline": "needs source CUDEM/3DEP rasters re-read for 10,000 random land points per 100 tiles; the per-tile resampling check exists for L0_30_36 only (m005_check.py check). Owner: T-106b",
+    "M-005.3_pipeline": "RMSE vs CUDEM on wet points needs the source rasters (as M-005.2 pipeline). Owner: T-106b",
+    "M-005.4_ks": "KS D <= 0.02 against source heights: the bake stores the resolved height, not the competing source heights; needs an independent reference (lidar rind per tile exists for the 15 M1 tiles only). Owner: T-106b",
+    "M-005.5": "area recall/precision needs an independent footprint reference (DataSF for SF only); no Bay-wide independent footprint set is licensed (R-100 section 7). Owner: T-106b/R-100 follow-up",
+    "M-005.6": "1:1 scale pairs (<= 60 ppm) need the Unity as-built export of the landmarks; offline pair check not yet implemented for Bay tiles. Owner: T-106b",
+    "M-005.7": "skyline needs the R-ind renders at the ten viewpoints (Unity/Python skyline pipeline, v1.1 spec); not run Bay-wide. Owner: T-106b"
+  }
+}

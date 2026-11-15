@@ -1,0 +1,2307 @@
+{
+ "metric_version": "M-005@v2",
+ "result": "fail",
+ "tiles": 4311,
+ "root": "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/Pipelines/geo/cache/bake/tiles/v1",
+ "seconds": 1119.5,
+ "counts": {
+  "pass": 15,
+  "fail": 6,
+  "reported": 6,
+  "not_run": 7
+ },
+ "thresholds": {
+  "v1.2": {
+   "default_height_share_union": 0.02,
+   "per_tile_share": 0.05,
+   "per_tile_min_area_m2": 10000.0,
+   "seam_terrain_p99_E_m": 0.2,
+   "seam_terrain_max_E_m": 0.5,
+   "edge_vertex_gap_m": 0.001,
+   "clipped_area_rel": 0.001,
+   "collider_overlap_m2": 0.05,
+   "piece_height_base_m": 0.001,
+   "landmark_continuity_m": 0.001
+  },
+  "bay": {
+   "default_height_share_bay": 0.02,
+   "default_height_share_county": 0.02,
+   "county_min_area_m2": 10000.0,
+   "landmark_a_vs_import_m": 0.5,
+   "landmark_b_p95_m": 5.0,
+   "landmark_b_max_m": 10.0,
+   "summit_pos_m": 15.0,
+   "summit_vertical_m": 3.0,
+   "crane_pos_m": 50.0,
+   "shallow_below_m": 5.0,
+   "shallow_share": 0.66,
+   "shallow_tol": 0.03
+  }
+ },
+ "rows": [
+  {
+   "metric_version": "M-005@v2",
+   "check": "bid_ownership",
+   "scope": "bay",
+   "result": "pass",
+   "value": {
+    "duplicate_bids": 0,
+    "not_in_owner_tile": 0
+   },
+   "threshold": {
+    "duplicate_bids": 0,
+    "not_in_owner_tile": 0
+   },
+   "bids": 1890819,
+   "examples": []
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "clipped_area",
+   "scope": "bay",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001,
+   "footprints_crossing_an_edge": 33791
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "collider_overlap",
+   "scope": "bay",
+   "result": "fail",
+   "value": 1659.469,
+   "threshold": 0.05,
+   "pairs_over_threshold": 16,
+   "colliders_crossing_edges": 33900,
+   "crossing_pairs_tested": 34080,
+   "examples": [
+    {
+     "tiles": [
+      "L0_50_31",
+      "L0_51_31"
+     ],
+     "bids": [
+      "osm:w128834187",
+      "osm:w349649806"
+     ],
+     "area_m2": 1659.469
+    },
+    {
+     "tiles": [
+      "L0_50_31",
+      "L0_51_31"
+     ],
+     "bids": [
+      "osm:w128834171",
+      "osm:w349649806"
+     ],
+     "area_m2": 1385.361
+    },
+    {
+     "tiles": [
+      "L0_51_31",
+      "L0_50_31"
+     ],
+     "bids": [
+      "osm:w349649806",
+      "osm:w128834167"
+     ],
+     "area_m2": 1317.339
+    },
+    {
+     "tiles": [
+      "L0_57_44",
+      "L0_57_45"
+     ],
+     "bids": [
+      "osm:r15693615",
+      "osm:w1160467319"
+     ],
+     "area_m2": 915.466
+    },
+    {
+     "tiles": [
+      "L0_57_44",
+      "L0_57_45"
+     ],
+     "bids": [
+      "osm:r15693615",
+      "osm:w1160467320"
+     ],
+     "area_m2": 795.02
+    },
+    {
+     "tiles": [
+      "L0_57_44",
+      "L0_57_45"
+     ],
+     "bids": [
+      "osm:r15693615",
+      "osm:w1160467321"
+     ],
+     "area_m2": 556.3
+    }
+   ],
+   "note": "every edge-crossing collider is tested against all colliders of the other tiles it overlaps"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "default_height_share_bay",
+   "scope": "bay",
+   "result": "fail",
+   "value": 0.74042,
+   "threshold": 0.02,
+   "building_area_m2": 464266811.0,
+   "default_area_m2": 343751185.5,
+   "structures": 1885001,
+   "unit": "structure root-outline area, excluded structures dropped"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "default_height_share_county",
+   "scope": "bay",
+   "result": "fail",
+   "value": {
+    "counties_over": [
+     "Alameda County",
+     "Contra Costa County",
+     "Marin County",
+     "Napa County",
+     "Sacramento County",
+     "San Francisco",
+     "San Joaquin County",
+     "San Mateo County",
+     "Santa Clara County",
+     "Santa Cruz County",
+     "Solano County",
+     "Sonoma County",
+     "Yolo County"
+    ]
+   },
+   "threshold": 0.02,
+   "counties": [
+    {
+     "county": "Alameda County",
+     "building_area_m2": 112225766.9,
+     "default_area_m2": 106802389.1,
+     "structures": 471410,
+     "share": 0.95167,
+     "gated": true,
+     "area_share_by_height_source": {
+      "default": 0.9517,
+      "osm_levels": 0.0451,
+      "osm_height": 0.0032
+     },
+     "result": "fail"
+    },
+    {
+     "county": "Contra Costa County",
+     "building_area_m2": 44269423.7,
+     "default_area_m2": 42709823.1,
+     "structures": 162394,
+     "share": 0.96477,
+     "gated": true,
+     "area_share_by_height_source": {
+      "default": 0.9648,
+      "osm_levels": 0.0344,
+      "osm_height": 0.0009
+     },
+     "result": "fail"
+    },
+    {
+     "county": "Marin County",
+     "building_area_m2": 22341409.6,
+     "default_area_m2": 21995772.5,
+     "structures": 90568,
+     "share": 0.98453,
+     "gated": true,
+     "area_share_by_height_source": {
+      "default": 0.9845,
+      "osm_levels": 0.0122,
+      "lidar_3dep": 0.0018,
+      "osm_height": 0.0015
+     },
+     "result": "fail"
+    },
+    {
+     "county": "Napa County",
+     "building_area_m2": 8770325.9,
+     "default_area_m2": 8602467.4,
+     "structures": 27322,
+     "share": 0.98086,
+     "gated": true,
+     "area_share_by_height_source": {
+      "default": 0.9809,
+      "osm_levels": 0.0191,
+      "osm_height": 0.0001
+     },
+     "result": "fail"
+    },
+    {
+     "county": "Sacramento County",
+     "building_area_m2": 268690.0,
+     "default_area_m2": 268562.7,
+     "structures": 1002,
+     "share": 0.99953,
+     "gated": true,
+     "area_share_by_height_source": {
+      "default": 0.9995,
+      "osm_levels": 0.0005
+     },
+     "result": "fail"
+    },
+    {
+     "county": "San Francisco",
+     "building_area_m2": 32247518.5,
+     "default_area_m2": 1565346.0,
+     "structures": 161517,
+     "share": 0.04854,
+     "gated": true,
+     "area_share_by_height_source": {
+      "osm_height": 0.8166,
+      "datasf": 0.0696,
+      "default": 0.0485,
+      "assessor_stories": 0.0348,
+      "osm_levels": 0.0165,
+      "lidar_3dep": 0.014
+     },
+     "result": "fail"
+    },
+    {
+     "county": "San Joaquin County",
+     "building_area_m2": 861605.6,
+     "default_area_m2": 860660.9,
+     "structures": 3770,
+     "share": 0.9989,
+     "gated": true,
+     "area_share_by_height_source": {
+      "default": 0.9989,
+      "osm_levels": 0.0011
+     },
+     "result": "fail"
+    },
+    {
+     "county": "San Mateo County",
+     "building_area_m2": 56693862.6,
+     "default_area_m2": 52957001.5,
+     "structures": 228148,
+     "share": 0.93409,
+     "gated": true,
+     "area_share_by_height_source": {
+      "default": 0.9341,
+      "osm_levels": 0.0347,
+      "osm_height": 0.0301,
+      "datasf": 0.0011,
+      "assessor_stories": 0.0
+     },
+     "result": "fail"
+    },
+    {
+     "county": "Santa Clara County",
+     "building_area_m2": 137067684.3,
+     "default_area_m2": 59204053.8,
+     "structures": 529405,
+     "share": 0.43193,
+     "gated": true,
+     "area_share_by_height_source": {
+      "osm_height": 0.5217,
+      "default": 0.4319,
+      "osm_levels": 0.0464
+     },
+     "result": "fail"
+    },
+    {
+     "county": "Santa Cruz County",
+     "building_area_m2": 311206.1,
+     "default_area_m2": 306137.7,
+     "structures": 2168,
+     "share": 0.98371,
+     "gated": true,
+     "area_share_by_height_source": {
+      "default": 0.9837,
+      "osm_levels": 0.0162,
+      "osm_height": 0.0001
+     },
+     "result": "fail"
+    },
+    {
+     "county": "Solano County",
+     "building_area_m2": 30248286.1,
+     "default_area_m2": 30004026.6,
+     "structures": 112582,
+     "share": 0.99192,
+     "gated": true,
+     "area_share_by_height_source": {
+      "default": 0.9919,
+      "osm_levels": 0.008,
+      "osm_height": 0.0001
+     },
+     "result": "fail"
+    },
+    {
+     "county": "Sonoma County",
+     "building_area_m2": 18942670.5,
+     "default_area_m2": 18456582.8,
+     "structures": 94646,
+     "share": 0.97434,
+     "gated": true,
+     "area_share_by_height_source": {
+      "default": 0.9743,
+      "osm_levels": 0.0256,
+      "osm_height": 0.0
+     },
+     "result": "fail"
+    },
+    {
+     "county": "Yolo County",
+     "building_area_m2": 18361.3,
+     "default_area_m2": 18361.3,
+     "structures": 69,
+     "share": 1.0,
+     "gated": true,
+     "area_share_by_height_source": {
+      "default": 1.0
+     },
+     "result": "fail"
+    }
+   ],
+   "rule": "every county with >= 10000 m2 of structure area is gated at <= 2 %; the rest are reported"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "default_height_share_tile",
+   "scope": "bay",
+   "result": "fail",
+   "value": {
+    "tiles_gated": 1331,
+    "tiles_over": 1254
+   },
+   "threshold": 0.05,
+   "failing": [
+    {
+     "tile": "L0_05_66",
+     "share": 1.0,
+     "area_m2": 27078.0
+    },
+    {
+     "tile": "L0_06_66",
+     "share": 1.0,
+     "area_m2": 17212.5
+    },
+    {
+     "tile": "L0_07_62",
+     "share": 1.0,
+     "area_m2": 14559.0
+    },
+    {
+     "tile": "L0_07_64",
+     "share": 1.0,
+     "area_m2": 31686.9
+    },
+    {
+     "tile": "L0_08_60",
+     "share": 1.0,
+     "area_m2": 14463.1
+    },
+    {
+     "tile": "L0_08_61",
+     "share": 1.0,
+     "area_m2": 11979.9
+    },
+    {
+     "tile": "L0_08_64",
+     "share": 1.0,
+     "area_m2": 15541.7
+    },
+    {
+     "tile": "L0_08_66",
+     "share": 1.0,
+     "area_m2": 13400.7
+    },
+    {
+     "tile": "L0_09_62",
+     "share": 1.0,
+     "area_m2": 35667.9
+    },
+    {
+     "tile": "L0_09_65",
+     "share": 1.0,
+     "area_m2": 22249.7
+    },
+    {
+     "tile": "L0_10_52",
+     "share": 1.0,
+     "area_m2": 30946.3
+    },
+    {
+     "tile": "L0_10_53",
+     "share": 1.0,
+     "area_m2": 58291.6
+    },
+    {
+     "tile": "L0_10_62",
+     "share": 1.0,
+     "area_m2": 34406.8
+    },
+    {
+     "tile": "L0_10_64",
+     "share": 1.0,
+     "area_m2": 37698.7
+    },
+    {
+     "tile": "L0_10_66",
+     "share": 1.0,
+     "area_m2": 20791.8
+    },
+    {
+     "tile": "L0_11_51",
+     "share": 1.0,
+     "area_m2": 36997.5
+    },
+    {
+     "tile": "L0_11_52",
+     "share": 1.0,
+     "area_m2": 12877.1
+    },
+    {
+     "tile": "L0_11_63",
+     "share": 1.0,
+     "area_m2": 15288.6
+    },
+    {
+     "tile": "L0_11_64",
+     "share": 1.0,
+     "area_m2": 64383.2
+    },
+    {
+     "tile": "L0_11_65",
+     "share": 1.0,
+     "area_m2": 13662.0
+    },
+    {
+     "tile": "L0_11_66",
+     "share": 1.0,
+     "area_m2": 39862.9
+    },
+    {
+     "tile": "L0_12_50",
+     "share": 1.0,
+     "area_m2": 10093.1
+    },
+    {
+     "tile": "L0_12_52",
+     "share": 1.0,
+     "area_m2": 16450.4
+    },
+    {
+     "tile": "L0_12_53",
+     "share": 1.0,
+     "area_m2": 17320.0
+    },
+    {
+     "tile": "L0_12_57",
+     "share": 1.0,
+     "area_m2": 11071.0
+    },
+    {
+     "tile": "L0_12_61",
+     "share": 1.0,
+     "area_m2": 21361.4
+    },
+    {
+     "tile": "L0_12_62",
+     "share": 1.0,
+     "area_m2": 11728.5
+    },
+    {
+     "tile": "L0_12_63",
+     "share": 1.0,
+     "area_m2": 20867.0
+    },
+    {
+     "tile": "L0_12_64",
+     "share": 1.0,
+     "area_m2": 21744.0
+    },
+    {
+     "tile": "L0_13_51",
+     "share": 1.0,
+     "area_m2": 35584.3
+    },
+    {
+     "tile": "L0_13_58",
+     "share": 1.0,
+     "area_m2": 10133.4
+    },
+    {
+     "tile": "L0_13_62",
+     "share": 1.0,
+     "area_m2": 29206.4
+    },
+    {
+     "tile": "L0_13_63",
+     "share": 1.0,
+     "area_m2": 20906.7
+    },
+    {
+     "tile": "L0_13_65",
+     "share": 1.0,
+     "area_m2": 51759.5
+    },
+    {
+     "tile": "L0_13_66",
+     "share": 1.0,
+     "area_m2": 94288.0
+    },
+    {
+     "tile": "L0_14_60",
+     "share": 1.0,
+     "area_m2": 10332.8
+    },
+    {
+     "tile": "L0_14_61",
+     "share": 1.0,
+     "area_m2": 36580.3
+    },
+    {
+     "tile": "L0_14_62",
+     "share": 1.0,
+     "area_m2": 40560.7
+    },
+    {
+     "tile": "L0_14_66",
+     "share": 1.0,
+     "area_m2": 179070.7
+    },
+    {
+     "tile": "L0_15_60",
+     "share": 1.0,
+     "area_m2": 16999.5
+    }
+   ],
+   "note": "tiles with < 10000 m2 of buildings are reported, not gated (v1.2)"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "terrain_seam_all_edges",
+   "scope": "bay",
+   "result": "fail",
+   "value": {
+    "p99_dE_m": 0.005,
+    "max_dE_m": 7.9978,
+    "edges_over_threshold": 29
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "edges": 8490,
+   "nodes": 17396010,
+   "surface": "terrain.r16 (built surface), shared edge nodes, every edge of the tile set; the pooled p99/max and each edge must pass",
+   "failing_edges": [
+    {
+     "edge": "L0_26_44|L0_27_44",
+     "p99_dE_m": 0.2394,
+     "max_dE_m": 4.9165,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_31_60|L0_31_61",
+     "p99_dE_m": 0.1918,
+     "max_dE_m": 1.2771,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_32_60|L0_32_61",
+     "p99_dE_m": 2.3037,
+     "max_dE_m": 2.4603,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_33_39|L0_33_40",
+     "p99_dE_m": 0.0003,
+     "max_dE_m": 6.8464,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_33_60|L0_33_61",
+     "p99_dE_m": 2.6725,
+     "max_dE_m": 2.8432,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_34_34|L0_35_34",
+     "p99_dE_m": 0.3112,
+     "max_dE_m": 0.3437,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_34_34|L0_34_35",
+     "p99_dE_m": 0.782,
+     "max_dE_m": 1.6209,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_34_51|L0_35_51",
+     "p99_dE_m": 0.264,
+     "max_dE_m": 0.6813,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_34_60|L0_34_61",
+     "p99_dE_m": 0.3254,
+     "max_dE_m": 0.4555,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_38_60|L0_38_61",
+     "p99_dE_m": 0.6565,
+     "max_dE_m": 1.9645,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_39_60|L0_39_61",
+     "p99_dE_m": 0.5067,
+     "max_dE_m": 1.2645,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_40_60|L0_40_61",
+     "p99_dE_m": 0.4159,
+     "max_dE_m": 0.9641,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_41_60|L0_41_61",
+     "p99_dE_m": 0.6054,
+     "max_dE_m": 1.5279,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_42_60|L0_42_61",
+     "p99_dE_m": 0.4509,
+     "max_dE_m": 0.7907,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_43_60|L0_43_61",
+     "p99_dE_m": 0.3046,
+     "max_dE_m": 0.4485,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_57_15|L0_58_15",
+     "p99_dE_m": 0.5536,
+     "max_dE_m": 1.0327,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_57_16|L0_58_16",
+     "p99_dE_m": 0.5833,
+     "max_dE_m": 0.9822,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_57_17|L0_58_17",
+     "p99_dE_m": 0.6297,
+     "max_dE_m": 1.004,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_57_18|L0_58_18",
+     "p99_dE_m": 0.3886,
+     "max_dE_m": 1.4264,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_57_19|L0_58_19",
+     "p99_dE_m": 0.2276,
+     "max_dE_m": 0.5003,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_57_34|L0_58_34",
+     "p99_dE_m": 1.3652,
+     "max_dE_m": 1.6158,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_57_35|L0_58_35",
+     "p99_dE_m": 0.8886,
+     "max_dE_m": 1.0961,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_57_45|L0_58_45",
+     "p99_dE_m": 0.2265,
+     "max_dE_m": 0.4603,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_57_46|L0_58_46",
+     "p99_dE_m": 0.3153,
+     "max_dE_m": 0.4823,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    },
+    {
+     "edge": "L0_57_47|L0_58_47",
+     "p99_dE_m": 0.796,
+     "max_dE_m": 7.9978,
+     "gap_m": 0.0,
+     "placeholder_nodes": [
+      0,
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "edge_vertex_gap_all_edges",
+   "scope": "bay",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001,
+   "edges": 8490
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "landmarks",
+   "scope": "bay",
+   "result": "pass",
+   "value": 125,
+   "tiles": [
+    "L0_26_37",
+    "L0_26_38",
+    "L0_26_44",
+    "L0_27_44",
+    "L0_28_43",
+    "L0_28_44",
+    "L0_29_38",
+    "L0_29_43",
+    "L0_30_35",
+    "L0_30_36",
+    "L0_30_43",
+    "L0_31_36",
+    "L0_31_37",
+    "L0_32_37",
+    "L0_33_36",
+    "L0_33_37",
+    "L0_34_35",
+    "L0_34_36",
+    "L0_34_37",
+    "L0_35_36",
+    "L0_36_24",
+    "L0_36_37",
+    "L0_37_24",
+    "L0_37_25",
+    "L0_37_50",
+    "L0_37_51",
+    "L0_38_25",
+    "L0_39_25",
+    "L0_39_26",
+    "L0_40_26",
+    "L0_41_20",
+    "L0_41_50",
+    "L0_42_20",
+    "L0_42_21",
+    "L0_42_49",
+    "L0_42_50"
+   ],
+   "checks": [
+    {
+     "check": "lid_unique_bid_owned",
+     "result": "pass",
+     "dup_lids": [],
+     "bid_clash": [],
+     "n": 125
+    },
+    {
+     "check": "height_vs_sourced",
+     "result": "pass",
+     "landmarks": 3,
+     "tower_slugs": [
+      "bay_bridge_e_tower_0",
+      "bay_bridge_w_tower_0",
+      "bay_bridge_w_tower_1",
+      "bay_bridge_w_tower_2",
+      "bay_bridge_w_tower_3",
+      "carquinez_tower_0",
+      "carquinez_tower_1",
+      "carquinez_tower_2",
+      "carquinez_tower_3",
+      "ggb_tower_n",
+      "ggb_tower_s"
+     ],
+     "bad": []
+    },
+    {
+     "check": "line_continuity_at_cuts",
+     "result": "pass",
+     "endpoints_on_edges": 92,
+     "threshold_m": 0.001,
+     "bad": []
+    },
+    {
+     "check": "cable_apex_le_tower_top_plus_radius",
+     "result": "pass",
+     "bad": []
+    }
+   ],
+   "note": "sourced-height, uniqueness/ownership, continuity at tile cuts, cable<=tower; no tolerance widened",
+   "landmark_tiles": 35
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "landmarks_lid_bay_wide",
+   "scope": "bay",
+   "result": "pass",
+   "value": {
+    "landmark_features": 125,
+    "duplicate_lids": 0,
+    "bid_clash": 0
+   },
+   "threshold": "lids unique across the Bay; no landmark bid equals a building bid"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "M-005.1_present",
+   "scope": "bay",
+   "result": "pass",
+   "value": {
+    "rows": 48,
+    "missing": []
+   },
+   "threshold": "every row found in the baked tiles"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "M-005.1_a_vs_import",
+   "scope": "bay",
+   "result": "pass",
+   "value": {
+    "max_m": 0.493,
+    "rows": 19,
+    "over": []
+   },
+   "threshold": "<= 0.5 m vs import (airport tower / R-004 position rows: <= 5 m)",
+   "note": "Bay rows: baked prism / structure centroid vs the T-104 OSM position; airport tower and Alcatraz use the 5 m position tolerance"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "M-005.1_b_vs_reference",
+   "scope": "bay",
+   "result": "pass",
+   "value": {
+    "p95_m": 1.257,
+    "max_m": 4.433,
+    "rows": 34
+   },
+   "threshold": "p95 <= 5.0 m, max <= 10.0 m (summits 15.0 m, cranes 50.0 m, own rows)"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "M-005.1_cranes",
+   "scope": "bay",
+   "result": "pass",
+   "value": [
+    {
+     "id": "port_oakland_cranes_0",
+     "d_m": 0.03,
+     "found": "4/4"
+    },
+    {
+     "id": "port_oakland_cranes_1",
+     "d_m": 0.041,
+     "found": "5/5"
+    },
+    {
+     "id": "port_oakland_cranes_2",
+     "d_m": 0.037,
+     "found": "4/4"
+    },
+    {
+     "id": "port_oakland_cranes_3",
+     "d_m": 0.057,
+     "found": "4/4"
+    },
+    {
+     "id": "port_oakland_cranes_4",
+     "d_m": 0.032,
+     "found": "2/2"
+    },
+    {
+     "id": "port_oakland_cranes_5",
+     "d_m": 0.041,
+     "found": "1/1"
+    },
+    {
+     "id": "port_oakland_cranes_6",
+     "d_m": 0.049,
+     "found": "4/4"
+    },
+    {
+     "id": "port_oakland_cranes_7",
+     "d_m": 0.041,
+     "found": "1/1"
+    },
+    {
+     "id": "port_oakland_cranes_8",
+     "d_m": 0.046,
+     "found": "4/4"
+    },
+    {
+     "id": "port_oakland_cranes_9",
+     "d_m": 0.054,
+     "found": "1/1"
+    },
+    {
+     "id": "port_oakland_cranes_10",
+     "d_m": 0.051,
+     "found": "5/5"
+    }
+   ],
+   "threshold": "cluster centroid <= 50.0 m, every crane present"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "M-005.1_summits",
+   "scope": "bay",
+   "result": "pass",
+   "value": [
+    {
+     "id": "R004_17",
+     "dz_m": 1.95
+    },
+    {
+     "id": "R004_18",
+     "dz_m": 2.28
+    },
+    {
+     "id": "R004_19",
+     "dz_m": 2.68
+    }
+   ],
+   "threshold": "|baked max within 15.0 m - summit elevation| <= 3.0 m"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "M-005.1_heights",
+   "scope": "bay",
+   "result": "pass",
+   "value": {
+    "over": [],
+    "gated_rows": 21
+   },
+   "threshold": "within max(2 m, 1 %) of the sourced / measured height (R-004 rows: the gate_height ones)"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "bathymetry_golden_gate_channel",
+   "scope": "bay",
+   "result": "pass",
+   "value": {
+    "min_navd88_m": -109.764,
+    "p5_navd88_m": -104.16,
+    "median_navd88_m": -90.89,
+    "p95_navd88_m": -41.22,
+    "wet_cells": 1054897
+   },
+   "threshold": {
+    "min_navd88_m": [
+     -117.0,
+     -109.0
+    ],
+    "p5_max_navd88_m": -100.0
+   },
+   "box": [
+    -122.484,
+    37.814,
+    -122.472,
+    37.823
+   ],
+   "tiles": [
+    "L0_26_37",
+    "L0_27_37"
+   ],
+   "reference": "R-004 6.3 (USGS 113 m bedrock channel)",
+   "note": "seabed = baked surface at wet cell centres (OSM water AND below MSL), NAVD88; histogram resolution 0.01 m"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "bathymetry_oakland_inner_harbor",
+   "scope": "bay",
+   "result": "pass",
+   "value": {
+    "min_navd88_m": -17.859,
+    "p5_navd88_m": -16.25,
+    "median_navd88_m": -15.12,
+    "p95_navd88_m": -1.53,
+    "wet_cells": 205863
+   },
+   "threshold": {
+    "median_navd88_m": [
+     -16.2,
+     -14.2
+    ]
+   },
+   "box": [
+    -122.3,
+    37.793,
+    -122.285,
+    37.8
+   ],
+   "tiles": [
+    "L0_34_36",
+    "L0_35_36"
+   ],
+   "reference": "R-004 6.3 (USACE -50 ft MLLW = -15.22 m NAVD88)",
+   "note": "seabed = baked surface at wet cell centres (OSM water AND below MSL), NAVD88; histogram resolution 0.01 m"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "bathymetry_san_pablo_shoal",
+   "scope": "bay",
+   "result": "pass",
+   "value": {
+    "min_navd88_m": -4.064,
+    "p5_navd88_m": -3.16,
+    "median_navd88_m": -2.81,
+    "p95_navd88_m": -2.63,
+    "wet_cells": 3896925
+   },
+   "threshold": {
+    "median_navd88_m": [
+     -3.3,
+     -2.3
+    ]
+   },
+   "box": [
+    -122.4,
+    38.04,
+    -122.38,
+    38.06
+   ],
+   "tiles": [
+    "L0_30_49",
+    "L0_30_50",
+    "L0_31_49",
+    "L0_31_50"
+   ],
+   "reference": "R-004 6.3 (CUDEM derivation)",
+   "note": "seabed = baked surface at wet cell centres (OSM water AND below MSL), NAVD88; histogram resolution 0.01 m"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "bathymetry_carquinez_strait",
+   "scope": "bay",
+   "result": "reported",
+   "value": {
+    "min_navd88_m": -37.893,
+    "p5_navd88_m": -27.16,
+    "median_navd88_m": -17.36,
+    "p95_navd88_m": -0.45,
+    "wet_cells": 3917944
+   },
+   "box": [
+    -122.24,
+    38.05,
+    -122.2,
+    38.075
+   ],
+   "tiles": [
+    "L0_37_50",
+    "L0_37_51",
+    "L0_38_50",
+    "L0_38_51"
+   ],
+   "reference": "R-100 section 6 new spot; USACE project depth not sourced (Assumed)",
+   "note": "no sourced reference depth: measured statistics only, never a pass (R-100 section 6: USACE project depths to source)"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "bathymetry_raccoon_strait",
+   "scope": "bay",
+   "result": "reported",
+   "value": {
+    "min_navd88_m": -62.854,
+    "p5_navd88_m": -44.72,
+    "median_navd88_m": -24.7,
+    "p95_navd88_m": -3.09,
+    "wet_cells": 2907033
+   },
+   "box": [
+    -122.455,
+    37.855,
+    -122.435,
+    37.875
+   ],
+   "tiles": [
+    "L0_27_39",
+    "L0_27_40",
+    "L0_28_39",
+    "L0_28_40"
+   ],
+   "reference": "R-100 section 6 new spot; USACE project depth not sourced (Assumed)",
+   "note": "no sourced reference depth: measured statistics only, never a pass (R-100 section 6: USACE project depths to source)"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "bathymetry_richmond_harbor",
+   "scope": "bay",
+   "result": "reported",
+   "value": {
+    "min_navd88_m": -12.645,
+    "p5_navd88_m": -11.91,
+    "median_navd88_m": -4.63,
+    "p95_navd88_m": -0.03,
+    "wet_cells": 1428857
+   },
+   "box": [
+    -122.372,
+    37.905,
+    -122.345,
+    37.92
+   ],
+   "tiles": [
+    "L0_31_42",
+    "L0_31_43",
+    "L0_32_42"
+   ],
+   "reference": "R-100 section 6 new spot; USACE project depth not sourced (Assumed)",
+   "note": "no sourced reference depth: measured statistics only, never a pass (R-100 section 6: USACE project depths to source)"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "bathymetry_redwood_city_channel",
+   "scope": "bay",
+   "result": "reported",
+   "value": {
+    "min_navd88_m": -9.683,
+    "p5_navd88_m": -9.06,
+    "median_navd88_m": -0.12,
+    "p95_navd88_m": 0.66,
+    "wet_cells": 1996811
+   },
+   "box": [
+    -122.215,
+    37.5,
+    -122.18,
+    37.52
+   ],
+   "tiles": [
+    "L0_38_20",
+    "L0_38_21",
+    "L0_39_20",
+    "L0_39_21"
+   ],
+   "reference": "R-100 section 6 new spot; USACE project depth not sourced (Assumed)",
+   "note": "no sourced reference depth: measured statistics only, never a pass (R-100 section 6: USACE project depths to source)"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "bathymetry_suisun_bay_ship_channel",
+   "scope": "bay",
+   "result": "reported",
+   "value": {
+    "min_navd88_m": -22.538,
+    "p5_navd88_m": -13.16,
+    "median_navd88_m": -7.69,
+    "p95_navd88_m": -0.01,
+    "wet_cells": 7877364
+   },
+   "box": [
+    -122.12,
+    38.035,
+    -122.07,
+    38.06
+   ],
+   "tiles": [
+    "L0_42_49",
+    "L0_42_50",
+    "L0_43_49",
+    "L0_43_50",
+    "L0_44_50"
+   ],
+   "reference": "R-100 section 6 new spot; USACE project depth not sourced (Assumed)",
+   "note": "no sourced reference depth: measured statistics only, never a pass (R-100 section 6: USACE project depths to source)"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "bathymetry_sf_bar",
+   "scope": "bay",
+   "result": "reported",
+   "value": {
+    "min_navd88_m": -57.804,
+    "p5_navd88_m": -38.97,
+    "median_navd88_m": -20.58,
+    "p95_navd88_m": -5.27,
+    "wet_cells": 19917370
+   },
+   "box": [
+    -122.56,
+    37.76,
+    -122.5,
+    37.8
+   ],
+   "tiles": [
+    "L0_23_34",
+    "L0_23_35",
+    "L0_23_36",
+    "L0_24_34",
+    "L0_24_35",
+    "L0_24_36",
+    "L0_25_34",
+    "L0_25_35",
+    "L0_25_36",
+    "L0_26_36"
+   ],
+   "reference": "R-100 section 6 new spot; USACE project depth not sourced (Assumed)",
+   "note": "no sourced reference depth: measured statistics only, never a pass (R-100 section 6: USACE project depths to source)"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "bathymetry_bay_wide_shallowness",
+   "scope": "bay",
+   "result": "fail",
+   "value": {
+    "share_below_5m": 0.6095,
+    "wet_area_km2": 1075.6,
+    "tiles": 1408,
+    "supplementary_not_gated": {
+     "basis": "every baked cell below MSL inside the polygon, wet mask ignored (the R-004 CUDEM-overview basis, diked cells included)",
+     "share_below_5m": 0.6804,
+     "area_km2": 1342.3
+    }
+   },
+   "threshold": "0.66 +- 0.03 of wet area < 5.0 m below MSL",
+   "note": "wet = OSM water AND baked surface below MSL, cell centres inside the R-004 6.3 Bay polygon; the R-004 reference (66.4 %) counted diked cells below MSL"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "licence_credits",
+   "scope": "bay",
+   "result": "pass",
+   "value": {
+    "source_entries_missing_fields": 0,
+    "credits_present": {
+     "OSM": true,
+     "USGS": true,
+     "NOAA": true,
+     "DataSF": true
+    },
+    "licences": [
+     "LicenseRef-facts-cited",
+     "ODbL-1.0",
+     "PDDL-1.0",
+     "US-Gov-PD"
+    ],
+    "tiles_with_datasf_heights_but_no_datasf_credit": []
+   },
+   "threshold": "0 missing fields; credits include OSM, USGS, NOAA, DataSF",
+   "examples": [],
+   "attributions": [
+    "City and County of San Francisco",
+    "City and County of San Francisco, Office of the Assessor-Recorder",
+    "Facts cited from Wikipedia list of tallest buildings in Oakland (CC BY-SA); heights as listed there",
+    "Facts cited from the Council on Tall Buildings and Urban Habitat (CTBUH) Skyscraper Center; no CTBUH data or images redistributed",
+    "Facts cited from the Golden Gate Bridge, Highway and Transportation District (GGBHTD) fact sheets; no GGBHTD data or images redistributed",
+    "NOAA CO-OPS",
+    "NOAA National Centers for Environmental Information (NCEI) CUDEM",
+    "OpenStreetMap contributors",
+    "Port of San Francisco; HABS CA-1910, Library of Congress (US public record)",
+    "U.S. Geological Survey 3D Elevation Program",
+    "U.S. Geological Survey Quaternary Fault and Fold Database",
+    "USGS 3D Elevation Program lidar (CA_SanFrancisco_1_B23, ARRA-CA_GoldenGate_2010); first-return max per 1 m cell, measured by measure_ggb.py",
+    "USGS 3D Elevation Program lidar (first returns); heights NAVD88 m measured by bake_landmarks_bay.py",
+    "\u00a9 OpenStreetMap contributors (ODbL)"
+   ]
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "M-005.2_ngs",
+   "scope": "bay",
+   "result": "not_run",
+   "reason": "needs NGS NDE radial queries (network) stratified by county; no Bay mark set fetched. Owner: T-106b research/fetch step"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "M-005.2_pipeline",
+   "scope": "bay",
+   "result": "not_run",
+   "reason": "needs source CUDEM/3DEP rasters re-read for 10,000 random land points per 100 tiles; the per-tile resampling check exists for L0_30_36 only (m005_check.py check). Owner: T-106b"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "M-005.3_pipeline",
+   "scope": "bay",
+   "result": "not_run",
+   "reason": "RMSE vs CUDEM on wet points needs the source rasters (as M-005.2 pipeline). Owner: T-106b"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "M-005.4_ks",
+   "scope": "bay",
+   "result": "not_run",
+   "reason": "KS D <= 0.02 against source heights: the bake stores the resolved height, not the competing source heights; needs an independent reference (lidar rind per tile exists for the 15 M1 tiles only). Owner: T-106b"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "M-005.5",
+   "scope": "bay",
+   "result": "not_run",
+   "reason": "area recall/precision needs an independent footprint reference (DataSF for SF only); no Bay-wide independent footprint set is licensed (R-100 section 7). Owner: T-106b/R-100 follow-up"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "M-005.6",
+   "scope": "bay",
+   "result": "not_run",
+   "reason": "1:1 scale pairs (<= 60 ppm) need the Unity as-built export of the landmarks; offline pair check not yet implemented for Bay tiles. Owner: T-106b"
+  },
+  {
+   "metric_version": "M-005@v2",
+   "check": "M-005.7",
+   "scope": "bay",
+   "result": "not_run",
+   "reason": "skyline needs the R-ind renders at the ten viewpoints (Unity/Python skyline pipeline, v1.1 spec); not run Bay-wide. Owner: T-106b"
+  }
+ ],
+ "landmark_rows": [
+  {
+   "id": "bay_bridge_w_tower_0",
+   "name": "Bay Bridge west span (SF-YBI) tower 0",
+   "kind": "tower",
+   "tile": "L0_30_36",
+   "tol_pos_m": 5.0,
+   "status_registry": "lidar differs from official: lidar used",
+   "present": true,
+   "baked_pos": [
+    63353.98,
+    74156.05
+   ],
+   "a_vs_import_m": 0.0,
+   "a_ok": true,
+   "height_ref_m": 146.32,
+   "height_baked_m": 146.32,
+   "height_delta_m": 0.0,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "bay_bridge_w_tower_1",
+   "name": "Bay Bridge west span (SF-YBI) tower 1",
+   "kind": "tower",
+   "tile": "L0_31_36",
+   "tol_pos_m": 5.0,
+   "status_registry": "lidar differs from official: lidar used",
+   "present": true,
+   "baked_pos": [
+    63809.42,
+    74685.04
+   ],
+   "a_vs_import_m": 0.0,
+   "a_ok": true,
+   "height_ref_m": 170.86,
+   "height_baked_m": 170.86,
+   "height_delta_m": 0.0,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "bay_bridge_w_tower_2",
+   "name": "Bay Bridge west span (SF-YBI) tower 2",
+   "kind": "tower",
+   "tile": "L0_31_36",
+   "tol_pos_m": 5.0,
+   "status_registry": "agrees with official within max(2 m, 1 %)",
+   "present": true,
+   "baked_pos": [
+    64299.03,
+    75272.64
+   ],
+   "a_vs_import_m": 0.0,
+   "a_ok": true,
+   "height_ref_m": 159.61,
+   "height_baked_m": 160.0,
+   "height_delta_m": 0.39,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "bay_bridge_w_tower_3",
+   "name": "Bay Bridge west span (SF-YBI) tower 3",
+   "kind": "tower",
+   "tile": "L0_31_37",
+   "tol_pos_m": 5.0,
+   "status_registry": "lidar differs from official: lidar used",
+   "present": true,
+   "baked_pos": [
+    64759.24,
+    75809.09
+   ],
+   "a_vs_import_m": 0.0,
+   "a_ok": true,
+   "height_ref_m": 147.98,
+   "height_baked_m": 147.98,
+   "height_delta_m": 0.0,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "bay_bridge_e_tower_0",
+   "name": "Bay Bridge east span (YBI-Oakland, SAS 2013) tower 0",
+   "kind": "tower",
+   "tile": "L0_32_37",
+   "tol_pos_m": 5.0,
+   "status_registry": "lidar differs from official: lidar used",
+   "present": true,
+   "baked_pos": [
+    65763.8,
+    76877.18
+   ],
+   "a_vs_import_m": 0.0,
+   "a_ok": true,
+   "height_ref_m": 164.37,
+   "height_baked_m": 164.37,
+   "height_delta_m": 0.0,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "carquinez_tower_0",
+   "name": "Carquinez Bridges (Zampa 2003 suspension, 1958 cantilever) tower 0",
+   "kind": "tower",
+   "tile": "L0_37_51",
+   "tol_pos_m": 5.0,
+   "status_registry": "lidar differs from official: lidar used",
+   "present": true,
+   "baked_pos": [
+    77354.13,
+    104520.11
+   ],
+   "a_vs_import_m": 0.0,
+   "a_ok": true,
+   "height_ref_m": 134.07,
+   "height_baked_m": 134.07,
+   "height_delta_m": 0.0,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "carquinez_tower_1",
+   "name": "Carquinez Bridges (Zampa 2003 suspension, 1958 cantilever) tower 1",
+   "kind": "tower",
+   "tile": "L0_37_51",
+   "tol_pos_m": 5.0,
+   "status_registry": "lidar differs from official: lidar used",
+   "present": true,
+   "baked_pos": [
+    77455.2,
+    104508.32
+   ],
+   "a_vs_import_m": 0.0,
+   "a_ok": true,
+   "height_ref_m": 101.05,
+   "height_baked_m": 101.05,
+   "height_delta_m": 0.0,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "carquinez_tower_2",
+   "name": "Carquinez Bridges (Zampa 2003 suspension, 1958 cantilever) tower 2",
+   "kind": "tower",
+   "tile": "L0_37_50",
+   "tol_pos_m": 5.0,
+   "status_registry": "lidar differs from official: lidar used",
+   "present": true,
+   "baked_pos": [
+    77476.81,
+    104183.59
+   ],
+   "a_vs_import_m": 0.0,
+   "a_ok": true,
+   "height_ref_m": 101.0,
+   "height_baked_m": 101.0,
+   "height_delta_m": 0.0,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "carquinez_tower_3",
+   "name": "Carquinez Bridges (Zampa 2003 suspension, 1958 cantilever) tower 3",
+   "kind": "tower",
+   "tile": "L0_37_50",
+   "tol_pos_m": 5.0,
+   "status_registry": "lidar differs from official: lidar used",
+   "present": true,
+   "baked_pos": [
+    77479.55,
+    104135.96
+   ],
+   "a_vs_import_m": 0.0,
+   "a_ok": true,
+   "height_ref_m": 101.48,
+   "height_baked_m": 101.48,
+   "height_delta_m": 0.0,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "ordway_building",
+   "name": "Ordway Building",
+   "kind": "building",
+   "tile": "L0_36_37",
+   "tol_pos_m": 5.0,
+   "status_registry": "agrees with official within max(2 m, 1 %)",
+   "present": true,
+   "baked_pos": [
+    74072.622,
+    76289.401
+   ],
+   "a_vs_import_m": 0.002,
+   "a_ok": true,
+   "height_ref_m": 123.1,
+   "height_baked_m": 123.0,
+   "height_delta_m": -0.1,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "kaiser_center_tower",
+   "name": "Kaiser Center (300 Lakeside)",
+   "kind": "building",
+   "tile": "L0_36_37",
+   "tol_pos_m": 5.0,
+   "status_registry": "agrees with official within max(2 m, 1 %)",
+   "present": true,
+   "baked_pos": [
+    74076.666,
+    76155.919
+   ],
+   "a_vs_import_m": 0.001,
+   "a_ok": true,
+   "height_ref_m": 118.7,
+   "height_baked_m": 119.0,
+   "height_delta_m": 0.3,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "oakland_1111_broadway",
+   "name": "1111 Broadway",
+   "kind": "building",
+   "tile": "L0_35_36",
+   "tol_pos_m": 5.0,
+   "status_registry": "lidar differs from official: lidar used",
+   "present": true,
+   "baked_pos": [
+    73298.357,
+    75498.977
+   ],
+   "a_vs_import_m": 0.001,
+   "a_ok": true,
+   "height_ref_m": 112.75,
+   "height_baked_m": 112.75,
+   "height_delta_m": 0.0,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "lake_merritt_plaza",
+   "name": "Lake Merritt Plaza",
+   "kind": "building",
+   "tile": "L0_36_37",
+   "tol_pos_m": 5.0,
+   "status_registry": "agrees with official within max(2 m, 1 %)",
+   "present": true,
+   "baked_pos": [
+    73972.663,
+    76040.857
+   ],
+   "a_vs_import_m": 0.001,
+   "a_ok": true,
+   "height_ref_m": 113.1,
+   "height_baked_m": 113.0,
+   "height_delta_m": -0.1,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "clorox_building",
+   "name": "Clorox Building (1221 Broadway)",
+   "kind": "building",
+   "tile": "L0_35_36",
+   "tol_pos_m": 5.0,
+   "status_registry": "agrees with official within max(2 m, 1 %)",
+   "present": true,
+   "baked_pos": [
+    73347.843,
+    75570.536
+   ],
+   "a_vs_import_m": 0.002,
+   "a_ok": true,
+   "height_ref_m": 100.6,
+   "height_baked_m": 101.0,
+   "height_delta_m": 0.4,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "atlas_oakland",
+   "name": "Atlas (1314 Franklin St)",
+   "kind": "building",
+   "tile": "L0_35_36",
+   "tol_pos_m": 5.0,
+   "status_registry": "agrees with official within max(2 m, 1 %)",
+   "present": true,
+   "baked_pos": [
+    73589.33,
+    75545.742
+   ],
+   "a_vs_import_m": 0.002,
+   "a_ok": true,
+   "height_ref_m": 122.9,
+   "height_baked_m": 122.0,
+   "height_delta_m": -0.9,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "oakland_601_city_center",
+   "name": "601 City Center (Oakland City Center)",
+   "kind": "building",
+   "tile": "L0_35_36",
+   "tol_pos_m": 5.0,
+   "status_registry": "agrees with official within max(2 m, 1 %)",
+   "present": true,
+   "baked_pos": [
+    72988.236,
+    75653.694
+   ],
+   "a_vs_import_m": 0.001,
+   "a_ok": true,
+   "height_ref_m": 112,
+   "height_baked_m": 112.0,
+   "height_delta_m": 0.0,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "alcatraz_lighthouse",
+   "name": "Alcatraz lighthouse",
+   "kind": "alcatraz",
+   "tile": "L0_29_38",
+   "tol_pos_m": 5.0,
+   "status_registry": "lidar differs from official: lidar used",
+   "present": true,
+   "baked_pos": [
+    60145.24,
+    78102.682
+   ],
+   "a_vs_import_m": 0.123,
+   "a_ok": true,
+   "height_ref_m": 28.12,
+   "height_baked_m": 28.12,
+   "height_delta_m": -0.0,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "sfo_tower",
+   "name": "San Francisco International control tower",
+   "kind": "airport_tower",
+   "tile": "L0_31_26",
+   "tol_pos_m": 5.0,
+   "status_registry": "lidar differs from OSM height: lidar value reported, OSM kept until closed (Q-NEW)",
+   "present": true,
+   "baked_pos": [
+    63512.857,
+    54751.492
+   ],
+   "a_vs_import_m": 0.493,
+   "a_ok": true,
+   "height_baked_m": 67.36,
+   "height_ref_m": 67.36,
+   "note": "height reported only (registry has no gated height)",
+   "result": "pass"
+  },
+  {
+   "id": "oak_tower",
+   "name": "Oakland International control tower",
+   "kind": "airport_tower",
+   "tile": "L0_37_32",
+   "tol_pos_m": 5.0,
+   "status_registry": "lidar differs from OSM height: lidar value reported, OSM kept until closed (Q-NEW)",
+   "present": true,
+   "baked_pos": [
+    77796.668,
+    66247.16
+   ],
+   "a_vs_import_m": 0.402,
+   "a_ok": true,
+   "height_baked_m": 72.0,
+   "height_ref_m": 72,
+   "note": "height reported only (registry has no gated height)",
+   "result": "pass"
+  },
+  {
+   "id": "port_oakland_cranes_0",
+   "name": "Port of Oakland crane cluster 0",
+   "kind": "crane_cluster",
+   "tile": "L0_32_37",
+   "tol_pos_m": 50,
+   "status_registry": "position only (cranes move)",
+   "present": true,
+   "baked_pos": [
+    67503.913,
+    76039.673
+   ],
+   "a_vs_import_m": 0.03,
+   "cranes_found": "4/4",
+   "a_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "port_oakland_cranes_1",
+   "name": "Port of Oakland crane cluster 1",
+   "kind": "crane_cluster",
+   "tile": "L0_33_37",
+   "tol_pos_m": 50,
+   "status_registry": "position only (cranes move)",
+   "present": true,
+   "baked_pos": [
+    68739.54,
+    76304.49
+   ],
+   "a_vs_import_m": 0.041,
+   "cranes_found": "5/5",
+   "a_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "port_oakland_cranes_2",
+   "name": "Port of Oakland crane cluster 2",
+   "kind": "crane_cluster",
+   "tile": "L0_33_36",
+   "tol_pos_m": 50,
+   "status_registry": "position only (cranes move)",
+   "present": true,
+   "baked_pos": [
+    68911.928,
+    74998.375
+   ],
+   "a_vs_import_m": 0.037,
+   "cranes_found": "4/4",
+   "a_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "port_oakland_cranes_3",
+   "name": "Port of Oakland crane cluster 3",
+   "kind": "crane_cluster",
+   "tile": "L0_33_37",
+   "tol_pos_m": 50,
+   "status_registry": "position only (cranes move)",
+   "present": true,
+   "baked_pos": [
+    69393.463,
+    76855.443
+   ],
+   "a_vs_import_m": 0.057,
+   "cranes_found": "4/4",
+   "a_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "port_oakland_cranes_4",
+   "name": "Port of Oakland crane cluster 4",
+   "kind": "crane_cluster",
+   "tile": "L0_33_36",
+   "tol_pos_m": 50,
+   "status_registry": "position only (cranes move)",
+   "present": true,
+   "baked_pos": [
+    69602.62,
+    74773.825
+   ],
+   "a_vs_import_m": 0.032,
+   "cranes_found": "2/2",
+   "a_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "port_oakland_cranes_5",
+   "name": "Port of Oakland crane cluster 5",
+   "kind": "crane_cluster",
+   "tile": "L0_34_37",
+   "tol_pos_m": 50,
+   "status_registry": "position only (cranes move)",
+   "present": true,
+   "baked_pos": [
+    69738.56,
+    77287.21
+   ],
+   "a_vs_import_m": 0.041,
+   "cranes_found": "1/1",
+   "a_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "port_oakland_cranes_6",
+   "name": "Port of Oakland crane cluster 6",
+   "kind": "crane_cluster",
+   "tile": "L0_34_36",
+   "tol_pos_m": 50,
+   "status_registry": "position only (cranes move)",
+   "present": true,
+   "baked_pos": [
+    70191.258,
+    74583.675
+   ],
+   "a_vs_import_m": 0.049,
+   "cranes_found": "4/4",
+   "a_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "port_oakland_cranes_7",
+   "name": "Port of Oakland crane cluster 7",
+   "kind": "crane_cluster",
+   "tile": "L0_34_35",
+   "tol_pos_m": 50,
+   "status_registry": "position only (cranes move)",
+   "present": true,
+   "baked_pos": [
+    70598.51,
+    72135.04
+   ],
+   "a_vs_import_m": 0.041,
+   "cranes_found": "1/1",
+   "a_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "port_oakland_cranes_8",
+   "name": "Port of Oakland crane cluster 8",
+   "kind": "crane_cluster",
+   "tile": "L0_34_36",
+   "tol_pos_m": 50,
+   "status_registry": "position only (cranes move)",
+   "present": true,
+   "baked_pos": [
+    70806.635,
+    74491.87
+   ],
+   "a_vs_import_m": 0.046,
+   "cranes_found": "4/4",
+   "a_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "port_oakland_cranes_9",
+   "name": "Port of Oakland crane cluster 9",
+   "kind": "crane_cluster",
+   "tile": "L0_34_36",
+   "tol_pos_m": 50,
+   "status_registry": "position only (cranes move)",
+   "present": true,
+   "baked_pos": [
+    71530.38,
+    74501.75
+   ],
+   "a_vs_import_m": 0.054,
+   "cranes_found": "1/1",
+   "a_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "port_oakland_cranes_10",
+   "name": "Port of Oakland crane cluster 10",
+   "kind": "crane_cluster",
+   "tile": "L0_35_36",
+   "tol_pos_m": 50,
+   "status_registry": "position only (cranes move)",
+   "present": true,
+   "baked_pos": [
+    72280.632,
+    74621.36
+   ],
+   "a_vs_import_m": 0.051,
+   "cranes_found": "5/5",
+   "a_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "R004_1",
+   "name": "Golden Gate Bridge south tower",
+   "kind": "r004",
+   "tile": "L0_26_37",
+   "tol_pos_m": 5,
+   "gate_height": false,
+   "present": true,
+   "b_vs_reference_m": 1.139,
+   "baked_height_m": 249.18,
+   "height_ref_m": 227,
+   "result": "pass"
+  },
+  {
+   "id": "R004_2",
+   "name": "Golden Gate Bridge north tower",
+   "kind": "r004",
+   "tile": "L0_26_38",
+   "tol_pos_m": 5,
+   "gate_height": false,
+   "present": true,
+   "b_vs_reference_m": 1.452,
+   "baked_height_m": 249.18,
+   "height_ref_m": 227,
+   "result": "pass"
+  },
+  {
+   "id": "R004_3",
+   "name": "Bay Bridge W2 tower",
+   "kind": "r004",
+   "tile": "L0_30_36",
+   "tol_pos_m": 5,
+   "gate_height": false,
+   "present": true,
+   "b_vs_reference_m": 0.019,
+   "baked_height_m": 160.0,
+   "height_ref_m": 160,
+   "result": "pass"
+  },
+  {
+   "id": "R004_4",
+   "name": "Bay Bridge W6 tower",
+   "kind": "r004",
+   "tile": "L0_31_37",
+   "tol_pos_m": 5,
+   "gate_height": false,
+   "present": true,
+   "b_vs_reference_m": 0.039,
+   "baked_height_m": 160.0,
+   "height_ref_m": null,
+   "result": "pass"
+  },
+  {
+   "id": "R004_5",
+   "name": "Bay Bridge east span SAS tower",
+   "kind": "r004",
+   "tile": "L0_32_37",
+   "tol_pos_m": 5,
+   "gate_height": false,
+   "present": true,
+   "b_vs_reference_m": 0.026,
+   "baked_height_m": 160.0,
+   "height_ref_m": 160,
+   "result": "pass"
+  },
+  {
+   "id": "R004_6",
+   "name": "Salesforce Tower",
+   "kind": "r004",
+   "tile": "L0_30_36",
+   "tol_pos_m": 5,
+   "gate_height": true,
+   "present": true,
+   "b_vs_reference_m": 1.152,
+   "baked_height_m": 326.0,
+   "height_ref_m": 326,
+   "height_delta_m": 0.0,
+   "height_tol_m": 3.2600000000000002,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "R004_7",
+   "name": "Transamerica Pyramid",
+   "kind": "r004",
+   "tile": "L0_30_36",
+   "tol_pos_m": 5,
+   "gate_height": true,
+   "present": true,
+   "b_vs_reference_m": 0.039,
+   "baked_height_m": 260.0,
+   "height_ref_m": 260,
+   "height_delta_m": 0.0,
+   "height_tol_m": 2.6,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "R004_8",
+   "name": "555 California Street",
+   "kind": "r004",
+   "tile": "L0_30_36",
+   "tol_pos_m": 5,
+   "gate_height": false,
+   "present": true,
+   "b_vs_reference_m": 0.337,
+   "baked_height_m": 237.0,
+   "height_ref_m": 226,
+   "result": "pass"
+  },
+  {
+   "id": "R004_9",
+   "name": "Millennium Tower",
+   "kind": "r004",
+   "tile": "L0_30_36",
+   "tol_pos_m": 5,
+   "gate_height": true,
+   "present": true,
+   "b_vs_reference_m": 0.524,
+   "baked_height_m": 197.0,
+   "height_ref_m": 197,
+   "height_delta_m": 0.0,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "R004_10",
+   "name": "Ferry Building",
+   "kind": "r004",
+   "tile": "L0_30_36",
+   "tol_pos_m": 5,
+   "gate_height": false,
+   "present": true,
+   "b_vs_reference_m": 1.058,
+   "baked_height_m": 71.6,
+   "height_ref_m": 15,
+   "result": "pass"
+  },
+  {
+   "id": "R004_11",
+   "name": "Coit Tower",
+   "kind": "r004",
+   "tile": "L0_30_36",
+   "tol_pos_m": 5,
+   "gate_height": true,
+   "present": true,
+   "b_vs_reference_m": 0.315,
+   "baked_height_m": 64.0,
+   "height_ref_m": 64,
+   "height_delta_m": -0.0,
+   "height_tol_m": 2.0,
+   "height_ok": true,
+   "result": "pass"
+  },
+  {
+   "id": "R004_12",
+   "name": "Sutro Tower",
+   "kind": "r004",
+   "tile": "L0_28_34",
+   "tol_pos_m": 5,
+   "gate_height": false,
+   "present": true,
+   "b_vs_reference_m": 4.433,
+   "baked_height_m": 298.0,
+   "height_ref_m": 298,
+   "result": "pass"
+  },
+  {
+   "id": "R004_13",
+   "name": "Alcatraz lighthouse",
+   "kind": "r004",
+   "tile": "L0_29_38",
+   "tol_pos_m": 5,
+   "gate_height": false,
+   "present": true,
+   "b_vs_reference_m": 0.016,
+   "baked_height_m": 28.12,
+   "height_ref_m": 26,
+   "result": "pass"
+  },
+  {
+   "id": "R004_14",
+   "name": "Ordway Building, Oakland",
+   "kind": "r004",
+   "tile": "L0_36_37",
+   "tol_pos_m": 5,
+   "gate_height": false,
+   "present": true,
+   "b_vs_reference_m": 0.203,
+   "baked_height_m": 123.0,
+   "height_ref_m": 123,
+   "result": "pass"
+  },
+  {
+   "id": "R004_15",
+   "name": "SFO control tower",
+   "kind": "r004",
+   "tile": "L0_31_26",
+   "tol_pos_m": 5,
+   "gate_height": false,
+   "present": true,
+   "b_vs_reference_m": 0.032,
+   "baked_height_m": 67.36,
+   "height_ref_m": 67.36,
+   "result": "pass"
+  },
+  {
+   "id": "R004_17",
+   "name": "Mount Davidson summit",
+   "kind": "summit",
+   "tile": "L0_28_33",
+   "tol_pos_m": 15,
+   "gate_height": false,
+   "present": true,
+   "summit_max_navd88_m": 279.75,
+   "summit_ref_navd88_m": 277.8,
+   "vertical_delta_m": 1.95,
+   "b_vs_reference_m": 0.0,
+   "result": "pass",
+   "tol_vertical_m": 3.0
+  },
+  {
+   "id": "R004_18",
+   "name": "Mt Tamalpais East Peak",
+   "kind": "summit",
+   "tile": "L0_22_43",
+   "tol_pos_m": 15,
+   "gate_height": false,
+   "present": true,
+   "summit_max_navd88_m": 784.68,
+   "summit_ref_navd88_m": 782.4,
+   "vertical_delta_m": 2.28,
+   "b_vs_reference_m": 0.0,
+   "result": "pass",
+   "tol_vertical_m": 3.0
+  },
+  {
+   "id": "R004_19",
+   "name": "Mount Diablo summit",
+   "kind": "summit",
+   "tile": "L0_51_41",
+   "tol_pos_m": 15,
+   "gate_height": false,
+   "present": true,
+   "summit_max_navd88_m": 1173.58,
+   "summit_ref_navd88_m": 1170.9,
+   "vertical_delta_m": 2.68,
+   "b_vs_reference_m": 0.0,
+   "result": "pass",
+   "tol_vertical_m": 3.0
+  }
+ ],
+ "totals": {
+  "buildings_structures": 1885001,
+  "building_area_m2": 464266811.0,
+  "placeholder_terrain_tiles": 536
+ }
+}
