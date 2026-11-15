@@ -1,0 +1,88 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Core.Contracts -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-040/kaiju/DotnetTests/Core.Contracts/bin/Debug/netstandard2.1/Game.Core.Contracts.dll
+  WorldGeo.Contracts -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-040/kaiju/DotnetTests/WorldGeo.Contracts/bin/Debug/netstandard2.1/Game.World.Geo.Contracts.dll
+  WorldDestruction.Contracts -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-040/kaiju/DotnetTests/WorldDestruction.Contracts/bin/Debug/netstandard2.1/Game.World.Destruction.Contracts.dll
+  WorldSeismic.Contracts -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-040/kaiju/DotnetTests/WorldSeismic.Contracts/bin/Debug/netstandard2.1/Game.World.Seismic.Contracts.dll
+  Combat.Contracts -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-040/kaiju/DotnetTests/Combat.Contracts/bin/Debug/netstandard2.1/Game.Combat.Contracts.dll
+  WorldDestruction -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-040/kaiju/DotnetTests/WorldDestruction/bin/Debug/netstandard2.1/Game.World.Destruction.dll
+  Combat -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-040/kaiju/DotnetTests/Combat/bin/Debug/netstandard2.1/Game.Combat.dll
+/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-040/kaiju/Assets/Game/Combat/Tests/EditMode/CombatTestSupport.cs(23,32): warning CS0649: Field 'FakeMount.Velocity' is never assigned to, and will always have its default value [/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-040/kaiju/DotnetTests/Combat.Tests/Combat.Tests.csproj]
+  Combat.Tests -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-040/kaiju/DotnetTests/Combat.Tests/bin/Debug/net11.0/Game.Combat.Tests.dll
+Test run for /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-040/kaiju/DotnetTests/Combat.Tests/bin/Debug/net11.0/Game.Combat.Tests.dll (.NETCoreApp,Version=v11.0)
+A total of 1 test files matched the specified pattern.
+/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-040/kaiju/DotnetTests/Combat.Tests/bin/Debug/net11.0/Game.Combat.Tests.dll
+NUnit Adapter 4.6.0.0: Test execution started
+Running all tests in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-040/kaiju/DotnetTests/Combat.Tests/bin/Debug/net11.0/Game.Combat.Tests.dll
+   NUnit3TestExecutor discovered 47 of 47 NUnit test cases using Current Discovery mode, Non-Explicit run
+Heavy 45 deg: range 32011.01709650684 m, vacuum 59209.21007683562 m, ratio 0.5406425293457933, flight 91.2706906596736 s
+
+  Passed Determinism_TwoRunsAreBitEqual [10 ms]
+  Passed DragCurve_Interpolates_Clamps_AndValidates [7 ms]
+  Passed DragNeverAddsEnergy_AlongAFlight [5 ms]
+  Passed ErrorShrinksFourthOrder_WhenStepHalves [< 1 ms]
+  Passed HeavyCannon_RangeIsPlausibleFractionOfVacuumRange [2 ms]
+  Standard Output Messages:
+ Heavy 45 deg: range 32011.01709650684 m, vacuum 59209.21007683562 m, ratio 0.5406425293457933, flight 91.2706906596736 s
+
+
+  Passed HorizontalFlightWithDrag_MatchesHyperbolicSolution [2 ms]
+  Passed MuzzleEnergy_And_Recoil_Formulas [< 1 ms]
+  Passed NoDrag_MatchesParabolaExactly [1 ms]
+  Passed VerticalFallWithDrag_MatchesTanhSolution [5 ms]
+M-061 draft max relative error: 3.7023815244498726E-14
+
+  Passed Wind_PushesTheShell [< 1 ms]
+  Passed Ammo_IsFinite_AndReloadGatesFire [2 ms]
+  Passed Determinism_SameShotSameRecord [2 ms]
+  Passed FastShell_DoesNotTunnelThroughAThinWall [< 1 ms]
+  Passed FlatShot_HitsBuildingFace_EnergyWithinMuzzleBound [3 ms]
+  Passed KaijuHit_RemovesHitPoints_FromTheHealthContract [3 ms]
+  Passed MetricDraft_M061_BallisticAccuracyVsAnalytic_PrintsMaxRelError [5 ms]
+  Standard Output Messages:
+ M-061 draft max relative error: 3.7023815244498726E-14
+
+
+  Passed NonFiniteInputs_AreRefused [< 1 ms]
+  Passed Recoil_IsOppositeToTheShot_AndAtTheMuzzle [< 1 ms]
+  Passed ShooterCapsule_IsIgnored [< 1 ms]
+  Passed ShooterVelocity_IsInherited [< 1 ms]
+  Passed Shot_FeedsRealDamageModel_AndBusReportsStateChange [6 ms]
+  Passed ShotOverTheBuilding_Misses_AndLandsOnGround_WithNoDamage [1 ms]
+  Passed Flags_AreTheDeclaredNames [< 1 ms]
+  Passed MountedCannonAndArm_DriveDestructionAndKaijuThroughTheSystem [3 ms]
+  Passed Router_WithNoSinks_StillPublishesImpulseAndNeverThrows [< 1 ms]
+  Passed UnknownBuilding_IsNotCountedAsDeliveredEnergy [< 1 ms]
+  Passed EnergyConservation_HoldsForRandomCases [6 ms]
+M-062 draft: 16 impacts, worst E / E_swing_max = 0.8876196917774914
+
+  Passed HeavyTarget_BehavesAsImmovable_LightTargetTakesHalfAtEqualMass [< 1 ms]
+  Passed ImmovableTarget_FullyPlastic_DissipatesAllKinetic [< 1 ms]
+  Passed SpeedBelowZero_Or_NonFinite_GivesNothing [< 1 ms]
+  Passed BladeSamples_ContactEarlierPointOnTheEdge_WithLowerLever [< 1 ms]
+  Passed Determinism_SameSwingSameRecord [< 1 ms]
+  Passed HeavierTip_AtTheSameSpeed_DeliversMoreEnergy [< 1 ms]
+  Passed Inertia_And_MaxEnergy_FollowTheDeclaredMasses [< 1 ms]
+  Passed MetricDraft_M062_EveryImpactEnergyIsBoundedBySwingKinetic_AcrossAGrid [< 1 ms]
+  Standard Output Messages:
+ M-062 draft: 16 impacts, worst E / E_swing_max = 0.8876196917774914
+
+
+  Passed MoreSamplesThanOne_OnlyOneContactPerSwing [< 1 ms]
+  Passed NonFiniteSwing_IsRefused [< 1 ms]
+  Passed ShortDuration_IsStretched_SoPeakTipSpeedNeverExceedsTheLimit [< 1 ms]
+  Passed SwingIntoFlatRoof_Immovable_ConservesEnergyAndReboundsByRestitution [< 1 ms]
+  Passed SwingIntoMovableTarget_GivesLessEnergyThanImmovable_AndBoundedByKinetic [< 1 ms]
+  Passed SwingThroughEmptySpace_MissesAndRecovers [< 1 ms]
+  Passed TargetOutsideReach_OrOutsideThePlane_IsMissed [< 1 ms]
+  Passed Capsule_SideAndCap_AndIgnore [< 1 ms]
+  Passed EarliestOfTwoTargetsWins [< 1 ms]
+  Passed SweepHitsBoxFace_WithOutwardNormal_AndFractionAlongSegment [< 1 ms]
+NUnit Adapter 4.6.0.0: Test execution complete
+  Passed SweepMisses_WhenPassingBesideOrStoppingShort [< 1 ms]
+  Passed SweepStartingInside_HitsAtZero [< 1 ms]
+
+Test Run Successful.
+Total tests: 47
+     Passed: 47
+ Total time: 0.7387 Seconds

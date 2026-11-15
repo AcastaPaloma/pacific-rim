@@ -6,5 +6,6 @@ The game's composition root. The only assembly that references every module's ru
 - `GameCompositionBoot` runs it once per Play session from `CoreRuntime.Booted` (added to Game.Core.Unity).
 - `NetCoopInstaller` (T-030c): with `net.coop` AND `net.seatBridge` on and `GameCompositionInputs.Net` set, creates the host session + `HostSeatPump` or the client session + `ClientSeatLink` and registers a `NetCoopHandle` (`AttachHostSeat`/`AttachClientSeat` add a `MechSeatBehaviour` to a GameObject). Missing inputs are reported (ConfigMissing), not installed.
 - `PlaceholderInstaller` (T-030c): with `units.placeholderBody` on, registers `PlaceholderBodyFactory` (`Create(go, id, seat)` adds the TEMPORARY `PlaceholderBodyBehaviour` and wires the seat's intent frames to it).
+- `CombatInstaller` (T-040): with `combat.cannon` and/or `combat.melee` on, registers `CombatHandle` (`Mount(PlaceholderBody, ...)` mounts the enabled weapons through `PlaceholderWeaponMount`; the host calls `Step(dt)`). Missing `ICombatTargetQuery` is reported and an empty world is used; a missing `IEntityHealth` gets a `LinearEntityHealth`.
 - Scene wiring (which mech, which transport) is the caller's. Tile loading and `DistrictRefs` come from the caller through `GameCompositionInputs`.
 - Tests: `Tests/EditMode` (Unity EditMode only: the assembly references the Unity adapters).

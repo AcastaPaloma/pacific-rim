@@ -38,6 +38,7 @@ namespace Game.Composition
         public IKaijuBrainFactory Brain;
         public NetCoopHandle Net;
         public PlaceholderBodyFactory Placeholder;
+        public CombatHandle Combat;
     }
 
     public static class GameComposition
@@ -74,6 +75,7 @@ namespace Game.Composition
             r.Brain = ScriptedBrainModule.Install(registry, flags);
             r.Net = NetCoopInstaller.Install(registry, flags, errors, inputs?.Net);
             r.Placeholder = PlaceholderInstaller.Install(registry, flags, inputs?.PlaceholderBodyLimits);
+            r.Combat = CombatInstaller.Install(registry, flags, errors);
             return r;
         }
     }
