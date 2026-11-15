@@ -1,36 +1,27 @@
 # M1 progress (orchestrator state; reload from here)
 
-Orchestrator: M1 session started from the M0 orchestrator. The user is offline, so decisions are made autonomously and logged in `ledger/HANDOFF.md`.
+Orchestrator: M1 lead, session 2 (2026-11-15). User offline: decisions are made autonomously and logged in `ledger/HANDOFF.md` ("M1 lead orchestrator, session 2").
 Integration branch: `claude/fable-orchestrator-prompt-83a0a8`. Task worktrees: `<worktree root>/.wt/T-0xx`, branches `task/T-0xx` (pushed).
-Never merge to `main`. T-005 (`.wt/T-005`, its QUEUE section) belongs to orchestrator session 4. Unity: at most 1 batch process from M1, and only while fewer than 2 run machine-wide (check: `ps ax -o command | grep -i "[U]nity.app/Contents/MacOS/Unity .*-batchmode" | grep -vc AssetImportWorker`). The founders' editor (`/Users/kuanw/Me/code/pacific-rim/kaiju`, port 7800) is never touched.
-Workers: one Sonnet (medium; low for checks) per step, briefed in the QUEUE.md template. After each worker, the orchestrator re-runs its dotnet tests.
-`$SCRATCH` = `/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/82a000e8-e3b9-4808-b557-7401587b69e2/scratchpad` (session-local, may vanish).
+Never merge to `main`. Run every git command as `git -C <integration worktree>` (an earlier `cd ..` merged into the founders' local main; reverted, see HANDOFF). T-005 (`.wt/T-005`, its QUEUE section) belongs to orchestrator session 4's successor. Unity: at most 1 batch process from M1, only while fewer than 2 run machine-wide. The founders' editor (port 7800) is never touched.
+Workers: one Sonnet (medium) per step. After each worker the orchestrator re-runs its tests; Unity runs are started by the orchestrator in the background. Hand-written `.meta` files must have `fileFormatVersion: 2` and `guid:` on separate lines (one worker merged them; `grep -rl "fileFormatVersion: 2guid" Assets` before every Unity run).
+Integration Unity script: `unity run <kaiju> -- -executeMethod Game.Core.Unity.CoreConfigAsset.CreateOrUpdate`, then `unity test <kaiju> --mode EditMode`.
 
-## Done
-- Research R-020..R-026 and `research/M1_W1_SUMMARY.md` (9d16027); decisions are in HANDOFF.md (2741a29).
-- **T-020 district bake** (`task/T-020`): 14 tiles, ee238c2. `evidence/T-020/BAKE.md`: 8–37 s per tile, 297 MB, 8 of 14 tiles > 60 % water.
-- **T-024 damage model** (`task/T-024`), 4/4 steps:
-  - d838a98: contracts and capacity model.
-  - 5294484: shaking route plus the M-051 probability function.
-  - f512e45: debris and mass/energy account (E_frac capped at 25 % of ΔPE, Assumed).
-  - 3a9861f: `destruction.enabled` flag (default off), Geo adapter, `DestructionModule.Install`, MODULE.md.
-  - Tests: dotnet 39/39, Core 96/96.
-- **T-029 Net core** step 1/4 (`task/T-029`), 24e68ac: contracts, loopback with seeded delay/jitter/loss, handshake refusal. Tests 26/26.
-
-- T-024 Unity EditMode (`.wt/T-024`): 266/268, all 39 Destruction cases pass. The one failure was Core `Adapter_ConfigAsset_PointsAtCommittedFiles` (5 flag files vs 4 in the asset), fixed by regenerating `GameCoreConfig.asset` with `-executeMethod Game.Core.Unity.CoreConfigAsset.CreateOrUpdate` (c810c81). The next Unity run on the branch confirms it. **Every new flag file needs this regeneration.**
-- T-029 step 2, 2d41593: snapshot codec and Hermite interpolation. Tests 37/37.
-
-## Hand-over (2026-11-15 ~00:55; orchestrator context near 150k). Workers still running when this was written; check their branches for these commits:
-- T-029 step 3 is DONE: 7aab2c4, 50/50 tests (verified). Accepted deviation: host steps with no fresh intent can run to ≤ 2 in a row (50 Hz host steps against 60 Hz datagrams); lost intents still run to ≤ 1. Decided autonomously (user offline): the brief said ≤ 1, but ≤ 2 is the sampling limit. Log this in HANDOFF at the next ledger pass.
-- T-025 step 1 is DONE: f3d3ff3, 53/53 tests (verified). Its test assembly now references Game.Core for SaveCodec and SaveSystem, which is test-only and acceptable. Left for step 2: the MODULE.md save note, and the M-050 scale of 20,000 buildings (the tests use 2,000).
-- T-020 add-on is DONE: 55ca01e (columns `year_property_built`, `number_of_stories`, `construction_type`, roll 2025). Re-bake of all 15 tiles in c35ccd1; pytest 72/72; match is about 75 % downtown and 43 % in the Presidio. Note: L0_30_36 is re-baked on `task/T-020` too. T-024's Geo adapter can now read `year_built` to choose Hazus code-era rows (a small follow-up step on T-024 or T-025).
-- For each: re-run its dotnet tests or pytest. If its commit is missing, read `tasks/T-0xx.progress.md` and re-brief one fresh worker for that step.
+## Merged into the integration branch (regressions in `evidence/regression/M1-merge-{1,2,3}.md`; last EditMode 436/0/2)
+- T-020 district bake (14 tiles) and **T-020b** default-height fill (3DEP lidar median nDSM, then Assessor stories × levels height; only formerly-default buildings change). M-005@v1.2 default share 0.0992 → 0.0218.
+- T-024 damage model (4 steps) + **T-024b** Hazus code era from `year_built` (pre-1941 PC, 1941–75 MC, post-1975 HC per ShakeCast App. D; all 12 rows from Hazus fragility.csv), destruction `model_rev` 2.
+- **T-025** save section `destruction@v1` + test-only v2 migration, stream failure, 20k ids (save 39 ms, load 88 ms).
+- **T-029** Net core (4 steps): contracts, loopback, snapshots, intents, `net_log@v1`, two-peer `NetSession`. M-055 p95 43/67/93 ms at RTT 50/100/150 (limits 59/84/109); M-057 per client 14.5 kB/s down, 10.9 up at N=4 (limits 64/16).
+- **T-027** World.Seismic (4 steps): Wells & Coppersmith scaling; ruptures on mapped fault **systems** (sections chained along strike, gaps ≤ 5 km bridged without offset; San Andreas 189 km, 141 mapped); BSSA14 PGA/PGV/MMI (R-022 table within 3 %); `IShakingField`; `SeismicShakingBridge` in Destruction; flag `seismic.enabled` (off). No composition root calls Install yet.
+- **T-021** steps 1–3: engine-free tile set, multi-tile Unity adapter (staged `BuildNext`), one edge-height rule for render and collider (0.005 m lattice, corners included). Worst seam 4.5 mm.
+- **T-035** step 1: M-005@v1.2 district checks (`m005_check.py district`). **T-036** step 2: M-050, M-052 tools.
 
 ## Next (in order)
-1. T-029 step 4 (`net_log@v1`, two-peer in-process session, M-055/M-057 draft numbers). The brief bullet is in `tasks/T-029.progress.md`.
-2. T-025 step 2: migration v1 → v2 test (M-050 "across one migration").
-3. T-027 seismic core (4 steps, pure C#): R-022 §1–§4; the PGA feed goes to `IDamageModel.ApplyShaking`. Vs30 is an open question (R-022 Q-NEW-c); proposed default rock 760 / fill 270 m/s, mark it Assumed.
-4. T-035/T-036 metric tools (Python, R-026 §1, §5). M-060 is T-035's fourth step.
-5. Unity steps one at a time: T-021 multi-tile load (after T-020), then T-022 landmarks and T-023 bridge (R-020 §2–§3).
-6. T-030 and T-032 wait for the Q-100 contracts from session 4 (check its branch and HANDOFF).
+1. **Marin default heights** (M-005@v1.2 still FAIL, 0.0218): L0_25_38, L0_26_38, L0_27_38 have no usable CA_SanFrancisco_B23 returns over land; find a 3DEP EPT project covering Marin (Sausalito/Marin Headlands) and add it to `fetch_lidar_dsm.py`; re-run `Pipelines/geo/scripts/rebake_district.sh`. L0_27_37 (0.17) and L0_26_36 (0.06): check why the fill misses (coverage < 70 % rule?).
+2. T-021 step 4: M-015 floating origin over a GG→SoMa traversal (> 4096 m) and M-018 tile render budget (needs graphics; Mac relative only).
+3. T-036 step 3 (M-051, needs R-021 C-3) and step 4 (M-053/M-054 Python from seismic output); the C# `destruction_dump@v1` exporter (fields in `Tools/Metrics/.../m052.py` docstring).
+4. T-035 steps 2–3 (count/perimeter shares, `calibrate` support), then T-022 landmarks → T-023 bridge (R-020 §2–§3).
+5. Composition root: install Destruction + Seismic + bridge behind flags (T-039 slice scene or a small step).
+6. T-030 intent replication (needs Q-100 seat contracts, landed 395e7f9) and T-032 brain (pure C#); T-037 tools (M-055–M-058 from `net_log@v1`).
 7. Evaluators per track once implementation is done (eval-arch, eval-physics, eval-perf), Sonnet medium.
+
+## Open worktrees (safe to remove once merged): .wt/T-020b, .wt/T-021, .wt/T-024b, .wt/T-027, .wt/T-035, .wt/T-036 (all merged at their current heads).
