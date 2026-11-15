@@ -134,3 +134,5 @@ Merged this session: T-182 entries (ba70774), T-115d (54521e2: `BayRasterCostFie
 In flight: T-184 (C11 tie-flip fix, task/T-184, Unity captures) and T-115e (C2 `nofocus@1` translation-invariance fix, task/T-115e). Check `.wt/T-184`, `.wt/T-115e`, tasks/*.progress.md; both merge under /tmp/kaiju-merge.lock.
 Next unblocked: T-108f (move the 54 L2 skyline tiles to the extended ladder: `EXTENDED_LEVELS=(1,2)`, re-bake; selector use of per-tile `switch_m102`, ties to T-109/M-102), T-104/T-105/T-106 (M-005@v2 Bay scale; T-105 infra not baked), T-123 open items, softness raster from real liquefaction layer, L0_04_31 10 m DEM fallback, bathymetry, M3 tracks, full EditMode run + GameCoreConfig regeneration (due: 3+ merges since last).
 Lesson: workers' git commit/push are sometimes denied by the classifier; tell them to stop and release the lock, and report; the lead then asks the founder via the parent session.
+
+- 2026-11-15 T-108f: L2 skyline tiles (54) now extended merged blocks; skyline 54 -> 0, over cap 0, switch rms_d 61-122 km -> 2.2-12.9 km (evidence/T-108f/summary.md).
