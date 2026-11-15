@@ -5,7 +5,7 @@
 #   --tile-set FILE JSON {"tiles":[...]} copied (hash-verified) into the player (default: the committed district tiles)
 #   --tiles-src DIR tile root the set is copied from (default Assets/StreamingAssets/Geo/tiles/v1; never the 75 GB Bay cache)
 #   --repro         build twice in ONE Unity session (<out>, <out>.repro2), write both manifests, run the M-121 diff,
-#                   delete the first build (size) when the diff passes
+#                   delete the repro build (size) when the diff passes
 #   --no-smoke      skip the player smoke test
 # Needs: a free Unity batch slot (< 2 real batch processes machine-wide), >= 25 GB free disk, python env `kaiju`.
 # Never publishes, never touches the Steamworks SDK; platform.steam must stay false (the manifest gate fails otherwise).
