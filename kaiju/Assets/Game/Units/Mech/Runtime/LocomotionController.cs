@@ -39,7 +39,7 @@ namespace Game.Units.Mech
             public double[] AngStRef, AngStMeas, AngSwRef, AngSwMeas; public double RefFroude;   // round 2 step 6a (imp > 0): hip flexion, knee, ankle plantar (deg), stance and swing leg; null when not available
             public double RefPhase; public double[] TauFfSt, TauFfSw;   // round 3 step 8.5 (imp = 2): optimised feed-forward torque hip, knee, ankle (N m) after scale, sign and limit; null otherwise
             public double YawMomentNm, YawBudgetNm, YawUtil, TrunkShare;   // round 2 step 3 (NaN logs as null)
-            public int QpStatus; public long QpFailures; public double QpMassScale, QpFrictionCmd; public bool QpOn; public double QpScale; public int QpIters; public double QpMs; public double[] QpTau; public double[] QpLat; public int QpRow;   // QpLat (step 9.5b, qp_lateral): [sum fy / W, roll, yaw moment / (W l)] commanded and their targets; round 4 step 9.4b (imp = 3): last QP status (0 optimal), failed solves, mass-scale estimate, commanded shear / (mu fn); log only
+            public int QpStatus; public long QpFailures; public double QpMassScale, QpFrictionCmd; public bool QpOn; public double QpScale; public int QpIters; public double QpMs; public double[] QpTau; public double[] QpLat; public int QpRow; public bool QpMatchTd; public double QpMatchD, QpMatchZ; public int QpMatchRow, QpMatchNode, QpMatchTds;   // QpLat (step 9.5b, qp_lateral): [sum fy / W, roll, yaw moment / (W l)] commanded and their targets; round 4 step 9.4b (imp = 3): last QP status (0 optimal), failed solves, mass-scale estimate, commanded shear / (mu fn); log only
         }
 
         readonly IArticulatedBody _b;
@@ -58,6 +58,7 @@ namespace Game.Units.Mech
         // round 2 step 3: yaw-momentum bookkeeping (vertical angular momentum about the CoM from link states and the frame's principal inertias)
         readonly double[][] _linkInertia; readonly bool[] _upperLink; readonly YawShareWindow _shareWindow;
         double _prevYawL = double.NaN, _yawMomentF;
+        double _heelOff, _toeOff;
         readonly float _soleFullHalfLength, _soleHalfLength, _soleHalfWidth, _ankleToSoleCentre, _ankleHeight, _footWidth, _stanceWidth, _comRest, _pelvisRest;
         readonly double _hipLimit, _kTilt, _dTilt, _kYaw, _dYaw;
 
@@ -137,7 +138,7 @@ namespace Game.Units.Mech
             _limiter = new IntentLimiter(_lim, dt);
             var sole = f.foot_sole;
             _soleFullHalfLength = (float)(sole.length_m * 0.5); _soleHalfLength = (float)(sole.length_m * 0.5 * (1 - tuning.sole_margin)); _soleHalfWidth = (float)(sole.width_m * 0.5 * (1 - tuning.sole_margin));
-            _ankleToSoleCentre = (float)((sole.heel_z_m + sole.toe_z_m) * 0.5 - sole.ankle_z_m); _ankleHeight = (float)sole.ankle_height_m; _footWidth = (float)sole.width_m;
+            _ankleToSoleCentre = (float)((sole.heel_z_m + sole.toe_z_m) * 0.5 - sole.ankle_z_m); _ankleHeight = (float)sole.ankle_height_m; _heelOff = sole.heel_z_m - sole.ankle_z_m; _toeOff = sole.toe_z_m - sole.ankle_z_m; _footWidth = (float)sole.width_m;
             _stanceWidth = (float)f.stance.neutral_stance_width_m; _comRest = (float)f.com_rest[1]; _pelvisRest = (float)f.segments[_pelvis].proximal_joint[1];
             _hipLimit = body.GetDof(_legs[0].Hip[0]).ForceLimitNm;
             double iTilt = body.DofInertia(_legs[0].Hip[0], true), iYaw = _legs[0].Hip[1] >= 0 ? body.DofInertia(_legs[0].Hip[1], true) : iTilt;
@@ -172,6 +173,7 @@ namespace Game.Units.Mech
                 _qpRowDrv[row] = new[] { _qpDrv[0], _qpDrv[1] };
                 }
                 _qp = _qpDrv[0]; _qpFootB = _qpFoots[0];
+                _qpMatch = tuning.qp_match > 0.5 && _qpEngageFrac > 0; if (_qpMatch) BuildMatchFeatures();
             }
         }
 
@@ -208,9 +210,61 @@ namespace Game.Units.Mech
             Report(step);
         }
 
+        // ---- step 9.5c: state-matched hand-off ----
+        bool _qpMatch; double[][][] _mRef; bool[][] _mSs; int _qpTdSinceRow; int _qpMatchTds; readonly double[] _mMeas = new double[9];
+        double[] _mScale;
+        void BuildMatchFeatures()
+        {
+            double l = _qpRowDrv[0][0].Controller.Reference.LegLength, sg = Math.Sqrt(_g * l);
+            _mScale = new double[9]; for (int i = 0; i < 9; i++) _mScale[i] = i == 2 || i == 3 ? _t.qp_match_vel_scale * sg : i == 4 ? _t.qp_match_pitch_scale : _t.qp_match_len_scale * l;
+            _mRef = new double[_qpRowDrv.Length][][]; _mSs = new bool[_qpRowDrv.Length][];
+            for (int r = 0; r < _qpRowDrv.Length; r++)
+            {
+                var rf = _qpRowDrv[r][0].Controller.Reference; int n = rf.N; _mRef[r] = new double[n][]; _mSs[r] = new bool[n]; double wRef = rf.BodyMassKg * _g;
+                for (int k = 0; k < n; k++)
+                {
+                    double bh = rf.Node(QpReference.Cpts + 4, k);
+                    _mSs[r][k] = rf.Node(QpReference.Cf + 1, k) + rf.Node(QpReference.Cf + 3, k) < _t.qp_match_load_lo * wRef && rf.Node(QpReference.Cf + 5, k) + rf.Node(QpReference.Cf + 7, k) > _t.qp_match_load_hi * wRef;
+                    _mRef[r][k] = new[] { rf.Node(QpReference.Ccom, k) - bh, rf.Node(QpReference.Ccom + 1, k), rf.Node(QpReference.Ccomd, k), rf.Node(QpReference.Ccomd + 1, k), rf.Node(QpReference.Cq + 2, k),
+                        rf.Node(QpReference.Cpts, k) - bh, rf.Node(QpReference.Cpts + 1, k), rf.Node(QpReference.Cpts + 2, k) - bh, rf.Node(QpReference.Cpts + 3, k) };
+                }
+            }
+        }
+        /// <summary>Single support with the loaded leg (>= 85 % of the weight, the other leg <= 5 %) as planar leg B; k = the driver index of that assignment.</summary>
+        bool SsConfig(out int k)
+        {
+            k = _qpLegs[0][1] == _legs[_stance] ? 0 : 1; double wN = _mass * _g;
+            return _phase == LocoPhase.SingleSupport && _qpLegs[k][1].State.NormalForceN >= _t.qp_match_load_hi * wN && _qpLegs[k][0].State.NormalForceN <= _t.qp_match_load_lo * wN;
+        }
+        /// <summary>The 9 measured match features for a landed leg B (index into the _qpLegs pair) in the heading frame (forward distances relative to the landed heel, heights above ground).</summary>
+        void MeasureMatch(int tdk)
+        {
+            var legs = _qpLegs[tdk]; var la = legs[0]; var lb = legs[1]; var fw = Fwd(_pelvisYaw); var fw3 = new Vector3(fw.X, 0, fw.Y);
+            Vector3 up = Vector3.Transform(Vector3.UnitY, _pelvisState.Rotation); double th = Math.Atan2(Vector3.Dot(up, fw3), up.Y);
+            Vector3 Pt(Leg lg, double zoff) => lg.FootLinkState.Position + Vector3.Transform(new Vector3(0f, (float)-_ankleHeight, (float)zoff), lg.FootLinkState.Rotation);
+            Vector3 bh = Pt(lb, _heelOff), ah = Pt(la, _heelOff), at = Pt(la, _toeOff); double bx = Vector3.Dot(bh, fw3);
+            _mMeas[0] = Vector3.Dot(_com, fw3) - bx; _mMeas[1] = _com.Y - _groundY; _mMeas[2] = Vector3.Dot(_comVel, fw3); _mMeas[3] = _comVel.Y; _mMeas[4] = th;
+            _mMeas[5] = Vector3.Dot(ah, fw3) - bx; _mMeas[6] = ah.Y - _groundY; _mMeas[7] = Vector3.Dot(at, fw3) - bx; _mMeas[8] = at.Y - _groundY;
+        }
+        /// <summary>Best row (within rows r0..r1) and node of the measured state: distance = RMS of the scaled feature differences; zmax = largest scaled difference of that best node.</summary>
+        double BestMatch(int r0, int r1, bool ssOnly, out int row, out int node, out double zmax)
+        {
+            double best = double.MaxValue; row = r0; node = 0; zmax = 0;
+            for (int r = r0; r <= r1; r++)
+                for (int k = 0; k < _mRef[r].Length; k++)
+                {
+                    if (ssOnly && !_mSs[r][k]) continue;
+                    double ss = 0, zm = 0; var rf = _mRef[r][k];
+                    for (int i = 0; i < 9; i++) { double z = (_mMeas[i] - rf[i]) / _mScale[i]; ss += z * z; if (Math.Abs(z) > zm) zm = Math.Abs(z); }
+                    double d = Math.Sqrt(ss / 9); if (d < best) { best = d; row = r; node = k; zmax = zm; }
+                }
+            return best;
+        }
+
         /// <summary>imp = 3: while walking (not Stand) the QP torques replace the feed-forward of the six sagittal leg DOFs (last write wins); the QP clock restarts when walking starts.</summary>
         void ApplyQp()
         {
+            _dbg.QpMatchTd = false;
             if (_phase == LocoPhase.Stand) { _qpEngaged = false; _dbg.QpOn = false; return; }
             if (!_qpEngaged)
             {
@@ -218,24 +272,60 @@ namespace Game.Units.Mech
                 bool td = false; int tdk = 0;
                 if (_qpEngageFrac > 0) for (int k = 0; k < 2; k++) { _b.GetFoot(_qpFoots[k], out var fk); if (fk.Contact && !_qpPrevContact[k]) { td = true; tdk = k; } _qpPrevContact[k] = fk.Contact; }
                 bool go = _qpEngageFrac <= 0 || (td && (_phase == LocoPhase.SingleSupport || _phase == LocoPhase.DoubleSupport) && Vector2.Dot(_vel2, Fwd(_pelvisYaw)) >= _qpEngageFrac * _qpVRef);
-                if (go)
+                int startNode = 0;
+                if (_qpMatch)
+                {
+                    // step 9.5c: hand off only when the measured state is on a reference row (best row / node, RMS of the scaled differences <= qp_match_thr)
+                    go = false;
+                    bool ssMode = _t.qp_match_ss > 0.5, ssOk = false;
+                    if (ssMode && _phase == LocoPhase.SingleSupport)
+                    {
+                        // single-support start: the loaded leg is planar leg B, the swing leg A; only nodes where the reference has the same contact set are candidates
+                        ssOk = SsConfig(out tdk);
+                    }
+                    if (ssMode ? ssOk : td && (_phase == LocoPhase.SingleSupport || _phase == LocoPhase.DoubleSupport))
+                    {
+                        MeasureMatch(tdk); _qpMatchTds++; double dm = BestMatch(0, _qpRowDrv.Length - 1, ssMode, out int mr, out int mk, out double zm);
+                        _dbg.QpMatchTd = true; _dbg.QpMatchD = dm; _dbg.QpMatchZ = zm; _dbg.QpMatchRow = mr; _dbg.QpMatchNode = mk; _dbg.QpMatchTds = _qpMatchTds;
+                        if (dm <= _t.qp_match_thr && zm <= _t.qp_match_zmax) { go = true; _qpRow = mr; startNode = mk; _qpTdSinceRow = 0; }
+                    }
+                    if (go) { _qp = _qpRowDrv[_qpRow][tdk]; _qpLegNow = _qpLegs[tdk]; _qpVRef = _qpRowV[_qpRow]; }
+                }
+                else if (go)
                 {
                     _qpRow = 0; double vf = Vector2.Dot(_vel2, Fwd(_pelvisYaw));
                     while (_qpRow + 1 < _qpRowDrv.Length && vf >= _t.qp_ladder_up * _qpRowV[_qpRow + 1]) _qpRow++;   // ladder: the fastest row the speed already reaches
                     _qp = _qpRowDrv[_qpRow][tdk]; _qpLegNow = _qpLegs[tdk]; _qpVRef = _qpRowV[_qpRow];
                 }
                 if (!go) return;
-                _qp.Reset(_qpEngageFrac > 0); _qpTime = 0; _qpEngaged = true; _qpScale = Math.Min(1.0, Math.Max(_t.qp_scale_min, Vector2.Dot(_vel2, Fwd(_pelvisYaw)) / _qpVRef));
+                _qp.Reset(_qpEngageFrac > 0, startNode); _qpTime = startNode * _qp.Controller.Reference.H; _qpEngaged = true; _qpScale = Math.Min(1.0, Math.Max(_t.qp_scale_min, Vector2.Dot(_vel2, Fwd(_pelvisYaw)) / _qpVRef));
             }
             else if (_qpRowDrv.Length > 1)
             {
                 // ladder: at a touchdown, one row up once the forward speed reaches qp_ladder_up x the next row's speed; the new row's QP starts at its node 0 anchored on the landed heel
                 bool td = false; int tdk = 0;
                 for (int k = 0; k < 2; k++) { _b.GetFoot(_qpFoots[k], out var fk); if (fk.Contact && !_qpPrevContact[k]) { td = true; tdk = k; } _qpPrevContact[k] = fk.Contact; }
-                if (td && _qpRow + 1 < _qpRowDrv.Length && Vector2.Dot(_vel2, Fwd(_pelvisYaw)) >= _t.qp_ladder_up * _qpRowV[_qpRow + 1])
+                if (td) _qpTdSinceRow++;
+                int upNode = 0; bool up = false;
+                if (_qpMatch)
+                {
+                    // step 9.5c: climb to the next row (at most qp_match_max_row) once the QP has re-anchored on qp_match_hold touchdowns of its own on this row, from a single-support state that matches a node of that row (qp_match_ss) or at a touchdown
+                    int maxRow = _t.qp_match_max_row < 0 ? _qpRowDrv.Length - 1 : Math.Min(_qpRowDrv.Length - 1, (int)_t.qp_match_max_row);
+                    bool ssMode = _t.qp_match_ss > 0.5 && _t.qp_match_climb_td < 0.5, ok = false; int ck = tdk;
+                    if (_t.qp_match_climb_td > 0.5) ok = _qpRow + 1 <= maxRow && td && _qpTdSinceRow >= _t.qp_match_hold;   // 9.5c cycle 2 rule: touchdown events (contact chatter counts) on the row, any node of the next row
+                    else if (_qpRow + 1 <= maxRow && _qp.Controller.Touchdowns >= _t.qp_match_hold) ok = ssMode ? SsConfig(out ck) : td;
+                    if (ok)
+                    {
+                        tdk = ck; MeasureMatch(tdk); double dm = BestMatch(_qpRow + 1, _qpRow + 1, ssMode, out int mr, out int mk, out double zm);
+                        _dbg.QpMatchTd = true; _dbg.QpMatchD = dm; _dbg.QpMatchZ = zm; _dbg.QpMatchRow = mr; _dbg.QpMatchNode = mk; _dbg.QpMatchTds = _qpMatchTds;
+                        if (dm <= _t.qp_match_up_thr && zm <= _t.qp_match_up_zmax) { up = true; upNode = mk; }
+                    }
+                }
+                else up = td && _qpRow + 1 < _qpRowDrv.Length && Vector2.Dot(_vel2, Fwd(_pelvisYaw)) >= _t.qp_ladder_up * _qpRowV[_qpRow + 1];
+                if (up)
                 {
                     _qpRow++; _qp = _qpRowDrv[_qpRow][tdk]; _qpLegNow = _qpLegs[tdk]; _qpVRef = _qpRowV[_qpRow];
-                    _qp.Reset(true); _qpTime = 0; _qpScale = Math.Min(1.0, Math.Max(_t.qp_scale_min, Vector2.Dot(_vel2, Fwd(_pelvisYaw)) / _qpVRef));
+                    _qp.Reset(true, upNode); _qpTime = upNode * _qp.Controller.Reference.H; _qpTdSinceRow = 0; _qpScale = Math.Min(1.0, Math.Max(_t.qp_scale_min, Vector2.Dot(_vel2, Fwd(_pelvisYaw)) / _qpVRef));
                 }
             }
             long t0 = System.Diagnostics.Stopwatch.GetTimestamp();

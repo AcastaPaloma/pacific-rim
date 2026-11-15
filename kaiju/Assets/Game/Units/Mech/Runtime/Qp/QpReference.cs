@@ -21,7 +21,7 @@ namespace Game.Units.Mech.Qp
 
         public QpReference(GaitRefRow row, double loadThr, bool onset)
         {
-            var nd = row.nodes; N = nd.Length; N2 = 2 * N; H = row.step_time_s / N; Ts = row.step_time_s; T2 = N2 * H; StepLength = row.step_length_m; BodyMassKg = row.body_mass_kg; LegLength = row.leg_length_m; Mu = row.mu; Speed = row.v;
+            _row = row; var nd = row.nodes; N = nd.Length; N2 = 2 * N; H = row.step_time_s / N; Ts = row.step_time_s; T2 = N2 * H; StepLength = row.step_length_m; BodyMassKg = row.body_mass_kg; LegLength = row.leg_length_m; Mu = row.mu; Speed = row.v;
             if (nd[0].q9 == null || nd[0].pts == null) throw new InvalidOperationException("gait reference row has no @v2 node data (q9, pts)");
             double d = StepLength, h = H; int n2 = N2;
             _node = new double[Channels * n2]; _y = new double[Channels * n2]; _m = new double[Channels * n2]; _drift = new double[Channels];
@@ -65,6 +65,10 @@ namespace Game.Units.Mech.Qp
             var s0 = nd[0].swing; var b0 = nd[0].stance;
             Tau0[0] = s0.hip_tau_nm; Tau0[1] = s0.knee_tau_nm; Tau0[2] = s0.ankle_tau_nm; Tau0[3] = b0.hip_tau_nm; Tau0[4] = b0.knee_tau_nm; Tau0[5] = b0.ankle_tau_nm;
         }
+
+        readonly GaitRefRow _row;
+        /// <summary>Reference joint torques [hipA kneeA ankleA hipB kneeB ankleB] at node k of the first step (step 9.5c: a state-matched start at node k).</summary>
+        public void TauAt(int k, double[] o) { var n = _row.nodes[k]; o[0] = n.swing.hip_tau_nm; o[1] = n.swing.knee_tau_nm; o[2] = n.swing.ankle_tau_nm; o[3] = n.stance.hip_tau_nm; o[4] = n.stance.knee_tau_nm; o[5] = n.stance.ankle_tau_nm; }
 
         void BuildSplines()
         {

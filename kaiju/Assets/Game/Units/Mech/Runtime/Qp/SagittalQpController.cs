@@ -48,6 +48,8 @@ namespace Game.Units.Mech.Qp
         public readonly double[] Q = new double[NQ], Qd = new double[NQ], M = new double[NQ * NQ], H = new double[NQ], Pts = new double[8], Jp = new double[4 * 2 * NQ], Bp = new double[8], Com = new double[2], ComD = new double[2], FnMeas = new double[4];
         public double AngMom;          // angular momentum about the CoM, counter-clockwise positive in the (x forward, z up) plane
         public double TimeScale = 1.0;   // step 9.5 hand-off: the caller's clock t runs at this fraction of real time (reference velocities x s, accelerations x s^2; measured velocities enter the planners divided by s). 1 = unchanged
+        public int StartNode;          // step 9.5c state-matched hand-off: Init starts at reference node StartNode (0 = the heel strike of leg B) of the first step: contact flags, first-contact forces, torques and the Xoff anchor are those of that node
+        public QpReference Reference => _ref;
         public bool AnchorXoff;        // hand-off start (step 9.5): the first Step after Init sets Xoff so that the reference heel of leg B (just landed) is at its measured x
         bool _anchorPending;
         public bool HasFnMeas;         // false only on the first tick (no read-back yet)
@@ -114,9 +116,9 @@ namespace Game.Units.Mech.Qp
         public void Init()
         {
             _sch.Reset(0);
-            for (int i = 0; i < 4; i++) { _sch.Inc[i] = _ref.Flags[i]; _sch.FIn[i] = _ref.Node(QpReference.Cf + 2 * i + 1, 0); _sch.TIn[i] = -1.0; }
+            for (int i = 0; i < 4; i++) { _sch.Inc[i] = _ref.Flags[StartNode * 4 + i]; _sch.FIn[i] = _ref.Node(QpReference.Cf + 2 * i + 1, StartNode); _sch.TIn[i] = -1.0; }
             _anchorPending = AnchorXoff; Array.Clear(_fprev, 0, 8); Array.Clear(_fprevY, 0, 4); MassScale = 1.0; _hasComd = false; _planAnchor = double.NaN; _planPar = -1;
-            Array.Copy(_ref.Tau0, Tau, NJ);
+            if (StartNode == 0) Array.Copy(_ref.Tau0, Tau, NJ); else _ref.TauAt(StartNode, Tau);
         }
 
         // ------------------------------------------------------------------ landing quintic
@@ -227,7 +229,7 @@ namespace Game.Units.Mech.Qp
             double ms = MassScale, W = _w0 * ms;
             for (int i = 0; i < NQ * NQ; i++) _ms[i] = M[i] * ms; for (int i = 0; i < NQ; i++) _hs[i] = H[i] * ms;
             for (int i = 0; i < 4; i++) { _vp[2 * i] = 0; _vp[2 * i + 1] = 0; for (int j = 0; j < NQ; j++) { _vp[2 * i] += Jp[i * 18 + j] * Qd[j]; _vp[2 * i + 1] += Jp[i * 18 + 9 + j] * Qd[j]; } _fn[i] = FnMeas[i]; _pz[i] = Pts[2 * i + 1]; _px[i] = Pts[2 * i]; }
-            if (_anchorPending) { _sch.Xoff = Pts[4] - _ref.NodePointX(0, 2); _anchorPending = false; }
+            if (_anchorPending) { _sch.Xoff = Pts[4] - _ref.Node(QpReference.Cpts + 4, StartNode); _anchorPending = false; }
             // measured contact, touchdown / phase
             _sch.UpdateContact(t, W, _fn, _pz);
             int newPar = 1 - _sch.Parity; for (int p = 0; p < 4; p++) _tdRef[p] = _ref.NodePointX(newPar, p);

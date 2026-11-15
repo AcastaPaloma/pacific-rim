@@ -62,7 +62,7 @@ namespace Game.Units.Mech.Qp
         }
 
         /// <summary>Restart at reference node 0 (called when walking starts).</summary>
-        public void Reset(bool anchorXoff = false) { _ctl.AnchorXoff = anchorXoff; _ctl.Init(); _havePrev = false; _n = 0; }
+        public void Reset(bool anchorXoff = false, int startNode = 0) { _ctl.AnchorXoff = anchorXoff; _ctl.StartNode = startNode; _ctl.Init(); _havePrev = false; _n = 0; }
 
         void Allocate()
         {
