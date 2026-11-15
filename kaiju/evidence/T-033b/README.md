@@ -21,3 +21,6 @@ Harness combat (Assumed, harness only): kaiju HP 400, mech 6 dmg/s within 300 m 
 Diagnosis (one cycle): the damage scenario did not fix C2/C3 against `directcharge@1`, because that null shares the scripted target scoring (distance, hp, facing, and the focus bonus), so nearest-target preference alone yields FE 0.91; the metric's chance level (uniform random targets) is not an uncoordinated-but-sensible baseline. Scenario not at fault. Fix cycle: a second control `nofocus@1` (WeightFocus 0), diagnostic CI-overlap fields in the tool; thresholds untouched. Against it C2 and C3 (switch rate) discriminate with non-overlapping CIs. C1 dropped from 0.915 (2 invulnerable-target decoys, 3 kaiju) to 0.494 under fire with 4 kaiju: left as a finding, not tuned.
 
 Unity EditMode (asmdef split): `unity_editmode.log`; dotnet and pytest counts in `../regression/T-033b.md`.
+
+## Rev 3 re-run (supersedes the table above for C2/C3)
+`m007_3v4_rev3/` and `m007_churn_rev3/` (tool output, 300 logs each, scripted/directcharge/nofocus). Reproduce with `KAIJU_M007_SCENARIO=3v4|churn KAIJU_M007_NOFOCUS=1` as above. See R-024 "Revision 3 applied" for the numbers.

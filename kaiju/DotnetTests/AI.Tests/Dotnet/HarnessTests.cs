@@ -132,7 +132,7 @@ namespace Game.AI.Tests
         {
             string outDir = Environment.GetEnvironmentVariable("KAIJU_M007_OUT");
             int n = int.Parse(Environment.GetEnvironmentVariable("KAIJU_M007_N") ?? "20");
-            bool threeVsFour = Environment.GetEnvironmentVariable("KAIJU_M007_SCENARIO") == "3v4";
+            string scen = Environment.GetEnvironmentVariable("KAIJU_M007_SCENARIO"); bool threeVsFour = scen == "3v4" || scen == "churn";
             foreach (int mode in new[] { 0, 1, 2 }) // 0 scripted, 1 directcharge null, 2 nofocus (WeightFocus 0) control
             {
                 bool direct = mode == 1; bool nofocus = mode == 2;
@@ -140,7 +140,7 @@ namespace Game.AI.Tests
                 int c = 0, m = 0, f = 0;
                 for (ulong seed = 1; seed <= (ulong)n; seed++)
                 {
-                    HarnessScenario scn = threeVsFour ? HarnessScenario.M007ThreeVsFour(seed, direct) : HarnessScenario.M007(seed, direct);
+                    HarnessScenario scn = scen == "churn" ? HarnessScenario.M007Churn(seed, direct) : threeVsFour ? HarnessScenario.M007ThreeVsFour(seed, direct) : HarnessScenario.M007(seed, direct);
                     if (nofocus) scn.Brain.WeightFocus = 0f; // second control: scripted without the focus bonus (brain_id nofocus@1)
                     string log = RunLog(scn, out _);
                     if (outDir != null)

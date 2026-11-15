@@ -56,6 +56,14 @@ namespace Game.AI.Harness
             sc.Brain.DirectCharge = directCharge;
             return sc;
         }
+
+        /// <summary>M007-churn (R-024 rev 3 addendum): the 3v4 scenario with fleeing, respawning mechs so targets churn (C3 evaluation set).</summary>
+        public static HarnessScenario M007Churn(ulong seed, bool directCharge)
+        {
+            HarnessScenario sc = M007ThreeVsFour(seed, directCharge);
+            sc.Name = "m007_churn"; sc.MechFleeRadiusM = 400f; sc.MechFleeMps = 4.5f; sc.MechRespawnSeconds = 30f;
+            return sc;
+        }
         public BrainConfig Brain = BrainConfig.Default();
     }
 

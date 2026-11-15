@@ -30,7 +30,7 @@ namespace Game.AI.Harness
                 F(c.StandoffM), F(c.EngageRadiusM), F(c.WingOffsetRad), F(c.RetreatHpFrac), F(c.RetargetRatio), F(c.RetargetMinSeconds),
                 F(c.FacingHalfAngleRad), F(c.WeightDistance), F(c.WeightHp), F(c.WeightFacing), F(c.WeightFocus), F(c.SpeedApproach),
                 F(c.SpeedApproachWing), F(c.SpeedFlank), F(c.SpeedCharge), F(c.SpeedRetreat), F(c.CentreHoldTimeoutSeconds),
-                F(c.FlankTimeoutSeconds), F(c.FlankBearingTolRad), F(c.ChargeNoContactSeconds), F(c.RetreatSafeDistanceM), F(c.RetreatSafeSeconds),
+                F(c.FlankTimeoutSeconds), F(c.FlankBearingTolRad), F(c.ChargeNoContactSeconds), F(c.RetreatSafeDistanceM), F(c.RetreatSafeSeconds), F(c.SwitchBackLockoutSeconds),
             });
             ulong h = 14695981039346656037UL;
             foreach (char ch in t) { h ^= ch; h *= 1099511628211UL; }

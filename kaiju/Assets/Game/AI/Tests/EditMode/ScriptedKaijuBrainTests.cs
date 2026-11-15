@@ -260,10 +260,23 @@ namespace Game.AI.Tests
             Assert.AreEqual(100ul, r.Tick(3.9).TargetId.Value);
             var i = r.Tick(4.0);
             Assert.AreEqual(101ul, i.TargetId.Value); Assert.AreEqual(ReasonCode.RetargetVoluntary, i.Reason);
-            // switching back needs another 4 s
+            // switching back needs another 4 s and, R-024 rev 3, 12 s since leaving the target (lockout)
             r.Targets(T(100, 600, hp: 0.2f), T(101, 600, hp: 0.9f));
             Assert.AreEqual(101ul, r.Tick(5).TargetId.Value);
-            Assert.AreEqual(100ul, r.Tick(8.0).TargetId.Value);
+            Assert.AreEqual(101ul, r.Tick(8.0).TargetId.Value);
+            Assert.AreEqual(101ul, r.Tick(15.9).TargetId.Value);
+            Assert.AreEqual(100ul, r.Tick(16.0).TargetId.Value);
+        }
+
+        [Test]
+        public void VoluntarySwitch_ToANewTarget_IsNotLockedOut()
+        {
+            var r = new Rig().Targets(T(100, 600));
+            r.Tick(0);
+            r.Targets(T(100, 600), T(101, 600, hp: 0.5f));
+            Assert.AreEqual(101ul, r.Tick(4.0).TargetId.Value);
+            r.Targets(T(100, 600), T(101, 600), T(102, 600, hp: 0.2f));
+            Assert.AreEqual(102ul, r.Tick(8.0).TargetId.Value);
         }
 
         [Test]
