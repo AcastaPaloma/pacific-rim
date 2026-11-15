@@ -410,7 +410,7 @@ namespace Game.Units.Mech
             var c = _qp.Controller; _dbg.QpOn = true; _dbg.QpScale = _qpScale; _dbg.QpMs = (System.Diagnostics.Stopwatch.GetTimestamp() - t0) * 1e3 / System.Diagnostics.Stopwatch.Frequency; _dbg.QpIters = c.LastIterations; _dbg.QpTau ??= new double[6]; System.Array.Copy(c.Tau, _dbg.QpTau, 6);
             _dbg.QpRow = _qpRow;
             if (_qpLat) { _dbg.QpLat ??= new double[6]; System.Array.Copy(c.LatCmd, _dbg.QpLat, 6); }
-            if (_qpLat && c.TrunkYaw) { QpArmTrim(); QpArmFf(); QpArmRef(); _dbg.QpYaw ??= new double[13]; System.Array.Copy(c.YawLog, _dbg.QpYaw, 5); _dbg.QpYaw[5] = _armTrim[0]; _dbg.QpYaw[6] = _armTrim[1]; _dbg.QpYaw[7] = c.YawLog[5]; _dbg.QpYaw[8] = c.YawLog[6]; _dbg.QpYaw[9] = c.YawShareLog; _dbg.QpYaw[10] = _armFf[0]; _dbg.QpYaw[11] = _armFf[1]; _dbg.QpYaw[12] = _lLegsRefLog; }
+            if (_qpLat && c.TrunkYaw) { QpArmTrim(); QpArmFf(); QpArmRef(); _dbg.QpYaw ??= new double[19]; System.Array.Copy(c.YawLog, _dbg.QpYaw, 5); _dbg.QpYaw[5] = _armTrim[0]; _dbg.QpYaw[6] = _armTrim[1]; _dbg.QpYaw[7] = c.YawLog[5]; _dbg.QpYaw[8] = c.YawLog[6]; _dbg.QpYaw[9] = c.YawShareLog; _dbg.QpYaw[10] = _armFf[0]; _dbg.QpYaw[11] = _armFf[1]; _dbg.QpYaw[12] = _lLegsRefLog; _dbg.QpYaw[13] = _armRef[0]; _dbg.QpYaw[14] = _armRef[1]; _dbg.QpYaw[15] = _armShoulderFlex[0] >= 0 ? _b.DofPosition(_armShoulderFlex[0]) : 0; _dbg.QpYaw[16] = _armShoulderFlex[1] >= 0 ? _b.DofPosition(_armShoulderFlex[1]) : 0; _dbg.QpYaw[17] = c.DLArmRefPred; _dbg.QpYaw[18] = c.DLArms; }
             _dbg.QpStatus = (int)c.LastStatus; _dbg.QpFailures = c.SolveFailures; _dbg.QpMassScale = c.MassScale; _dbg.QpFrictionCmd = c.FrictionRatioCmd;
         }
 

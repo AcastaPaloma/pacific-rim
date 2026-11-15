@@ -61,6 +61,23 @@ SETS['h1'] = {
   'I7armff': dict(V4, qp_arm_ref=1, qp_arm_ref_yawff=1.0, qp_arm_ff=1, qp_arm_ff_gain=0.7),
   'I8armyff0': dict(V4, qp_arm_ref=1, qp_yaw_ff=0),
 }
+A4 = dict(V4, qp_arm_ref=1)
+SETS['h2'] = {
+  'J0arm': dict(A4),
+  'J1cap035': dict(A4, qp_yaw_cap=0.035),
+  'J2cap05': dict(A4, qp_yaw_cap=0.05),
+  'J3om1': dict(A4, qp_om_yaw=1.0),
+  'J4yffcap05': dict(A4, qp_arm_ref_yawff=1.0, qp_yaw_cap=0.05),
+  'J5v4cap035': dict(V4, qp_yaw_cap=0.035),
+  'J6armg05': dict(A4, qp_arm_ref_gain=0.5),
+  'J7cap035om1': dict(A4, qp_yaw_cap=0.035, qp_om_yaw=1.0),
+  'J8cap035mu04': dict(A4, qp_yaw_cap=0.035, qp_mu=0.4),
+}
+SETS['h3'] = _seeded({
+  'Karm': dict(A4, qp_yaw_cap=0.035),
+  'Kv4': dict(V4, qp_yaw_cap=0.035),
+  'Kv3': {"qp_yaw_cap": 0.035},
+}, 4)
 def load_set(name):
     return SETS[name]
 def check_line(line):
