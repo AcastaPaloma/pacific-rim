@@ -238,3 +238,31 @@ This section adds to §11.4, §12 and §15. Where it differs, it overrides them 
   - duplicate or superseded → stop and archive it, unless it still has work running (§15).
   - near its token cap → tell it to hand over.
 - While the founder is offline, one fallback wake-up every 2–3h; no shorter timers. This is the only exception to §12's "never polls". Check before starting a session as §12 already requires.
+
+## 17. Token budget pacing (founder instruction, 2026-11-15 04:10)
+The night of 2026-11-14 ran about 10 sessions at once and used up the 5-hour usage window early, so every session stopped. Pace the work so it lasts the whole window. This section overrides §12 on how many sessions run at once.
+
+- **At most 2 lead orchestrators at a time:**
+  - one for T-005, the critical path;
+  - one for everything else (M1 remainder, M2/M3 and R&D), working down one priority list.
+- **At most 2 workers in flight per lead.** Track sessions only for work longer than about an hour. Everything else runs as Agent workers.
+- **Model:**
+  - Leads: Sonnet at medium effort.
+  - T-005 lead: Opus 5.5 at medium effort.
+  - Workers: Sonnet at medium, or Haiku at low effort for mechanical steps.
+  - Opus 5.5 at high effort only under §14, and at most one Opus high worker running at a time machine-wide.
+- **Fewer wake-ups:**
+  - Give each worker a full step: implement, test, merge.
+  - Workers report one short line plus a file path.
+  - A lead's reply to a worker's report is one or two lines.
+  - No status-only turns.
+- **Prefer cheap work:** Python and dotnet steps before Unity, and existing evidence before new captures. Start long jobs (downloads, bakes, Unity) as background scripts that need no tokens while they run.
+- **If the usage limit is hit:**
+  1. Stop; never retry in a loop.
+  2. Write the state to the progress file.
+  3. Leave the next session as a card.
+
+## 18. Always keep a queue of unblocked work, with no stopping point (founder instruction, 2026-11-15)
+- A lead always keeps its queue stocked with work whose inputs are already merged. It refills the queue before it drains. When the next item is blocked, the lead takes the next unblocked one: from the current milestone, then the next milestone (M2, then M3), then the research and design gaps.
+- There is no deadline and no "done for tonight". The leads keep moving toward the final product until the founder pauses the hourly watchdog task (`kaiju-watchdog`).
+- A blocker is logged and worked around, never waited on (§12, §15). Every item still keeps the full scope (§15) and the budget pacing (§17).

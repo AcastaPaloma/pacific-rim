@@ -62,8 +62,10 @@ def build_parser():
     p4.add_argument("--fixture", action="store_true", help="fixture mode: 60-frame sequences allowed (labelled)")
     p4.add_argument("--jobs", type=int, default=1, help="worker processes (results identical for any value)")
 
-    add("m007", "M-007@v1 kaiju look intelligent, behaviour clauses C1-C4 (brain_log@v1 runs: scripted@1 and the directcharge@1 control)",
-        "brain_log@v1 .jsonl files or directories holding them (one file per run; 100 seeds per brain)")
+    p7 = add("m007", "M-007@v1 kaiju look intelligent, behaviour clauses C1-C4 (brain_log@v1 runs: scripted@1 and the directcharge@1 control)",
+             "brain_log@v1 .jsonl files or directories holding them (one file per run; 100 seeds per brain)")
+    p7.add_argument("--candidate", help="brain_id of a candidate policy: C1-C4 are measured on its logs and C6 pairs it with scripted@1 "
+                                        "(duplicate format, Wilson bound, edge-time diagnostic; R-028 section 11)")
     add("m050", "M-050@v1 persistent destruction save round trip (two Core-envelope saves: <before> <after>)",
         "exactly two kaiju-save JSON files holding a destruction@v1 section")
     add("m051", "M-051@v1 damage state versus fragility (fragility_dump@v1 JSON)",

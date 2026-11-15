@@ -19,10 +19,36 @@ FETCH_MARGIN_M = 320.0  # covers footprints owned by the tile that cross its edg
 
 
 # ---------------------------------------------------------------- CUDEM (terrain + seabed)
-def cudem_items(lonlat_bbox):
-    """CUDEM 1/9" tiles are 0.25 deg, named by their NW corner (R-004 §1.2)."""
+CUDEM_VERSION_RE = re.compile(r"_(\d{4}v\d+)$")
+CUDEM_LEGACY_VERSION = "2022v1"  # the version sources.json's url_template was written for
+
+
+def cudem_version(item: str) -> str:
+    """'ncei19_n37x50_w122x00_2023v1' -> '2023v1' (the NCEI release tag differs per 0.25 deg cell: R-100 §2)."""
+    m = CUDEM_VERSION_RE.search(item)
+    if not m:
+        raise ValueError(f"CUDEM item without a version tag: {item}")
+    return m.group(1)
+
+
+def cudem_catalog() -> dict:
+    """{cell key 'n37x50_w122x00': {item, url, version}} from config/bay.json snapshots.cudem (the HEAD-checked list of
+    the CUDEM 1/9 arc-second files that exist; 2022v1, 2023v1 and 2025v1 cells coexist). Empty if bay.json has none."""
+    try:
+        snap = load_config("bay.json")["snapshots"]["cudem"]
+    except (OSError, KeyError):
+        return {}
+    cat = {}
+    for e in snap:
+        parts = e["item"].split("_")  # ncei19, nLATxFF, wLONxFF, VERSION
+        cat[f"{parts[1]}_{parts[2]}"] = {"item": e["item"], "url": e["url"], "version": cudem_version(e["item"])}
+    return cat
+
+
+def cudem_cells(lonlat_bbox):
+    """CUDEM 1/9" cells are 0.25 deg, named by their NW corner (R-004 §1.2): ['n37x50_w122x00', ...]."""
     w, s, e, n = lonlat_bbox
-    items = []
+    cells = []
     lat_n = math.ceil(n * 4) / 4
     while lat_n - 0.25 < n and lat_n > s:
         lon_w = math.floor(w * 4) / 4
@@ -30,10 +56,33 @@ def cudem_items(lonlat_bbox):
             lat_s_ = f"{int(lat_n):02d}x{int(round((lat_n % 1) * 100)):02d}"
             lw = -lon_w
             lon_s_ = f"{int(lw):03d}x{int(round((lw % 1) * 100)):02d}"
-            items.append(f"ncei19_n{lat_s_}_w{lon_s_}_2022v1")
+            cells.append(f"n{lat_s_}_w{lon_s_}")
             lon_w += 0.25
         lat_n -= 0.25
+    return sorted(set(cells))
+
+
+def cudem_items(lonlat_bbox, catalog: dict | None = None):
+    """Item names (with their release version) of the CUDEM cells that cover the bbox. Cells absent from the catalog
+    (no CUDEM there: R-100 §1) are omitted; with an empty catalog the legacy 2022v1 name is assumed."""
+    cat = cudem_catalog() if catalog is None else catalog
+    items = []
+    for cell in cudem_cells(lonlat_bbox):
+        if cat:
+            if cell in cat:
+                items.append(cat[cell]["item"])
+        else:
+            items.append(f"ncei19_{cell}_{CUDEM_LEGACY_VERSION}")
     return sorted(set(items))
+
+
+def cudem_url(item: str, catalog: dict | None = None) -> str:
+    cat = cudem_catalog() if catalog is None else catalog
+    cell = "_".join(item.split("_")[1:3])
+    if cell in cat and cat[cell]["item"] == item:
+        return cat[cell]["url"]
+    lat, lon = item.split("_")[1][1:], item.split("_")[2][1:]
+    return SRC["cudem"]["url_template"].replace("2022v1", cudem_version(item)).format(lat=lat, lon=lon)
 
 
 def _window_read(url: str, dest: Path, bounds, bounds_crs: str, label: str, extra: dict) -> dict:
@@ -75,15 +124,15 @@ def _window_read(url: str, dest: Path, bounds, bounds_crs: str, label: str, extr
 
 
 def fetch_cudem(tile: Tile) -> list[dict]:
+    """Windowed reads of every CUDEM cell covering the tile; each cache entry records `item` and `version`."""
     bb = tile.bounds_lonlat(FETCH_MARGIN_M)
+    cat = cudem_catalog()
     out = []
-    for item in cudem_items(bb):
-        lat = item.split("_")[1][1:]
-        lon = item.split("_")[2][1:]
-        url = SRC["cudem"]["url_template"].format(lat=lat, lon=lon)
+    for item in cudem_items(bb, cat):
+        url = cudem_url(item, cat)
         dest = CACHE / "cudem" / f"{item}__{tile.id}.tif"
-        m = _window_read(url, dest, bb, "EPSG:4269", "cudem", {"item": item})
-        m.update(item=item, file=str(dest.relative_to(PIPE)))
+        m = _window_read(url, dest, bb, "EPSG:4269", "cudem", {"item": item, "version": cudem_version(item)})
+        m.update(item=item, version=cudem_version(item), file=str(dest.relative_to(PIPE)))
         out.append(m)
     return out
 

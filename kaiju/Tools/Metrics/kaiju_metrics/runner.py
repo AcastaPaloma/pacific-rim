@@ -72,7 +72,7 @@ def _sha(p):
 
 def run_metric_cli(cmd, args, argv):
     options = {}
-    for k in ("palettes", "profiles", "viewpoints", "fixture", "jobs"):
+    for k in ("palettes", "profiles", "viewpoints", "fixture", "jobs", "candidate"):
         if hasattr(args, k) and getattr(args, k) not in (None, False):
             options[k] = getattr(args, k)
     if "jobs" in options and options["jobs"] == 1:
