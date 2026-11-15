@@ -19,6 +19,40 @@ namespace Game.AI.PackHarness.Tests
         static List<string> Kinds(string log)
             => log.Split('\n', StringSplitOptions.RemoveEmptyEntries).Select(l => { int i = l.IndexOf("\"kind\":\"", StringComparison.Ordinal) + 8; return l.Substring(i, l.IndexOf('"', i) - i); }).ToList();
 
+        // T-115e: positions are simulated in a local frame, so translating the whole scenario (integer metres, large BayTM-scale offsets) must not change anything but the logged x/y.
+        static string RunShifted(string scenario, string comp, ulong seed, string brain, double duration, double dx, double dy)
+        {
+            var w = new StringWriter();
+            new BayHarness(new BayScenario { Name = scenario, Composition = comp, Seed = seed, BrainId = brain, DurationSeconds = duration, Layout = BayLayout.Synthetic.Translated(dx, dy) }, w).Run();
+            return w.ToString();
+        }
+
+        static string StripXY(string log) => System.Text.RegularExpressions.Regex.Replace(log, "\"(x|y)\":[-0-9.eE+]+", "\"$1\":0");
+
+        [Test]
+        public void Translation_NoFocusControlAndCandidateAreInvariant()
+        {
+            foreach (string b in new[] { BayBrains.NoFocus, BayBrains.Candidate })
+                foreach (ulong seed in new ulong[] { 1, 2, 7 })
+                    foreach (var d in new[] { (60000.0, 0.0), (0.0, 100000.0), (-5000.0, 90000.0) })
+                    {
+                        string a = Run("hunt", "LLMH", seed, b, 300), s = RunShifted("hunt", "LLMH", seed, b, 300, d.Item1, d.Item2);
+                        Assert.AreEqual(StripXY(a), StripXY(s), b + " seed " + seed + " shift " + d);
+                        // logged positions agree to float32 resolution of the absolute coordinate
+                        var ra = System.Text.RegularExpressions.Regex.Matches(a, "\"x\":([-0-9.eE+]+)"); var rs = System.Text.RegularExpressions.Regex.Matches(s, "\"x\":([-0-9.eE+]+)");
+                        Assert.AreEqual(ra.Count, rs.Count);
+                        for (int i = 0; i < ra.Count; i += 37)
+                            Assert.AreEqual(double.Parse(ra[i].Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture) + d.Item1, double.Parse(rs[i].Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture), 0.02);
+                    }
+        }
+
+        [Test]
+        public void Translation_EmergeRaidMixedAreInvariant()
+        {
+            foreach (string sc in new[] { "raid", "mixed", "emerge" })
+                Assert.AreEqual(StripXY(Run(sc, sc == "emerge" ? "mix" : "LLH", 3, BayBrains.Candidate, 400)), StripXY(RunShifted(sc, sc == "emerge" ? "mix" : "LLH", 3, BayBrains.Candidate, 400, 70000, 20000)), sc);
+        }
+
         [Test]
         public void SameSeedSameLog_DifferentSeedDifferent()
         {

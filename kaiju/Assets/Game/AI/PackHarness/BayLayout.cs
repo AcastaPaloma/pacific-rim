@@ -31,6 +31,19 @@ namespace Game.AI.PackHarness
             var l = (BayLayout)Synthetic.MemberwiseClone(); l.HuntX += dx; l.HuntY += dy; l.RaidX = l.HuntX; l.RaidY = l.HuntY; return l;
         }
 
+        /// <summary>T-115e: the whole layout (infrastructure, spawns, rupture trace) translated by (dx, dy) metres. Used by the translation-invariance regression test; only valid on maps without a cost field.</summary>
+        public BayLayout Translated(double dx, double dy)
+        {
+            var l = (BayLayout)MemberwiseClone();
+            Node[] Mv(Node[] a) { var r = new Node[a.Length]; for (int i = 0; i < a.Length; i++) r[i] = new Node(a[i].Class, a[i].C, (float)(a[i].X + dx), (float)(a[i].Y + dy), a[i].Hp); return r; }
+            l.Infra = Mv(Infra); l.CrossInfra = Mv(CrossInfra);
+            l.HuntX = (float)(HuntX + dx); l.HuntY = (float)(HuntY + dy); l.RaidX = (float)(RaidX + dx); l.RaidY = (float)(RaidY + dy);
+            l.MixedX = (float)(MixedX + dx); l.MixedY = (float)(MixedY + dy); l.CrossX = (float)(CrossX + dx); l.CrossY = (float)(CrossY + dy);
+            l.TraceX = new double[TraceX.Length]; l.TraceZ = new double[TraceZ.Length];
+            for (int i = 0; i < TraceX.Length; i++) { l.TraceX[i] = TraceX[i] + dx; l.TraceZ[i] = TraceZ[i] + dy; }
+            return l;
+        }
+
         public static BayLayout For(string map) => map == "real" ? Real : Synthetic;
 
         static BayLayout BuildSynthetic()
