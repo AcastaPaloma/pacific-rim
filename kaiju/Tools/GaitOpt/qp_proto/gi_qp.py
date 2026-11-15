@@ -55,6 +55,7 @@ def solve(G, g, C=None, d=None, meq=0, tol=1e-10, maxit=400):
             if not degenerate and t2 <= t1:
                 A.append(p); sg.append(sp_sign); u.append(up); break
             # partial step: drop constraint l and continue
+            if l < 0: return x, "infeasible", it, _lam(A, u, m, sg)      # 9.3b-6: numerical dead end (was an IndexError); the caller drops the torque rows
             del A[l]; del sg[l]; del u[l]
             sp = sp_sign * (C[p] @ x - d[p])
     return x, "ok", it, _lam(A, u, m, sg)
