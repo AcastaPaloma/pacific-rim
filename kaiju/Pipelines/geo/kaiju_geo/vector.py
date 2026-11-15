@@ -148,6 +148,71 @@ def read_datasf(path):
     return out
 
 
+# ---------------------------------------------------------------- Assessor attributes (optional, additive)
+def read_assessor(path, cfg):
+    """Parcel centroids of the pinned roll as [{x, z (BayTM), year_built, stories, struct_class}] (None = unknown)."""
+    import json
+    rows = json.load(open(path, encoding="utf-8"))
+    acfg = cfg["assessor"]
+    t = transformer("EPSG:6318", baytm_crs())
+    out = []
+    for r in rows:
+        geom = r.get("the_geom") or {}
+        c = geom.get("coordinates")
+        if geom.get("type") != "Point" or not c or len(c) < 2:
+            continue
+        x, z = t.transform(float(c[0]), float(c[1]))
+        yb = parse_number(r.get("year_property_built"))
+        yb = int(yb) if yb is not None and yb == int(yb) and acfg["min_year_built"] <= yb <= int(r.get("closed_roll_year") or 9999) else None
+        st = parse_number(r.get("number_of_stories"))
+        st = None if st is None or not (0 < st <= acfg["max_stories"]) else (int(st) if st == int(st) else round(st, 1))
+        sc = (r.get("construction_type") or "").strip() or None
+        if yb is None and st is None and sc is None:
+            continue
+        out.append({"x": x, "z": z, "year_built": yb, "stories": st, "struct_class": sc})
+    return out
+
+
+def _mode(vals, prefer_high=False):
+    vals = [v for v in vals if v is not None]
+    if not vals:
+        return None
+    n = {}
+    for v in vals:
+        n[v] = n.get(v, 0) + 1
+    top = max(n.values())
+    c = sorted(v for v, k in n.items() if k == top)
+    return c[-1] if prefer_high else c[0]
+
+
+def join_assessor(items, points):
+    """items: [(key, polygon)]; points: read_assessor output. Each point goes to the smallest footprint containing it
+    (ties by key). Per footprint: year_built = most common (ties earlier), stories = most common (ties taller),
+    struct_class = most common raw code (ties lexicographic). Returns {key: {only the known fields}}."""
+    if not items or not points:
+        return {}
+    tree = shapely.STRtree([p for _, p in items])
+    pts = shapely.points([(p["x"], p["z"]) for p in points])
+    hit_pt, hit_g = tree.query(pts, predicate="within")
+    best = {}
+    for pi, gi in zip(hit_pt.tolist(), hit_g.tolist()):
+        k = (items[gi][1].area, str(items[gi][0]))
+        if pi not in best or k < best[pi][0]:
+            best[pi] = (k, gi)
+    groups = {}
+    for pi, (_, gi) in best.items():
+        groups.setdefault(gi, []).append(points[pi])
+    res = {}
+    for gi, ps in groups.items():
+        a = {"year_built": _mode([p["year_built"] for p in ps]),
+             "stories": _mode([p["stories"] for p in ps], prefer_high=True),
+             "struct_class": _mode([p["struct_class"] for p in ps])}
+        a = {k: v for k, v in a.items() if v is not None}
+        if a:
+            res[items[gi][0]] = a
+    return res
+
+
 def iou(a, b) -> float:
     inter = a.intersection(b).area
     if inter <= 0:

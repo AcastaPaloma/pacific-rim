@@ -13,6 +13,7 @@ writes nothing. A source that cannot be reached fails loudly and leaves no parti
 | land detail | `fetch_3dep.py --tile L0_30_36` | USGS 3DEP 1 m DEM via TNM API, newest project per UTM tile (US-Gov-PD) |
 | buildings, roads, piers | `fetch_osm.py --tile L0_30_36` | Geofabrik NorCal PBF (656 MB, once) + `osmium extract --strategy smart` per tile (ODbL-1.0) |
 | height fallback | `fetch_datasf.py --tile L0_30_36` | DataSF Building Footprints `ynuv-fyni` (PDDL-1.0) |
+| building attributes (optional) | `fetch_assessor.py --tile L0_30_36` | DataSF Assessor Historical Secured Property Tax Rolls `wv5m-vpq2`, roll year pinned in `config/sources.json` (PDDL-1.0); adds `year_built`, `stories`, `struct_class` (raw construction_type) to buildings, absent when unknown; if the fetch is unavailable the bake skips it and writes nothing new |
 | water | `fetch_water.py` | osmdata water polygons, split 4326 (908 MB, once; ODbL-1.0) + NOAA CO-OPS 9414290 datums (US-Gov-PD) |
 | faults (global) | `fetch_faults.py`, then `bake_faults.py` | USGS Qfaults ArcGIS REST layers 4 + 5 (US-Gov-PD) |
 | references (not shipped) | `fetch_refs.py --tile L0_30_36` | NGS NDE benchmarks; 3DEP lidar EPT first-return DSM via PDAL (US-Gov-PD) |

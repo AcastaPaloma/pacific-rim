@@ -30,7 +30,12 @@
     "datasf_min_iou": 0.6,
     "datasf_min_relief_m": 3.0,
     "min_area_m2": 0.05,
-    "base_ring_percentile": 10
+    "base_ring_percentile": 10,
+    "assessor": {
+      "_src": "T-020 add-on, R-021 Q-NEW-b: optional additive year_built/stories/struct_class from the Assessor roll, parcel centroid point-in-footprint (smallest containing footprint wins)",
+      "min_year_built": 1800,
+      "max_stories": 120
+    }
   },
   "roads": {
     "_src": "R-004 §1.5: width = lanes x 3.5 m, else a class default (Assumed values: typical US lane/sidewalk widths)",
