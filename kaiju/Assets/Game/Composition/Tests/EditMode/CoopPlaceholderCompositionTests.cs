@@ -110,6 +110,23 @@ namespace Game.Composition.Tests
         }
 
         [Test]
+        public void Hangar_NeedsBothHangarStubAndPlaceholderBody()
+        {
+            FeatureFlagSnapshot F(bool hangar, bool body) => new FeatureFlagSnapshot(new List<KeyValuePair<string, bool>>
+            { new KeyValuePair<string, bool>("hangar.stub", hangar), new KeyValuePair<string, bool>("units.placeholderBody", body) });
+            foreach (var f in new[] { F(false, false), F(true, false), F(false, true) })
+            {
+                var reg = new ServiceRegistry();
+                var r = GameComposition.Install(reg, f, new Errors(), new GameCompositionInputs());
+                Assert.That(r.Hangar, Is.Null); Assert.That(reg.IsRegistered<Game.Hangar.IHangarService>(), Is.False);
+            }
+            var reg2 = new ServiceRegistry();
+            var on = GameComposition.Install(reg2, F(true, true), new Errors(), new GameCompositionInputs());
+            Assert.That(on.Hangar, Is.Not.Null);
+            Assert.That(reg2.Resolve<Game.Hangar.IHangarService>(), Is.SameAs(on.Hangar));
+        }
+
+        [Test]
         public void PlaceholderFlagOff_NothingRegistered()
         {
             var reg = new ServiceRegistry();
