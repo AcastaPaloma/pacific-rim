@@ -6,7 +6,7 @@ import json, pathlib, sys
 import numpy as np
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 OUT = ROOT / "Assets/Game/Config/Mech/gait_reference_opt.json"
-FILES = ["stride_fr010_lat.json", "stride_fr015_lat2.json", "stride_fr020_lat2.json"]
+FILES = ["stride_fr002_lat.json", "stride_fr004_lat.json", "stride_fr006_lat.json", "stride_fr008_lat.json", "stride_fr010_lat.json", "stride_fr015_lat2.json", "stride_fr020_lat2.json"]
 SOLVER_COMMIT = "7d79db8974bd6a29fc32b8f945428769a5bde905"
 LEG_LENGTH_M, DUTY = 42.4, 0.63          # as in stride_opt.py (l = 42.4, BETA = 0.63)
 D = 180 / np.pi

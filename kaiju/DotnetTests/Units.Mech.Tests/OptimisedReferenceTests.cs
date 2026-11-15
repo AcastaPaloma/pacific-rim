@@ -10,7 +10,7 @@ namespace Game.Units.Mech.Tests
     public class OptimisedReferenceTests
     {
         const double G = 9.81, Rad = Math.PI / 180;
-        static readonly double[] Frs = { 0.10, 0.15, 0.20 };
+        static readonly double[] Frs = { 0.02, 0.04, 0.06, 0.08, 0.10, 0.15, 0.20 };
 
         static GaitReferenceData Data() { var d = Repo.Load<GaitReferenceData>("Mech/gait_reference_opt.json"); d.Validate(); return d; }
         static GaitGeometry Geo(double hipHeight = 0)
@@ -31,8 +31,8 @@ namespace Game.Units.Mech.Tests
         public void File_LoadsAndDescribesItself()
         {
             var d = Data();
-            Assert.That(d.rows.Length, Is.EqualTo(3));
-            for (int i = 0; i < 3; i++) { Assert.That(d.rows[i].fr, Is.EqualTo(Frs[i]).Within(1e-12)); Assert.That(d.rows[i].nodes.Length, Is.EqualTo(40)); Assert.That(d.rows[i].verdict, Is.EqualTo("FEASIBLE")); }
+            Assert.That(d.rows.Length, Is.EqualTo(Frs.Length));
+            for (int i = 0; i < Frs.Length; i++) { Assert.That(d.rows[i].fr, Is.EqualTo(Frs[i]).Within(1e-12)); Assert.That(d.rows[i].nodes.Length, Is.EqualTo(40)); Assert.That(d.rows[i].verdict, Is.EqualTo("FEASIBLE")); }
             Assert.That(d.source.solver_commit, Does.StartWith("7d79db8"));
             Assert.That(d.conventions.mapping_to_reference_gait, Does.Contain("NOT verified"));
             Assert.That(d.conventions.angles, Is.Not.Empty);
@@ -136,10 +136,10 @@ namespace Game.Units.Mech.Tests
             double Hip(double fr) => Gait(2, fr, geo, d).Sample(0.1).L.HipFlexion;
             double lo = Hip(0.10), mid = Hip(0.125), hi = Hip(0.15);
             Assert.That(mid, Is.EqualTo(0.5 * (lo + hi)).Within(1e-9)); Assert.That(lo, Is.Not.EqualTo(hi).Within(1e-6));
-            Assert.That(Hip(0.05), Is.EqualTo(lo).Within(1e-12)); Assert.That(Hip(0.30), Is.EqualTo(Hip(0.20)).Within(1e-12));
+            Assert.That(Hip(0.01), Is.EqualTo(Hip(0.02)).Within(1e-12)); Assert.That(Hip(0.30), Is.EqualTo(Hip(0.20)).Within(1e-12));
             var g = Gait(2, 0.175, geo, d);
-            Assert.That(g.StepTime, Is.EqualTo(0.5 * (d.rows[1].step_time_s + d.rows[2].step_time_s)).Within(1e-9)); Assert.That(g.StepLength, Is.EqualTo(0.5 * (d.rows[1].step_length_m + d.rows[2].step_length_m)).Within(1e-9));
-            Assert.That(Gait(2, 0.30, geo, d).StepTime, Is.EqualTo(d.rows[2].step_time_s).Within(1e-9));
+            Assert.That(g.StepTime, Is.EqualTo(0.5 * (d.rows[5].step_time_s + d.rows[6].step_time_s)).Within(1e-9)); Assert.That(g.StepLength, Is.EqualTo(0.5 * (d.rows[5].step_length_m + d.rows[6].step_length_m)).Within(1e-9));
+            Assert.That(Gait(2, 0.30, geo, d).StepTime, Is.EqualTo(d.rows[6].step_time_s).Within(1e-9));
         }
 
         [Test]
