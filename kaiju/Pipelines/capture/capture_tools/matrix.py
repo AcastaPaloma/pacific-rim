@@ -33,8 +33,11 @@ def _write_frames(frames, scale, dst):
     return out
 
 
-def run(internal_dir, n_frames=8, scales=SCALES, pix_fmts=PIX_FMTS, crfs=CRFS, tunes=TUNES, preset="medium", fps=60, work=None, pattern="*_color_internal.png"):
-    """internal_dir: frames at internal resolution (searched recursively). Returns the matrix report; `pass` = a cell was found."""
+def run(internal_dir, n_frames=8, scales=SCALES, pix_fmts=PIX_FMTS, crfs=CRFS, tunes=TUNES, preset="medium", fps=60, work=None, pattern="*_color_internal.png",
+        select_pix_fmt=None, select_scale=None, progress=None):
+    """internal_dir: frames at internal resolution (searched recursively). Returns the matrix report; `pass` = a cell was found.
+    select_pix_fmt / select_scale restrict the cell that is *selected* (the whole grid is still measured and reported): the encode profile (4:4:4) and the
+    delivery master scale (4 = 1920x1080) are decisions taken outside the matrix; the gate and the margin are never moved."""
     if not shutil.which("ffmpeg"):
         return {"check": "matrix", "pass": False, "reason": "ffmpeg not installed"}
     files = sorted(glob.glob(os.path.join(internal_dir, "**", pattern), recursive=True))[:n_frames]
@@ -60,22 +63,42 @@ def run(internal_dir, n_frames=8, scales=SCALES, pix_fmts=PIX_FMTS, crfs=CRFS, t
                     cell.update(bytes=os.path.getsize(mp4), min_share=ev["summary"]["min_share"], mean_share=ev["summary"]["mean_share"],
                                 p999_worst=ev["summary"]["p999_worst"], frames=ev["summary"]["frames"], gate_pass=ev["pass"], ok=ev["summary"]["min_share"] >= MARGIN)
                 cells.append(cell)
+                if progress:
+                    progress(cell)
                 os.remove(mp4) if os.path.exists(mp4) else None
             shutil.rmtree(fdir, ignore_errors=True)
     finally:
         if work is None:
             shutil.rmtree(tmp, ignore_errors=True)
     good = [c for c in cells if c.get("ok")]
-    best = min(good, key=lambda c: c["bytes"]) if good else None
+    unrestricted = min(good, key=lambda c: c["bytes"]) if good else None
+    eligible = [c for c in good if (select_pix_fmt is None or c["pix_fmt"] == select_pix_fmt) and (select_scale is None or c["scale"] == select_scale)]
+    best = min(eligible, key=lambda c: c["bytes"]) if eligible else None
+    by_pix = {}
+    for c in cells:
+        if c.get("min_share") is not None:
+            g = by_pix.setdefault(c["pix_fmt"], {"cells": 0, "passing_margin": 0, "best_min_share": 0.0, "best_min_share_cell": None})
+            g["cells"] += 1
+            g["passing_margin"] += bool(c["ok"])
+            if c["min_share"] >= g["best_min_share"]:
+                g["best_min_share"], g["best_min_share_cell"] = c["min_share"], {k: c[k] for k in ("scale", "crf", "tune")}
     return {"check": "matrix", "gate": f"share <= dE00 2.0 >= {SHARE_MIN:.0%} (never moved); selection margin {MARGIN:.1%}",
             "source_frames": len(frames), "internal_wh": [frames[0].shape[1], frames[0].shape[0]], "preset": preset, "cells": cells,
-            "selected": best, "pass": best is not None,
-            "reason": None if best else "no cell met the selection margin"}
+            "selected": best, "unrestricted_best": unrestricted, "select_pix_fmt": select_pix_fmt, "select_scale": select_scale, "by_pix_fmt": by_pix,
+            "pass": best is not None, "reason": None if best else "no cell met the selection margin"}
 
 
-def settings_json(report):
+def settings_json(report, fps=60):
     """The docs/store/encode_settings.json body for a matrix report with a selected cell."""
     b = report["selected"]
-    return {"schema": "encode_settings@v1", "master_scale": b["scale"], "pix_fmt": b["pix_fmt"], "crf": b["crf"], "tune": b["tune"],
-            "preset": report["preset"], "selected_min_share": b["min_share"], "bytes_for_frames": b["bytes"], "frames": b["frames"],
-            "source": "capture.py matrix", "authoritative": report["source_frames"] >= 60}
+    seconds = b["frames"] / fps
+    out = {"schema": "encode_settings@v1", "master_scale": b["scale"], "master_wh": b["size_wh"], "pix_fmt": b["pix_fmt"], "crf": b["crf"], "tune": b["tune"],
+           "preset": report["preset"], "selected_min_share": b["min_share"], "selected_mean_share": b.get("mean_share"), "bytes_for_frames": b["bytes"], "frames": b["frames"],
+           "estimated_bitrate_kbps_on_matrix_frames": round(b["bytes"] * 8 / seconds / 1000.0, 1),
+           "source": "capture.py matrix", "source_frames": report["source_frames"], "internal_wh": report["internal_wh"], "authoritative": report["source_frames"] >= 60,
+           "gate": report["gate"], "selection_restricted_to": {"pix_fmt": report.get("select_pix_fmt"), "scale": report.get("select_scale")}}
+    u = report.get("unrestricted_best")
+    if u and (u["pix_fmt"], u["scale"]) != (b["pix_fmt"], b["scale"]):
+        out["cheapest_unrestricted"] = {k: u[k] for k in ("scale", "pix_fmt", "crf", "tune", "bytes", "min_share")}
+    out["by_pix_fmt"] = report.get("by_pix_fmt")
+    return out

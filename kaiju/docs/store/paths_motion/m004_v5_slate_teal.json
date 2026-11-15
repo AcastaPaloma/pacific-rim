@@ -1,0 +1,82 @@
+{
+ "schema": "capture_path@v1",
+ "path_id": "m004_v5_slate_teal",
+ "pillar": "P4",
+ "viewpoint": {
+  "id": "V5",
+  "tile": "L0_30_36",
+  "baytm": [
+   61591.4,
+   75450.7
+  ],
+  "heading_deg": 170
+ },
+ "profile_id": "slate_teal",
+ "district_id": "SF-CoitTower",
+ "time_of_day": "fixed_v1",
+ "fps": 60,
+ "duration_s": 3.0,
+ "seed": 191203,
+ "interpolation": "linear",
+ "keyframes": [
+  {
+   "t_s": 0,
+   "pos_baytm": [
+    61591.4,
+    75450.7
+   ],
+   "alt_navd88": 146,
+   "yaw_deg": 170,
+   "pitch_deg": 4,
+   "hfov_deg": 60
+  },
+  {
+   "t_s": 3.0,
+   "pos_baytm": [
+    61591.4,
+    75450.7
+   ],
+   "alt_navd88": 146,
+   "yaw_deg": 170,
+   "pitch_deg": 4,
+   "hfov_deg": 60
+  }
+ ],
+ "shake": [],
+ "snap": {
+  "enabled": true,
+  "dither_anchor": "direction"
+ },
+ "outputs": [
+  {
+   "internal_wh": [
+    480,
+    270
+   ],
+   "output_wh": [
+    1920,
+    1080
+   ],
+   "scale": 4
+  }
+ ],
+ "mode": "clip",
+ "actors": null,
+ "requires": [],
+ "reference_depth_m": 600,
+ "hide_bids": [
+  "osm:w28824850"
+ ],
+ "purpose": "M-004",
+ "motion_set": {
+  "classes": [
+   "S0",
+   "T1",
+   "T2",
+   "T3",
+   "Y1",
+   "Y2"
+  ]
+ },
+ "notes": "T-191 M-004 motion set: classes S0,T1,T2,T3,Y1,Y2 from the first keyframe pose (static, translate along camera right, yaw), nominal speeds of the metric registry; internal-resolution files only."
+}

@@ -1,0 +1,55 @@
+{
+ "schema": "hud_scenes@v1",
+ "font_px": 12,
+ "note": "State values are scene definitions (ASSUMED, not a running simulation); text strings follow SliceBootstrap.OnGUI for the feelcheck config.",
+ "scenes": [
+  {
+   "id": "hud_slice_v5_skyline",
+   "path_id": "hud_v5_skyline",
+   "frame_index": 0,
+   "values": {
+    "fps": 60,
+    "kaiju_state": "Approach",
+    "kaiju_distance_m": 340,
+    "mech_hp": 1.0,
+    "ammo": 20,
+    "kaiju_hp_frac": 1.0,
+    "message": "slice ready: WASD to walk, F to fire"
+   }
+  },
+  {
+   "id": "hud_slice_v4_street",
+   "path_id": "hud_v4_street",
+   "frame_index": 0,
+   "values": {
+    "fps": 60,
+    "destroyed": 2,
+    "damaged_events": 31,
+    "kaiju_state": "Charge",
+    "kaiju_distance_m": 88,
+    "mech_hp": 0.8,
+    "ammo": 14,
+    "shots": 6,
+    "hits_kaiju": 5,
+    "hits_building": 1,
+    "kaiju_hp_frac": 0.62,
+    "message": "kaiju melee hit; mech hp 0.80"
+   }
+  },
+  {
+   "id": "hud_slice_v3_gate",
+   "path_id": "hud_v3_gate",
+   "frame_index": 0,
+   "values": {
+    "fps": 60,
+    "kaiju_state": "Approach",
+    "kaiju_distance_m": 520,
+    "mech_hp": 1.0,
+    "ammo": 20,
+    "kaiju_hp_frac": 1.0,
+    "hangar_cycles": 1,
+    "message": "hangar cycle 1: hp 120 -> 1000, redeployed at the Crissy Field site"
+   }
+  }
+ ]
+}

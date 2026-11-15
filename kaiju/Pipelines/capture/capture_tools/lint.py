@@ -1,4 +1,4 @@
-"""capture_path@v1 lint (docs/store/capture_plan.md section 3). Rule ids L01..L16 are the same as the C# CapturePath.Lint
+"""capture_path@v1 lint (docs/store/capture_plan.md section 3). Rule ids L01..L17 are the same as the C# CapturePath.Lint
 (Assets/Game/Tools/Capture/Core), so a file that passes here passes the Unity driver and the other way round.
 L16 (Python only, needs the whole directory): path_id unique across files."""
 from __future__ import annotations
@@ -13,6 +13,10 @@ SCHEMA = "capture_path@v1"
 PROFILES = ("warm_rust_sepia", "warm_amber_haze", "slate_teal", "lavender_peach", "slate_crimson")
 REQUIRES = ("walk", "kaiju", "m2_streaming", "hud", "coop", "logotype", "mech_mesh")
 INTERP = ("linear", "catmull_rom", "ease_in_out")
+PURPOSES = ("M-003", "M-004")
+# M-004 classes (Tools/Metrics registry M-004@v1.1): id -> (type, nominal internal px/frame, frames); same table as C# CapturePath.MotionClasses
+MOTION_CLASSES = {"S0": ("static", 0.0, 60), "T1": ("translate", 0.1, 180), "T2": ("translate", 0.25, 180), "T3": ("translate", 1.0, 180),
+                  "Y1": ("yaw", 0.25, 180), "Y2": ("yaw", 1.0, 180)}
 ID_RX, TILE_RX = re.compile(r"^[a-z0-9_]+$"), re.compile(r"^L0_[0-9]+_[0-9]+$")
 
 
@@ -136,6 +140,25 @@ def lint_path(d) -> list:
         e.append("L14 viewpoint.id is required")
     if not d.get("district_id"):
         e.append("L14 district_id is required")
+    purpose, ms = d.get("purpose", "M-003"), d.get("motion_set")
+    if purpose not in PURPOSES:
+        e.append("L17 purpose must be M-003 or M-004")
+    elif purpose == "M-004":
+        cl = ms.get("classes") if isinstance(ms, dict) else None
+        if not isinstance(cl, list) or not cl or not all(isinstance(c, str) for c in cl):
+            e.append("L17 purpose M-004 needs motion_set.classes")
+        else:
+            if any(c not in MOTION_CLASSES for c in cl):
+                e.append("L17 unknown motion class '%s'" % next(c for c in cl if c not in MOTION_CLASSES))
+            if len(set(cl)) != len(cl):
+                e.append("L17 motion_set.classes has duplicates")
+            need = max((MOTION_CLASSES[c][2] for c in cl if c in MOTION_CLASSES), default=0)
+            if frames < need:
+                e.append(f"L17 duration_s * fps must cover the longest class ({need} frames)")
+        if mode != "clip":
+            e.append("L17 an M-004 motion set is a clip")
+    elif ms is not None:
+        e.append("L17 motion_set is only for purpose M-004")
     return e
 
 

@@ -17,6 +17,9 @@ namespace Game.Tools.Capture
 
     public struct CaptureOutput { public int InternalW, InternalH, OutputW, OutputH, Scale; }
 
+    /// <summary>One M-004 motion class (Tools/Metrics registry M-004@v1.1 classes): nominal speed in internal px per frame, translation at the reference depth, yaw at the screen centre.</summary>
+    public struct MotionClass { public string Id, Type, Axis; public double SpeedPxPerFrame; public int Frames; }
+
     /// <summary>One scripted camera path. Altitudes are metres above ground or NAVD88 (<see cref="AltIsNavd88"/>); positions are BayTM metres.</summary>
     public sealed class CapturePath
     {
@@ -24,7 +27,27 @@ namespace Game.Tools.Capture
         public static readonly string[] KnownProfiles = { "warm_rust_sepia", "warm_amber_haze", "slate_teal", "lavender_peach", "slate_crimson" };
         public static readonly string[] KnownRequires = { "walk", "kaiju", "m2_streaming", "hud", "coop", "logotype", "mech_mesh" };
         public static readonly string[] Interpolations = { "linear", "catmull_rom", "ease_in_out" };
+        public static readonly string[] Purposes = { "M-003", "M-004" };
+        /// <summary>The six M-004 classes, same table as Game.Tools.StyleCapture.StyleCaptureJobs.M004Sequences (S0 60 frames, the rest 180).</summary>
+        public static readonly MotionClass[] MotionClasses =
+        {
+            new MotionClass { Id = "S0", Type = "static", Axis = "none", SpeedPxPerFrame = 0.0, Frames = 60 },
+            new MotionClass { Id = "T1", Type = "translate", Axis = "camera_right", SpeedPxPerFrame = 0.1, Frames = 180 },
+            new MotionClass { Id = "T2", Type = "translate", Axis = "camera_right", SpeedPxPerFrame = 0.25, Frames = 180 },
+            new MotionClass { Id = "T3", Type = "translate", Axis = "camera_right", SpeedPxPerFrame = 1.0, Frames = 180 },
+            new MotionClass { Id = "Y1", Type = "yaw", Axis = "world_up", SpeedPxPerFrame = 0.25, Frames = 180 },
+            new MotionClass { Id = "Y2", Type = "yaw", Axis = "world_up", SpeedPxPerFrame = 1.0, Frames = 180 },
+        };
 
+        public static bool TryMotionClass(string id, out MotionClass c)
+        {
+            foreach (var m in MotionClasses) if (m.Id == id) { c = m; return true; }
+            c = default(MotionClass); return false;
+        }
+
+        public string Purpose = "M-003";
+        /// <summary>M-004 motion classes to render from the first keyframe pose (purpose M-004 only); empty for ordinary paths.</summary>
+        public List<string> MotionSet = new List<string>();
         public string SchemaId, PathId, Pillar, ViewpointId, Tile, ProfileId, DistrictId, TimeOfDay, Interpolation, DitherAnchor, Mode, Actors, FallbackOf;
         public double ViewpointE, ViewpointN, ViewpointHeadingDeg, DurationS, ReferenceDepthM = 600.0;
         public int Fps;
@@ -42,6 +65,7 @@ namespace Game.Tools.Capture
 
         public int FrameCount => (int)Math.Round(DurationS * Fps);
         public bool IsStill => Mode == "still";
+        public bool IsMotionSet => Purpose == "M-004";
 
         static readonly Regex IdRx = new Regex("^[a-z0-9_]+$"), TileRx = new Regex("^L0_[0-9]+_[0-9]+$");
 
@@ -57,6 +81,15 @@ namespace Game.Tools.Capture
             p.Interpolation = GeoJson.Str(o, "interpolation"); p.Mode = GeoJson.Str(o, "mode"); p.Actors = GeoJson.Str(o, "actors"); p.FallbackOf = GeoJson.Str(o, "fallback_of");
             p.Fps = (int)GeoJson.Num(o, "fps", -1); p.DurationS = GeoJson.Num(o, "duration_s", double.NaN); p.Seed = (long)GeoJson.Num(o, "seed", -1);
             p.NonWorld = GeoJson.Bool(o, "non_world");
+            string purpose = GeoJson.Str(o, "purpose"); if (purpose != null) p.Purpose = purpose;
+            var ms = GeoJson.Obj(GeoJson.Get(o, "motion_set"));
+            if (ms != null)
+            {
+                var cl = GeoJson.Arr(GeoJson.Get(ms, "classes"));
+                if (cl == null) p.ParseErrors.Add("L17 motion_set.classes must be a list");
+                else foreach (var x in cl) { if (x is string cs) p.MotionSet.Add(cs); else p.ParseErrors.Add("L17 motion_set.classes entries must be strings"); }
+            }
+            else if (GeoJson.Get(o, "motion_set") != null) p.ParseErrors.Add("L17 motion_set must be an object");
             double rd = GeoJson.Num(o, "reference_depth_m", double.NaN); if (!double.IsNaN(rd)) p.ReferenceDepthM = rd;
             var vp = GeoJson.Obj(GeoJson.Get(o, "viewpoint"));
             if (vp == null) p.ParseErrors.Add("L14 viewpoint missing");
@@ -164,6 +197,17 @@ namespace Game.Tools.Capture
             if (Tile == null || !TileRx.IsMatch(Tile)) e.Add("L14 viewpoint.tile must look like L0_30_36");
             if (string.IsNullOrEmpty(ViewpointId)) e.Add("L14 viewpoint.id is required");
             if (string.IsNullOrEmpty(DistrictId)) e.Add("L14 district_id is required");
+            if (Array.IndexOf(Purposes, Purpose) < 0) e.Add("L17 purpose must be M-003 or M-004");
+            else if (IsMotionSet)
+            {
+                if (MotionSet.Count == 0) e.Add("L17 purpose M-004 needs motion_set.classes");
+                foreach (var c in MotionSet) if (!TryMotionClass(c, out _)) { e.Add("L17 unknown motion class '" + c + "'"); break; }
+                if (new HashSet<string>(MotionSet).Count != MotionSet.Count) e.Add("L17 motion_set.classes has duplicates");
+                if (Mode != "clip") e.Add("L17 an M-004 motion set is a clip");
+                int need = 0; foreach (var c in MotionSet) if (TryMotionClass(c, out var mc)) need = Math.Max(need, mc.Frames);
+                if (Fps > 0 && FrameCount < need) e.Add("L17 duration_s * fps must cover the longest class (" + need + " frames)");
+            }
+            else if (MotionSet.Count > 0) e.Add("L17 motion_set is only for purpose M-004");
             return e;
         }
 
