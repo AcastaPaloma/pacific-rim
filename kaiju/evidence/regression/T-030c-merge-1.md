@@ -1,0 +1,1 @@
+T-030c step 1-4: EditMode 513 passed / 0 failed / 2 skipped (515; log: evidence/T-030c/editmode-results.xml), dotnet Net.Tests 76/76, Net.ControlBridge.Tests 13/13, Units.Placeholder.Tests 18/18; GameCoreConfig.asset regenerated (net + placeholder flag files).

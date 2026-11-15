@@ -46,6 +46,18 @@ namespace Game.Net.ControlBridge
             return r;
         }
 
+        /// <summary>Takes a remote slot's pilot off this seat (slot released). False if the slot had none here.</summary>
+        public bool RemoveRemote(PlayerSlot slot)
+        {
+            for (int i = 0; i < _remotes.Count; i++)
+            {
+                if (_remotes[i].Slot != slot) continue;
+                Seat.pilots.Remove(_remotes[i]); _remotes.RemoveAt(i);
+                return true;
+            }
+            return false;
+        }
+
         /// <summary>Once per simulation step, after the host has delivered intents.</summary>
         public IntentFrame Read() => LastIntent = Seat.Read();
     }
@@ -68,6 +80,31 @@ namespace Game.Net.ControlBridge
         {
             _session = session ?? throw new ArgumentNullException(nameof(session));
             _beforePoll = beforePoll;
+            _session.SlotReleased += OnSlotReleased;
+            _session.SlotJoined += OnSlotJoined;
+        }
+
+        /// <summary>
+        /// Decides which mech a newly joined slot pilots (null = leave it unassigned; the game assigns later). Runs on every join, a rejoin
+        /// into a freed slot included. Default none.
+        /// </summary>
+        public Func<PlayerSlot, MechSeat> AssignPolicy { get; set; }
+
+        private void OnSlotJoined(PlayerSlot slot)
+        {
+            var m = AssignPolicy?.Invoke(slot);
+            if (m != null && !_slotToMech.ContainsKey(slot.Index)) Assign(slot, m);
+        }
+
+        private void OnSlotReleased(PlayerSlot slot) => Unassign(slot);
+
+        /// <summary>Frees a slot's pilot: its remote source leaves the mech's seat, so the mech falls back to its other pilots. Runs automatically when the session releases the slot.</summary>
+        public bool Unassign(PlayerSlot slot)
+        {
+            if (!_slotToMech.TryGetValue(slot.Index, out var m)) return false;
+            _slotToMech.Remove(slot.Index);
+            m.RemoveRemote(slot);
+            return true;
         }
 
         public void AddMech(MechSeat mech) { if (!_mechs.Contains(mech)) _mechs.Add(mech); }

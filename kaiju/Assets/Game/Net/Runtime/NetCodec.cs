@@ -10,7 +10,9 @@ namespace Game.Net
     /// </summary>
     public static class NetCodec
     {
-        public const byte MsgHello = 1, MsgAccept = 2, MsgRefuse = 3;
+        public const byte MsgHello = 1, MsgAccept = 2, MsgRefuse = 3, MsgLeave = 4;
+        /// <summary>Client to host, reliable: the client is leaving; the host frees its slot at once.</summary>
+        public static byte[] EncodeLeave() => new byte[] { MsgLeave };
 
         public static byte[] Encode(HandshakeHello h)
         {

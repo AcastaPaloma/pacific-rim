@@ -23,6 +23,10 @@ namespace Game.Net
         SnapshotStale = 6,
         /// <summary>One complete second at the ITransport boundary: A = bytes down (host to client), B = bytes up, C = packets down, D = packets up.</summary>
         Bandwidth = 7,
+        /// <summary>Host freed a slot. A = reason (0 left, 1 timeout, 2 link down, 3 refused-and-idle), B = steps since the last datagram.</summary>
+        SlotRelease = 8,
+        /// <summary>Client lost the host (link down). A = steps since the last snapshot.</summary>
+        LinkLost = 9,
     }
 
     public readonly struct NetLogRecord
@@ -75,6 +79,8 @@ namespace Game.Net
                 case NetLogKind.IntentNeutral: return "intent_neutral";
                 case NetLogKind.SnapshotStale: return "snapshot_stale";
                 case NetLogKind.Bandwidth: return "bandwidth";
+                case NetLogKind.SlotRelease: return "slot_release";
+                case NetLogKind.LinkLost: return "link_lost";
                 default: return "unknown";
             }
         }
