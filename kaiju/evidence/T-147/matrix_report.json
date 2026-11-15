@@ -1,0 +1,151 @@
+{
+ "check": "matrix",
+ "gate": "share <= dE00 2.0 >= 99% (never moved); selection margin 99.5%",
+ "source_frames": 6,
+ "internal_wh": [
+  480,
+  270
+ ],
+ "preset": "medium",
+ "cells": [
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 10,
+   "tune": "animation",
+   "bytes": 36145,
+   "min_share": 0.6312191358024691,
+   "mean_share": 0.6342939814814815,
+   "p999_worst": 14.272211670820234,
+   "frames": 6,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 23,
+   "tune": "animation",
+   "bytes": 11116,
+   "min_share": 0.5435262345679013,
+   "mean_share": 0.5456893004115226,
+   "p999_worst": 16.121395216029654,
+   "frames": 6,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 10,
+   "tune": "animation",
+   "bytes": 45091,
+   "min_share": 0.8803703703703704,
+   "mean_share": 0.8928613683127571,
+   "p999_worst": 8.248120018212669,
+   "frames": 6,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 23,
+   "tune": "animation",
+   "bytes": 11408,
+   "min_share": 0.5458950617283951,
+   "mean_share": 0.5493299897119341,
+   "p999_worst": 16.282946551344477,
+   "frames": 6,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 10,
+   "tune": "animation",
+   "bytes": 98521,
+   "min_share": 0.8510291280864197,
+   "mean_share": 0.8511114326131688,
+   "p999_worst": 7.541089536885202,
+   "frames": 6,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 23,
+   "tune": "animation",
+   "bytes": 69121,
+   "min_share": 0.6728829089506173,
+   "mean_share": 0.6781649466306585,
+   "p999_worst": 12.217285067335732,
+   "frames": 6,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 10,
+   "tune": "animation",
+   "bytes": 77238,
+   "min_share": 0.9761738040123457,
+   "mean_share": 0.984566132973251,
+   "p999_worst": 4.259125092333237,
+   "frames": 6,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 23,
+   "tune": "animation",
+   "bytes": 92072,
+   "min_share": 0.6769965277777777,
+   "mean_share": 0.6850774016203703,
+   "p999_worst": 12.40527668644056,
+   "frames": 6,
+   "gate_pass": false,
+   "ok": false
+  }
+ ],
+ "selected": null,
+ "pass": false,
+ "reason": "no cell met the selection margin"
+}

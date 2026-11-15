@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""capture.py <spec|style|scale|fidelity|encode|sheets>  (docs/store/capture_plan.md section 5). Exit 0 pass, 2 fail.
+"""capture.py <spec|style|lint|matrix|fidelity|encode|upscale|sheets>  (docs/store/capture_plan.md section 5). Exit 0 pass, 2 fail.
 Run with /opt/miniconda3/envs/kaiju/bin/python."""
 import argparse
 import json
@@ -8,11 +8,12 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from capture_tools import encode, fidelity, sheets, spec, style  # noqa: E402
+from capture_tools import encode, fidelity, lint, matrix, sheets, spec, style  # noqa: E402
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="capture.py")
+    ap.add_argument("--report", help="also write the full JSON report to this file (stdout is cut at 6000 characters)")
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("spec"); p.add_argument("--assets", required=True); p.add_argument("--trailer"); p.add_argument("--demo", action="store_true")
     p = sub.add_parser("style"); p.add_argument("--set", required=True); p.add_argument("--out", required=True)
@@ -23,6 +24,11 @@ def main(argv=None):
     p.add_argument("--audio"); p.add_argument("--crf", type=int); p.add_argument("--fps", type=int, default=60)
     p.add_argument("--dry-run", action="store_true")
     p = sub.add_parser("upscale"); p.add_argument("--src", required=True); p.add_argument("--dst", required=True); p.add_argument("--scale", type=int, required=True)
+    p = sub.add_parser("lint"); p.add_argument("--paths", required=True, help="a directory of capture_path@v1 JSON files, or one file")
+    p = sub.add_parser("matrix"); p.add_argument("--frames", required=True, help="directory with internal-resolution *_color_internal.png frames")
+    p.add_argument("--n", type=int, default=8); p.add_argument("--scales", default="1,2,3,4"); p.add_argument("--crf", default="10,14,18,23")
+    p.add_argument("--pix-fmts", default="yuv420p,yuv444p"); p.add_argument("--tunes", default="none,animation"); p.add_argument("--preset", default="medium")
+    p.add_argument("--settings-out", help="write the selected cell as encode_settings JSON here")
     p = sub.add_parser("sheets"); p.add_argument("--frames", required=True); p.add_argument("--out", required=True)
     p.add_argument("--cols", type=int, default=4); p.add_argument("--every", type=int, default=1)
     a = ap.parse_args(argv)
@@ -30,6 +36,13 @@ def main(argv=None):
         r = spec.run(a.assets, a.trailer, a.demo)
     elif a.cmd == "style":
         r = style.run(a.set, a.out, a.motion, not a.no_metrics)
+    elif a.cmd == "lint":
+        r = lint.run(a.paths)
+    elif a.cmd == "matrix":
+        r = matrix.run(a.frames, a.n, tuple(int(x) for x in a.scales.split(",")), tuple(a.pix_fmts.split(",")), tuple(int(x) for x in a.crf.split(",")),
+                       tuple(a.tunes.split(",")), a.preset)
+        if r.get("selected") and a.settings_out:
+            json.dump(matrix.settings_json(r), open(a.settings_out, "w"), indent=1)
     elif a.cmd == "fidelity":
         r = fidelity.run(a.master, a.video, [int(x) for x in a.cuts.split(",") if x], a.every)
     elif a.cmd == "encode":
@@ -38,6 +51,9 @@ def main(argv=None):
         r = {"frames": encode.upscale_dir(a.src, a.dst, a.scale), "pass": True}
     else:
         r = sheets.run(a.frames, a.out, every=a.every, cols=a.cols); r["pass"] = True
+    if a.report:
+        with open(a.report, "w") as fh:
+            json.dump(r, fh, indent=1, default=str)
     print(json.dumps(r, indent=1, default=str)[:6000])
     return 0 if r.get("pass") else 2
 
