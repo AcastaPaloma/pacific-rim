@@ -3,7 +3,8 @@ import sys, pathlib, numpy as np
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 import planar_model as P
 tag = sys.argv[1]; every = int(sys.argv[2]) if len(sys.argv) > 2 else 6; t0 = float(sys.argv[3]) if len(sys.argv) > 3 else 0; t1 = float(sys.argv[4]) if len(sys.argv) > 4 else 1e9
-m = P.PlanarModel(); ref = P.load_reference(None, m); d = np.load(P.ROOT / f"Tools/GaitOpt/out/proto/{tag}.npz"); W = m.W
+import json; m = P.PlanarModel(); ref = P.load_reference(json.load(open(P.ROOT / f"Tools/GaitOpt/out/proto/{tag}.json")).get("ref"), m)   # reference of the run (9.3b-3)
+d = np.load(P.ROOT / f"Tools/GaitOpt/out/proto/{tag}.npz"); W = m.W
 np.set_printoptions(precision=2, suppress=True, linewidth=250)
 print("td", d["td_events"])
 for k in range(0, len(d["t"]), every):

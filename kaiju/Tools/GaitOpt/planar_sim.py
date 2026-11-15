@@ -12,6 +12,11 @@ API (for 9.3b)
   Contact: per point spring-damper normal Fn = max(0, kn*pen - cn*vz) with cn = 2*zeta*sqrt(kn*m_eff) (m_eff = point effective mass from M^-1),
       friction Ft = -mu*Fn*tanh(vt/eps_v), capped at m_eff_t*|vt|/dt so one sub-step cannot reverse the slip velocity (stability).
       Semi-implicit Euler (qd then q), M and h analytic, ~0.1 ms per sub-step.
+  friction="tanh" (default, the law above; all runs before 9.3b-3) or "stick" (9.3b-3, stick-slip, closer to PhysX patch friction; mu unchanged):
+      each loaded point gets a tangential anchor x_a at first contact; trial Ft_p = -kt (x - x_a) - ct vt (ct = 2 zeta_t sqrt(kt m_eff_t)). One friction
+      patch per foot: T = sum of the foot's trial Ft_p; if |T| > mu sum Fn the foot slips, T = sign(T) mu sum Fn, and its anchors are moved so that the
+      springs alone give T (x_a = x + T/(n kt)). T is shared by the foot's points in proportion to Fn (no internal heel-toe shear). An anchor is dropped
+      when its point leaves the ground (pen <= 0). Static friction up to mu Fn with no slip velocity needed. kt default = kn, zeta_t = 0.7.
 """
 import numpy as np, time, json, pathlib, argparse
 import planar_model as P
@@ -27,29 +32,47 @@ def fall_detect(ref, hip_frac=0.7, lean_deg=30.0):
 
 
 class PlantSim:
-    def __init__(self, model, mu=0.8, kn=2e9, zeta=0.7, eps_v=0.02, dt=DT, ctrl_hz=60, delay_ticks=1, lim_scale=1.0, mass_scale=1.0):
+    def __init__(self, model, mu=0.8, kn=2e9, zeta=0.7, eps_v=0.02, dt=DT, ctrl_hz=60, delay_ticks=1, lim_scale=1.0, mass_scale=1.0, friction="tanh", kt=None, zeta_t=0.7):
         self.m = model; self.mu = mu; self.kn = kn; self.zeta = zeta; self.eps = eps_v; self.dt = dt; self.hz = ctrl_hz
+        assert friction in ("tanh", "stick"); self.friction = friction; self.kt = kn if kt is None else kt; self.zeta_t = zeta_t; self.reset_contact()
         self.sub = int(round(1.0 / (ctrl_hz * dt))); self.delay = delay_ticks; self.lim = lim_scale * model.LIM
         self.CJT = model.CJ.T
+
+    def reset_contact(self):
+        self.anc = np.full(4, np.nan); self.n_slip = 0; self.n_stick = 0           # stick-slip anchors (x) and sub-step counters (loaded points)
 
     def contact(self, M, pts, Jp, qd, Minv):
         F = np.zeros((4, 2)); vp = np.einsum("pdi,i->pd", Jp, qd); dt = self.dt
         for p in range(4):
             pen = -pts[p, 1]
-            if pen <= 0: continue
+            if pen <= 0:
+                self.anc[p] = np.nan; continue
             jn = Jp[p, 1]; jt = Jp[p, 0]
             me_n = 1.0 / (jn @ Minv @ jn); me_t = 1.0 / (jt @ Minv @ jt)
             cn = 2 * self.zeta * np.sqrt(self.kn * me_n)
             fn = max(0.0, self.kn * pen - cn * vp[p, 1])
             vt = vp[p, 0]
+            if self.friction == "stick":                       # trial spring-damper force per point; the patch (foot) total is limited below
+                if np.isnan(self.anc[p]): self.anc[p] = pts[p, 0]
+                F[p] = (-self.kt * (pts[p, 0] - self.anc[p]) - 2 * self.zeta_t * np.sqrt(self.kt * me_t) * vt, fn); continue
             ft = -self.mu * fn * np.tanh(vt / self.eps)
             cap = me_t * abs(vt) / dt
             ft = float(np.clip(ft, -cap, cap))
             F[p] = (ft, fn)
+        if self.friction == "stick":                           # one friction patch per foot (as PhysX patch friction): |sum Ft| <= mu sum Fn, shared by Fn
+            for f in (0, 1):
+                ld = [p for p in (2 * f, 2 * f + 1) if not np.isnan(self.anc[p])]
+                if not ld: continue
+                T = sum(F[p, 0] for p in ld); Fs = sum(F[p, 1] for p in ld); cap = self.mu * Fs
+                if abs(T) > cap:
+                    T = float(np.sign(T) * cap); self.n_slip += 1
+                    for p in ld: self.anc[p] = pts[p, 0] + T / len(ld) / self.kt          # re-anchor: springs alone give the capped force
+                else: self.n_stick += 1
+                for p in ld: F[p, 0] = T * (F[p, 1] / Fs if Fs > 0 else 0.0)
         return F
 
     def run(self, q0, qd0, controller, t_end, fall_fn=None, ref=None):
-        m = self.m; q = np.array(q0, float); qd = np.array(qd0, float); dt = self.dt; sub = self.sub
+        m = self.m; q = np.array(q0, float); qd = np.array(qd0, float); dt = self.dt; sub = self.sub; self.reset_contact()
         if fall_fn is None and ref is not None: fall_fn = fall_detect(ref)
         u0 = np.asarray(controller(0.0, q, qd, -1), float); queue = [u0.copy() for _ in range(self.delay)]
         n_ticks = int(round(t_end * self.hz)); L = {k: [] for k in ("t", "q", "qd", "u_cmd", "u_app", "Fn", "Ft", "sat")}

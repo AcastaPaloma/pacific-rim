@@ -1,0 +1,9 @@
+== N 40 pass 1: warm Tools/GaitOpt/out/stride_fr010_lat.json -> Tools/GaitOpt/out/stride_fr010_v2_n40 (Sun Nov 15 01:33:30 EST 2026)
+stride_fr010_v2_n40: verdict FEASIBLE; trust-constr status 0 (The maximum number of function evaluations is exceeded.); iterations 500; runtime 172 s; N=40
+--lat: mu_eff min 0.3697 (used; mu 0.4000; single solve), mu_eff min at final step time 0.3693 (stale 0.12 %), peak a_lat 0.154 g (zc 42.28 m, omega 0.482); 3D friction use sqrt(Ft^2+Fy^2)/(mu Fn) max 0.779; verdict FEASIBLE
+== N 40 pass 1 verdict: FEASIBLE (Sun Nov 15 01:36:27 EST 2026)
+== N 80 pass 1: warm Tools/GaitOpt/out/stride_fr010_lat.json -> Tools/GaitOpt/out/stride_fr010_v2_n80 (Sun Nov 15 01:33:30 EST 2026)
+stride_fr010_v2_n80: verdict FEASIBLE; trust-constr status 2 (`xtol` termination condition is satisfied.); iterations 527; runtime 342 s; N=80
+--lat: mu_eff min 0.3697 (used; mu 0.4000; single solve), mu_eff min at final step time 0.3695 (stale 0.07 %), peak a_lat 0.153 g (zc 42.40 m, omega 0.481); 3D friction use sqrt(Ft^2+Fy^2)/(mu Fn) max 0.774; verdict FEASIBLE
+== N 80 pass 1 verdict: FEASIBLE (Sun Nov 15 01:39:17 EST 2026)
+== done (Sun Nov 15 01:39:17 EST 2026)

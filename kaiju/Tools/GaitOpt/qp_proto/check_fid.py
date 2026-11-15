@@ -3,9 +3,9 @@ import sys, pathlib; sys.path.insert(0, str(pathlib.Path(__file__).resolve().par
 import numpy as np, planar_model as P
 from controller_fid import FIDWalker
 np.set_printoptions(linewidth=220, suppress=True, precision=2)
-m = P.PlanarModel(); ref = P.load_reference(None, m); kw = dict(a.split("=") for a in sys.argv[1:]); kw = {k: float(v) for k, v in kw.items()}
+kw = dict(a.split("=") for a in sys.argv[1:]); rp = kw.pop("ref", None); m = P.PlanarModel(); ref = P.load_reference(rp, m); kw = {k: float(v) for k, v in kw.items()}   # ref=path (9.3b-3)
 worst = 0
-for k in range(0, 40):
+for k in range(0, ref.N):
     c = FIDWalker(ref, m, **kw); c(0, ref.q[0], ref.qd[0], -1)
     c.inc[:] = c.flags[k]; c.f_in[:] = 5 * m.W; c.t_in[:] = -10; c.Fprev = ref.F[k].copy(); c.F_meas = ref.F[k].copy(); c.t_anchor = -k * ref.h; c.t_rel[:] = -10
     u = c(0.0, ref.q[k], ref.qd[k], 0); L = c.log

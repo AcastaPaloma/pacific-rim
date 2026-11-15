@@ -14,6 +14,10 @@ ap.add_argument("--out", default=None, help="output prefix (writes .json and .tx
 ap.add_argument("--vlim", type=float, default=0.5); ap.add_argument("--tol", type=float, default=1e-5); ap.add_argument("--gtol", type=float, default=1e-8)
 ap.add_argument("--hess", default="bfgs", choices=["sr1", "bfgs"]); ap.add_argument("--tr0", type=float, default=0.05); ap.add_argument("--mu0", type=float, default=1e-3)
 ap.add_argument("--lat", action="store_true", help="add lateral LIPM shear to the friction cone: mu_eff(k) = sqrt(mu^2-(a_lat(k)/g)^2) (tightens the cone only)")
+ap.add_argument("--trans", action="store_true", help="9.3b-3: ADD transition-feasibility rows (off = old behaviour): Fn = 0 at the first and last loaded node of every contact "
+                "interval (complementarity), |dFn/dt| <= --frate BW per 0.11 s between all consecutive nodes of every point, lift-off point speed <= --vlift")
+ap.add_argument("--frate", type=float, default=0.5, help="--trans: max |Fn(k+1)-Fn(k)| in BW per 0.11 s of time (scaled by h = ts/N)")
+ap.add_argument("--vlift", type=float, default=0.5, help="--trans: max ground-relative point speed over the node interval after the last loaded node, m/s")
 A = ap.parse_args()
 
 # ---------------- problem definition: exec stride_opt.py up to (not including) its SLSQP section
@@ -63,6 +67,41 @@ if A.lat:
         return sp.csr_matrix((v_, (r_, c_)), shape=(2 * nF, nz))
     a_lat, zc_lat, w_lat, ts_lat = lat_a(z0); mue = mu_eff_of(a_lat); Fr_m = build_Fr(mue); LAT = dict(a_peak=float(np.abs(a_lat).max()), zc=zc_lat, omega=float(w_lat), hw=float(HWL))
     print(f"--lat: zc {zc_lat:.2f} m, omega {w_lat:.3f}, step {ts_lat:.3f} s, peak a_lat {np.abs(a_lat).max()/GR:.3f} g, mu_eff min {mue.min():.4f} (mu {MU:.4f})", flush=True)
+# ---------------- --trans (9.3b-3): transition-feasibility rows, all ADDED to the unchanged problem (linear in z and in the node outputs O)
+NOc = P["NO"]; fle = P["fle"]; aidx = P["aidx"]; SW4 = [2, 3, 0, 1]
+Sx_O = sp.csr_matrix((0, N * NOc)); Sx_z = sp.csr_matrix((0, nz)); Ex_z = sp.csr_matrix((0, nz)); lab_x, lab_e = [], []
+if A.trans:
+    iFn = lambda k, p: N * 9 + 1 + 2 * aidx[(k, p)] + 1
+    def fn_at(k, p):                      # z index of Fn of point p at node k (0..N; node N = node 0 with legs swapped), None if unloaded
+        if k == N: k, p = 0, SW4[p]
+        return iFn(k, p) if fl[k, p] else None
+    er = []
+    for (k, p) in act:                    # (a) complementarity: a point that touches down / lifts off at this node carries no force here
+        first, last = not fle[k, p], not fl[k + 1, p]
+        if first or last: er.append(iFn(k, p)); lab_e.append(("compl_fn0", k, p, "first" if first else "last"))
+    Ex_z = sp.csr_matrix((np.ones(len(er)), (np.arange(len(er)), er)), shape=(len(er), nz))
+    Rh = A.frate / 0.11 / N               # BW per (ts/N) per second of step time: bound = Rh * ts
+    zr, zc_, zv = [], [], []; orr, oc, ov = [], [], []; nr = 0
+    for p in range(4):                    # (b) normal-force rate bound between consecutive nodes (incl. N-1 -> N = mirrored node 0)
+        for k in range(N):
+            a_, b_ = fn_at(k + 1, p), fn_at(k, p)
+            if a_ is None and b_ is None: continue
+            for sg in (1.0, -1.0):        # Rh*ts - sg*(Fn(k+1) - Fn(k)) >= 0
+                zr.append(nr); zc_.append(N * 9); zv.append(Rh)
+                if a_ is not None: zr.append(nr); zc_.append(a_); zv.append(-sg)
+                if b_ is not None: zr.append(nr); zc_.append(b_); zv.append(sg)
+                lab_x.append(("frate+" if sg > 0 else "frate-", k, p)); nr += 1
+    for (k, p) in act:                    # (c) lift-off speed: |P(k+1) - P(k)| <= vlift * h at the last loaded node (x both signs, z up; ground row stops z down)
+        if fl[k + 1, p]: continue
+        for c_, sg, nm in ((0, 1.0, "lift_vx+"), (0, -1.0, "lift_vx-"), (1, 1.0, "lift_vy")):
+            orr += [nr, nr]; oc += [k * NOc + 31 + 2 * p + c_, k * NOc + 15 + 2 * p + c_]; ov += [-sg, sg]
+            zr.append(nr); zc_.append(N * 9); zv.append(A.vlift / N); lab_x.append((nm, k, p)); nr += 1
+    Sx_z = sp.csr_matrix((zv, (zr, zc_)), shape=(nr, nz)); Sx_O = sp.csr_matrix((ov, (orr, oc)), shape=(nr, N * NOc))
+    print(f"--trans: {len(lab_e)} Fn=0 rows, {sum(l[0].startswith('frate') for l in lab_x)} force-rate rows ({A.frate} BW / 0.11 s -> {Rh*Tref:.3f} BW/node at ts_ref), "
+          f"{sum(l[0].startswith('lift') for l in lab_x)} lift-off rows (vlift {A.vlift} m/s)", flush=True)
+LAB_IN = LAB_IN + lab_x; labels_eq_all = labels_eq + lab_e
+eq_fun0 = lambda z: np.concatenate([Seq @ evalz(z)["O"].reshape(-1), Ex_z @ z])
+in_fun0 = lambda z: np.concatenate([Sin @ evalz(z)["O"].reshape(-1) + kin_c, Fr_m @ z, Sx_O @ evalz(z)["O"].reshape(-1) + Sx_z @ z])
 # ---------------- scaling: x = (z - z0) / sv ; constraint rows scaled to O(1)
 sv = np.ones(nz); Qs = np.tile([10.0, 5.0, 0.3, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5], N); sv[:N * 9] = Qs; sv[N * 9] = Tref; sv[N * 9 + 1:] = 1.0
 rs_in = np.array([1 / 30.0 if (isinstance(l, tuple) and l[0] in ("rom_lo", "rom_hi")) else 1.0 for l in LAB_IN])              # deg rows -> ~1
@@ -74,14 +113,14 @@ rs_eq = np.ones(Seq_k.shape[0])
 def zof(x): return z0 + sv * x
 def f(x): return obj(zof(x))
 def g(x): return obj_grad(zof(x)) * sv
-def ceq(x): return rs_eq * (Seq_k @ evalz(zof(x))["O"].reshape(-1))
-def Jeq(x): z = zof(x); return sp.diags(rs_eq) @ (Seq_k @ Jz(z)) @ sp.diags(sv)
+def ceq(x): z = zof(x); return np.concatenate([rs_eq * (Seq_k @ evalz(z)["O"].reshape(-1)), Ex_z @ z])
+def Jeq(x): z = zof(x); return sp.vstack([sp.diags(rs_eq) @ (Seq_k @ Jz(z)), Ex_z]).tocsr() @ sp.diags(sv)
 def cin(x): return rs_in * in_fun0(zof(x))
-def Jin(x): z = zof(x); return sp.diags(rs_in) @ sp.vstack([Sin @ Jz(z), Fr_m]).tocsr() @ sp.diags(sv)
+def Jin(x): z = zof(x); return sp.diags(rs_in) @ sp.vstack([Sin @ Jz(z), Fr_m, Sx_O @ Jz(z) + Sx_z]).tocsr() @ sp.diags(sv)
 HQ = SR1 if A.hess == "sr1" else BFGS
 cons = [NonlinearConstraint(ceq, 0, 0, jac=lambda x: Jeq(x).tocsr(), hess=HQ()), NonlinearConstraint(cin, 0, np.inf, jac=lambda x: Jin(x).tocsr(), hess=HQ())]
 bx = Bounds((lb - z0) / sv, (ub - z0) / sv)
-print(f"trust-constr: N={N} nz={nz} eq={Seq_k.shape[0]}/{Seq.shape[0]} ineq={len(LAB_IN)} warm={warm_path if os.path.exists(warm_path) else 'R-008'}", flush=True)
+print(f"trust-constr: N={N} nz={nz} eq={Seq_k.shape[0] + Ex_z.shape[0]}/{Seq.shape[0] + Ex_z.shape[0]} ineq={len(LAB_IN)} warm={warm_path if os.path.exists(warm_path) else 'R-008'}", flush=True)
 t0 = time.time(); st = {"it": 0, "x": np.zeros(nz)}
 def viol(z): return np.abs(eq_fun0(z)).max(), max(0.0, -in_fun0(z).min())
 def cb(xk, state):
@@ -119,6 +158,15 @@ for i, (k, p) in enumerate(act):
 ref = {"strike_vx+": A.vlim, "strike_vx-": A.vlim, "strike_vy": A.vlim, "clear": P["CLEAR"]}
 for i, l in enumerate(LAB_IN):
     if isinstance(l, tuple) and l[0] in ref and ci[i] <= tol_rel * ref[l[0]]: bind.append((l[0], str(l[2]), int(l[1]), float(ci[i])))
+for i, l in enumerate(LAB_IN):
+    if isinstance(l, tuple) and l[0] in ("frate+", "frate-", "lift_vx+", "lift_vx-", "lift_vy") and ci[i] <= 1e-4: bind.append((l[0], "AB"[l[2] // 2] + ["heel", "toe"][l[2] % 2], int(l[1]), float(ci[i])))
+TRS = None
+if A.trans:
+    Fe = np.vstack([Fn, Fn[0][SW4][None]]); dFn = np.abs(np.diff(Fe, axis=0)); h_ = ts / N
+    Ox = evalz(z)["O"]; lift = {f"{'AB'[p // 2]}_{['heel', 'toe'][p % 2]}@node{k}": float(np.hypot(*(Ox[k, 31 + 2 * p:33 + 2 * p] - Ox[k, 15 + 2 * p:17 + 2 * p])) / h_) for (k, p) in act if not fl[k + 1, p]}
+    TRS = dict(frate_BW_per_0p11s=A.frate, vlift=A.vlift, n_fn0_rows=len(lab_e), n_rate_rows=int(sum(l[0].startswith("frate") for l in lab_x)), n_lift_rows=int(sum(l[0].startswith("lift") for l in lab_x)),
+               max_dFn_per_node_BW=float(dFn.max()), max_dFn_rate_BW_per_0p11s=float(dFn.max() / h_ * 0.11), max_Fn_at_fn0_nodes_BW=float(max([abs(z[iFn(k, p)]) for (_, k, p, _) in lab_e] + [0.0])),
+               liftoff_speed_mps=lift, total_Fn_per_node_BW=[float(x) for x in Fn.sum(1)])
 rom_margin = {}
 for j in range(6):
     a = O[:, 9 + j]; kk = kn[j % 3]; rom_margin[f"{names[j%3]}_{'AB'[j//3]}"] = dict(to_5deg_margin_bound=float(min((a - lo[j % 3]).min(), (hi[j % 3] - a).min())), to_physical_rom=float(min((a - ROM[kk][0]).min(), (ROM[kk][1] - a).min())))
@@ -136,7 +184,7 @@ if LAT is not None:
                    resolved_once=resolved, mu_eff_stale_rel=stale, mu_eff_nodes=[float(m_) for m_ in mue])
     if verdict == "FEASIBLE" and use3 > 1.0 + 1e-3: verdict = "NOT CONVERGED"; lat_sum["note"] = "3D friction use above 1 (mu_eff stale vs final step time)"
 h = ts / N; Ue = evalz(z)["U"]; qdn = (Ue[:, 18:27] - Ue[:, 0:9]) / (2 * h); knee = np.stack([O[:, 10], O[:, 13]], 1)
-summary = dict(verdict=verdict, **({"lat": lat_sum} if lat_sum else {}), solver="scipy trust-constr", solver_status=status, solver_message=msg, iterations=iters, runtime_s=rt, fr=A.fr, v=v_fwd, step_time_s=float(ts), step_time_ref_s=Tref,
+summary = dict(verdict=verdict, **({"lat": lat_sum} if lat_sum else {}), **({"trans": TRS} if TRS else {}), solver="scipy trust-constr", solver_status=status, solver_message=msg, iterations=iters, runtime_s=rt, fr=A.fr, v=v_fwd, step_time_s=float(ts), step_time_ref_s=Tref,
                step_length_m=float(v_fwd * ts), nodes=N, max_eq_violation=viol_eq, max_dyn_residual=viol_dyn, max_ineq_violation=viol_in, residual_tol=A.tol, objective=obj(z), mu=MU,
                solver_info=dict(optimality=float(res.optimality), constr_violation=float(res.constr_violation), barrier_parameter=float(res.barrier_parameter), tr_radius=float(res.tr_radius), nfev=int(res.nfev), njev=int(res.njev), warm_start=warm_path),
                torque_limits_Nm=dict(hip=LIM["hip"] * 1e9, knee=LIM["knee"] * 1e9, ankle=LIM["ankle"] * 1e9), peak_torque_Nm=peak, peak_torque_over_limit=peak_ratio,
@@ -154,7 +202,8 @@ lines = [f"{pathlib.Path(out_pre).name}: verdict {verdict}; trust-constr status 
          "ROM margin to 5 deg-margin bound / to physical ROM (deg): " + ", ".join(f"{n_} {m['to_5deg_margin_bound']:.1f}/{m['to_physical_rom']:.1f}" for n_, m in rom_margin.items()),
          f"knee deg min {knee.min():.1f} max {knee.max():.1f}", f"binding within 2% ({len(bind)}): " + "; ".join(f"{b[0]} {b[1]} @node {b[2]} ({b[3]:.3g})" for b in bind[:80])]
 if viol_eq > A.tol or viol_in > A.tol:
-    wo = np.argsort(-np.abs(ce))[:5]; lines.append("worst eq: " + "; ".join(f"{labels_eq[i]} {ce[i]:.2e}" for i in wo))
+    wo = np.argsort(-np.abs(ce))[:5]; lines.append("worst eq: " + "; ".join(f"{labels_eq_all[i]} {ce[i]:.2e}" for i in wo))
     wi = np.argsort(ci)[:8]; lines.append("worst ineq: " + "; ".join(f"{LAB_IN[i]} {ci[i]:.2e}" for i in wi))
 if lat_sum: lines.append(f"--lat: mu_eff min {lat_sum['mu_eff_min']:.4f} (used; mu {MU:.4f}; {'re-solved once' if resolved else 'single solve'}), mu_eff min at final step time {lat_sum['mu_eff_min_final_a']:.4f} (stale {100*lat_sum['mu_eff_stale_rel']:.2f} %), peak a_lat {lat_sum['a_lat_peak_g']:.3f} g (zc {lat_sum['zc']:.2f} m, omega {lat_sum['omega']:.3f}); 3D friction use sqrt(Ft^2+Fy^2)/(mu Fn) max {lat_sum['friction_use_3d_max']:.3f}; verdict {verdict}")
+if TRS: lines.append(f"--trans: Fn=0 rows {TRS['n_fn0_rows']} (max |Fn| there {TRS['max_Fn_at_fn0_nodes_BW']:.1e} BW), rate rows {TRS['n_rate_rows']} (max |dFn| {TRS['max_dFn_rate_BW_per_0p11s']:.3f} BW/0.11 s, bound {A.frate}), lift-off speeds (m/s): " + ", ".join(f"{k_} {v_:.2f}" for k_, v_ in TRS['liftoff_speed_mps'].items()))
 open(out_pre + ".txt", "w").write("\n".join(lines) + "\n"); print("\n".join(lines))
