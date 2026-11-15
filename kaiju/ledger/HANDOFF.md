@@ -328,3 +328,10 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 - M-124 keeps ΔE00 ≤ 2.0 (same as M-003@v1, derived in R-002 F1) on ≥99 % of pixels; the 99 % share has no external source and is validated by a control matrix in T-148; no threshold lowered. — decided autonomously (founder asleep)
 - Capture default: 480x270 internal, even integer scales to 1920x1080 and 3840x2160, PNG masters, H.264 yuv420p CRF 14 (to measure), capsules by oversize integer render then crop. — decided autonomously (founder asleep)
 - Not downloaded: Steamworks SDK, steamcmd (licence terms unread); SDK access agreement, $100 app fee, partner paperwork stay founder rows. Unverified items listed in `tasks/R-120.progress.md`. — decided autonomously (founder asleep)
+
+## T-146 (M3 worker, 2026-11-15)
+- Capture plan written to `docs/store/capture_plan.md`: 22 shots over P1-P5, 5 capturable now, 17 blocked (T-005 walk, kaiju bodies, M2 streaming, HUD, co-op). — decided autonomously (founder asleep)
+- Internal frame 480x270 with x4/x8 to 1920x1080/3840x2160 (R-121 default, Q-234); driver reads size from pipeline settings so a different style-track size still works; alternative was a 320x180 base. — decided autonomously (founder asleep)
+- `capture_path@v1` is plain JSON (lintable from Python), time = frame index, own xorshift seed, snapped camera mandatory; blocked paths make the driver exit 3 instead of rendering stand-ins. — decided autonomously (founder asleep)
+- T-147 extends StyleCapture by new files in a new `Game.Tools.Capture` assembly behind default-off flag `Tools.Capture.Enabled`; no StyleCapture file edited. — decided autonomously (founder asleep)
+- M-123 gate 100 % of store frames, M-124 gate unchanged at 99 % of pixels at ΔE00 <= 2.0; no threshold lowered. Logotype/icon art tracked as human input. — decided autonomously (founder asleep)
