@@ -20,10 +20,11 @@ Layer: L2. References only `Game.Core.Contracts`, `Game.World.Geo.Contracts` and
 - Debris: `f_d(k) * M0` is cumulative, so any path to a state gives the same mass and energy account.
 - Geo adapter: `BuildingAttributesFromGeo.From(GeoBuildingData)`: height = `HeightM`; footprint = outer rings minus holes of `Polygons` (else `AreaM2`, else 0); `Levels` = 0 and `Residential` = false because Geo carries neither (model then uses round(H / 4.22 m), min 1). Pure, no state.
 
-Consumes events: none.   Emits events: `BuildingDamaged` (Core bus).
+Consumes events: none (the optional `SeismicShakingBridge` subscribes to `FaultRupture` from World.Seismic.Contracts, see below).   Emits events: `BuildingDamaged` (Core bus).
 Feature flags: `destruction.enabled` in `Assets/Game/Config/FeatureFlags/WorldDestruction.json` (default off). `DestructionModule.Install(registry, flags)` registers `IDamageModel` only when it is on (and uses `IEventBus` from the registry if present). **Wiring status (M1):** no game composition root calls `Install` yet (only tests do).
 Dependencies: Core contracts (`BuildingId`, `EntityId`, `IEvent`, `IEventBus`, `IServiceRegistry`, `IFeatureFlags`), Geo contracts (`GeoBuildingData`).
 Tests: `Tests/EditMode` (also `dotnet test DotnetTests/WorldDestruction.Tests`, 39 tests): capacity ordering and scatter, monotone states, shaking frequencies, debris mass conservation, energy bounds, flag gate, Geo adapter.
+Seismic bridge (T-027): `SeismicShakingBridge.TryCreate(flags, bus, model, IShakingField, vs30At, step)` returns null unless both `destruction.enabled` and `seismic.enabled` are on; on each `FaultRupture` EventId (once) it calls `DamageModel.ApplyShaking` with PGA from `IShakingField` for each building given to `AddBuilding(id, x, z)`, ordinal `BuildingId` order. Depends only on `Game.World.Seismic.Contracts`; S-wave delay not applied.
 Owner role: implementation/destruction.
 
 ## Known limits / TODO
