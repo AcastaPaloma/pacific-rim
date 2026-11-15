@@ -188,6 +188,25 @@ def test_c2_focus(tmp_path):
     assert ev([focus], tmp_path)[0]["C2"]["status"] == "NOT_RUN"      # no independent control
 
 
+def test_rev2_infrastructure_targets_are_not_combat_targets(tmp_path):
+    """T-113c (Q-NEW-a): a raiding escort whose Raider targets an infrastructure id is not a focus split nor an engagement at rev 2."""
+    def build(brain):
+        lg = engage(brain, [0, 120, 240], targets=[101, 101, 900])
+        for tick in range(3):
+            lg.infra(tick, 900, "crane", 10.0, x=pos(240)[0], y=pos(240)[1])
+        return lg
+    out = {}
+    for rev in (1, 2):
+        cfg = small_cfg()
+        cfg["rev"] = rev
+        prims = [mb.compute_run(to_run(build(CAND), tmp_path, f"x{rev}"), cfg)]
+        out[rev] = prims[0]
+    assert out[1]["ff_sum"] / out[1]["ff_ticks"] < 1.0           # rev 1: 2 of 3 on the mech, ff = 2/3
+    assert out[2]["ff_sum"] / out[2]["ff_ticks"] == pytest.approx(1.0)  # rev 2: the infra row is no fire target
+    assert out[2]["engaged_decisions"] == out[1]["engaged_decisions"] - 3
+    assert mb.evaluate([], small_cfg(), None, prims=[out[2]])["evaluator_rev"] == 2
+
+
 # ------------------------------------------------------------------ C3
 def churn(brain, period, n_ticks=600):
     lg = L(brain, "churn")
