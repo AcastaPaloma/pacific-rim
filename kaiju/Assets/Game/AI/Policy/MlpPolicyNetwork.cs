@@ -90,7 +90,8 @@ namespace Game.AI.Policy
                     int row = o * ni, i = 0;
                     var acc = Vector<float>.Zero;
                     for (; i <= ni - vs; i += vs) acc += new Vector<float>(w, row + i) * new Vector<float>(x, i);
-                    float sum = b[o] + Vector.Sum(acc);
+                    float lanes = 0f; for (int k = 0; k < vs; k++) lanes += acc[k]; // Vector.Sum is not in Unity's profile
+                    float sum = b[o] + lanes;
                     for (; i < ni; i++) sum += w[row + i] * x[i];
                     y[o] = l == n - 1 ? sum : MathF.Tanh(sum);
                 }
