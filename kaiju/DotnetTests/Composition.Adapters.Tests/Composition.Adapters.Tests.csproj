@@ -15,8 +15,19 @@
     <Compile Include="../../Assets/Game/Composition/Runtime/MetaAdapters.cs" />
     <Compile Include="../../Assets/Game/Composition/Runtime/MetaInstaller.cs" />
     <Compile Include="../../Assets/Game/Composition/Tests/EditMode/MetaCompositionTests.cs" />
+    <Compile Include="../../Assets/Game/Composition/Runtime/PackInstaller.cs" />
+    <Compile Include="../../Assets/Game/Composition/Tests/EditMode/PackCompositionTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="../AI.Contracts/AI.Contracts.csproj" />
+    <ProjectReference Include="../AI.Scripted/AI.Scripted.csproj" />
+    <ProjectReference Include="../AI.Pack/AI.Pack.csproj" />
+    <ProjectReference Include="../Units.Kaiju/Units.Kaiju.csproj" />
+    <ProjectReference Include="../Units.Kaiju.Contracts/Units.Kaiju.Contracts.csproj" />
+    <ProjectReference Include="../WorldEmergence/WorldEmergence.csproj" />
+    <ProjectReference Include="../WorldEmergence.Contracts/WorldEmergence.Contracts.csproj" />
+    <ProjectReference Include="../WorldSeismic/WorldSeismic.csproj" />
+    <ProjectReference Include="../WorldSeismic.Contracts/WorldSeismic.Contracts.csproj" />
     <ProjectReference Include="../Hangar/Hangar.csproj" />
     <ProjectReference Include="../Hangar.Contracts/Hangar.Contracts.csproj" />
     <ProjectReference Include="../Units.Placeholder.Contracts/Units.Placeholder.Contracts.csproj" />

@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- NUnit tests of Game.World.Emergence (pure C#), incl. an integration run with the real World.Seismic QuakeDirector. T-114. -->
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <AssemblyName>Game.World.Emergence.Tests</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Dotnet/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../WorldEmergence/WorldEmergence.csproj" />
+    <ProjectReference Include="../WorldEmergence.Contracts/WorldEmergence.Contracts.csproj" />
+    <ProjectReference Include="../WorldSeismic/WorldSeismic.csproj" />
+    <ProjectReference Include="../WorldSeismic.Contracts/WorldSeismic.Contracts.csproj" />
+    <ProjectReference Include="../WorldGeo.Contracts/WorldGeo.Contracts.csproj" />
+    <ProjectReference Include="../Core.Contracts/Core.Contracts.csproj" />
+    <ProjectReference Include="../Core/Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+  </ItemGroup>
+</Project>
