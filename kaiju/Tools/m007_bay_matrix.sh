@@ -1,14 +1,17 @@
 #!/bin/bash
 # T-115 step 2: run the m007_bay matrix (R-103 5.3, 5.4, 6.4) with the dotnet harness and evaluate it with Tools/m007_bay.py.
 # Usage: Tools/m007_bay_matrix.sh <out_dir> [hunt_seeds=50] [long_seeds=20] [emerge_seeds=100]
-# Logs go to <out_dir>/logs (large, not committed); the report goes to <out_dir>/report.json and summary.txt.
+# Logs go to <out_dir>/logs (large, not committed) or $M007_LOGS; the report goes to <out_dir>/report.json and summary.txt.
+# T-115c: M007_MAP=flat|water selects the harness map (default flat = the T-115/T-115b baselines); M007_EXTRA='--no-route' runs the water map with straight-line routes (control).
 set -euo pipefail
 OUT="${1:?out dir}"; HS="${2:-50}"; LS="${3:-20}"; ES="${4:-100}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PY=/opt/miniconda3/envs/kaiju/bin/python
 RUN="dotnet $ROOT/DotnetTests/AI.PackHarness.Run/bin/Release/net11.0/Game.AI.PackHarness.Run.dll"
 (cd "$ROOT/DotnetTests/AI.PackHarness.Run" && dotnet build -c Release -v q >/dev/null)
-LOGS="$OUT/logs"; mkdir -p "$LOGS"
+LOGS="${M007_LOGS:-$OUT/logs}"; mkdir -p "$LOGS" "$OUT"
+MAP="${M007_MAP:-flat}"; EXTRA="${M007_EXTRA:-}"
+RUN="$RUN --map $MAP $EXTRA"
 FULL=(LL LH MH LLH LMH MMH LLMH LMHH); LAST=LLMHH   # R-103 5.4: the last composition runs 40 seeds in the hunt family
 join() { local IFS=,; echo "$*"; }
 run_family() {  # scenario seeds40 brains...

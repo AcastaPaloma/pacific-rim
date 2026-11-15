@@ -14,7 +14,7 @@ internal static class Program
 {
     private static int Main(string[] args)
     {
-        string scenario = "hunt", brain = BayBrains.Candidate, comps = "LLH", seeds = "1-1", outDir = "m007_bay_out", speciesDir = null;
+        string map = "flat"; bool plan = true; string scenario = "hunt", brain = BayBrains.Candidate, comps = "LLH", seeds = "1-1", outDir = "m007_bay_out", speciesDir = null;
         bool defaults = false; int par = Math.Max(1, Environment.ProcessorCount - 2);
         for (int i = 0; i < args.Length; i++)
         {
@@ -26,6 +26,8 @@ internal static class Program
                 case "--seeds": seeds = args[++i]; break;
                 case "--out": outDir = args[++i]; break;
                 case "--species-dir": speciesDir = args[++i]; break;
+                case "--map": map = args[++i]; break;
+                case "--no-route": plan = false; break;
                 case "--defaults": defaults = true; break;
                 case "--parallel": par = int.Parse(args[++i]); break;
                 default: Console.Error.WriteLine("unknown arg " + args[i]); return 2;
@@ -46,18 +48,18 @@ internal static class Program
         var jobs = new List<(string comp, ulong seed)>();
         foreach (string c in comps.Split(',')) for (ulong s = s0; s <= s1; s++) jobs.Add((c, s));
         long ticks = Environment.TickCount64;
-        long decisions = 0;
+        long decisions = 0, blocked = 0;
         Parallel.ForEach(jobs, new ParallelOptions { MaxDegreeOfParallelism = par }, job =>
         {
-            var sc = new BayScenario { Name = scenario, Composition = job.comp, Seed = job.seed, BrainId = brain, Species = table };
+            var sc = new BayScenario { Name = scenario, Composition = job.comp, Seed = job.seed, BrainId = brain, Species = table, Map = map, PlanRoutes = plan };
             string path = Path.Combine(dir, job.comp + "_" + job.seed + ".jsonl");
             using (var w = new StreamWriter(path, false, new System.Text.UTF8Encoding(false), 1 << 16))
             {
                 var r = new BayHarness(sc, w).Run();
-                System.Threading.Interlocked.Add(ref decisions, r.Decisions);
+                System.Threading.Interlocked.Add(ref decisions, r.Decisions); System.Threading.Interlocked.Add(ref blocked, r.BlockedSteps);
             }
         });
-        Console.WriteLine("{0} runs, {1} decisions, {2:F1} s -> {3}", jobs.Count, decisions, (Environment.TickCount64 - ticks) / 1000.0, dir);
+        Console.WriteLine("{0} runs, {1} decisions, {2:F1} s -> {3}{4}", jobs.Count, decisions, (Environment.TickCount64 - ticks) / 1000.0, dir, map == "water" ? ", blocked steps " + blocked : "");
         return 0;
     }
 

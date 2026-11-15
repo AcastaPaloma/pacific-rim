@@ -1,6 +1,7 @@
 // m007_bay harness (R-103 6, T-115 step 2): deterministic 2D kinematic Bay-scale simulation of mixed-species packs against patrolling or
 // guarding mechs and F-044 infrastructure, writing brain_log@v2. Pure C#; separate assembly from M1's Game.AI.Harness (never edits it).
-// Phase 1 map `m007_bay_synth@v1`: 60 km x 60 km, straight-line routes, kaiju wade through water (no route planner yet, tracked).
+// Phase 1 map `m007_bay_synth@v1`: 60 km x 60 km. Map "flat" (default): no water, straight-line routes (the T-115/T-115b baselines). Map "water" (T-115c): synthetic depth/softness field,
+// kaiju cannot enter cells deeper than 0.4 x height and move at 1/(1+1.5 soft) on soft ground; the pack layer and the solo arm route on it with GridRoutePlanner.
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,7 +21,7 @@ namespace Game.AI.PackHarness
 
     public sealed class BayScenario
     {
-        public string Name = "hunt";               // hunt | churn | raid | mixed | emerge  (logged as m007_bay_<name>)
+        public string Name = "hunt";               // hunt | churn | raid | mixed | emerge  (logged as m007_bay_<name>); cross = T-115c channel-crossing check on the water map
         public string Composition = "LLH";         // L Strider, M Breacher, H Bastion (emerge: label only)
         public ulong Seed = 1;
         public string BrainId = BayBrains.Candidate;
@@ -35,17 +36,19 @@ namespace Game.AI.PackHarness
         public float MechSpeed = 3f, MechCruise = 9.12f, MechRange = 300f, MechDps = 6f, MechTraverse = 0.6f, MechLockSeconds = 3f;
         public float MeleeDamageToMech = 25f, MechHpAbs = 100f, MeleeCooldown = 2f, KaijuHpRef = 400f;
         public float InfraDamageRate = 1f;         // hp/s per kaiju at the target (the coordinator plans with PackConfig.RaidDamageRate)
+        public string Map = "flat";               // flat | water (T-115c synthetic Bay with a depth / soft-ground field)
+        public bool PlanRoutes = true;             // water map: pack layer and solo arm route with GridRoutePlanner (false = straight-line control)
         public PackConfig Pack = PackConfig.Bay();
         public EmergenceOptions Emergence = new EmergenceOptions { SiteCount = 5 };
 
-        public double Duration => DurationSeconds > 0 ? DurationSeconds : Name == "hunt" ? 600 : Name == "churn" ? 900 : Name == "raid" ? 6000 : Name == "mixed" ? 3600 : 1200;
+        public double Duration => DurationSeconds > 0 ? DurationSeconds : Name == "hunt" ? 600 : Name == "churn" ? 900 : Name == "raid" || Name == "cross" ? 6000 : Name == "mixed" ? 3600 : 1200;
         public int LogEvery => LogEveryDecisions > 0 ? LogEveryDecisions : (Name == "hunt" || Name == "churn" ? 1 : 5);
         public string ScenarioId => "m007_bay_" + Name;
     }
 
     public sealed class BayResult
     {
-        public long Steps, Decisions, Hits, MechDeaths, KaijuDeaths, InfraDestroyed;
+        public long Steps, Decisions, Hits, MechDeaths, KaijuDeaths, InfraDestroyed, BlockedSteps;
         public int Kaiju, Packs;
     }
 
@@ -90,6 +93,8 @@ namespace Game.AI.PackHarness
         readonly Rng _rng;
         BayResult _res = new BayResult();
         bool _packLayer, _omniscient, _noFormation;
+        SyntheticBayField _field;
+        GridRoutePlanner _planner;
         double _now;
 
         public BayHarness(BayScenario sc, TextWriter w)
@@ -99,6 +104,7 @@ namespace Game.AI.PackHarness
             string b = sc.BrainId;
             _packLayer = b == BayBrains.Candidate || b == BayBrains.NoRoles || b == BayBrains.NoBait || b == BayBrains.NearestInfra || b == BayBrains.RandomRole || b == BayBrains.Omniscient;
             _omniscient = b == BayBrains.Omniscient;
+            if (sc.Map == "water") { _field = new SyntheticBayField(); if (sc.PlanRoutes) _planner = new GridRoutePlanner(_field); }
             BuildInfra();
             BuildScenario();
         }
@@ -107,6 +113,12 @@ namespace Game.AI.PackHarness
 
         void BuildInfra()
         {
+            if (_sc.Name == "cross")
+            {
+                // T-115c route check (not an M-007 clause scenario): one raid target on the far side of the channel, so a straight line meets deep water
+                Add("bridge", 2, 34000, 38000, 1500);
+                return;
+            }
             // synthetic Bay (R-103 6.2): 2 bridges, 3 power nodes, 4 port cranes (one cluster), 1 airport; Port-SFO about 21 km
             Add("bridge", 2, 34000, 38000, 1500); Add("bridge", 2, 14000, 46000, 1500);
             Add("power", 1, 20000, 38000, 600); Add("power", 1, 28000, 24000, 600); Add("power", 1, 46000, 33500, 600);
@@ -127,11 +139,12 @@ namespace Game.AI.PackHarness
             else
             {
                 foreach (char ch in comp) list.Add(ch);
-                float sx = 6000f, sy = 2000f;                                  // hunt/churn/raid: >= 15 km from every target, 25 km from the nearest
+                float sx = 6000f, sy = 2000f;
+                if (_sc.Name == "cross") { sx = 14000f; sy = 34000f; }          // west of the channel, the target 20 km east beyond deep water                                  // hunt/churn/raid: >= 15 km from every target, 25 km from the nearest
                 if (_sc.Name == "mixed") { sx = 10000f; sy = 12000f; }         // 20 km from the nearest target
                 for (int i = 0; i < list.Count; i++)
                     NewKaiju(list[i], sx + _rng.Range(-150f, 150f), sy + (i - (list.Count - 1) * 0.5f) * 200f + _rng.Range(-50f, 50f), 0.0, 0.3f);
-                if (_sc.Name != "raid") BuildMechs();
+                if (_sc.Name != "raid" && _sc.Name != "cross") BuildMechs();
                 var pk = NewPack();
                 foreach (var k in _k) Join(k, pk);
             }
@@ -213,7 +226,7 @@ namespace Game.AI.PackHarness
 
         Pk NewPack()
         {
-            var p = new Pk { Id = _packs.Count + 1, C = new PackCoordinator(_infra) };
+            var p = new Pk { Id = _packs.Count + 1, C = new PackCoordinator(_infra, _planner) };
             p.C.Reset(_sc.Seed * 17UL + (ulong)p.Id, _sc.Pack);
             switch (_sc.BrainId)
             {
@@ -393,7 +406,9 @@ namespace Game.AI.PackHarness
             for (int i = 0; i < _infra.N.Count; i++) { var n = _infra.N[i]; if (!n.Alive) continue; float d = Dist(k.X, k.Y, n.X, n.Y); if (d < bd) { bd = d; best = i; } }
             k.Infra = best;
             if (best < 0) return;
-            k.Intent.DesiredHeadingRad = (float)Math.Atan2(_infra.N[best].Y - k.Y, _infra.N[best].X - k.X);
+            Float2 aim = new Float2(_infra.N[best].X, _infra.N[best].Y);
+            if (_planner != null) aim = _planner.NextWaypoint(new Float2(k.X, k.Y), aim, k.S);   // the solo kaiju has the map: it routes, it does not pack
+            k.Intent.DesiredHeadingRad = (float)Math.Atan2(aim.Y - k.Y, aim.X - k.X);
             k.Intent.SpeedFrac = 1f; k.Intent.State = BrainState.Approach; k.Intent.Action = BrainAction.None; k.Intent.TargetId = default;
         }
 
@@ -454,7 +469,15 @@ namespace Game.AI.PackHarness
             float top = k.Intent.State == BrainState.Charge ? k.S.ChargeMps : k.S.CruiseMps;
             float ts = sp * top, ds = ts - k.Speed, ma = 2f * dt;
             k.Speed += ds > ma ? ma : ds < -ma ? -ma : ds;
-            k.X += (float)Math.Cos(k.Heading) * k.Speed * dt; k.Y += (float)Math.Sin(k.Heading) * k.Speed * dt;
+            float mv = k.Speed * dt;
+            if (_field != null)
+            {
+                float nx = k.X + (float)Math.Cos(k.Heading) * mv, ny = k.Y + (float)Math.Sin(k.Heading) * mv;
+                if (_field.DepthAt(nx, ny) > 0.4f * k.S.HeightM) { k.Speed = 0f; nx = k.X; ny = k.Y; _res.BlockedSteps++; }   // the shore of a channel too deep to wade
+                else if (_field.SoftAt(nx, ny) > 0f) { nx = k.X + (nx - k.X) / (1f + GridRoutePlanner.DefaultSoftCost); ny = k.Y + (ny - k.Y) / (1f + GridRoutePlanner.DefaultSoftCost); }   // soft ground: speed / (1 + soft cost), the planner's own cost
+                k.X = nx; k.Y = ny;
+            }
+            else { k.X += (float)Math.Cos(k.Heading) * k.Speed * dt; k.Y += (float)Math.Sin(k.Heading) * k.Speed * dt; }   // exact original arithmetic: the flat map must reproduce the T-115/T-115b logs bit for bit
             if (k.Cooldown > 0f) k.Cooldown -= dt;
             if (k.Intent.Action == BrainAction.Melee && k.Cooldown <= 0f)
                 for (int j = 0; j < _m.Count; j++)

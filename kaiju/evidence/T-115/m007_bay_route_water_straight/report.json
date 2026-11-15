@@ -1,0 +1,1154 @@
+{
+ "spec": "M-007@v2",
+ "candidate": "scriptedpack@1",
+ "clauses": [
+  {
+   "clause": "C1",
+   "scenario": "hunt",
+   "status": "FAIL",
+   "measures": [
+    {
+     "name": "fr_commit",
+     "value": 0.7853658536585366,
+     "op": ">=",
+     "threshold": 0.6,
+     "ok": true,
+     "unit": "",
+     "ci95": [
+      0.7430719923473396,
+      0.8223619316305847
+     ]
+    },
+    {
+     "name": "fr_commit_minus_k_null",
+     "value": 0.7853658536585366,
+     "op": ">=",
+     "threshold": 0.0,
+     "ok": true,
+     "unit": "",
+     "ci95": null
+    }
+   ],
+   "composition_fail": [
+    "LLMH"
+   ],
+   "per_composition": {
+    "LH": {
+     "ci95": [
+      0.8388748398148705,
+      1.0000000000000002
+     ],
+     "n_runs": 50
+    },
+    "LL": {
+     "ci95": [
+      0.5101091596030786,
+      0.9999999999999999
+     ],
+     "n_runs": 50
+    },
+    "LLH": {
+     "ci95": [
+      0.3156688550440403,
+      0.6143055184171362
+     ],
+     "n_runs": 50
+    },
+    "LLMH": {
+     "ci95": [
+      0.27062723805916034,
+      0.5157026718569793
+     ],
+     "n_runs": 50
+    },
+    "LLMHH": {
+     "ci95": [
+      0.3813741296938485,
+      0.6587531066449446
+     ],
+     "n_runs": 40
+    },
+    "LMH": {
+     "ci95": [
+      0.9312077628655455,
+      1.0
+     ],
+     "n_runs": 50
+    },
+    "LMHH": {
+     "ci95": [
+      0.8356633358752574,
+      0.972855753171048
+     ],
+     "n_runs": 50
+    },
+    "MH": {
+     "ci95": [
+      0.8369096311795073,
+      0.967703951038087
+     ],
+     "n_runs": 50
+    },
+    "MMH": {
+     "ci95": [
+      0.9201813759881207,
+      0.9973604282951011
+     ],
+     "n_runs": 50
+    }
+   },
+   "controls": [
+    {
+     "control": "directcharge@1",
+     "value": 0.0,
+     "candidate": 0.7853658536585366,
+     "discriminates": true
+    }
+   ],
+   "note": null,
+   "info": {}
+  },
+  {
+   "clause": "C2",
+   "scenario": "hunt",
+   "status": "FAIL",
+   "measures": [
+    {
+     "name": "fe_vs_nofocus",
+     "value": 0.4657980328990102,
+     "op": ">=",
+     "threshold": 0.5,
+     "ok": false,
+     "unit": "",
+     "ci95": [
+      0.3187777089141695,
+      0.6080539238546742
+     ]
+    },
+    {
+     "name": "ff_ci_separation",
+     "value": 0.0,
+     "op": ">=",
+     "threshold": 1.0,
+     "ok": false,
+     "unit": "",
+     "ci95": null
+    }
+   ],
+   "composition_fail": [],
+   "per_composition": {
+    "LLMH": {
+     "ci95": [
+      0.9981255746199177,
+      0.9996316799141964
+     ],
+     "n_runs": 50
+    },
+    "LLMHH": {
+     "ci95": [
+      0.9970658982750048,
+      0.9996129105970326
+     ],
+     "n_runs": 40
+    },
+    "LMHH": {
+     "ci95": [
+      0.9884381380629595,
+      1.0
+     ],
+     "n_runs": 50
+    }
+   },
+   "controls": [
+    {
+     "control": "nofocus@1",
+     "value": 0.9025015946972849,
+     "candidate": 0.94791616009808,
+     "discriminates": true
+    }
+   ],
+   "note": null,
+   "info": {
+    "mean_ff": 0.94791616009808,
+    "mean_ff_nofocus": 0.9025015946972849,
+    "fe_vs_uniform_chance_informational": 0.8616150274227689
+   }
+  },
+  {
+   "clause": "C3",
+   "scenario": "churn",
+   "status": "NOT_RUN",
+   "measures": [],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": "fewer than 200 voluntary switches (candidate 26)",
+   "info": {}
+  },
+  {
+   "clause": "C4",
+   "scenario": "all",
+   "status": "PASS",
+   "measures": [
+    {
+     "name": "leaks",
+     "value": 0.0,
+     "op": "<=",
+     "threshold": 0,
+     "ok": true,
+     "unit": "",
+     "ci95": null
+    }
+   ],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": null,
+   "info": {
+    "leaks_v1": 0.0,
+    "leaks_provenance": 0.0,
+    "leaks_delivery": 0.0,
+    "omniscient_leaks": 10705271.0
+   }
+  },
+  {
+   "clause": "C5",
+   "scenario": "hunt,raid,mixed",
+   "status": "PENDING",
+   "measures": [],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": "human panel: >= 12 raters x 8 blinded clips (T-125); no ratings file",
+   "info": {}
+  },
+  {
+   "clause": "C6",
+   "scenario": "hunt,mixed",
+   "status": "PENDING",
+   "measures": [],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": "pending T-041 training: no trained-policy runs",
+   "info": {}
+  },
+  {
+   "clause": "P1",
+   "scenario": "hunt,mixed",
+   "status": "FAIL",
+   "measures": [
+    {
+     "name": "role_coverage",
+     "value": 0.9996962392942873,
+     "op": ">=",
+     "threshold": 0.9,
+     "ok": true,
+     "unit": "",
+     "ci95": [
+      0.9996376164526278,
+      0.9997453811254563
+     ]
+    },
+    {
+     "name": "member_fit_time_min_over_species_x_comp",
+     "value": 0.47368421052631576,
+     "op": ">=",
+     "threshold": 0.7,
+     "ok": false,
+     "unit": "",
+     "ci95": null
+    }
+   ],
+   "composition_fail": [
+    "LL:L"
+   ],
+   "per_composition": {
+    "LH": {
+     "ci95": [
+      0.9998939346265112,
+      1.0
+     ],
+     "n_runs": 70
+    },
+    "LL": {
+     "ci95": [
+      0.9997102410841865,
+      0.999978204691353
+     ],
+     "n_runs": 70
+    },
+    "LLH": {
+     "ci95": [
+      0.9999204450163807,
+      1.0
+     ],
+     "n_runs": 70
+    },
+    "LLMH": {
+     "ci95": [
+      0.9999223553068991,
+      1.0000000000000002
+     ],
+     "n_runs": 70
+    },
+    "LLMHH": {
+     "ci95": [
+      0.9986283966668228,
+      0.999223971756523
+     ],
+     "n_runs": 60
+    },
+    "LMH": {
+     "ci95": [
+      0.9999219625552871,
+      1.0
+     ],
+     "n_runs": 70
+    },
+    "LMHH": {
+     "ci95": [
+      0.9982779811922564,
+      0.9989067951128088
+     ],
+     "n_runs": 70
+    },
+    "MH": {
+     "ci95": [
+      0.9999227876040636,
+      1.0000000000000002
+     ],
+     "n_runs": 70
+    },
+    "MMH": {
+     "ci95": [
+      0.9999188518611162,
+      0.9999999999999998
+     ],
+     "n_runs": 70
+    }
+   },
+   "controls": [
+    {
+     "control": "randomrole@1",
+     "value": 0.28030837685426035,
+     "candidate": 0.9996962392942873,
+     "discriminates": true
+    }
+   ],
+   "note": null,
+   "info": {
+    "fit_time_by_comp_species": {
+     "LH:L": 1.0,
+     "LH:H": 1.0,
+     "LLH:L": 0.8305084745762712,
+     "LLH:H": 1.0,
+     "LLMHH:L": 1.0,
+     "LLMHH:M": 1.0,
+     "LLMHH:H": 0.9802500663290863,
+     "LLMH:L": 1.0,
+     "LLMH:M": 1.0,
+     "LLMH:H": 1.0,
+     "LL:L": 0.47368421052631576,
+     "LMHH:L": 1.0,
+     "LMHH:M": 1.0,
+     "LMHH:H": 0.8817556678960745,
+     "LMH:L": 1.0,
+     "LMH:M": 1.0,
+     "LMH:H": 1.0,
+     "MH:M": 1.0,
+     "MH:H": 1.0,
+     "MMH:M": 1.0,
+     "MMH:H": 1.0
+    }
+   }
+  },
+  {
+   "clause": "P2",
+   "scenario": "hunt,churn",
+   "status": "PASS",
+   "measures": [
+    {
+     "name": "role_changes_per_member_min",
+     "value": 0.08280594920441253,
+     "op": "<=",
+     "threshold": 1.0,
+     "ok": true,
+     "unit": "",
+     "ci95": null
+    },
+    {
+     "name": "role_thrash_fraction",
+     "value": 0.0,
+     "op": "<=",
+     "threshold": 0.1,
+     "ok": true,
+     "unit": "",
+     "ci95": null
+    }
+   ],
+   "composition_fail": [],
+   "per_composition": {
+    "LH": {
+     "ci95": [
+      0.07877549799664685,
+      0.08668910478307092
+     ],
+     "n_runs": 100
+    },
+    "LL": {
+     "ci95": [
+      0.078774182947889,
+      0.08763219331968253
+     ],
+     "n_runs": 100
+    },
+    "LLH": {
+     "ci95": [
+      0.08400903441324462,
+      0.09104428939613092
+     ],
+     "n_runs": 100
+    },
+    "LLMH": {
+     "ci95": [
+      0.0794915482371194,
+      0.08636855372811421
+     ],
+     "n_runs": 100
+    },
+    "LLMHH": {
+     "ci95": [
+      0.07899450975029655,
+      0.08721052605589133
+     ],
+     "n_runs": 80
+    },
+    "LMH": {
+     "ci95": [
+      0.0785911197068324,
+      0.08521833529314676
+     ],
+     "n_runs": 100
+    },
+    "LMHH": {
+     "ci95": [
+      0.078229173923549,
+      0.08499982612190662
+     ],
+     "n_runs": 100
+    },
+    "MH": {
+     "ci95": [
+      0.08150811476111985,
+      0.08771387063260833
+     ],
+     "n_runs": 100
+    },
+    "MMH": {
+     "ci95": [
+      0.07699014718714983,
+      0.08334246307254896
+     ],
+     "n_runs": 100
+    }
+   },
+   "controls": [],
+   "note": null,
+   "info": {}
+  },
+  {
+   "clause": "P3",
+   "scenario": "hunt,mixed",
+   "status": "PASS",
+   "measures": [
+    {
+     "name": "share_Lr_le_10s",
+     "value": 1.0,
+     "op": ">=",
+     "threshold": 0.9,
+     "ok": true,
+     "unit": "",
+     "ci95": [
+      0.9835018260933746,
+      1.0
+     ]
+    }
+   ],
+   "composition_fail": [],
+   "per_composition": {
+    "LH": {
+     "ci95": null,
+     "n_runs": 70
+    },
+    "LL": {
+     "ci95": null,
+     "n_runs": 70
+    },
+    "LLH": {
+     "ci95": [
+      0.9179901955865446,
+      1.0
+     ],
+     "n_runs": 70
+    },
+    "LLMH": {
+     "ci95": [
+      0.9286523998213857,
+      0.9999999999999999
+     ],
+     "n_runs": 70
+    },
+    "LLMHH": {
+     "ci95": [
+      0.9312077628655455,
+      1.0
+     ],
+     "n_runs": 60
+    },
+    "LMH": {
+     "ci95": [
+      0.9103331450047065,
+      1.0
+     ],
+     "n_runs": 70
+    },
+    "LMHH": {
+     "ci95": [
+      0.9143324285798755,
+      1.0
+     ],
+     "n_runs": 70
+    },
+    "MH": {
+     "ci95": null,
+     "n_runs": 70
+    },
+    "MMH": {
+     "ci95": [
+      0.5101091596030786,
+      0.9999999999999999
+     ],
+     "n_runs": 70
+    }
+   },
+   "controls": [
+    {
+     "control": "randomrole@1",
+     "value": 0.42657342657342656,
+     "candidate": 1.0,
+     "discriminates": true
+    }
+   ],
+   "note": null,
+   "info": {
+    "median_Lr_s": 0.19999427199365982
+   }
+  },
+  {
+   "clause": "P4",
+   "scenario": "hunt",
+   "status": "FAIL",
+   "measures": [
+    {
+     "name": "bs_rate",
+     "value": 0.6036745406824147,
+     "op": ">=",
+     "threshold": 0.4,
+     "ok": true,
+     "unit": "",
+     "ci95": [
+      0.5537595855346736,
+      0.6515197526885178
+     ]
+    },
+    {
+     "name": "bs_rate_minus_k_nobait",
+     "value": -0.0296859321848022,
+     "op": ">=",
+     "threshold": 0.0,
+     "ok": false,
+     "unit": "",
+     "ci95": null
+    }
+   ],
+   "composition_fail": [],
+   "per_composition": {
+    "LH": {
+     "ci95": [
+      0.2299886923958604,
+      0.444990643554405
+     ],
+     "n_runs": 50
+    },
+    "LL": {
+     "ci95": [
+      0.486872167860775,
+      0.9743203759421759
+     ],
+     "n_runs": 50
+    },
+    "LLH": {
+     "ci95": [
+      0.4587759674567856,
+      0.7083322579599177
+     ],
+     "n_runs": 50
+    },
+    "LLMH": {
+     "ci95": [
+      0.5733571979120613,
+      0.8046744999286146
+     ],
+     "n_runs": 50
+    },
+    "LLMHH": {
+     "ci95": [
+      0.433671030190843,
+      0.7224345063959652
+     ],
+     "n_runs": 40
+    },
+    "LMH": {
+     "ci95": [
+      0.6506022254123909,
+      0.8381476153989338
+     ],
+     "n_runs": 50
+    },
+    "LMHH": {
+     "ci95": [
+      0.5095289893544211,
+      0.7278082173068178
+     ],
+     "n_runs": 50
+    },
+    "MH": {
+     "ci95": null,
+     "n_runs": 50
+    },
+    "MMH": {
+     "ci95": null,
+     "n_runs": 50
+    }
+   },
+   "controls": [
+    {
+     "control": "nobait@1",
+     "value": 0.21185510428100987,
+     "candidate": 0.39402427637721754,
+     "discriminates": true
+    }
+   ],
+   "note": null,
+   "info": {
+    "bs_rate_role_agnostic": 0.39402427637721754
+   }
+  },
+  {
+   "clause": "P5",
+   "scenario": "hunt,mixed",
+   "status": "FAIL",
+   "measures": [
+    {
+     "name": "kx_ratio_vs_noroles",
+     "value": 0.8937850178026735,
+     "op": ">=",
+     "threshold": 1.25,
+     "ok": false,
+     "unit": "",
+     "ci95": [
+      0.8544950536701775,
+      0.9329676806233377
+     ]
+    },
+    {
+     "name": "kx_ratio_ci_lower",
+     "value": 0.8544950536701775,
+     "op": ">=",
+     "threshold": 1.0,
+     "ok": false,
+     "unit": "",
+     "ci95": null
+    }
+   ],
+   "composition_fail": [
+    "LH",
+    "LL",
+    "LLH",
+    "LLMH",
+    "LLMHH",
+    "LMH",
+    "LMHH",
+    "MH",
+    "MMH"
+   ],
+   "per_composition": {
+    "LH": {
+     "ci95": [
+      0.6148318004492571,
+      0.8544662278727871
+     ],
+     "n_pairs": 70
+    },
+    "LL": {
+     "ci95": [
+      0.19085064935064947,
+      0.606186868686868
+     ],
+     "n_pairs": 70
+    },
+    "LLH": {
+     "ci95": [
+      0.8702158180244312,
+      1.0289927609773333
+     ],
+     "n_pairs": 70
+    },
+    "LLMH": {
+     "ci95": [
+      0.7924043204935657,
+      1.0356854873760688
+     ],
+     "n_pairs": 70
+    },
+    "LLMHH": {
+     "ci95": [
+      0.935772417875111,
+      1.1687935739528665
+     ],
+     "n_pairs": 60
+    },
+    "LMH": {
+     "ci95": [
+      0.8163144473796052,
+      1.014411416687839
+     ],
+     "n_pairs": 70
+    },
+    "LMHH": {
+     "ci95": [
+      0.7562799313273698,
+      0.974039696346336
+     ],
+     "n_pairs": 70
+    },
+    "MH": {
+     "ci95": [
+      0.9130355269566518,
+      1.1284331789023525
+     ],
+     "n_pairs": 70
+    },
+    "MMH": {
+     "ci95": [
+      0.9001949505784252,
+      1.0270934603429849
+     ],
+     "n_pairs": 70
+    }
+   },
+   "controls": [
+    {
+     "control": "noroles@1",
+     "value": 0.5515850551938862,
+     "candidate": 0.49299845837615625,
+     "discriminates": false
+    }
+   ],
+   "note": null,
+   "info": {}
+  },
+  {
+   "clause": "P6",
+   "scenario": "hunt,mixed",
+   "status": "FAIL",
+   "measures": [
+    {
+     "name": "participation_share",
+     "value": 0.6819727891156463,
+     "op": ">=",
+     "threshold": 0.9,
+     "ok": false,
+     "unit": "",
+     "ci95": [
+      0.662867968637335,
+      0.7004841562575564
+     ]
+    }
+   ],
+   "composition_fail": [
+    "LH",
+    "LL",
+    "LLH",
+    "LLMH",
+    "LLMHH",
+    "LMH",
+    "LMHH",
+    "MMH"
+   ],
+   "per_composition": {
+    "LH": {
+     "ci95": [
+      0.6142509195163482,
+      0.7558016171087171
+     ],
+     "n_runs": 70
+    },
+    "LL": {
+     "ci95": [
+      0.4579840807186355,
+      0.7037197370906254
+     ],
+     "n_runs": 70
+    },
+    "LLH": {
+     "ci95": [
+      0.6067806712269972,
+      0.7153120169069176
+     ],
+     "n_runs": 70
+    },
+    "LLMH": {
+     "ci95": [
+      0.49752780010967834,
+      0.5952408907475377
+     ],
+     "n_runs": 70
+    },
+    "LLMHH": {
+     "ci95": [
+      0.5861847737608653,
+      0.6866653909276242
+     ],
+     "n_runs": 60
+    },
+    "LMH": {
+     "ci95": [
+      0.6223059148479005,
+      0.729420238933321
+     ],
+     "n_runs": 70
+    },
+    "LMHH": {
+     "ci95": [
+      0.6329871166872615,
+      0.7318889064094739
+     ],
+     "n_runs": 70
+    },
+    "MH": {
+     "ci95": [
+      0.8011404237498037,
+      0.9004638707333659
+     ],
+     "n_runs": 70
+    },
+    "MMH": {
+     "ci95": [
+      0.7928336798313089,
+      0.877634694072658
+     ],
+     "n_runs": 70
+    }
+   },
+   "controls": [],
+   "note": null,
+   "info": {}
+  },
+  {
+   "clause": "I1",
+   "scenario": "raid",
+   "status": "PASS",
+   "measures": [
+    {
+     "name": "raid_completion_rate",
+     "value": 1.0,
+     "op": ">=",
+     "threshold": 0.8,
+     "ok": true,
+     "unit": "",
+     "ci95": [
+      0.979104501755633,
+      1.0
+     ]
+    }
+   ],
+   "composition_fail": [],
+   "per_composition": {
+    "LH": {
+     "ci95": [
+      0.8388748398148705,
+      1.0000000000000002
+     ],
+     "n_runs": 20
+    },
+    "LL": {
+     "ci95": [
+      0.8388748398148705,
+      1.0000000000000002
+     ],
+     "n_runs": 20
+    },
+    "LLH": {
+     "ci95": [
+      0.8388748398148705,
+      1.0000000000000002
+     ],
+     "n_runs": 20
+    },
+    "LLMH": {
+     "ci95": [
+      0.8388748398148705,
+      1.0000000000000002
+     ],
+     "n_runs": 20
+    },
+    "LLMHH": {
+     "ci95": [
+      0.8388748398148705,
+      1.0000000000000002
+     ],
+     "n_runs": 20
+    },
+    "LMH": {
+     "ci95": [
+      0.8388748398148705,
+      1.0000000000000002
+     ],
+     "n_runs": 20
+    },
+    "LMHH": {
+     "ci95": [
+      0.8388748398148705,
+      1.0000000000000002
+     ],
+     "n_runs": 20
+    },
+    "MH": {
+     "ci95": [
+      0.8388748398148705,
+      1.0000000000000002
+     ],
+     "n_runs": 20
+    },
+    "MMH": {
+     "ci95": [
+      0.8388748398148705,
+      1.0000000000000002
+     ],
+     "n_runs": 20
+    }
+   },
+   "controls": [],
+   "note": null,
+   "info": {
+    "median_time_to_first_destruction_s": 4870.000072568655,
+    "runs_without_raider_excluded": 0
+   }
+  },
+  {
+   "clause": "I2",
+   "scenario": "mixed",
+   "status": "NOT_RUN",
+   "measures": [],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": "needs mixed runs with mech proximity and idle windows",
+   "info": {}
+  },
+  {
+   "clause": "I3",
+   "scenario": "raid,mixed",
+   "status": "FAIL",
+   "measures": [
+    {
+     "name": "ival_per_kaiju_hour_ratio",
+     "value": 1.0,
+     "op": ">=",
+     "threshold": 1.2,
+     "ok": false,
+     "unit": "",
+     "ci95": [
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "ratio_ci_lower",
+     "value": 1.0,
+     "op": ">=",
+     "threshold": 1.0,
+     "ok": true,
+     "unit": "",
+     "ci95": null
+    }
+   ],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [
+    {
+     "control": "nearestinfra@1",
+     "value": 0.6140498848660715,
+     "candidate": 0.6140498848660715,
+     "discriminates": false
+    }
+   ],
+   "note": null,
+   "info": {}
+  },
+  {
+   "clause": "I4",
+   "scenario": "mixed",
+   "status": "INFORMATIONAL",
+   "measures": [],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": "gating (>= 0.30) only after T-125 calibration",
+   "info": {
+    "raids": 360.0,
+    "share_pulled_then_bait_and_strike": 0.0,
+    "share_pulled": 0.0
+   }
+  },
+  {
+   "clause": "F1",
+   "scenario": "emerge",
+   "status": "PASS",
+   "measures": [
+    {
+     "name": "share_in_valid_pack",
+     "value": 0.9563812600969306,
+     "op": ">=",
+     "threshold": 0.9,
+     "ok": true,
+     "unit": "",
+     "ci95": [
+      0.9435224157494065,
+      0.9664166041782679
+     ]
+    },
+    {
+     "name": "packs_over_5_runs",
+     "value": 0.0,
+     "op": "<=",
+     "threshold": 0,
+     "ok": true,
+     "unit": "",
+     "ci95": null
+    },
+    {
+     "name": "merges_beyond_call_range",
+     "value": 0.0,
+     "op": "<=",
+     "threshold": 0,
+     "ok": true,
+     "unit": "",
+     "ci95": null
+    }
+   ],
+   "composition_fail": [],
+   "per_composition": {
+    "mix": {
+     "ci95": [
+      0.9435224157494065,
+      0.9664166041782679
+     ],
+     "n_runs": 100
+    }
+   },
+   "controls": [],
+   "note": null,
+   "info": {}
+  }
+ ],
+ "informational": {
+  "per_species": {
+   "L": {
+    "engaged_decisions": 310524.0,
+    "damage_to_mechs": 25225.0,
+    "deaths": 212,
+    "role_time": {
+     "Anchor": 12069.0,
+     "Flanker": 2168309.0,
+     "Bait": 2903672.0,
+     "Raider": 835745.0,
+     "Free": 460430.0
+    }
+   },
+   "M": {
+    "engaged_decisions": 717516.0,
+    "damage_to_mechs": 65125.0,
+    "deaths": 88,
+    "role_time": {
+     "Anchor": 71139.0,
+     "Flanker": 3120953.0,
+     "Bait": 9862.0,
+     "Raider": 1082729.0,
+     "Free": 54504.0
+    }
+   },
+   "H": {
+    "engaged_decisions": 1278900.0,
+    "damage_to_mechs": 29650.0,
+    "deaths": 1,
+    "role_time": {
+     "Anchor": 4811012.0,
+     "Flanker": 89004.0,
+     "Bait": 1082.0,
+     "Raider": 980795.0,
+     "Free": 10712.0
+    }
+   }
+  },
+  "omniscient_gap_delta_S": {
+   "value": 0.0038978494623655904,
+   "pairs": 620,
+   "note": null
+  },
+  "runs": {
+   "directcharge@1|m007_bay_hunt": 440,
+   "nearestinfra@1|m007_bay_mixed": 180,
+   "nearestinfra@1|m007_bay_raid": 180,
+   "nobait@1|m007_bay_hunt": 440,
+   "nofocus@1|m007_bay_hunt": 440,
+   "noroles@1|m007_bay_hunt": 440,
+   "noroles@1|m007_bay_mixed": 180,
+   "omniscient@1|m007_bay_emerge": 100,
+   "omniscient@1|m007_bay_hunt": 440,
+   "omniscient@1|m007_bay_mixed": 180,
+   "omniscient@1|m007_bay_raid": 180,
+   "randomrole@1|m007_bay_hunt": 440,
+   "scriptedpack@1|m007_bay_churn": 440,
+   "scriptedpack@1|m007_bay_emerge": 100,
+   "scriptedpack@1|m007_bay_hunt": 440,
+   "scriptedpack@1|m007_bay_mixed": 180,
+   "scriptedpack@1|m007_bay_raid": 180,
+   "solo@1|m007_bay_hunt": 440,
+   "solo@1|m007_bay_mixed": 180,
+   "solo@1|m007_bay_raid": 180
+  }
+ },
+ "summary": {
+  "C1": "FAIL",
+  "C2": "FAIL",
+  "C3": "NOT_RUN",
+  "C4": "PASS",
+  "C5": "PENDING",
+  "C6": "PENDING",
+  "P1": "FAIL",
+  "P2": "PASS",
+  "P3": "PASS",
+  "P4": "FAIL",
+  "P5": "FAIL",
+  "P6": "FAIL",
+  "I1": "PASS",
+  "I2": "NOT_RUN",
+  "I3": "FAIL",
+  "I4": "INFORMATIONAL",
+  "F1": "PASS"
+ },
+ "all_pass": false
+}
