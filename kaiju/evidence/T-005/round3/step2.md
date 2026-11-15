@@ -29,3 +29,7 @@ Binding item: the free-moment cap at node 37 (t 4.2 s), where the stance foot ca
 
 ## Assumptions
 Waist torque has no limit to compare against. Torso x and tilt as in yaw.py (no pitch). Lateral orbit starts at the step boundary and is not coupled to the vertical dynamics, except that shear is proportional to Fn. Double-support nodes are not checked for yaw.
+
+## Orchestrator note (session 5)
+- The waist limit does exist: `Assets/Game/Config/Mech/body_tuning.json` gives waist `force_limit_nm` 5.0e8. The waist torque needed is 1.2e8 to 1.3e8 N m, or **0.26 of the limit**. It does not bind.
+- Open item for 8.3: once lateral shear is added, the 8.1b point is **not** friction-feasible in 3D (1.045 > 1). 8.3 therefore adds the lateral LIPM shear to the friction cone and re-solves Fr 0.10 before it continues to 0.15 and 0.20. This tightens the problem; no limit is relaxed.
