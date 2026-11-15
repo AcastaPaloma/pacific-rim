@@ -89,6 +89,7 @@ namespace Game.Units.Mech.Contracts
         public double imp_waist_ff = 0.9, imp_waist_max_deg = 25;   // imp=1 waist table; legacy imp=0 uses ref_waist_ff, ref_waist_max_deg
         public double imp_waist_hz = 0.8, imp_waist_zeta = 1.0, imp_arm_hz = 0.6, imp_arm_zeta = 1.0;
         public double imp_ff_gravity = 1.0, imp_ff_coriolis = 1.0, imp_ff_accel = 1.0, imp_ff_stance_gravity_share = 0.0;   // round 2 step 4: gains on the body's inverse dynamics; share of the gravity term applied on stance-leg DOFs   // round 2 step 3: waist yaw and shoulder drive of the tracked upper body
+        public double imp2_ff_scale = 1.0, imp2_vf_scale = 0.0, imp2_ff_sign_hip = 1.0, imp2_ff_sign_knee = 1.0, imp2_ff_sign_ankle = 1.0;   // round 3 step 8.5 (imp = 2): optimised-torque feed-forward scale, virtual-force scale, per-joint torque sign
         public double yaw_budget_flat_wl, yaw_budget_edge_wl, yaw_filter;
         public double id_gravity, id_coriolis_gain, id_inertia_gain, id_accel_span;
         /// <summary>R-008 section 1 whole-stance schedule (imp = 1), one row per Froude number; required when imp &gt; 0 (ReferenceGait throws if absent).</summary>

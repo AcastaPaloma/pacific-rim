@@ -30,6 +30,13 @@ namespace Game.Units.Mech.Unity
             string dir = Path.Combine(Application.dataPath, "Game/Config/Mech");
             return FromJson(File.ReadAllText(Path.Combine(dir, frameFile)), File.ReadAllText(Path.Combine(dir, "body_tuning.json")), File.ReadAllText(Path.Combine(dir, "walk_tuning.json")));
         }
+        /// <summary>The optimised reference (gait_reference_opt@v1) when this walk tuning asks for imp = 2, else null. A missing or invalid file throws.</summary>
+        public GaitReferenceData GaitReferenceFor()
+        {
+            if (Walk.imp < 1.5) return null;
+            string path = Path.Combine(Application.dataPath, "Game/Config/Mech/gait_reference_opt.json");
+            var d = JsonUtility.FromJson<GaitReferenceData>(File.ReadAllText(path)); d.Validate(); return d;
+        }
         public MechConfig ScaledTo(double heightM, double massKg) => new MechConfig { Frame = MechFrameOps.Scale(Frame, heightM, massKg), Body = Body.ScaledFor(massKg, heightM), Walk = Walk };
         public MechConfig WithBody(Action<BodyTuning> edit) { var b = JsonUtility.FromJson<BodyTuning>(JsonUtility.ToJson(Body)); edit(b); return new MechConfig { Frame = Frame, Body = b, Walk = Walk }; }
         public MechConfig WithWalk(Action<WalkTuning> edit) { var w = JsonUtility.FromJson<WalkTuning>(JsonUtility.ToJson(Walk)); edit(w); return new MechConfig { Frame = Frame, Body = Body, Walk = w }; }
@@ -69,7 +76,7 @@ namespace Game.Units.Mech.Unity
             if (!flags.IsOn(MechConfig.FlagEnabled)) throw new InvalidOperationException("feature flag " + MechConfig.FlagEnabled + " is off: Units.Mech assembles no mech");
             Config = config; Id = id; _bus = bus; Seat = seat; _world = world; _dt = world.StepSeconds;
             Body = world.CreateBody(config.Frame, config.Body, id, spawn);
-            Controller = new LocomotionController(Body, config.Walk, _dt, bus);
+            Controller = new LocomotionController(Body, config.Walk, _dt, bus, config.GaitReferenceFor());
             bus.Subscribe<FootContact>(this); bus.Subscribe<FootLiftOff>(this); bus.Subscribe<MechFallStarted>(this); bus.Subscribe<MechFallEnded>(this);
         }
 

@@ -34,6 +34,7 @@ namespace Game.Units.Mech
         {
             public LocoPhase Phase; public int Stance; public Vector2 Dcm, CopCommand, SwingTarget, Reference; public float ComHeightTarget, StepTime, TimeInStep; public bool SwingClamped;
             public double[] AngStRef, AngStMeas, AngSwRef, AngSwMeas; public double RefFroude;   // round 2 step 6a (imp > 0): hip flexion, knee, ankle plantar (deg), stance and swing leg; null when not available
+            public double[] TauFfSt, TauFfSw;   // round 3 step 8.5 (imp = 2): optimised feed-forward torque hip, knee, ankle (N m) after scale, sign and limit; null otherwise
             public double YawMomentNm, YawBudgetNm, YawUtil, TrunkShare;   // round 2 step 3 (NaN logs as null)
         }
 
@@ -74,7 +75,7 @@ namespace Game.Units.Mech
         public Debug DebugState => _dbg;
         public MechLimits Limits => _lim;
 
-        public LocomotionController(IArticulatedBody body, WalkTuning tuning, double dt, IEventBus bus)
+        public LocomotionController(IArticulatedBody body, WalkTuning tuning, double dt, IEventBus bus, GaitReferenceData gaitReference = null)
         {
             if (tuning == null || tuning.schema != WalkTuning.Schema) throw new InvalidOperationException("walk tuning schema is not " + WalkTuning.Schema);
             _b = body; _t = tuning; _dt = dt; _bus = bus; _g = body.Tuning.gravity_mps2; _mass = body.TotalMassKg;
@@ -139,7 +140,8 @@ namespace Game.Units.Mech
             double wa = 2 * Math.PI * tuning.attitude_hz / Math.Sqrt(_l / tuning.reference_leg_length_m), wy = 2 * Math.PI * tuning.yaw_hz / Math.Sqrt(_l / tuning.reference_leg_length_m);
             _kTilt = iTilt * wa * wa; _dTilt = 2 * iTilt * wa; _kYaw = iYaw * wy * wy; _dYaw = 2 * iYaw * wy;
             _comHeightTarget = _pelvisRest;
-            _ref = new ReferenceGait(GaitGeometry.From(f), tuning, _g);
+            if (tuning.imp >= 1.5 && gaitReference == null) throw new InvalidOperationException("imp = 2 needs the optimised reference (Config/Mech/gait_reference_opt.json): none was given");
+            _ref = new ReferenceGait(GaitGeometry.From(f), tuning, _g, gaitReference);
             _prevVelTarget = new double[nd]; _ffAccel = new double[nd];
         }
 
@@ -180,7 +182,22 @@ namespace Game.Units.Mech
                 ms[0] = _b.DofPosition(leg.Hip[0]) * R2D; ms[1] = _b.DofPosition(leg.Knee) * R2D; ms[2] = _b.DofPosition(leg.Ankle[0]) * R2D;
             }
             _dbg.RefFroude = _ref.Speed * _ref.Speed / (_g * _l);
+            if (_o2) { _dbg.TauFfSt ??= new double[3]; _dbg.TauFfSw ??= new double[3]; for (int j = 0; j < 3; j++) { _dbg.TauFfSt[j] = O2Tau(_legs[_stance], j); _dbg.TauFfSw[j] = O2Tau(_legs[1 - _stance], j); } }
+            else { _dbg.TauFfSt = null; _dbg.TauFfSw = null; }
         }
+
+        // ---- imp = 2 (round 3 step 8.5): the optimised joint torque is the feed-forward of the joint PD ----
+        bool _o2; OptimisedSample _o2s;
+        OptimisedLeg O2Leg(Leg leg) => leg.Side < 0 ? _o2s.L : _o2s.R;
+        /// <summary>Optimised torque of one joint (StanceImpedance.Hip / Knee / Ankle), times imp2_ff_scale and the joint's sign key.</summary>
+        double O2Tau(Leg leg, int joint)
+        {
+            var o = O2Leg(leg);
+            double tau = joint == StanceImpedance.Hip ? o.HipTorque * _t.imp2_ff_sign_hip : joint == StanceImpedance.Knee ? o.KneeTorque * _t.imp2_ff_sign_knee : o.AnkleTorque * _t.imp2_ff_sign_ankle;
+            return _t.imp2_ff_scale * tau;
+        }
+        double O2Rate(Leg leg, int joint) { var o = O2Leg(leg); return joint == StanceImpedance.Hip ? o.HipRate : joint == StanceImpedance.Knee ? o.KneeRate : o.AnkleRate; }
+        double O2Ff(Leg leg, int joint, int dof) { double lim = _b.GetDof(dof).ForceLimitNm; return Math.Max(-lim, Math.Min(lim, O2Tau(leg, joint))); }
 
         void Report(long step)
         {
@@ -534,6 +551,7 @@ namespace Game.Units.Mech
         {
             Leg st = _legs[_stance], sw = _legs[1 - _stance];
             bool impNow = ImpActive; if (impNow) SampleReferenceForFf();
+            _o2 = impNow && _ref.IsOptimised && _ref.TryOptimised(StancePhase(), out _o2s);
             // trunk attitude through the supporting hips (SIMBICON: stance hip torque = -torso torque - swing hip torque)
             float yawDesired = _pelvisYaw;
             if (_phase != LocoPhase.Stand) yawDesired = st.Yaw + 0.5f * Wrap((_phase == LocoPhase.SingleSupport ? _swingYawTargetNow : sw.Yaw) - st.Yaw);
@@ -645,6 +663,15 @@ namespace Game.Units.Mech
                     _prevTarget[d] = refTarget; _hasPrev[d] = true;
                     // round 2 step 6b: stiffness sized from the load the joint carries (never softer than the Hz gains)
                     StanceImpedance.LoadGains(_t, joint, leg.Load, _mass, _g, _l, kImp, cImp, out kImp, out cImp);
+                    if (_o2)
+                    {
+                        // imp = 2: the optimised rate is the velocity target and the optimised torque the feed-forward (the virtual-force term only at imp2_vf_scale, 0 by default: the optimised torque already carries the load)
+                        v = Math.Max(-_t.target_velocity_max_rps, Math.Min(_t.target_velocity_max_rps, O2Rate(leg, joint)));
+                        _b.SetDofDrive(d, refTarget, v, kImp, cImp);
+                        double lim2 = _b.GetDof(d).ForceLimitNm;
+                        _b.SetDofFeedForward(d, Math.Max(-lim2, Math.Min(lim2, SupportTorque(d, force, leg.Cop, true) * _t.imp2_vf_scale + Vector3.Dot(_b.DofAxisWorld(d), extraTorque) + O2Ff(leg, joint, d))));
+                        continue;
+                    }
                     _b.SetDofDrive(d, refTarget, v, kImp, cImp);
                     _b.SetDofFeedForward(d, SupportTorque(d, force, leg.Cop, true) * _t.imp_vf_scale + Vector3.Dot(_b.DofAxisWorld(d), extraTorque) + ImpFf(d, refQdd, _t.imp_ff_stance_gravity_share));   // round 2 step 4: stance-leg gravity is only partly carried by the joints (contact carries the rest)
                     continue;
@@ -738,6 +765,13 @@ namespace Game.Units.Mech
                 if (leg.Ankle[a] >= 0) Track(leg.Ankle[a], Component(ank, a) * _b.GetDof(leg.Ankle[a]).Sign, Vector3.Zero, default, true, soft, 0, 1, ff ? (a == 0 ? RefQdd(g => lof(g).AnklePlantar) : 0) : (double?)null);
             }
             Track(leg.Knee, ik.Knee * _b.GetDof(leg.Knee).Sign, Vector3.Zero, default, true, soft, 0, 1, ff ? RefQdd(g => lof(g).Knee) : (double?)null);
+            if (_o2)
+            {
+                // imp = 2: the optimised swing-leg torque replaces the inverse-dynamics feed-forward of the pitch joints
+                if (leg.Hip[0] >= 0) _b.SetDofFeedForward(leg.Hip[0], O2Ff(leg, StanceImpedance.Hip, leg.Hip[0]));
+                _b.SetDofFeedForward(leg.Knee, O2Ff(leg, StanceImpedance.Knee, leg.Knee));
+                if (leg.Ankle[0] >= 0) _b.SetDofFeedForward(leg.Ankle[0], O2Ff(leg, StanceImpedance.Ankle, leg.Ankle[0]));
+            }
         }
 
         static float Component(Vector3 v, int axis) => axis == 0 ? v.X : axis == 1 ? v.Y : v.Z;
