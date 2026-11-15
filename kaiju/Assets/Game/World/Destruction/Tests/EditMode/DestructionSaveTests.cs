@@ -12,15 +12,15 @@ namespace Game.World.Destruction.Tests
     {
         static readonly BuildingSource[] Sources = { BuildingSource.OsmWay, BuildingSource.OsmRelation, BuildingSource.Landmark };
 
-        static BuildingId Id(int i) { return BuildingId.From(Sources[i % 3], (ulong)(1000 + i * 7919)); }
+        internal static BuildingId Id(int i) { return BuildingId.From(Sources[i % 3], (ulong)(1000 + i * 7919)); }
 
-        static BuildingAttributes Attr(int i)
+        internal static BuildingAttributes Attr(int i)
         {
             return new BuildingAttributes { HeightM = 5 + (i * 13) % 150, Levels = 0, FootprintM2 = 80 + (i * 31) % 1500, Residential = i % 3 == 0 };
         }
 
         // Seeded damaged world: n buildings registered, a fraction of them hit with random energies.
-        static DamageModel Build(int n, int seed)
+        internal static DamageModel Build(int n, int seed)
         {
             var m = new DamageModel();
             for (int i = 0; i < n; i++) m.Register(Id(i), Attr(i));
@@ -36,7 +36,7 @@ namespace Game.World.Destruction.Tests
             return m;
         }
 
-        static SaveSystem Sys(DamageModel m, out DestructionSaveParticipant p)
+        internal static SaveSystem Sys(DamageModel m, out DestructionSaveParticipant p)
         {
             var sys = new SaveSystem("test");
             p = new DestructionSaveParticipant(m);
@@ -44,20 +44,20 @@ namespace Game.World.Destruction.Tests
             return sys;
         }
 
-        static string Bytes(DamageModel m)
+        internal static string Bytes(DamageModel m)
         {
             var sys = Sys(m, out _);
             return SaveCodec.Serialize(sys.Capture());
         }
 
-        static SaveDocument RoundTrip(string text)
+        internal static SaveDocument RoundTrip(string text)
         {
             var r = SaveCodec.Deserialize(text, "mem");
             Assert.IsTrue(r.Ok, r.Message);
             return r.Document;
         }
 
-        static List<BuildingDamageState> All(DamageModel m)
+        internal static List<BuildingDamageState> All(DamageModel m)
         {
             var l = new List<BuildingDamageState>();
             m.CopyDamage(l);
@@ -65,7 +65,7 @@ namespace Game.World.Destruction.Tests
             return l;
         }
 
-        static void AssertSameBits(IList<BuildingDamageState> a, IList<BuildingDamageState> b)
+        internal static void AssertSameBits(IList<BuildingDamageState> a, IList<BuildingDamageState> b)
         {
             Assert.AreEqual(a.Count, b.Count);
             for (int i = 0; i < a.Count; i++)
@@ -80,7 +80,7 @@ namespace Game.World.Destruction.Tests
         }
 
         // Fresh model with the same buildings registered but no damage, restored from the saved text.
-        static DamageModel Reload(string text, int n, out DestructionSaveParticipant p)
+        internal static DamageModel Reload(string text, int n, out DestructionSaveParticipant p)
         {
             var m = new DamageModel();
             for (int i = 0; i < n; i++) m.Register(Id(i), Attr(i));
