@@ -43,6 +43,13 @@ DEFAULT = dict(
     mass_lo=0.7, mass_hi=1.5,   # clip of the estimate
     sg_floor=0.0,     # > 0 (in m g): while the swing foot has no measured contact the stance leg's points keep fmax >= min(sg_floor, rate limit) (the unload ramp cannot drop below it)
     sg_fmin=0.0,      # > 0 (in m g): and, in that phase, the stance leg's summed Fn_cmd must stay >= sg_fmin (support guard, lower bound)
+    # 9.3b-6 options (defaults off = b5 behaviour)
+    st_zk=0.0,        # > 0 (1/s^2): a measured-loaded point that is above the ground (rebound after the strike) is pulled down: a_z = -st_kv vz - st_zk z (the b5 heel hovered 0.16 m for 40 ticks and re-struck)
+    st_kv=20.0,       # velocity gain of that pull-down (1/s)
+    sh_unl=0.0,       # > 0 (s): per-point shear authority s_i = clip((t_off - tref)/sh_unl, 0, 1) scales the point's friction coefficient (and stance-accel weight): shear is gone before the normal load is
+    sh_land=0.0,      # > 0 (s): per-point shear authority of a point after first contact s_i = clip((t - t_in)/sh_land, 0, 1)
+    sh_wmin=0.01,     # lower bound of s_i for the stance-accel weight
+    sh_floor=0.0,     # > 0 (margin m_s <= 1): per foot, the summed Fn_cmd is held >= |last tick's measured foot shear| / (mu m_s) (the plant's tangential spring cannot unload in one tick: normal load goes down only as fast as the realised shear), relaxed to the foot's fmax
 )
 
 
@@ -157,7 +164,7 @@ class FIDWalker:
         self.parity = 0; self.t_anchor = 0.0; self.Xoff = 0.0; self.Fprev = np.zeros((4, 2)); self.inc = np.zeros(4, bool); self.t_in = np.zeros(4); self.f_in = np.zeros(4)
         self.ms = 1.0; self._comd_prev = None; self._t_prev = None
         self.t_rel = np.zeros(2) - 10.0; self.td_events = []; self.u_prev = None; self.F_meas = None   # F_meas: tick-averaged plant contact force of the last tick (set by the sim = contact-impulse read-back)
-        self.log = {k: [] for k in ("t", "tref", "parity", "q", "com", "L", "F", "u", "fr_cmd", "status1", "status2", "tdrop", "ms", "resid", "loaded", "qdd", "fn_meas", "fmax", "u_act", "wrench", "wd", "iters", "mest")}
+        self.log = {k: [] for k in ("t", "tref", "parity", "q", "com", "L", "F", "u", "fr_cmd", "status1", "status2", "tdrop", "ms", "resid", "loaded", "qdd", "fn_meas", "fmax", "u_act", "wrench", "wd", "iters", "mest", "dbg")}
 
     def sense(self, q, qd, Minv, pts, Jp):
         fn = np.zeros(4); kn, z = self.p["kn"], self.p["zeta"]
@@ -204,7 +211,7 @@ class FIDWalker:
             self.parity = 1 - self.parity; self.t_anchor = t; tau = 0.0
             rq = self.refc(self.parity * self.ts)["q"]; self.Xoff = pts[i0, 0] - m.points(rq)[i0, 0]
             sw_leg = self.parity
-        st_leg = 1 - sw_leg; late = max(0.0, tau - (self.ts - 0.3 * self.h)); tref = self.parity * self.ts + min(tau, self.ts - 0.3 * self.h)
+        self._dbg = np.zeros(12); st_leg = 1 - sw_leg; late = max(0.0, tau - (self.ts - 0.3 * self.h)); tref = self.parity * self.ts + min(tau, self.ts - 0.3 * self.h)
         r = self.refc(tref); qr, qdr, qddr = r["q"], r["qd"], r["qdd"]
         _, _, _, ptr, Jpr, _, bpr = m.kin(qr, qdr); ptvr = np.einsum("pdi,i->pd", Jpr, qdr); ptar = np.einsum("pdi,i->pd", Jpr, qddr) + bpr
         xo = np.array([self.Xoff, 0.0])
@@ -225,11 +232,16 @@ class FIDWalker:
         if p["fmin_td"] > 0:
             for i in S:
                 if t - self.t_in[i] < p["T_hold"] and self.t_in[i] >= 0: fmin[i] = max(fmin[i], min(p["fmin_td"], 0.5 * fmax[i]))
+        # ---- per-point shear authority (9.3b-6): 1 = full cone, 0 = no shear (unloading points shed shear before the normal load; a point just landed starts without shear)
+        sh_s = np.ones(4)
+        for i in S:
+            if p["sh_unl"] > 0: sh_s[i] = min(sh_s[i], float(np.clip((self.t_off(i, tref) - tref) / p["sh_unl"], 0.0, 1.0)))
+            if p["sh_land"] > 0 and self.t_in[i] >= 0: sh_s[i] = min(sh_s[i], float(np.clip((t - self.t_in[i]) / p["sh_land"], 0.0, 1.0)))
         # ---- generators
         Gm = np.zeros((3, nb)); Em = np.zeros((2 * len(S), nb)); Jb = np.zeros((9, nb))
         for a, i in enumerate(S):
             for b, sg in enumerate((1.0, -1.0)):
-                col = 2 * a + b; g = np.array([sg * mu * p["fr_margin"], 1.0])
+                col = 2 * a + b; g = np.array([sg * mu * p["fr_margin"] * sh_s[i], 1.0])
                 Gm[0, col], Gm[1, col] = g; Gm[2, col] = ((pts[i, 0] - c[0]) * g[1] - (pts[i, 1] - c[1]) * g[0]) / l
                 Em[2 * a:2 * a + 2, col] = g; Jb[:, col] = W * (Jp[i].T @ g)
         # ---- quadratic cost  sum w ||T x - y||^2
@@ -255,7 +267,9 @@ class FIDWalker:
             pass
         # stance points
         for i in S:
-            add(qrow(Jp[i] @ D / G0), (-p["kvs"] * vp[i] - bp[i]) / G0, p["w_st"])
+            ya = -p["kvs"] * vp[i] - bp[i]
+            if p["st_zk"] > 0 and pts[i, 1] > 0: ya = ya.copy(); ya[1] = -p["st_kv"] * vp[i, 1] - p["st_zk"] * pts[i, 1] - bp[i, 1]
+            add(qrow(Jp[i] @ D / G0), ya / G0, p["w_st"] * max(sh_s[i], p["sh_wmin"]))
         # feet
         Kp, Kd = p["om_sw"] ** 2, 2 * p["om_sw"]; land_on = False; lt = None
         for leg in (0, 1):
@@ -272,7 +286,7 @@ class FIDWalker:
                     lt = self.land_target(self.parity, tau); pr = lt[0][:2] + xo; vr = lt[1][:2].copy(); ar = lt[2][:2].copy()
                     if p["om_land"] > 0: Kp_, Kd_ = p["om_land"] ** 2, 2 * p["om_land"]
                 if leg == sw_leg and late > 0: pr = pr + np.array([0.0, -p["late_vz"] * late]); vr = vr + np.array([0.0, -p["late_vz"]])
-                a_des = ar + Kp_ * (pr - pts[i]) + Kd_ * (vr - vp[i])
+                a_des = ar + Kp_ * (pr - pts[i]) + Kd_ * (vr - vp[i]); self._dbg = np.array([*(pr + 0), *vr, *pts[i], *vp[i], *ar, *a_des])
                 add(qrow(Jp[i] @ D / G0), (a_des - bp[i]) / G0, p["w_swing"] * bl)
             Kf, Kfd = p["om_fp"] ** 2, 2 * p["om_fp"]
             e = np.zeros(9); e[fidx] = 1.0
@@ -303,6 +317,12 @@ class FIDWalker:
             if sg_on and p["sg_fmin"] > 0:                                   # summed stance-leg Fn_cmd >= sg_fmin (relaxed to what the leg's fmax allows)
                 al = [a for a, i in enumerate(S) if i // 2 == st_leg]
                 if al: Cin.append(brow(sum(Em[2 * a + 1] for a in al))); din.append(np.array([min(p["sg_fmin"], sum(fmax[S[a]] for a in al))]))
+            if p["sh_floor"] > 0 and self.F_meas is not None:
+                for f in (0, 1):
+                    al = [a for a, i in enumerate(S) if i // 2 == f]
+                    if not al: continue
+                    fl = abs(float(self.F_meas[2 * f:2 * f + 2, 0].sum())) / W / (mu * p["sh_floor"]); fl = min(fl, sum(fmax[S[a]] for a in al) * 0.98)
+                    if fl > 1e-4: Cin.append(brow(sum(Em[2 * a + 1] for a in al))); din.append(np.array([fl]))
             if p["fr_meas"]:
                 for f in (0, 1):
                     al = [a for a, i in enumerate(S) if i // 2 == f]
@@ -328,6 +348,6 @@ class FIDWalker:
         Lg = self.log
         for kk, v in (("t", t), ("tref", tref), ("parity", self.parity), ("q", q.copy()), ("com", c.copy()), ("L", Lm), ("F", F), ("u", u.copy()), ("fr_cmd", fr), ("status1", st1), ("status2", st), ("iters", it1),
                       ("tdrop", tdrop), ("ms", 1e3 * (time.perf_counter() - t0)), ("resid", float(np.abs(res).max() / (W * l))), ("loaded", sum(1 << i for i in S)), ("qdd", qdd), ("fn_meas", fn_meas),
-                      ("fmax", fmax), ("mest", ms), ("u_act", u_act), ("wrench", wrench), ("wd", wd)):
+                      ("fmax", fmax), ("mest", ms), ("dbg", getattr(self, "_dbg", np.zeros(12))), ("u_act", u_act), ("wrench", wrench), ("wd", wd)):
             Lg[kk].append(v)
         return u
