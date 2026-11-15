@@ -2,8 +2,9 @@
 """T-142: copy a tile set into a player-build staging folder, verifying hashes (Q-200: the player build copies tiles
 from the git-ignored cache bake; the 15 district tiles are committed).
 
-The tile set is a JSON file {"tiles": ["L0_30_36", ...]} (entries may also be {"tile": "L0_30_36"} or a relative dir
-"L0/30_36"). Each tile lives at <src-root>/L<level>/<i>_<j>/ with a manifest.json whose layers[].sha256 are checked
+The tile set is a JSON file {"tiles": ["L0_30_36", ...]} (entries may also be {"tile": "L0_30_36"}, {"id": ...} or a relative dir
+"L0/30_36"). A bay_manifest@v1 file (T-100) is a valid tile set as it is; `--class urban rural ...` keeps only entries of those
+coverage classes (entries without a class always pass; T-102 aligned this with the Bay bake). Each tile lives at <src-root>/L<level>/<i>_<j>/ with a manifest.json whose layers[].sha256 are checked
 against the source before the copy and against the destination after it. Files the manifest does not hash
 (build_info.json, landmarks.geojson) are copied and compared byte for byte by hash. Unity .meta files are skipped.
 Files are copied with an APFS clone (cp -c) where the filesystem supports it, else a plain copy; never a symlink,
@@ -45,7 +46,7 @@ def tile_dir(entry):
     return "L%s/%s_%s" % m.groups()
 
 
-def load_tile_set(path):
+def load_tile_set(path, classes=None):
     try:
         with open(path, encoding="utf-8") as f:
             doc = json.load(f)
@@ -54,6 +55,10 @@ def load_tile_set(path):
     tiles = doc.get("tiles") if isinstance(doc, dict) else doc
     if not isinstance(tiles, list) or not tiles:
         raise CopyError("tile set has no tiles")
+    if classes:
+        tiles = [t for t in tiles if not isinstance(t, dict) or "class" not in t or t["class"] in classes]
+        if not tiles:
+            raise CopyError("no tiles left after the --class filter %s" % (sorted(classes),))
     return sorted({tile_dir(t) for t in tiles})
 
 
@@ -104,8 +109,8 @@ def copy_tile(src_root, dest_root, rel):
     return {"files": files, "modes": modes}
 
 
-def run(src_root, tile_set, dest):
-    rels = load_tile_set(tile_set)
+def run(src_root, tile_set, dest, classes=None):
+    rels = load_tile_set(tile_set, classes)
     if not os.path.isdir(src_root):
         raise CopyError("src root not a directory: %s" % src_root)
     report, total = {}, {"clone": 0, "copy": 0}
@@ -125,9 +130,10 @@ def main(argv=None):
     ap.add_argument("--src-root", required=True)
     ap.add_argument("--tile-set", required=True)
     ap.add_argument("--dest", required=True)
+    ap.add_argument("--class", dest="classes", nargs="*", help="bay_manifest coverage classes to keep (urban rural water_only ocean_only)")
     a = ap.parse_args(argv)
     try:
-        n, f, modes = run(a.src_root, a.tile_set, a.dest)
+        n, f, modes = run(a.src_root, a.tile_set, a.dest, a.classes)
     except CopyError as e:
         print("COPY FAIL: %s" % e, file=sys.stderr)
         return 1

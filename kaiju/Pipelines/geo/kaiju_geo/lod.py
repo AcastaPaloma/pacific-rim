@@ -50,7 +50,7 @@ from .common import SAMPLES, TILE_SIZE_M, Tile, canonical_json, sha256_bytes, sh
 from .terrain import decode_r16, quantise_r16
 
 SPEC = "geo_lod@v1"
-GENERATOR = "bake_lod.py@4"
+GENERATOR = "bake_lod.py@5"
 MAX_LEVEL = 4
 CHUNK_M = 256.0
 N = SAMPLES - 1                       # 2048 cells per tile edge
@@ -60,6 +60,10 @@ WATER_NAVD88_M = 0.969
 
 # Footprint simplification tolerance per level (m), R-101 "footprint_max_m 2.0" at B1; coarser levels scale 2x.
 FOOTPRINT_TOL_M = {1: 1.0, 2: 2.0, 3: 4.0, 4: 8.0}
+# Per-tile footprint tolerance override (build lead decision after T-111b, 2026-11-15): L1_14_18 B1 at 2 m fits the 100k
+# cap (97,315 tris, max footprint error 3.3 m). L2_07_09 (needs 6 m, 11.1 m max error) is deliberately NOT listed: it stays
+# over the cap until M-102 render evidence says whether that error is visible. Nothing else changes.
+FOOTPRINT_TOL_OVERRIDE_M = {("L1_14_18", "b1"): 2.0}
 FORMS = {1: ("b1",), 2: ("b1", "b2"), 3: ("b2",), 4: ("b2",)}
 # R-101 budget numbers (section 4 table, section 1 table). Terrain cap is a hard cap; B1/B2 are "about" numbers
 # that this pipeline treats as caps and reports against (never relaxed).
@@ -1009,6 +1013,9 @@ def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, r
     lap("terrain", t)
     t = time.perf_counter()
     tri_t, thr_cap, tri_cap = rtin_for_cap(hq, thr, BUDGET["terrain_tris_cap"]) if rtin else (None, None, None)
+    # Build lead decision (T-111b, 2026-11-15): a tile that misses the 150k cap at the nominal threshold is baked at its
+    # cap-fitting ladder threshold. The cap is unchanged; only the per-tile RTIN tolerance rises (node subsample dominates the error).
+    thr_baked = thr_cap if (rtin and thr_cap is not None and thr_cap > thr) else thr
     tri_raw = tri_pf = tri_t
     if rtin and shaped:
         vr, hr0, hr1 = quantise_r16(h_raw)
@@ -1034,9 +1041,9 @@ def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, r
         lm |= src.landmark_bids(a, b)
         items += collect_pieces(src.buildings(a, b), lm)
     forms = FORMS[level]
-    tol = FOOTPRINT_TOL_M[level]
     bstats: dict = {}
     for form in forms:
+        tol = FOOTPRINT_TOL_OVERRIDE_M.get((tile.id, form), FOOTPRINT_TOL_M[level])
         mb = MeshBuilder(tile.x0, tile.z0)
         if form == "b1":
             pieces = _simplify_pieces(items, tol, None, lm, mb)
@@ -1074,7 +1081,7 @@ def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, r
         sha256_file(src.tiles[k] / "manifest.json") for k in tiles)).encode())
     bt = sum(s["triangles"] for s in bstats.values())
     bv = sum(s["vertices"] for s in bstats.values())
-    ttri = tri_t
+    ttri = tri_cap if rtin else None      # triangles at the baked threshold (== tri_t when the nominal threshold fits)
     gpu_t = 0 if ttri is None else int((ttri // 2 + 2) * TERRAIN_VERTEX_BYTES + ttri * TERRAIN_INDEX_BYTES)
     gpu_b = bv * BUILDING_VERTEX_BYTES + bt * 3 * BUILDING_INDEX_BYTES
     # an L(n) tile is resident with its neighbours (3 x 3, R-101 section 1 table): report per tile
@@ -1091,7 +1098,8 @@ def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, r
         "terrain": {"file": "terrain.r16", "samples": SAMPLES, "spacing_m": tile.spacing,
                     "h_min": hmin, "h_max": hmax, "method": "node_subsample" + ("+ground" if ground else ""), "slope_q": "slope.u8",
                     "format": "uint16 LE RAW 2049x2049, row 0 = south, col 0 = west, h = h_min + v*(h_max-h_min)/65535",
-                    "rtin_threshold_m": thr, "rtin_triangles": ttri,
+                    "rtin_threshold_m": thr_baked, "rtin_threshold_nominal_m": thr, "rtin_triangles": ttri,
+                    "rtin_triangles_at_nominal": tri_t,
                     "rtin_threshold_for_cap_m": thr_cap, "rtin_triangles_at_cap_threshold": tri_cap,
                     "prefilter": pf, "rtin_triangles_unfiltered": tri_raw,
                     "ground": gr, "rtin_triangles_before_ground": tri_pf},

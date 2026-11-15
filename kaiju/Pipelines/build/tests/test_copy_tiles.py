@@ -104,3 +104,13 @@ def test_overwrites_stale_destination_file(tmp_path):
         f.write(b"stale")
     assert C.main(["--src-root", src, "--tile-set", tile_set(tmp_path, ["L0_1_2"]), "--dest", dest]) == 0
     assert open(os.path.join(dest, "L0", "1_2", "terrain.tif"), "rb").read().startswith(b"TTT")
+
+
+def test_bay_manifest_is_a_tile_set_and_class_filter_applies(tmp_path):
+    ts = tmp_path / "bay.json"
+    ts.write_text(json.dumps({"spec": "bay_manifest@v1", "tiles": [
+        {"id": "L0_01_02", "class": "urban"}, {"id": "L0_03_04", "class": "ocean_only"}, {"id": "L0_05_06", "class": "rural"}]}))
+    assert C.load_tile_set(str(ts)) == ["L0/01_02", "L0/03_04", "L0/05_06"]
+    assert C.load_tile_set(str(ts), ["urban", "rural"]) == ["L0/01_02", "L0/05_06"]
+    with pytest.raises(C.CopyError):
+        C.load_tile_set(str(ts), ["water_only"])
