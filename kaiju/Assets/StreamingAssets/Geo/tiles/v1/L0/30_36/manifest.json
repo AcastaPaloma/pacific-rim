@@ -12,10 +12,10 @@
   37.805325
  ],
  "build": {
-  "built_utc": "2026-11-15T03:21:50Z",
-  "git": "2cce3852ea8009a1fbde98d9d58f2bbaf854b736",
-  "git_dirty_pipeline": false,
-  "inputs_sha256": "b51f780e882be5bc69a01a401e6315d9cd120359e6678f8064310c564add6c32",
+  "built_utc": "2026-11-15T03:38:51Z",
+  "git": "650c31741d54f86e3d7855d0df38007376c33d93",
+  "git_dirty_pipeline": true,
+  "inputs_sha256": "b03c8096cd14193fde6a2857e6816cde646e858ea257f01b603903708cdc374a",
   "script": "Pipelines/geo/bake_tile.py"
  },
  "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
@@ -678,6 +678,69 @@
      "upstream_etag": "W/\"Zm94dHJvdC40NTg5OF8xNV8xMDcxNlpSVHRoTmlDV2pfMnJrYldOS1VUOVVvUHJlcw---gziiJLojOhzTCXn2LTF_Y7HCReiIMO--gzip--gzip\"",
      "upstream_last_modified": "Fri, 26 Jun 2026 22:25:22 GMT",
      "url": "https://data.sfgov.org/resource/wv5m-vpq2.json?$select=closed_roll_year,parcel_number,year_property_built,number_of_stories,construction_type,the_geom&$where=closed_roll_year=2025%20AND%20within_box(the_geom,37.808211,-122.411196,37.783968,-122.380645)&$order=row_id&$limit=50000"
+    }
+   ]
+  },
+  {
+   "checked": [
+    {
+     "baked_top_navd88_m": 86.191,
+     "delta_m": -11.5,
+     "slug": "ferry_building_clock_tower",
+     "sourced_top_navd88_m": 74.691,
+     "status": "baked above sourced (not lowered; reported)",
+     "tol_height_m": 3.0
+    },
+    {
+     "baked_top_navd88_m": 330.892,
+     "delta_m": 0.0,
+     "slug": "salesforce_tower",
+     "sourced_top_navd88_m": 330.892,
+     "status": "already right in buildings",
+     "tol_height_m": 3.0
+    },
+    {
+     "baked_top_navd88_m": 265.303,
+     "delta_m": 0.0,
+     "slug": "transamerica_pyramid",
+     "sourced_top_navd88_m": 265.303,
+     "status": "already right in buildings",
+     "tol_height_m": 3.0
+    }
+   ],
+   "count": 0,
+   "emit_rule": "R-020 §2: a part is emitted only when the sourced top (sourced height above the structure's baked base + that base) exceeds the baked building top at the landmark position by more than tol_height_m; it stacks on the baked top (part_of = owning OSM bid); otherwise recorded here as already right",
+   "file": "landmarks.geojson",
+   "layer": "landmarks",
+   "sha256": "00a3ec3cc0defc360d6f18254a493876c1fd3359d5382ce04596587a727c0766",
+   "sources": [
+    {
+     "attribution": "Facts cited from the Council on Tall Buildings and Urban Habitat (CTBUH) Skyscraper Center; no CTBUH data or images redistributed",
+     "fetched_utc": "2026-11-14T00:00:00Z",
+     "item": "R-020 ref [4], [5] (heights 326.1 m, 260 m)",
+     "licence": "LicenseRef-facts-cited",
+     "product": "landmarks:ctbuh",
+     "source_sha256": "c97df1644c9329b1a5effe5bf0c9b53a2ed78fa1bae9f146423bdcd4eed00f5d",
+     "url": "https://www.skyscrapercenter.com/"
+    },
+    {
+     "attribution": "OpenStreetMap contributors",
+     "derivative_database_candidate": true,
+     "fetched_utc": "2026-11-14T00:00:00Z",
+     "item": "footprint and position (R-004 §5)",
+     "licence": "ODbL-1.0",
+     "product": "landmarks:osm",
+     "source_sha256": "8271bba5212b4314be0f42e690469ba7ad04d616fec50c5d0f8b59062dad5fa9",
+     "url": "https://www.openstreetmap.org/"
+    },
+    {
+     "attribution": "Port of San Francisco; HABS CA-1910, Library of Congress (US public record)",
+     "fetched_utc": "2026-11-14T00:00:00Z",
+     "item": "R-020 ref [7] (Ferry Building clock tower 235 ft)",
+     "licence": "US-Gov-PD",
+     "product": "landmarks:port_sf_habs",
+     "source_sha256": "27d8af66802f4ba0acc65652d60c27d984e2830e1bb292d65906d168072e7459",
+     "url": "https://www.loc.gov/pictures/item/ca0409/"
     }
    ]
   },
