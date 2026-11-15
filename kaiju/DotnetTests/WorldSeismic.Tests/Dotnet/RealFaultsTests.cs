@@ -81,5 +81,23 @@ namespace Game.World.Seismic.Tests
             Assert.AreEqual(0, r.VertexStart);
             Assert.AreEqual(gg.VertexCount - 1, r.VertexEnd);
         }
+
+        [Test]
+        public void ProductionPath_EqualsDirectReading_AndKeepsEveryBakedFaultId()
+        {
+            FaultTraceSet prod = FaultTraceSet.Build(RealFaults.Load()), direct = FaultTraceSet.Build(RealFaults.LoadDirect());
+            Assert.AreEqual(direct.Systems.Count, prod.Systems.Count);
+            for (int i = 0; i < prod.Systems.Count; i++)
+            {
+                FaultSystem a = prod.Systems[i], b = direct.Systems[i];
+                Assert.AreEqual(b.Name, a.Name);
+                Assert.AreEqual(b.VertexCount, a.VertexCount, a.Name);
+                Assert.AreEqual(b.LengthM, a.LengthM, 1e-6, a.Name);
+                CollectionAssert.AreEqual(b.Sections, a.Sections);
+                CollectionAssert.AreEqual(b.SectionBakedIds, a.SectionBakedIds, a.Name);
+                CollectionAssert.AreEqual(b.Chord, a.Chord);
+                Assert.IsTrue(a.SectionBakedIds.All(id => id != null), a.Name + " has a section without a baked fault_id");
+            }
+        }
     }
 }

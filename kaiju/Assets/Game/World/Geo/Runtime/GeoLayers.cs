@@ -329,7 +329,8 @@ namespace Game.World.Geo
                 {
                     Id = GeoJson.Get(f, "id") as string, FaultName = GeoJson.Str(p, "fault_name"), Section = GeoJson.Str(p, "section"),
                     Linetype = GeoJson.Str(p, "linetype"), SlipRate = GeoJson.Str(p, "slip_rate"), SlipSense = GeoJson.Str(p, "slip_sense"),
-                    Age = GeoJson.Str(p, "age"), Lines = GeoGeom.Lines(GeoJson.Get(f, "geometry"), ctx.OriginX, ctx.OriginZ),
+                    Age = GeoJson.Str(p, "age"), FaultId = GeoJson.Str(p, "fault_id"),
+                    Lines = GeoGeom.Lines(GeoJson.Get(f, "geometry"), ctx.OriginX, ctx.OriginZ),
                 });
             }
             o.Stats["faults.count"] = o.Faults.Count;

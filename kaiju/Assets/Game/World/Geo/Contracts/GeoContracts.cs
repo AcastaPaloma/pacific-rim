@@ -148,6 +148,8 @@ namespace Game.World.Geo
     public sealed class GeoFaultData
     {
         public string Id, FaultName, Section, Linetype, SlipRate, SlipSense, Age;
+        /// <summary>The baked `fault_id` property (string, as in faults_bay.geojson; null when absent). Distinct from <see cref="Id"/>, the feature id ("qf:4:59"). M-053 keys on (FaultId, Section).</summary>
+        public string FaultId;
         public List<double[]> Lines = new List<double[]>();
     }
 
