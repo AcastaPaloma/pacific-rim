@@ -58,6 +58,13 @@ namespace Game.Rendering.Pixel
                 bool decode = target == null || GraphicsFormatUtility.IsSRGBFormat(target.graphicsFormat);
                 data.id2 = PixelIds.PresentMode; data.v2 = new Vector4(decode ? 1 : 0, m_Present.controlBilinear ? 1 : 0, 0, 0);
                 data.texId0 = 0; data.texId1 = 0; data.tex0 = null; data.tex1 = null;
+                // depthShift (T-180): per-pixel shift by the surface depth in the stored internal depth. Off (w = 0) leaves the pass exactly as before.
+                Vector4 depthShift = m_Present.controlBilinear ? Vector4.zero : m_Binder.PresentDepthShift();
+                bool useDepth = depthShift.w > 0f && m_Binder.InternalDepthHandle != null;
+                data.hasDepth = useDepth;
+                data.v2.z = useDepth ? 1f : 0f;
+                data.camPos = useDepth ? depthShift : Vector4.zero;
+                if (useDepth) { data.depth = renderGraph.ImportTexture(m_Binder.InternalDepthHandle); builder.UseTexture(data.depth, AccessFlags.Read); }
                 builder.UseTexture(source, AccessFlags.Read);
                 builder.SetRenderAttachment(data.dst, 0, AccessFlags.WriteAll);
                 builder.SetRenderFunc(static (PixelPassData d, RasterGraphContext ctx) =>
@@ -67,6 +74,7 @@ namespace Game.Rendering.Pixel
                     bool flip = ctx.GetTextureUVOrigin(d.src) != ctx.GetTextureUVOrigin(d.dst);
                     b.SetVector(PixelIds.BlitScaleBias, flip ? new Vector4(1, -1, 0, 1) : new Vector4(1, 1, 0, 0));
                     b.SetVector(d.id0, d.v0); b.SetVector(d.id1, d.v1); b.SetVector(d.id2, d.v2);
+                    if (d.hasDepth) { b.SetTexture(PixelIds.InternalDepthTex, (RTHandle)d.depth); b.SetVector(PixelIds.PresentDepth, d.camPos); }
                     ctx.cmd.DrawProcedural(Matrix4x4.identity, d.material, 0, MeshTopology.Triangles, 3, 1, b);
                 });
             }

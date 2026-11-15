@@ -152,6 +152,17 @@ namespace Game.Rendering.Pixel
                                   Mathf.Clamp(Mathf.RoundToInt(m_Hints.SubTexelY * m_Layout.Scale), -limit, limit));
         }
 
+        /// <summary>
+        /// Depth-aware present shift (T-180): x = reference depth (m), y/z = remainder (texels, unrounded), w = clamp (output pixels). Zero w means off:
+        /// the flag is off, there are no hints or reference depth, subPixelPresent is off, or layerSnap is on (which ignores depthShift, one warning).
+        /// </summary>
+        public Vector4 PresentDepthShift()
+        {
+            if (!m_HasHints || !Flags.IsOn(PixelFlags.DepthShift) || !Flags.IsOn(PixelFlags.SubPixelPresent) || !(m_Hints.ReferenceDepth > 0f)) return Vector4.zero;
+            if (Flags.IsOn(PixelFlags.LayerSnap)) { PixelLog.WarnOnce("depthShift ignored: layerSnap is on"); return Vector4.zero; }
+            return new Vector4(m_Hints.ReferenceDepth, m_Hints.SubTexelX, m_Hints.SubTexelY, m_Layout.Guard * m_Layout.Scale);
+        }
+
         void EnsureTargets()
         {
             int tw = m_Layout.TargetWidth, th = m_Layout.TargetHeight, ss = m_Layout.Supersample;

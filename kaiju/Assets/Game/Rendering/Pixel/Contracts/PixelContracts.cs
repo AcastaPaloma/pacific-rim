@@ -6,7 +6,7 @@ namespace Game.Rendering.Pixel
     /// <summary>Versions of the data contracts this module owns. Bump on any breaking change.</summary>
     public static class PixelContractVersions
     {
-        public const int StabilisationHints = 1;
+        public const int StabilisationHints = 2;   // v2 (T-181b): per-slab layers; a v1 source (LayerCount 0) stays valid
         public const int PaletteProfile = 1;
         public const int PipelineSettings = 1;
         public const string PaletteSet = "palette_set@v1";      // research/R-002
@@ -44,8 +44,12 @@ namespace Game.Rendering.Pixel
         public const string Outline = "rendering.pixel.outline";
         public const string Quantise = "rendering.pixel.quantise";
         public const string SubPixelPresent = "rendering.pixel.subPixelPresent";
+        /// <summary>T-181: near / main / far slab cameras, each snapped to its own reference depth. Ships false; ignores depthShift when on.</summary>
+        public const string LayerSnap = "rendering.pixel.layerSnap";
+        /// <summary>T-180: present shift per surface depth (round(k * zRef / z * remainder)) instead of one uniform shift. Needs subPixelPresent; ignored when layerSnap is on.</summary>
+        public const string DepthShift = "rendering.pixel.depthShift";
 
-        public static readonly string[] All = { Enabled, LowRes, Supersample, Dither, Haze, Outline, Quantise, SubPixelPresent };
+        public static readonly string[] All = { Enabled, LowRes, Supersample, Dither, Haze, Outline, Quantise, SubPixelPresent, LayerSnap, DepthShift };
 
         /// <summary>The flag that gates a stage, or null for stages that always run when the pipeline is enabled.</summary>
         public static string ForStage(PixelStageId stage)
@@ -106,6 +110,28 @@ namespace Game.Rendering.Pixel
         public float TexelAngle;
         public int PixelScale;
         /// <summary>True on the first frame after a teleport or camera cut: grid, dither origin and history restart.</summary>
+        public bool Cut;
+        /// <summary>v2 (T-181b): 0 = v1 behaviour (single snap). 3 = LayerNear / LayerMain / LayerFar are valid. No arrays: zero allocation per frame.</summary>
+        public int LayerCount;
+        public PixelLayerHint LayerNear, LayerMain, LayerFar;
+    }
+
+    /// <summary>
+    /// One slab of the layer-snap pass (hints v2). The main layer is the rendered pose of the v1 fields (offsets 0, SubTexel and grid equal to the v1 ones);
+    /// near and far carry the offset of their own snapped position from the rendered one along the rendered right / up axes (m) and their own remainder in
+    /// their own texels. Blittable; Rendering.Pixel never references Camera.
+    /// </summary>
+    public struct PixelLayerHint
+    {
+        /// <summary>Eye depth (m) of the plane this slab's snap grid is one texel at.</summary>
+        public float ReferenceDepth;
+        /// <summary>Position grid (m) at the reference depth: one internal texel there.</summary>
+        public float Grid;
+        /// <summary>Offset (m) of this slab's snapped position from the rendered pose, along the rendered right and up axes.</summary>
+        public float OffsetRight, OffsetUp;
+        /// <summary>Remainder in this slab's own texels (+X right, +Y up), as the v1 SubTexel fields.</summary>
+        public float SubTexelX, SubTexelY;
+        /// <summary>This layer's lattice restarted this frame (its reference depth changed by more than the grid tolerance, or a teleport).</summary>
         public bool Cut;
     }
 
