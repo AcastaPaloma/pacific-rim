@@ -39,6 +39,7 @@ namespace Game.Units.Mech.Qp
         public readonly double[] TRel = new double[2];                                        // time the leg last became fully unloaded
         public int TouchdownCount;
         public bool LastCallReanchored;
+        public double PlanRefTau = double.NaN, PlanMinTau = double.NaN, PlanForceTau = double.NaN;   // step 6c (qp_plan_ds): reference clock inside the step, earliest touchdown time, time from which the heel-near-target gate is dropped (NaN = the 6a rules)
         public bool PlanOn; public double PlanTarget, PlanTol;   // step 6a (qp_plan): before the forced time (the step end) a touchdown needs the heel of the swing leg within PlanTol of PlanTarget
 
         /// <param name="flags">scheduled loaded flags, n2 nodes x 4 points, row-major (node-major).</param>
@@ -55,7 +56,7 @@ namespace Game.Units.Mech.Qp
         /// <summary>Step-time guard: the reference never advances past ts - 0.3 h.</summary>
         double Clamp => _ts - 0.3 * _h;
         /// <summary>Reference time inside the two-step cycle for the clock <paramref name="t"/>.</summary>
-        public double RefTime(double t) => Parity * _ts + Math.Min(t - TAnchor, Clamp);
+        public double RefTime(double t) => Parity * _ts + Math.Min(PlanOn && !double.IsNaN(PlanRefTau) ? PlanRefTau : t - TAnchor, Clamp);
         /// <summary>Seconds past the end of the step without a touchdown.</summary>
         public double Late(double t) => Math.Max(0.0, t - TAnchor - Clamp);
         public bool Missed(double t) => Late(t) > Opt.MissedAfterS;
@@ -105,11 +106,11 @@ namespace Game.Units.Mech.Qp
         {
             LastCallReanchored = false;
             double tau = t - TAnchor;
-            if (tau <= Opt.TdMinFrac * _ts) return false;
+            if (tau <= (PlanOn && !double.IsNaN(PlanMinTau) ? PlanMinTau : Opt.TdMinFrac * _ts)) return false;
             int landed = -1;
             for (int i = 2 * Parity; i <= (Opt.HeelOnly ? 2 * Parity : 2 * Parity + 1); i++) if (Inc[i] && TIn[i] > TAnchor + 1e-9) { landed = i; break; }
             if (landed < 0) return false;
-            if (PlanOn && tau < Clamp && Math.Abs(pointX[2 * Parity] - PlanTarget) > PlanTol) return false;
+            if (PlanOn && tau < (double.IsNaN(PlanForceTau) ? Clamp : Math.Min(PlanForceTau, Clamp)) && Math.Abs(pointX[2 * Parity] - PlanTarget) > PlanTol) return false;
             if (Opt.MinAirFrac > 0 && t - TRel[Parity] < Opt.MinAirFrac * _ts) return false;
             if (Opt.XoffMax > 0 && Math.Abs(pointX[landed] - refPointX[landed] - Xoff) > Opt.XoffMax) return false;
             Parity = 1 - Parity; TAnchor = t; TouchdownCount++; LastCallReanchored = true;

@@ -48,6 +48,11 @@ namespace Game.Units.Mech.Qp
             var lim = new double[6]; for (int i = 0; i < 6; i++) lim[i] = body.GetDof(_dof[i]).ForceLimitNm;
             _ctl = new SagittalQpController(qr, opt, lim, solver);
             for (int i = 0; i < 6; i++) { var di = body.GetDof(_dof[i]); _ctl.RomLo[i] = di.LowerRad; _ctl.RomHi[i] = di.UpperRad; }   // step 9.5j: anatomical range for qp_rom (DofPosition is anatomical)
+            {
+                // step 6c: inertia of one straight leg about its hip from the thigh / shank / foot link masses (two of each: averaged)
+                double mt = 0, ms = 0, mf = 0; for (int i = 0; i < _links; i++) { string id = body.LinkId(i); double m = body.LinkMassKg(i); if (id.Contains("thigh")) mt += m; else if (id.Contains("shank")) ms += m; else if (id.Contains("foot")) mf += m; }
+                double lt = reference.thigh_m, ls = reference.shank_m; _ctl.SwingInertia = 0.5 * (mt * 0.25 * lt * lt + ms * (lt + 0.5 * ls) * (lt + 0.5 * ls) + mf * (lt + ls) * (lt + ls));
+            }
             _wb = new WholeBodyModel(_links, NS, 4) { Links = _links, S = NS, Points = 4 };
             for (int i = 0; i < _links; i++) { _wb.Mass[i] = body.LinkMassKg(i); }
             var f = body.Frame; for (int i = 0; i < _links; i++) { string id = body.LinkId(i); foreach (var sg in f.segments) if (sg.id == id) { for (int k = 0; k < 3; k++) _wb.InertiaDiag[3 * i + k] = sg.inertia_principal_kgm2[k]; break; } }
