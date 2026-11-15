@@ -10,8 +10,12 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import m007_bay as M  # noqa: E402
 
 
-def _one(f):
-    return M.compute_run(M.load_run(f), M.CFG)
+CFG = dict(M.CFG)
+
+
+def _one(arg):          # (file, rev): workers are spawned (macOS), so the revision travels with the task, not through module state
+    f, rev = arg
+    return M.compute_run(M.load_run(f), dict(M.CFG, rev=rev))
 
 
 def main(argv):
@@ -20,14 +24,16 @@ def main(argv):
     while i < len(argv):
         if argv[i] == "--out":
             out = argv[i + 1]; i += 2
+        elif argv[i] == "--rev":
+            CFG["rev"] = int(argv[i + 1]); i += 2
         elif argv[i] == "--jobs":
             jobs = int(argv[i + 1]); i += 2
         else:
             ins.append(argv[i]); i += 1
     files = M.expand(ins)
     with Pool(jobs) as p:
-        prims = p.map(_one, files, chunksize=2)
-    rep = M.evaluate([], M.CFG, None, prims=prims)
+        prims = p.map(_one, [(f, CFG["rev"]) for f in files], chunksize=2)
+    rep = M.evaluate([], CFG, None, prims=prims)
     text = json.dumps(rep, indent=1, default=lambda o: None if isinstance(o, float) and math.isnan(o) else str(o))
     if out:
         open(out, "w").write(text)

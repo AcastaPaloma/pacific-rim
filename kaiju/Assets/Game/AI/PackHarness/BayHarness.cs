@@ -48,6 +48,7 @@ namespace Game.AI.PackHarness
         public int LogEvery => LogEveryDecisions > 0 ? LogEveryDecisions : (Name == "hunt" || Name == "churn" ? 1 : 5);
         public string ScenarioId => "m007_bay_" + Name;
         public float Mv1SquadDistM = 1000f;
+        public float[] MixedSpawn;                // T-113c: mixed scenario spawn override (BayTM metres, x,y); Variant "mx2" uses the Layout's Mixed2 spawn, "" the original MixedX/MixedY
         public float Mv2KaijuSpacingM = 1500f, Mv2PicketAheadM = 900f, Mv2MechSpacingM = 1400f, Mv2PatrolM = 500f;
         public bool Mv2 => Variant == "mv2";
         public bool Mv1 => Variant == "mv1";
@@ -132,7 +133,12 @@ namespace Game.AI.PackHarness
             if (sc.Name == "emerge") { _ox = Math.Round(_lay.TraceX[30]); _oy = Math.Round(_lay.TraceZ[30]); }
             else if (sc.Name == "cross") { _ox = Math.Round((double)_lay.CrossX); _oy = Math.Round((double)_lay.CrossY); }
             else if (sc.Name == "raid") { _ox = Math.Round((double)_lay.RaidX); _oy = Math.Round((double)_lay.RaidY); }
-            else if (sc.Name == "mixed") { _ox = Math.Round((double)_lay.MixedX); _oy = Math.Round((double)_lay.MixedY); }
+            else if (sc.Name == "mixed")
+            {
+                _ox = Math.Round((double)_lay.MixedX); _oy = Math.Round((double)_lay.MixedY);
+                if (sc.MixedSpawn != null) { _ox = sc.MixedSpawn[0]; _oy = sc.MixedSpawn[1]; }
+                else if (sc.Variant == "mx2" && _lay.Mixed2X != 0f) { _ox = Math.Round((double)_lay.Mixed2X); _oy = Math.Round((double)_lay.Mixed2Y); }
+            }
             else { _ox = Math.Round((double)_lay.HuntX); _oy = Math.Round((double)_lay.HuntY); }
             if (sc.Map == "real" && sc.Field == null) throw new ArgumentException("Map real needs Field (BayRasterCostField)");
             if (sc.Map == "water" || sc.Map == "real") { _field = sc.Field ?? new SyntheticBayField(); if (sc.PlanRoutes) _planner = new GridRoutePlanner(new LocalFrameField(_field, _ox, _oy)); }

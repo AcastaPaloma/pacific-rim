@@ -45,7 +45,12 @@ FIT = {  # R-103 4.2 species fit f(species, role)
 }
 CLASS_WEIGHT = {"crane": 1.0, "power": 2.0, "bridge": 3.0, "airport": 3.0}
 
+# Evaluator revision. rev 1 = the original reading (T-113/T-113b): every decision-row target, infrastructure ids included, counts as a combat
+# target. rev 2 (T-113c, Q-NEW-a, decided autonomously (founder asleep)) excludes infrastructure ids from the combat-target readings (FF/C2,
+# Engaged/P1/P6, C1 commits and engaged-decision minutes), as R-024 3.1-3.2 define FF and Engaged over the kaiju's combat targets (mechs).
+# No threshold, clause definition or clause value changes; rev 1 stays selectable (--rev 1) so v1 numbers are reproducible side by side.
 CFG = {
+    "rev": 2,
     "candidate": "scriptedpack@1", "policy": "policy@1",
     "directcharge": "directcharge@1", "nofocus": "nofocus@1", "solo": "solo@1", "noroles": "noroles@1",
     "nobait": "nobait@1", "nearestinfra": "nearestinfra@1", "randomrole": "randomrole@1",
@@ -264,6 +269,7 @@ def compute_run(run, cfg=CFG):
     for r in run.infra:
         ticks[r["step"]]["inf"].append(r)
     species_of = {eid(r["ent"]): r["species"] for r in run.dec}
+    infra_ids = {eid(r["ent"]) for r in run.infra} if cfg.get("rev", 1) >= 2 else set()
     kaiju = set(species_of)
     mech_ids = {eid(r["ent"]) for r in run.smp}
     tpos = {}
@@ -303,6 +309,7 @@ def compute_run(run, cfg=CFG):
         engaged_of = {}
         for r in rows:
             e, tg = eid(r["ent"]), eid(r["target"])
+            tgc = "" if tg in infra_ids else tg      # combat target (rev 2: mechs only); tg stays the raw target for I2 idle progress and C4
             first_seen.setdefault(e, t)
             # C4 leaks: v1 information fairness + pack-channel provenance
             if tg and r["tgt_visible"] == 0 and r["tgt_mem_age_s"] > cfg["memory_s"]:
@@ -314,7 +321,7 @@ def compute_run(run, cfg=CFG):
             if r["alive"] == 1 and tg and q is not None:
                 dx, dy = r["x"] - q["x"], r["y"] - q["y"]
                 dist = math.hypot(dx, dy)
-                eng = dist <= d_eng[r["species"]]
+                eng = dist <= d_eng[r["species"]] and bool(tgc)
                 dist_hist[e].append((t, tg, dist))
                 if eng:
                     out["engaged_decisions"] += 1
@@ -322,7 +329,7 @@ def compute_run(run, cfg=CFG):
             engaged_of[e] = eng
             if r["alive"] == 1:
                 out["alive_decisions"] += 1
-                if tg:
+                if tgc:
                     with_target += 1
                     per_target[tg] += 1
             # voluntary switch / thrash
@@ -355,7 +362,7 @@ def compute_run(run, cfg=CFG):
                     flanked.add(tg)
         for r in rows:
             tg = eid(r["target"])
-            if r["alive"] != 1 or not tg or r["state"] != STATE_CHARGE:
+            if r["alive"] != 1 or not tg or tg in infra_ids or r["state"] != STATE_CHARGE:
                 continue
             if r["prev_state"] != STATE_CHARGE and (tg not in last_charge or t - last_charge[tg] > cfg["commit_fresh_s"]):
                 out["commits"] += 1
@@ -1017,7 +1024,7 @@ def evaluate(runs, cfg=CFG, ratings=None, prims=None):
                                            "note": None if ds > 0 else "fair pack >= omniscient: fairness model costs nothing; re-examine"}
     extra["runs"] = {f"{b}|{s}": len(v) for (b, s), v in sorted(A.items())}
     ok = [c for c in res if c["status"] == "PASS"]
-    return {"spec": "M-007@v2", "candidate": cand, "clauses": res, "informational": extra,
+    return {"spec": "M-007@v2", "evaluator_rev": cfg.get("rev", 1), "candidate": cand, "clauses": res, "informational": extra,
             "summary": {c["clause"]: c["status"] for c in res}, "all_pass": len(ok) == len(res)}
 
 
@@ -1084,8 +1091,9 @@ def main(argv=None):
     ap.add_argument("--candidate", default=CFG["candidate"])
     ap.add_argument("--policy", default=CFG["policy"])
     ap.add_argument("--out")
+    ap.add_argument("--rev", type=int, default=CFG["rev"], choices=(1, 2), help="evaluator revision (1 = infra ids count as combat targets)")
     a = ap.parse_args(argv)
-    cfg = dict(CFG, candidate=a.candidate, policy=a.policy)
+    cfg = dict(CFG, candidate=a.candidate, policy=a.policy, rev=a.rev)
     files = expand(a.inputs)
     if not files:
         print("no .jsonl files", file=sys.stderr)

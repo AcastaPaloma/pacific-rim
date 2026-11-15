@@ -44,6 +44,7 @@ namespace Game.AI.Pack
         // hunt geometry latch and commit gate
         private float _baseAng; private EntityId _baseFocus; private bool _baseSet;
         private bool _gateOpen, _baitGo, _advance; private double _gateOpenAt; private double _stageNearSince = double.NegativeInfinity; private double _gateNearSince = double.NegativeInfinity, _baitSince = double.NegativeInfinity; private EntityId _gateFocus;
+        private readonly EntityId[] _delayId = new EntityId[MaxMembers]; private readonly float[] _delayS = new float[MaxMembers]; private int _delayN; private float _joinExtraS;   // T-113c launch delays fixed at the gate
 
         /// <summary>Ablation switches of the M-007@v2 controls (R-103 5.3). Defaults are the candidate; frozen per run.</summary>
         public PackControl Control = PackControl.None;
@@ -480,6 +481,7 @@ namespace Game.AI.Pack
                         // outside the mech's weapon range (only the Bait is shot before the strike); T-113b iteration 3 also held outside the member's own
                         // engagement radius and was rejected on data (C1 0.85 -> 0.49, P4 bs 0.60 -> 0.04): tasks/T-113b.progress.md
                         float hr = Math.Max(SlotRadius(m.Species, holdR), _cfg.MechWeaponRangeM + _cfg.HoldOutsideMarginM);
+                        if (_cfg.AnchorHoldM > 0f && d.Role == PackRole.Anchor) hr = Math.Max(_cfg.MechWeaponRangeM + _cfg.HoldOutsideMarginM, Math.Min(hr, _cfg.AnchorHoldM));
                         r = StageScale(m.Species, hr);
                         d.CommitRangeM = hr + 80f;
                         d.AllowMelee = true;
@@ -564,7 +566,9 @@ namespace Game.AI.Pack
             {
                 _dir[i].CommitReady = !_cfg.BayTactics || Goal != PackGoal.Hunt || _gateOpen;
                 _dir[i].GateOpenAt = _gateOpenAt; _dir[i].BaitFirst = baitFirst;
-                _dir[i].BaitJoin = _cfg.BayTactics && _cfg.BaitJoinDelaySeconds > 0f && Goal == PackGoal.Hunt && _gateOpen && now - _gateOpenAt >= _cfg.BaitJoinDelaySeconds;
+                _dir[i].BaitGo = _baitGo;
+                _dir[i].BaitJoin = _cfg.BayTactics && _cfg.BaitJoinDelaySeconds > 0f && Goal == PackGoal.Hunt && _gateOpen && now - _gateOpenAt >= (baitFirst && _cfg.AnchorLead ? _joinExtraS : _cfg.BaitJoinDelaySeconds);
+                if (baitFirst && _cfg.AnchorLead && _gateOpen) for (int q = 0; q < _delayN; q++) if (_delayId[q] == _dirId[i]) { _dir[i].CommitDelayS = _delayS[q]; break; }
             }
             if (DebugSink != null && Goal == PackGoal.Hunt)
                 for (int i = 0; i < _n; i++)
@@ -577,7 +581,7 @@ namespace Game.AI.Pack
         {
             if (!hunting) { _gateOpen = false; _baitGo = false; _advance = false; _stageNearSince = double.NegativeInfinity; _gateNearSince = double.NegativeInfinity; _baitSince = double.NegativeInfinity; _gateFocus = default; return; }
             if (_gateFocus != FocusTargetId) { _gateFocus = FocusTargetId; _gateOpen = false; _baitGo = false; _advance = false; _stageNearSince = double.NegativeInfinity; _gateNearSince = double.NegativeInfinity; _baitSince = double.NegativeInfinity; }
-            if (_gateOpen) { _baitGo = true; return; }
+            if (_gateOpen) { _baitGo = !(baitFirst && _cfg.BaitTimed) || AnchorEtaToRange(tp) <= _cfg.BaitLeadS; return; }
             if (!_advance)
             {
                 // ring up: advance when every member holds its (wide) stage slot, or StageTimeoutSeconds after all of them are within twice the stage radius
@@ -594,6 +598,7 @@ namespace Game.AI.Pack
                 _baitGo = false;
                 return;
             }
+            bool timedLead = baitFirst && _cfg.BaitTimed;   // T-113c: the Bait's draw is timed against the Anchor's run, after the gate
             bool allHeld = true, holdersNear = true, allNear = true, haveBait = false, baitDrawing = false, haveHolder = false;
             float band = _cfg.BaitBandFrac * _cfg.MechWeaponRangeM;
             for (int i = 0; i < _n; i++)
@@ -623,11 +628,49 @@ namespace Game.AI.Pack
                 if (baitDrawing) { if (double.IsNegativeInfinity(_baitSince)) _baitSince = now; }
                 else _baitSince = double.NegativeInfinity;
             }
-            _baitGo = !haveHolder || allHeld || holdersNear;
+            _baitGo = timedLead ? false : (!haveHolder || allHeld || holdersNear);
             bool baitOk = !haveBait || (!double.IsNegativeInfinity(_baitSince) && now - _baitSince >= _cfg.BaitDrawSeconds);
-            bool ready = haveHolder ? allHeld && baitOk : baitOk;
+            bool ready = timedLead ? (!haveHolder || allHeld) : haveHolder ? allHeld && baitOk : baitOk;
             bool timeout = !double.IsNegativeInfinity(_gateNearSince) && now - _gateNearSince >= _cfg.GateTimeoutSeconds;
-            if ((allNear && ready) || timeout) { _gateOpen = true; _gateOpenAt = now; }
+            if ((allNear && ready) || timeout) { _gateOpen = true; _gateOpenAt = now; if (baitFirst && _cfg.AnchorLead) ComputeLaunchDelays(tp); }
+        }
+
+        // T-113c: seconds until the nearest Anchor reaches the mech's weapon range (running at charge speed); 0 when there is none (the Bait then goes at once).
+        private float AnchorEtaToRange(Float2 tp)
+        {
+            float best = float.MaxValue; bool any = false;
+            for (int i = 0; i < _n; i++)
+                if (_curRole[i] == PackRole.Anchor) { any = true; float e = Math.Max(0f, Dist(_el[i].Pos, tp) - _cfg.MechWeaponRangeM) / Math.Max(1f, _el[i].Species.ChargeMps); if (e < best) best = e; }
+            return any ? best : 0f;
+        }
+
+        // T-113c: time for a kaiju at rest to cover d metres to melee reach at charge speed with a constant acceleration (the harness and body model).
+        private float Eta(float d, float v)
+        {
+            float a = Math.Max(0.1f, _cfg.AccelMps2), dAcc = v * v / (2f * a);
+            return d <= 0f ? 0f : d <= dAcc ? MathF.Sqrt(2f * d / a) : v / a + (d - dAcc) / v;
+        }
+
+        private void ComputeLaunchDelays(Float2 tp)
+        {
+            float tmax = 0f;
+            for (int i = 0; i < _n; i++)
+            {
+                PackRole r = _dir[i].Role;
+                if (r != PackRole.Anchor && r != PackRole.Flanker && r != PackRole.Bait) continue;
+                float e = Eta(Dist(_el[i].Pos, tp) - _el[i].Species.MeleeReachM, _el[i].Species.ChargeMps);
+                if (r != PackRole.Bait && e > tmax) tmax = e;
+            }
+            _delayN = 0; _joinExtraS = 0f;
+            for (int i = 0; i < _n; i++)
+            {
+                PackRole r = _dir[i].Role;
+                if (r != PackRole.Anchor && r != PackRole.Flanker) continue;
+                float e = Eta(Dist(_el[i].Pos, tp) - _el[i].Species.MeleeReachM, _el[i].Species.ChargeMps);
+                float dl = Math.Max(0f, tmax - e + (e < tmax - 0.5f ? _cfg.AnchorLeadLagS : 0f));
+                _delayId[_delayN] = _el[i].Id; _delayS[_delayN] = dl; _delayN++;
+                if (dl > _joinExtraS) _joinExtraS = dl;
+            }
         }
 
         // Engagement slot radius: the species standoff, never nearer to a mech than the Bait, and always inside the metric's engagement radius

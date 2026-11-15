@@ -1,0 +1,620 @@
+{
+ "spec": "M-007@v2",
+ "evaluator_rev": 1,
+ "candidate": "scriptedpack@1",
+ "clauses": [
+  {
+   "clause": "C1",
+   "scenario": "hunt",
+   "status": "NOT_RUN",
+   "measures": [],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": "no commit event with >= 2 engaged kaiju",
+   "info": {}
+  },
+  {
+   "clause": "C2",
+   "scenario": "hunt",
+   "status": "NOT_RUN",
+   "measures": [],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": "needs candidate and nofocus@1 runs with >= 2 targets",
+   "info": {}
+  },
+  {
+   "clause": "C3",
+   "scenario": "churn",
+   "status": "NOT_RUN",
+   "measures": [],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": "no candidate churn runs",
+   "info": {}
+  },
+  {
+   "clause": "C4",
+   "scenario": "all",
+   "status": "PENDING_CONTROL",
+   "measures": [
+    {
+     "name": "leaks",
+     "value": 0.0,
+     "op": "<=",
+     "threshold": 0,
+     "ok": true,
+     "unit": "",
+     "ci95": null
+    }
+   ],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [
+    {
+     "control": "omniscient@1",
+     "value": null,
+     "candidate": null,
+     "discriminates": null
+    }
+   ],
+   "note": null,
+   "info": {
+    "leaks_v1": 0.0,
+    "leaks_provenance": 0.0,
+    "leaks_delivery": 0.0
+   }
+  },
+  {
+   "clause": "C5",
+   "scenario": "hunt,raid,mixed",
+   "status": "PENDING",
+   "measures": [],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": "human panel: >= 12 raters x 8 blinded clips (T-125); no ratings file",
+   "info": {}
+  },
+  {
+   "clause": "C6",
+   "scenario": "hunt,mixed",
+   "status": "PENDING",
+   "measures": [],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": "pending T-041 training: no trained-policy runs",
+   "info": {}
+  },
+  {
+   "clause": "P1",
+   "scenario": "hunt,mixed",
+   "status": "FAIL",
+   "measures": [
+    {
+     "name": "role_coverage",
+     "value": 1.0,
+     "op": ">=",
+     "threshold": 0.9,
+     "ok": true,
+     "unit": "",
+     "ci95": [
+      0.999974617002078,
+      1.0000000000000002
+     ]
+    },
+    {
+     "name": "member_fit_time_min_over_species_x_comp",
+     "value": 0.0,
+     "op": ">=",
+     "threshold": 0.7,
+     "ok": false,
+     "unit": "",
+     "ci95": null
+    }
+   ],
+   "composition_fail": [
+    "LL:L",
+    "LLH:L"
+   ],
+   "per_composition": {
+    "LH": {
+     "ci95": [
+      0.9997931122532578,
+      1.0000000000000002
+     ],
+     "n_runs": 10
+    },
+    "LL": {
+     "ci95": [
+      0.9997737369093356,
+      1.0
+     ],
+     "n_runs": 10
+    },
+    "LLH": {
+     "ci95": [
+      0.9997625040782587,
+      1.0
+     ],
+     "n_runs": 10
+    },
+    "LLMH": {
+     "ci95": [
+      0.9997903230105497,
+      1.0
+     ],
+     "n_runs": 10
+    },
+    "LLMHH": {
+     "ci95": [
+      0.9997019546796699,
+      1.0
+     ],
+     "n_runs": 10
+    },
+    "LMH": {
+     "ci95": [
+      0.9997771108663541,
+      1.0000000000000002
+     ],
+     "n_runs": 10
+    },
+    "LMHH": {
+     "ci95": [
+      0.9997481479833346,
+      1.0
+     ],
+     "n_runs": 10
+    },
+    "MH": {
+     "ci95": [
+      0.9997809242307493,
+      1.0000000000000002
+     ],
+     "n_runs": 10
+    },
+    "MMH": {
+     "ci95": [
+      0.9997914273021692,
+      0.9999999999999999
+     ],
+     "n_runs": 10
+    }
+   },
+   "controls": [],
+   "note": null,
+   "info": {
+    "fit_time_by_comp_species": {
+     "LH:H": 1.0,
+     "LLH:L": 0.17624810892586987,
+     "LLH:H": 1.0,
+     "LLMHH:L": 1.0,
+     "LLMHH:M": 1.0,
+     "LLMHH:H": 0.9729508196721313,
+     "LLMH:M": 1.0,
+     "LLMH:H": 1.0,
+     "LL:L": 0.0,
+     "LMHH:L": 1.0,
+     "LMHH:M": 1.0,
+     "LMHH:H": 0.9416981560199517,
+     "LMH:L": 1.0,
+     "LMH:M": 1.0,
+     "LMH:H": 1.0,
+     "MH:M": 1.0,
+     "MH:H": 1.0,
+     "MMH:M": 1.0,
+     "MMH:H": 1.0
+    }
+   }
+  },
+  {
+   "clause": "P2",
+   "scenario": "hunt,churn",
+   "status": "NOT_RUN",
+   "measures": [],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": "fewer than 100 role changes (0)",
+   "info": {}
+  },
+  {
+   "clause": "P3",
+   "scenario": "hunt,mixed",
+   "status": "NOT_RUN",
+   "measures": [],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": "fewer than 30 loss events (19)",
+   "info": {}
+  },
+  {
+   "clause": "P4",
+   "scenario": "hunt",
+   "status": "NOT_RUN",
+   "measures": [],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": "no Bait aim opportunity (>= 3 s)",
+   "info": {}
+  },
+  {
+   "clause": "P5",
+   "scenario": "hunt,mixed",
+   "status": "NOT_RUN",
+   "measures": [],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": "needs paired candidate and noroles@1 runs with kaiju losses",
+   "info": {}
+  },
+  {
+   "clause": "P6",
+   "scenario": "hunt,mixed",
+   "status": "FAIL",
+   "measures": [
+    {
+     "name": "participation_share",
+     "value": 0.47681159420289854,
+     "op": ">=",
+     "threshold": 0.9,
+     "ok": false,
+     "unit": "",
+     "ci95": [
+      0.43977592819740213,
+      0.514104025803048
+     ]
+    }
+   ],
+   "composition_fail": [
+    "LH",
+    "LL",
+    "LLH",
+    "LLMH",
+    "LLMHH",
+    "LMH",
+    "LMHH",
+    "MH",
+    "MMH"
+   ],
+   "per_composition": {
+    "LH": {
+     "ci95": [
+      0.35199526826950456,
+      0.6480047317304954
+     ],
+     "n_runs": 10
+    },
+    "LL": {
+     "ci95": [
+      0.35199526826950456,
+      0.6480047317304954
+     ],
+     "n_runs": 10
+    },
+    "LLH": {
+     "ci95": [
+      0.44231552841140265,
+      0.6378115058851554
+     ],
+     "n_runs": 10
+    },
+    "LLMH": {
+     "ci95": [
+      0.18007494396328855,
+      0.33595230953126803
+     ],
+     "n_runs": 10
+    },
+    "LLMHH": {
+     "ci95": [
+      0.33947646752675026,
+      0.5282502234318338
+     ],
+     "n_runs": 10
+    },
+    "LMH": {
+     "ci95": [
+      0.47652642903437453,
+      0.6828516161198939
+     ],
+     "n_runs": 10
+    },
+    "LMHH": {
+     "ci95": [
+      0.4196195941573392,
+      0.6239337209655177
+     ],
+     "n_runs": 10
+    },
+    "MH": {
+     "ci95": [
+      0.3749736199712279,
+      0.670645299905849
+     ],
+     "n_runs": 10
+    },
+    "MMH": {
+     "ci95": [
+      0.4647695266284142,
+      0.6718402263609586
+     ],
+     "n_runs": 10
+    }
+   },
+   "controls": [],
+   "note": null,
+   "info": {}
+  },
+  {
+   "clause": "I1",
+   "scenario": "raid",
+   "status": "PASS",
+   "measures": [
+    {
+     "name": "raid_completion_rate",
+     "value": 1.0,
+     "op": ">=",
+     "threshold": 0.8,
+     "ok": true,
+     "unit": "",
+     "ci95": [
+      0.9590643738163189,
+      0.9999999999999998
+     ]
+    }
+   ],
+   "composition_fail": [],
+   "per_composition": {
+    "LH": {
+     "ci95": [
+      0.7224671969739421,
+      0.9999999999999999
+     ],
+     "n_runs": 10
+    },
+    "LL": {
+     "ci95": [
+      0.7224671969739421,
+      0.9999999999999999
+     ],
+     "n_runs": 10
+    },
+    "LLH": {
+     "ci95": [
+      0.7224671969739421,
+      0.9999999999999999
+     ],
+     "n_runs": 10
+    },
+    "LLMH": {
+     "ci95": [
+      0.7224671969739421,
+      0.9999999999999999
+     ],
+     "n_runs": 10
+    },
+    "LLMHH": {
+     "ci95": [
+      0.7224671969739421,
+      0.9999999999999999
+     ],
+     "n_runs": 10
+    },
+    "LMH": {
+     "ci95": [
+      0.7224671969739421,
+      0.9999999999999999
+     ],
+     "n_runs": 10
+    },
+    "LMHH": {
+     "ci95": [
+      0.7224671969739421,
+      0.9999999999999999
+     ],
+     "n_runs": 10
+    },
+    "MH": {
+     "ci95": [
+      0.7224671969739421,
+      0.9999999999999999
+     ],
+     "n_runs": 10
+    },
+    "MMH": {
+     "ci95": [
+      0.7224671969739421,
+      0.9999999999999999
+     ],
+     "n_runs": 10
+    }
+   },
+   "controls": [],
+   "note": null,
+   "info": {
+    "median_time_to_first_destruction_s": 2385.0000355392694,
+    "runs_without_raider_excluded": 0
+   }
+  },
+  {
+   "clause": "I2",
+   "scenario": "mixed",
+   "status": "FAIL",
+   "measures": [
+    {
+     "name": "abandonment",
+     "value": 0.0015710919088766694,
+     "op": "<=",
+     "threshold": 0.1,
+     "ok": true,
+     "unit": "",
+     "ci95": [
+      0.0007963189735093314,
+      0.003097338048868254
+     ]
+    },
+    {
+     "name": "idle",
+     "value": 0.5949290673105946,
+     "op": "<=",
+     "threshold": 0.2,
+     "ok": false,
+     "unit": "",
+     "ci95": [
+      0.5781123234281805,
+      0.6115259236203078
+     ]
+    }
+   ],
+   "composition_fail": [
+    "LLMHH",
+    "LMHH"
+   ],
+   "per_composition": {},
+   "controls": [],
+   "note": null,
+   "info": {}
+  },
+  {
+   "clause": "I3",
+   "scenario": "raid,mixed",
+   "status": "FAIL",
+   "measures": [
+    {
+     "name": "ival_per_kaiju_hour_ratio",
+     "value": 1.0324557550663656,
+     "op": ">=",
+     "threshold": 1.2,
+     "ok": false,
+     "unit": "",
+     "ci95": [
+      1.0055225392714238,
+      1.0625977009450864
+     ]
+    },
+    {
+     "name": "ratio_ci_lower",
+     "value": 1.0055225392714238,
+     "op": ">=",
+     "threshold": 1.0,
+     "ok": true,
+     "unit": "",
+     "ci95": null
+    }
+   ],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [
+    {
+     "control": "nearestinfra@1",
+     "value": 1.2638839680934904,
+     "candidate": 1.304904276594239,
+     "discriminates": true
+    }
+   ],
+   "note": null,
+   "info": {}
+  },
+  {
+   "clause": "I4",
+   "scenario": "mixed",
+   "status": "INFORMATIONAL",
+   "measures": [],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": "gating (>= 0.30) only after T-125 calibration",
+   "info": {
+    "raids": 180.0,
+    "share_pulled_then_bait_and_strike": 0.0,
+    "share_pulled": 0.0
+   }
+  },
+  {
+   "clause": "F1",
+   "scenario": "emerge",
+   "status": "NOT_RUN",
+   "measures": [],
+   "composition_fail": [],
+   "per_composition": {},
+   "controls": [],
+   "note": "no emerge runs",
+   "info": {}
+  }
+ ],
+ "informational": {
+  "per_species": {
+   "L": {
+    "engaged_decisions": 74990.0,
+    "damage_to_mechs": 0,
+    "deaths": 13,
+    "role_time": {
+     "Anchor": 0,
+     "Flanker": 382901.0,
+     "Bait": 466414.0,
+     "Raider": 188655.0,
+     "Free": 119.0
+    }
+   },
+   "M": {
+    "engaged_decisions": 180484.0,
+    "damage_to_mechs": 0,
+    "deaths": 9,
+    "role_time": {
+     "Anchor": 0,
+     "Flanker": 279385.0,
+     "Bait": 0,
+     "Raider": 380332.0,
+     "Free": 0
+    }
+   },
+   "H": {
+    "engaged_decisions": 366220.0,
+    "damage_to_mechs": 1400.0,
+    "deaths": 14,
+    "role_time": {
+     "Anchor": 568023.0,
+     "Flanker": 986.0,
+     "Bait": 0,
+     "Raider": 373812.0,
+     "Free": 1684.0
+    }
+   }
+  },
+  "runs": {
+   "nearestinfra@1|m007_bay_mixed": 90,
+   "nearestinfra@1|m007_bay_raid": 90,
+   "scriptedpack@1|m007_bay_mixed": 90,
+   "scriptedpack@1|m007_bay_raid": 90
+  }
+ },
+ "summary": {
+  "C1": "NOT_RUN",
+  "C2": "NOT_RUN",
+  "C3": "NOT_RUN",
+  "C4": "PENDING_CONTROL",
+  "C5": "PENDING",
+  "C6": "PENDING",
+  "P1": "FAIL",
+  "P2": "NOT_RUN",
+  "P3": "NOT_RUN",
+  "P4": "NOT_RUN",
+  "P5": "NOT_RUN",
+  "P6": "FAIL",
+  "I1": "PASS",
+  "I2": "FAIL",
+  "I3": "FAIL",
+  "I4": "INFORMATIONAL",
+  "F1": "NOT_RUN"
+ },
+ "all_pass": false
+}

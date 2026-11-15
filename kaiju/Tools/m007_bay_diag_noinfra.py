@@ -10,13 +10,14 @@ import m007_bay as M  # noqa: E402
 import m007_bay_par as P  # noqa: E402
 
 
-def _one(f):
+def _one(arg):
+    f, _rev = arg
     r = M.load_run(f)
     infra = {M.eid(x["ent"]) for x in r.infra}
     for x in r.dec:
         if M.eid(x["target"]) in infra:
             x["target"] = ""
-    return M.compute_run(r, M.CFG)
+    return M.compute_run(r, dict(M.CFG, rev=1))
 
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@
 set -euo pipefail
 OUT="${1:?out dir}"; HS="${2:-3001-3030}"; LS="${3:-3001-3010}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"; PY=/opt/miniconda3/envs/kaiju/bin/python
-RUN="dotnet $ROOT/DotnetTests/AI.PackHarness.Run/bin/Release/net11.0/Game.AI.PackHarness.Run.dll --map real"
+RUN="dotnet $ROOT/DotnetTests/AI.PackHarness.Run/bin/Release/net11.0/Game.AI.PackHarness.Run.dll --map real ${M007_PACK:+--pack $M007_PACK}"   # T-113c: M007_PACK="BaitFirst=true,..." overrides PackConfig for every arm
 (cd "$ROOT/DotnetTests/AI.PackHarness.Run" && dotnet build -c Release -v q >/dev/null)
 LOGS="${M007_LOGS:-$OUT/logs}"; mkdir -p "$LOGS/v1" "$LOGS/mv2" "$OUT"
 C=LL,LH,MH,LLH,LMH,MMH,LLMH,LMHH,LLMHH
@@ -13,6 +13,9 @@ for b in scriptedpack@1 noroles@1 nobait@1 directcharge@1 randomrole@1; do $RUN 
 for b in scriptedpack@1 noroles@1 nearestinfra@1; do $RUN --scenario mixed --brain $b --comps $C --seeds "$LS" --out "$LOGS/v1" >/dev/null; done
 for b in scriptedpack@1 nearestinfra@1; do $RUN --scenario raid --brain $b --comps $C --seeds "$LS" --out "$LOGS/v1" >/dev/null; done
 for b in scriptedpack@1 nofocus@1 directcharge@1; do $RUN --scenario hunt --brain $b --comps $C --seeds "$HS" --variant mv2 --out "$LOGS/mv2" >/dev/null; done
-$PY "$ROOT/Tools/m007_bay_par.py" "$LOGS/v1" --out "$OUT/report_v1.json" > "$OUT/summary_v1.txt"
-$PY "$ROOT/Tools/m007_bay_par.py" "$LOGS/mv2" --out "$OUT/report_mv2.json" > "$OUT/summary_mv2.txt"
-cat "$OUT/summary_v1.txt" "$OUT/summary_mv2.txt"
+for R in 1 2; do   # T-113c: evaluator rev 1 (original reading) and rev 2 (infrastructure targets are not combat targets), side by side
+  $PY "$ROOT/Tools/m007_bay_par.py" "$LOGS/v1" --rev $R --out "$OUT/report_v1_r$R.json" > "$OUT/summary_v1_r$R.txt"
+  $PY "$ROOT/Tools/m007_bay_par.py" "$LOGS/mv2" --rev $R --out "$OUT/report_mv2_r$R.json" > "$OUT/summary_mv2_r$R.txt"
+done
+cat "$OUT"/summary_*.txt
+[ "${KEEP:-0}" = 1 ] || rm -rf "$LOGS"   # ~12 GB per matrix; the reports stay
