@@ -97,7 +97,14 @@ namespace Game.World.Geo
             int n = (int)GeoJson.Num(ctx.ManifestLayer("terrain"), "samples", 2049);
             double sp = GeoJson.Num(ctx.ManifestLayer("terrain"), "spacing_m", 1.0);
             var hf = GeoHeightField.FromR16(ctx.ReadBytes(GeoJson.Str(L, "file")), n, sp, GeoJson.Num(L, "h_min_m"), GeoJson.Num(L, "h_max_m"));
-            var rt = RtinMesher.Build(hf.Data, n, sp, (float)GeoSettings.Require(ctx, GeoSettingKeys.TerrainMaxErrorM), (int)GeoSettings.Require(ctx, GeoSettingKeys.TerrainChunkCells));
+            // neighbours in a tile set: shared border heights (mean of both tiles) and every border node kept as a vertex
+            bool[] force = null;
+            if (c.Edge != null)
+            {
+                c.Edge.Apply(hf.Data, n);
+                force = c.Edge.Forced;
+            }
+            var rt = RtinMesher.Build(hf.Data, n, sp, (float)GeoSettings.Require(ctx, GeoSettingKeys.TerrainMaxErrorM), (int)GeoSettings.Require(ctx, GeoSettingKeys.TerrainChunkCells), "terrain", force);
             hf.Render = rt.RenderHeights;
             c.Heights = hf;
             var o = new GeoLayerOutput { Layer = Name };

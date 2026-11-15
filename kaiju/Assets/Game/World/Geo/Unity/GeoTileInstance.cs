@@ -89,20 +89,34 @@ namespace Game.World.Geo.Unity
             return go;
         }
 
+        /// <summary>Collider height lattice step. Every tile quantises on the same absolute lattice (multiples of this step), so the same edge height gives the same stored value in both tiles.</summary>
+        public const double ColliderStepM = 0.005;
+
         TerrainCollider BuildTerrainCollider(GeoTileModel model)
         {
             var hf = model.Heights;
             int n = hf.Samples;
+            // heights are stored as ushort over the TerrainData range; use an absolute lattice (step * integer) shared by all tiles
+            double lo = double.MaxValue, hi = double.MinValue;
+            foreach (var v in hf.Data) { if (v < lo) lo = v; if (v > hi) hi = v; }
+            double step = ColliderStepM;
+            long kMin = (long)Math.Floor(lo / step);
+            while ((hi / step - kMin) > 65534.0) step *= 2;   // fallback for a range above 327 m: coarser lattice (seams then up to step/2)
+            if (step != ColliderStepM) kMin = (long)Math.Floor(lo / step);
+            double baseY = kMin * step, range = 65535.0 * step;
             var td = new TerrainData { heightmapResolution = n };
-            double range = Math.Max(hf.HMax - hf.HMin, 1.0);
             td.size = new Vector3((float)((n - 1) * hf.Spacing), (float)range, (float)((n - 1) * hf.Spacing));
             var h = new float[n, n];
             for (int r = 0; r < n; r++)
-                for (int c = 0; c < n; c++) h[r, c] = (float)((hf.Data[r * n + c] - hf.HMin) / range);
+                for (int c = 0; c < n; c++)
+                {
+                    long q = (long)Math.Round(hf.Data[r * n + c] / step) - kMin;   // integer lattice index, identical for equal heights in any tile
+                    h[r, c] = (float)(q / 65535.0);
+                }
             td.SetHeights(0, 0, h);
             var go = new GameObject("PhysicsSurface");
             go.transform.SetParent(transform, false);
-            go.transform.localPosition = new Vector3(0, (float)hf.HMin, 0);
+            go.transform.localPosition = new Vector3(0, (float)baseY, 0);
             var tc = go.AddComponent<TerrainCollider>();
             tc.terrainData = td;
             return tc;
