@@ -44,6 +44,20 @@ namespace Game.Composition.Tests
         }
 
         [Test]
+        public void Install_DestructionOn_RegistersSaveParticipant_FlagOffRegistersNone()
+        {
+            var saves = new SaveSystem("test");
+            var on = GameComposition.Install(new ServiceRegistry(), Flags("destruction.enabled"), new Errors(), Inputs(), saves);
+            Assert.That(on.DestructionSave, Is.Not.Null);
+            Assert.That(saves.Capture().TryGetSection(DestructionSaveParticipant.Section, out _), Is.True);
+
+            var saves2 = new SaveSystem("test");
+            var off = GameComposition.Install(new ServiceRegistry(), Flags(), new Errors(), Inputs(), saves2);
+            Assert.That(off.DestructionSave, Is.Null);
+            Assert.That(saves2.Capture().TryGetSection(DestructionSaveParticipant.Section, out _), Is.False);
+        }
+
+        [Test]
         public void AllFlagsOn_InstallsEveryModule()
         {
             var reg = new ServiceRegistry();

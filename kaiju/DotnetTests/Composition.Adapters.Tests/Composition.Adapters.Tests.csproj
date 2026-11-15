@@ -10,12 +10,16 @@
   <ItemGroup>
     <Compile Include="../../Assets/Game/Composition/Runtime/PlaceholderDamageAdapter.cs" />
     <Compile Include="../../Assets/Game/Composition/Tests/EditMode/PlaceholderDamageAdapterTests.cs" />
+    <Compile Include="../../Assets/Game/Composition/Runtime/DestructionSaveInstaller.cs" />
+    <Compile Include="../../Assets/Game/Composition/Tests/EditMode/DestructionSaveRegistrationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../Hangar/Hangar.csproj" />
     <ProjectReference Include="../Hangar.Contracts/Hangar.Contracts.csproj" />
     <ProjectReference Include="../Units.Placeholder.Contracts/Units.Placeholder.Contracts.csproj" />
     <ProjectReference Include="../Core.Contracts/Core.Contracts.csproj" />
+    <ProjectReference Include="../Core/Core.csproj" />
+    <ProjectReference Include="../WorldDestruction/WorldDestruction.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
