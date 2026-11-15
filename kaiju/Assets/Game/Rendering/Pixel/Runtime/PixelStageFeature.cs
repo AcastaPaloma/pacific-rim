@@ -66,6 +66,8 @@ namespace Game.Rendering.Pixel
         public static readonly int Present = Shader.PropertyToID("_PixelPresent");
         public static readonly int PresentSize = Shader.PropertyToID("_PixelPresentSize");
         public static readonly int PresentMode = Shader.PropertyToID("_PixelPresentMode");
+        public static readonly int PresentDepth = Shader.PropertyToID("_PixelPresentDepth");
+        public static readonly int InternalDepthTex = Shader.PropertyToID("_PixelInternalDepthTex");
     }
 
     /// <summary>One profiling sampler per pass name (Pixel.Dither, Pixel.Haze, ...), shared by every renderer, so tools can read CPU and GPU time per pass.</summary>

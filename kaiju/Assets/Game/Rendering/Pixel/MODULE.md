@@ -7,7 +7,7 @@ Breakdown IDs: D-022, D-027, F-046, M-003, M-004, M-008 (render-side share), M-0
 | Assembly | Folder | Engine | Contents |
 |---|---|---|---|
 | `Game.Rendering.Pixel.Contracts` | `Contracts/` | none | `PixelStageId`, `PixelDitherAnchor`, `PixelFlags`, `PixelGrid` + `IPixelGridSource`, `PixelStabilisationHints` + `IPixelStabilisationSource`, `PixelScaleRule`, `PixelStageOrder`, `PixelContractVersions` |
-| `Game.Rendering.Pixel.Maths` | `Maths/` | none | `ColourMath` (sRGB, CIELAB, OKLab, CIEDE2000, palette hash), `DitherMasks`, `PaletteLutBaker`, `HazeMath`, `MiniJson`, `PaletteSetReader`, `HazeRungModel`/`HazeTuning` (R-131 haze model), `ParallaxShiftMath` (C11 model), `PixelLayerPlan` (layer slabs, T-181), `PixelLayerHints` (v2 hint validation) |
+| `Game.Rendering.Pixel.Maths` | `Maths/` | none | `ColourMath` (sRGB, CIELAB, OKLab, CIEDE2000, palette hash), `DitherMasks`, `PaletteLutBaker`, `HazeMath`, `MiniJson`, `PaletteSetReader`, `HazeRungModel`/`HazeTuning` (R-131 haze model), `ParallaxShiftMath` (C11 model), `PixelLayerPlan` (layer slabs, T-181), `PixelLayerHints` (v2 hint validation), `PixelDepthShift` (engine-free mirror of the depth-aware present shift) |
 | `Game.Rendering.Pixel` | `Runtime/` | URP | `PixelCameraBinder`, `PixelPresentCamera`, one feature per stage, `PaletteProfile`, `PixelPipelineSettings`, `PixelConfiguration`, `PixelFlagState`, `PixelPipelineCatalog`, shaders |
 | `Game.Rendering.Pixel.Editor` | `Editor/` | Editor | `PixelPipelineInstaller`, `PixelPipelineAssets`, `PaletteProfileGenerator`, `PixelPipelineScope` |
 | `Game.Rendering.Pixel.Tests` | `Tests/EditMode/` | test | engine-free NUnit sources, also run by `dotnet test DotnetTests/Rendering.Pixel.Tests` |
@@ -36,7 +36,7 @@ Order rules (`PixelStageOrder`): Downsample before every internal-resolution sta
 Consumes events: none. Emits events: none.
 
 ## Config assets (all tuning values; nothing is hard-coded in the stage code)
-- `Assets/Game/Config/FeatureFlags/Rendering.Pixel.json`: the nine flags (incl. `rendering.pixel.layerSnap`), all `false`.
+- `Assets/Game/Config/FeatureFlags/Rendering.Pixel.json`: the ten flags (incl. `rendering.pixel.layerSnap`, `rendering.pixel.depthShift`), all `false`.
 - `Assets/Game/Config/Rendering/Configurations/M0StyleFrame.json`: the M0 style-frame configuration; a list of flags it switches on (`PixelConfiguration`, merged over the session flags by `PixelFlagState.From`). Stages are enabled by this file, not by code.
 - `Assets/Game/Config/Rendering/PixelPipeline.json` (`PixelPipelineSettings`, schema 1): target lines, scale limits, guard band, supersample factor, `ditherMask` (`bayer4` default; `bayer8`, `cluster8`, `bluenoise16`, `bluenoise32` selectable), `ditherAnchor` (`screen`, `direction`, `hybrid`), hybrid distance, outline thresholds, default profile.
 - `Assets/Game/Config/Rendering/palette_set.json`: verbatim copy of `research/R-002/palettes.json` (`palette_set@v1`).
@@ -106,7 +106,7 @@ The C7 80 m block (926-998 m, ring to about 2.5 km) is inside the main slab in e
 ### Steps T-180..T-185 (each ends with its tests green and one commit; T-176 stop rules apply)
 | Step | Work | Tests / acceptance |
 |---|---|---|
-| T-180 | `PixelPresent.shader`/feature: depth-aware whole-output-pixel shift (flag `rendering.pixel.depthShift`, default off), shift = `ParallaxShiftMath.DepthShiftPx(zRef/z, rem, k)`, disocclusion takes the farther sample; ignored when `layerSnap` is on | EditMode: shader constants and flag wiring; flag off renders bit-identical to today; compile in T-183. Model target near 4.5 / ref 4.8 (worst) / far 4.0 px, a known fail of C11 |
+| **T-180 (done, compiled in Unity EditMode + shader import, no captures)** | `PixelPresent.shader`/feature: depth-aware whole-output-pixel shift (flag `rendering.pixel.depthShift`, default off), shift = `ParallaxShiftMath.DepthShiftPx(zRef/z, rem, k)`, disocclusion takes the farther sample; ignored when `layerSnap` is on | EditMode: shader constants and flag wiring; flag off renders bit-identical to today; compile in T-183. Model target near 4.5 / ref 4.8 (worst) / far 4.0 px, a known fail of C11 |
 | **T-181a (done)** | `PixelLayerPlan` + gamma-aware `HazeMath.BandStart`; study `evidence/T-181/layer_plan.py` | dotnet/EditMode `PixelLayerPlanTests`: boundaries on band edges in all five profiles and equal to the Python mirror, one band step across each seam, ownership partition, reference owned at centre and corner, clip covers ownership, haze-off middle, illegal references rejected, hysteresis, composite rule, grid tolerance, C11 lock tolerance vs the mirror within 0.5 px |
 | **T-181b (done)** | Contract v2 (`PixelLayerHint`, `LayerCount`), flag `rendering.pixel.layerSnap` (default off) in `PixelFlags` and the flags JSON | dotnet: v1 sources still valid, flag list and JSON in step, binder-side validation (GridMatches, increasing depths) as engine-free helpers |
 | T-181c | Camera (separate brief, Camera owner): rig fills the three layers by per-layer `Stabilise`; scripted T1 sets 124.2 / 664.874 (and 663.0) / 10353 | Camera EditMode: one layer equals v1 bit for bit; layer offsets within half a layer grid; layer `Cut` on a reference change; zero allocation |

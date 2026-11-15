@@ -46,8 +46,10 @@ namespace Game.Rendering.Pixel
         public const string SubPixelPresent = "rendering.pixel.subPixelPresent";
         /// <summary>T-181: near / main / far slab cameras, each snapped to its own reference depth. Ships false; ignores depthShift when on.</summary>
         public const string LayerSnap = "rendering.pixel.layerSnap";
+        /// <summary>T-180: present shift per surface depth (round(k * zRef / z * remainder)) instead of one uniform shift. Needs subPixelPresent; ignored when layerSnap is on.</summary>
+        public const string DepthShift = "rendering.pixel.depthShift";
 
-        public static readonly string[] All = { Enabled, LowRes, Supersample, Dither, Haze, Outline, Quantise, SubPixelPresent, LayerSnap };
+        public static readonly string[] All = { Enabled, LowRes, Supersample, Dither, Haze, Outline, Quantise, SubPixelPresent, LayerSnap, DepthShift };
 
         /// <summary>The flag that gates a stage, or null for stages that always run when the pipeline is enabled.</summary>
         public static string ForStage(PixelStageId stage)
