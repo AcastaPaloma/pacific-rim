@@ -173,6 +173,44 @@ def test_thrash_counts_a_b_a_within_4s(tmp_path):
     assert sm(rep, "M-007.C3")["status"] == "FAIL"
 
 
+def _thrash_set(tmp_path, gap_s, n_back=1):
+    """Per run: one A->B->A switch pair `gap_s` apart (thrash when <= the 12 s window) in the first n_back runs."""
+    def rows(i):
+        r = engagement_rows(FLANKED, targets=(101, 102))
+        x, y = pos(0)
+        t0 = 100
+        sw = [(t0, 102), (t0 + int(gap_s / STEP_S), 101)] if i < n_back else []
+        for step, tgt in sw:
+            r.append(dec(step, 1, x, y, 1, 1, tgt, reason=11))
+        return r
+    s = make_set(tmp_path, "s", "scripted@1", rows)
+    c = make_set(tmp_path, "c", "directcharge@1", lambda i: engagement_rows(CLUSTER))
+    return run(tmp_path, [s, c])
+
+
+def test_c3_reports_fail_when_thrash_above_threshold(tmp_path):
+    # every switch pair returns to the old target 11 s later (inside the 12 s window): thrash 0.5 > 0.10 => C3 FAIL
+    rep = _thrash_set(tmp_path, 11.0, n_back=22)
+    p = rep["extra"]["m007"]["scripted"]
+    assert p["voluntary"] == 44 and p["thrash"] == 22 and abs(p["thrash_fraction"] - 0.5) < 1e-9
+    assert sm(rep, "M-007.C3")["status"] == "FAIL"
+
+
+def test_thrash_gap_beyond_window_is_not_thrash(tmp_path):
+    # a switch back 13 s later is outside the 12 s window: voluntary counted, thrash 0
+    rep = _thrash_set(tmp_path, 13.0, n_back=100)
+    p = rep["extra"]["m007"]["scripted"]
+    assert p["voluntary"] == 200 and p["thrash"] == 0 and p["thrash_fraction"] == 0.0
+
+
+def test_thrash_at_exact_window_edge_counts(tmp_path):
+    # the window is inclusive (<= 12 s): a lockout equal to the window therefore lets no thrash through, which is why the
+    # brain lockout must be shorter than the window for C3 to be able to fail (R-024 rev 4b)
+    rep = _thrash_set(tmp_path, 12.0, n_back=100)
+    assert rep["extra"]["m007"]["scripted"]["thrash"] == 100
+    assert sm(rep, "M-007.C3")["status"] == "FAIL"
+
+
 def test_focus_fire_excess(tmp_path):
     # 3 kaiju, 2 live targets, all on target 101: FF 1.0 vs chance 0.75 => FE 1.0
     rep = run(tmp_path, [make_set(tmp_path, "s", "scripted@1", lambda i: engagement_rows(FLANKED, targets=(101, 102)))])

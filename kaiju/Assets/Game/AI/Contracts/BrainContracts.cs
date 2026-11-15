@@ -62,7 +62,7 @@ namespace Game.AI
         public float RetreatHpFrac;
         public float RetargetRatio;
         public float RetargetMinSeconds;
-        public float SwitchBackLockoutSeconds; // R-024 rev 3: no voluntary switch back to the target just left within this time
+        public float SwitchBackLockoutSeconds; // R-024 rev 4b: no voluntary switch back to the target just left within this time; the same span again needs RetargetRatio^2 (keep below the metric thrash window, 12 s)
         public float FacingHalfAngleRad;   // facing_me window
         public float WeightDistance, WeightHp, WeightFacing, WeightFocus;
         public float SpeedApproach, SpeedApproachWing, SpeedFlank, SpeedCharge, SpeedRetreat;
@@ -89,7 +89,7 @@ namespace Game.AI
                 SightRangeM = 1200f, MemorySeconds = 3f, AllyAwarenessM = 1500f,
                 CruiseSpeedMps = 9.12f, MeleeReachM = 40f, StandoffM = 250f, EngageRadiusM = 400f,
                 WingOffsetRad = 70f * deg, RetreatHpFrac = 0.35f,
-                RetargetRatio = 1.25f, RetargetMinSeconds = 4f, SwitchBackLockoutSeconds = 12f, FacingHalfAngleRad = 45f * deg,
+                RetargetRatio = 1.25f, RetargetMinSeconds = 4f, SwitchBackLockoutSeconds = 6f, FacingHalfAngleRad = 45f * deg,
                 WeightDistance = 1.0f, WeightHp = 0.8f, WeightFacing = 0.6f, WeightFocus = 0.5f,
                 SpeedApproach = 0.6f, SpeedApproachWing = 0.8f, SpeedFlank = 0.8f, SpeedCharge = 1.0f, SpeedRetreat = 0.7f,
                 CentreHoldTimeoutSeconds = 6f, FlankTimeoutSeconds = 10f, FlankBearingTolRad = 15f * deg,

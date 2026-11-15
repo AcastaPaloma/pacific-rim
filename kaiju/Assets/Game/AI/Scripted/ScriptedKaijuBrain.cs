@@ -162,8 +162,17 @@ namespace Game.AI
                         else { _target = 0; Enter(BrainState.Idle, now); reason = ReasonCode.TargetLost; }
                         break;
                     }
-                    if (best >= 0 && best != cur && bestScore > _cfg.RetargetRatio * curScore && now - _lastSwitch >= _cfg.RetargetMinSeconds
-                        && !(obs.Targets[best].Id.Value == _prevTarget && now - _prevLeftAt < _cfg.SwitchBackLockoutSeconds))
+                    // R-024 rev 4b: switching back to the target just left is blocked for SwitchBackLockoutSeconds and, for the same
+                    // span again, needs the squared hysteresis ratio, so the lockout is shorter than the metric's 12 s thrash window
+                    // (a lockout equal to the window made C3 unable to fail) and a flip right after it still has to win clearly.
+                    float needRatio = _cfg.RetargetRatio; bool backBlocked = false;
+                    if (best >= 0 && obs.Targets[best].Id.Value == _prevTarget)
+                    {
+                        double since = now - _prevLeftAt;
+                        if (since < _cfg.SwitchBackLockoutSeconds) backBlocked = true;
+                        else if (since < 2.0 * _cfg.SwitchBackLockoutSeconds) needRatio = _cfg.RetargetRatio * _cfg.RetargetRatio;
+                    }
+                    if (best >= 0 && best != cur && !backBlocked && bestScore > needRatio * curScore && now - _lastSwitch >= _cfg.RetargetMinSeconds)
                     {
                         _prevTarget = _target; _prevLeftAt = now;
                         _target = obs.Targets[best].Id.Value; cur = best; _lastSwitch = now;

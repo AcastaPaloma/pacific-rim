@@ -260,11 +260,11 @@ namespace Game.AI.Tests
             Assert.AreEqual(100ul, r.Tick(3.9).TargetId.Value);
             var i = r.Tick(4.0);
             Assert.AreEqual(101ul, i.TargetId.Value); Assert.AreEqual(ReasonCode.RetargetVoluntary, i.Reason);
-            // switching back needs another 4 s and, R-024 rev 3, 12 s since leaving the target (lockout)
+            // switching back needs another 4 s and, R-024 rev 4b, 6 s since leaving the target (lockout; the next 6 s need ratio^2)
             r.Targets(T(100, 600, hp: 0.2f), T(101, 600, hp: 0.9f));
             Assert.AreEqual(101ul, r.Tick(5).TargetId.Value);
             Assert.AreEqual(101ul, r.Tick(8.0).TargetId.Value);
-            Assert.AreEqual(101ul, r.Tick(15.9).TargetId.Value);
+            Assert.AreEqual(101ul, r.Tick(9.9).TargetId.Value);
             Assert.AreEqual(100ul, r.Tick(16.0).TargetId.Value);
         }
 

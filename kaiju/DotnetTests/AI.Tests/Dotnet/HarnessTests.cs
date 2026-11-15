@@ -141,6 +141,7 @@ namespace Game.AI.Tests
                 for (ulong seed = 1; seed <= (ulong)n; seed++)
                 {
                     HarnessScenario scn = scen == "churn" ? HarnessScenario.M007Churn(seed, direct) : threeVsFour ? HarnessScenario.M007ThreeVsFour(seed, direct) : HarnessScenario.M007(seed, direct);
+                    string lo = Environment.GetEnvironmentVariable("KAIJU_M007_LOCKOUT"); if (lo != null) scn.Brain.SwitchBackLockoutSeconds = float.Parse(lo, CultureInfo.InvariantCulture); // churn evidence: with/without lockout
                     if (nofocus) scn.Brain.WeightFocus = 0f; // second control: scripted without the focus bonus (brain_id nofocus@1)
                     string log = RunLog(scn, out _);
                     if (outDir != null)

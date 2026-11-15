@@ -1,0 +1,10 @@
+M-007@v1  [o3]  registry v1.0 sha256:591e0f69b0b8  tool 1.0.0
+VERDICT: INCOMPLETE   headless: PASS (provisional: 3 assumed)   exit 3   failing gating: 0
+  PASS           [G] M-007.runs       100 runs  >= 100  margin 0
+  PASS           [G] M-007.C1         0.9145 ratio  >= 0.6  margin 0.3145 seed-threshold
+  PASS           [G] M-007.C2         1 CI non-overlap  >= 1  margin 0 seed-threshold
+  PASS           [G] M-007.C3         0.01546 1/kaiju-min  <= 3  margin 2.985 seed-threshold
+  PASS           [G] M-007.C4         0 ticks  <= 0  margin 0
+  PENDING        [G] M-007.C5         -   (panel: >= 12 raters x 6 blinded clips (human step; no ratings file format yet))
+  NOT_APPLICABLE [G] M-007.C6         -   (win rate vs scripted baseline needs a policy (R-024 section 5))
+  inputs: 300 files hashed; report.json holds every value, threshold and hash
