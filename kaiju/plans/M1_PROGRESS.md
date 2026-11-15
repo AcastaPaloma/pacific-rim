@@ -33,3 +33,10 @@ Session 3 (regression `evidence/regression/M1-merge-4.md`):
 ## Hand-over (M1 lead session 3, after all four tracks merged; 2026-11-15)
 - Batched EditMode on 89ccb70 (T-030b, T-023 step 2, T-036b, T-033 merged): 468/0/2, Core config unchanged (`evidence/regression/M1-merge-6.md`).
 - Not started (session at its context threshold): "Next" item 5 composition root (Destruction + Seismic + bridge + brain behind default-off flags, one Sonnet/medium step) and item 6 combined evaluator per track (Sonnet/low, §13; fix cycles only for blocking defects). Run both in a fresh session; merge lock `/tmp/kaiju-merge.lock`, §13/§14 apply.
+
+## Session 5 (M1 lead, 2026-11-15): walk-independent tracks
+Rules for every track: side-session notes `m1-track-rules.md` (worktree `.wt/<TASK>`, merge lock, Unity < 2, §13/§14, hand-over at ~150k).
+Running: **T-030c** (net.coop/net.seatBridge flag files, composition wiring of HostSeatPump/MechSeatBehaviour, TEMPORARY kinematic `Units.Placeholder` body + `PlaceholderDamageRecord`, slot release/reconnect, two-process run; owns DEF-M1net-minor) · **T-039b** (M1 slice scene: 15 tiles + GGB, quake + impactor destruction, kinematic kaiju stand-in on ScriptedKaijuBrain, placeholder mech after T-030c merges, smoke test, Mac build, flag `slice.m1`) · **T-033b** (harness damage, M007-3v4 ≥100 seeds vs directcharge@1, C2/C3 verdict; owns DEF-M1ai-minor) · **T-036c** (fault_rupture/rupture dump exporters, Unity `district_pieces@v1` writer, real-input M-053/M-054/M-005 pieces runs; owns DEF-M1ds-minor).
+Queued (app cap of 5 concurrent sessions): **M1-cleanup** (full EditMode re-run after the save fix + GameCoreConfig; Ferry tower → 71.6 m and GGB N tower → 229.18 m sourced, re-bake affected tiles, M-005 district still PASS; DEF-M1save-minor, DEF-M1geo-minor) · **T-034** hangar stub (R-025 site, `Hangar` module, `hangar@v1`, M-059 over 3 cycles, flag `hangar.stub`; adapts to PlaceholderDamageRecord after T-030c merges).
+Out of M1 scope now: melee and cannon (plans/M1.md "Blocked until T-005's walk gate passes").
+After all tracks merge: one combined Sonnet/low evaluator per track (§13), batched EditMode, update reports/M1.md.

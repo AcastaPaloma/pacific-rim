@@ -231,3 +231,10 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 - 2026-11-15 · 9.3 split into 9.3a (plant, reference @v2, PD sanity), 9.3b (controller, criterion A), 9.3c (B/C/D, yaw, verdict); 9.3a runs in parallel with 9.2 because the Python prototype does not use the C# solver — decided autonomously (user offline).
 - 2026-11-15 · Workers stay Sonnet/Haiku at ≤ medium per this session's brief; no §14 escalation unless the stop rule ends a loop with evidence it can work — decided autonomously (user offline).
 - 2026-11-15 · QP iteration cap stays 60: controller shapes need ≤ 22; only a large random case (n 40, m 80) needed 71 — decided autonomously (user offline).
+
+## M1 lead orchestrator, session 5 (2026-11-15): decisions log
+- 2026-11-15 · M1 report §3.5 (3-mech vs 4-kaiju scenario with damage as the next AI step) accepted; run as T-033b — decided autonomously (user offline).
+- 2026-11-15 · M1 report §3.4 (lower Ferry Building tower and GGB north tower top to sourced heights) accepted; queued as M1-cleanup — decided autonomously (user offline).
+- 2026-11-15 · Walk-independent tracks split for §12: T-030c (co-op scaffolding + TEMPORARY kinematic placeholder body), T-039b (slice scene), T-033b (AI 3v4), T-036c (destruction data), M1-cleanup, T-034 (hangar stub; in M1 per plans/M1.md Track 5). Evaluator-minor rows are owned by the track whose module they touch (net → T-030c, AI → T-033b, destruction/seismic → T-036c, geo/save → M1-cleanup) — decided autonomously (user offline).
+- 2026-11-15 · Melee and cannon are not started: plans/M1.md lists them as blocked until T-005 passes M-001/M-002 — decided autonomously (user offline).
+- 2026-11-15 · The app runs at most 5 concurrent sessions; M1-cleanup and T-034 wait for a free slot (briefs in plans/M1_PROGRESS.md "Session 5").
