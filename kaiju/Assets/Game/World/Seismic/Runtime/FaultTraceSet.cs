@@ -4,6 +4,7 @@
 // A rupture runs on a FAULT SYSTEM (all sections with the same FaultName chained along strike, gaps up to MaxBridgeGapM bridged and flagged).
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Game.World.Geo;
 
@@ -13,6 +14,8 @@ namespace Game.World.Seismic
     public sealed class FaultPiece
     {
         public string FaultName, Section, Linetype, SlipSense;
+        /// <summary>The baked `fault_id` property (string, as written in faults_bay.geojson); null when unknown. Only the metric dumps use it (M-053 keys on it).</summary>
+        public string BakedFaultId;
         public double[] Xz;
     }
 
@@ -38,6 +41,8 @@ namespace Game.World.Seismic
     public sealed class FaultTrace
     {
         public string FaultName, Section;
+        /// <summary>Baked `fault_id` of the first piece that has one (null if none).</summary>
+        public string BakedFaultId;
         public uint FaultId;
         public ushort SectionIdx;
         public SlipSense SlipSense;
@@ -81,6 +86,8 @@ namespace Game.World.Seismic
         public uint FaultId;
         /// <summary>Section names, ordinal order; SectionIdx indexes this.</summary>
         public string[] Sections;
+        /// <summary>Baked `fault_id` per section (parallel to <see cref="Sections"/>; null where unknown).</summary>
+        public string[] SectionBakedIds;
         public SlipSense SlipSense;
         public int PieceCount, UnchainedChains;
         public double UnchainedLengthM;
@@ -149,7 +156,7 @@ namespace Game.World.Seismic
                 {
                     var xz = new double[line.Length];
                     for (int i = 0; i + 1 < line.Length; i += 2) { xz[i] = line[i] + originX; xz[i + 1] = line[i + 1] + originZ; }
-                    list.Add(new FaultPiece { FaultName = f.FaultName, Section = f.Section, Linetype = f.Linetype, SlipSense = f.SlipSense, Xz = xz });
+                    list.Add(new FaultPiece { FaultName = f.FaultName, Section = f.Section, Linetype = f.Linetype, SlipSense = f.SlipSense, Xz = xz });  // GeoFaultData has no baked fault_id (Id is the feature id): BakedFaultId stays null here
                 }
             return list;
         }
@@ -218,12 +225,14 @@ namespace Game.World.Seismic
         {
             var cx = new List<double[]>(); var cz = new List<double[]>(); var cs = new List<ushort>();
             var sections = new string[secs.Count];
+            var bakedIds = new string[secs.Count];
             var senseLen = new Dictionary<SlipSense, double>();
             int pieces = 0;
             for (int s = 0; s < secs.Count; s++)
             {
                 FaultTrace t = secs[s];
                 sections[s] = t.Section ?? "";
+                bakedIds[s] = t.BakedFaultId;
                 pieces += t.PieceCount;
                 double cur; senseLen.TryGetValue(t.SlipSense, out cur); senseLen[t.SlipSense] = cur + t.TotalLengthM;
                 for (int k = 0; k < t.ChainCount; k++)
@@ -281,7 +290,7 @@ namespace Game.World.Seismic
             for (int i = 0; i < comps.Count; i++) if (i != main) { lostChains += compChains[i]; lostLen += comps[i].Len; }
             return new FaultSystem
             {
-                Name = name, FaultId = HashName(name), Sections = sections, SlipSense = dom, PieceCount = pieces,
+                Name = name, FaultId = HashName(name), Sections = sections, SectionBakedIds = bakedIds, SlipSense = dom, PieceCount = pieces,
                 UnchainedChains = lostChains, UnchainedLengthM = lostLen,
                 X = m.X.ToArray(), Z = m.Z.ToArray(), ArcM = arc, SectionOfVertex = m.Sec.ToArray(), Bridge = m.Bridge.ToArray(),
             };
@@ -430,6 +439,7 @@ namespace Game.World.Seismic
             return new FaultTrace
             {
                 FaultName = name, Section = section, FaultId = HashKey(name, section), SlipSense = dom, PieceCount = pieces.Count,
+                BakedFaultId = pieces.Select(q => q.BakedFaultId).FirstOrDefault(q => q != null),
                 X = xs.ToArray(), Z = zs.ToArray(), ArcM = arcs.ToArray(), ChainStart = starts.ToArray(), GapM = walkGap.ToArray(),
             };
         }
