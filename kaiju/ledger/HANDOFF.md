@@ -449,6 +449,12 @@ Worker escalated to Opus 5.5 high (§14) for the design; design `research/R-028.
 - Economy Runtime references `Game.Core` (for `Json`) besides Contracts; flagged in MODULE.md. Alternative (own JSON reader) rejected as duplication. If L4 modules must see Contracts only, move `Json` to Core.Contracts later.
 - Not wired into `Game.Composition` (another track's file). Loading `economy_prices@v1.json` and registering with `SaveSystem` is the composition root's job.
 
+## T-112 (Units.Kaiju species specs, M-103)
+- Spec format: every number `{value, unit, source, status}` in SI; derived numbers are stored and recomputed by the validator (python and C# mirror), thresholds are constants in the validators, never read from a spec — decided autonomously (founder asleep); alternative (thresholds in spec) rejected because a spec could lower them.
+- Deviations from the R-102 section 10 sketch (flat blocks, `damage` block, `belly_clearance_m` instead of `swim_depth_min_m`, extra attack fields for Rush/Grapple) are listed in `Assets/Game/Units/Kaiju/MODULE.md` — decided autonomously (founder asleep).
+- R-102 prose inconsistencies found while recomputing (kept R-102 inputs, outputs follow): BASTION tail sweep 641 MJ (prose 661), head ram 480 MJ (476), grapple 196 MN kept although 5.1 MPa x 108 m2 = 551 MN. Not a threshold change — decided autonomously (founder asleep).
+- Assumed additions: `com_height_m` (back-derived from R-102 lateral limits), yaw inertia (trunk ellipsoid), elephant primitives reproducing 5.23 m3, attack muscle masses, duty_factor_cruise, role affinities from R-103 4.2. All flagged Assumed.
+- M-103.6 measured half (gait_log@v1 via M-001) needs T-117 bodies: not done, tracked here. Flag `units.kaiju.species` default off, not wired into Composition.
 ## T-113 (M2 worker, 2026-11-15)
 - Pack layer is a new assembly `Game.AI.Pack` (Contracts only); species input is Pack's own `SpeciesRole` struct with R-102 speeds/standoffs and R-103 role fits as `SpeciesRole.Strider/Breacher/Bastion` defaults. Units.Kaiju adapter (T-112) is a follow-up; Pack never references it — decided autonomously (founder asleep).
 - Role allocation is an exact max-sum assignment over slots (<= 5! leaves, zero allocation) instead of CBAA message rounds: boards are shared instantly in T-113, so rounds add nothing yet; the delay/loss `CommsModel` and provenance leak check (R-103 4.1) stay a tracked follow-up (board entries already carry observer/source) — decided autonomously (founder asleep).
