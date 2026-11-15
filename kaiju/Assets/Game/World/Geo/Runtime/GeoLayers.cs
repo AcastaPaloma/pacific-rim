@@ -104,6 +104,8 @@ namespace Game.World.Geo
                 c.Edge.Apply(hf.Data, n);
                 force = c.Edge.Forced;
             }
+            // persisted terrain edits (T-110, R-101 section 7): replayed after the decode and the border policy, before RTIN, so a crater is in the mesh
+            c.HeightEdit?.Invoke(hf.Data, n, sp, c.OriginX, c.OriginZ);
             var rt = RtinMesher.Build(hf.Data, n, sp, (float)GeoSettings.Require(ctx, GeoSettingKeys.TerrainMaxErrorM), (int)GeoSettings.Require(ctx, GeoSettingKeys.TerrainChunkCells), "terrain", force);
             hf.Render = rt.RenderHeights;
             c.Heights = hf;

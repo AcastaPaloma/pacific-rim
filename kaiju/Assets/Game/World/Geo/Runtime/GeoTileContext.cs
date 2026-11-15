@@ -57,6 +57,8 @@ namespace Game.World.Geo
         public bool[] WaterCells { get; internal set; }
         /// <summary>Shared-border policy when the tile has neighbours in a set (null = single tile, output unchanged). Set before building the model.</summary>
         public GeoEdgePolicy Edge { get; set; }
+        /// <summary>Optional edit of the decoded heights (data, samples, spacing m, tile origin X, Z) run by the terrain layer before RTIN. Null = baked heights unchanged. Set before building the model.</summary>
+        public Action<float[], int, double, double, double> HeightEdit { get; set; }
 
         /// <summary>Opens and validates a tile folder; throws GeoTileRejectedException on any manifest problem.</summary>
         public GeoTileContext(string tileDirectory, IReadOnlyDictionary<string, double> settings = null, bool verifyHashes = true)

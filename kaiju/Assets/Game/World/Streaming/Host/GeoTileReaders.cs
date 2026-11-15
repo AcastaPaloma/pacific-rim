@@ -29,21 +29,30 @@ namespace Game.World.Streaming.Host
         readonly string _tilesRoot;
         readonly IReadOnlyDictionary<string, double> _settings;
         readonly int _cacheSize;
-        readonly ConcurrentDictionary<GeoTileId, Lazy<GeoTileModel>> _models = new ConcurrentDictionary<GeoTileId, Lazy<GeoTileModel>>();
-        readonly ConcurrentQueue<GeoTileId> _order = new ConcurrentQueue<GeoTileId>();
+        readonly StreamingJournal _journal;
+        readonly ConcurrentDictionary<(GeoTileId, int), Lazy<GeoTileModel>> _models = new ConcurrentDictionary<(GeoTileId, int), Lazy<GeoTileModel>>();
+        readonly ConcurrentQueue<(GeoTileId, int)> _order = new ConcurrentQueue<(GeoTileId, int)>();
 
-        public GeoL0TileReader(string tilesRoot, IReadOnlyDictionary<string, double> settings, int cacheSize = 3)
-        { _tilesRoot = tilesRoot; _settings = settings; _cacheSize = Math.Max(1, cacheSize); }
+        /// <summary>journal (T-110, optional): removed buildings are omitted before meshing (render tile and physics chunks alike) and craters are replayed on the decoded heights before RTIN.</summary>
+        public GeoL0TileReader(string tilesRoot, IReadOnlyDictionary<string, double> settings, int cacheSize = 3, StreamingJournal journal = null)
+        { _tilesRoot = tilesRoot; _settings = settings; _cacheSize = Math.Max(1, cacheSize); _journal = journal; }
 
         public bool Exists(GeoTileId id) => File.Exists(Path.Combine(GeoTileSetLoader.TileDirectory(_tilesRoot, id), "manifest.json"));
 
-        GeoTileModel Model(GeoTileId id)
+        // the cache key carries the journal's terrain version for the tile: a new crater makes the cached model stale (removals need no rebuild, they hide at CombineChunk)
+        GeoTileModel Model(GeoTileId id, TileJournalSnapshot snap)
         {
-            var lazy = _models.GetOrAdd(id, t =>
+            int ver = snap.OpsKey;
+            var lazy = _models.GetOrAdd((id, ver), k =>
             {
-                _order.Enqueue(t);
+                _order.Enqueue(k);
                 while (_order.Count > _cacheSize && _order.TryDequeue(out var old)) _models.TryRemove(old, out _);
-                return new Lazy<GeoTileModel>(() => new GeoTileModel(new GeoTileContext(GeoTileSetLoader.TileDirectory(_tilesRoot, t), _settings, false)));
+                return new Lazy<GeoTileModel>(() =>
+                {
+                    var ctx = new GeoTileContext(GeoTileSetLoader.TileDirectory(_tilesRoot, k.Item1), _settings, false);
+                    ctx.HeightEdit = JournalReplay.HeightEdit(snap);
+                    return new GeoTileModel(ctx);
+                });
             });
             return lazy.Value;
         }
@@ -52,13 +61,15 @@ namespace Game.World.Streaming.Host
         {
             if (key.Tile.Level != 0) throw new NotSupportedException("GeoL0TileReader reads level 0 only");
             ct.ThrowIfCancellationRequested();
-            var m = Model(key.Tile);
+            var snap = _journal != null ? _journal.Snapshot(key.Tile) : TileJournalSnapshot.Empty;
+            var hide = snap.Removed.Count > 0 ? snap.Removed : null;
+            var m = Model(key.Tile, snap);
             var p = new TilePayload { Key = key };
             if (key.Kind == ResidencyKind.Render)
             {
                 foreach (var layer in m.Layers) foreach (var mesh in layer.Meshes) p.Meshes.Add(mesh);
                 for (int cz = 0; cz < m.BuildingChunks; cz++) for (int cx = 0; cx < m.BuildingChunks; cx++)
-                { var c = m.CombineChunk(cx, cz); if (c.TriangleCount > 0) p.Meshes.Add(c); }
+                { var c = m.CombineChunk(cx, cz, hide); if (c.TriangleCount > 0) p.Meshes.Add(c); }
             }
             else
             {
@@ -67,7 +78,7 @@ namespace Game.World.Streaming.Host
                 int bx = key.ChunkX * (m.BuildingChunks / ResidencyKey.ChunksPerEdge), bz = key.ChunkZ * (m.BuildingChunks / ResidencyKey.ChunksPerEdge);
                 int span = Math.Max(1, m.BuildingChunks / ResidencyKey.ChunksPerEdge);
                 for (int dz = 0; dz < span; dz++) for (int dx = 0; dx < span; dx++)
-                { var c = m.CombineChunk(bx + dx, bz + dz); if (c.TriangleCount > 0) p.Meshes.Add(c); }
+                { var c = m.CombineChunk(bx + dx, bz + dz, hide); if (c.TriangleCount > 0) p.Meshes.Add(c); }
             }
             long v = 0, i = 0;
             foreach (var mesh in p.Meshes) { v += mesh.VertexCount; i += mesh.Indices.Length; }
