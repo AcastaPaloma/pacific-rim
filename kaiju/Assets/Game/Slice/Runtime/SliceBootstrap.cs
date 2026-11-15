@@ -61,6 +61,9 @@ namespace Game.Slice
         GeoTileSetBuilder _builder;
         IEventBus _bus;
         readonly SliceBuildingIndex _index = new SliceBuildingIndex();
+        readonly List<SliceFootprint> _footprints = new List<SliceFootprint>();   // Unity-frame building footprints for the spawn planner
+        float _spawnYawDeg;
+        public const float MechHeightM = 80f;   // Units.Placeholder body height (PlaceholderLimits.HeightM): the rig orbits at 3.1 x this
         readonly Queue<BuildingId> _removals = new Queue<BuildingId>();
         readonly List<SliceTarget> _targets = new List<SliceTarget>();
         readonly int[] _stateCounts = new int[5];
@@ -70,6 +73,7 @@ namespace Game.Slice
         Transform _impactor; Vector3 _impactVel; BuildingId _impactTarget; Vector3 _impactAim;
         readonly StringBuilder _log = new StringBuilder();
         string _lastMsg = "";
+        double _mechTravel; float _lastMX, _lastMZ; bool _haveLastM;
         double _loadSeconds; int _tileCount, _buildingCount, _landmarkColliders;
         // smoke
         int _frame; readonly List<float> _ms = new List<float>(); readonly List<double> _draw = new List<double>(); ProfilerRecorder _drawRec;
@@ -84,6 +88,15 @@ namespace Game.Slice
             return null;
         }
 
+        /// <summary>Diagnostics only: -sliceFlagOff a,b turns those flags off for this run (e.g. rendering.pixel.haze), to bisect a render problem.</summary>
+        static string ApplyFlagOverrides(string json)
+        {
+            string off = Arg("-sliceFlagOff");
+            if (json == null || string.IsNullOrEmpty(off)) return json;
+            foreach (var name in off.Split(',')) { json = json.Replace("\"" + name + "\": true", "\"" + name + "\": false"); Debug.Log("[Slice] diagnostic override: " + name + " off"); }
+            return json;
+        }
+
         IEnumerator Start()
         {
             Instance = this;
@@ -91,7 +104,7 @@ namespace Game.Slice
             string so = Arg("-sliceSmokeOut"); if (so != null) SmokeOut = so;
             if (!CoreRuntime.IsBooted) { Debug.LogError("[Slice] Core is not booted"); yield break; }
             _root = CoreRuntime.Root;
-            _flags = FeatureFlagLoader.Parse(sliceFlags != null ? sliceFlags.text : null, "slice_m1.flags.json", _root.Errors);
+            _flags = FeatureFlagLoader.Parse(ApplyFlagOverrides(sliceFlags != null ? sliceFlags.text : null), "slice_m1.flags.json", _root.Errors);
             if (!_flags.IsOn(SliceFlags.M1)) { Debug.Log("[Slice] slice.m1 is off: nothing loaded"); yield break; }
             _bus = _root.Registry.Resolve<IEventBus>();
             var t0 = Time.realtimeSinceStartupAsDouble;
@@ -133,9 +146,46 @@ namespace Game.Slice
             _loadSeconds = Time.realtimeSinceStartupAsDouble - t0;
             Log("ready in " + _loadSeconds.ToString("F1", CultureInfo.InvariantCulture) + " s: tiles " + _tileCount + ", buildings " + _buildingCount + ", landmark colliders " + _landmarkColliders);
             Debug.Log("[Slice] " + _lastMsg);
+            if (Arg("-sliceShaderProbe") != null) SpawnShaderProbe();
+            LogGeoDiag();
             Ready = true; _readyAt = Time.timeSinceLevelLoad;
             AutoPilot = SmokeFrames > 0;
             if (SmokeFrames > 0) _drawRec = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Draw Calls Count");
+        }
+
+        /// <summary>Diagnostics (-sliceShaderProbe 1): bright cubes in front of the camera, one per shader, so a capture shows which shaders draw in the player.</summary>
+        void SpawnShaderProbe()
+        {
+            string[] names = { "Universal Render Pipeline/Lit", "Universal Render Pipeline/Unlit", "Universal Render Pipeline/Simple Lit", "Sprites/Default", "Hidden/Internal-Colored" };
+            for (int i = 0; i < names.Length; i++)
+            {
+                var sh = Shader.Find(names[i]);
+                Debug.Log("[Slice] probe shader '" + names[i] + "': " + (sh == null ? "NOT FOUND" : "found, supported=" + sh.isSupported));
+                if (sh == null) continue;
+                var cube = GameObject.CreatePrimitive(PrimitiveType.Cube); cube.name = "Probe" + i;
+                var c = cube.GetComponent<Collider>(); if (c != null) Destroy(c);
+                var m = new Material(sh); m.color = new Color(1f, 0.1f + 0.2f * i, 0.1f); if (m.HasProperty("_BaseColor")) m.SetColor("_BaseColor", m.color);
+                cube.GetComponent<Renderer>().sharedMaterial = m;
+                cube.transform.localScale = new Vector3(20f, 20f, 20f);
+                cube.transform.position = new Vector3(1024f - 60f + 30f * i, Ground(1024, 900) + 25f, 880f);
+            }
+        }
+
+        /// <summary>One line per tile: the first terrain/building renderers' material, shader, mesh and bounds, so a blank player frame shows whether the world was built and what it draws with.</summary>
+        void LogGeoDiag()
+        {
+            foreach (var inst in _builder.Instances)
+            {
+                int n = 0;
+                foreach (var r in inst.Renderers)
+                {
+                    if (r == null || n >= 3) continue; n++;
+                    var mf = r.GetComponent<MeshFilter>(); var m = r.sharedMaterial;
+                    Debug.Log("[Slice] geo " + inst.TileName + " renderer '" + r.name + "' enabled=" + r.enabled + " active=" + r.gameObject.activeInHierarchy + " layer=" + r.gameObject.layer + " mesh=" + (mf != null && mf.sharedMesh != null ? mf.sharedMesh.vertexCount + "v" : "none")
+                        + " material=" + (m != null ? m.name + " shader=" + (m.shader != null ? m.shader.name + " supported=" + m.shader.isSupported : "null") + " queue=" + m.renderQueue : "NULL") + " bounds=" + r.bounds.center + " " + r.bounds.size);
+                }
+                if (n == 0) Debug.Log("[Slice] geo " + inst.TileName + " has no renderers");
+            }
         }
 
         /// <summary>The tile faults layers are empty by design in this district (nearest trace 5-8 km away), so the traces come from the baked bay-wide file (BayTM).</summary>
@@ -152,23 +202,9 @@ namespace Game.Slice
 
         FaultTraceSet BuildFaults()
         {
+            // the production loader (T-036c): keeps the baked fault_id and verifies the layer's manifest hash (DEF-M1slice-f4)
             string path = Path.Combine(Application.streamingAssetsPath, "Geo/global/v1/faults_bay.geojson");
-            var pieces = new List<FaultPiece>();
-            var fc = GeoJson.Obj(GeoJson.Parse(File.ReadAllText(path)));
-            foreach (var fo in GeoJson.Arr(GeoJson.Get(fc, "features")))
-            {
-                var f = GeoJson.Obj(fo); var pr = GeoJson.Obj(GeoJson.Get(f, "properties")); var g = GeoJson.Obj(GeoJson.Get(f, "geometry"));
-                var lines = new List<List<object>>();
-                var coords = GeoJson.Arr(GeoJson.Get(g, "coordinates"));
-                if (GeoJson.Str(g, "type") == "LineString") lines.Add(coords); else foreach (var l in coords) lines.Add(GeoJson.Arr(l));
-                foreach (var line in lines)
-                {
-                    var xz = new double[line.Count * 2];
-                    for (int i = 0; i < line.Count; i++) { var c = GeoJson.Arr(line[i]); xz[2 * i] = (double)c[0]; xz[2 * i + 1] = (double)c[1]; }
-                    pieces.Add(new FaultPiece { FaultName = GeoJson.Str(pr, "fault_name"), Section = GeoJson.Str(pr, "section"), Linetype = GeoJson.Str(pr, "linetype"), SlipSense = GeoJson.Str(pr, "slip_sense"), Xz = xz });
-                }
-            }
-            return FaultTraceSet.Build(pieces);
+            return FaultTraceSet.Build(FaultTraceSet.PiecesFromGeo(GeoFaultsLoader.LoadGlobal(path), 0.0, 0.0));
         }
 
         void RegisterBuildings()
@@ -185,6 +221,7 @@ namespace Game.Slice
                 _comp.Destruction.Register(b.Id, BuildingAttributesFromGeo.From(b));
                 _comp.ShakingBridge?.AddBuilding(b.Id, x, z);
                 _index.Add(b.Id, x, z, Math.Sqrt(Math.Max(b.AreaM2, 20.0)) * 0.6);
+                _footprints.Add(new SliceFootprint(x - OriginX, z - OriginZ, Math.Sqrt(Math.Max(b.AreaM2, 20.0)) * 0.6, b.HeightM));
             }
             _buildingCount = all.Count;
         }
@@ -217,7 +254,8 @@ namespace Game.Slice
             _rig.Configure(_rig.Settings, _flags.IsOn(CameraFlags.SnapPosition), _flags.IsOn(CameraFlags.QuantiseRotation), _flags.IsOn(CameraFlags.FootfallImpulse));
             _rig.Subscribe(_bus);
             if (_binder != null) _binder.SetStabilisationSource(_rig);
-            if (_body != null) _rig.SetTarget(_body); else _rig.SetTarget(new TransformCameraTarget(_mechT, 12f));
+            _rig.SetOrbitYaw(_spawnYawDeg);
+            if (_body != null) _rig.SetTarget(_body); else _rig.SetTarget(new TransformCameraTarget(_mechT, MechHeightM));
             _rig.Cut();
             if (pixel)
             {
@@ -245,33 +283,49 @@ namespace Game.Slice
 
         void SpawnActors()
         {
-            // TEMPORARY: a capsule mech body (12 m) moved by WASD until Units.Placeholder lands, and a 60 m capsule kaiju stand-in.
-            float mx = 1024f, mz = 1024f;
-            var mech = Prim(PrimitiveType.Capsule, "SliceTempMech", mechMaterial, new Vector3(6f, 6f, 6f));
-            _mechT = mech.transform; _mechT.position = new Vector3(mx, Ground(mx, mz) + 6f, mz);
+            // TEMPORARY: a capsule mech (80 m, the Units.Placeholder body height) and a 100 m capsule kaiju stand-in.
+            // The first build put the mech at the SoMa tile centre, inside a block of 100-190 m towers, and the rig 248 m behind it inside another:
+            // every frame was one wall (DEF-M1slice-f1). The planner picks a spot on land with the camera in clear air and the city behind the mech.
+            float mx = 1024f, mz = 1024f; _spawnYawDeg = 0f;
+            var rs = cameraSettings != null ? Game.Cameras.ThirdPersonRigSettings.FromJson(cameraSettings.text) : new Game.Cameras.ThirdPersonRigSettings();
+            double camDist = rs.distanceInTargetHeights * MechHeightM, camAbove = rs.focusHeightFraction * MechHeightM - Math.Sin(rs.pitchDeg * Math.PI / 180.0) * camDist;
+            var tp = Time.realtimeSinceStartupAsDouble;
+            if (SliceSpawnPlanner.TryPlan(_footprints, (x, z) => _comp.Geo.SampleTerrain(x + OriginX, z + OriginZ), 1024.0, 1024.0, 700.0, 70.0, camDist, camAbove, 12, out var plan))
+            {
+                mx = (float)plan.MechX; mz = (float)plan.MechZ; _spawnYawDeg = (float)plan.YawDeg;
+                Log("spawn plan: mech (" + F(mx) + ", " + F(mz) + ") ground " + F(plan.GroundM) + " m, view yaw " + F(_spawnYawDeg) + " deg, blockers " + plan.Blockers + ", buildings in view " + plan.VisibleBuildings + " (" + F(Time.realtimeSinceStartupAsDouble - tp) + " s)");
+            }
+            else Log("spawn plan: no clear spot found, using the tile centre");
+            float gy = Ground(mx, mz);
+            var mech = new GameObject("SliceTempMech");
+            var vis = Prim(PrimitiveType.Capsule, "Visual", mechMaterial, new Vector3(16f, MechHeightM * 0.5f, 16f));
+            vis.transform.SetParent(mech.transform, false); vis.transform.localPosition = new Vector3(0f, MechHeightM * 0.5f, 0f);
+            _mechT = mech.transform; _mechT.SetPositionAndRotation(new Vector3(mx, gy, mz), Quaternion.Euler(0f, _spawnYawDeg, 0f));
             _mech = new SliceTarget { Id = EntityId.FromValue(101), X = mx, Y = mz };
             if (_comp.Placeholder != null)
             {
                 // The M1 placeholder body (Units.Placeholder, TEMPORARY too) driven through a pilot seat: device pilot -> single arbiter -> IntentFrame -> body.
-                mech.transform.localScale = new Vector3(8f, 8f, 8f);
-                _mechT.position = new Vector3(mx, Ground(mx, mz) + 8f, mz);
                 _body = _comp.Placeholder.Create(mech, _mech.Id);
                 var tuning = DevicePilotSource.LoadTuning(controlTuning);
                 var pilot = new DevicePilotSource(_flags, tuning, () => new System.Numerics.Vector3(_body.Body.X, _body.Body.Y, _body.Body.Z), () => _cam != null ? _cam.transform.eulerAngles.y * Mathf.Deg2Rad : 0f,
                     stick: () => AutoPilot ? _autoStick() : ReadKeys());
-                _autoStick = () => { float t = (float)_root.Services.Clock.TimeSeconds; return new Vector2(Mathf.Sin(t * 0.2f), Mathf.Cos(t * 0.2f) * 0.5f); };
+                _autoStick = () => { float t = (float)_root.Services.Clock.TimeSeconds; return new Vector2(0.15f * Mathf.Sin(t * 0.35f), 0.6f); };
                 _seat = new PilotSeat(new SinglePilotArbiter(), pilot);
             }
             _targets.Add(_mech);
             var brain = _root.Registry.Resolve<IKaijuBrainFactory>().Create();
-            float kx = mx - 450f, kz = mz + 150f;
-            var kj = Prim(PrimitiveType.Capsule, "SliceTempKaiju", kaijuMaterial, new Vector3(25f, 30f, 25f));
+            // the kaiju starts ahead of the camera, beyond the mech and a little to the right, so it walks into the frame
+            float fx = Mathf.Sin(_spawnYawDeg * Mathf.Deg2Rad), fz = Mathf.Cos(_spawnYawDeg * Mathf.Deg2Rad);
+            float kx = mx + fx * 340f + fz * 90f, kz = mz + fz * 340f - fx * 90f;
+            var kj = Prim(PrimitiveType.Capsule, "SliceTempKaiju", kaijuMaterial, new Vector3(30f, KaijuHalfHeightM, 30f));
             _kaijuT = kj.transform;
-            _kaiju = new SliceKaijuAgent(brain, EntityId.FromValue(1), 7, kx, kz, 0f, (float)_root.Services.Settings.FixedStepSeconds);
+            _kaiju = new SliceKaijuAgent(brain, EntityId.FromValue(1), 7, kx, kz, Mathf.Atan2(mz - kz, mx - kx), (float)_root.Services.Settings.FixedStepSeconds);
             PlaceKaiju();
         }
 
-        void PlaceKaiju() { _kaijuT.SetPositionAndRotation(new Vector3(_kaiju.X, Ground(_kaiju.X, _kaiju.Y) + 30f, _kaiju.Y), Quaternion.Euler(0f, 90f - _kaiju.HeadingRad * Mathf.Rad2Deg, 0f)); }
+        const float KaijuHalfHeightM = 50f;   // capsule scale y 50 = 100 m tall
+
+        void PlaceKaiju() { _kaijuT.SetPositionAndRotation(new Vector3(_kaiju.X, Ground(_kaiju.X, _kaiju.Y) + KaijuHalfHeightM, _kaiju.Y), Quaternion.Euler(0f, 90f - _kaiju.HeadingRad * Mathf.Rad2Deg, 0f)); }
 
         static Vector2 ReadKeys()
         {
@@ -301,6 +355,7 @@ namespace Game.Slice
             if (!Ready) return;
             float dt = Time.deltaTime;
             MoveMech(dt);
+            { var mp = _mechT.position; if (_haveLastM) _mechTravel += Math.Sqrt((mp.x - _lastMX) * (mp.x - _lastMX) + (mp.z - _lastMZ) * (mp.z - _lastMZ)); _lastMX = mp.x; _lastMZ = mp.z; _haveLastM = true; }
             MoveImpactor(dt);
             for (int i = 0; i < 3 && _removals.Count > 0; i++) { var id = _removals.Dequeue(); if (!_comp.Geo.IsRemoved(id)) { _comp.Geo.RemoveBuilding(id); _removedCount++; } }
             var kb = Keyboard.current;
@@ -320,7 +375,7 @@ namespace Game.Slice
             if (AutoPilot)
             {
                 float t = (float)_root.Services.Clock.TimeSeconds;
-                mv = new Vector2(Mathf.Sin(t * 0.2f), Mathf.Cos(t * 0.2f) * 0.5f);   // slow loop so the kaiju has something to chase
+                mv = new Vector2(0.15f * Mathf.Sin(t * 0.35f), 0.6f);   // walks on with a gentle weave so the kaiju has something to chase
             }
             else
             {
@@ -354,14 +409,16 @@ namespace Game.Slice
         {
             if (_impactor != null) return false;
             var p = _mechT.position;
-            var aim = new Vector3(p.x + 150f, 0f, p.z + 60f);
+            float yr = _spawnYawDeg * Mathf.Deg2Rad, fx = Mathf.Sin(yr), fz = Mathf.Cos(yr);
+            var aim = new Vector3(p.x + fx * 170f + fz * 40f, 0f, p.z + fz * 170f - fx * 40f);
             if (!_index.TryNearest(aim.x + OriginX, aim.z + OriginZ, out _impactTarget, out double ax, out double az)) { Log("impact: no buildings"); return false; }
             aim = new Vector3((float)(ax - OriginX), 0f, (float)(az - OriginZ)); aim.y = Ground(aim.x, aim.z) + 5f;
             _impactAim = aim;
-            var start = aim + new Vector3(-500f, 400f, -150f);
+            var start = aim + new Vector3(-fx * 600f - fz * 200f, 350f, -fz * 600f + fx * 200f);   // comes in from behind the camera
             _impactVel = (aim - start).normalized * (float)ImpactSpeedMs;
             _impactor = Prim(PrimitiveType.Sphere, "SliceImpactor", impactorMaterial, new Vector3(10f, 10f, 10f)).transform;
             _impactor.position = start;
+            PrepareDestroyView();
             return true;
         }
 
@@ -390,22 +447,191 @@ namespace Game.Slice
 
         // ---- smoke (game-time script: the player runs at ~1000 fps, so frames alone would end it before anything happens) ----
         const int Warmup = 60;
-        const float QuakeAtS = 5f, ImpactAtS = 12f, EndS = 20f;
-        static readonly float[] CaptureAtS = { 2f, 6.5f, 14f, 19f };
-        int _captureIdx;
+        const float QuakeAtS = 5f, ImpactAtS = 12f, EndS = 20f, SkyRefAtS = 0.5f;
+        enum CapView { Follow, Bridge, DestroyAfter }
+        struct CapPlan { public string Label; public float T; public CapView View; public CapPlan(string l, float t, CapView v) { Label = l; T = t; View = v; } }
+        // six frames from the follow camera (the pairwise-difference series), then the Golden Gate Bridge, then the impacted building from above; the "destroy_before" frame
+        // is taken at the moment the impactor launches (same pose as "destroy_after"), so before/after differ only by the removed building.
+        static readonly CapPlan[] CapSchedule = {
+            new CapPlan("follow", 2f, CapView.Follow), new CapPlan("follow", 4f, CapView.Follow), new CapPlan("follow", 6.5f, CapView.Follow), new CapPlan("follow", 9f, CapView.Follow),
+            new CapPlan("follow", 14f, CapView.Follow), new CapPlan("follow", 19f, CapView.Follow), new CapPlan("bridge", 19.4f, CapView.Bridge), new CapPlan("destroy_after", 19.8f, CapView.DestroyAfter) };
+        int _captureIdx, _destroyBeforeIdx = -1, _destroyAfterIdx = -1; bool _skyRefRequested, _capturePending, _destroyBeforeDone;
+        int _capW, _capH; uint[] _skyRef;
+        readonly List<uint[]> _frames = new List<uint[]>(); readonly List<string> _frameFiles = new List<string>(), _frameLabels = new List<string>(); readonly List<float> _frameT = new List<float>();
+        string _diagAtCapture = "";
+        PixelCheckVerdict _verdict; double _destroyDiff = -1;
+        Vector3 _destroyCamPos; Vector3 _destroyLookAt; bool _destroyViewSet;
+
+        /// <summary>HUD text (top-left) and the "Development Build" label (bottom-right) are drawn over the presented frame; the pixel check ignores them.</summary>
+        static PixelRect[] HudRects(int w, int h) { return new[] { new PixelRect(0, 0, Math.Min(w, 940), Math.Min(h, 100)), new PixelRect(Math.Max(0, w - 220), Math.Max(0, h - 40), w, h) }; }
+
         void SmokeTick()
         {
             _frame++;
             float t = Time.timeSinceLevelLoad - _readyAt;
+            bool shoot = !string.IsNullOrEmpty(SmokeOut);
             if (_quakes == 0 && t >= QuakeAtS) TriggerQuake();
             if (_impacts == 0 && _impactor == null && t >= ImpactAtS) TriggerImpact();
-            if (_captureIdx < CaptureAtS.Length && t >= CaptureAtS[_captureIdx] && !string.IsNullOrEmpty(SmokeOut))
+            if (shoot && !_capturePending)
             {
-                string png = Path.Combine(Path.GetDirectoryName(SmokeOut), "capture_" + _captureIdx + "_t" + ((int)CaptureAtS[_captureIdx]) + "s.png");
-                ScreenCapture.CaptureScreenshot(png); _captureIdx++;
+                if (!_skyRefRequested && t >= SkyRefAtS) { _skyRefRequested = true; _capturePending = true; StartCoroutine(CaptureFrame(-1, "sky", t)); }
+                else if (_skyRef != null && _impactor != null && !_destroyBeforeDone && _destroyViewSet) { _destroyBeforeDone = true; BeginCapture("destroy_before", CapView.DestroyAfter, t); }
+                else if (_skyRef != null && _captureIdx < CapSchedule.Length && t >= CapSchedule[_captureIdx].T) { var c = CapSchedule[_captureIdx++]; BeginCapture(c.Label, c.View, t); }
             }
             if (_frame > Warmup) { _ms.Add(Time.unscaledDeltaTime * 1000f); _draw.Add(_drawRec.Valid ? _drawRec.LastValue : -1); }
-            if (_frame >= Warmup + SmokeFrames && t >= EndS && _impacts > 0) FinishSmoke();
+            bool capturesDone = !shoot || (_captureIdx >= CapSchedule.Length && _destroyBeforeDone && !_capturePending);
+            if (_frame >= Warmup + SmokeFrames && t >= EndS && _impacts > 0 && capturesDone) FinishSmoke();
+        }
+
+        void BeginCapture(string label, CapView view, float t)
+        {
+            if (view == CapView.Bridge) SetBridgeView();
+            else if (view == CapView.DestroyAfter)
+            {
+                SetDestroyView();
+                // the before/after pair must differ only by the removed building: hide the moving actors and clear any camera shake
+                _kaijuT.gameObject.SetActive(false); _mechT.gameObject.SetActive(false); _hidActors = true;
+                if (_rig != null) _rig.Impulse.Reset();
+            }
+            _capturePending = true; StartCoroutine(CaptureFrame(_frames.Count, label, t));
+        }
+
+        /// <summary>Scripted camera 450 m east of the south tower of the Golden Gate Bridge (landmark 1; the north tower is landmark 2), 250 m up, looking west at the tower top: the bridge is 8 km from the mech, so it gets its own frame.</summary>
+        void SetBridgeView()
+        {
+            if (_rig == null) return;
+            double sx = 55248.012 - OriginX, sz = 76751.973 - OriginZ;   // south tower (BayTM -> Unity frame)
+            float cx = (float)sx + 450f, cz = (float)sz + 120f, cy = Mathf.Max(250f, Ground(cx, cz) + 80f);
+            SetScriptedLook(new Vector3(cx, cy, cz), new Vector3((float)sx, 150f, (float)sz));
+            Log("bridge view: camera (" + F(cx) + ", " + F(cy) + ", " + F(cz) + ") looking at the south tower");
+        }
+
+        /// <summary>Scripted camera above the impact target (same pose for the before and after frames): 260 m back along the view direction, 90 m above its roof, looking down at it.</summary>
+        void SetDestroyView() { if (_destroyViewSet) SetScriptedLook(_destroyCamPos, _destroyLookAt); }
+
+        void SetScriptedLook(Vector3 pos, Vector3 look)
+        {
+            if (_rig == null) return;
+            float dx = look.x - pos.x, dz = look.z - pos.z, horiz = Mathf.Sqrt(dx * dx + dz * dz);
+            var pose = new CameraPose { Position = new CameraVec3(pos.x, pos.y, pos.z), YawDeg = Mathf.Atan2(dx, dz) * Mathf.Rad2Deg, PitchDeg = Mathf.Atan2(look.y - pos.y, horiz) * Mathf.Rad2Deg };
+            _rig.SetScriptedPose(pose, Mathf.Max(100f, horiz)); _rig.Cut();
+        }
+
+        bool ClearLineOfSight(Vector3 eye, Vector3 look, int skip)
+        {
+            const int N = 40;
+            for (int i = 0; i < _footprints.Count; i++)
+            {
+                if (i == skip) continue;
+                var f = _footprints[i];
+                if (Math.Abs(f.X - eye.x) > 400 && Math.Abs(f.Z - eye.z) > 400) continue;
+                if (eye.y < Ground(eye.x, eye.z) + f.Height && (f.X - eye.x) * (f.X - eye.x) + (f.Z - eye.z) * (f.Z - eye.z) < f.Radius * f.Radius) return false;
+                for (int j = 1; j < N; j++)
+                {
+                    float u = j / (float)N; double px = eye.x + (look.x - eye.x) * u, pz = eye.z + (look.z - eye.z) * u, py = eye.y + (look.y - eye.y) * u;
+                    double dx = px - f.X, dz = pz - f.Z;
+                    if (dx * dx + dz * dz < f.Radius * f.Radius && py < Ground((float)f.X, (float)f.Z) + f.Height) return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>Called when the impactor launches: fixes the destroy-view pose on the target building.</summary>
+        void PrepareDestroyView()
+        {
+            float yr = _spawnYawDeg * Mathf.Deg2Rad;
+            double bestD = double.MaxValue; double h = 40.0; int target = -1;
+            for (int i = 0; i < _footprints.Count; i++)
+            {
+                var f = _footprints[i]; double d = (f.X - _impactAim.x) * (f.X - _impactAim.x) + (f.Z - _impactAim.z) * (f.Z - _impactAim.z);
+                if (d < bestD) { bestD = d; h = f.Height; target = i; }
+            }
+            float gy = Ground(_impactAim.x, _impactAim.z);
+            var look = new Vector3(_impactAim.x, gy + (float)h * 0.5f, _impactAim.z);
+            // first of: view direction, then 7 other azimuths; 3 distances; the 40 degree look-down whose line of sight to the target is not cut by another building and whose eye is not inside one
+            bool found = false; var best = new Vector3(look.x - Mathf.Sin(yr) * 200f, look.y + 170f, look.z - Mathf.Cos(yr) * 200f);
+            for (int ring = 0; ring < 3 && !found; ring++)
+                for (int k = 0; k < 8 && !found; k++)
+                {
+                    float az = yr + k * Mathf.PI / 4f, dist = 150f + ring * 100f;
+                    var pos = new Vector3(look.x - Mathf.Sin(az) * dist, look.y + dist * 0.85f, look.z - Mathf.Cos(az) * dist);
+                    if (ClearLineOfSight(pos, look, target)) { best = pos; found = true; }
+                }
+            Log("destroy view: " + (found ? "clear line of sight" : "no clear azimuth, default pose") + ", target height " + F((float)h) + " m");
+            _destroyCamPos = best; _destroyLookAt = look;
+            _destroyViewSet = true;
+        }
+
+        /// <summary>Reads the presented frame at the end of the frame (what ScreenCapture shows the player). index -1 is the sky-only reference: the world camera draws nothing for this one frame.</summary>
+        IEnumerator CaptureFrame(int index, string label, float tSeconds)
+        {
+            int savedMask = _cam != null ? _cam.cullingMask : 0;
+            if (index < 0 && _cam != null) _cam.cullingMask = 0;
+            yield return new WaitForEndOfFrame();
+            var tex = ScreenCapture.CaptureScreenshotAsTexture();
+            if (index < 0 && _cam != null) _cam.cullingMask = savedMask;
+            if (tex != null)
+            {
+                int w = tex.width, h = tex.height; var px = tex.GetPixels32();
+                var packed = new uint[w * h];
+                for (int y = 0; y < h; y++) { int src = (h - 1 - y) * w; for (int x = 0; x < w; x++) { var c = px[src + x]; packed[y * w + x] = SlicePixelCheck.Pack(c.r, c.g, c.b); } }
+                _capW = w; _capH = h;
+                if (index < 0) _skyRef = packed;
+                else
+                {
+                    string name = "capture_" + index + "_" + label + "_t" + tSeconds.ToString("0.#", CultureInfo.InvariantCulture) + "s.png";
+                    _frames.Add(packed); _frameFiles.Add(name); _frameLabels.Add(label); _frameT.Add(tSeconds);
+                    if (label == "destroy_before") _destroyBeforeIdx = index; else if (label == "destroy_after") _destroyAfterIdx = index;
+                    try { File.WriteAllBytes(Path.Combine(Path.GetDirectoryName(SmokeOut), name), tex.EncodeToPNG()); } catch (Exception ex) { Debug.LogError("[SliceSmoke] capture write failed: " + ex.Message); }
+                    _diagAtCapture += (index > 0 ? " | " : "") + label + " t=" + tSeconds.ToString("0.#", CultureInfo.InvariantCulture) + " " + RenderDiag();
+                }
+                Destroy(tex);
+            }
+            else { Debug.LogError("[SliceSmoke] CaptureScreenshotAsTexture returned null (index " + index + ")"); if (index >= 0) { _frames.Add(null); _frameFiles.Add("(failed)"); _frameLabels.Add(label); _frameT.Add(tSeconds); } }
+            if (_hidActors) { _kaijuT.gameObject.SetActive(true); _mechT.gameObject.SetActive(true); _hidActors = false; }
+            if (index >= 0 && _rig != null && label != "follow" && label != "destroy_before") { _rig.ClearScriptedPose(); _rig.Cut(); }
+            else if (label == "destroy_before" && _rig != null) { _rig.ClearScriptedPose(); _rig.Cut(); }
+            _capturePending = false;
+        }
+
+        /// <summary>Log line per renderer nearest the camera (diagnostics): what the camera is actually in front of.</summary>
+        void LogNearestRenderers()
+        {
+            if (_cam == null || _diagLogged >= 1) return; _diagLogged++;
+            var cp = _cam.transform.position; var list = new List<(float d, Renderer r)>();
+            foreach (var r in FindObjectsByType<Renderer>(FindObjectsInactive.Exclude)) list.Add(((r.bounds.ClosestPoint(cp) - cp).magnitude, r));
+            list.Sort((a, b) => a.d.CompareTo(b.d));
+            for (int i = 0; i < Math.Min(14, list.Count); i++)
+            {
+                var r = list[i].r; var mf = r.GetComponent<MeshFilter>(); var m = r.sharedMaterial;
+                Debug.Log("[Slice] near#" + i + " d=" + F(list[i].d) + " '" + r.name + "' parent=" + (r.transform.parent != null ? r.transform.parent.name : "-") + " visible=" + r.isVisible + " mesh=" + (mf != null && mf.sharedMesh != null ? mf.sharedMesh.vertexCount + "v" : "none") + " mat=" + (m != null ? m.name : "NULL") + " bounds=" + r.bounds.center + " " + r.bounds.size + " shadow=" + r.shadowCastingMode);
+            }
+        }
+        int _diagLogged; bool _hidActors;
+
+        /// <summary>Camera, pipeline and renderer state at a capture: the first things to read when a frame is blank.</summary>
+        string RenderDiag()
+        {
+            var sb = new StringBuilder();
+            var rp = GraphicsSettings.currentRenderPipeline;
+            sb.Append("pipeline=").Append(rp != null ? rp.name : "none");
+            if (_cam != null)
+            {
+                var p = _cam.transform.position; var e = _cam.transform.eulerAngles;
+                sb.Append(" cam=(").Append(F(p.x)).Append(",").Append(F(p.y)).Append(",").Append(F(p.z)).Append(") rot=(").Append(F(e.x)).Append(",").Append(F(e.y)).Append(") fov=").Append(F(_cam.fieldOfView))
+                  .Append(" clip=").Append(F(_cam.nearClipPlane)).Append("-").Append(F(_cam.farClipPlane)).Append(" target=").Append(_cam.targetTexture != null ? _cam.targetTexture.width + "x" + _cam.targetTexture.height : "screen");
+            }
+            if (_body != null)
+            {
+                var it = _body.Intent; var bb = _body.Body;
+                sb.Append(" body(speed=").Append(F(bb.Speed)).Append(" heading=").Append(F(bb.Heading)).Append(" move=").Append(it.move).Append(" effort=").Append(F(it.effort)).Append(")");
+            }
+            sb.Append(" kaiju=(").Append(F(_kaiju.X)).Append(",").Append(F(_kaiju.Y)).Append(") ").Append(_kaiju.State);
+            if (_mechT != null) { var m = _mechT.position; sb.Append(" mech=(").Append(F(m.x)).Append(",").Append(F(m.y)).Append(",").Append(F(m.z)).Append(")"); }
+            int rends = 0, visible = 0;
+            foreach (var r in FindObjectsByType<Renderer>(FindObjectsInactive.Exclude)) { rends++; if (r.isVisible) visible++; }
+            sb.Append(" renderers=").Append(rends).Append(" visible=").Append(visible);
+            return sb.ToString();
         }
 
         static double Pct(List<double> v, double p) { var s = new List<double>(v); s.Sort(); return s.Count == 0 ? 0 : s[Math.Min(s.Count - 1, (int)(p * s.Count))]; }
@@ -413,11 +639,12 @@ namespace Game.Slice
         void FinishSmoke()
         {
             SmokeDone = true;
+            _verdict = EvaluatePixels();
             var ms = new List<double>(); foreach (var f in _ms) ms.Add(f);
             double sum = 0; foreach (var f in ms) sum += f;
             var sb = new StringBuilder();
             sb.Append("{\n");
-            sb.Append("  \"task\": \"T-039b\", \"scene\": \"M1Slice\", \"platform\": \"").Append(Application.platform).Append("\", \"development_build\": ").Append(Debug.isDebugBuild ? "true" : "false").Append(",\n");
+            sb.Append("  \"task\": \"T-039c\", \"scene\": \"M1Slice\", \"platform\": \"").Append(Application.platform).Append("\", \"development_build\": ").Append(Debug.isDebugBuild ? "true" : "false").Append(",\n");
             sb.Append("  \"graphics_device\": \"").Append(SystemInfo.graphicsDeviceName).Append("\", \"resolution\": \"").Append(Screen.width).Append("x").Append(Screen.height).Append("\",\n");
             sb.Append("  \"pixel_pipeline\": ").Append(_binder != null ? "true" : "false").Append(", \"frames_recorded\": ").Append(ms.Count).Append(", \"warmup_frames\": ").Append(Warmup).Append(",\n");
             sb.Append("  \"frame_ms\": { \"mean\": ").Append(F(ms.Count > 0 ? sum / ms.Count : 0)).Append(", \"median\": ").Append(F(Pct(ms, 0.5))).Append(", \"p95\": ").Append(F(Pct(ms, 0.95))).Append(", \"max\": ").Append(F(Pct(ms, 1.0))).Append(" },\n");
@@ -427,6 +654,9 @@ namespace Game.Slice
             for (int i = 0; i < _stateCounts.Length; i++) sb.Append(i > 0 ? ", " : "").Append(_stateCounts[i]);
             sb.Append("], \"buildings_removed_from_scene\": ").Append(_removedCount).Append(",\n");
             sb.Append("  \"kaiju\": { \"decisions\": ").Append(_kaiju.Decisions).Append(", \"melee_hits\": ").Append(_kaiju.Hits).Append(", \"state\": \"").Append(_kaiju.State).Append("\", \"distance_to_mech_m\": ").Append(F(Mathf.Sqrt((_mech.X - _kaiju.X) * (_mech.X - _kaiju.X) + (_mech.Y - _kaiju.Y) * (_mech.Y - _kaiju.Y)))).Append(" },\n");
+            AppendPixelCheck(sb);
+            sb.Append("  \"mech_travel_m\": ").Append(F(_mechTravel)).Append(",\n");
+            sb.Append("  \"render_diag\": \"").Append(_diagAtCapture.Replace("\\", "/").Replace("\"", "'")).Append("\",\n");
             sb.Append("  \"log\": \"").Append(_log.ToString().Replace("\\", "/").Replace("\"", "'").Replace("\r", "").Replace("\n", " | ")).Append("\"\n}\n");
             SmokeJson = sb.ToString();
             Debug.Log("[SliceSmoke] " + SmokeJson.Replace("\n", " "));
@@ -436,7 +666,38 @@ namespace Game.Slice
                 catch (Exception ex) { Debug.LogError("[SliceSmoke] write failed: " + ex.Message); }
             }
             _drawRec.Dispose();
-            if (!Application.isEditor) Application.Quit(0);
+            if (_verdict != null && !_verdict.Pass) Debug.LogError("[SliceSmoke] PIXEL CHECK FAILED: min non-background share " + F(_verdict.MinShare) + " (floor " + F(_verdict.Threshold) + "), min pairwise diff " + F(_verdict.MinPairDiffShare) + ", destruction view diff " + F(_destroyDiff));
+            if (!Application.isEditor) Application.Quit(_verdict != null && _verdict.Pass ? 0 : 3);
+        }
+
+        PixelCheckVerdict EvaluatePixels()
+        {
+            if (string.IsNullOrEmpty(SmokeOut) || _skyRef == null) return null;
+            var frames = new List<uint[]>(); foreach (var f in _frames) if (f != null) frames.Add(f);
+            if (frames.Count != _frames.Count) return new PixelCheckVerdict { Threshold = SlicePixelCheck.MinNonBackgroundShare };   // a failed capture is a failed check
+            var rects = HudRects(_capW, _capH);
+            var v = SlicePixelCheck.Evaluate(_skyRef, frames, _capW, _capH, rects, SlicePixelCheck.MinNonBackgroundShare);
+            // destruction is visible: the same pose before the impactor lands and after the building was removed differs in at least one pixel
+            if (_destroyBeforeIdx >= 0 && _destroyAfterIdx >= 0) _destroyDiff = SlicePixelCheck.DiffShare(frames[_destroyBeforeIdx], frames[_destroyAfterIdx], _capW, _capH, rects);
+            if (!(_destroyDiff > 0.0)) v.Pass = false;
+            return v;
+        }
+
+        void AppendPixelCheck(StringBuilder sb)
+        {
+            if (_verdict == null) { sb.Append("  \"pixel_check\": null,\n"); return; }
+            var v = _verdict;
+            sb.Append("  \"pixel_check\": { \"pass\": ").Append(v.Pass ? "true" : "false").Append(", \"non_background_share_floor\": ").Append(F(v.Threshold))
+              .Append(", \"min_distinct_colours_floor\": ").Append(SlicePixelCheck.MinDistinctColours).Append(", \"max_dominant_share_ceiling\": ").Append(F(SlicePixelCheck.MaxDominantShare)).Append(", \"background_colours\": ").Append(v.BackgroundColours).Append(", \"resolution\": \"").Append(_capW).Append("x").Append(_capH).Append("\", \"hud_rects_ignored\": true,\n");
+            sb.Append("    \"captures\": [");
+            for (int i = 0; i < v.NonBackgroundShare.Length; i++)
+                sb.Append(i > 0 ? ", " : "").Append("{ \"label\": \"").Append(_frameLabels[i]).Append("\", \"t_s\": ").Append(F(_frameT[i])).Append(", \"file\": \"").Append(_frameFiles[i]).Append("\", \"non_background_share\": ").Append(F(v.NonBackgroundShare[i])).Append(", \"distinct_colours\": ").Append(v.DistinctColours[i]).Append(", \"dominant_colour_share\": ").Append(F(v.DominantShare[i])).Append(" }");
+            sb.Append("],\n    \"destruction_view_diff_share\": ").Append(F(_destroyDiff)).Append(", \"destruction_visible\": ").Append(_destroyDiff > 0.0 ? "true" : "false").Append(",\n    \"pairs\": [");
+            bool first = true; int n = v.NonBackgroundShare.Length;
+            for (int i = 0; i < n; i++) for (int j = i + 1; j < n; j++) { sb.Append(first ? "" : ", ").Append("{ \"a\": ").Append(i).Append(", \"b\": ").Append(j).Append(", \"diff_share\": ").Append(F(v.PairDiffShare[i, j])).Append(" }"); first = false; }
+            sb.Append("],\n    \"min_non_background_share\": ").Append(F(v.MinShare)).Append(", \"min_pair_diff_share\": ").Append(F(v.MinPairDiffShare))
+              .Append(", \"min_distinct_colours\": ").Append(v.MinDistinct == int.MaxValue ? 0 : v.MinDistinct).Append(", \"max_dominant_share\": ").Append(F(v.MaxDominant))
+              .Append(", \"shares_pass\": ").Append(v.SharesPass ? "true" : "false").Append(", \"richness_pass\": ").Append(v.RichnessPass ? "true" : "false").Append(", \"pairs_pass\": ").Append(v.PairsPass ? "true" : "false").Append(" },\n");
         }
 
         static string F(double v) { return v.ToString("0.###", CultureInfo.InvariantCulture); }

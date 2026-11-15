@@ -398,3 +398,9 @@ Mirrors `GAME_BREAKDOWN.md` §11 for questions raised after the initial breakdow
 | ID | Answer | Action |
 |---|---|---|
 | Q-074 | Approved: R-008 option (b). A whole-body QP controller solves contact forces and joint torques each tick, under the same friction-cone and torque limits, and tracks the round-3 optimised strides (`Config/Mech/gait_reference_opt.json`). No assist, no body-data change, no threshold edits. | T-005 round 4 started (brief `tasks/T-005.round4.md`, QUEUE §6). |
+
+## M1 slice minor defects (eval M1-slice, T-039b; no fix cycle per §13)
+- DEF-M1slice-f2: evidence/T-039b/smoke_editor.json stale (quakes 0, impacts 0); superseded by evidence/T-039c/final.
+- DEF-M1slice-f3: no recorded PlayMode run of SliceSmokePlayModeTests on final code.
+- DEF-M1slice-f4: SliceBootstrap.BuildFaults reparses faults_bay.geojson and drops baked fault_id; use GeoFaultsLoader.LoadGlobal (T-036c).
+- DEF-M1slice-f5: smoke JSON lacks melee_hits > 0 (kaiju still approaching at 20 s); mech_travel_m now recorded (T-039c: 56 m).
