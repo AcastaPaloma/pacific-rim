@@ -776,3 +776,6 @@ Re-run: `KAIJU_GEO_CACHE=<integration cache> python -I Pipelines/geo/bake_landma
 - Hangar cycle (key H, or automatically when the mech reaches 0 hp): `EnterHangar` -> queue and process repairs -> `LeaveHangar` -> redeploy at the Crissy Field site on the placeholder body, cannon resupplied, new kaiju placed ahead. Replaces the previous "repair in place" stand-in only when `hangar.stub` is on — decided autonomously (founder asleep).
 - Not enabled (reason): `ai.pack`/`units.kaiju.species` (would swap the brain factory; the slice's agent is the scripted-brain harness), `meta.*` (no UI), `net.*` (single seat), `physics.body.*` (T-005). Tracked, not dropped.
 - Help text: HUD line lists every key; `docs/FEEL_CHECK.md` for the founders. Smoke: PlayMode test `FeelCheck_BootsFightsAndExitsClean`, evidence `evidence/T-189/`.
+
+## T-108f (L2 skyline -> extended blocks) - worker, 2026-11-15
+`EXTENDED_LEVELS = (1, 2)` in lod.py; 54 L2 skyline tiles re-baked: 0 skyline left, 0 over cap, footprint max 3.5/9.7/23.8 m, rms 0.47/1.3/2.8 m, M-102 rms_d 2.2/6.0/12.9 km (was 61-122 km). Evidence evidence/T-108f/summary.md. Open (staged, lead): selector wiring of per-tile switch_m102 (M-102/T-109).
