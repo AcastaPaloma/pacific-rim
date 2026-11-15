@@ -181,3 +181,7 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 
 ## Snapshot: M1 lead session 3 hand-over (context threshold), 2026-11-15 ~04:10
 - Merged and pushed: M-005 Marin fill (district PASS 0.0144), T-021 step 4 (M-015 PASS, M-018 relative), T-022 step 1, T-023 step 1 (GGB from lidar), T-030 step 1, T-032 A–C. Regression `evidence/regression/M1-merge-4.md`: EditMode 443/0/2, pytest 114, dotnet all green. Next steps in `plans/M1_PROGRESS.md` (T-023 step 2 first). No agents or Unity jobs running. T-005 files untouched.
+- 2026-11-14 · Round 3 stopped by the 8.5 bound after 3 cycles, all falls. Report `evidence/T-005/round3/REPORT.md` (task/T-005 d76971d); founder question Q-074, default R-008 (b). Round-3 evaluators skipped to conserve usage; the report and per-step evidence stand in for them — decided autonomously (user offline).
+
+## Snapshot: T-005 session 5 hand-over, 2026-11-14 night
+- Round 3 closed. The offline strides are FEASIBLE at Fr 0.02–0.20 with lateral shear, τ ≤ 0.70 of limit; binding limits are the ROM margins and push-off friction. imp = 2 joint tracking falls in every Unity run, 3 cycles. Best stable walk is still legacy Fr 0.0226. Next step waits on Q-074. No agents or Unity jobs running. T-005 not merged.
