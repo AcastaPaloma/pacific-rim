@@ -60,6 +60,19 @@ namespace Game.World.Destruction
             }
         }
 
+        /// <summary>Hazus 6.1 drift fragility beta of the capacity side, theta_k lognormal [S9] (R-021 §2.4).</summary>
+        public const double ShakingBetaCapacity = 0.4;
+        /// <summary>Demand variability beta_D of the shaking route [Assumed] (R-021 §2.4).</summary>
+        public const double ShakingBetaDemand = 0.5;
+        /// <summary>Total shaking beta = sqrt(0.4^2 + 0.5^2) = 0.64 [S9 + Assumed] (R-021 §2.4).</summary>
+        public static readonly double ShakingBetaTotal = System.Math.Sqrt(ShakingBetaCapacity * ShakingBetaCapacity + ShakingBetaDemand * ShakingBetaDemand);
+        /// <summary>Design-spectrum plateau factor: Sa = PGA * min(2.5, 1.5 / T) [Assumed] (R-021 §2.4).</summary>
+        public const double SpectrumPlateau = 2.5;
+        /// <summary>Design-spectrum 1/T branch numerator (s): Sa = PGA * min(2.5, 1.5 / T) [Assumed] (R-021 §2.4).</summary>
+        public const double SpectrumCornerS = 1.5;
+        /// <summary>Event index of the first shaking draw; index 0 is the capacity scatter (R-021 §2.5) [Assumed].</summary>
+        public const int FirstEventIndex = 1;
+
         /// <summary>Salt mixed into the ID hash for the capacity scatter (event index 0 of R-021 §2.5) [Assumed].</summary>
         public const ulong ScatterSalt = 0xD1B54A32D192ED03UL;
     }

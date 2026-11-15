@@ -239,6 +239,83 @@ namespace Game.World.Destruction.Tests
             Assert.AreEqual(0, delta);
         }
 
+        // ---- shaking route (T-024 step 2) ----
+        [Test]
+        public void Shaking_Exceedance_MonotoneInPga_AndOrderedInK()
+        {
+            foreach (var a in new[] { House, MidRise, Tower })
+            {
+                double prev1 = -1, prev4 = -1;
+                for (double pga = 0.01; pga <= 3.0; pga *= 1.25)
+                {
+                    double p1 = ShakingFragility.Exceedance(a, pga, 1), p2 = ShakingFragility.Exceedance(a, pga, 2),
+                           p3 = ShakingFragility.Exceedance(a, pga, 3), p4 = ShakingFragility.Exceedance(a, pga, 4);
+                    Assert.GreaterOrEqual(p1, prev1); Assert.GreaterOrEqual(p4, prev4);
+                    Assert.GreaterOrEqual(p1, p2); Assert.GreaterOrEqual(p2, p3); Assert.GreaterOrEqual(p3, p4);
+                    Assert.That(p1, Is.InRange(0.0, 1.0));
+                    prev1 = p1; prev4 = p4;
+                }
+                Assert.AreEqual(0.0, ShakingFragility.Exceedance(a, 0.0, 1));
+                Assert.AreEqual(1.0, ShakingFragility.Exceedance(a, 0.5, 0));
+            }
+        }
+
+        [Test]
+        public void Shaking_SameSeed_SameState_AndStatesNeverDecrease()
+        {
+            var a = new DamageModel(); var b = new DamageModel();
+            var id = Id(77); a.Register(id, MidRise); b.Register(id, MidRise);
+            var ra = a.ApplyShaking(id, 0.6, 3, 5); var rb = b.ApplyShaking(id, 0.6, 3, 5);
+            Assert.AreEqual(ra.Current.State, rb.Current.State);
+            Assert.AreEqual(ra.Current.CumulativeEnergyJ, rb.Current.CumulativeEnergyJ);
+            byte last = 0;
+            for (int i = 1; i <= 50; i++)
+            {
+                var r = a.ApplyShaking(id, 0.05 * i, i, i);
+                Assert.GreaterOrEqual(r.Current.State, last); last = r.Current.State;
+            }
+            Assert.Throws<ArgumentOutOfRangeException>(() => a.ApplyShaking(id, 0.5, 0, 1));
+            Assert.IsFalse(a.ApplyShaking(Id(999), 0.5, 1, 1).Known);
+        }
+
+        [Test]
+        public void Shaking_RaisesCumulativeEnergyToStateThreshold_AndTagsCause()
+        {
+            var bus = new RecordingBus(); var m = new DamageModel(bus); var id = Id(5); m.Register(id, MidRise);
+            var r = m.ApplyShaking(id, 3.0, 1, 9);
+            Assert.Greater(r.Current.State, 0);
+            m.TryGetThresholds(id, out var s1, out var s2, out var s3, out var s4);
+            double s = r.Current.State == 4 ? s4 : r.Current.State == 3 ? s3 : r.Current.State == 2 ? s2 : s1;
+            Assert.AreEqual(s, r.Current.CumulativeEnergyJ);
+            Assert.AreEqual((byte)DamageCause.Shaking, r.Current.Cause);
+            Assert.AreEqual(1, bus.Events.Count);
+            // Energy route continues on the same ladder: a state-4 energy still completes it.
+            m.Apply(id, s4, DamageCause.Impact, default, 10);
+            Assert.AreEqual(4, m.TryGetState(id, out var st) ? st.State : 0);
+        }
+
+        [Test]
+        public void Shaking_EmpiricalFrequency_MatchesAnalytic_Over10000Ids()
+        {
+            foreach (var a in new[] { House, MidRise, Tower })
+            foreach (double pga in new[] { 0.05, 0.1, 0.2, 0.4, 0.8, 1.6 })
+            {
+                const int N = 10000;
+                var cnt = new int[5];
+                for (ulong i = 1; i <= N; i++)
+                {
+                    var m = new DamageModel(); var id = Id(i); m.Register(id, a);
+                    cnt[m.ApplyShaking(id, pga, 1, 0).Current.State]++;
+                }
+                for (int k = 1; k <= 4; k++)
+                {
+                    int ge = 0; for (int j = k; j <= 4; j++) ge += cnt[j];
+                    Assert.AreEqual(ShakingFragility.Exceedance(a, pga, k), ge / (double)N, 0.015,
+                        "levels " + a.Levels + " pga " + pga + " k " + k);
+                }
+            }
+        }
+
         static DamageChange Apply(DamageModel m, BuildingId id, double e) { return m.Apply(id, e, DamageCause.Impact, default, 1); }
     }
 }
