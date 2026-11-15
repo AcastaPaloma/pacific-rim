@@ -1,0 +1,39 @@
+clause measure                                    threshold   water_synth   real_route    real_straight 
+C1     status                                                 FAIL          FAIL          FAIL          
+C1     fr_commit                                  >= 0.6      0.7854        0.7850        0.7850        
+C1     fr_commit_minus_k_null                     >= 0        0.7854        0.7850        0.7850        
+C2     status                                                 FAIL          FAIL          FAIL          
+C2     fe_vs_nofocus                              >= 0.5      0.4658        0.0109        0.0093        
+C2     ff_ci_separation                           >= 1        0.0000        0.0000        0.0000        
+C3     status                                                 NOT_RUN       NOT_RUN       NOT_RUN       
+C4     status                                                 PASS          PASS          PASS          
+C4     leaks                                      <= 0        0.0000        0.0000        0.0000        
+C5     status                                                 PENDING       PENDING       PENDING       
+C6     status                                                 PENDING       PENDING       PENDING       
+P1     status                                                 FAIL          FAIL          FAIL          
+P1     role_coverage                              >= 0.9      0.9997        0.9998        0.9998        
+P1     member_fit_time_min_over_species_x_comp    >= 0.7      0.4737        0.6359        0.6359        
+P2     status                                                 PASS          PASS          PASS          
+P2     role_changes_per_member_min                <= 1        0.0828        0.0830        0.0830        
+P2     role_thrash_fraction                       <= 0.1      0.0000        0.0000        0.0000        
+P3     status                                                 PASS          PASS          PASS          
+P3     share_Lr_le_10s                            >= 0.9      1.0000        1.0000        1.0000        
+P4     status                                                 FAIL          FAIL          FAIL          
+P4     bs_rate                                    >= 0.4      0.6037        0.6230        0.6230        
+P4     bs_rate_minus_k_nobait                     >= 0        -0.0278       -0.0299       -0.0320       
+P5     status                                                 FAIL          FAIL          FAIL          
+P5     kx_ratio_vs_noroles                        >= 1.25     0.8938        0.9024        0.9024        
+P5     kx_ratio_ci_lower                          >= 1        0.8545        0.8615        0.8615        
+P6     status                                                 FAIL          FAIL          FAIL          
+P6     participation_share                        >= 0.9      0.6820        0.7103        0.7103        
+I1     status                                                 PASS          PASS          FAIL          
+I1     raid_completion_rate                       >= 0.8      1.0000        1.0000        0.0000        
+I2     status                                                 NOT_RUN       NOT_RUN       NOT_RUN       
+I3     status                                                 FAIL          FAIL          FAIL          
+I3     ival_per_kaiju_hour_ratio                  >= 1.2      1.0000        1.0077        1.0000        
+I3     ratio_ci_lower                             >= 1        1.0000        0.9904        1.0000        
+I4     status                                                 INFORMATIONAL INFORMATIONAL INFORMATIONAL 
+F1     status                                                 PASS          PASS          PASS          
+F1     share_in_valid_pack                        >= 0.9      0.9564        0.9355        0.9355        
+F1     packs_over_5_runs                          <= 0        0.0000        0.0000        0.0000        
+F1     merges_beyond_call_range                   <= 0        0.0000        0.0000        0.0000        
