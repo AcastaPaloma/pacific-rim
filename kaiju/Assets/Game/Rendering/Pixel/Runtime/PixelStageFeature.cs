@@ -85,8 +85,10 @@ namespace Game.Rendering.Pixel
         static readonly HashSet<string> s_Seen = new HashSet<string>();
         /// <summary>Count of order violations seen since the last reset (tests assert on it).</summary>
         public static int OrderViolations;
+        /// <summary>Frames whose layer hints were rejected and rendered on the v1 single-snap path (T-181b; never silently layered with a wrong grid).</summary>
+        public static int LayerHintsRejected;
         public static void WarnOnce(string message) { if (s_Seen.Add(message)) Debug.LogWarning("[Pixel] " + message); }
-        public static void Reset() { s_Seen.Clear(); OrderViolations = 0; }
+        public static void Reset() { s_Seen.Clear(); OrderViolations = 0; LayerHintsRejected = 0; }
     }
 
     /// <summary>
