@@ -1,0 +1,9500 @@
+{
+ "spec": "landmarks_bay@v1",
+ "_doc": "T-104 output of bake_landmarks_bay.py from config/landmarks_bay_registry.json; positions BayTM m, heights NAVD88 m. Rows carry a status when official and lidar disagree.",
+ "sources": {
+  "osm": {
+   "licence": "ODbL-1.0",
+   "attribution": "OpenStreetMap contributors",
+   "url": "https://www.openstreetmap.org/",
+   "item": "geometry and positions (Geofabrik norcal extract, tile pbf cache)",
+   "fetched_utc": "2026-11-14T00:00:00Z",
+   "derivative_database_candidate": true
+  },
+  "lidar_3dep": {
+   "licence": "US-Gov-PD",
+   "attribution": "USGS 3D Elevation Program lidar (first returns); heights NAVD88 m measured by bake_landmarks_bay.py",
+   "url": "https://www.usgs.gov/3d-elevation-program",
+   "item": "EPT projects listed per landmark in config/landmarks_bay.json",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "wp_bay_bridge": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "Facts cited from Wikipedia (CC BY-SA); no text redistributed",
+   "url": "https://en.wikipedia.org/wiki/San_Francisco%E2%80%93Oakland_Bay_Bridge",
+   "item": "western 3,141 m, eastern 3,102 m, longest spans 704 m / 430 m, height 160 m, clearance 67 m W / 58 m E",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "wp_sm_hayward": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "Facts cited from Wikipedia (CC BY-SA)",
+   "url": "https://en.wikipedia.org/wiki/San_Mateo%E2%80%93Hayward_Bridge",
+   "item": "11,270 m, main span 230.8 m (infobox) / 229 m (text), clearance 41 m",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "wp_rsr": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "Facts cited from Wikipedia (CC BY-SA)",
+   "url": "https://en.wikipedia.org/wiki/Richmond%E2%80%93San_Rafael_Bridge",
+   "item": "8.85 km, longest span 326 m (text says 330 m), clearance 56 m main / 41 m secondary",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "wp_dumbarton": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "Facts cited from Wikipedia (CC BY-SA)",
+   "url": "https://en.wikipedia.org/wiki/Dumbarton_Bridge_(California)",
+   "item": "2,621.28 m, main span 103.63 m, clearance 25.91 m; rail bridge 1910, open, unused since 1982",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "wp_carquinez": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "Facts cited from Wikipedia (CC BY-SA)",
+   "url": "https://en.wikipedia.org/wiki/Carquinez_Bridge",
+   "item": "Zampa 3,465 ft (1,056 m), main 728 m, height 120 m, clearance 45 m; 1958 span 3,300 ft, clearance 43 m",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "wp_benicia_martinez": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "Facts cited from Wikipedia (CC BY-SA)",
+   "url": "https://en.wikipedia.org/wiki/Benicia%E2%80%93Martinez_Bridge",
+   "item": "2007 span 1.7 mi (2.7 km); 1962 truss 1.2 mi, longest 161 m, clearance 42.1 m; rail lift bridge 1,707.95 m, clearance 41 m open / 21 m closed",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "wp_antioch": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "Facts cited from Wikipedia (CC BY-SA)",
+   "url": "https://en.wikipedia.org/wiki/Antioch_Bridge",
+   "item": "9,504 ft (2,897 m), main span 140 m, clearance 41 m, plate girder, 1978",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "wp_oakland_tallest": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "Facts cited from Wikipedia list of tallest buildings in Oakland (CC BY-SA); heights as listed there",
+   "url": "https://en.wikipedia.org/wiki/List_of_tallest_buildings_in_Oakland,_California",
+   "item": "Ordway 123.1 m, Kaiser Center 118.7 m, Lake Merritt Plaza 113.1 m, 1111 Broadway 109.7 m, Clorox Building 100.6 m",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "faa_ksfo": {
+   "licence": "US-Gov-PD",
+   "attribution": "FAA airport data as published by AirNav (effective 2026-10-29); facts cited",
+   "url": "https://www.airnav.com/airport/KSFO",
+   "item": "runways 10L/28R 11,870 ft, 10R/28L 11,381 ft, 1R/19L 8,650 ft, 1L/19R 7,650 ft; elevation 13.1 ft",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "faa_koak": {
+   "licence": "US-Gov-PD",
+   "attribution": "FAA airport data as published by AirNav (effective 2026-10-29); facts cited",
+   "url": "https://www.airnav.com/airport/KOAK",
+   "item": "runways 12/30 10,520 ft, 10R/28L 6,213 ft, 10L/28R 5,457 ft, 15/33 3,376 ft; elevation 9 ft",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "r004": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "research/R-004.md section 5 (Wikidata / OSM / Port of Oakland 2021 crane release)",
+   "url": "research/R-004.md",
+   "item": "Alcatraz lighthouse 26 m, island 41 m, Port of Oakland STS cranes lift 53 m boom up 134.7 m",
+   "fetched_utc": "2026-11-14T00:00:00Z"
+  },
+  "r100": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "research/R-100.md section 4 (about 37 container cranes, 5 terminals; search-result strength)",
+   "url": "research/R-100.md",
+   "item": "crane counts approximate",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  }
+ },
+ "bridges": [
+  {
+   "slug": "bay_bridge_w",
+   "name": "Bay Bridge west span (SF-YBI)",
+   "kind": "suspension",
+   "official": {
+    "section_length_m": {
+     "v": 3141,
+     "unit": "m",
+     "src": "wp_bay_bridge"
+    },
+    "longest_main_span_m": {
+     "v": 704,
+     "unit": "m",
+     "src": "wp_bay_bridge"
+    },
+    "overall_height_m": {
+     "v": 160,
+     "unit": "m",
+     "src": "wp_bay_bridge",
+     "note": "R-004 conflict W2 143 vs 160 m; lidar decides (Q-NEW-i)"
+    },
+    "clearance_m": {
+     "v": 67,
+     "unit": "m",
+     "src": "wp_bay_bridge"
+    }
+   },
+   "osm_ways": [
+    "w8921938",
+    "w661905446"
+   ],
+   "ways": [
+    {
+     "id": "w8921938",
+     "name": "Dwight D. Eisenhower Highway",
+     "highway": "motorway",
+     "length_m": 3187.0,
+     "pts_baytm": [
+      [
+       64986.28,
+       76080.38
+      ],
+      [
+       62948.92,
+       73686.86
+      ],
+      [
+       62919.82,
+       73654.17
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SanFrancisco_1_B23"
+     ],
+     "deck": {
+      "n_bins": 160,
+      "deck_median_navd88_m": 71.66,
+      "deck_min_navd88_m": 3.73,
+      "deck_max_navd88_m": 89.45
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 26.72
+      },
+      {
+       "u": 50.0,
+       "deck": 55.34
+      },
+      {
+       "u": 90.0,
+       "deck": 56.64
+      },
+      {
+       "u": 130.0,
+       "deck": 58.05
+      },
+      {
+       "u": 170.0,
+       "deck": 59.11
+      },
+      {
+       "u": 210.0,
+       "deck": 60.39
+      },
+      {
+       "u": 250.0,
+       "deck": 61.58
+      },
+      {
+       "u": 290.0,
+       "deck": 62.57
+      },
+      {
+       "u": 330.0,
+       "deck": 63.93
+      },
+      {
+       "u": 370.0,
+       "deck": 64.9
+      },
+      {
+       "u": 410.0,
+       "deck": 66.08
+      },
+      {
+       "u": 450.0,
+       "deck": 67.25
+      },
+      {
+       "u": 490.0,
+       "deck": 68.54
+      },
+      {
+       "u": 530.0,
+       "deck": 69.6
+      },
+      {
+       "u": 570.0,
+       "deck": 70.56
+      },
+      {
+       "u": 610.0,
+       "deck": 71.55
+      },
+      {
+       "u": 650.0,
+       "deck": 72.54
+      },
+      {
+       "u": 690.0,
+       "deck": 73.49
+      },
+      {
+       "u": 730.0,
+       "deck": 74.22
+      },
+      {
+       "u": 770.0,
+       "deck": 74.91
+      },
+      {
+       "u": 810.0,
+       "deck": 75.6
+      },
+      {
+       "u": 850.0,
+       "deck": 76.31
+      },
+      {
+       "u": 890.0,
+       "deck": 76.83
+      },
+      {
+       "u": 930.0,
+       "deck": 77.27
+      },
+      {
+       "u": 970.0,
+       "deck": 77.68
+      },
+      {
+       "u": 1010.0,
+       "deck": 77.91
+      },
+      {
+       "u": 1050.0,
+       "deck": 78.21
+      },
+      {
+       "u": 1090.0,
+       "deck": 78.51
+      },
+      {
+       "u": 1130.0,
+       "deck": 78.79
+      },
+      {
+       "u": 1170.0,
+       "deck": 79.0
+      },
+      {
+       "u": 1210.0,
+       "deck": 79.15
+      },
+      {
+       "u": 1250.0,
+       "deck": 79.26
+      },
+      {
+       "u": 1290.0,
+       "deck": 79.34
+      },
+      {
+       "u": 1330.0,
+       "deck": 79.37
+      },
+      {
+       "u": 1370.0,
+       "deck": 79.34
+      },
+      {
+       "u": 1410.0,
+       "deck": 69.12
+      },
+      {
+       "u": 1450.0,
+       "deck": 79.39
+      },
+      {
+       "u": 1490.0,
+       "deck": 79.29
+      },
+      {
+       "u": 1530.0,
+       "deck": 79.28
+      },
+      {
+       "u": 1570.0,
+       "deck": 79.26
+      },
+      {
+       "u": 1610.0,
+       "deck": 79.21
+      },
+      {
+       "u": 1650.0,
+       "deck": 79.1
+      },
+      {
+       "u": 1690.0,
+       "deck": 78.97
+      },
+      {
+       "u": 1730.0,
+       "deck": 78.84
+      },
+      {
+       "u": 1770.0,
+       "deck": 78.62
+      },
+      {
+       "u": 1810.0,
+       "deck": 78.37
+      },
+      {
+       "u": 1850.0,
+       "deck": 78.05
+      },
+      {
+       "u": 1890.0,
+       "deck": 77.71
+      },
+      {
+       "u": 1930.0,
+       "deck": 77.37
+      },
+      {
+       "u": 1970.0,
+       "deck": 77.02
+      },
+      {
+       "u": 2010.0,
+       "deck": 76.49
+      },
+      {
+       "u": 2050.0,
+       "deck": 75.98
+      },
+      {
+       "u": 2090.0,
+       "deck": 75.26
+      },
+      {
+       "u": 2130.0,
+       "deck": 74.63
+      },
+      {
+       "u": 2170.0,
+       "deck": 73.89
+      },
+      {
+       "u": 2210.0,
+       "deck": 73.25
+      },
+      {
+       "u": 2250.0,
+       "deck": 72.21
+      },
+      {
+       "u": 2290.0,
+       "deck": 71.32
+      },
+      {
+       "u": 2330.0,
+       "deck": 70.38
+      },
+      {
+       "u": 2370.0,
+       "deck": 69.36
+      },
+      {
+       "u": 2410.0,
+       "deck": 68.18
+      },
+      {
+       "u": 2450.0,
+       "deck": 66.81
+      },
+      {
+       "u": 2490.0,
+       "deck": 65.43
+      },
+      {
+       "u": 2530.0,
+       "deck": 64.67
+      },
+      {
+       "u": 2570.0,
+       "deck": 63.45
+      },
+      {
+       "u": 2610.0,
+       "deck": 62.39
+      },
+      {
+       "u": 2650.0,
+       "deck": 60.92
+      },
+      {
+       "u": 2690.0,
+       "deck": 59.53
+      },
+      {
+       "u": 2730.0,
+       "deck": 49.58
+      },
+      {
+       "u": 2770.0,
+       "deck": 15.55
+      },
+      {
+       "u": 2810.0,
+       "deck": 3.73
+      },
+      {
+       "u": 2850.0,
+       "deck": 7.36
+      },
+      {
+       "u": 2890.0,
+       "deck": 8.4
+      },
+      {
+       "u": 2930.0,
+       "deck": 14.28
+      },
+      {
+       "u": 2970.0,
+       "deck": 51.47
+      },
+      {
+       "u": 3010.0,
+       "deck": 50.17
+      },
+      {
+       "u": 3050.0,
+       "deck": 5.32
+      },
+      {
+       "u": 3090.0,
+       "deck": 4.82
+      },
+      {
+       "u": 3130.0,
+       "deck": 6.58
+      },
+      {
+       "u": 3170.0,
+       "deck": 45.18
+      }
+     ]
+    },
+    {
+     "id": "w661905446",
+     "name": "Dwight D. Eisenhower Highway",
+     "highway": "motorway",
+     "length_m": 3143.2,
+     "pts_baytm": [
+      [
+       62951.54,
+       73684.63
+      ],
+      [
+       64988.92,
+       76078.13
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SanFrancisco_1_B23"
+     ],
+     "deck": {
+      "n_bins": 158,
+      "deck_median_navd88_m": 72.26,
+      "deck_min_navd88_m": 3.68,
+      "deck_max_navd88_m": 87.52
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 7.0
+      },
+      {
+       "u": 50.0,
+       "deck": 4.76
+      },
+      {
+       "u": 90.0,
+       "deck": 5.22
+      },
+      {
+       "u": 130.0,
+       "deck": 49.89
+      },
+      {
+       "u": 170.0,
+       "deck": 51.07
+      },
+      {
+       "u": 210.0,
+       "deck": 14.29
+      },
+      {
+       "u": 250.0,
+       "deck": 7.95
+      },
+      {
+       "u": 290.0,
+       "deck": 6.11
+      },
+      {
+       "u": 330.0,
+       "deck": 3.68
+      },
+      {
+       "u": 370.0,
+       "deck": 18.22
+      },
+      {
+       "u": 410.0,
+       "deck": 3.84
+      },
+      {
+       "u": 450.0,
+       "deck": 59.45
+      },
+      {
+       "u": 490.0,
+       "deck": 60.67
+      },
+      {
+       "u": 530.0,
+       "deck": 62.02
+      },
+      {
+       "u": 570.0,
+       "deck": 63.12
+      },
+      {
+       "u": 610.0,
+       "deck": 10.1
+      },
+      {
+       "u": 650.0,
+       "deck": 65.44
+      },
+      {
+       "u": 690.0,
+       "deck": 66.82
+      },
+      {
+       "u": 730.0,
+       "deck": 68.15
+      },
+      {
+       "u": 770.0,
+       "deck": 69.17
+      },
+      {
+       "u": 810.0,
+       "deck": 70.22
+      },
+      {
+       "u": 850.0,
+       "deck": 71.28
+      },
+      {
+       "u": 890.0,
+       "deck": 72.16
+      },
+      {
+       "u": 930.0,
+       "deck": 73.2
+      },
+      {
+       "u": 970.0,
+       "deck": 73.9
+      },
+      {
+       "u": 1010.0,
+       "deck": 74.62
+      },
+      {
+       "u": 1050.0,
+       "deck": 75.23
+      },
+      {
+       "u": 1090.0,
+       "deck": 75.89
+      },
+      {
+       "u": 1130.0,
+       "deck": 76.48
+      },
+      {
+       "u": 1170.0,
+       "deck": 76.97
+      },
+      {
+       "u": 1210.0,
+       "deck": 77.35
+      },
+      {
+       "u": 1250.0,
+       "deck": 77.71
+      },
+      {
+       "u": 1290.0,
+       "deck": 78.06
+      },
+      {
+       "u": 1330.0,
+       "deck": 78.37
+      },
+      {
+       "u": 1370.0,
+       "deck": 78.61
+      },
+      {
+       "u": 1410.0,
+       "deck": 78.8
+      },
+      {
+       "u": 1450.0,
+       "deck": 78.97
+      },
+      {
+       "u": 1490.0,
+       "deck": 79.11
+      },
+      {
+       "u": 1530.0,
+       "deck": 79.22
+      },
+      {
+       "u": 1570.0,
+       "deck": 79.25
+      },
+      {
+       "u": 1610.0,
+       "deck": 79.29
+      },
+      {
+       "u": 1650.0,
+       "deck": 79.29
+      },
+      {
+       "u": 1690.0,
+       "deck": 79.35
+      },
+      {
+       "u": 1730.0,
+       "deck": 7.48
+      },
+      {
+       "u": 1770.0,
+       "deck": 79.35
+      },
+      {
+       "u": 1810.0,
+       "deck": 79.37
+      },
+      {
+       "u": 1850.0,
+       "deck": 79.35
+      },
+      {
+       "u": 1890.0,
+       "deck": 79.28
+      },
+      {
+       "u": 1930.0,
+       "deck": 79.15
+      },
+      {
+       "u": 1970.0,
+       "deck": 79.0
+      },
+      {
+       "u": 2010.0,
+       "deck": 78.79
+      },
+      {
+       "u": 2050.0,
+       "deck": 78.52
+      },
+      {
+       "u": 2090.0,
+       "deck": 78.22
+      },
+      {
+       "u": 2130.0,
+       "deck": 77.94
+      },
+      {
+       "u": 2170.0,
+       "deck": 77.65
+      },
+      {
+       "u": 2210.0,
+       "deck": 77.27
+      },
+      {
+       "u": 2250.0,
+       "deck": 76.87
+      },
+      {
+       "u": 2290.0,
+       "deck": 76.29
+      },
+      {
+       "u": 2330.0,
+       "deck": 75.7
+      },
+      {
+       "u": 2370.0,
+       "deck": 75.11
+      },
+      {
+       "u": 2410.0,
+       "deck": 74.44
+      },
+      {
+       "u": 2450.0,
+       "deck": 73.56
+      },
+      {
+       "u": 2490.0,
+       "deck": 72.61
+      },
+      {
+       "u": 2530.0,
+       "deck": 71.76
+      },
+      {
+       "u": 2570.0,
+       "deck": 70.79
+      },
+      {
+       "u": 2610.0,
+       "deck": 69.74
+      },
+      {
+       "u": 2650.0,
+       "deck": 68.59
+      },
+      {
+       "u": 2690.0,
+       "deck": 67.33
+      },
+      {
+       "u": 2730.0,
+       "deck": 66.16
+      },
+      {
+       "u": 2770.0,
+       "deck": 63.79
+      },
+      {
+       "u": 2810.0,
+       "deck": 6.52
+      },
+      {
+       "u": 2850.0,
+       "deck": 62.69
+      },
+      {
+       "u": 2890.0,
+       "deck": 61.61
+      },
+      {
+       "u": 2930.0,
+       "deck": 60.44
+      },
+      {
+       "u": 2970.0,
+       "deck": 59.3
+      },
+      {
+       "u": 3010.0,
+       "deck": 58.22
+      },
+      {
+       "u": 3050.0,
+       "deck": 56.86
+      },
+      {
+       "u": 3090.0,
+       "deck": 55.63
+      },
+      {
+       "u": 3130.0,
+       "deck": 27.37
+      }
+     ]
+    }
+   ],
+   "towers": [
+    {
+     "slug": "bay_bridge_w_tower_0",
+     "name": "Bay Bridge west span (SF-YBI) tower 0",
+     "pos_baytm": [
+      63353.98,
+      74156.05
+     ],
+     "top_navd88_m": 146.32,
+     "top_p999_m": 144.45,
+     "extent_m": [
+      24.0,
+      18.0
+     ],
+     "deck_ref_navd88_m": 71.66,
+     "way": "w8921938",
+     "n_legs": 4,
+     "lidar_project": "CA_SanFrancisco_1_B23",
+     "official_height_m": 160,
+     "delta_to_official_m": -13.68,
+     "height_used_m": 146.32,
+     "height_source": "lidar_3dep",
+     "confidence": "B",
+     "height_status": "lidar differs from official: lidar used"
+    },
+    {
+     "slug": "bay_bridge_w_tower_1",
+     "name": "Bay Bridge west span (SF-YBI) tower 1",
+     "pos_baytm": [
+      63809.42,
+      74685.04
+     ],
+     "top_navd88_m": 170.86,
+     "top_p999_m": 157.43,
+     "extent_m": [
+      32.0,
+      24.0
+     ],
+     "deck_ref_navd88_m": 71.66,
+     "way": "w8921938",
+     "n_legs": 2,
+     "lidar_project": "CA_SanFrancisco_1_B23",
+     "official_height_m": 160,
+     "delta_to_official_m": 10.86,
+     "height_used_m": 170.86,
+     "height_source": "lidar_3dep",
+     "confidence": "B",
+     "height_status": "lidar differs from official: lidar used"
+    },
+    {
+     "slug": "bay_bridge_w_tower_2",
+     "name": "Bay Bridge west span (SF-YBI) tower 2",
+     "pos_baytm": [
+      64299.03,
+      75272.64
+     ],
+     "top_navd88_m": 159.61,
+     "top_p999_m": 157.96,
+     "extent_m": [
+      27.0,
+      21.0
+     ],
+     "deck_ref_navd88_m": 71.66,
+     "way": "w8921938",
+     "n_legs": 4,
+     "lidar_project": "CA_SanFrancisco_1_B23",
+     "official_height_m": 160,
+     "delta_to_official_m": -0.39,
+     "height_used_m": 160,
+     "height_source": "official",
+     "confidence": "A",
+     "height_status": "agrees with official within max(2 m, 1 %)"
+    },
+    {
+     "slug": "bay_bridge_w_tower_3",
+     "name": "Bay Bridge west span (SF-YBI) tower 3",
+     "pos_baytm": [
+      64759.24,
+      75809.09
+     ],
+     "top_navd88_m": 147.98,
+     "top_p999_m": 144.43,
+     "extent_m": [
+      28.0,
+      23.0
+     ],
+     "deck_ref_navd88_m": 71.66,
+     "way": "w8921938",
+     "n_legs": 1,
+     "lidar_project": "CA_SanFrancisco_1_B23",
+     "official_height_m": 160,
+     "delta_to_official_m": -12.02,
+     "height_used_m": 147.98,
+     "height_source": "lidar_3dep",
+     "confidence": "B",
+     "height_status": "lidar differs from official: lidar used"
+    }
+   ],
+   "lidar_candidates": [
+    "CA_SanFrancisco_1_B23"
+   ],
+   "lidar_projects_used": [
+    "CA_SanFrancisco_1_B23"
+   ],
+   "lidar_status": "measured from CA_SanFrancisco_1_B23",
+   "tower_spacing_m": [
+    698.0,
+    706.8,
+    764.8,
+    1462.8,
+    1471.6,
+    2169.6
+   ],
+   "position_baytm": [
+    62948.92,
+    73686.86
+   ],
+   "towers_expected": 4,
+   "towers_found": 4
+  },
+  {
+   "slug": "bay_bridge_e",
+   "name": "Bay Bridge east span (YBI-Oakland, SAS 2013)",
+   "kind": "self_anchored_suspension",
+   "official": {
+    "section_length_m": {
+     "v": 3102,
+     "unit": "m",
+     "src": "wp_bay_bridge"
+    },
+    "longest_main_span_m": {
+     "v": 430,
+     "unit": "m",
+     "src": "wp_bay_bridge"
+    },
+    "overall_height_m": {
+     "v": 160,
+     "unit": "m",
+     "src": "wp_bay_bridge"
+    },
+    "clearance_m": {
+     "v": 58,
+     "unit": "m",
+     "src": "wp_bay_bridge"
+    }
+   },
+   "osm_ways": [
+    "w237731428",
+    "w236348361"
+   ],
+   "ways": [
+    {
+     "id": "w237731428",
+     "name": "Dwight D. Eisenhower Highway",
+     "highway": "motorway",
+     "length_m": 3481.5,
+     "pts_baytm": [
+      [
+       65295.85,
+       76439.01
+      ],
+      [
+       65309.73,
+       76455.92
+      ],
+      [
+       65323.48,
+       76472.45
+      ],
+      [
+       65353.37,
+       76508.71
+      ],
+      [
+       65366.38,
+       76523.65
+      ],
+      [
+       65379.02,
+       76537.77
+      ],
+      [
+       65389.45,
+       76549.04
+      ],
+      [
+       65398.88,
+       76559.32
+      ],
+      [
+       65408.71,
+       76569.51
+      ],
+      [
+       65418.58,
+       76579.58
+      ],
+      [
+       65428.96,
+       76589.93
+      ],
+      [
+       65439.12,
+       76600.05
+      ],
+      [
+       65449.4,
+       76609.94
+      ],
+      [
+       65459.8,
+       76619.76
+      ],
+      [
+       65470.06,
+       76629.41
+      ],
+      [
+       65480.73,
+       76639.23
+      ],
+      [
+       65503.11,
+       76658.99
+      ],
+      [
+       65512.84,
+       76667.42
+      ],
+      [
+       65523.76,
+       76676.63
+      ],
+      [
+       65534.53,
+       76685.57
+      ],
+      [
+       65545.67,
+       76694.77
+      ],
+      [
+       65556.82,
+       76703.6
+      ],
+      [
+       65568.15,
+       76712.48
+      ],
+      [
+       65579.74,
+       76721.34
+      ],
+      [
+       65590.77,
+       76729.74
+      ],
+      [
+       65602.29,
+       76738.1
+      ],
+      [
+       65619.91,
+       76750.78
+      ],
+      [
+       66086.53,
+       77086.54
+      ],
+      [
+       66098.56,
+       77094.88
+      ],
+      [
+       66110.59,
+       77103.2
+      ],
+      [
+       66122.58,
+       77111.05
+      ],
+      [
+       66134.9,
+       77119.1
+      ],
+      [
+       66147.16,
+       77126.78
+      ],
+      [
+       66159.45,
+       77134.27
+      ],
+      [
+       66172.1,
+       77141.75
+      ],
+      [
+       66186.11,
+       77149.55
+      ],
+      [
+       66198.85,
+       77156.67
+      ],
+      [
+       66211.63,
+       77163.44
+      ],
+      [
+       66224.56,
+       77170.22
+      ],
+      [
+       66237.63,
+       77176.84
+      ],
+      [
+       66250.34,
+       77182.93
+      ],
+      [
+       66263.52,
+       77189.12
+      ],
+      [
+       66276.77,
+       77195.0
+      ],
+      [
+       66290.67,
+       77200.96
+      ],
+      [
+       66303.88,
+       77206.55
+      ],
+      [
+       66317.01,
+       77211.8
+      ],
+      [
+       66330.79,
+       77217.05
+      ],
+      [
+       66344.53,
+       77222.13
+      ],
+      [
+       66358.09,
+       77226.91
+      ],
+      [
+       66371.93,
+       77231.63
+      ],
+      [
+       66385.57,
+       77236.02
+      ],
+      [
+       66399.51,
+       77240.32
+      ],
+      [
+       66413.9,
+       77244.57
+      ],
+      [
+       66427.54,
+       77248.36
+      ],
+      [
+       66441.54,
+       77252.04
+      ],
+      [
+       66455.79,
+       77255.57
+      ],
+      [
+       66469.25,
+       77258.83
+      ],
+      [
+       66483.4,
+       77262.0
+      ],
+      [
+       66495.94,
+       77264.55
+      ],
+      [
+       66510.47,
+       77267.38
+      ],
+      [
+       67258.01,
+       77404.81
+      ],
+      [
+       67953.54,
+       77532.76
+      ],
+      [
+       67983.55,
+       77538.06
+      ],
+      [
+       68012.48,
+       77543.22
+      ],
+      [
+       68040.95,
+       77548.15
+      ],
+      [
+       68069.63,
+       77552.92
+      ],
+      [
+       68098.41,
+       77557.54
+      ],
+      [
+       68127.01,
+       77562.11
+      ],
+      [
+       68155.57,
+       77566.46
+      ],
+      [
+       68183.88,
+       77570.63
+      ],
+      [
+       68215.24,
+       77575.17
+      ],
+      [
+       68242.75,
+       77578.84
+      ],
+      [
+       68270.91,
+       77582.41
+      ],
+      [
+       68299.49,
+       77585.99
+      ],
+      [
+       68328.56,
+       77589.57
+      ],
+      [
+       68357.67,
+       77593.05
+      ],
+      [
+       68386.19,
+       77596.25
+      ],
+      [
+       68415.94,
+       77599.39
+      ],
+      [
+       68444.4,
+       77602.29
+      ],
+      [
+       68471.87,
+       77605.07
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SanFrancisco_1_B23"
+     ],
+     "deck": {
+      "n_bins": 175,
+      "deck_median_navd88_m": 35.51,
+      "deck_min_navd88_m": 3.23,
+      "deck_max_navd88_m": 60.84
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 59.8
+      },
+      {
+       "u": 50.0,
+       "deck": 60.44
+      },
+      {
+       "u": 90.0,
+       "deck": 60.84
+      },
+      {
+       "u": 130.0,
+       "deck": 52.66
+      },
+      {
+       "u": 170.0,
+       "deck": 52.83
+      },
+      {
+       "u": 210.0,
+       "deck": 53.08
+      },
+      {
+       "u": 250.0,
+       "deck": 53.42
+      },
+      {
+       "u": 290.0,
+       "deck": 54.0
+      },
+      {
+       "u": 330.0,
+       "deck": 54.66
+      },
+      {
+       "u": 370.0,
+       "deck": 17.38
+      },
+      {
+       "u": 410.0,
+       "deck": 55.72
+      },
+      {
+       "u": 450.0,
+       "deck": 56.1
+      },
+      {
+       "u": 490.0,
+       "deck": 23.06
+      },
+      {
+       "u": 530.0,
+       "deck": 12.39
+      },
+      {
+       "u": 570.0,
+       "deck": 55.93
+      },
+      {
+       "u": 610.0,
+       "deck": 55.46
+      },
+      {
+       "u": 650.0,
+       "deck": 3.55
+      },
+      {
+       "u": 690.0,
+       "deck": 54.56
+      },
+      {
+       "u": 730.0,
+       "deck": 54.27
+      },
+      {
+       "u": 770.0,
+       "deck": 55.34
+      },
+      {
+       "u": 810.0,
+       "deck": 53.14
+      },
+      {
+       "u": 850.0,
+       "deck": 52.6
+      },
+      {
+       "u": 890.0,
+       "deck": 51.91
+      },
+      {
+       "u": 930.0,
+       "deck": 51.38
+      },
+      {
+       "u": 970.0,
+       "deck": 50.76
+      },
+      {
+       "u": 1010.0,
+       "deck": 50.08
+      },
+      {
+       "u": 1050.0,
+       "deck": 49.62
+      },
+      {
+       "u": 1090.0,
+       "deck": 49.16
+      },
+      {
+       "u": 1130.0,
+       "deck": 48.46
+      },
+      {
+       "u": 1170.0,
+       "deck": 3.26
+      },
+      {
+       "u": 1210.0,
+       "deck": 47.38
+      },
+      {
+       "u": 1250.0,
+       "deck": 46.93
+      },
+      {
+       "u": 1290.0,
+       "deck": 46.24
+      },
+      {
+       "u": 1330.0,
+       "deck": 3.26
+      },
+      {
+       "u": 1370.0,
+       "deck": 45.08
+      },
+      {
+       "u": 1410.0,
+       "deck": 44.59
+      },
+      {
+       "u": 1450.0,
+       "deck": 44.03
+      },
+      {
+       "u": 1490.0,
+       "deck": 3.25
+      },
+      {
+       "u": 1530.0,
+       "deck": 42.95
+      },
+      {
+       "u": 1570.0,
+       "deck": 42.37
+      },
+      {
+       "u": 1610.0,
+       "deck": 41.78
+      },
+      {
+       "u": 1650.0,
+       "deck": 41.07
+      },
+      {
+       "u": 1690.0,
+       "deck": 40.57
+      },
+      {
+       "u": 1730.0,
+       "deck": 40.01
+      },
+      {
+       "u": 1770.0,
+       "deck": 39.32
+      },
+      {
+       "u": 1810.0,
+       "deck": 38.74
+      },
+      {
+       "u": 1850.0,
+       "deck": 37.98
+      },
+      {
+       "u": 1890.0,
+       "deck": 37.36
+      },
+      {
+       "u": 1930.0,
+       "deck": 36.7
+      },
+      {
+       "u": 1970.0,
+       "deck": 36.05
+      },
+      {
+       "u": 2010.0,
+       "deck": 35.51
+      },
+      {
+       "u": 2050.0,
+       "deck": 34.63
+      },
+      {
+       "u": 2090.0,
+       "deck": 33.97
+      },
+      {
+       "u": 2130.0,
+       "deck": 33.26
+      },
+      {
+       "u": 2170.0,
+       "deck": 32.49
+      },
+      {
+       "u": 2210.0,
+       "deck": 32.01
+      },
+      {
+       "u": 2250.0,
+       "deck": 31.16
+      },
+      {
+       "u": 2290.0,
+       "deck": 30.42
+      },
+      {
+       "u": 2330.0,
+       "deck": 29.69
+      },
+      {
+       "u": 2370.0,
+       "deck": 28.87
+      },
+      {
+       "u": 2410.0,
+       "deck": 28.21
+      },
+      {
+       "u": 2450.0,
+       "deck": 27.51
+      },
+      {
+       "u": 2490.0,
+       "deck": 26.8
+      },
+      {
+       "u": 2530.0,
+       "deck": 26.08
+      },
+      {
+       "u": 2570.0,
+       "deck": 25.29
+      },
+      {
+       "u": 2610.0,
+       "deck": 24.47
+      },
+      {
+       "u": 2650.0,
+       "deck": 23.69
+      },
+      {
+       "u": 2690.0,
+       "deck": 22.94
+      },
+      {
+       "u": 2730.0,
+       "deck": 22.17
+      },
+      {
+       "u": 2770.0,
+       "deck": 21.35
+      },
+      {
+       "u": 2810.0,
+       "deck": 20.62
+      },
+      {
+       "u": 2850.0,
+       "deck": 19.86
+      },
+      {
+       "u": 2890.0,
+       "deck": 19.06
+      },
+      {
+       "u": 2930.0,
+       "deck": 18.3
+      },
+      {
+       "u": 2970.0,
+       "deck": 17.69
+      },
+      {
+       "u": 3010.0,
+       "deck": 16.7
+      },
+      {
+       "u": 3050.0,
+       "deck": 15.96
+      },
+      {
+       "u": 3090.0,
+       "deck": 15.17
+      },
+      {
+       "u": 3130.0,
+       "deck": 14.37
+      },
+      {
+       "u": 3170.0,
+       "deck": 13.58
+      },
+      {
+       "u": 3210.0,
+       "deck": 12.8
+      },
+      {
+       "u": 3250.0,
+       "deck": 12.03
+      },
+      {
+       "u": 3290.0,
+       "deck": 11.24
+      },
+      {
+       "u": 3330.0,
+       "deck": 10.67
+      },
+      {
+       "u": 3370.0,
+       "deck": 9.67
+      },
+      {
+       "u": 3410.0,
+       "deck": 8.95
+      },
+      {
+       "u": 3450.0,
+       "deck": 8.13
+      },
+      {
+       "u": 3490.0,
+       "deck": 7.55
+      }
+     ]
+    },
+    {
+     "id": "w236348361",
+     "name": "Dwight D. Eisenhower Highway",
+     "highway": "motorway",
+     "length_m": 3059.8,
+     "pts_baytm": [
+      [
+       68468.16,
+       77644.82
+      ],
+      [
+       68431.36,
+       77641.25
+      ],
+      [
+       68402.39,
+       77638.3
+      ],
+      [
+       68373.25,
+       77635.27
+      ],
+      [
+       68344.54,
+       77632.19
+      ],
+      [
+       68315.67,
+       77628.84
+      ],
+      [
+       68286.82,
+       77625.53
+      ],
+      [
+       68257.97,
+       77621.81
+      ],
+      [
+       68229.01,
+       77618.1
+      ],
+      [
+       68200.44,
+       77614.3
+      ],
+      [
+       68171.42,
+       77610.31
+      ],
+      [
+       68142.66,
+       77606.06
+      ],
+      [
+       68113.85,
+       77601.89
+      ],
+      [
+       68085.36,
+       77597.44
+      ],
+      [
+       68056.72,
+       77592.82
+      ],
+      [
+       68028.17,
+       77588.22
+      ],
+      [
+       67999.49,
+       77583.42
+      ],
+      [
+       67970.62,
+       77578.34
+      ],
+      [
+       67946.09,
+       77573.99
+      ],
+      [
+       67255.98,
+       77447.09
+      ],
+      [
+       66527.54,
+       77313.21
+      ],
+      [
+       66513.47,
+       77310.53
+      ],
+      [
+       66499.2,
+       77307.88
+      ],
+      [
+       66484.89,
+       77305.02
+      ],
+      [
+       66470.61,
+       77302.06
+      ],
+      [
+       66456.35,
+       77299.0
+      ],
+      [
+       66442.35,
+       77295.56
+      ],
+      [
+       66428.35,
+       77291.99
+      ],
+      [
+       66414.29,
+       77288.21
+      ],
+      [
+       66400.2,
+       77284.23
+      ],
+      [
+       66386.38,
+       77280.2
+      ],
+      [
+       66372.45,
+       77275.87
+      ],
+      [
+       66358.39,
+       77271.37
+      ],
+      [
+       66344.63,
+       77266.7
+      ],
+      [
+       66331.21,
+       77261.98
+      ],
+      [
+       66317.53,
+       77257.0
+      ],
+      [
+       66303.86,
+       77251.72
+      ],
+      [
+       66290.01,
+       77246.19
+      ],
+      [
+       66276.8,
+       77240.75
+      ],
+      [
+       66263.34,
+       77234.99
+      ],
+      [
+       66250.14,
+       77229.16
+      ],
+      [
+       66237.69,
+       77223.41
+      ],
+      [
+       66223.81,
+       77216.82
+      ],
+      [
+       66210.69,
+       77210.25
+      ],
+      [
+       66197.69,
+       77203.64
+      ],
+      [
+       66184.79,
+       77196.8
+      ],
+      [
+       66171.97,
+       77189.85
+      ],
+      [
+       66159.41,
+       77182.82
+      ],
+      [
+       66146.5,
+       77175.34
+      ],
+      [
+       66134.32,
+       77168.08
+      ],
+      [
+       66121.78,
+       77160.42
+      ],
+      [
+       66109.48,
+       77152.7
+      ],
+      [
+       66097.28,
+       77144.7
+      ],
+      [
+       66085.24,
+       77136.66
+      ],
+      [
+       66072.98,
+       77128.2
+      ],
+      [
+       66061.2,
+       77119.79
+      ],
+      [
+       66049.47,
+       77111.53
+      ],
+      [
+       65601.3,
+       76788.98
+      ],
+      [
+       65595.47,
+       76784.73
+      ],
+      [
+       65589.5,
+       76780.28
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SanFrancisco_1_B23"
+     ],
+     "deck": {
+      "n_bins": 153,
+      "deck_median_navd88_m": 31.06,
+      "deck_min_navd88_m": 3.19,
+      "deck_max_navd88_m": 82.36
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 7.57
+      },
+      {
+       "u": 50.0,
+       "deck": 8.37
+      },
+      {
+       "u": 90.0,
+       "deck": 9.17
+      },
+      {
+       "u": 130.0,
+       "deck": 9.96
+      },
+      {
+       "u": 170.0,
+       "deck": 10.86
+      },
+      {
+       "u": 210.0,
+       "deck": 11.58
+      },
+      {
+       "u": 250.0,
+       "deck": 12.16
+      },
+      {
+       "u": 290.0,
+       "deck": 13.02
+      },
+      {
+       "u": 330.0,
+       "deck": 13.89
+      },
+      {
+       "u": 370.0,
+       "deck": 14.66
+      },
+      {
+       "u": 410.0,
+       "deck": 15.45
+      },
+      {
+       "u": 450.0,
+       "deck": 16.13
+      },
+      {
+       "u": 490.0,
+       "deck": 16.97
+      },
+      {
+       "u": 530.0,
+       "deck": 17.85
+      },
+      {
+       "u": 570.0,
+       "deck": 18.56
+      },
+      {
+       "u": 610.0,
+       "deck": 19.34
+      },
+      {
+       "u": 650.0,
+       "deck": 19.96
+      },
+      {
+       "u": 690.0,
+       "deck": 20.86
+      },
+      {
+       "u": 730.0,
+       "deck": 21.66
+      },
+      {
+       "u": 770.0,
+       "deck": 22.5
+      },
+      {
+       "u": 810.0,
+       "deck": 23.25
+      },
+      {
+       "u": 850.0,
+       "deck": 23.98
+      },
+      {
+       "u": 890.0,
+       "deck": 24.76
+      },
+      {
+       "u": 930.0,
+       "deck": 25.59
+      },
+      {
+       "u": 970.0,
+       "deck": 26.23
+      },
+      {
+       "u": 1010.0,
+       "deck": 26.97
+      },
+      {
+       "u": 1050.0,
+       "deck": 27.73
+      },
+      {
+       "u": 1090.0,
+       "deck": 28.5
+      },
+      {
+       "u": 1130.0,
+       "deck": 29.21
+      },
+      {
+       "u": 1170.0,
+       "deck": 29.98
+      },
+      {
+       "u": 1210.0,
+       "deck": 30.68
+      },
+      {
+       "u": 1250.0,
+       "deck": 31.46
+      },
+      {
+       "u": 1290.0,
+       "deck": 32.14
+      },
+      {
+       "u": 1330.0,
+       "deck": 32.82
+      },
+      {
+       "u": 1370.0,
+       "deck": 33.49
+      },
+      {
+       "u": 1410.0,
+       "deck": 34.21
+      },
+      {
+       "u": 1450.0,
+       "deck": 34.93
+      },
+      {
+       "u": 1490.0,
+       "deck": 35.6
+      },
+      {
+       "u": 1530.0,
+       "deck": 36.32
+      },
+      {
+       "u": 1570.0,
+       "deck": 36.82
+      },
+      {
+       "u": 1610.0,
+       "deck": 37.53
+      },
+      {
+       "u": 1650.0,
+       "deck": 38.26
+      },
+      {
+       "u": 1690.0,
+       "deck": 38.85
+      },
+      {
+       "u": 1730.0,
+       "deck": 39.48
+      },
+      {
+       "u": 1770.0,
+       "deck": 40.33
+      },
+      {
+       "u": 1810.0,
+       "deck": 40.86
+      },
+      {
+       "u": 1850.0,
+       "deck": 3.42
+      },
+      {
+       "u": 1890.0,
+       "deck": 42.13
+      },
+      {
+       "u": 1930.0,
+       "deck": 42.78
+      },
+      {
+       "u": 1970.0,
+       "deck": 43.39
+      },
+      {
+       "u": 2010.0,
+       "deck": 3.2
+      },
+      {
+       "u": 2050.0,
+       "deck": 44.72
+      },
+      {
+       "u": 2090.0,
+       "deck": 45.21
+      },
+      {
+       "u": 2130.0,
+       "deck": 45.91
+      },
+      {
+       "u": 2170.0,
+       "deck": 3.63
+      },
+      {
+       "u": 2210.0,
+       "deck": 46.98
+      },
+      {
+       "u": 2250.0,
+       "deck": 47.42
+      },
+      {
+       "u": 2290.0,
+       "deck": 48.16
+      },
+      {
+       "u": 2330.0,
+       "deck": 3.19
+      },
+      {
+       "u": 2370.0,
+       "deck": 49.26
+      },
+      {
+       "u": 2410.0,
+       "deck": 49.91
+      },
+      {
+       "u": 2450.0,
+       "deck": 50.43
+      },
+      {
+       "u": 2490.0,
+       "deck": 3.73
+      },
+      {
+       "u": 2530.0,
+       "deck": 51.54
+      },
+      {
+       "u": 2570.0,
+       "deck": 52.18
+      },
+      {
+       "u": 2610.0,
+       "deck": 52.8
+      },
+      {
+       "u": 2650.0,
+       "deck": 53.42
+      },
+      {
+       "u": 2690.0,
+       "deck": 54.0
+      },
+      {
+       "u": 2730.0,
+       "deck": 70.91
+      },
+      {
+       "u": 2770.0,
+       "deck": 82.36
+      },
+      {
+       "u": 2810.0,
+       "deck": 55.38
+      },
+      {
+       "u": 2850.0,
+       "deck": 55.8
+      },
+      {
+       "u": 2890.0,
+       "deck": 56.33
+      },
+      {
+       "u": 2930.0,
+       "deck": 57.64
+      },
+      {
+       "u": 2970.0,
+       "deck": 3.37
+      },
+      {
+       "u": 3010.0,
+       "deck": 8.78
+      },
+      {
+       "u": 3050.0,
+       "deck": 58.81
+      }
+     ]
+    }
+   ],
+   "towers": [
+    {
+     "slug": "bay_bridge_e_tower_0",
+     "name": "Bay Bridge east span (YBI-Oakland, SAS 2013) tower 0",
+     "pos_baytm": [
+      65763.8,
+      76877.18
+     ],
+     "top_navd88_m": 164.37,
+     "top_p999_m": 161.97,
+     "extent_m": [
+      74.0,
+      48.0
+     ],
+     "deck_ref_navd88_m": 35.51,
+     "way": "w237731428",
+     "n_legs": 2,
+     "lidar_project": "CA_SanFrancisco_1_B23",
+     "official_height_m": 160,
+     "delta_to_official_m": 4.37,
+     "height_used_m": 164.37,
+     "height_source": "lidar_3dep",
+     "confidence": "B",
+     "height_status": "lidar differs from official: lidar used"
+    }
+   ],
+   "lidar_candidates": [
+    "CA_SanFrancisco_1_B23",
+    "CA_AlamedaCo_2_2021"
+   ],
+   "lidar_projects_used": [
+    "CA_SanFrancisco_1_B23"
+   ],
+   "lidar_status": "measured from CA_SanFrancisco_1_B23",
+   "position_baytm": [
+    66250.34,
+    77182.93
+   ],
+   "towers_expected": 1,
+   "towers_found": 1
+  },
+  {
+   "slug": "san_mateo_hayward",
+   "name": "San Mateo-Hayward Bridge",
+   "kind": "orthotropic_box_girder",
+   "official": {
+    "total_length_m": {
+     "v": 11270,
+     "unit": "m",
+     "src": "wp_sm_hayward"
+    },
+    "main_span_m": {
+     "v": 230.8,
+     "unit": "m",
+     "src": "wp_sm_hayward",
+     "note": "body text 229 m"
+    },
+    "clearance_m": {
+     "v": 41.0,
+     "unit": "m",
+     "src": "wp_sm_hayward"
+    }
+   },
+   "osm_ways": [
+    "w156047241",
+    "w42248740"
+   ],
+   "ways": [
+    {
+     "id": "w156047241",
+     "name": "San Mateo - Hayward Bridge",
+     "highway": "motorway",
+     "length_m": 10899.4,
+     "pts_baytm": [
+      [
+       83645.75,
+       54865.48
+      ],
+      [
+       76864.03,
+       52323.46
+      ],
+      [
+       76799.85,
+       52299.22
+      ],
+      [
+       76725.67,
+       52268.8
+      ],
+      [
+       76651.5,
+       52238.67
+      ],
+      [
+       76572.23,
+       52205.52
+      ],
+      [
+       76553.25,
+       52198.06
+      ],
+      [
+       76119.77,
+       52035.16
+      ],
+      [
+       76043.79,
+       52006.75
+      ],
+      [
+       76016.48,
+       51996.03
+      ],
+      [
+       76001.64,
+       51989.87
+      ],
+      [
+       75976.0,
+       51977.93
+      ],
+      [
+       75957.27,
+       51968.7
+      ],
+      [
+       75943.26,
+       51961.33
+      ],
+      [
+       75925.32,
+       51950.72
+      ],
+      [
+       75906.88,
+       51939.8
+      ],
+      [
+       75890.89,
+       51929.33
+      ],
+      [
+       75864.89,
+       51911.5
+      ],
+      [
+       75845.36,
+       51896.83
+      ],
+      [
+       75830.08,
+       51884.39
+      ],
+      [
+       75813.03,
+       51870.31
+      ],
+      [
+       75792.74,
+       51851.94
+      ],
+      [
+       75776.02,
+       51835.93
+      ],
+      [
+       75760.44,
+       51819.92
+      ],
+      [
+       75739.41,
+       51796.41
+      ],
+      [
+       74159.37,
+       49985.07
+      ]
+     ],
+     "lidar_projects": [
+      "ARRA-CA_SanFranCoast_2010"
+     ],
+     "deck": {
+      "n_bins": 36,
+      "deck_median_navd88_m": 10.87,
+      "deck_min_navd88_m": 5.02,
+      "deck_max_navd88_m": 21.18
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 5.14
+      },
+      {
+       "u": 50.0,
+       "deck": 5.19
+      },
+      {
+       "u": 90.0,
+       "deck": 5.19
+      },
+      {
+       "u": 130.0,
+       "deck": 5.17
+      },
+      {
+       "u": 170.0,
+       "deck": 5.03
+      },
+      {
+       "u": 210.0,
+       "deck": 5.07
+      },
+      {
+       "u": 10410.0,
+       "deck": 21.18
+      },
+      {
+       "u": 10450.0,
+       "deck": 20.23
+      },
+      {
+       "u": 10490.0,
+       "deck": 18.99
+      },
+      {
+       "u": 10530.0,
+       "deck": 17.78
+      },
+      {
+       "u": 10570.0,
+       "deck": 16.62
+      },
+      {
+       "u": 10610.0,
+       "deck": 15.41
+      },
+      {
+       "u": 10650.0,
+       "deck": 14.2
+      },
+      {
+       "u": 10690.0,
+       "deck": 13.01
+      },
+      {
+       "u": 10730.0,
+       "deck": 11.84
+      },
+      {
+       "u": 10770.0,
+       "deck": 10.56
+      },
+      {
+       "u": 10810.0,
+       "deck": 9.3
+      },
+      {
+       "u": 10850.0,
+       "deck": 8.05
+      },
+      {
+       "u": 10890.0,
+       "deck": 6.65
+      }
+     ]
+    },
+    {
+     "id": "w42248740",
+     "name": "San Mateo - Hayward Bridge",
+     "highway": "motorway",
+     "length_m": 10892.9,
+     "pts_baytm": [
+      [
+       74169.28,
+       49976.45
+      ],
+      [
+       75727.29,
+       51763.73
+      ],
+      [
+       75748.99,
+       51788.0
+      ],
+      [
+       75769.68,
+       51810.99
+      ],
+      [
+       75784.25,
+       51825.75
+      ],
+      [
+       75799.53,
+       51840.51
+      ],
+      [
+       75812.89,
+       51852.99
+      ],
+      [
+       75827.41,
+       51865.89
+      ],
+      [
+       75842.64,
+       51878.5
+      ],
+      [
+       75860.17,
+       51892.25
+      ],
+      [
+       75877.0,
+       51904.64
+      ],
+      [
+       75896.56,
+       51918.02
+      ],
+      [
+       75913.75,
+       51928.98
+      ],
+      [
+       75932.39,
+       51940.51
+      ],
+      [
+       75948.89,
+       51949.77
+      ],
+      [
+       75966.1,
+       51958.9
+      ],
+      [
+       75984.51,
+       51967.95
+      ],
+      [
+       76004.36,
+       51977.0
+      ],
+      [
+       76021.14,
+       51984.25
+      ],
+      [
+       76039.64,
+       51991.5
+      ],
+      [
+       76081.57,
+       52007.48
+      ],
+      [
+       76121.9,
+       52022.55
+      ],
+      [
+       76565.28,
+       52188.58
+      ],
+      [
+       76722.25,
+       52248.92
+      ],
+      [
+       76859.77,
+       52301.18
+      ],
+      [
+       79383.43,
+       53247.24
+      ],
+      [
+       81065.5,
+       53877.8
+      ],
+      [
+       82355.7,
+       54361.64
+      ],
+      [
+       83652.32,
+       54847.71
+      ]
+     ],
+     "lidar_projects": [
+      "ARRA-CA_SanFranCoast_2010"
+     ],
+     "deck": {
+      "n_bins": 35,
+      "deck_median_navd88_m": 10.61,
+      "deck_min_navd88_m": 5.16,
+      "deck_max_navd88_m": 20.79
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 6.8
+      },
+      {
+       "u": 50.0,
+       "deck": 8.07
+      },
+      {
+       "u": 90.0,
+       "deck": 9.33
+      },
+      {
+       "u": 130.0,
+       "deck": 10.61
+      },
+      {
+       "u": 170.0,
+       "deck": 11.86
+      },
+      {
+       "u": 210.0,
+       "deck": 13.05
+      },
+      {
+       "u": 250.0,
+       "deck": 14.22
+      },
+      {
+       "u": 290.0,
+       "deck": 15.44
+      },
+      {
+       "u": 330.0,
+       "deck": 16.66
+      },
+      {
+       "u": 370.0,
+       "deck": 17.8
+      },
+      {
+       "u": 410.0,
+       "deck": 19.03
+      },
+      {
+       "u": 450.0,
+       "deck": 20.26
+      },
+      {
+       "u": 10690.0,
+       "deck": 5.23
+      },
+      {
+       "u": 10730.0,
+       "deck": 5.23
+      },
+      {
+       "u": 10770.0,
+       "deck": 5.23
+      },
+      {
+       "u": 10810.0,
+       "deck": 5.21
+      },
+      {
+       "u": 10850.0,
+       "deck": 5.21
+      },
+      {
+       "u": 10890.0,
+       "deck": 5.16
+      }
+     ]
+    }
+   ],
+   "towers": [],
+   "lidar_candidates": [
+    "CA_AlamedaCo_2_2021",
+    "ARRA-CA_SanFranCoast_2010"
+   ],
+   "lidar_projects_used": [
+    "ARRA-CA_SanFranCoast_2010"
+   ],
+   "lidar_status": "measured from ARRA-CA_SanFranCoast_2010",
+   "position_baytm": [
+    75943.26,
+    51961.33
+   ],
+   "towers_expected": 0,
+   "towers_found": 0
+  },
+  {
+   "slug": "richmond_san_rafael",
+   "name": "Richmond-San Rafael Bridge",
+   "kind": "double_deck_cantilever_truss",
+   "official": {
+    "total_length_m": {
+     "v": 8850,
+     "unit": "m",
+     "src": "wp_rsr"
+    },
+    "longest_span_m": {
+     "v": 326,
+     "unit": "m",
+     "src": "wp_rsr",
+     "note": "text says 330 m"
+    },
+    "clearance_m": {
+     "v": 56,
+     "unit": "m",
+     "src": "wp_rsr"
+    }
+   },
+   "osm_ways": [
+    "w24315544",
+    "w12181069",
+    "w1142383760"
+   ],
+   "ways": [
+    {
+     "id": "w24315544",
+     "name": "Richmond-San Rafael Bridge",
+     "highway": "motorway",
+     "length_m": 6511.9,
+     "pts_baytm": [
+      [
+       55282.48,
+       91015.07
+      ],
+      [
+       55604.95,
+       90941.07
+      ],
+      [
+       55752.83,
+       90904.45
+      ],
+      [
+       55895.69,
+       90865.35
+      ],
+      [
+       56081.15,
+       90811.45
+      ],
+      [
+       56228.11,
+       90764.39
+      ],
+      [
+       56341.18,
+       90727.04
+      ],
+      [
+       56598.81,
+       90629.34
+      ],
+      [
+       57284.85,
+       90356.8
+      ],
+      [
+       57348.42,
+       90333.37
+      ],
+      [
+       57408.75,
+       90313.32
+      ],
+      [
+       57470.16,
+       90292.71
+      ],
+      [
+       57529.77,
+       90275.81
+      ],
+      [
+       57593.34,
+       90258.54
+      ],
+      [
+       57655.16,
+       90245.53
+      ],
+      [
+       57712.56,
+       90234.77
+      ],
+      [
+       57772.41,
+       90223.07
+      ],
+      [
+       57831.13,
+       90216.01
+      ],
+      [
+       57895.82,
+       90209.4
+      ],
+      [
+       59132.87,
+       90102.12
+      ],
+      [
+       60114.89,
+       90017.9
+      ],
+      [
+       61328.29,
+       89913.8
+      ],
+      [
+       61421.43,
+       89903.11
+      ],
+      [
+       61557.73,
+       89881.77
+      ],
+      [
+       61649.55,
+       89868.27
+      ]
+     ],
+     "lidar_projects": [
+      "ARRA-CA_GoldenGate_2010",
+      "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018",
+      "USGS_LPC_CA_NoCal_Wildfires_B5b_QL1_2018"
+     ],
+     "deck": {
+      "n_bins": 216,
+      "deck_median_navd88_m": 23.85,
+      "deck_min_navd88_m": 4.2,
+      "deck_max_navd88_m": 69.39
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 4.23
+      },
+      {
+       "u": 50.0,
+       "deck": 4.22
+      },
+      {
+       "u": 90.0,
+       "deck": 4.25
+      },
+      {
+       "u": 130.0,
+       "deck": 4.31
+      },
+      {
+       "u": 170.0,
+       "deck": 4.34
+      },
+      {
+       "u": 210.0,
+       "deck": 4.37
+      },
+      {
+       "u": 250.0,
+       "deck": 4.42
+      },
+      {
+       "u": 290.0,
+       "deck": 4.45
+      },
+      {
+       "u": 330.0,
+       "deck": 4.55
+      },
+      {
+       "u": 370.0,
+       "deck": 4.59
+      },
+      {
+       "u": 410.0,
+       "deck": 4.63
+      },
+      {
+       "u": 450.0,
+       "deck": 4.69
+      },
+      {
+       "u": 490.0,
+       "deck": 4.72
+      },
+      {
+       "u": 530.0,
+       "deck": 4.7
+      },
+      {
+       "u": 570.0,
+       "deck": 4.78
+      },
+      {
+       "u": 610.0,
+       "deck": 4.79
+      },
+      {
+       "u": 650.0,
+       "deck": 4.92
+      },
+      {
+       "u": 690.0,
+       "deck": 4.95
+      },
+      {
+       "u": 730.0,
+       "deck": 5.0
+      },
+      {
+       "u": 770.0,
+       "deck": 5.05
+      },
+      {
+       "u": 810.0,
+       "deck": 5.08
+      },
+      {
+       "u": 850.0,
+       "deck": 5.13
+      },
+      {
+       "u": 890.0,
+       "deck": 5.18
+      },
+      {
+       "u": 930.0,
+       "deck": 5.2
+      },
+      {
+       "u": 970.0,
+       "deck": 5.26
+      },
+      {
+       "u": 1010.0,
+       "deck": 5.33
+      },
+      {
+       "u": 1050.0,
+       "deck": 5.69
+      },
+      {
+       "u": 1090.0,
+       "deck": 6.39
+      },
+      {
+       "u": 1130.0,
+       "deck": 7.6
+      },
+      {
+       "u": 1170.0,
+       "deck": 8.89
+      },
+      {
+       "u": 1210.0,
+       "deck": 11.04
+      },
+      {
+       "u": 1250.0,
+       "deck": 19.17
+      },
+      {
+       "u": 1290.0,
+       "deck": 20.43
+      },
+      {
+       "u": 1330.0,
+       "deck": 21.68
+      },
+      {
+       "u": 1370.0,
+       "deck": 22.87
+      },
+      {
+       "u": 2970.0,
+       "deck": 69.06
+      },
+      {
+       "u": 3010.0,
+       "deck": 69.33
+      },
+      {
+       "u": 3050.0,
+       "deck": 69.39
+      },
+      {
+       "u": 3090.0,
+       "deck": 69.26
+      },
+      {
+       "u": 3130.0,
+       "deck": 68.95
+      },
+      {
+       "u": 3170.0,
+       "deck": 68.53
+      },
+      {
+       "u": 3210.0,
+       "deck": 42.72
+      },
+      {
+       "u": 3250.0,
+       "deck": 66.77
+      },
+      {
+       "u": 3290.0,
+       "deck": 65.61
+      },
+      {
+       "u": 3330.0,
+       "deck": 64.35
+      },
+      {
+       "u": 3370.0,
+       "deck": 59.36
+      },
+      {
+       "u": 3410.0,
+       "deck": 61.91
+      },
+      {
+       "u": 3450.0,
+       "deck": 60.75
+      },
+      {
+       "u": 3490.0,
+       "deck": 59.58
+      },
+      {
+       "u": 3530.0,
+       "deck": 58.33
+      },
+      {
+       "u": 3570.0,
+       "deck": 57.12
+      },
+      {
+       "u": 3610.0,
+       "deck": 55.92
+      },
+      {
+       "u": 3650.0,
+       "deck": 54.71
+      },
+      {
+       "u": 3690.0,
+       "deck": 53.54
+      },
+      {
+       "u": 3730.0,
+       "deck": 52.26
+      },
+      {
+       "u": 3770.0,
+       "deck": 51.12
+      },
+      {
+       "u": 3810.0,
+       "deck": 49.88
+      },
+      {
+       "u": 3850.0,
+       "deck": 48.78
+      },
+      {
+       "u": 3890.0,
+       "deck": 47.63
+      },
+      {
+       "u": 3930.0,
+       "deck": 46.84
+      },
+      {
+       "u": 3970.0,
+       "deck": 46.12
+      },
+      {
+       "u": 4010.0,
+       "deck": 45.71
+      },
+      {
+       "u": 4050.0,
+       "deck": 45.5
+      },
+      {
+       "u": 4090.0,
+       "deck": 37.82
+      },
+      {
+       "u": 4130.0,
+       "deck": 45.7
+      },
+      {
+       "u": 4170.0,
+       "deck": 46.0
+      },
+      {
+       "u": 4210.0,
+       "deck": 46.68
+      },
+      {
+       "u": 4250.0,
+       "deck": 47.53
+      },
+      {
+       "u": 4290.0,
+       "deck": 48.5
+      },
+      {
+       "u": 4330.0,
+       "deck": 49.67
+      },
+      {
+       "u": 4370.0,
+       "deck": 41.6
+      },
+      {
+       "u": 5030.0,
+       "deck": 44.44
+      },
+      {
+       "u": 5070.0,
+       "deck": 43.36
+      },
+      {
+       "u": 5110.0,
+       "deck": 42.06
+      },
+      {
+       "u": 5150.0,
+       "deck": 40.94
+      },
+      {
+       "u": 5190.0,
+       "deck": 39.71
+      },
+      {
+       "u": 5230.0,
+       "deck": 38.58
+      },
+      {
+       "u": 5270.0,
+       "deck": 37.32
+      },
+      {
+       "u": 5310.0,
+       "deck": 36.2
+      },
+      {
+       "u": 5350.0,
+       "deck": 34.97
+      },
+      {
+       "u": 5390.0,
+       "deck": 33.79
+      },
+      {
+       "u": 5430.0,
+       "deck": 32.59
+      },
+      {
+       "u": 5470.0,
+       "deck": 31.36
+      },
+      {
+       "u": 5510.0,
+       "deck": 30.18
+      },
+      {
+       "u": 5550.0,
+       "deck": 28.94
+      },
+      {
+       "u": 5590.0,
+       "deck": 27.94
+      },
+      {
+       "u": 5630.0,
+       "deck": 26.84
+      },
+      {
+       "u": 5670.0,
+       "deck": 25.97
+      },
+      {
+       "u": 5710.0,
+       "deck": 25.1
+      },
+      {
+       "u": 5750.0,
+       "deck": 24.34
+      },
+      {
+       "u": 5790.0,
+       "deck": 23.68
+      },
+      {
+       "u": 5830.0,
+       "deck": 23.16
+      },
+      {
+       "u": 5870.0,
+       "deck": 22.71
+      },
+      {
+       "u": 5910.0,
+       "deck": 22.32
+      },
+      {
+       "u": 5950.0,
+       "deck": 22.11
+      },
+      {
+       "u": 5990.0,
+       "deck": 21.88
+      },
+      {
+       "u": 6030.0,
+       "deck": 21.75
+      },
+      {
+       "u": 6070.0,
+       "deck": 21.65
+      },
+      {
+       "u": 6110.0,
+       "deck": 21.52
+      },
+      {
+       "u": 6150.0,
+       "deck": 5.45
+      },
+      {
+       "u": 6190.0,
+       "deck": 5.7
+      },
+      {
+       "u": 6230.0,
+       "deck": 12.73
+      },
+      {
+       "u": 6270.0,
+       "deck": 12.62
+      },
+      {
+       "u": 6310.0,
+       "deck": 12.5
+      },
+      {
+       "u": 6350.0,
+       "deck": 12.37
+      },
+      {
+       "u": 6390.0,
+       "deck": 12.25
+      },
+      {
+       "u": 6430.0,
+       "deck": 12.17
+      },
+      {
+       "u": 6470.0,
+       "deck": 12.03
+      },
+      {
+       "u": 6510.0,
+       "deck": 11.91
+      }
+     ]
+    },
+    {
+     "id": "w12181069",
+     "name": "Richmond-San Rafael Bridge",
+     "highway": "motorway",
+     "length_m": 5582.7,
+     "pts_baytm": [
+      [
+       61568.62,
+       89899.55
+      ],
+      [
+       61542.37,
+       89900.45
+      ],
+      [
+       61490.5,
+       89903.56
+      ],
+      [
+       61441.93,
+       89907.84
+      ],
+      [
+       60864.72,
+       89960.73
+      ],
+      [
+       60286.28,
+       90009.48
+      ],
+      [
+       59132.36,
+       90106.25
+      ],
+      [
+       57895.31,
+       90214.56
+      ],
+      [
+       57831.4,
+       90220.91
+      ],
+      [
+       57772.16,
+       90229.01
+      ],
+      [
+       57712.82,
+       90239.15
+      ],
+      [
+       57655.43,
+       90251.2
+      ],
+      [
+       57594.9,
+       90263.95
+      ],
+      [
+       57530.82,
+       90280.97
+      ],
+      [
+       57471.98,
+       90296.59
+      ],
+      [
+       57409.28,
+       90317.7
+      ],
+      [
+       57348.68,
+       90338.28
+      ],
+      [
+       57286.63,
+       90361.3
+      ],
+      [
+       56601.39,
+       90634.08
+      ],
+      [
+       56166.32,
+       90804.84
+      ],
+      [
+       56107.89,
+       90827.49
+      ]
+     ],
+     "lidar_projects": [
+      "ARRA-CA_GoldenGate_2010",
+      "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018"
+     ],
+     "deck": {
+      "n_bins": 171,
+      "deck_median_navd88_m": 36.53,
+      "deck_min_navd88_m": 7.32,
+      "deck_max_navd88_m": 69.4
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 16.85
+      },
+      {
+       "u": 50.0,
+       "deck": 17.97
+      },
+      {
+       "u": 90.0,
+       "deck": 19.11
+      },
+      {
+       "u": 130.0,
+       "deck": 20.05
+      },
+      {
+       "u": 170.0,
+       "deck": 20.75
+      },
+      {
+       "u": 210.0,
+       "deck": 21.14
+      },
+      {
+       "u": 250.0,
+       "deck": 21.31
+      },
+      {
+       "u": 290.0,
+       "deck": 21.43
+      },
+      {
+       "u": 330.0,
+       "deck": 21.55
+      },
+      {
+       "u": 370.0,
+       "deck": 21.68
+      },
+      {
+       "u": 410.0,
+       "deck": 21.79
+      },
+      {
+       "u": 450.0,
+       "deck": 21.94
+      },
+      {
+       "u": 490.0,
+       "deck": 22.16
+      },
+      {
+       "u": 530.0,
+       "deck": 22.4
+      },
+      {
+       "u": 570.0,
+       "deck": 22.83
+      },
+      {
+       "u": 610.0,
+       "deck": 23.26
+      },
+      {
+       "u": 650.0,
+       "deck": 23.89
+      },
+      {
+       "u": 690.0,
+       "deck": 24.56
+      },
+      {
+       "u": 730.0,
+       "deck": 25.32
+      },
+      {
+       "u": 770.0,
+       "deck": 26.18
+      },
+      {
+       "u": 810.0,
+       "deck": 27.14
+      },
+      {
+       "u": 850.0,
+       "deck": 28.28
+      },
+      {
+       "u": 890.0,
+       "deck": 29.32
+      },
+      {
+       "u": 930.0,
+       "deck": 30.54
+      },
+      {
+       "u": 970.0,
+       "deck": 31.64
+      },
+      {
+       "u": 1010.0,
+       "deck": 32.94
+      },
+      {
+       "u": 1050.0,
+       "deck": 34.1
+      },
+      {
+       "u": 1090.0,
+       "deck": 35.32
+      },
+      {
+       "u": 1130.0,
+       "deck": 36.53
+      },
+      {
+       "u": 1170.0,
+       "deck": 37.74
+      },
+      {
+       "u": 1210.0,
+       "deck": 38.92
+      },
+      {
+       "u": 1250.0,
+       "deck": 40.13
+      },
+      {
+       "u": 1290.0,
+       "deck": 41.35
+      },
+      {
+       "u": 1330.0,
+       "deck": 42.47
+      },
+      {
+       "u": 1370.0,
+       "deck": 43.72
+      },
+      {
+       "u": 1410.0,
+       "deck": 41.17
+      },
+      {
+       "u": 2070.0,
+       "deck": 50.45
+      },
+      {
+       "u": 2110.0,
+       "deck": 49.36
+      },
+      {
+       "u": 2150.0,
+       "deck": 48.18
+      },
+      {
+       "u": 2190.0,
+       "deck": 47.32
+      },
+      {
+       "u": 2230.0,
+       "deck": 46.46
+      },
+      {
+       "u": 2270.0,
+       "deck": 45.94
+      },
+      {
+       "u": 2310.0,
+       "deck": 45.61
+      },
+      {
+       "u": 2350.0,
+       "deck": 45.34
+      },
+      {
+       "u": 2390.0,
+       "deck": 45.59
+      },
+      {
+       "u": 2430.0,
+       "deck": 45.77
+      },
+      {
+       "u": 2470.0,
+       "deck": 46.35
+      },
+      {
+       "u": 2510.0,
+       "deck": 47.09
+      },
+      {
+       "u": 2550.0,
+       "deck": 48.01
+      },
+      {
+       "u": 2590.0,
+       "deck": 49.14
+      },
+      {
+       "u": 2630.0,
+       "deck": 50.31
+      },
+      {
+       "u": 2670.0,
+       "deck": 51.51
+      },
+      {
+       "u": 2710.0,
+       "deck": 52.69
+      },
+      {
+       "u": 2750.0,
+       "deck": 53.94
+      },
+      {
+       "u": 2790.0,
+       "deck": 55.08
+      },
+      {
+       "u": 2830.0,
+       "deck": 56.31
+      },
+      {
+       "u": 2870.0,
+       "deck": 57.56
+      },
+      {
+       "u": 2910.0,
+       "deck": 58.71
+      },
+      {
+       "u": 2950.0,
+       "deck": 59.99
+      },
+      {
+       "u": 2990.0,
+       "deck": 61.11
+      },
+      {
+       "u": 3030.0,
+       "deck": 62.3
+      },
+      {
+       "u": 3070.0,
+       "deck": 63.5
+      },
+      {
+       "u": 3110.0,
+       "deck": 64.74
+      },
+      {
+       "u": 3150.0,
+       "deck": 66.0
+      },
+      {
+       "u": 3190.0,
+       "deck": 67.18
+      },
+      {
+       "u": 3230.0,
+       "deck": 68.08
+      },
+      {
+       "u": 3270.0,
+       "deck": 68.66
+      },
+      {
+       "u": 3310.0,
+       "deck": 69.05
+      },
+      {
+       "u": 3350.0,
+       "deck": 69.33
+      },
+      {
+       "u": 3390.0,
+       "deck": 69.4
+      },
+      {
+       "u": 3430.0,
+       "deck": 69.29
+      },
+      {
+       "u": 3470.0,
+       "deck": 69.03
+      },
+      {
+       "u": 5030.0,
+       "deck": 23.66
+      },
+      {
+       "u": 5070.0,
+       "deck": 22.51
+      },
+      {
+       "u": 5110.0,
+       "deck": 21.36
+      },
+      {
+       "u": 5150.0,
+       "deck": 20.13
+      },
+      {
+       "u": 5190.0,
+       "deck": 18.92
+      },
+      {
+       "u": 5230.0,
+       "deck": 17.79
+      },
+      {
+       "u": 5270.0,
+       "deck": 16.54
+      },
+      {
+       "u": 5310.0,
+       "deck": 15.34
+      },
+      {
+       "u": 5350.0,
+       "deck": 14.15
+      },
+      {
+       "u": 5390.0,
+       "deck": 12.91
+      },
+      {
+       "u": 5430.0,
+       "deck": 11.72
+      },
+      {
+       "u": 5470.0,
+       "deck": 10.54
+      },
+      {
+       "u": 5510.0,
+       "deck": 9.32
+      },
+      {
+       "u": 5550.0,
+       "deck": 8.16
+      },
+      {
+       "u": 5590.0,
+       "deck": 7.32
+      }
+     ]
+    },
+    {
+     "id": "w1142383760",
+     "name": "Richmond-San Rafael Bridge",
+     "highway": "motorway",
+     "length_m": 840.1,
+     "pts_baytm": [
+      [
+       56107.89,
+       90827.49
+      ],
+      [
+       56054.4,
+       90846.36
+      ],
+      [
+       56000.44,
+       90862.47
+      ],
+      [
+       55950.94,
+       90875.67
+      ],
+      [
+       55889.2,
+       90890.11
+      ],
+      [
+       55291.64,
+       91024.37
+      ]
+     ],
+     "lidar_projects": [
+      "ARRA-CA_GoldenGate_2010",
+      "USGS_LPC_CA_NoCal_Wildfires_B5b_QL1_2018"
+     ],
+     "deck": {
+      "n_bins": 43,
+      "deck_median_navd88_m": 4.62,
+      "deck_min_navd88_m": 4.19,
+      "deck_max_navd88_m": 6.93
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 6.93
+      },
+      {
+       "u": 50.0,
+       "deck": 6.09
+      },
+      {
+       "u": 90.0,
+       "deck": 5.52
+      },
+      {
+       "u": 130.0,
+       "deck": 5.15
+      },
+      {
+       "u": 170.0,
+       "deck": 5.0
+      },
+      {
+       "u": 210.0,
+       "deck": 4.97
+      },
+      {
+       "u": 250.0,
+       "deck": 4.88
+      },
+      {
+       "u": 290.0,
+       "deck": 4.75
+      },
+      {
+       "u": 330.0,
+       "deck": 4.74
+      },
+      {
+       "u": 370.0,
+       "deck": 4.72
+      },
+      {
+       "u": 410.0,
+       "deck": 4.65
+      },
+      {
+       "u": 450.0,
+       "deck": 4.61
+      },
+      {
+       "u": 490.0,
+       "deck": 4.6
+      },
+      {
+       "u": 530.0,
+       "deck": 4.56
+      },
+      {
+       "u": 570.0,
+       "deck": 4.46
+      },
+      {
+       "u": 610.0,
+       "deck": 4.44
+      },
+      {
+       "u": 650.0,
+       "deck": 4.4
+      },
+      {
+       "u": 690.0,
+       "deck": 4.35
+      },
+      {
+       "u": 730.0,
+       "deck": 4.32
+      },
+      {
+       "u": 770.0,
+       "deck": 4.26
+      },
+      {
+       "u": 810.0,
+       "deck": 4.23
+      },
+      {
+       "u": 850.0,
+       "deck": 4.19
+      }
+     ]
+    }
+   ],
+   "towers": [],
+   "lidar_candidates": [
+    "USGS_LPC_CA_NoCal_Wildfires_B5b_QL1_2018",
+    "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018",
+    "ARRA-CA_GoldenGate_2010"
+   ],
+   "lidar_projects_used": [
+    "ARRA-CA_GoldenGate_2010",
+    "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018",
+    "USGS_LPC_CA_NoCal_Wildfires_B5b_QL1_2018"
+   ],
+   "lidar_status": "measured from ARRA-CA_GoldenGate_2010, USGS_LPC_CA_NoCAL_Wildfires_B5b_2018, USGS_LPC_CA_NoCal_Wildfires_B5b_QL1_2018",
+   "position_baytm": [
+    57529.77,
+    90275.81
+   ],
+   "towers_expected": 0,
+   "towers_found": 0
+  },
+  {
+   "slug": "dumbarton",
+   "name": "Dumbarton Bridge",
+   "kind": "concrete_twin_girder",
+   "official": {
+    "total_length_m": {
+     "v": 2621.28,
+     "unit": "m",
+     "src": "wp_dumbarton"
+    },
+    "main_span_m": {
+     "v": 103.63,
+     "unit": "m",
+     "src": "wp_dumbarton"
+    },
+    "clearance_m": {
+     "v": 25.91,
+     "unit": "m",
+     "src": "wp_dumbarton"
+    }
+   },
+   "osm_ways": [
+    "w184877572",
+    "w42127704",
+    "w184877571",
+    "w26972072"
+   ],
+   "ways": [
+    {
+     "id": "w184877572",
+     "name": "Dumbarton Bridge",
+     "highway": "motorway",
+     "length_m": 1504.4,
+     "pts_baytm": [
+      [
+       87073.42,
+       42660.68
+      ],
+      [
+       86397.55,
+       42087.58
+      ],
+      [
+       86168.3,
+       41893.22
+      ],
+      [
+       86122.08,
+       41853.84
+      ],
+      [
+       86100.69,
+       41835.2
+      ],
+      [
+       86077.37,
+       41814.46
+      ],
+      [
+       86030.31,
+       41770.07
+      ],
+      [
+       85984.93,
+       41724.35
+      ],
+      [
+       85935.6,
+       41677.07
+      ]
+     ],
+     "lidar_projects": [
+      "ARRA-CA_SanFranCoast_2010"
+     ],
+     "deck": {
+      "n_bins": 42,
+      "deck_median_navd88_m": 12.83,
+      "deck_min_navd88_m": 4.3,
+      "deck_max_navd88_m": 22.99
+     },
+     "deck_profile": [
+      {
+       "u": 690.0,
+       "deck": 22.99
+      },
+      {
+       "u": 730.0,
+       "deck": 22.01
+      },
+      {
+       "u": 770.0,
+       "deck": 21.03
+      },
+      {
+       "u": 810.0,
+       "deck": 20.05
+      },
+      {
+       "u": 850.0,
+       "deck": 19.05
+      },
+      {
+       "u": 890.0,
+       "deck": 18.03
+      },
+      {
+       "u": 930.0,
+       "deck": 17.05
+      },
+      {
+       "u": 970.0,
+       "deck": 16.08
+      },
+      {
+       "u": 1010.0,
+       "deck": 15.09
+      },
+      {
+       "u": 1050.0,
+       "deck": 14.09
+      },
+      {
+       "u": 1090.0,
+       "deck": 13.09
+      },
+      {
+       "u": 1130.0,
+       "deck": 12.09
+      },
+      {
+       "u": 1170.0,
+       "deck": 11.12
+      },
+      {
+       "u": 1210.0,
+       "deck": 10.12
+      },
+      {
+       "u": 1250.0,
+       "deck": 9.09
+      },
+      {
+       "u": 1290.0,
+       "deck": 8.14
+      },
+      {
+       "u": 1330.0,
+       "deck": 7.13
+      },
+      {
+       "u": 1370.0,
+       "deck": 6.15
+      },
+      {
+       "u": 1410.0,
+       "deck": 5.31
+      },
+      {
+       "u": 1450.0,
+       "deck": 4.7
+      },
+      {
+       "u": 1490.0,
+       "deck": 4.34
+      }
+     ]
+    },
+    {
+     "id": "w42127704",
+     "name": "Dumbarton Bridge",
+     "highway": "motorway",
+     "length_m": 1501.9,
+     "pts_baytm": [
+      [
+       85943.78,
+       41669.18
+      ],
+      [
+       85993.52,
+       41716.97
+      ],
+      [
+       86038.22,
+       41761.64
+      ],
+      [
+       86085.51,
+       41805.62
+      ],
+      [
+       86129.98,
+       41844.79
+      ],
+      [
+       86176.12,
+       41884.1
+      ],
+      [
+       87080.16,
+       42650.64
+      ]
+     ],
+     "lidar_projects": [
+      "ARRA-CA_SanFranCoast_2010"
+     ],
+     "deck": {
+      "n_bins": 41,
+      "deck_median_navd88_m": 13.01,
+      "deck_min_navd88_m": 4.36,
+      "deck_max_navd88_m": 22.92
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 4.36
+      },
+      {
+       "u": 50.0,
+       "deck": 4.66
+      },
+      {
+       "u": 90.0,
+       "deck": 5.25
+      },
+      {
+       "u": 130.0,
+       "deck": 6.07
+      },
+      {
+       "u": 170.0,
+       "deck": 7.05
+      },
+      {
+       "u": 210.0,
+       "deck": 8.02
+      },
+      {
+       "u": 250.0,
+       "deck": 8.99
+      },
+      {
+       "u": 290.0,
+       "deck": 10.01
+      },
+      {
+       "u": 330.0,
+       "deck": 11.03
+      },
+      {
+       "u": 370.0,
+       "deck": 12.01
+      },
+      {
+       "u": 410.0,
+       "deck": 13.01
+      },
+      {
+       "u": 450.0,
+       "deck": 14.0
+      },
+      {
+       "u": 490.0,
+       "deck": 15.01
+      },
+      {
+       "u": 530.0,
+       "deck": 15.99
+      },
+      {
+       "u": 570.0,
+       "deck": 16.98
+      },
+      {
+       "u": 610.0,
+       "deck": 17.98
+      },
+      {
+       "u": 650.0,
+       "deck": 18.96
+      },
+      {
+       "u": 690.0,
+       "deck": 19.96
+      },
+      {
+       "u": 730.0,
+       "deck": 20.95
+      },
+      {
+       "u": 770.0,
+       "deck": 21.95
+      },
+      {
+       "u": 810.0,
+       "deck": 22.92
+      }
+     ]
+    },
+    {
+     "id": "w184877571",
+     "name": "Dumbarton Bridge",
+     "highway": "motorway",
+     "length_m": 1129.8,
+     "pts_baytm": [
+      [
+       87080.16,
+       42650.64
+      ],
+      [
+       87344.56,
+       42874.87
+      ],
+      [
+       87395.54,
+       42919.74
+      ],
+      [
+       87444.27,
+       42965.41
+      ],
+      [
+       87493.66,
+       43014.04
+      ],
+      [
+       87546.9,
+       43068.01
+      ],
+      [
+       87596.36,
+       43122.04
+      ],
+      [
+       87643.48,
+       43175.99
+      ],
+      [
+       87689.06,
+       43230.67
+      ],
+      [
+       87733.12,
+       43285.36
+      ],
+      [
+       87775.71,
+       43340.89
+      ],
+      [
+       87816.8,
+       43398.72
+      ],
+      [
+       87856.47,
+       43463.68
+      ]
+     ],
+     "lidar_projects": [
+      "ARRA-CA_SanFranCoast_2010",
+      "CA_AlamedaCo_2_2021"
+     ],
+     "deck": {
+      "n_bins": 53,
+      "deck_median_navd88_m": 16.19,
+      "deck_min_navd88_m": 4.21,
+      "deck_max_navd88_m": 29.57
+     },
+     "deck_profile": [
+      {
+       "u": 90.0,
+       "deck": 29.57
+      },
+      {
+       "u": 130.0,
+       "deck": 28.71
+      },
+      {
+       "u": 170.0,
+       "deck": 27.78
+      },
+      {
+       "u": 210.0,
+       "deck": 26.73
+      },
+      {
+       "u": 250.0,
+       "deck": 25.7
+      },
+      {
+       "u": 290.0,
+       "deck": 24.71
+      },
+      {
+       "u": 330.0,
+       "deck": 23.61
+      },
+      {
+       "u": 370.0,
+       "deck": 22.45
+      },
+      {
+       "u": 410.0,
+       "deck": 21.39
+      },
+      {
+       "u": 450.0,
+       "deck": 20.48
+      },
+      {
+       "u": 490.0,
+       "deck": 19.35
+      },
+      {
+       "u": 530.0,
+       "deck": 18.3
+      },
+      {
+       "u": 570.0,
+       "deck": 17.23
+      },
+      {
+       "u": 610.0,
+       "deck": 16.19
+      },
+      {
+       "u": 650.0,
+       "deck": 15.14
+      },
+      {
+       "u": 690.0,
+       "deck": 14.05
+      },
+      {
+       "u": 730.0,
+       "deck": 12.97
+      },
+      {
+       "u": 770.0,
+       "deck": 11.95
+      },
+      {
+       "u": 810.0,
+       "deck": 10.89
+      },
+      {
+       "u": 850.0,
+       "deck": 9.82
+      },
+      {
+       "u": 890.0,
+       "deck": 8.77
+      },
+      {
+       "u": 930.0,
+       "deck": 7.69
+      },
+      {
+       "u": 970.0,
+       "deck": 6.67
+      },
+      {
+       "u": 1010.0,
+       "deck": 5.69
+      },
+      {
+       "u": 1050.0,
+       "deck": 4.92
+      },
+      {
+       "u": 1090.0,
+       "deck": 4.44
+      },
+      {
+       "u": 1130.0,
+       "deck": 4.21
+      }
+     ]
+    },
+    {
+     "id": "w26972072",
+     "name": "Dumbarton Bridge",
+     "highway": "motorway",
+     "length_m": 1125.5,
+     "pts_baytm": [
+      [
+       87847.32,
+       43470.31
+      ],
+      [
+       87806.87,
+       43405.51
+      ],
+      [
+       87766.01,
+       43348.0
+      ],
+      [
+       87723.63,
+       43292.75
+      ],
+      [
+       87679.73,
+       43238.26
+      ],
+      [
+       87634.31,
+       43183.76
+      ],
+      [
+       87587.36,
+       43130.01
+      ],
+      [
+       87485.13,
+       43022.51
+      ],
+      [
+       87435.9,
+       42974.04
+      ],
+      [
+       87387.43,
+       42928.61
+      ],
+      [
+       87336.67,
+       42883.92
+      ],
+      [
+       87073.42,
+       42660.68
+      ]
+     ],
+     "lidar_projects": [
+      "ARRA-CA_SanFranCoast_2010",
+      "CA_AlamedaCo_2_2021"
+     ],
+     "deck": {
+      "n_bins": 52,
+      "deck_median_navd88_m": 16.2,
+      "deck_min_navd88_m": 4.17,
+      "deck_max_navd88_m": 29.4
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 4.17
+      },
+      {
+       "u": 50.0,
+       "deck": 4.52
+      },
+      {
+       "u": 90.0,
+       "deck": 5.07
+      },
+      {
+       "u": 130.0,
+       "deck": 5.91
+      },
+      {
+       "u": 170.0,
+       "deck": 6.95
+      },
+      {
+       "u": 210.0,
+       "deck": 7.97
+      },
+      {
+       "u": 250.0,
+       "deck": 9.05
+      },
+      {
+       "u": 290.0,
+       "deck": 10.12
+      },
+      {
+       "u": 330.0,
+       "deck": 11.19
+      },
+      {
+       "u": 370.0,
+       "deck": 12.24
+      },
+      {
+       "u": 410.0,
+       "deck": 13.27
+      },
+      {
+       "u": 450.0,
+       "deck": 14.34
+      },
+      {
+       "u": 490.0,
+       "deck": 15.44
+      },
+      {
+       "u": 530.0,
+       "deck": 16.46
+      },
+      {
+       "u": 570.0,
+       "deck": 17.55
+      },
+      {
+       "u": 610.0,
+       "deck": 18.62
+      },
+      {
+       "u": 650.0,
+       "deck": 19.67
+      },
+      {
+       "u": 690.0,
+       "deck": 20.71
+      },
+      {
+       "u": 730.0,
+       "deck": 21.71
+      },
+      {
+       "u": 770.0,
+       "deck": 22.77
+      },
+      {
+       "u": 810.0,
+       "deck": 23.98
+      },
+      {
+       "u": 850.0,
+       "deck": 25.05
+      },
+      {
+       "u": 890.0,
+       "deck": 25.94
+      },
+      {
+       "u": 930.0,
+       "deck": 27.12
+      },
+      {
+       "u": 970.0,
+       "deck": 28.11
+      },
+      {
+       "u": 1010.0,
+       "deck": 29.0
+      }
+     ]
+    }
+   ],
+   "towers": [],
+   "lidar_candidates": [
+    "CA_SantaClaraCounty_2020",
+    "CA_AlamedaCo_2_2021",
+    "ARRA-CA_SanFranCoast_2010"
+   ],
+   "lidar_projects_used": [
+    "ARRA-CA_SanFranCoast_2010",
+    "CA_AlamedaCo_2_2021"
+   ],
+   "lidar_status": "measured from ARRA-CA_SanFranCoast_2010, CA_AlamedaCo_2_2021",
+   "position_baytm": [
+    86100.69,
+    41835.2
+   ],
+   "towers_expected": 0,
+   "towers_found": 0
+  },
+  {
+   "slug": "dumbarton_rail",
+   "name": "Dumbarton Rail Bridge (1910, left open)",
+   "kind": "swing_rail",
+   "official": {
+    "year": {
+     "v": 1910,
+     "unit": "year",
+     "src": "wp_dumbarton",
+     "note": "unused since 1982, kept open"
+    }
+   },
+   "osm_ways": [
+    "w1253571343",
+    "w154042093"
+   ],
+   "ways": [
+    {
+     "id": "w1253571343",
+     "name": "Dumbarton Bridge",
+     "highway": null,
+     "length_m": 209.8,
+     "pts_baytm": [
+      [
+       87702.14,
+       41665.17
+      ],
+      [
+       87702.08,
+       41666.99
+      ],
+      [
+       87703.6,
+       41668.4
+      ],
+      [
+       87706.49,
+       41671.05
+      ],
+      [
+       87707.71,
+       41672.17
+      ],
+      [
+       87709.6,
+       41672.16
+      ],
+      [
+       87773.15,
+       41603.36
+      ],
+      [
+       87773.2,
+       41601.81
+      ],
+      [
+       87771.5,
+       41600.3
+      ],
+      [
+       87768.45,
+       41597.58
+      ],
+      [
+       87767.16,
+       41596.43
+      ],
+      [
+       87765.41,
+       41596.43
+      ],
+      [
+       87702.14,
+       41665.17
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SantaClaraCounty_2020"
+     ],
+     "deck": {
+      "n_bins": 11,
+      "deck_median_navd88_m": 6.91,
+      "deck_min_navd88_m": 6.86,
+      "deck_max_navd88_m": 6.96
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 6.86
+      },
+      {
+       "u": 50.0,
+       "deck": 6.96
+      },
+      {
+       "u": 90.0,
+       "deck": 6.9
+      },
+      {
+       "u": 130.0,
+       "deck": 6.92
+      },
+      {
+       "u": 170.0,
+       "deck": 6.95
+      },
+      {
+       "u": 210.0,
+       "deck": 6.89
+      }
+     ]
+    },
+    {
+     "id": "w154042093",
+     "name": "Dumbarton Branch",
+     "highway": "disused",
+     "length_m": 56.0,
+     "pts_baytm": [
+      [
+       90171.98,
+       43363.92
+      ],
+      [
+       90168.9,
+       43419.8
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SantaClaraCounty_2020"
+     ],
+     "deck": {
+      "n_bins": 3,
+      "deck_median_navd88_m": 5.2,
+      "deck_min_navd88_m": 5.18,
+      "deck_max_navd88_m": 5.26
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 5.2
+      },
+      {
+       "u": 50.0,
+       "deck": 5.18
+      }
+     ]
+    }
+   ],
+   "towers": [],
+   "lidar_candidates": [
+    "CA_SantaClaraCounty_2020",
+    "CA_AlamedaCo_2_2021",
+    "ARRA-CA_SanFranCoast_2010"
+   ],
+   "lidar_projects_used": [
+    "CA_SantaClaraCounty_2020"
+   ],
+   "lidar_status": "measured from CA_SantaClaraCounty_2020",
+   "position_baytm": [
+    87773.15,
+    41603.36
+   ],
+   "towers_expected": 0,
+   "towers_found": 0
+  },
+  {
+   "slug": "carquinez",
+   "name": "Carquinez Bridges (Zampa 2003 suspension, 1958 cantilever)",
+   "kind": "suspension+cantilever",
+   "official": {
+    "zampa_total_length_m": {
+     "v": 1056,
+     "unit": "m",
+     "src": "wp_carquinez"
+    },
+    "zampa_main_span_m": {
+     "v": 728,
+     "unit": "m",
+     "src": "wp_carquinez"
+    },
+    "zampa_tower_height_m": {
+     "v": 120,
+     "unit": "m",
+     "src": "wp_carquinez"
+    },
+    "zampa_clearance_m": {
+     "v": 45,
+     "unit": "m",
+     "src": "wp_carquinez"
+    },
+    "b1958_clearance_m": {
+     "v": 43,
+     "unit": "m",
+     "src": "wp_carquinez"
+    }
+   },
+   "osm_ways": [
+    "w23994277",
+    "w123741232",
+    "w157618391",
+    "w1016085442",
+    "w1208632372"
+   ],
+   "ways": [
+    {
+     "id": "w23994277",
+     "name": "Carquinez Bridge",
+     "highway": "motorway",
+     "length_m": 491.3,
+     "pts_baytm": [
+      [
+       77229.26,
+       103177.86
+      ],
+      [
+       77374.64,
+       103307.91
+      ],
+      [
+       77405.04,
+       103335.11
+      ],
+      [
+       77423.03,
+       103353.42
+      ],
+      [
+       77438.73,
+       103371.54
+      ],
+      [
+       77449.0,
+       103384.94
+      ],
+      [
+       77461.25,
+       103403.61
+      ],
+      [
+       77472.99,
+       103422.57
+      ],
+      [
+       77485.87,
+       103449.96
+      ],
+      [
+       77494.1,
+       103470.16
+      ],
+      [
+       77501.04,
+       103490.7
+      ],
+      [
+       77507.03,
+       103512.75
+      ],
+      [
+       77511.93,
+       103540.5
+      ],
+      [
+       77515.55,
+       103559.68
+      ]
+     ],
+     "lidar_projects": [
+      "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018"
+     ],
+     "deck": {
+      "n_bins": 25,
+      "deck_median_navd88_m": 18.62,
+      "deck_min_navd88_m": 3.35,
+      "deck_max_navd88_m": 49.18
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 49.18
+      },
+      {
+       "u": 50.0,
+       "deck": 48.42
+      },
+      {
+       "u": 90.0,
+       "deck": 47.69
+      },
+      {
+       "u": 130.0,
+       "deck": 46.94
+      },
+      {
+       "u": 170.0,
+       "deck": 46.37
+      },
+      {
+       "u": 210.0,
+       "deck": 45.71
+      },
+      {
+       "u": 250.0,
+       "deck": 18.62
+      },
+      {
+       "u": 290.0,
+       "deck": 12.25
+      },
+      {
+       "u": 330.0,
+       "deck": 6.2
+      },
+      {
+       "u": 370.0,
+       "deck": 4.06
+      },
+      {
+       "u": 410.0,
+       "deck": 3.35
+      },
+      {
+       "u": 450.0,
+       "deck": 7.73
+      },
+      {
+       "u": 490.0,
+       "deck": 7.45
+      }
+     ]
+    },
+    {
+     "id": "w123741232",
+     "name": "Carquinez Bridge",
+     "highway": "motorway",
+     "length_m": 616.6,
+     "pts_baytm": [
+      [
+       77515.55,
+       103559.68
+      ],
+      [
+       77516.46,
+       103572.26
+      ],
+      [
+       77515.55,
+       103624.49
+      ],
+      [
+       77478.15,
+       104175.01
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SolanoCounty_1_A23",
+      "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018"
+     ],
+     "deck": {
+      "n_bins": 31,
+      "deck_median_navd88_m": 45.49,
+      "deck_min_navd88_m": 3.84,
+      "deck_max_navd88_m": 48.73
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 4.13
+      },
+      {
+       "u": 50.0,
+       "deck": 3.91
+      },
+      {
+       "u": 90.0,
+       "deck": 43.58
+      },
+      {
+       "u": 130.0,
+       "deck": 43.88
+      },
+      {
+       "u": 170.0,
+       "deck": 44.28
+      },
+      {
+       "u": 210.0,
+       "deck": 44.68
+      },
+      {
+       "u": 250.0,
+       "deck": 45.01
+      },
+      {
+       "u": 290.0,
+       "deck": 45.33
+      },
+      {
+       "u": 330.0,
+       "deck": 45.65
+      },
+      {
+       "u": 370.0,
+       "deck": 46.02
+      },
+      {
+       "u": 410.0,
+       "deck": 46.46
+      },
+      {
+       "u": 450.0,
+       "deck": 46.93
+      },
+      {
+       "u": 490.0,
+       "deck": 47.41
+      },
+      {
+       "u": 530.0,
+       "deck": 48.09
+      },
+      {
+       "u": 570.0,
+       "deck": 48.43
+      },
+      {
+       "u": 610.0,
+       "deck": 48.73
+      }
+     ]
+    },
+    {
+     "id": "w157618391",
+     "name": "Carquinez Bridge",
+     "highway": "motorway",
+     "length_m": 1081.1,
+     "pts_baytm": [
+      [
+       77345.97,
+       104702.46
+      ],
+      [
+       77375.1,
+       104174.34
+      ],
+      [
+       77411.78,
+       103623.34
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SolanoCounty_1_A23",
+      "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018"
+     ],
+     "deck": {
+      "n_bins": 55,
+      "deck_median_navd88_m": 52.88,
+      "deck_min_navd88_m": 3.77,
+      "deck_max_navd88_m": 55.34
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 51.61
+      },
+      {
+       "u": 50.0,
+       "deck": 52.03
+      },
+      {
+       "u": 90.0,
+       "deck": 10.37
+      },
+      {
+       "u": 130.0,
+       "deck": 52.88
+      },
+      {
+       "u": 170.0,
+       "deck": 53.31
+      },
+      {
+       "u": 210.0,
+       "deck": 53.78
+      },
+      {
+       "u": 250.0,
+       "deck": 54.32
+      },
+      {
+       "u": 290.0,
+       "deck": 54.71
+      },
+      {
+       "u": 330.0,
+       "deck": 55.04
+      },
+      {
+       "u": 370.0,
+       "deck": 55.26
+      },
+      {
+       "u": 410.0,
+       "deck": 55.34
+      },
+      {
+       "u": 450.0,
+       "deck": 55.33
+      },
+      {
+       "u": 490.0,
+       "deck": 55.2
+      },
+      {
+       "u": 530.0,
+       "deck": 54.94
+      },
+      {
+       "u": 570.0,
+       "deck": 54.58
+      },
+      {
+       "u": 610.0,
+       "deck": 54.21
+      },
+      {
+       "u": 650.0,
+       "deck": 53.5
+      },
+      {
+       "u": 690.0,
+       "deck": 52.82
+      },
+      {
+       "u": 730.0,
+       "deck": 52.09
+      },
+      {
+       "u": 770.0,
+       "deck": 51.29
+      },
+      {
+       "u": 810.0,
+       "deck": 50.43
+      },
+      {
+       "u": 850.0,
+       "deck": 49.56
+      },
+      {
+       "u": 890.0,
+       "deck": 48.68
+      },
+      {
+       "u": 930.0,
+       "deck": 47.9
+      },
+      {
+       "u": 970.0,
+       "deck": 47.14
+      },
+      {
+       "u": 1010.0,
+       "deck": 46.37
+      },
+      {
+       "u": 1050.0,
+       "deck": 45.66
+      },
+      {
+       "u": 1090.0,
+       "deck": 3.77
+      }
+     ]
+    },
+    {
+     "id": "w1016085442",
+     "name": "Carquinez Bridge",
+     "highway": "motorway",
+     "length_m": 489.5,
+     "pts_baytm": [
+      [
+       77411.78,
+       103623.34
+      ],
+      [
+       77413.24,
+       103595.45
+      ],
+      [
+       77413.17,
+       103564.26
+      ],
+      [
+       77411.68,
+       103526.91
+      ],
+      [
+       77405.75,
+       103488.47
+      ],
+      [
+       77390.92,
+       103453.9
+      ],
+      [
+       77381.13,
+       103426.58
+      ],
+      [
+       77369.55,
+       103400.03
+      ],
+      [
+       77348.0,
+       103361.53
+      ],
+      [
+       77336.23,
+       103343.65
+      ],
+      [
+       77317.71,
+       103320.09
+      ],
+      [
+       77295.19,
+       103295.88
+      ],
+      [
+       77263.61,
+       103265.55
+      ],
+      [
+       77201.68,
+       103205.62
+      ]
+     ],
+     "lidar_projects": [
+      "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018"
+     ],
+     "deck": {
+      "n_bins": 25,
+      "deck_median_navd88_m": 43.16,
+      "deck_min_navd88_m": 3.88,
+      "deck_max_navd88_m": 48.99
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 3.91
+      },
+      {
+       "u": 50.0,
+       "deck": 4.73
+      },
+      {
+       "u": 90.0,
+       "deck": 6.62
+      },
+      {
+       "u": 130.0,
+       "deck": 8.51
+      },
+      {
+       "u": 170.0,
+       "deck": 4.56
+      },
+      {
+       "u": 210.0,
+       "deck": 5.85
+      },
+      {
+       "u": 250.0,
+       "deck": 43.16
+      },
+      {
+       "u": 290.0,
+       "deck": 44.15
+      },
+      {
+       "u": 330.0,
+       "deck": 45.11
+      },
+      {
+       "u": 370.0,
+       "deck": 46.25
+      },
+      {
+       "u": 410.0,
+       "deck": 47.32
+      },
+      {
+       "u": 450.0,
+       "deck": 48.26
+      },
+      {
+       "u": 490.0,
+       "deck": 48.99
+      }
+     ]
+    },
+    {
+     "id": "w1208632372",
+     "name": "Carquinez Bridge",
+     "highway": "motorway",
+     "length_m": 483.3,
+     "pts_baytm": [
+      [
+       77478.15,
+       104175.01
+      ],
+      [
+       77443.03,
+       104657.01
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SolanoCounty_1_A23"
+     ],
+     "deck": {
+      "n_bins": 25,
+      "deck_median_navd88_m": 49.63,
+      "deck_min_navd88_m": 11.44,
+      "deck_max_navd88_m": 51.25
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 48.84
+      },
+      {
+       "u": 50.0,
+       "deck": 49.03
+      },
+      {
+       "u": 90.0,
+       "deck": 49.17
+      },
+      {
+       "u": 130.0,
+       "deck": 49.29
+      },
+      {
+       "u": 170.0,
+       "deck": 49.43
+      },
+      {
+       "u": 210.0,
+       "deck": 49.63
+      },
+      {
+       "u": 250.0,
+       "deck": 49.89
+      },
+      {
+       "u": 290.0,
+       "deck": 50.18
+      },
+      {
+       "u": 330.0,
+       "deck": 50.37
+      },
+      {
+       "u": 370.0,
+       "deck": 50.68
+      },
+      {
+       "u": 410.0,
+       "deck": 50.89
+      },
+      {
+       "u": 450.0,
+       "deck": 33.75
+      },
+      {
+       "u": 490.0,
+       "deck": 51.25
+      }
+     ]
+    }
+   ],
+   "towers": [
+    {
+     "slug": "carquinez_tower_0",
+     "name": "Carquinez Bridges (Zampa 2003 suspension, 1958 cantilever) tower 0",
+     "pos_baytm": [
+      77354.13,
+      104520.11
+     ],
+     "top_navd88_m": 134.07,
+     "top_p999_m": 133.23,
+     "extent_m": [
+      34.0,
+      9.0
+     ],
+     "deck_ref_navd88_m": 52.88,
+     "way": "w157618391",
+     "n_legs": 1,
+     "lidar_project": "CA_SolanoCounty_1_A23",
+     "official_height_m": 120,
+     "delta_to_official_m": 14.07,
+     "height_used_m": 134.07,
+     "height_source": "lidar_3dep",
+     "confidence": "B",
+     "height_status": "lidar differs from official: lidar used"
+    },
+    {
+     "slug": "carquinez_tower_1",
+     "name": "Carquinez Bridges (Zampa 2003 suspension, 1958 cantilever) tower 1",
+     "pos_baytm": [
+      77455.2,
+      104508.32
+     ],
+     "top_navd88_m": 101.05,
+     "top_p999_m": 100.68,
+     "extent_m": [
+      20.0,
+      7.0
+     ],
+     "deck_ref_navd88_m": 49.63,
+     "way": "w1208632372",
+     "n_legs": 9,
+     "lidar_project": "CA_SolanoCounty_1_A23",
+     "official_height_m": 120,
+     "delta_to_official_m": -18.95,
+     "height_used_m": 101.05,
+     "height_source": "lidar_3dep",
+     "confidence": "B",
+     "height_status": "lidar differs from official: lidar used"
+    },
+    {
+     "slug": "carquinez_tower_2",
+     "name": "Carquinez Bridges (Zampa 2003 suspension, 1958 cantilever) tower 2",
+     "pos_baytm": [
+      77476.81,
+      104183.59
+     ],
+     "top_navd88_m": 101.0,
+     "top_p999_m": 99.09,
+     "extent_m": [
+      4.0,
+      5.0
+     ],
+     "deck_ref_navd88_m": 45.49,
+     "way": "w123741232",
+     "n_legs": 2,
+     "lidar_project": "CA_SolanoCounty_1_A23",
+     "official_height_m": 120,
+     "delta_to_official_m": -19.0,
+     "height_used_m": 101.0,
+     "height_source": "lidar_3dep",
+     "confidence": "B",
+     "height_status": "lidar differs from official: lidar used"
+    },
+    {
+     "slug": "carquinez_tower_3",
+     "name": "Carquinez Bridges (Zampa 2003 suspension, 1958 cantilever) tower 3",
+     "pos_baytm": [
+      77479.55,
+      104135.96
+     ],
+     "top_navd88_m": 101.48,
+     "top_p999_m": 99.07,
+     "extent_m": [
+      20.0,
+      9.0
+     ],
+     "deck_ref_navd88_m": 49.63,
+     "way": "w1208632372",
+     "n_legs": 11,
+     "lidar_project": "CA_SolanoCounty_1_A23",
+     "official_height_m": 120,
+     "delta_to_official_m": -18.52,
+     "height_used_m": 101.48,
+     "height_source": "lidar_3dep",
+     "confidence": "B",
+     "height_status": "lidar differs from official: lidar used"
+    }
+   ],
+   "lidar_candidates": [
+    "CA_SolanoCounty_1_A23",
+    "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018"
+   ],
+   "lidar_projects_used": [
+    "CA_SolanoCounty_1_A23",
+    "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018"
+   ],
+   "lidar_status": "measured from CA_SolanoCounty_1_A23, USGS_LPC_CA_NoCAL_Wildfires_B5b_2018",
+   "tower_spacing_m": [
+    47.7,
+    101.8,
+    325.4,
+    358.2,
+    373.2,
+    404.1
+   ],
+   "position_baytm": [
+    77472.99,
+    103422.57
+   ],
+   "towers_expected": 2,
+   "towers_found": 4
+  },
+  {
+   "slug": "benicia_martinez",
+   "name": "Benicia-Martinez Bridges (1962 truss, 2007 segmental, rail lift)",
+   "kind": "truss+segmental",
+   "official": {
+    "b2007_length_m": {
+     "v": 2700,
+     "unit": "m",
+     "src": "wp_benicia_martinez",
+     "note": "1.7 mi stated as 2.7 km"
+    },
+    "b1962_longest_span_m": {
+     "v": 161,
+     "unit": "m",
+     "src": "wp_benicia_martinez"
+    },
+    "b1962_clearance_m": {
+     "v": 42.1,
+     "unit": "m",
+     "src": "wp_benicia_martinez"
+    },
+    "rail_lift_length_m": {
+     "v": 1707.95,
+     "unit": "m",
+     "src": "wp_benicia_martinez"
+    }
+   },
+   "osm_ways": [
+    "w52000448",
+    "w4968908",
+    "w8703049",
+    "w123867334",
+    "w439915393",
+    "w1517469365",
+    "w969662680",
+    "w51999978",
+    "w1011569354",
+    "w1011569355",
+    "w1011569356",
+    "w1011569357"
+   ],
+   "ways": [
+    {
+     "id": "w52000448",
+     "name": "Benicia-Martinez Bridge",
+     "highway": "motorway",
+     "length_m": 1902.7,
+     "pts_baytm": [
+      [
+       85946.76,
+       102688.04
+      ],
+      [
+       86878.51,
+       101234.81
+      ],
+      [
+       86895.58,
+       101206.17
+      ],
+      [
+       86911.6,
+       101174.51
+      ],
+      [
+       86923.2,
+       101148.87
+      ],
+      [
+       86933.22,
+       101122.69
+      ],
+      [
+       86941.26,
+       101098.25
+      ],
+      [
+       86948.16,
+       101073.45
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SolanoCounty_1_A23",
+      "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018"
+     ],
+     "deck": {
+      "n_bins": 96,
+      "deck_median_navd88_m": 48.17,
+      "deck_min_navd88_m": 4.03,
+      "deck_max_navd88_m": 55.6
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 41.16
+      },
+      {
+       "u": 50.0,
+       "deck": 41.58
+      },
+      {
+       "u": 90.0,
+       "deck": 42.07
+      },
+      {
+       "u": 130.0,
+       "deck": 42.62
+      },
+      {
+       "u": 170.0,
+       "deck": 43.11
+      },
+      {
+       "u": 210.0,
+       "deck": 43.63
+      },
+      {
+       "u": 250.0,
+       "deck": 44.08
+      },
+      {
+       "u": 290.0,
+       "deck": 44.57
+      },
+      {
+       "u": 330.0,
+       "deck": 45.08
+      },
+      {
+       "u": 370.0,
+       "deck": 45.61
+      },
+      {
+       "u": 410.0,
+       "deck": 46.09
+      },
+      {
+       "u": 450.0,
+       "deck": 46.61
+      },
+      {
+       "u": 490.0,
+       "deck": 47.14
+      },
+      {
+       "u": 530.0,
+       "deck": 47.63
+      },
+      {
+       "u": 570.0,
+       "deck": 48.05
+      },
+      {
+       "u": 610.0,
+       "deck": 48.56
+      },
+      {
+       "u": 650.0,
+       "deck": 49.13
+      },
+      {
+       "u": 690.0,
+       "deck": 49.66
+      },
+      {
+       "u": 730.0,
+       "deck": 50.12
+      },
+      {
+       "u": 770.0,
+       "deck": 50.64
+      },
+      {
+       "u": 810.0,
+       "deck": 51.15
+      },
+      {
+       "u": 850.0,
+       "deck": 51.65
+      },
+      {
+       "u": 890.0,
+       "deck": 52.07
+      },
+      {
+       "u": 930.0,
+       "deck": 52.57
+      },
+      {
+       "u": 970.0,
+       "deck": 53.15
+      },
+      {
+       "u": 1010.0,
+       "deck": 53.69
+      },
+      {
+       "u": 1050.0,
+       "deck": 54.18
+      },
+      {
+       "u": 1090.0,
+       "deck": 54.68
+      },
+      {
+       "u": 1130.0,
+       "deck": 55.19
+      },
+      {
+       "u": 1170.0,
+       "deck": 55.54
+      },
+      {
+       "u": 1210.0,
+       "deck": 55.59
+      },
+      {
+       "u": 1250.0,
+       "deck": 55.54
+      },
+      {
+       "u": 1290.0,
+       "deck": 55.29
+      },
+      {
+       "u": 1330.0,
+       "deck": 54.82
+      },
+      {
+       "u": 1370.0,
+       "deck": 53.7
+      },
+      {
+       "u": 1410.0,
+       "deck": 52.79
+      },
+      {
+       "u": 1450.0,
+       "deck": 51.6
+      },
+      {
+       "u": 1490.0,
+       "deck": 50.15
+      },
+      {
+       "u": 1530.0,
+       "deck": 48.46
+      },
+      {
+       "u": 1570.0,
+       "deck": 46.75
+      },
+      {
+       "u": 1610.0,
+       "deck": 45.05
+      },
+      {
+       "u": 1650.0,
+       "deck": 43.19
+      },
+      {
+       "u": 1690.0,
+       "deck": 41.6
+      },
+      {
+       "u": 1730.0,
+       "deck": 39.81
+      },
+      {
+       "u": 1770.0,
+       "deck": 37.9
+      },
+      {
+       "u": 1810.0,
+       "deck": 36.19
+      },
+      {
+       "u": 1850.0,
+       "deck": 34.39
+      },
+      {
+       "u": 1890.0,
+       "deck": 32.65
+      }
+     ]
+    },
+    {
+     "id": "w4968908",
+     "name": "Benicia-Martinez Bridge",
+     "highway": "motorway",
+     "length_m": 1345.6,
+     "pts_baytm": [
+      [
+       86999.52,
+       100917.71
+      ],
+      [
+       87003.13,
+       101131.83
+      ],
+      [
+       87002.52,
+       101184.1
+      ],
+      [
+       86999.41,
+       101231.21
+      ],
+      [
+       86992.01,
+       101291.9
+      ],
+      [
+       86978.27,
+       101366.38
+      ],
+      [
+       86967.01,
+       101411.43
+      ],
+      [
+       86957.73,
+       101441.8
+      ],
+      [
+       86946.57,
+       101476.04
+      ],
+      [
+       86923.74,
+       101535.51
+      ],
+      [
+       86893.13,
+       101600.18
+      ],
+      [
+       86855.95,
+       101665.84
+      ],
+      [
+       86558.07,
+       102152.0
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SolanoCounty_1_A23",
+      "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018"
+     ],
+     "deck": {
+      "n_bins": 68,
+      "deck_median_navd88_m": 50.36,
+      "deck_min_navd88_m": 3.75,
+      "deck_max_navd88_m": 55.8
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 29.16
+      },
+      {
+       "u": 50.0,
+       "deck": 30.56
+      },
+      {
+       "u": 90.0,
+       "deck": 31.88
+      },
+      {
+       "u": 130.0,
+       "deck": 33.23
+      },
+      {
+       "u": 170.0,
+       "deck": 34.56
+      },
+      {
+       "u": 210.0,
+       "deck": 35.91
+      },
+      {
+       "u": 250.0,
+       "deck": 37.22
+      },
+      {
+       "u": 290.0,
+       "deck": 38.58
+      },
+      {
+       "u": 330.0,
+       "deck": 39.85
+      },
+      {
+       "u": 370.0,
+       "deck": 41.16
+      },
+      {
+       "u": 410.0,
+       "deck": 6.62
+      },
+      {
+       "u": 450.0,
+       "deck": 4.65
+      },
+      {
+       "u": 490.0,
+       "deck": 3.75
+      },
+      {
+       "u": 530.0,
+       "deck": 46.83
+      },
+      {
+       "u": 570.0,
+       "deck": 48.21
+      },
+      {
+       "u": 610.0,
+       "deck": 3.95
+      },
+      {
+       "u": 650.0,
+       "deck": 50.63
+      },
+      {
+       "u": 690.0,
+       "deck": 51.69
+      },
+      {
+       "u": 730.0,
+       "deck": 52.54
+      },
+      {
+       "u": 770.0,
+       "deck": 53.77
+      },
+      {
+       "u": 810.0,
+       "deck": 4.36
+      },
+      {
+       "u": 850.0,
+       "deck": 54.93
+      },
+      {
+       "u": 890.0,
+       "deck": 55.48
+      },
+      {
+       "u": 930.0,
+       "deck": 55.74
+      },
+      {
+       "u": 970.0,
+       "deck": 55.8
+      },
+      {
+       "u": 1010.0,
+       "deck": 4.38
+      },
+      {
+       "u": 1050.0,
+       "deck": 55.71
+      },
+      {
+       "u": 1090.0,
+       "deck": 55.59
+      },
+      {
+       "u": 1130.0,
+       "deck": 55.22
+      },
+      {
+       "u": 1170.0,
+       "deck": 54.8
+      },
+      {
+       "u": 1210.0,
+       "deck": 54.31
+      },
+      {
+       "u": 1250.0,
+       "deck": 53.78
+      },
+      {
+       "u": 1290.0,
+       "deck": 53.05
+      },
+      {
+       "u": 1330.0,
+       "deck": 52.31
+      }
+     ]
+    },
+    {
+     "id": "w8703049",
+     "name": "Benicia-Martinez Bridge",
+     "highway": "motorway",
+     "length_m": 265.4,
+     "pts_baytm": [
+      [
+       86169.03,
+       102786.98
+      ],
+      [
+       86161.72,
+       102807.27
+      ],
+      [
+       86079.53,
+       102940.81
+      ],
+      [
+       86035.07,
+       103015.57
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SolanoCounty_1_A23"
+     ],
+     "deck": {
+      "n_bins": 14,
+      "deck_median_navd88_m": 37.48,
+      "deck_min_navd88_m": 3.21,
+      "deck_max_navd88_m": 39.66
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 39.66
+      },
+      {
+       "u": 50.0,
+       "deck": 38.96
+      },
+      {
+       "u": 90.0,
+       "deck": 38.3
+      },
+      {
+       "u": 130.0,
+       "deck": 37.65
+      },
+      {
+       "u": 170.0,
+       "deck": 36.97
+      },
+      {
+       "u": 210.0,
+       "deck": 36.48
+      },
+      {
+       "u": 250.0,
+       "deck": 36.1
+      }
+     ]
+    },
+    {
+     "id": "w123867334",
+     "name": "Benicia-Martinez Bridge",
+     "highway": "motorway",
+     "length_m": 229.1,
+     "pts_baytm": [
+      [
+       85966.07,
+       103127.28
+      ],
+      [
+       85943.36,
+       103168.32
+      ],
+      [
+       85933.1,
+       103188.99
+      ],
+      [
+       85923.35,
+       103212.95
+      ],
+      [
+       85914.53,
+       103234.44
+      ],
+      [
+       85904.89,
+       103261.56
+      ],
+      [
+       85894.93,
+       103299.1
+      ],
+      [
+       85885.97,
+       103340.59
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SolanoCounty_1_A23"
+     ],
+     "deck": {
+      "n_bins": 12,
+      "deck_median_navd88_m": 29.58,
+      "deck_min_navd88_m": 7.38,
+      "deck_max_navd88_m": 36.52
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 7.38
+      },
+      {
+       "u": 50.0,
+       "deck": 23.51
+      },
+      {
+       "u": 90.0,
+       "deck": 36.4
+      },
+      {
+       "u": 130.0,
+       "deck": 19.14
+      },
+      {
+       "u": 170.0,
+       "deck": 14.44
+      },
+      {
+       "u": 210.0,
+       "deck": 35.74
+      }
+     ]
+    },
+    {
+     "id": "w439915393",
+     "name": "Benicia-Martinez Bridge",
+     "highway": "motorway",
+     "length_m": 131.3,
+     "pts_baytm": [
+      [
+       86035.07,
+       103015.57
+      ],
+      [
+       85966.07,
+       103127.28
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SolanoCounty_1_A23"
+     ],
+     "deck": {
+      "n_bins": 7,
+      "deck_median_navd88_m": 13.1,
+      "deck_min_navd88_m": 3.82,
+      "deck_max_navd88_m": 36.03
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 35.99
+      },
+      {
+       "u": 50.0,
+       "deck": 36.03
+      },
+      {
+       "u": 90.0,
+       "deck": 3.82
+      },
+      {
+       "u": 130.0,
+       "deck": 4.35
+      }
+     ]
+    },
+    {
+     "id": "w1517469365",
+     "name": "Benicia-Martinez Bridge",
+     "highway": "motorway",
+     "length_m": 744.7,
+     "pts_baytm": [
+      [
+       86558.07,
+       102152.0
+      ],
+      [
+       86169.03,
+       102786.98
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SolanoCounty_1_A23"
+     ],
+     "deck": {
+      "n_bins": 38,
+      "deck_median_navd88_m": 45.82,
+      "deck_min_navd88_m": 4.24,
+      "deck_max_navd88_m": 51.86
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 51.86
+      },
+      {
+       "u": 50.0,
+       "deck": 51.2
+      },
+      {
+       "u": 90.0,
+       "deck": 50.53
+      },
+      {
+       "u": 130.0,
+       "deck": 49.91
+      },
+      {
+       "u": 170.0,
+       "deck": 49.11
+      },
+      {
+       "u": 210.0,
+       "deck": 48.74
+      },
+      {
+       "u": 250.0,
+       "deck": 48.1
+      },
+      {
+       "u": 290.0,
+       "deck": 47.32
+      },
+      {
+       "u": 330.0,
+       "deck": 46.55
+      },
+      {
+       "u": 370.0,
+       "deck": 45.98
+      },
+      {
+       "u": 410.0,
+       "deck": 45.3
+      },
+      {
+       "u": 450.0,
+       "deck": 44.66
+      },
+      {
+       "u": 490.0,
+       "deck": 44.07
+      },
+      {
+       "u": 530.0,
+       "deck": 43.5
+      },
+      {
+       "u": 570.0,
+       "deck": 42.76
+      },
+      {
+       "u": 610.0,
+       "deck": 41.93
+      },
+      {
+       "u": 650.0,
+       "deck": 41.44
+      },
+      {
+       "u": 690.0,
+       "deck": 40.79
+      },
+      {
+       "u": 730.0,
+       "deck": 40.11
+      }
+     ]
+    },
+    {
+     "id": "w969662680",
+     "name": "Benicia-Martinez Bridge",
+     "highway": "cycleway",
+     "length_m": 929.9,
+     "pts_baytm": [
+      [
+       85936.93,
+       102682.17
+      ],
+      [
+       86438.83,
+       101899.4
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SolanoCounty_1_A23"
+     ],
+     "deck": {
+      "n_bins": 47,
+      "deck_median_navd88_m": 46.58,
+      "deck_min_navd88_m": 3.73,
+      "deck_max_navd88_m": 52.5
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 33.51
+      },
+      {
+       "u": 50.0,
+       "deck": 10.99
+      },
+      {
+       "u": 90.0,
+       "deck": 3.73
+      },
+      {
+       "u": 130.0,
+       "deck": 42.6
+      },
+      {
+       "u": 170.0,
+       "deck": 43.08
+      },
+      {
+       "u": 210.0,
+       "deck": 43.54
+      },
+      {
+       "u": 250.0,
+       "deck": 44.06
+      },
+      {
+       "u": 290.0,
+       "deck": 44.55
+      },
+      {
+       "u": 330.0,
+       "deck": 42.09
+      },
+      {
+       "u": 370.0,
+       "deck": 45.56
+      },
+      {
+       "u": 410.0,
+       "deck": 46.06
+      },
+      {
+       "u": 450.0,
+       "deck": 46.58
+      },
+      {
+       "u": 490.0,
+       "deck": 23.1
+      },
+      {
+       "u": 530.0,
+       "deck": 47.62
+      },
+      {
+       "u": 570.0,
+       "deck": 48.03
+      },
+      {
+       "u": 610.0,
+       "deck": 48.55
+      },
+      {
+       "u": 650.0,
+       "deck": 49.08
+      },
+      {
+       "u": 690.0,
+       "deck": 49.64
+      },
+      {
+       "u": 730.0,
+       "deck": 50.1
+      },
+      {
+       "u": 770.0,
+       "deck": 50.62
+      },
+      {
+       "u": 810.0,
+       "deck": 51.12
+      },
+      {
+       "u": 850.0,
+       "deck": 51.63
+      },
+      {
+       "u": 890.0,
+       "deck": 52.04
+      },
+      {
+       "u": 930.0,
+       "deck": 52.5
+      }
+     ]
+    },
+    {
+     "id": "w51999978",
+     "name": "Benicia-Martinez Bridge",
+     "highway": "cycleway",
+     "length_m": 969.6,
+     "pts_baytm": [
+      [
+       86438.83,
+       101899.4
+      ],
+      [
+       86869.17,
+       101228.2
+      ],
+      [
+       86884.38,
+       101203.25
+      ],
+      [
+       86897.3,
+       101178.76
+      ],
+      [
+       86909.95,
+       101151.1
+      ],
+      [
+       86920.36,
+       101125.66
+      ],
+      [
+       86929.63,
+       101098.98
+      ],
+      [
+       86937.51,
+       101070.86
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SolanoCounty_1_A23",
+      "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018"
+     ],
+     "deck": {
+      "n_bins": 49,
+      "deck_median_navd88_m": 49.7,
+      "deck_min_navd88_m": 3.65,
+      "deck_max_navd88_m": 55.59
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 52.69
+      },
+      {
+       "u": 50.0,
+       "deck": 24.89
+      },
+      {
+       "u": 90.0,
+       "deck": 53.79
+      },
+      {
+       "u": 130.0,
+       "deck": 54.28
+      },
+      {
+       "u": 170.0,
+       "deck": 54.8
+      },
+      {
+       "u": 210.0,
+       "deck": 4.01
+      },
+      {
+       "u": 250.0,
+       "deck": 55.57
+      },
+      {
+       "u": 290.0,
+       "deck": 55.57
+      },
+      {
+       "u": 330.0,
+       "deck": 55.48
+      },
+      {
+       "u": 370.0,
+       "deck": 3.95
+      },
+      {
+       "u": 410.0,
+       "deck": 54.78
+      },
+      {
+       "u": 450.0,
+       "deck": 53.49
+      },
+      {
+       "u": 490.0,
+       "deck": 52.47
+      },
+      {
+       "u": 530.0,
+       "deck": 3.65
+      },
+      {
+       "u": 570.0,
+       "deck": 49.7
+      },
+      {
+       "u": 610.0,
+       "deck": 48.04
+      },
+      {
+       "u": 650.0,
+       "deck": 46.3
+      },
+      {
+       "u": 690.0,
+       "deck": 44.5
+      },
+      {
+       "u": 730.0,
+       "deck": 17.91
+      },
+      {
+       "u": 770.0,
+       "deck": 16.07
+      },
+      {
+       "u": 810.0,
+       "deck": 20.85
+      },
+      {
+       "u": 850.0,
+       "deck": 23.85
+      },
+      {
+       "u": 890.0,
+       "deck": 23.46
+      },
+      {
+       "u": 930.0,
+       "deck": 23.28
+      },
+      {
+       "u": 970.0,
+       "deck": 29.2
+      }
+     ]
+    },
+    {
+     "id": "w1011569354",
+     "name": "Martinez Subdivision",
+     "highway": "rail",
+     "length_m": 414.1,
+     "pts_baytm": [
+      [
+       86671.29,
+       101639.15
+      ],
+      [
+       86848.14,
+       101349.82
+      ],
+      [
+       86867.65,
+       101314.39
+      ],
+      [
+       86881.68,
+       101282.79
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SolanoCounty_1_A23",
+      "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018"
+     ],
+     "deck": {
+      "n_bins": 21,
+      "deck_median_navd88_m": 25.16,
+      "deck_min_navd88_m": 9.18,
+      "deck_max_navd88_m": 25.85
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 25.85
+      },
+      {
+       "u": 50.0,
+       "deck": 25.84
+      },
+      {
+       "u": 90.0,
+       "deck": 25.51
+      },
+      {
+       "u": 130.0,
+       "deck": 25.51
+      },
+      {
+       "u": 170.0,
+       "deck": 25.41
+      },
+      {
+       "u": 210.0,
+       "deck": 25.16
+      },
+      {
+       "u": 250.0,
+       "deck": 24.94
+      },
+      {
+       "u": 290.0,
+       "deck": 24.7
+      },
+      {
+       "u": 330.0,
+       "deck": 24.47
+      },
+      {
+       "u": 370.0,
+       "deck": 24.26
+      },
+      {
+       "u": 410.0,
+       "deck": 21.26
+      }
+     ]
+    },
+    {
+     "id": "w1011569355",
+     "name": "Martinez Subdivision",
+     "highway": "rail",
+     "length_m": 415.1,
+     "pts_baytm": [
+      [
+       86885.62,
+       101283.74
+      ],
+      [
+       86871.78,
+       101315.66
+      ],
+      [
+       86851.38,
+       101352.27
+      ],
+      [
+       86674.96,
+       101641.01
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SolanoCounty_1_A23",
+      "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018"
+     ],
+     "deck": {
+      "n_bins": 21,
+      "deck_median_navd88_m": 25.07,
+      "deck_min_navd88_m": 7.35,
+      "deck_max_navd88_m": 25.88
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 18.16
+      },
+      {
+       "u": 50.0,
+       "deck": 24.32
+      },
+      {
+       "u": 90.0,
+       "deck": 24.5
+      },
+      {
+       "u": 130.0,
+       "deck": 24.72
+      },
+      {
+       "u": 170.0,
+       "deck": 24.96
+      },
+      {
+       "u": 210.0,
+       "deck": 25.19
+      },
+      {
+       "u": 250.0,
+       "deck": 23.82
+      },
+      {
+       "u": 290.0,
+       "deck": 25.51
+      },
+      {
+       "u": 330.0,
+       "deck": 25.83
+      },
+      {
+       "u": 370.0,
+       "deck": 25.83
+      },
+      {
+       "u": 410.0,
+       "deck": 25.88
+      }
+     ]
+    },
+    {
+     "id": "w1011569356",
+     "name": "Martinez Subdivision",
+     "highway": "rail",
+     "length_m": 105.8,
+     "pts_baytm": [
+      [
+       86616.11,
+       101729.43
+      ],
+      [
+       86671.29,
+       101639.15
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SolanoCounty_1_A23"
+     ],
+     "deck": {
+      "n_bins": 6,
+      "deck_median_navd88_m": 25.82,
+      "deck_min_navd88_m": 21.47,
+      "deck_max_navd88_m": 28.29
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 25.8
+      },
+      {
+       "u": 50.0,
+       "deck": 28.29
+      },
+      {
+       "u": 90.0,
+       "deck": 25.81
+      }
+     ]
+    },
+    {
+     "id": "w1011569357",
+     "name": "Martinez Subdivision",
+     "highway": "rail",
+     "length_m": 105.6,
+     "pts_baytm": [
+      [
+       86674.96,
+       101641.01
+      ],
+      [
+       86619.92,
+       101731.09
+      ]
+     ],
+     "lidar_projects": [
+      "CA_SolanoCounty_1_A23"
+     ],
+     "deck": {
+      "n_bins": 6,
+      "deck_median_navd88_m": 25.82,
+      "deck_min_navd88_m": 25.7,
+      "deck_max_navd88_m": 28.53
+     },
+     "deck_profile": [
+      {
+       "u": 10.0,
+       "deck": 25.77
+      },
+      {
+       "u": 50.0,
+       "deck": 28.53
+      },
+      {
+       "u": 90.0,
+       "deck": 25.82
+      }
+     ]
+    }
+   ],
+   "towers": [],
+   "lidar_candidates": [
+    "CA_SolanoCounty_1_A23",
+    "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018",
+    "ARRA-CA_SanFranCoast_2010"
+   ],
+   "lidar_projects_used": [
+    "CA_SolanoCounty_1_A23",
+    "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018"
+   ],
+   "lidar_status": "measured from CA_SolanoCounty_1_A23, USGS_LPC_CA_NoCAL_Wildfires_B5b_2018",
+   "position_baytm": [
+    86923.2,
+    101148.87
+   ],
+   "towers_expected": 0,
+   "towers_found": 0
+  },
+  {
+   "slug": "antioch",
+   "name": "Antioch Bridge (CA 160)",
+   "kind": "steel_plate_girder",
+   "official": {
+    "total_length_m": {
+     "v": 2897,
+     "unit": "m",
+     "src": "wp_antioch",
+     "note": "9,504 ft"
+    },
+    "main_span_m": {
+     "v": 140,
+     "unit": "m",
+     "src": "wp_antioch"
+    },
+    "clearance_m": {
+     "v": 41,
+     "unit": "m",
+     "src": "wp_antioch"
+    }
+   },
+   "osm_ways": [
+    "w10514431",
+    "w212238611"
+   ],
+   "ways": [
+    {
+     "id": "w10514431",
+     "name": "Antioch Bridge",
+     "highway": "trunk",
+     "length_m": 2883.9,
+     "pts_baytm": [
+      [
+       119047.69,
+       102263.68
+      ],
+      [
+       119070.77,
+       99563.59
+      ],
+      [
+       119072.35,
+       99379.84
+      ]
+     ],
+     "lidar_projects": [],
+     "deck": null,
+     "deck_profile": []
+    },
+    {
+     "id": "w212238611",
+     "name": "Antioch Bridge",
+     "highway": "trunk",
+     "length_m": 2883.9,
+     "pts_baytm": [
+      [
+       119077.81,
+       99379.89
+      ],
+      [
+       119076.24,
+       99563.36
+      ],
+      [
+       119053.15,
+       102263.72
+      ]
+     ],
+     "lidar_projects": [],
+     "deck": null,
+     "deck_profile": []
+    }
+   ],
+   "towers": [],
+   "lidar_candidates": [
+    "CA_SolanoCounty_1_A23",
+    "CA_ContraCostaCo_2007",
+    "CA_NoCAL_Wildfires_TL_QL2_2018"
+   ],
+   "lidar_projects_used": [],
+   "lidar_status": "no 3DEP EPT first returns found in CA_SolanoCounty_1_A23, CA_ContraCostaCo_2007, CA_NoCAL_Wildfires_TL_QL2_2018: official figures and OSM geometry only, deck/tower heights Assumed from official clearance; tracked for a later lidar source",
+   "position_baytm": [
+    119070.77,
+    99563.59
+   ],
+   "towers_expected": 0,
+   "towers_found": 0
+  }
+ ],
+ "buildings": [
+  {
+   "slug": "ordway_building",
+   "name": "Ordway Building",
+   "official_height_m": {
+    "v": 123.1,
+    "unit": "m",
+    "src": "wp_oakland_tallest"
+   },
+   "floors": 28,
+   "osm_id": "w27808521",
+   "pos_baytm": [
+    74070.89,
+    76290.1
+   ],
+   "footprint_baytm": [
+    [
+     74058.72,
+     76321.08
+    ],
+    [
+     74072.02,
+     76318.45
+    ],
+    [
+     74070.49,
+     76311.14
+    ],
+    [
+     74082.31,
+     76308.69
+    ],
+    [
+     74083.87,
+     76316.1
+    ],
+    [
+     74098.01,
+     76313.31
+    ],
+    [
+     74086.41,
+     76258.02
+    ],
+    [
+     74071.98,
+     76261.12
+    ],
+    [
+     74073.07,
+     76266.3
+    ],
+    [
+     74067.55,
+     76267.44
+    ],
+    [
+     74061.53,
+     76268.69
+    ],
+    [
+     74060.47,
+     76263.61
+    ],
+    [
+     74047.28,
+     76266.44
+    ],
+    [
+     74058.72,
+     76321.08
+    ]
+   ],
+   "lidar_project": "CA_AlamedaCo_2_2021",
+   "lidar": {
+    "top_p99_navd88_m": 130.39,
+    "top_max_navd88_m": 139.43,
+    "ground_ring_p10_navd88_m": 6.89,
+    "height_p99_m": 123.5,
+    "n_inside": 83693
+   },
+   "osm_height_tag": "123",
+   "height_m": 123.1,
+   "height_source": "official",
+   "confidence": "A",
+   "delta_to_official_m": 0.4,
+   "status": "agrees with official within max(2 m, 1 %)"
+  },
+  {
+   "slug": "kaiser_center_tower",
+   "name": "Kaiser Center (300 Lakeside)",
+   "official_height_m": {
+    "v": 118.7,
+    "unit": "m",
+    "src": "wp_oakland_tallest",
+    "note": "list timeline says 390 ft"
+   },
+   "floors": 28,
+   "osm_id": "w27808517",
+   "pos_baytm": [
+    74077.94,
+    76164.58
+   ],
+   "footprint_baytm": [
+    [
+     74014.31,
+     76149.29
+    ],
+    [
+     74030.84,
+     76158.23
+    ],
+    [
+     74045.14,
+     76168.89
+    ],
+    [
+     74042.13,
+     76173.11
+    ],
+    [
+     74039.67,
+     76176.55
+    ],
+    [
+     74043.78,
+     76179.59
+    ],
+    [
+     74046.38,
+     76176.43
+    ],
+    [
+     74048.95,
+     76173.41
+    ],
+    [
+     74061.97,
+     76185.6
+    ],
+    [
+     74071.93,
+     76195.33
+    ],
+    [
+     74080.86,
+     76206.63
+    ],
+    [
+     74101.86,
+     76193.15
+    ],
+    [
+     74105.51,
+     76198.91
+    ],
+    [
+     74108.47,
+     76203.61
+    ],
+    [
+     74110.51,
+     76206.83
+    ],
+    [
+     74125.53,
+     76198.97
+    ],
+    [
+     74123.1,
+     76194.16
+    ],
+    [
+     74120.79,
+     76189.57
+    ],
+    [
+     74115.47,
+     76182.52
+    ],
+    [
+     74117.45,
+     76181.27
+    ],
+    [
+     74118.63,
+     76183.07
+    ],
+    [
+     74131.37,
+     76175.25
+    ],
+    [
+     74137.59,
+     76171.38
+    ],
+    [
+     74126.07,
+     76154.96
+    ],
+    [
+     74110.97,
+     76138.09
+    ],
+    [
+     74096.12,
+     76123.8
+    ],
+    [
+     74076.83,
+     76108.69
+    ],
+    [
+     74072.75,
+     76114.46
+    ],
+    [
+     74065.93,
+     76124.08
+    ],
+    [
+     74051.73,
+     76115.38
+    ],
+    [
+     74034.96,
+     76106.46
+    ],
+    [
+     74032.63,
+     76111.61
+    ],
+    [
+     74025.37,
+     76127.3
+    ],
+    [
+     74014.31,
+     76149.29
+    ]
+   ],
+   "lidar_project": "CA_AlamedaCo_2_2021",
+   "lidar": {
+    "top_p99_navd88_m": 122.9,
+    "top_max_navd88_m": 125.24,
+    "ground_ring_p10_navd88_m": 3.2,
+    "height_p99_m": 119.7,
+    "n_inside": 339112
+   },
+   "osm_height_tag": "119",
+   "height_m": 118.7,
+   "height_source": "official",
+   "confidence": "A",
+   "delta_to_official_m": 1.0,
+   "status": "agrees with official within max(2 m, 1 %)"
+  },
+  {
+   "slug": "oakland_1111_broadway",
+   "name": "1111 Broadway",
+   "official_height_m": {
+    "v": 109.7,
+    "unit": "m",
+    "src": "wp_oakland_tallest"
+   },
+   "floors": 24,
+   "osm_id": "w36977642",
+   "pos_baytm": [
+    73299.89,
+    75497.75
+   ],
+   "footprint_baytm": [
+    [
+     73270.96,
+     75488.82
+    ],
+    [
+     73290.01,
+     75526.81
+    ],
+    [
+     73292.48,
+     75525.52
+    ],
+    [
+     73293.84,
+     75528.28
+    ],
+    [
+     73296.47,
+     75526.99
+    ],
+    [
+     73297.85,
+     75529.77
+    ],
+    [
+     73300.57,
+     75528.44
+    ],
+    [
+     73301.91,
+     75531.14
+    ],
+    [
+     73323.61,
+     75520.48
+    ],
+    [
+     73322.24,
+     75517.69
+    ],
+    [
+     73324.35,
+     75516.66
+    ],
+    [
+     73323.99,
+     75513.67
+    ],
+    [
+     73323.5,
+     75510.49
+    ],
+    [
+     73322.47,
+     75505.44
+    ],
+    [
+     73320.96,
+     75500.28
+    ],
+    [
+     73319.22,
+     75495.52
+    ],
+    [
+     73317.15,
+     75490.64
+    ],
+    [
+     73314.68,
+     75485.93
+    ],
+    [
+     73311.94,
+     75481.35
+    ],
+    [
+     73308.76,
+     75476.88
+    ],
+    [
+     73305.48,
+     75472.95
+    ],
+    [
+     73302.89,
+     75470.17
+    ],
+    [
+     73300.31,
+     75467.62
+    ],
+    [
+     73298.05,
+     75468.73
+    ],
+    [
+     73296.71,
+     75466.01
+    ],
+    [
+     73274.93,
+     75476.72
+    ],
+    [
+     73276.25,
+     75479.39
+    ],
+    [
+     73273.46,
+     75480.75
+    ],
+    [
+     73274.84,
+     75483.54
+    ],
+    [
+     73272.2,
+     75484.84
+    ],
+    [
+     73273.55,
+     75487.56
+    ],
+    [
+     73270.96,
+     75488.82
+    ]
+   ],
+   "lidar_project": "CA_AlamedaCo_2_2021",
+   "lidar": {
+    "top_p99_navd88_m": 125.88,
+    "top_max_navd88_m": 132.19,
+    "ground_ring_p10_navd88_m": 13.13,
+    "height_p99_m": 112.75,
+    "n_inside": 97475
+   },
+   "osm_height_tag": "110",
+   "height_m": 112.75,
+   "height_source": "lidar_3dep",
+   "confidence": "B",
+   "delta_to_official_m": 3.05,
+   "status": "lidar differs from official: lidar used"
+  },
+  {
+   "slug": "lake_merritt_plaza",
+   "name": "Lake Merritt Plaza",
+   "official_height_m": {
+    "v": 113.1,
+    "unit": "m",
+    "src": "wp_oakland_tallest"
+   },
+   "floors": 27,
+   "osm_id": "w430222989",
+   "pos_baytm": [
+    73980.54,
+    76042.34
+   ],
+   "footprint_baytm": [
+    [
+     73948.07,
+     76009.26
+    ],
+    [
+     73984.01,
+     75991.89
+    ],
+    [
+     73988.73,
+     75989.54
+    ],
+    [
+     73991.83,
+     75995.84
+    ],
+    [
+     74011.31,
+     76035.43
+    ],
+    [
+     74013.5,
+     76041.6
+    ],
+    [
+     74015.15,
+     76047.42
+    ],
+    [
+     74015.12,
+     76052.76
+    ],
+    [
+     74012.23,
+     76058.01
+    ],
+    [
+     74007.62,
+     76062.71
+    ],
+    [
+     74000.81,
+     76066.81
+    ],
+    [
+     73993.24,
+     76068.51
+    ],
+    [
+     73985.72,
+     76068.01
+    ],
+    [
+     73978.94,
+     76065.04
+    ],
+    [
+     73975.37,
+     76061.27
+    ],
+    [
+     73912.31,
+     76091.85
+    ],
+    [
+     73913.07,
+     76071.53
+    ],
+    [
+     73965.27,
+     76045.65
+    ],
+    [
+     73950.48,
+     76014.36
+    ],
+    [
+     73948.07,
+     76009.26
+    ]
+   ],
+   "lidar_project": "CA_AlamedaCo_2_2021",
+   "lidar": {
+    "top_p99_navd88_m": 117.05,
+    "top_max_navd88_m": 120.17,
+    "ground_ring_p10_navd88_m": 3.77,
+    "height_p99_m": 113.28,
+    "n_inside": 192108
+   },
+   "osm_height_tag": "113",
+   "height_m": 113.1,
+   "height_source": "official",
+   "confidence": "A",
+   "delta_to_official_m": 0.18,
+   "status": "agrees with official within max(2 m, 1 %)"
+  },
+  {
+   "slug": "clorox_building",
+   "name": "Clorox Building (1221 Broadway)",
+   "official_height_m": {
+    "v": 100.6,
+    "unit": "m",
+    "src": "wp_oakland_tallest"
+   },
+   "floors": 24,
+   "osm_id": "w437699929",
+   "pos_baytm": [
+    73346.26,
+    75576.44
+   ],
+   "footprint_baytm": [
+    [
+     73341.23,
+     75602.4
+    ],
+    [
+     73333.44,
+     75600.28
+    ],
+    [
+     73324.32,
+     75582.34
+    ],
+    [
+     73321.84,
+     75576.82
+    ],
+    [
+     73333.96,
+     75542.19
+    ],
+    [
+     73339.25,
+     75539.94
+    ],
+    [
+     73374.01,
+     75552.0
+    ],
+    [
+     73376.28,
+     75558.01
+    ],
+    [
+     73364.93,
+     75590.39
+    ],
+    [
+     73358.33,
+     75594.04
+    ],
+    [
+     73341.23,
+     75602.4
+    ]
+   ],
+   "lidar_project": "CA_AlamedaCo_2_2021",
+   "lidar": {
+    "top_p99_navd88_m": 113.94,
+    "top_max_navd88_m": 117.65,
+    "ground_ring_p10_navd88_m": 13.11,
+    "height_p99_m": 100.83,
+    "n_inside": 108445
+   },
+   "osm_height_tag": "101",
+   "height_m": 100.6,
+   "height_source": "official",
+   "confidence": "A",
+   "delta_to_official_m": 0.23,
+   "status": "agrees with official within max(2 m, 1 %)"
+  },
+  {
+   "slug": "atlas_oakland",
+   "name": "Atlas (1314 Franklin St)",
+   "official_height_m": {
+    "v": 122.9,
+    "unit": "m",
+    "src": "wp_oakland_tallest"
+   },
+   "floors": 40,
+   "osm_id": "w25169852",
+   "pos_baytm": [
+    73582.48,
+    75558.59
+   ],
+   "footprint_baytm": [
+    [
+     73560.6,
+     75593.15
+    ],
+    [
+     73572.09,
+     75587.54
+    ],
+    [
+     73571.45,
+     75586.07
+    ],
+    [
+     73582.37,
+     75582.86
+    ],
+    [
+     73589.78,
+     75578.69
+    ],
+    [
+     73603.62,
+     75572.27
+    ],
+    [
+     73603.14,
+     75570.96
+    ],
+    [
+     73606.28,
+     75569.56
+    ],
+    [
+     73606.88,
+     75570.72
+    ],
+    [
+     73626.77,
+     75560.93
+    ],
+    [
+     73626.43,
+     75559.98
+    ],
+    [
+     73629.43,
+     75558.56
+    ],
+    [
+     73629.97,
+     75559.75
+    ],
+    [
+     73643.7,
+     75553.51
+    ],
+    [
+     73616.37,
+     75497.57
+    ],
+    [
+     73566.59,
+     75523.64
+    ],
+    [
+     73562.71,
+     75525.47
+    ],
+    [
+     73547.99,
+     75532.8
+    ],
+    [
+     73548.58,
+     75534.17
+    ],
+    [
+     73536.52,
+     75538.11
+    ],
+    [
+     73540.89,
+     75545.23
+    ],
+    [
+     73537.78,
+     75546.24
+    ],
+    [
+     73546.33,
+     75561.68
+    ],
+    [
+     73545.15,
+     75562.2
+    ],
+    [
+     73560.6,
+     75593.15
+    ]
+   ],
+   "lidar_project": "CA_AlamedaCo_2_2021",
+   "lidar": {
+    "top_p99_navd88_m": 133.59,
+    "top_max_navd88_m": 175.65,
+    "ground_ring_p10_navd88_m": 12.24,
+    "height_p99_m": 121.35,
+    "n_inside": 357874
+   },
+   "osm_height_tag": "122",
+   "height_m": 122.9,
+   "height_source": "official",
+   "confidence": "A",
+   "delta_to_official_m": -1.55,
+   "status": "agrees with official within max(2 m, 1 %)"
+  },
+  {
+   "slug": "oakland_601_city_center",
+   "name": "601 City Center (Oakland City Center)",
+   "official_height_m": {
+    "v": 112,
+    "unit": "m",
+    "src": "osm",
+    "note": "OSM height tag only; lidar decides"
+   },
+   "floors": 24,
+   "osm_id": "w660804016",
+   "pos_baytm": [
+    72993.41,
+    75651.12
+   ],
+   "footprint_baytm": [
+    [
+     72975.13,
+     75662.78
+    ],
+    [
+     72973.91,
+     75660.33
+    ],
+    [
+     72972.78,
+     75658.06
+    ],
+    [
+     72970.71,
+     75653.91
+    ],
+    [
+     72960.75,
+     75634.01
+    ],
+    [
+     72986.0,
+     75621.27
+    ],
+    [
+     73008.65,
+     75609.84
+    ],
+    [
+     73009.94,
+     75612.8
+    ],
+    [
+     73013.56,
+     75611.21
+    ],
+    [
+     73024.01,
+     75631.68
+    ],
+    [
+     73022.13,
+     75632.46
+    ],
+    [
+     73021.76,
+     75633.94
+    ],
+    [
+     73022.87,
+     75634.33
+    ],
+    [
+     73009.76,
+     75672.5
+    ],
+    [
+     73008.32,
+     75672.28
+    ],
+    [
+     73007.99,
+     75673.24
+    ],
+    [
+     73008.66,
+     75674.93
+    ],
+    [
+     72986.51,
+     75685.37
+    ],
+    [
+     72957.42,
+     75699.64
+    ],
+    [
+     72945.63,
+     75676.16
+    ],
+    [
+     72975.13,
+     75662.78
+    ]
+   ],
+   "lidar_project": "CA_AlamedaCo_2_2021",
+   "lidar": {
+    "top_p99_navd88_m": 124.58,
+    "top_max_navd88_m": 124.77,
+    "ground_ring_p10_navd88_m": 11.63,
+    "height_p99_m": 112.95,
+    "n_inside": 116080
+   },
+   "osm_height_tag": "112",
+   "height_m": 112,
+   "height_source": "official",
+   "confidence": "A",
+   "delta_to_official_m": 0.95,
+   "status": "agrees with official within max(2 m, 1 %)"
+  }
+ ],
+ "airports": [
+  {
+   "slug": "sfo",
+   "name": "San Francisco International",
+   "icao": "KSFO",
+   "faa_source": "faa_ksfo",
+   "elevation_m": 4.0,
+   "runways": [
+    {
+     "ref": "10L/28R",
+     "faa_length_m": 3617.98,
+     "osm_ways": [
+      "w22567191",
+      "w510551655"
+     ],
+     "osm_length_m": 3620.0,
+     "delta_m": 2.02
+    },
+    {
+     "ref": "10R/28L",
+     "faa_length_m": 3468.93,
+     "osm_ways": [
+      "w23365560",
+      "w1333615088"
+     ],
+     "osm_length_m": 3466.49,
+     "delta_m": -2.44
+    },
+    {
+     "ref": "1R/19L",
+     "faa_length_m": 2636.52,
+     "osm_ways": [
+      "w586154075",
+      "w586154076"
+     ],
+     "osm_length_m": 2633.49,
+     "delta_m": -3.03
+    },
+    {
+     "ref": "1L/19R",
+     "faa_length_m": 2331.72,
+     "osm_ways": [
+      "w586154078",
+      "w1333615087"
+     ],
+     "osm_length_m": 2343.68,
+     "delta_m": 11.96
+    }
+   ],
+   "runway_ways": [
+    {
+     "id": "w22567191",
+     "ref": "10L/28R",
+     "pts_baytm": [
+      [
+       65783.29,
+       54530.67
+      ],
+      [
+       65743.52,
+       54551.67
+      ],
+      [
+       65678.22,
+       54586.1
+      ],
+      [
+       65213.61,
+       54831.6
+      ],
+      [
+       64999.75,
+       54944.62
+      ],
+      [
+       64879.63,
+       55008.08
+      ],
+      [
+       64762.31,
+       55070.08
+      ],
+      [
+       64713.84,
+       55095.7
+      ],
+      [
+       64679.73,
+       55113.73
+      ],
+      [
+       64645.85,
+       55131.82
+      ],
+      [
+       64544.77,
+       55185.02
+      ],
+      [
+       64446.58,
+       55236.9
+      ],
+      [
+       64342.52,
+       55291.71
+      ],
+      [
+       64186.93,
+       55373.68
+      ],
+      [
+       64157.52,
+       55389.17
+      ],
+      [
+       63792.31,
+       55582.78
+      ],
+      [
+       63714.7,
+       55623.82
+      ],
+      [
+       63683.66,
+       55640.24
+      ],
+      [
+       63650.56,
+       55657.74
+      ],
+      [
+       63509.55,
+       55732.27
+      ],
+      [
+       63472.4,
+       55751.93
+      ],
+      [
+       63445.5,
+       55766.14
+      ],
+      [
+       62982.39,
+       56010.8
+      ],
+      [
+       62946.59,
+       56029.83
+      ],
+      [
+       62935.87,
+       56035.46
+      ],
+      [
+       62913.99,
+       56047.06
+      ],
+      [
+       62890.71,
+       56059.34
+      ],
+      [
+       62793.9,
+       56110.25
+      ],
+      [
+       62732.63,
+       56142.61
+      ],
+      [
+       62710.66,
+       56154.21
+      ],
+      [
+       62679.82,
+       56170.72
+      ],
+      [
+       62667.64,
+       56177.2
+      ]
+     ]
+    },
+    {
+     "id": "w23365560",
+     "ref": "10R/28L",
+     "pts_baytm": [
+      [
+       65679.34,
+       54327.01
+      ],
+      [
+       65573.35,
+       54382.99
+      ],
+      [
+       65109.4,
+       54628.05
+      ],
+      [
+       64892.61,
+       54742.58
+      ],
+      [
+       64572.61,
+       54911.63
+      ],
+      [
+       64510.17,
+       54944.64
+      ],
+      [
+       64438.32,
+       54982.59
+      ],
+      [
+       64235.79,
+       55089.6
+      ],
+      [
+       64153.18,
+       55133.26
+      ],
+      [
+       64025.64,
+       55200.62
+      ],
+      [
+       63974.75,
+       55227.51
+      ],
+      [
+       63729.4,
+       55356.98
+      ],
+      [
+       63666.03,
+       55390.41
+      ],
+      [
+       63631.44,
+       55408.93
+      ],
+      [
+       63577.3,
+       55437.69
+      ],
+      [
+       63543.29,
+       55455.63
+      ],
+      [
+       63421.42,
+       55519.92
+      ],
+      [
+       63414.77,
+       55523.43
+      ],
+      [
+       63365.21,
+       55549.64
+      ],
+      [
+       63138.48,
+       55669.46
+      ],
+      [
+       63073.51,
+       55703.79
+      ],
+      [
+       62867.64,
+       55812.65
+      ],
+      [
+       62839.22,
+       55827.67
+      ],
+      [
+       62810.07,
+       55843.07
+      ],
+      [
+       62754.3,
+       55872.53
+      ],
+      [
+       62734.1,
+       55883.2
+      ],
+      [
+       62694.04,
+       55904.39
+      ]
+     ]
+    },
+    {
+     "id": "w586154075",
+     "ref": "01R/19L",
+     "pts_baytm": [
+      [
+       63753.57,
+       53690.53
+      ],
+      [
+       63779.4,
+       53737.19
+      ],
+      [
+       63836.33,
+       53840.36
+      ]
+     ]
+    },
+    {
+     "id": "w586154078",
+     "ref": "01L/19R",
+     "pts_baytm": [
+      [
+       64678.07,
+       55927.21
+      ],
+      [
+       64671.64,
+       55913.76
+      ],
+      [
+       64572.5,
+       55726.44
+      ],
+      [
+       64413.95,
+       55426.87
+      ],
+      [
+       64391.83,
+       55385.08
+      ],
+      [
+       64342.52,
+       55291.71
+      ],
+      [
+       64283.49,
+       55179.93
+      ],
+      [
+       64235.79,
+       55089.6
+      ],
+      [
+       64187.13,
+       54997.47
+      ],
+      [
+       64157.88,
+       54942.11
+      ],
+      [
+       64122.93,
+       54875.99
+      ],
+      [
+       64097.99,
+       54828.78
+      ],
+      [
+       64075.45,
+       54786.1
+      ],
+      [
+       64044.44,
+       54727.42
+      ],
+      [
+       63909.76,
+       54472.54
+      ],
+      [
+       63880.08,
+       54416.35
+      ],
+      [
+       63731.06,
+       54133.86
+      ],
+      [
+       63679.68,
+       54036.63
+      ]
+     ]
+    },
+    {
+     "id": "w1333615087",
+     "ref": "01L/19R",
+     "pts_baytm": [
+      [
+       63679.68,
+       54036.63
+      ],
+      [
+       63665.8,
+       54010.33
+      ],
+      [
+       63638.55,
+       53958.73
+      ],
+      [
+       63615.62,
+       53915.29
+      ],
+      [
+       63595.84,
+       53878.96
+      ],
+      [
+       63582.88,
+       53855.16
+      ]
+     ]
+    },
+    {
+     "id": "w510551655",
+     "ref": "10L/28R",
+     "pts_baytm": [
+      [
+       65868.19,
+       54485.79
+      ],
+      [
+       65851.6,
+       54494.61
+      ],
+      [
+       65799.79,
+       54521.98
+      ],
+      [
+       65783.29,
+       54530.67
+      ]
+     ]
+    },
+    {
+     "id": "w586154076",
+     "ref": "01R/19L",
+     "pts_baytm": [
+      [
+       63836.33,
+       53840.36
+      ],
+      [
+       63849.78,
+       53867.53
+      ],
+      [
+       63866.99,
+       53902.27
+      ],
+      [
+       64105.0,
+       54351.13
+      ],
+      [
+       64112.66,
+       54365.59
+      ],
+      [
+       64147.4,
+       54431.11
+      ],
+      [
+       64184.84,
+       54501.85
+      ],
+      [
+       64247.05,
+       54619.74
+      ],
+      [
+       64278.73,
+       54679.81
+      ],
+      [
+       64340.85,
+       54797.55
+      ],
+      [
+       64367.54,
+       54848.16
+      ],
+      [
+       64393.72,
+       54897.78
+      ],
+      [
+       64438.32,
+       54982.59
+      ],
+      [
+       64486.07,
+       55073.38
+      ],
+      [
+       64504.69,
+       55108.79
+      ],
+      [
+       64544.77,
+       55185.02
+      ],
+      [
+       64593.99,
+       55278.62
+      ],
+      [
+       64615.77,
+       55320.05
+      ],
+      [
+       64774.41,
+       55619.72
+      ],
+      [
+       64873.8,
+       55807.49
+      ],
+      [
+       64968.72,
+       55986.82
+      ],
+      [
+       64974.59,
+       55997.95
+      ],
+      [
+       64985.29,
+       56018.22
+      ]
+     ]
+    },
+    {
+     "id": "w1333615088",
+     "ref": "10R/28L",
+     "pts_baytm": [
+      [
+       65758.99,
+       54284.93
+      ],
+      [
+       65687.24,
+       54322.85
+      ],
+      [
+       65679.34,
+       54327.01
+      ]
+     ]
+    }
+   ],
+   "terminals": [
+    {
+     "osm_id": "w23654700",
+     "pos_baytm": [
+      63247.73,
+      55109.16
+     ],
+     "lidar_project": "CA_CaliforniaGaps_3_B23",
+     "lidar": {
+      "top_p99_navd88_m": 24.45,
+      "top_max_navd88_m": 35.31,
+      "ground_ring_p10_navd88_m": 2.33,
+      "height_p99_m": 22.12,
+      "n_inside": 1528478
+     },
+     "area_m2": 49901.0
+    },
+    {
+     "osm_id": "w25373322",
+     "pos_baytm": [
+      62833.08,
+      54973.4
+     ],
+     "lidar_project": "CA_CaliforniaGaps_3_B23",
+     "lidar": {
+      "top_p99_navd88_m": 32.91,
+      "top_max_navd88_m": 38.07,
+      "ground_ring_p10_navd88_m": 2.42,
+      "height_p99_m": 30.49,
+      "n_inside": 599769
+     },
+     "area_m2": 22631.0
+    },
+    {
+     "osm_id": "w25373323",
+     "pos_baytm": [
+      63010.78,
+      54399.83
+     ],
+     "lidar_project": "CA_CaliforniaGaps_3_B23",
+     "lidar": {
+      "top_p99_navd88_m": 33.94,
+      "top_max_navd88_m": 37.21,
+      "ground_ring_p10_navd88_m": 2.44,
+      "height_p99_m": 31.5,
+      "n_inside": 594568
+     },
+     "area_m2": 21139.0
+    },
+    {
+     "osm_id": "w550704742",
+     "pos_baytm": [
+      63037.58,
+      54917.36
+     ],
+     "lidar_project": "CA_CaliforniaGaps_3_B23",
+     "lidar": {
+      "top_p99_navd88_m": 20.96,
+      "top_max_navd88_m": 22.07,
+      "ground_ring_p10_navd88_m": 2.81,
+      "height_p99_m": 18.15,
+      "n_inside": 8850
+     },
+     "area_m2": 287.0
+    },
+    {
+     "osm_id": "w550704743",
+     "pos_baytm": [
+      63565.52,
+      54799.42
+     ],
+     "lidar_project": "CA_CaliforniaGaps_3_B23",
+     "lidar": {
+      "top_p99_navd88_m": 17.98,
+      "top_max_navd88_m": 70.61,
+      "ground_ring_p10_navd88_m": 2.27,
+      "height_p99_m": 15.71,
+      "n_inside": 30512
+     },
+     "area_m2": 1191.0
+    },
+    {
+     "osm_id": "w586739549",
+     "pos_baytm": [
+      63437.18,
+      56112.56
+     ],
+     "lidar_project": "CA_CaliforniaGaps_3_B23",
+     "lidar": {
+      "top_p99_navd88_m": 9.43,
+      "top_max_navd88_m": 10.04,
+      "ground_ring_p10_navd88_m": 1.22,
+      "height_p99_m": 8.21,
+      "n_inside": 33303
+     },
+     "area_m2": 1209.0
+    },
+    {
+     "osm_id": "w60500080",
+     "pos_baytm": [
+      63619.47,
+      54897.45
+     ],
+     "lidar_project": "CA_CaliforniaGaps_3_B23",
+     "lidar": {
+      "top_p99_navd88_m": 62.44,
+      "top_max_navd88_m": 74.1,
+      "ground_ring_p10_navd88_m": 2.08,
+      "height_p99_m": 60.36,
+      "n_inside": 772704
+     },
+     "area_m2": 29154.0
+    },
+    {
+     "osm_id": "w941702166",
+     "pos_baytm": [
+      63569.99,
+      54662.67
+     ],
+     "lidar_project": "CA_CaliforniaGaps_3_B23",
+     "lidar": {
+      "top_p99_navd88_m": 22.69,
+      "top_max_navd88_m": 34.24,
+      "ground_ring_p10_navd88_m": 2.2,
+      "height_p99_m": 20.49,
+      "n_inside": 197552
+     },
+     "area_m2": 7735.0
+    }
+   ],
+   "tower": {
+    "osm_id": "w554547693",
+    "pos_baytm": [
+     63513.23,
+     54751.17
+    ],
+    "lidar_project": "CA_CaliforniaGaps_3_B23",
+    "lidar": {
+     "peak_navd88_m": 74.1,
+     "peak_baytm": [
+      63521.57,
+      54751.55
+     ],
+     "ground_navd88_m": 12.58,
+     "height_m": 61.52
+    },
+    "height_m": 67.36,
+    "height_source": "osm",
+    "official": {
+     "v": 67.36,
+     "unit": "m",
+     "src": "osm",
+     "note": "R-004 row 15"
+    },
+    "status": "lidar differs from OSM height: lidar value reported, OSM kept until closed (Q-NEW)",
+    "delta_lidar_minus_osm_m": -5.84
+   }
+  },
+  {
+   "slug": "oak",
+   "name": "Oakland International",
+   "icao": "KOAK",
+   "faa_source": "faa_koak",
+   "elevation_m": 2.7,
+   "runways": [
+    {
+     "ref": "12/30",
+     "faa_length_m": 3206.5,
+     "osm_ways": [
+      "w305220759"
+     ],
+     "osm_length_m": 3204.9,
+     "delta_m": -1.6
+    },
+    {
+     "ref": "10R/28L",
+     "faa_length_m": 1893.72,
+     "osm_ways": [
+      "w23456965"
+     ],
+     "osm_length_m": 1893.4,
+     "delta_m": -0.32
+    },
+    {
+     "ref": "10L/28R",
+     "faa_length_m": 1663.29,
+     "osm_ways": [
+      "w23456987"
+     ],
+     "osm_length_m": 1650.1,
+     "delta_m": -13.19
+    },
+    {
+     "ref": "15/33",
+     "faa_length_m": 1029.0,
+     "osm_ways": [
+      "w23457020"
+     ],
+     "osm_length_m": 1029.75,
+     "delta_m": 0.75
+    }
+   ],
+   "runway_ways": [
+    {
+     "id": "w305220759",
+     "ref": "12/30",
+     "pts_baytm": [
+      [
+       78471.62,
+       64252.37
+      ],
+      [
+       78434.67,
+       64283.31
+      ],
+      [
+       78405.5,
+       64307.74
+      ],
+      [
+       78348.03,
+       64355.88
+      ],
+      [
+       78320.49,
+       64378.94
+      ],
+      [
+       77989.44,
+       64656.22
+      ],
+      [
+       77686.61,
+       64909.89
+      ],
+      [
+       77675.93,
+       64918.82
+      ],
+      [
+       77671.16,
+       64922.83
+      ],
+      [
+       77606.91,
+       64976.64
+      ],
+      [
+       77151.72,
+       65357.97
+      ],
+      [
+       76373.75,
+       66009.8
+      ],
+      [
+       76205.36,
+       66150.9
+      ],
+      [
+       76169.77,
+       66180.72
+      ],
+      [
+       76137.14,
+       66208.07
+      ],
+      [
+       76049.0,
+       66281.93
+      ],
+      [
+       76014.9,
+       66310.5
+      ]
+     ]
+    },
+    {
+     "id": "w23456965",
+     "ref": "10R/28L",
+     "pts_baytm": [
+      [
+       77442.23,
+       67272.27
+      ],
+      [
+       77452.36,
+       67268.15
+      ],
+      [
+       78124.78,
+       66994.66
+      ],
+      [
+       78167.16,
+       66977.43
+      ],
+      [
+       78305.34,
+       66921.25
+      ],
+      [
+       78366.05,
+       66896.56
+      ],
+      [
+       78458.29,
+       66859.05
+      ],
+      [
+       78516.16,
+       66835.52
+      ],
+      [
+       79151.78,
+       66577.1
+      ],
+      [
+       79185.5,
+       66563.39
+      ],
+      [
+       79196.16,
+       66559.05
+      ]
+     ]
+    },
+    {
+     "id": "w23456987",
+     "ref": "10L/28R",
+     "pts_baytm": [
+      [
+       77772.35,
+       67465.99
+      ],
+      [
+       77809.04,
+       67451.09
+      ],
+      [
+       77971.41,
+       67385.15
+      ],
+      [
+       77979.49,
+       67381.87
+      ],
+      [
+       78052.45,
+       67352.26
+      ],
+      [
+       78440.86,
+       67194.55
+      ],
+      [
+       78460.49,
+       67186.53
+      ],
+      [
+       78477.55,
+       67179.66
+      ],
+      [
+       78566.77,
+       67143.45
+      ],
+      [
+       78579.71,
+       67138.2
+      ],
+      [
+       78595.86,
+       67131.64
+      ],
+      [
+       78612.08,
+       67125.05
+      ],
+      [
+       78643.6,
+       67112.26
+      ],
+      [
+       78852.06,
+       67027.64
+      ],
+      [
+       78916.19,
+       67001.61
+      ],
+      [
+       78931.46,
+       66995.41
+      ],
+      [
+       79273.82,
+       66856.45
+      ],
+      [
+       79301.22,
+       66845.2
+      ]
+     ]
+    },
+    {
+     "id": "w23457020",
+     "ref": "15/33",
+     "pts_baytm": [
+      [
+       77714.07,
+       68558.36
+      ],
+      [
+       77719.64,
+       68538.51
+      ],
+      [
+       77727.71,
+       68509.69
+      ],
+      [
+       77828.35,
+       68150.41
+      ],
+      [
+       77830.44,
+       68142.92
+      ],
+      [
+       77838.42,
+       68114.44
+      ],
+      [
+       77841.53,
+       68103.35
+      ],
+      [
+       77889.16,
+       67933.33
+      ],
+      [
+       77903.67,
+       67881.45
+      ],
+      [
+       77991.68,
+       67566.74
+      ]
+     ]
+    }
+   ],
+   "terminals": [
+    {
+     "osm_id": "w23476550",
+     "pos_baytm": [
+      78437.98,
+      65453.3
+     ],
+     "lidar_project": "CA_AlamedaCo_2_2021",
+     "lidar": {
+      "top_p99_navd88_m": 16.6,
+      "top_max_navd88_m": 24.41,
+      "ground_ring_p10_navd88_m": 2.26,
+      "height_p99_m": 14.34,
+      "n_inside": 807253
+     },
+     "area_m2": 25036.0
+    },
+    {
+     "osm_id": "w23476593",
+     "pos_baytm": [
+      78644.89,
+      65298.49
+     ],
+     "lidar_project": "CA_AlamedaCo_2_2021",
+     "lidar": {
+      "top_p99_navd88_m": 19.35,
+      "top_max_navd88_m": 25.18,
+      "ground_ring_p10_navd88_m": 2.14,
+      "height_p99_m": 17.21,
+      "n_inside": 521819
+     },
+     "area_m2": 21595.0
+    },
+    {
+     "osm_id": "w96845282",
+     "pos_baytm": [
+      78484.62,
+      65415.17
+     ],
+     "lidar_project": "CA_AlamedaCo_2_2021",
+     "lidar": {
+      "top_p99_navd88_m": 15.25,
+      "top_max_navd88_m": 16.27,
+      "ground_ring_p10_navd88_m": 2.37,
+      "height_p99_m": 12.88,
+      "n_inside": 29165
+     },
+     "area_m2": 1007.0
+    }
+   ],
+   "tower": {
+    "osm_id": "w614131973",
+    "pos_baytm": [
+     77797.01,
+     66246.95
+    ],
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "lidar": {
+     "peak_navd88_m": 78.84,
+     "peak_baytm": [
+      77801.33,
+      66242.46
+     ],
+     "ground_navd88_m": 2.03,
+     "height_m": 76.81
+    },
+    "height_m": 72,
+    "height_source": "osm",
+    "official": {
+     "v": 72,
+     "unit": "m",
+     "src": "osm",
+     "note": "OSM height tag; lidar cross-check"
+    },
+    "status": "lidar differs from OSM height: lidar value reported, OSM kept until closed (Q-NEW)",
+    "delta_lidar_minus_osm_m": 4.81
+   }
+  }
+ ],
+ "cranes": {
+  "slug": "port_of_oakland",
+  "pos_tol_m": 50,
+  "official": {
+   "lift_height_m": {
+    "v": 53,
+    "unit": "m",
+    "src": "r004"
+   },
+   "boom_up_height_m": {
+    "v": 134.7,
+    "unit": "m",
+    "src": "r004",
+    "note": "2021 STS cranes"
+   },
+   "count_about": {
+    "v": 37,
+    "unit": "count",
+    "src": "r100",
+    "note": "approximate, 5 terminals"
+   }
+  },
+  "n_osm": 35,
+  "cranes": [
+   {
+    "id": "n4682342618",
+    "pos_baytm": [
+     70247.91,
+     74564.37
+    ],
+    "stowed_top_navd88_m": null,
+    "lidar_project": null,
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342619",
+    "pos_baytm": [
+     69511.91,
+     74803.48
+    ],
+    "stowed_top_navd88_m": null,
+    "lidar_project": null,
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342620",
+    "pos_baytm": [
+     67702.9,
+     76172.9
+    ],
+    "stowed_top_navd88_m": 7.34,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342621",
+    "pos_baytm": [
+     70300.82,
+     74545.56
+    ],
+    "stowed_top_navd88_m": null,
+    "lidar_project": null,
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342622",
+    "pos_baytm": [
+     68873.19,
+     75013.45
+    ],
+    "stowed_top_navd88_m": 52.08,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342623",
+    "pos_baytm": [
+     69493.39,
+     76978.7
+    ],
+    "stowed_top_navd88_m": 50.74,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342624",
+    "pos_baytm": [
+     69738.56,
+     77287.21
+    ],
+    "stowed_top_navd88_m": 8.56,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342625",
+    "pos_baytm": [
+     70724.17,
+     74496.6
+    ],
+    "stowed_top_navd88_m": 53.23,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342626",
+    "pos_baytm": [
+     68806.1,
+     75031.34
+    ],
+    "stowed_top_navd88_m": 14.42,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342627",
+    "pos_baytm": [
+     68829.73,
+     75025.7
+    ],
+    "stowed_top_navd88_m": 71.02,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342628",
+    "pos_baytm": [
+     70009.88,
+     74644.39
+    ],
+    "stowed_top_navd88_m": null,
+    "lidar_project": null,
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342629",
+    "pos_baytm": [
+     68842.32,
+     76281.68
+    ],
+    "stowed_top_navd88_m": 71.42,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342630",
+    "pos_baytm": [
+     69310.07,
+     76748.2
+    ],
+    "stowed_top_navd88_m": 58.98,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342631",
+    "pos_baytm": [
+     68480.49,
+     76326.98
+    ],
+    "stowed_top_navd88_m": 4.39,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342632",
+    "pos_baytm": [
+     71996.1,
+     74637.33
+    ],
+    "stowed_top_navd88_m": null,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342634",
+    "pos_baytm": [
+     70761.52,
+     74494.22
+    ],
+    "stowed_top_navd88_m": 58.34,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342635",
+    "pos_baytm": [
+     72379.76,
+     74615.25
+    ],
+    "stowed_top_navd88_m": null,
+    "lidar_project": null,
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342636",
+    "pos_baytm": [
+     69355.43,
+     76810.28
+    ],
+    "stowed_top_navd88_m": 4.52,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342637",
+    "pos_baytm": [
+     69693.33,
+     74744.17
+    ],
+    "stowed_top_navd88_m": null,
+    "lidar_project": null,
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342638",
+    "pos_baytm": [
+     69138.69,
+     74923.01
+    ],
+    "stowed_top_navd88_m": 76.84,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342639",
+    "pos_baytm": [
+     70206.42,
+     74580.38
+    ],
+    "stowed_top_navd88_m": null,
+    "lidar_project": null,
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342640",
+    "pos_baytm": [
+     68625.98,
+     76308.07
+    ],
+    "stowed_top_navd88_m": 67.43,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342641",
+    "pos_baytm": [
+     68807.37,
+     76286.44
+    ],
+    "stowed_top_navd88_m": 7.96,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342642",
+    "pos_baytm": [
+     72220.53,
+     74623.71
+    ],
+    "stowed_top_navd88_m": null,
+    "lidar_project": null,
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342643",
+    "pos_baytm": [
+     69414.96,
+     76884.59
+    ],
+    "stowed_top_navd88_m": 65.24,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342644",
+    "pos_baytm": [
+     72467.64,
+     74610.09
+    ],
+    "stowed_top_navd88_m": null,
+    "lidar_project": null,
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342645",
+    "pos_baytm": [
+     67477.55,
+     76022.86
+    ],
+    "stowed_top_navd88_m": 81.4,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342646",
+    "pos_baytm": [
+     70890.98,
+     74487.14
+    ],
+    "stowed_top_navd88_m": 4.31,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342647",
+    "pos_baytm": [
+     70849.87,
+     74489.52
+    ],
+    "stowed_top_navd88_m": 4.29,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342648",
+    "pos_baytm": [
+     67441.34,
+     75997.83
+    ],
+    "stowed_top_navd88_m": 81.4,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342649",
+    "pos_baytm": [
+     72339.13,
+     74620.42
+    ],
+    "stowed_top_navd88_m": null,
+    "lidar_project": null,
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4682342650",
+    "pos_baytm": [
+     68941.54,
+     76319.28
+    ],
+    "stowed_top_navd88_m": 6.38,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n4684547149",
+    "pos_baytm": [
+     71530.38,
+     74501.75
+    ],
+    "stowed_top_navd88_m": null,
+    "lidar_project": null,
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   },
+   {
+    "id": "n8353423881",
+    "pos_baytm": [
+     70598.51,
+     72135.04
+    ],
+    "stowed_top_navd88_m": null,
+    "lidar_project": null,
+    "tags": {
+     "crane:type": "floor-mounted_crane"
+    }
+   },
+   {
+    "id": "n9307943910",
+    "pos_baytm": [
+     67393.86,
+     75965.1
+    ],
+    "stowed_top_navd88_m": 12.02,
+    "lidar_project": "CA_AlamedaCo_2_2021",
+    "tags": {
+     "crane:type": "portal_crane"
+    }
+   }
+  ],
+  "clusters": [
+   {
+    "slug": "port_oakland_cranes_0",
+    "name": "Port of Oakland crane cluster 0",
+    "n": 4,
+    "centroid_baytm": [
+     67503.9,
+     76039.7
+    ],
+    "ids": [
+     "n4682342620",
+     "n4682342645",
+     "n4682342648",
+     "n9307943910"
+    ],
+    "stowed_top_max_navd88_m": 81.4
+   },
+   {
+    "slug": "port_oakland_cranes_1",
+    "name": "Port of Oakland crane cluster 1",
+    "n": 5,
+    "centroid_baytm": [
+     68739.5,
+     76304.5
+    ],
+    "ids": [
+     "n4682342629",
+     "n4682342631",
+     "n4682342640",
+     "n4682342641",
+     "n4682342650"
+    ],
+    "stowed_top_max_navd88_m": 71.42
+   },
+   {
+    "slug": "port_oakland_cranes_2",
+    "name": "Port of Oakland crane cluster 2",
+    "n": 4,
+    "centroid_baytm": [
+     68911.9,
+     74998.4
+    ],
+    "ids": [
+     "n4682342622",
+     "n4682342626",
+     "n4682342627",
+     "n4682342638"
+    ],
+    "stowed_top_max_navd88_m": 76.84
+   },
+   {
+    "slug": "port_oakland_cranes_3",
+    "name": "Port of Oakland crane cluster 3",
+    "n": 4,
+    "centroid_baytm": [
+     69393.5,
+     76855.4
+    ],
+    "ids": [
+     "n4682342623",
+     "n4682342630",
+     "n4682342636",
+     "n4682342643"
+    ],
+    "stowed_top_max_navd88_m": 65.24
+   },
+   {
+    "slug": "port_oakland_cranes_4",
+    "name": "Port of Oakland crane cluster 4",
+    "n": 2,
+    "centroid_baytm": [
+     69602.6,
+     74773.8
+    ],
+    "ids": [
+     "n4682342619",
+     "n4682342637"
+    ],
+    "stowed_top_max_navd88_m": null
+   },
+   {
+    "slug": "port_oakland_cranes_5",
+    "name": "Port of Oakland crane cluster 5",
+    "n": 1,
+    "centroid_baytm": [
+     69738.6,
+     77287.2
+    ],
+    "ids": [
+     "n4682342624"
+    ],
+    "stowed_top_max_navd88_m": null
+   },
+   {
+    "slug": "port_oakland_cranes_6",
+    "name": "Port of Oakland crane cluster 6",
+    "n": 4,
+    "centroid_baytm": [
+     70191.3,
+     74583.7
+    ],
+    "ids": [
+     "n4682342618",
+     "n4682342621",
+     "n4682342628",
+     "n4682342639"
+    ],
+    "stowed_top_max_navd88_m": null
+   },
+   {
+    "slug": "port_oakland_cranes_7",
+    "name": "Port of Oakland crane cluster 7",
+    "n": 1,
+    "centroid_baytm": [
+     70598.5,
+     72135.0
+    ],
+    "ids": [
+     "n8353423881"
+    ],
+    "stowed_top_max_navd88_m": null
+   },
+   {
+    "slug": "port_oakland_cranes_8",
+    "name": "Port of Oakland crane cluster 8",
+    "n": 4,
+    "centroid_baytm": [
+     70806.6,
+     74491.9
+    ],
+    "ids": [
+     "n4682342625",
+     "n4682342634",
+     "n4682342646",
+     "n4682342647"
+    ],
+    "stowed_top_max_navd88_m": 58.34
+   },
+   {
+    "slug": "port_oakland_cranes_9",
+    "name": "Port of Oakland crane cluster 9",
+    "n": 1,
+    "centroid_baytm": [
+     71530.4,
+     74501.8
+    ],
+    "ids": [
+     "n4684547149"
+    ],
+    "stowed_top_max_navd88_m": null
+   },
+   {
+    "slug": "port_oakland_cranes_10",
+    "name": "Port of Oakland crane cluster 10",
+    "n": 5,
+    "centroid_baytm": [
+     72280.6,
+     74621.4
+    ],
+    "ids": [
+     "n4682342632",
+     "n4682342635",
+     "n4682342642",
+     "n4682342644",
+     "n4682342649"
+    ],
+    "stowed_top_max_navd88_m": null
+   }
+  ]
+ },
+ "alcatraz": {
+  "slug": "alcatraz",
+  "official": {
+   "lighthouse_height_m": {
+    "v": 26,
+    "unit": "m",
+    "src": "r004"
+   },
+   "island_height_m": {
+    "v": 41,
+    "unit": "m",
+    "src": "r004"
+   }
+  },
+  "lighthouse": {
+   "osm_id": "w99202294",
+   "pos_baytm": [
+    60145.12,
+    78102.71
+   ],
+   "osm_height_tag": "26",
+   "lidar_project": "CA_SanFrancisco_1_B23",
+   "lidar": {
+    "peak_navd88_m": 69.73,
+    "peak_baytm": [
+     60159.44,
+     78100.06
+    ],
+    "ground_navd88_m": 41.61,
+    "height_m": 28.12
+   },
+   "height_m": 28.12,
+   "height_source": "lidar_3dep",
+   "confidence": "B",
+   "delta_to_official_m": 2.12,
+   "status": "lidar differs from official: lidar used",
+   "osm_position_offset_m": 14.6,
+   "position_note": "lidar peak lies more than the 5 m tolerance from the OSM footprint centre; OSM position kept as the baked position (M-005.1 compares to the import), peak position reported"
+  },
+  "island_surface_navd88_m": 41.61,
+  "island_height_check": {
+   "official_m": 41,
+   "lidar_surface_navd88_m": 41.61,
+   "note": "official 41 m is the island summit above sea level (R-004); NAVD88 ~ MSL within 1 m"
+  }
+ }
+}
