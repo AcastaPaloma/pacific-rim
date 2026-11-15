@@ -22,7 +22,7 @@ Workers: one Sonnet (medium; low for checks) per step, briefed in the QUEUE.md t
 
 ## Hand-over (2026-11-15 ~00:55; orchestrator context near 150k). Workers still running when this was written; check their branches for these commits:
 - T-029 step 3 (intent sender and host buffer) on `task/T-029`, message "T-029 step 3: intent sender and host buffer".
-- T-025 step 1 (`destruction@v1` save) on `task/T-025` (worktree `.wt/T-025`, cut from `task/T-024`), message "T-025 step 1: destruction@v1 save section".
+- T-025 step 1 is DONE: f3d3ff3, 53/53 tests (verified). Its test assembly now references Game.Core for SaveCodec and SaveSystem, which is test-only and acceptable. Left for step 2: the MODULE.md save note, and the M-050 scale of 20,000 buildings (the tests use 2,000).
 - T-020 add-on (optional Assessor fields) on `task/T-020`, message "T-020 add-on: optional Assessor ...". Afterwards re-bake the 14 tiles from the cache (bake_tile only, `--force` if the fingerprint check needs it) and commit them.
 - For each: re-run its dotnet tests or pytest. If its commit is missing, read `tasks/T-0xx.progress.md` and re-brief one fresh worker for that step.
 
