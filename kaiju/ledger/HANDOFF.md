@@ -196,3 +196,5 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 - Run scripts for Unity: `evidence/T-005/round3/scripts/run85.sh` (RUN, VAR and SCN env vars).
 - Diagnosis scripts: `round3/scripts/diag85.py` and `diag_run3.py`.
 - Integration-branch lock (rule from the M0-continuation session, 2026-11-14): every commit, merge or push on the integration branch must first take `until mkdir /tmp/kaiju-merge.lock 2>/dev/null; do sleep 15; done`, then run `git -C <integration path>` after checking `git branch --show-current`, then release with `rmdir /tmp/kaiju-merge.lock`. Four M1 sessions commit there too. Commits on `task/T-005` (`.wt/T-005`) need no lock.
+
+- **T-005 orchestrator session 6 and any later one: read and apply `ledger/AGENT_PROTOCOL.md` §13 (lighter verification, 7a0da55) before step 9.2.** Trust session reports and check only what lands with `git log`, batch the Unity EditMode runs, run one combined evaluator at the end of the round, and allow at most one fix cycle per gate.
