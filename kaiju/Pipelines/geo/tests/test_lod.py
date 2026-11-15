@@ -397,3 +397,67 @@ def test_prefilter_neighbours_agree_on_shared_edge_and_bound_holds(strip):
     assert np.array_equal(a[:, -1], b[:, 0])
     assert st["max_abs_change_m"] <= lod.PREFILTER_EPS * thr + 1e-9
     assert np.abs(a - ha).max() <= lod.PREFILTER_EPS * thr + 1e-9
+
+
+# ---------------------------------------------------------------- T-108c ground-only far field
+def test_harmonic_fill_removes_a_bump_and_leaves_big_or_border_components():
+    yy, xx = np.mgrid[0:120, 0:120].astype(float)
+    plane = 3.0 + 0.05 * xx + 0.02 * yy
+    h = plane.copy()
+    m = np.zeros(h.shape, dtype=bool)
+    m[40:60, 40:70] = True                                  # a 20 x 30 building residue, +9 m
+    h[m] += 9.0
+    big = np.zeros_like(m)
+    big[70:110, 5:100] = True                               # extent 95 > limit: stays
+    h[big] += 4.0
+    edge = np.zeros_like(m)
+    edge[:6, 100:110] = True                                # touches the array border: stays
+    h[edge] += 2.0
+    out, done = lod.harmonic_fill_components(h, m | big | edge, 64)
+    assert np.allclose(out[m], plane[m], atol=1e-8)         # a plane is harmonic: exact
+    assert done[m].all() and not done[big].any() and not done[edge].any()
+    assert np.array_equal(out[~m], h[~m])                   # everything else untouched, bit for bit
+
+
+def _bump_surface(x, z):
+    return surf(x, z) + np.where((x > 4054) & (x < 4146) & (z > 94) & (z < 146), 12.0, 0.0)
+
+
+@pytest.fixture()
+def bump_strip(tmp_path):
+    root = tmp_path / "src"
+    f = [feat("osm:w1", box(4050, 90, 4150, 150), 24.0)]    # straddles the L1 tile seam x = 4096; owned by L0 (1, 0)
+    for i in range(4):
+        write_l0(root, i, 0, feats=f if i == 1 else None, func=_bump_surface)
+    return root
+
+
+def test_ground_only_removes_building_residue_bounded_and_seam_exact(bump_strip):
+    src = lod.L0Source(bump_strip)
+    thr = 0.2
+    a, ha, _, sa = lod.shaped_terrain(1, 0, 0, src, thr, prefilter=True, ground=True)
+    b, hb, _, sb = lod.shaped_terrain(1, 1, 0, src, thr, prefilter=True, ground=True)
+    assert np.array_equal(a[:, -1], b[:, 0])                # neighbouring pyramid tiles agree on the shared edge
+    flat = lod.shaped_terrain(1, 0, 0, src, thr, prefilter=True, ground=False)[0]
+    r, c = 60, 4076 // 2                       # a node inside the footprint, west of the seam
+    assert flat[r, c] - surf(4076.0, 120.0) > 10.0          # without the step the bump is in the terrain
+    assert abs(a[r, c] - surf(4076.0, 120.0)) < 0.2         # with it the ground is back (fill + pre-filter bound)
+    # one-sided, clamped to height_m + 1, nothing changes outside the footprint (+ dilation) except the pre-filter
+    assert (ha - a).min() >= -lod.PREFILTER_EPS * thr - 1e-9 and (ha - a).max() <= 25.0 + 1e-9
+    far = np.ones(a.shape, dtype=bool)
+    far[20:90, 1900:2049] = False
+    assert np.abs(a - ha)[far].max() <= lod.PREFILTER_EPS * thr + 1e-9
+    assert sa["ground"]["nodes_replaced"] > 0 and sa["ground"]["max_drop_m"] <= 25.0
+
+
+def test_bake_reports_ground_counts_and_error_zones(bump_strip, tmp_path):
+    src = lod.L0Source(bump_strip)
+    r = lod.bake_level_tile(1, 0, 0, src, tmp_path / "out", rtin=True)
+    man = json.loads((tmp_path / "out" / "L1" / "00_00" / "manifest.json").read_text())
+    T = man["terrain"]
+    assert T["ground"]["nodes_replaced"] > 0 and T["rtin_triangles_before_ground"] >= T["rtin_triangles"]
+    z = man["errors"]["terrain_ground_zone"]
+    assert z["outside"]["max_m"] < 1.0 and z["inside"]["max_m"] > 5.0     # the bump is the error, in the zone only
+    off = lod.bake_level_tile(1, 0, 0, src, tmp_path / "out2", rtin=False, ground=False)
+    man2 = json.loads((tmp_path / "out2" / "L1" / "00_00" / "manifest.json").read_text())
+    assert man2["terrain"]["ground"] is None and man2["errors"]["terrain_ground_zone"] is None
