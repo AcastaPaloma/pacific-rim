@@ -448,6 +448,15 @@ Worker escalated to Opus 5.5 high (§14) for the design; design `research/R-028.
 - Economy Runtime references `Game.Core` (for `Json`) besides Contracts; flagged in MODULE.md. Alternative (own JSON reader) rejected as duplication. If L4 modules must see Contracts only, move `Json` to Core.Contracts later.
 - Not wired into `Game.Composition` (another track's file). Loading `economy_prices@v1.json` and registering with `SaveSystem` is the composition root's job.
 
+## T-113 (M2 worker, 2026-11-15)
+- Pack layer is a new assembly `Game.AI.Pack` (Contracts only); species input is Pack's own `SpeciesRole` struct with R-102 speeds/standoffs and R-103 role fits as `SpeciesRole.Strider/Breacher/Bastion` defaults. Units.Kaiju adapter (T-112) is a follow-up; Pack never references it — decided autonomously (founder asleep).
+- Role allocation is an exact max-sum assignment over slots (<= 5! leaves, zero allocation) instead of CBAA message rounds: boards are shared instantly in T-113, so rounds add nothing yet; the delay/loss `CommsModel` and provenance leak check (R-103 4.1) stay a tracked follow-up (board entries already carry observer/source) — decided autonomously (founder asleep).
+- Deviation from R-103 4.2 table: the n=4 and n=5 hunt "flex" slot is Anchor|Flanker, not any role, because with Bait allowed the optimum fielded two Baits and one Flanker, which breaks the flank measure — decided autonomously (founder asleep).
+- Covering rule: a pack that once fielded an Anchor (fit >= 0.3, n >= 2) and loses all anchor-capable members stops hunting (raids if a target exists, else Regroup); all-light packs that never anchored still hunt — decided autonomously (founder asleep).
+- Retreat/Withdrawn members leave the allocation and fall back to their inner brain (their own R-024 retreat logic); a wounded Bait (hp < 0.6) retreats inside the wrapper first.
+- Flag `ai.pack` is in a new `Config/FeatureFlags/AI.Pack.json` (AI.json belongs to M1). Nothing registers `PackBrainFactory`; Composition wiring is the lead's/another track's.
+- Unity EditMode + GameCoreConfig run for the new asmdef: awaiting Unity slot (4 batch processes were running, rule 5).
+
 ## M2/M3 lead orchestrator, session 2 (2026-11-15)
 - Did not relaunch T-101/T-107/T-118: all three session-1 workers show file activity within minutes; relaunching would duplicate writers — decided autonomously (founder asleep). Alternative: relaunch now (rejected, two writers per worktree).
 - T-113 starts in parallel with T-112 using its own minimal species-role input instead of waiting for `Units.Kaiju`; the adapter is a tracked follow-up, full species-driven packs stay in scope — decided autonomously (founder asleep). Alternative: serialize T-113 after T-112 (rejected, idles the track).
