@@ -12,10 +12,10 @@
   37.842158
  ],
  "build": {
-  "built_utc": "2026-11-15T03:19:10Z",
-  "git": "2cce3852ea8009a1fbde98d9d58f2bbaf854b736",
-  "git_dirty_pipeline": false,
-  "inputs_sha256": "68e3abfc5bb3a521bcf3227bfad28b57996bb9fff1990b3d35ac94740ffd9b3f",
+  "built_utc": "2026-11-15T03:43:45Z",
+  "git": "8d62534690673e0f9973bf6a3335c1a530bb5d65",
+  "git_dirty_pipeline": true,
+  "inputs_sha256": "890a6e7fcbce5ce6d464836073868e6203c370163548fca418d01380269143d6",
   "script": "Pipelines/geo/bake_tile.py"
  },
  "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
@@ -986,7 +986,8 @@
    "file": "buildings.geojson",
    "height_fill_rule": "T-020b: only a building whose R-004 chain ended at default is re-resolved: (a) lidar_3dep = median over 1 m cells inside the footprint eroded 1.0 m of (3DEP first-return p95 - terrain), needs >= 0.7 of cells with returns, mean multi-return share <= 0.3 (vegetation test) and height >= 2.0 m; (b) assessor_stories = stories x metres_per_level; (c) else default. height_source is lidar_3dep / assessor_stories for filled buildings",
    "height_source_counts": {
-    "default": 24,
+    "default": 2,
+    "lidar_3dep": 22,
     "osm_levels": 4
    },
    "layer": "buildings",
@@ -994,7 +995,7 @@
    "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
    "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
    "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
-   "sha256": "6b82cdeae7ca10b0871c1451c989d2e5d774919fdecc84d6efa083e20aaf479c",
+   "sha256": "8b744bf65f2bb5871aded83859a69ef8453f5495f173cd8b6d91c86d94fdda97",
    "sources": [
     {
      "attribution": "© OpenStreetMap contributors (ODbL)",

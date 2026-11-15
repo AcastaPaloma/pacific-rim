@@ -101,3 +101,10 @@ def test_rebake_changes_only_formerly_default_buildings(tmp_path):
         if f != old[k]:
             assert old[k]["properties"]["height_source"] == "default"
             assert f["properties"]["height_source"] in ("lidar_3dep", "assessor_stories")
+
+
+def test_low_floor_for_clear_low_measurement():
+    lc = CFG["lidar_fill"]
+    assert vector.lidar_height(FOOT, grid(top=GROUND + 1.0), terrain_at, lc, low_floor=True) == lc["min_height_m"]
+    assert vector.fill_default_height(FOOT, 3, grid(top=GROUND + 1.0), terrain_at, CFG) == (lc["min_height_m"], "lidar_3dep")
+    assert vector.lidar_height(FOOT, grid(top=GROUND + 1.0, multi=0.2), terrain_at, lc, low_floor=True) is None

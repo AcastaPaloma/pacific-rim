@@ -12,10 +12,10 @@
   37.842087
  ],
  "build": {
-  "built_utc": "2026-11-15T03:16:55Z",
-  "git": "2cce3852ea8009a1fbde98d9d58f2bbaf854b736",
-  "git_dirty_pipeline": false,
-  "inputs_sha256": "7595e5bef73404fa01514e04134cacb52edb21e7e24f33b0b6575e4ca72f1f00",
+  "built_utc": "2026-11-15T03:42:37Z",
+  "git": "8d62534690673e0f9973bf6a3335c1a530bb5d65",
+  "git_dirty_pipeline": true,
+  "inputs_sha256": "885cb2e003e13525950c44c758b2d4e335370bffb19e121acc2bb7d37153ff77",
   "script": "Pipelines/geo/bake_tile.py"
  },
  "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
@@ -252,7 +252,7 @@
    "file": "buildings.geojson",
    "height_fill_rule": "T-020b: only a building whose R-004 chain ended at default is re-resolved: (a) lidar_3dep = median over 1 m cells inside the footprint eroded 1.0 m of (3DEP first-return p95 - terrain), needs >= 0.7 of cells with returns, mean multi-return share <= 0.3 (vegetation test) and height >= 2.0 m; (b) assessor_stories = stories x metres_per_level; (c) else default. height_source is lidar_3dep / assessor_stories for filled buildings",
    "height_source_counts": {
-    "default": 26,
+    "lidar_3dep": 26,
     "osm_height": 4
    },
    "layer": "buildings",
@@ -260,7 +260,7 @@
    "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
    "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
    "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
-   "sha256": "0ef3c7f8092c505c029e955003f2c616ace3b2ba68ceb86ac2ab4f1c3bab0667",
+   "sha256": "85c2ba2cfac09718f6ebbea75999033ecc51721dd72cbc4316798eb78e1bc939",
    "sources": [
     {
      "attribution": "© OpenStreetMap contributors (ODbL)",

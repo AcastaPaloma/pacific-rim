@@ -98,6 +98,15 @@
     "commercial_use": "yes",
     "use": "reference only (M-005.7 R-ind first-return DSM), not shipped"
   },
+  "lidar_ept_fill": {
+    "product": "USGS ARRA-CA_GoldenGate_2010 lidar point cloud (Entwine EPT on AWS usgs-lidar-public); covers Marin (Sausalito, Marin Headlands) north of CA_SanFrancisco_1_B23's extent",
+    "url": "https://s3-us-west-2.amazonaws.com/usgs-lidar-public/ARRA-CA_GoldenGate_2010/ept.json",
+    "fills": "1 m cells with no lidar_ept first return (T-020b default-height fill only); about 1.7 first returns per m2",
+    "licence": "US-Gov-PD",
+    "attribution": "U.S. Geological Survey, ARRA Golden Gate LiDAR Project 2010",
+    "commercial_use": "yes",
+    "use": "reference only (default-height fill input), not shipped"
+  },
   "unused": {
     "_doc": "Evaluated and not used at M0 (R-004 §1.4): licence fine but adds no better SF heights, or bulk-only.",
     "microsoft_footprints": "ODbL, no heights: not used",

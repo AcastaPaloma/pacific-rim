@@ -12,10 +12,10 @@
   37.805254
  ],
  "build": {
-  "built_utc": "2026-11-15T03:18:28Z",
-  "git": "2cce3852ea8009a1fbde98d9d58f2bbaf854b736",
-  "git_dirty_pipeline": false,
-  "inputs_sha256": "59255030e4552fc54dd8c2c41f2b64662b2361264ca169d4caaf1921dc603d1d",
+  "built_utc": "2026-11-15T03:43:20Z",
+  "git": "8d62534690673e0f9973bf6a3335c1a530bb5d65",
+  "git_dirty_pipeline": true,
+  "inputs_sha256": "971d3520029e18986707f161c3c1f061f6c693f40b88463a746be3a74fed3e65",
   "script": "Pipelines/geo/bake_tile.py"
  },
  "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
@@ -228,8 +228,8 @@
    "height_fill_rule": "T-020b: only a building whose R-004 chain ended at default is re-resolved: (a) lidar_3dep = median over 1 m cells inside the footprint eroded 1.0 m of (3DEP first-return p95 - terrain), needs >= 0.7 of cells with returns, mean multi-return share <= 0.3 (vegetation test) and height >= 2.0 m; (b) assessor_stories = stories x metres_per_level; (c) else default. height_source is lidar_3dep / assessor_stories for filled buildings",
    "height_source_counts": {
     "datasf": 49,
-    "default": 25,
-    "lidar_3dep": 69,
+    "default": 20,
+    "lidar_3dep": 74,
     "osm_height": 832,
     "osm_levels": 3
    },
@@ -238,7 +238,7 @@
    "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
    "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
    "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
-   "sha256": "0cbffe3af80b10f8152cb7c4767ac7df8fbf8041d0a72e61dfc0f173f1556e84",
+   "sha256": "5b72daf45ab7411b23a491e672d6b81563bbc054a04fbda038bc449df6aaa89b",
    "sources": [
     {
      "attribution": "© OpenStreetMap contributors (ODbL)",

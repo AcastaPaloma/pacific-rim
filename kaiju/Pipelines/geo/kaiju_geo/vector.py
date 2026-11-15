@@ -254,7 +254,7 @@ def read_lidar_grid(path):
         return None
 
 
-def lidar_height(geom, grid, terrain_at, lcfg):
+def lidar_height(geom, grid, terrain_at, lcfg, low_floor=False):
     """Median of (first-return p95 - terrain) over 1 m cells whose centre lies in the footprint eroded by lcfg['erode_m'].
     None unless >= lcfg['min_coverage'] of those cells (inside the grid) have returns, the mean multi-return share
     (vegetation test of lidar_ref_v11) is <= lcfg['max_multi_return_share'] and the height >= lcfg['min_height_m']."""
@@ -277,19 +277,27 @@ def lidar_height(geom, grid, terrain_at, lcfg):
         return None
     p = grid["p95"][j0:j1, i0:i1][inside]
     has = grid["count"][j0:j1, i0:i1][inside] > 0
-    if has.mean() < lcfg["min_coverage"]:
+    cov = float(has.mean())
+    if cov < lcfg["min_coverage"]:
         return None
-    if float(np.mean(grid["multi"][j0:j1, i0:i1][inside][has])) > lcfg["max_multi_return_share"]:
+    multi = float(np.mean(grid["multi"][j0:j1, i0:i1][inside][has]))
+    if multi > lcfg["max_multi_return_share"]:
         return None
     h = float(np.median(p[has] - terrain_at(cx[inside][has], cz[inside][has])))
-    return round(h, 3) if h >= lcfg["min_height_m"] else None
+    if h >= lcfg["min_height_m"]:
+        return round(h, 3)
+    # Low or earth-covered structure (sheds, coastal batteries): a clear, well-covered measurement below the floor
+    # gives the floor height instead of the 3-level default (M1 lead session 3, decided autonomously).
+    if low_floor and "low_floor" in lcfg and cov >= lcfg["low_floor"]["min_coverage"] and multi <= lcfg["low_floor"]["max_multi_return_share"]:
+        return float(lcfg["min_height_m"])
+    return None
 
 
 def fill_default_height(geom, stories, grid, terrain_at, cfg):
     """T-020b: for a building whose height came out as 'default' only. Order: 3DEP lidar, Assessor stories x
     metres_per_level, else None (stays default). Returns (height_m, height_source) or None."""
     if grid is not None:
-        h = lidar_height(geom, grid, terrain_at, cfg["lidar_fill"])
+        h = lidar_height(geom, grid, terrain_at, cfg["lidar_fill"], low_floor=True)
         if h is not None:
             return h, "lidar_3dep"
     if stories is not None and stories > 0:

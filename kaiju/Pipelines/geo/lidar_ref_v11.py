@@ -38,10 +38,12 @@ def grid_stats(cx, cz, z, multi, n, pct=95):
 def main(argv=None):
     ap = std_args(argparse.ArgumentParser(description=__doc__.splitlines()[0]))
     ap.add_argument("--tile", default="L0_30_36")
+    ap.add_argument("--source", default="lidar_ept", help="sources.json key of the EPT project (T-020b: lidar_ept_fill)")
+    ap.add_argument("--out-prefix", default="rind_v11", help="cache file prefix (T-020b writes the fill source to rind_fill)")
     a = ap.parse_args(argv)
     apply_std(a)
     tile = parse_tile(a.tile)
-    dest = CACHE / "lidar" / f"rind_v11__{tile.id}.npz"
+    dest = CACHE / "lidar" / f"{a.out_prefix}__{tile.id}.npz"
     if up_to_date(dest, "lidar-v11") is not None:
         return 0
     if is_offline():
@@ -51,11 +53,14 @@ def main(argv=None):
     t = transformer(baytm_crs(), "EPSG:3857")
     xs, ys = zip(*[t.transform(x, z) for x in (x0 - 16, x1 + 16) for z in (z0 - 16, z1 + 16)])
     bounds = f"([{min(xs):.2f},{max(xs):.2f}],[{min(ys):.2f},{max(ys):.2f}])"
-    pipe = [{"type": "readers.ept", "filename": fetch.SRC["lidar_ept"]["url"], "bounds": bounds, "resolution": 0.7, "threads": 8},
+    pipe = [{"type": "readers.ept", "filename": fetch.SRC[a.source]["url"], "bounds": bounds, "resolution": 0.7, "threads": 8},
             {"type": "filters.expression", "expression": EXPR},
             {"type": "filters.reprojection", "out_srs": "EPSG:26910+5703"}]
     p = pdal.Pipeline(json.dumps(pipe))
     n = p.execute()
+    if n == 0 or not p.arrays:
+        print(f"[lidar-v11] {tile.id}: no points from {a.source} (outside the project's extent)")
+        return 3
     arr = p.arrays[0]
     print(f"[lidar-v11] {n} first returns kept; classes {sorted(set(np.unique(arr['Classification']).tolist()))}")
     bx, bz = transformer("EPSG:26910", baytm_crs()).transform(arr["X"], arr["Y"])
@@ -72,7 +77,7 @@ def main(argv=None):
     dest.parent.mkdir(parents=True, exist_ok=True)
     tmp = dest.with_name(dest.name + ".part.npz")
     np.savez_compressed(tmp, **out)
-    finish_fetch(dest, tmp, fetch.SRC["lidar_ept"]["url"], {"points_kept": int(n), "filter": EXPR, "ept_resolution": 0.7,
+    finish_fetch(dest, tmp, fetch.SRC[a.source]["url"], {"points_kept": int(n), "filter": EXPR, "ept_resolution": 0.7,
                                                              "grid": "BayTM cells 0.5 m and 1 m over the tile, row 0 = south"})
     print(f"[lidar-v11] -> {dest}")
     return 0
