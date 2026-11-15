@@ -36,7 +36,9 @@ namespace Game.AI.PackHarness
         public float MechSpeed = 3f, MechCruise = 9.12f, MechRange = 300f, MechDps = 6f, MechTraverse = 0.6f, MechLockSeconds = 3f;
         public float MeleeDamageToMech = 25f, MechHpAbs = 100f, MeleeCooldown = 2f, KaijuHpRef = 400f;
         public float InfraDamageRate = 1f;         // hp/s per kaiju at the target (the coordinator plans with PackConfig.RaidDamageRate)
-        public string Map = "flat";               // flat | water (T-115c synthetic Bay with a depth / soft-ground field)
+        public string Map = "flat";               // flat | water (T-115c synthetic Bay with a depth / soft-ground field) | real (T-115d m007_bay_real@v1: Field = the Composition adapter over the T-102 raster)
+        public Game.AI.Pack.IBayCostField Field;   // required for Map = real
+        public BayLayout Layout;                   // null = by map (Synthetic, or Real for Map = real)
         public bool PlanRoutes = true;             // water map: pack layer and solo arm route with GridRoutePlanner (false = straight-line control)
         public PackConfig Pack = PackConfig.Bay();
         public EmergenceOptions Emergence = new EmergenceOptions { SiteCount = 5 };
@@ -93,7 +95,8 @@ namespace Game.AI.PackHarness
         readonly Rng _rng;
         BayResult _res = new BayResult();
         bool _packLayer, _omniscient, _noFormation;
-        SyntheticBayField _field;
+        IBayCostField _field;
+        BayLayout _lay;
         GridRoutePlanner _planner;
         double _now;
 
@@ -104,7 +107,9 @@ namespace Game.AI.PackHarness
             string b = sc.BrainId;
             _packLayer = b == BayBrains.Candidate || b == BayBrains.NoRoles || b == BayBrains.NoBait || b == BayBrains.NearestInfra || b == BayBrains.RandomRole || b == BayBrains.Omniscient;
             _omniscient = b == BayBrains.Omniscient;
-            if (sc.Map == "water") { _field = new SyntheticBayField(); if (sc.PlanRoutes) _planner = new GridRoutePlanner(_field); }
+            _lay = sc.Layout ?? BayLayout.For(sc.Map);
+            if (sc.Map == "real" && sc.Field == null) throw new ArgumentException("Map real needs Field (BayRasterCostField)");
+            if (sc.Map == "water" || sc.Map == "real") { _field = sc.Field ?? new SyntheticBayField(); if (sc.PlanRoutes) _planner = new GridRoutePlanner(_field); }
             BuildInfra();
             BuildScenario();
         }
@@ -113,17 +118,8 @@ namespace Game.AI.PackHarness
 
         void BuildInfra()
         {
-            if (_sc.Name == "cross")
-            {
-                // T-115c route check (not an M-007 clause scenario): one raid target on the far side of the channel, so a straight line meets deep water
-                Add("bridge", 2, 34000, 38000, 1500);
-                return;
-            }
-            // synthetic Bay (R-103 6.2): 2 bridges, 3 power nodes, 4 port cranes (one cluster), 1 airport; Port-SFO about 21 km
-            Add("bridge", 2, 34000, 38000, 1500); Add("bridge", 2, 14000, 46000, 1500);
-            Add("power", 1, 20000, 38000, 600); Add("power", 1, 28000, 24000, 600); Add("power", 1, 46000, 33500, 600);
-            Add("crane", 0, 39850, 30000, 300); Add("crane", 0, 40050, 30100, 300); Add("crane", 0, 40150, 29900, 300); Add("crane", 0, 39950, 29850, 300);
-            Add("airport", 3, 30000, 11800, 2000);
+            // synthetic Bay (R-103 6.2): 2 bridges, 3 power nodes, 4 port cranes (one cluster), 1 airport; Port-SFO about 21 km. `cross` = T-115c route check (one raid target beyond the channel).
+            foreach (var n in _sc.Name == "cross" ? _lay.CrossInfra : _lay.Infra) Add(n.Class, n.C, n.X, n.Y, n.Hp);
         }
 
         void Add(string cls, byte c, float x, float y, float hp)
@@ -139,9 +135,10 @@ namespace Game.AI.PackHarness
             else
             {
                 foreach (char ch in comp) list.Add(ch);
-                float sx = 6000f, sy = 2000f;
-                if (_sc.Name == "cross") { sx = 14000f; sy = 34000f; }          // west of the channel, the target 20 km east beyond deep water                                  // hunt/churn/raid: >= 15 km from every target, 25 km from the nearest
-                if (_sc.Name == "mixed") { sx = 10000f; sy = 12000f; }         // 20 km from the nearest target
+                float sx = _lay.HuntX, sy = _lay.HuntY;
+                if (_sc.Name == "cross") { sx = _lay.CrossX; sy = _lay.CrossY; }          // west of the channel, the target 20 km east beyond deep water                                  // hunt/churn/raid: >= 15 km from every target, 25 km from the nearest
+                if (_sc.Name == "raid") { sx = _lay.RaidX; sy = _lay.RaidY; }
+                if (_sc.Name == "mixed") { sx = _lay.MixedX; sy = _lay.MixedY; }         // 20 km from the nearest target
                 for (int i = 0; i < list.Count; i++)
                     NewKaiju(list[i], sx + _rng.Range(-150f, 150f), sy + (i - (list.Count - 1) * 0.5f) * 200f + _rng.Range(-50f, 50f), 0.0, 0.3f);
                 if (_sc.Name != "raid" && _sc.Name != "cross") BuildMechs();
@@ -154,7 +151,7 @@ namespace Game.AI.PackHarness
         void PlanEmergence()
         {
             int n = 61; var x = new double[n]; var z = new double[n]; var arc = new double[n]; var br = new bool[n - 1];
-            for (int i = 0; i < n; i++) { x[i] = 10000 + i * 500.0; z[i] = 22000 + 2500 * Math.Sin(i * 0.15); arc[i] = i == 0 ? 0 : arc[i - 1] + Math.Sqrt(500.0 * 500.0 + Math.Pow(z[i] - z[i - 1], 2)); }
+            for (int i = 0; i < n; i++) { x[i] = _lay.TraceX[i]; z[i] = _lay.TraceZ[i]; arc[i] = i == 0 ? 0 : arc[i - 1] + Math.Sqrt(500.0 * 500.0 + Math.Pow(z[i] - z[i - 1], 2)); }
             var trace = new EmergenceTrace(1, x, z, arc, br);
             var tg = new TargetList(); foreach (var nd in _infra.N) tg.Items.Add(new EmergenceTarget(nd.X, nd.Y, 1f));
             var req = new EmergenceRequest { EventId = 1, Mw = 7.0f, Seed = (uint)(_sc.Seed & 0xFFFFFFFF), VertexStart = 0, VertexEnd = n - 1, RuptureEndS = 0f };
@@ -206,20 +203,23 @@ namespace Game.AI.PackHarness
                 {
                     // 3 guards split across 2 defended clusters 7 km apart: Port cranes (2 mechs) and the east power node (1 mech)
                     int c = j < 2 ? 0 : 1; m.Cluster = c; m.Guard = true;
-                    var node = c == 0 ? _infra.N[5] : _infra.N[4];
+                    var node = c == 0 ? _infra.N[_lay.GuardCluster0[0]] : _infra.N[_lay.GuardCluster1[0]];
                     m.HX = node.X + (j == 1 ? 200f : -150f); m.HY = node.Y + 150f * (j - 1);
                     m.X = m.HX; m.Y = m.HY;
-                    Mark(c == 0 ? new[] { 5, 6, 7, 8 } : new[] { 4 });
+                    Mark(c == 0 ? _lay.GuardCluster0 : _lay.GuardCluster1);
                 }
                 else
                 {
                     float ang = (float)(_rng.NextDouble() * 2 * Math.PI), r = 3000f + _rng.Range(-300f, 300f);
-                    m.X = 6000f + (float)Math.Cos(ang) * r; m.Y = 2000f + (float)Math.Sin(ang) * r; m.HX = m.X; m.HY = m.Y; NewWaypoint(m);
+                    m.X = _lay.HuntX + (float)Math.Cos(ang) * r; m.Y = _lay.HuntY + (float)Math.Sin(ang) * r; m.HX = m.X; m.HY = m.Y; NewWaypoint(m);
                 }
                 m.Heading = (float)Math.Atan2(m.WY - m.Y, m.WX - m.X); m.Aim = m.Heading;
                 _m.Add(m);
             }
         }
+
+        float DepthAt(float x, float y) { int ix = (int)((x - _field.OriginX) / _field.CellM), iy = (int)((y - _field.OriginY) / _field.CellM); return x < _field.OriginX || y < _field.OriginY || ix >= _field.Nx || iy >= _field.Ny ? 0f : _field.DepthM(ix, iy); }
+        float SoftAt(float x, float y) { int ix = (int)((x - _field.OriginX) / _field.CellM), iy = (int)((y - _field.OriginY) / _field.CellM); return x < _field.OriginX || y < _field.OriginY || ix >= _field.Nx || iy >= _field.Ny ? 0f : _field.Softness(ix, iy); }
 
         void Mark(int[] idx) { foreach (int i in idx) { var n = _infra.N[i]; n.Defended = true; _infra.N[i] = n; } }
         void NewWaypoint(M m) { float a = (float)(_rng.NextDouble() * 2 * Math.PI), r = 2000f * (float)Math.Sqrt(_rng.NextDouble()); m.WX = m.HX + (float)Math.Cos(a) * r; m.WY = m.HY + (float)Math.Sin(a) * r; }
@@ -473,8 +473,8 @@ namespace Game.AI.PackHarness
             if (_field != null)
             {
                 float nx = k.X + (float)Math.Cos(k.Heading) * mv, ny = k.Y + (float)Math.Sin(k.Heading) * mv;
-                if (_field.DepthAt(nx, ny) > 0.4f * k.S.HeightM) { k.Speed = 0f; nx = k.X; ny = k.Y; _res.BlockedSteps++; }   // the shore of a channel too deep to wade
-                else if (_field.SoftAt(nx, ny) > 0f) { nx = k.X + (nx - k.X) / (1f + GridRoutePlanner.DefaultSoftCost); ny = k.Y + (ny - k.Y) / (1f + GridRoutePlanner.DefaultSoftCost); }   // soft ground: speed / (1 + soft cost), the planner's own cost
+                if (DepthAt(nx, ny) > 0.4f * k.S.HeightM) { k.Speed = 0f; nx = k.X; ny = k.Y; _res.BlockedSteps++; }   // the shore of a channel too deep to wade
+                else if (SoftAt(nx, ny) > 0f) { float dv = 1f + GridRoutePlanner.DefaultSoftCost * SoftAt(nx, ny); nx = k.X + (nx - k.X) / dv; ny = k.Y + (ny - k.Y) / dv; }   // soft ground: speed / (1 + soft cost), the planner's own cost
                 k.X = nx; k.Y = ny;
             }
             else { k.X += (float)Math.Cos(k.Heading) * k.Speed * dt; k.Y += (float)Math.Sin(k.Heading) * k.Speed * dt; }   // exact original arithmetic: the flat map must reproduce the T-115/T-115b logs bit for bit

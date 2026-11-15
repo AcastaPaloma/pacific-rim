@@ -14,7 +14,7 @@ internal static class Program
 {
     private static int Main(string[] args)
     {
-        string map = "flat"; bool plan = true; string scenario = "hunt", brain = BayBrains.Candidate, comps = "LLH", seeds = "1-1", outDir = "m007_bay_out", speciesDir = null;
+        string map = "flat"; bool plan = true; string scenario = "hunt", brain = BayBrains.Candidate, comps = "LLH", seeds = "1-1", outDir = "m007_bay_out", speciesDir = null, costRaster = null;
         bool defaults = false; int par = Math.Max(1, Environment.ProcessorCount - 2);
         for (int i = 0; i < args.Length; i++)
         {
@@ -28,6 +28,7 @@ internal static class Program
                 case "--species-dir": speciesDir = args[++i]; break;
                 case "--map": map = args[++i]; break;
                 case "--no-route": plan = false; break;
+                case "--cost-raster": costRaster = args[++i]; break;
                 case "--defaults": defaults = true; break;
                 case "--parallel": par = int.Parse(args[++i]); break;
                 default: Console.Error.WriteLine("unknown arg " + args[i]); return 2;
@@ -42,6 +43,12 @@ internal static class Program
             foreach (var n in new[] { "strider", "breacher", "bastion" }) specs.Add(KaijuSpeciesLoader.Parse(File.ReadAllText(Path.Combine(speciesDir, n + ".json"))));
             table = KaijuSpeciesRoles.Table(new KaijuSpeciesCatalog(specs, KaijuSpeciesLoader.ParseTissue(File.ReadAllText(Path.Combine(speciesDir, "kaiju_tissue_v1.json")))));
         }
+        BayRasterCostField realField = null;
+        if (map == "real")
+        {
+            costRaster = costRaster ?? Environment.GetEnvironmentVariable("KAIJU_BAY_COST") ?? Path.Combine(FindRoot(), "evidence", "T-115", BayRasterCostField.DefaultFileName);
+            realField = BayRasterCostField.Load(costRaster);   // read only, shared by all runs; every run builds its own planner
+        }
         var sp = seeds.Split('-'); ulong s0 = ulong.Parse(sp[0]), s1 = ulong.Parse(sp[sp.Length - 1]);
         string dir = Path.Combine(outDir, "m007_bay_" + scenario, brain.Replace("@", "_"));
         Directory.CreateDirectory(dir);
@@ -51,7 +58,7 @@ internal static class Program
         long decisions = 0, blocked = 0;
         Parallel.ForEach(jobs, new ParallelOptions { MaxDegreeOfParallelism = par }, job =>
         {
-            var sc = new BayScenario { Name = scenario, Composition = job.comp, Seed = job.seed, BrainId = brain, Species = table, Map = map, PlanRoutes = plan };
+            var sc = new BayScenario { Name = scenario, Composition = job.comp, Seed = job.seed, BrainId = brain, Species = table, Map = map, PlanRoutes = plan, Field = realField };
             string path = Path.Combine(dir, job.comp + "_" + job.seed + ".jsonl");
             using (var w = new StreamWriter(path, false, new System.Text.UTF8Encoding(false), 1 << 16))
             {
@@ -59,8 +66,15 @@ internal static class Program
                 System.Threading.Interlocked.Add(ref decisions, r.Decisions); System.Threading.Interlocked.Add(ref blocked, r.BlockedSteps);
             }
         });
-        Console.WriteLine("{0} runs, {1} decisions, {2:F1} s -> {3}{4}", jobs.Count, decisions, (Environment.TickCount64 - ticks) / 1000.0, dir, map == "water" ? ", blocked steps " + blocked : "");
+        Console.WriteLine("{0} runs, {1} decisions, {2:F1} s -> {3}{4}", jobs.Count, decisions, (Environment.TickCount64 - ticks) / 1000.0, dir, map != "flat" ? ", blocked steps " + blocked : "");
         return 0;
+    }
+
+    private static string FindRoot()
+    {
+        var d = new DirectoryInfo(Environment.CurrentDirectory);
+        while (d != null && !Directory.Exists(Path.Combine(d.FullName, "Assets", "Game"))) d = d.Parent;
+        return d == null ? "." : d.FullName;
     }
 
     private static string FindSpeciesDir()

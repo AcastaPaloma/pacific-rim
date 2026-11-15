@@ -1,0 +1,22 @@
+{
+ "spec": "bay_cost@v1",
+ "nx": 576,
+ "ny": 576,
+ "cell_m": 256.0,
+ "origin_baytm_m": [
+  0.0,
+  0.0
+ ],
+ "source": "Pipelines/geo/cache/bake/tiles/v1/L3 (T-102, bake_lod)",
+ "source_fingerprint_sha256": "d79d9bf37050e56b9f9d26d8f1084fc66c091c7f0ec66a6e8bc87fd1c37a6037",
+ "file_sha256": "209d6299f125a9f645d3fdd0ca304bc033600b4526f6a7dbbf1fce2ce22fdfb6",
+ "stats": {
+  "tiles": 81,
+  "missing": 0,
+  "placeholder_sea_cells": 31748,
+  "water_cells": 90640,
+  "soft_cells": 27403
+ },
+ "depth_note": "area mean of max(0,-h) over water nodes; open-ocean/uncovered tiles carry the bake's -50 m placeholder (Q-NEW-b), missing tiles 200 m",
+ "softness_note": "PROXY: land nodes <= 3 m NAVD88 (fill / Bay mud margin); not USGS liquefaction susceptibility (OFR 2006-1037 not fetched), Assumed"
+}
