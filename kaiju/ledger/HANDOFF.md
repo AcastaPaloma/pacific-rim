@@ -193,3 +193,4 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 - No agents or Unity jobs are running. T-005 is not merged.
 - Run scripts for Unity: `evidence/T-005/round3/scripts/run85.sh` (RUN, VAR and SCN env vars).
 - Diagnosis scripts: `round3/scripts/diag85.py` and `diag_run3.py`.
+- Integration-branch lock (rule from the M0-continuation session, 2026-11-14): every commit, merge or push on the integration branch must first take `until mkdir /tmp/kaiju-merge.lock 2>/dev/null; do sleep 15; done`, then run `git -C <integration path>` after checking `git branch --show-current`, then release with `rmdir /tmp/kaiju-merge.lock`. Four M1 sessions commit there too. Commits on `task/T-005` (`.wt/T-005`) need no lock.
