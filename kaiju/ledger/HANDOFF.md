@@ -362,3 +362,5 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 - `capture_path@v1` is plain JSON (lintable from Python), time = frame index, own xorshift seed, snapped camera mandatory; blocked paths make the driver exit 3 instead of rendering stand-ins. — decided autonomously (founder asleep)
 - T-147 extends StyleCapture by new files in a new `Game.Tools.Capture` assembly behind default-off flag `Tools.Capture.Enabled`; no StyleCapture file edited. — decided autonomously (founder asleep)
 - M-123 gate 100 % of store frames, M-124 gate unchanged at 99 % of pixels at ΔE00 <= 2.0; no threshold lowered. Logotype/icon art tracked as human input. — decided autonomously (founder asleep)
+- 2026-11-15 · §16 applied (rule 17 to M2 workers); M2/M3 lead session 1 hands over at the 80k cap. Successor start refused by the permission classifier, not retried another way; left as a proposal card — decided autonomously (founder asleep).
+- 2026-11-15 · T-113 `Game.AI.Pack` waits for R-102 so species numbers are sourced, not R-103's assumptions — decided autonomously (founder asleep).
