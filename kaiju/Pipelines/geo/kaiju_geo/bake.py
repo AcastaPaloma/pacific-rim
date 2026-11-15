@@ -26,7 +26,7 @@ from .common import (BAYTM_ID, CACHE, GLOBAL_ROOT, PIPE, SAMPLES, SPEC, TILES_RO
 
 CODE_FILES = ["kaiju_geo/common.py", "kaiju_geo/fetch.py", "kaiju_geo/terrain.py", "kaiju_geo/vector.py",
               "kaiju_geo/bake.py", "kaiju_geo/landmarks.py", "bake_tile.py"]
-CONFIG_FILES = ["config/sources.json", "config/bake.json", "config/landmarks.json"]
+CONFIG_FILES = ["config/sources.json", "config/bake.json", "config/landmarks.json", "config/ggb.json"]
 REQUIRED_SOURCE_FIELDS = ("product", "item", "url", "licence", "attribution", "fetched_utc", "source_sha256")
 
 

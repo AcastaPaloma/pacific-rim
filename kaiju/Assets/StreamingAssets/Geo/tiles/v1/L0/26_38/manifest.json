@@ -12,10 +12,10 @@
   37.842125
  ],
  "build": {
-  "built_utc": "2026-11-15T03:17:53Z",
-  "git": "2cce3852ea8009a1fbde98d9d58f2bbaf854b736",
-  "git_dirty_pipeline": false,
-  "inputs_sha256": "b1a82e6bc0586edb98c02d6b1437b4cd596a384839792602fd3cd1b83cb97772",
+  "built_utc": "2026-11-15T03:47:14Z",
+  "git": "2fbfcb2f26456293e6a96f4ca43d3cc11af5ec64",
+  "git_dirty_pipeline": true,
+  "inputs_sha256": "3edcadb33e2d0ffde7b31fe7e9c89d4d59308c5ad0742a54bfe1670b0192271a",
   "script": "Pipelines/geo/bake_tile.py"
  },
  "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
@@ -1034,8 +1034,8 @@
    "file": "buildings.geojson",
    "height_fill_rule": "T-020b: only a building whose R-004 chain ended at default is re-resolved: (a) lidar_3dep = median over 1 m cells inside the footprint eroded 1.0 m of (3DEP first-return p95 - terrain), needs >= 0.7 of cells with returns, mean multi-return share <= 0.3 (vegetation test) and height >= 2.0 m; (b) assessor_stories = stories x metres_per_level; (c) else default. height_source is lidar_3dep / assessor_stories for filled buildings",
    "height_source_counts": {
-    "default": 80,
-    "lidar_3dep": 9,
+    "default": 17,
+    "lidar_3dep": 72,
     "osm_height": 23,
     "osm_levels": 1
    },
@@ -1044,7 +1044,7 @@
    "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
    "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
    "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
-   "sha256": "f0eb07e994f5090676190a9acce12f9da978fef61590c79687948f9cfb6b0113",
+   "sha256": "08987ff15cf6070b6efd84852d67df9338d306c25eac169aa388f613c8fba6c9",
    "sources": [
     {
      "attribution": "© OpenStreetMap contributors (ODbL)",
@@ -1082,6 +1082,60 @@
      "upstream_etag": "W/\"Zm94dHJvdC40NTg5OF8xNV8xMDcxNmVEYUIySEFYUWlnbW9wdW5RZ3hXMUwzMk9KZw---gzitxJSA-w_ThghT38LXRPpL6ZcNtj--gzip--gzip\"",
      "upstream_last_modified": "Fri, 26 Jun 2026 22:25:22 GMT",
      "url": "https://data.sfgov.org/resource/wv5m-vpq2.json?$select=closed_roll_year,parcel_number,year_property_built,number_of_stories,construction_type,the_geom&$where=closed_roll_year=2025%20AND%20within_box(the_geom,37.845013,-122.504324,37.820747,-122.473728)&$order=row_id&$limit=50000"
+    }
+   ]
+  },
+  {
+   "checked": [
+    {
+     "pieces_in_tile": 1,
+     "slug": "ggb_cable_a",
+     "status": "emitted"
+    },
+    {
+     "pieces_in_tile": 1,
+     "slug": "ggb_cable_b",
+     "status": "emitted"
+    },
+    {
+     "pieces_in_tile": 1,
+     "slug": "ggb_deck",
+     "status": "emitted"
+    },
+    {
+     "base_navd88_m": -20.0,
+     "delta_m": 4.07,
+     "legs_in_tile": 2,
+     "measured_top_navd88_m": 233.25,
+     "slug": "ggb_tower_n",
+     "sourced_top_navd88_m": 229.18,
+     "status": "emitted",
+     "top_used": "measured"
+    }
+   ],
+   "count": 5,
+   "emit_rule": "R-020 §2: a part is emitted only when the sourced top (sourced height above the structure's baked base + that base) exceeds the baked building top at the landmark position by more than tol_height_m; it stacks on the baked top (part_of = owning OSM bid); otherwise recorded here as already right",
+   "file": "landmarks.geojson",
+   "layer": "landmarks",
+   "sha256": "115828bf99cbdfc6e59a6ac860254f34e968cd8563de2da31243b2ede7e213d9",
+   "sources": [
+    {
+     "attribution": "Facts cited from the Golden Gate Bridge, Highway and Transportation District (GGBHTD) fact sheets; no GGBHTD data or images redistributed",
+     "fetched_utc": "2026-11-14T00:00:00Z",
+     "item": "R-020 refs [1], [2] (tower, span, deck, cable, leg-base facts)",
+     "licence": "LicenseRef-facts-cited",
+     "product": "landmarks:ggbhtd",
+     "source_sha256": "1fcd7a90d921c6c9750ab681a2bfd028a535ada4ee120cf5563a6a483a4a7ff1",
+     "url": "https://www.goldengate.org/bridge/history-research/facts-figures/"
+    },
+    {
+     "attribution": "USGS 3D Elevation Program lidar (CA_SanFrancisco_1_B23, ARRA-CA_GoldenGate_2010); first-return max per 1 m cell, measured by measure_ggb.py",
+     "fetched_utc": "2026-11-14T00:00:00Z",
+     "item": "Golden Gate Bridge tower legs, deck and cable profile (evidence/T-023/ggb_lidar_measure.json)",
+     "licence": "US-Gov-PD",
+     "product": "landmarks:lidar_3dep",
+     "source_sha256": "337877ad921cd3ebbcf58fe2fbefefa4b8416044a4c93ab42c801b72aaed7b7f",
+     "url": "https://www.usgs.gov/3d-elevation-program"
     }
    ]
   },
