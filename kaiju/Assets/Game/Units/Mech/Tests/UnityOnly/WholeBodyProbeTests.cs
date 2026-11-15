@@ -45,6 +45,8 @@ namespace Game.Units.Mech.UnityTests
             public int Slot(int dof) { int s = 0; var c = Body.GetDof(dof).ChildLink; for (int e = 0; e < dof; e++) if (Body.GetDof(e).ChildLink == c) s++; return s; }
             public void SetPose(double[] qAnat, Vector3 rootPos, Quaternion rootRot)
             {
+                // TeleportRoot FIRST (step 9.4e): a root rotation applied after the joint positions leaves the world orientation of the spherical joints attached to the root (waist, hips) unchanged and rewrites their joint coordinates by -rotation, so the legs lose the pelvis pitch (foot pitch f - th instead of f).
+                var root = Body.EngineLink(0); root.TeleportRoot(rootPos, rootRot);
                 for (int l = 0; l < Body.LinkCount; l++)
                 {
                     var ab = Body.EngineLink(l); int n = ab.dofCount; if (n == 0) continue;
@@ -52,7 +54,7 @@ namespace Game.Units.Mech.UnityTests
                     for (int d = 0; d < Body.DofCount; d++) if (Body.GetDof(d).ChildLink == l) v[Slot(d)] = (float)(Body.GetDof(d).Sign * qAnat[d]);
                     ab.jointPosition = Reduced(n, v); ab.jointVelocity = Reduced(n, new float[3]);
                 }
-                var root = Body.EngineLink(0); root.TeleportRoot(rootPos, rootRot); root.linearVelocity = Vector3.zero; root.angularVelocity = Vector3.zero;
+                root.linearVelocity = Vector3.zero; root.angularVelocity = Vector3.zero;
             }
             public void SetJointVelocities(double[] qdAnat)
             {
