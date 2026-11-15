@@ -151,24 +151,40 @@ def clip_faults(tile: Tile):
 
 
 # ---------------------------------------------------------------- the bake
-def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffle_seed=None, layers_only=None):
+# T-102 (Bay bake): terrain nodes no source covers (ocean tiles without CUDEM, Delta / Contra Costa land where the newest
+# 3DEP project leaves a hole) get a flat NAVD88 PLACEHOLDER: PLACEHOLDER_SEA_M inside the OSM coastline water polygons,
+# PLACEHOLDER_LAND_M elsewhere. Both are pure functions of the node position (water-polygons zip), so neighbouring tiles agree
+# on a shared edge. The layer manifest says so (`placeholder_nodes_*`); plans/M2_PROGRESS.md tracks it until a real source
+# lands (Q-NEW-b bathymetry; T-103 / 3DEP gap fill for land). Nothing is measured data.
+PLACEHOLDER_SEA_M = -50.0
+PLACEHOLDER_LAND_M = 2.0
+
+
+def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffle_seed=None, layers_only=None, plan=None):
+    """`plan` (T-102, Bay driver only) names the sources this tile has per bay_manifest@v1: keys cudem, dep3, osm, datasf
+    (bool, default True = the M1 behaviour: every source is fetched / read from the cache). A source the manifest says
+    does not exist is not requested and contributes nothing; unfilled terrain nodes then take the flagged placeholders above."""
     t_start = time.time()
+    plan = plan or {}
+    bay = bool(plan)
     cfg = load_config("bake.json")
     out = out_root / tile.folder
     out.mkdir(parents=True, exist_ok=True)
 
     # ---- sources (cache only after first fetch; --offline proves it)
-    cud = fetch.fetch_cudem(tile)
-    dep = fetch.fetch_3dep(tile)
-    osm = fetch.fetch_osm_tile(tile)
+    cud = fetch.fetch_cudem(tile) if plan.get("cudem", True) else []
+    dep = fetch.fetch_3dep(tile) if plan.get("dep3", True) else []
+    osm = fetch.fetch_osm_tile(tile) if plan.get("osm", True) else None
     osm_pbf = fetch.fetch_osm_pbf()
     wat = fetch.fetch_osm_water()
-    dsf = fetch.fetch_datasf(tile)
-    try:  # optional layer (T-020 add-on): without it the bake writes nothing new
-        asr = fetch.fetch_assessor(tile)
-    except (RuntimeError, OSError) as e:  # NetworkForbidden is a RuntimeError
-        print(f"[bake] assessor attributes unavailable ({e}); building attributes year_built/stories/struct_class skipped", file=sys.stderr)
-        asr = None
+    dsf = fetch.fetch_datasf(tile) if plan.get("datasf", True) else None
+    asr = None
+    if dsf is not None:
+        try:  # optional layer (T-020 add-on): without it the bake writes nothing new
+            asr = fetch.fetch_assessor(tile)
+        except (RuntimeError, OSError) as e:  # NetworkForbidden is a RuntimeError
+            print(f"[bake] assessor attributes unavailable ({e}); building attributes year_built/stories/struct_class skipped", file=sys.stderr)
+            asr = None
     tide = fetch.fetch_tides()
     lidar_path = CACHE / "lidar" / f"rind_v11__{tile.id}.npz"  # T-020b optional input (fetch_lidar_dsm.py); never fetched here
     lidar = vector.read_lidar_grid(lidar_path) if lidar_path.exists() else None
@@ -182,12 +198,14 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
 
     # ---- fingerprint (inputs + code + config) for idempotence
     fp_parts = {"spec": SPEC, "tile": tile.id,
-                "sources": sorted([m["sha256"] for m in cud + dep] + [osm["sha256"], wat["sha256"], dsf["sha256"], tide["sha256"]] + ([asr["sha256"]] if asr else []) + ([lidar_meta.get("sha256", "lidar")] if lidar is not None else [])),
+                "sources": sorted([m["sha256"] for m in cud + dep] + ([osm["sha256"]] if osm else []) + [wat["sha256"], tide["sha256"]] + ([dsf["sha256"]] if dsf else []) + ([asr["sha256"]] if asr else []) + ([lidar_meta.get("sha256", "lidar")] if lidar is not None else [])),
                 "faults_global": sha256_file(faults_global),
                 "code": {f: sha256_file(PIPE / f) for f in CODE_FILES},
                 "config": {f: sha256_file(PIPE / f) for f in CONFIG_FILES}}
     # CUDEM release per cell (2022v1/2023v1/2025v1, T-101): a changed source version changes the fingerprint even if the
     # window bytes happened to match. Omitted when every cell is 2022v1 so the committed M1 tile fingerprints stay valid.
+    if bay and not (osm and dsf):  # a source the manifest says is absent is part of the fingerprint (M1 shape unchanged otherwise)
+        fp_parts["absent_sources"] = [k for k, v in (("osm", osm), ("datasf", dsf)) if not v]
     cud_versions = sorted(m["item"] for m in cud if m.get("version", fetch.CUDEM_LEGACY_VERSION) != fetch.CUDEM_LEGACY_VERSION)
     if cud_versions:
         fp_parts["cudem_versions"] = sorted(m["item"] for m in cud)
@@ -216,11 +234,26 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     h3 = terrain.sample_rasters(dep_paths, X, Z)
     h, w3 = terrain.merge_from_cfg(hc, h3, cfg, tile.spacing)
     core = (slice(M, M + SAMPLES), slice(M, M + SAMPLES))
+    ph_sea = ph_land = 0
+    if bay:  # T-102: no-data nodes are a flagged placeholder, not an error (the M1 path keeps the strict check below)
+        gap = ~np.isfinite(h)
+        if gap.any():
+            sea = shapely.contains_xy(read_water_polygons(tile, 2.0 * M * tile.spacing), X[gap], Z[gap])
+            fill = np.where(sea, PLACEHOLDER_SEA_M, PLACEHOLDER_LAND_M)
+            seamap = np.zeros(h.shape, dtype=bool)
+            seamap[gap] = sea
+            ph_sea = int(np.count_nonzero((gap & seamap)[core]))
+            ph_land = int(np.count_nonzero((gap & ~seamap)[core]))
+            h[gap] = fill
+    placeholder_nodes = ph_sea + ph_land
     if not np.all(np.isfinite(h[core])):
         raise RuntimeError(f"{tile.id}: terrain has {np.sum(~np.isfinite(h[core]))} unfilled nodes (source gap)")
 
     # ---- vectors
-    o = vector.read_osm(PIPE / osm["file"] if "file" in osm else CACHE / "osm" / "tiles" / f"{tile.id}.osm.pbf")
+    if osm is None:
+        o = {"buildings": [], "parts": [], "roads": [], "piers": []}
+    else:
+        o = vector.read_osm(PIPE / osm["file"] if "file" in osm else CACHE / "osm" / "tiles" / f"{tile.id}.osm.pbf")
     if shuffle_seed is not None:  # determinism test hook: input order must not matter
         rng = np.random.default_rng(shuffle_seed)
         for k in o:
@@ -258,7 +291,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
 
     # ---- buildings
     bcfg = cfg["buildings"]
-    datasf = vector.read_datasf(CACHE / "datasf" / f"ynuv-fyni__{tile.id}.geojson")
+    datasf = vector.read_datasf(CACHE / "datasf" / f"ynuv-fyni__{tile.id}.geojson") if dsf is not None else []
     dtree = shapely.STRtree([d["geom"] for d in datasf]) if datasf else None
     asr_pts = vector.read_assessor(CACHE / "assessor" / f"wv5m-vpq2__{tile.id}.json", bcfg) if asr else []
     outlines = []
@@ -344,7 +377,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
         props = {"bid": b["oid"], "part_of": b.get("part_of") if is_part else None,
                  "height_m": round(hm, 3), "min_height_m": round(mh, 3), "levels": lv,
                  "roof_shape": rs, "base_navd88_m": round(base, 3), "ground_min_navd88_m": round(gmin, 3), "height_source": hsrc,
-                 "name": tags.get("name"), "has_parts": (not is_part) and b["oid"] in parent_ids,
+                 "name": None, "has_parts": (not is_part) and b["oid"] in parent_ids,
                  "roof_height_m": round(rh, 3) if rh is not None else None, "excluded": excluded,
                  "height_capped_to_parent": capped}
         props.update(extra)
@@ -394,7 +427,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
         rfeats.append({"type": "Feature", "id": r["oid"], "properties": {
             "wid": r["oid"], "class": t.get("highway"), "lanes": vector.parse_number(t.get("lanes")),
             "width_m": round(vector.road_width(t, rcfg), 3), "bridge": vector.as_int_bool(t.get("bridge")),
-            "tunnel": vector.as_int_bool(t.get("tunnel")), "layer": vector.layer_of(t), "name": t.get("name"),
+            "tunnel": vector.as_int_bool(t.get("tunnel")), "layer": vector.layer_of(t), "name": None,
             "drivable": t.get("highway") in rcfg["drivable"]}, "geometry": mapping(c)})
     rfeats.sort(key=lambda f: vector.oid_key(f["id"]))
 
@@ -432,7 +465,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     bb = [round(min(c[0] for c in corners), 6), round(min(c[1] for c in corners), 6),
           round(max(c[0] for c in corners), 6), round(max(c[1] for c in corners), 6)]
     osm_src = source_entry("osm", "norcal-latest.osm.pbf", osm_pbf, {"osm_base_utc": osm_pbf.get("osm_base_utc"),
-                                                                     "extract_sha256": osm["sha256"]})
+                                                                     "extract_sha256": osm["sha256"] if osm else None})
     ter_sources = [source_entry("cudem", m["item"], m) for m in sorted(cud, key=lambda m: m["item"])] + \
                   [source_entry("dep3_1m", m["item"], m) for m in sorted(dep, key=lambda m: m["item"])]
     hs = {}
@@ -444,7 +477,10 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
          "format": "COG float32 2049x2049, pixel-is-point, row 0 = north, deflate + predictor 3",
          "samples": SAMPLES, "spacing_m": tile.spacing, "sources": ter_sources,
          "merge_rule": "3DEP 1 m where valid and CUDEM > +1.798 m NAVD88, CUDEM elsewhere, " + cfg["terrain"].get("feather_mode", "inside") + " linear feather over terrain.feather_m (" + str(cfg["terrain"]["feather_m"]) + " m); piers raised to deck",
-         "h_min_m": round(float(np.min(ht)), 4), "h_max_m": round(float(np.max(ht)), 4)},
+         "h_min_m": round(float(np.min(ht)), 4), "h_max_m": round(float(np.max(ht)), 4),
+         **({"placeholder_nodes": placeholder_nodes, "placeholder_nodes_sea": ph_sea, "placeholder_nodes_land": ph_land,
+             "placeholder_sea_navd88_m": PLACEHOLDER_SEA_M, "placeholder_land_navd88_m": PLACEHOLDER_LAND_M,
+             "placeholder_note": "nodes covered by neither CUDEM nor 3DEP hold a flat placeholder (sea inside OSM coastline water polygons, land elsewhere), not measured data (Q-NEW-b)"} if placeholder_nodes else {})},
         {"layer": "terrain_r16", "file": "terrain.r16", "sha256": sha256_bytes(files["terrain.r16"]),
          "format": "uint16 LE RAW 2049x2049, row 0 = south, col 0 = west, h = h_min + v*(h_max-h_min)/65535",
          "h_min_m": hmin, "h_max_m": hmax, "step_m": (hmax - hmin) / 65535.0, "sources": ter_sources},
@@ -467,7 +503,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
          "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
          "extra_fields": ["has_parts", "roof_height_m", "remainder_geometry", "datasf_id", "datasf_iou", "ground_min_navd88_m", "excluded", "height_capped_to_parent"]
                          + (["year_built", "stories", "struct_class"] if asr else []),
-         "sources": [osm_src, source_entry("datasf", "ynuv-fyni", dsf)] + ([source_entry("assessor", "wv5m-vpq2", asr)] if asr else []),
+         "sources": [osm_src] + ([source_entry("datasf", "ynuv-fyni", dsf)] if dsf else []) + ([source_entry("assessor", "wv5m-vpq2", asr)] if asr else []),
          **({"assessor_rule": "optional additive properties year_built, stories, struct_class (Assessor construction_type code, raw) from the pinned roll year; a parcel centroid is joined to the smallest footprint containing it; most common value per footprint; parts inherit their structure's; absent when unknown",
              "assessor_roll_year": load_config("sources.json")["assessor"]["roll_year"],
              "count_with_year_built": sum(1 for f in bfeats if "year_built" in f["properties"]),

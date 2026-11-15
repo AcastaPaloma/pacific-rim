@@ -67,7 +67,29 @@ Per tile: `terrain.r16` (node subsample of the L0 field, spacing 2^n m, same 204
 (majority of the 2^n x 2^n L0 cells), `b1.lodmesh`/`b1.index.json` (merged blocks per 256 m chunk, per-building index
 ranges; L1, L2), `b2.lodmesh`/`b2.index.json` (prisms for >= 60 m buildings + max-pooled rooftop surface; L2..L4) and
 `manifest.json` (errors, stats, budget, file hashes, source fingerprint, attribution). `.lodmesh` layout: module docstring. Index rows of building parts carry `part_of` (bake_lod.py@4, T-111b). C# reader: `Game.World.Streaming.Host/GeoLodTileReader.cs`; error measurement at the cap thresholds: `scripts/measure_lod_error.py` (evidence/T-111b).
-The manifest records the RTIN triangle count at the nominal threshold 0.1 x 2^n m and the smallest threshold of a
-fixed ladder that fits the 150 k cap (`terrain.rtin_threshold_for_cap_m`); the loader picks, the baker does not relax.
+The manifest records the RTIN triangle count at the nominal threshold 0.1 x 2^n m (`rtin_threshold_nominal_m`, `rtin_triangles_at_nominal`)
+and the smallest threshold of a fixed ladder that fits the 150 k cap (`terrain.rtin_threshold_for_cap_m`). Since bake_lod.py@5 (build lead
+decision after T-111b) a tile that misses the cap at the nominal threshold is BAKED at its cap threshold: `rtin_threshold_m` and
+`rtin_triangles` are the baked ones, the cap is never changed. `FOOTPRINT_TOL_OVERRIDE_M` sets B1 footprint tolerance 2 m for L1_14_18 only
+(L2_07_09 stays over the 100k B1 cap, staged until M-102 render evidence).
 Missing L0 tiles are an open-ocean placeholder (`coverage` < 1 in the manifest). `lod.validate_level_tile` and
 `lod.check_edge_agreement` are the validators.
+
+## Bay bake (T-102): `bake_bay.py`
+Resumable, backgrounded driver over `bay_manifest@v1` (4311 tiles; the 313 `outside` grid tiles are not listed). Run it from the
+checkout whose git-ignored `cache/` holds the T-101 fetches, with `nohup` (it costs no tokens), one stage per run:
+`bake_bay.py --stage datasf|l0|lod [--workers 6] [--class ...] [--tile ...] [--limit N] [--force] [--min-free-gb 60] [--dry-run]`.
+- Output (git-ignored, Q-200): `cache/bake/tiles/v1/L0/{ii}_{jj}/` and `.../L{n}/{ii}_{jj}/`. It refuses to write under StreamingAssets. The 15
+  committed district tiles are baked again here (same code, same bytes) so the pyramid sees one contiguous source.
+- Status: `cache/status/bake_<stage>.jsonl` (last line per tile wins) + `bake_<stage>.summary.json` (counts, bytes, rate, ETA, tiles with
+  placeholder nodes, failures). Re-runs skip done tiles whose outputs are still current (`l0`: the bake's input fingerprint; `lod`: generator +
+  contributing L0 manifests) and retry failed ones. Disk guard exit 3, SIGTERM clean stop, offline guard on `l0` and `lod`.
+- `datasf` is the only online stage: DataSF footprints + Assessor windows for the 146 manifest tiles flagged `datasf` (T-101 did not bulk-fetch them).
+- Source plan per tile comes from the manifest: `bake.bake(..., plan={cudem, dep3, osm, datasf})`. A source the manifest says is absent is not
+  requested: no OSM (ocean_only) = empty buildings/roads layers; no DataSF = height fallback chain without it. The default path (`bake_tile.py`) is
+  unchanged. Nodes no source covers (458 ocean tiles without CUDEM, Delta / east Contra Costa holes in the newest 3DEP project) hold a flat
+  PLACEHOLDER (sea -50 m inside the OSM coastline polygons, land +2 m elsewhere); the terrain layer carries `placeholder_nodes*`. Tracked in
+  plans/M2_PROGRESS.md until real bathymetry (Q-NEW-b) / 3DEP gap fill (T-103) replaces it.
+- T-144b: OSM `name` is not shipped. `buildings` and `roads` keep the property key with value `null`; the names stay in the cache extracts
+  (M-126: no OSM venue name in shipped text). Tools that matched on baked names (`m005_check` bridge test, `known_gaps`) must read the OSM cache.
+- `Pipelines/build/copy_tiles.py` accepts `bay_manifest.json` as its tile set (`--class` filter) for the M3 player-build copy.

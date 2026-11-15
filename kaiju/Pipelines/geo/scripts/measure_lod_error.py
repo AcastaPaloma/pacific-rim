@@ -105,7 +105,7 @@ def terrain_rows(pyr: Path, src, tile: str, levels_filter=None):
     lv, I, J = (int(x) for x in tile[1:].split("_"))
     d = pyr / f"L{lv}" / f"{I:02d}_{J:02d}"
     h, man = read_field(d)
-    nominal = man["terrain"]["rtin_threshold_m"]
+    nominal = man["terrain"].get("rtin_threshold_nominal_m", man["terrain"]["rtin_threshold_m"])
     mi, E = lod.rtin_error_pyramid(h)
     rows = []
     fe = total_error(lv, I, J, src, h)                    # field only (no RTIN) = the manifest figure

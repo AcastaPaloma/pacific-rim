@@ -12,10 +12,10 @@
   37.805339
  ],
  "build": {
-  "built_utc": "2026-11-15T03:54:34Z",
-  "git": "2e9635b88d0c9597adcc7cffba1a81aa84141c76",
+  "built_utc": "2026-11-15T10:54:51Z",
+  "git": "868278e0a9a0e7632ae15a3a0de17c73368f34b5",
   "git_dirty_pipeline": true,
-  "inputs_sha256": "99ab2bd64799751d58262dd953d070f4c281155d1747e716896c43851bb5f814",
+  "inputs_sha256": "1a4fd96bd0a3013c2686c6f20b8e77c12dbc376100d4d816875b1e761ac1123b",
   "script": "Pipelines/geo/bake_tile.py"
  },
  "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
@@ -305,7 +305,7 @@
    "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
    "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
    "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
-   "sha256": "f31904dcfea40883d06413cbecf4e1100a56a221468c1a7357ee5a4d0187b821",
+   "sha256": "112427d8ce68ddaf7c693b6f2e2a7068791ba491460f0545b69b086375b67a1c",
    "sources": [
     {
      "attribution": "© OpenStreetMap contributors (ODbL)",
@@ -351,7 +351,7 @@
    "count": 2,
    "file": "roads.geojson",
    "layer": "roads",
-   "sha256": "b8afaa1ebfe740064cde39475e1db9825809d2c255a966338b74f5fbd23d8101",
+   "sha256": "c9ce60df552aff22bdff347ed21d75438177cd3f4ae8359d64851acb0aeaebff",
    "sources": [
     {
      "attribution": "© OpenStreetMap contributors (ODbL)",
