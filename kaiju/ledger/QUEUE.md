@@ -90,6 +90,7 @@ Brief `tasks/T-006.md`, spec `expectations/T-006.md` (19 criteria). Worktree `.w
   - 6.5 Orchestrator: EditMode tests, then ScenarioCli walk runs in the background; Haiku metric read per run.
   - 6.6 Continuation in small Froude increments from the stable gait; stop after three consecutive failed increments.
   - 6.7 Evidence regenerated for the best stable speed; open evaluator defects; eval-physics and eval-arch.
+  - T-005 round 8 done (task/T-005-r8 7101666, not merged): very slow rows Fr 0.005-0.015 feasible (knee still at 0.95-0.99 of limit; derated twins +30 %), swing retime / swing saturation flags default 0; 3 Unity cycles, nothing stable, no config beats the L7 control 30.8 s (lower row 0 is worse: 14.6-18.0 s); next: stance-side start-up momentum (HANDOFF 2026-11-15 round 8).
 - **Calibration (Q-072 = now)** — waiting on the founders' filled `checkpoints/M0/sheets/`.
 - Still not allowed: any assist, body-data change, band change, or merging T-005's modules before its gate is met.
 
