@@ -377,3 +377,8 @@ Mirrors `GAME_BREAKDOWN.md` §11 for questions raised after the initial breakdow
 | Q-053 | T-005 stays unmerged; round 2 approved with R-008's approach; no assist, no data change, no lower band. | T-005 round 2 started (QUEUE §6). |
 | Q-071 | Keep the from-behind framing for the style decision; decide facing once the mech walks. | None now. |
 | Q-072 | Calibrate now with `checkpoints/M0/sheets/`; M-005 waits for a `calibrate` extension. | Waiting on the founders' filled sheets. |
+
+### Founder answer, 2026-11-14 (after the T-005 round-2 report): "do that" (the recommended default)
+| ID | Answer | Action |
+|---|---|---|
+| Q-073 | Approved: R-008 option (c), offline trajectory optimisation of a full stride at Fr 0.10/0.15/0.20 under torque, friction and ROM limits, as T-005 round 3; option (b) whole-body QP decided from its result. No assist, no body-data change, no threshold edits; T-005 stays unmerged. | T-005 round 3 started (QUEUE §6, `tasks/T-005.round3.md`). |
