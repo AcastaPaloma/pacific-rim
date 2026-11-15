@@ -25,8 +25,8 @@ Session 3 (regression `evidence/regression/M1-merge-4.md`):
 2. ~~R-024 revision for M-007 C1 + T-033~~ DONE (rev 2, merged; `evidence/regression/T-033.md`): FR_commit 0.18 -> 0.915 (null 0.015), `Tools/Metrics m007`, `validate brain_log`. Open: C5 panel (clips need a game build), Unity EditMode mirror of the brain tests.
 3. ~~T-030 step 2 + T-031~~ DONE (task/T-030b): see below. Remaining: T-030 step 3 placeholder body consuming `MechSeatBehaviour.Frame`.
 4. ~~T-036 step 3 (M-051), step 4 (M-053/M-054), C# `destruction_dump@v1` exporter~~ DONE (task/T-036b). T-035 step 2: `--pieces` input done; viewpoints/graphics blocked (Q-NEW-h, Q-072); step 3 landmarks row left to T-023 step 2. Still open: FaultRupture/QuakeBegan dump exporter (M-053/M-054 real input), Unity writer of `district_pieces@v1`.
-5. Composition root: install Destruction + Seismic + bridge + brain behind flags (T-039 or a small step).
-6. Evaluators per track (eval-arch, eval-physics, eval-perf), Sonnet medium.
+5. ~~Composition root: install Destruction + Seismic + bridge + brain behind flags (T-039 or a small step).~~ DONE (T-039, `Game.Composition`).
+6. ~~Evaluators per track~~ DONE (`evaluations/M1-*`, blocking fixed, minors in LEDGER). M1 report: `reports/M1.md`.
 
 ## Open worktrees (merged at their current heads, safe to remove): .wt/T-020b, .wt/T-021, .wt/T-022, .wt/T-024b, .wt/T-027, .wt/T-030, .wt/T-032, .wt/T-035, .wt/T-036.
 

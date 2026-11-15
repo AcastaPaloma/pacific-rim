@@ -213,7 +213,7 @@ namespace Game.World.Destruction.Tests
             sec.Records[sec.Records.Count - 1].Set("state", SaveValue.Of(9L));
             var b = Build(50, 22);
             var before = All(b);
-            Assert.Throws<FormatException>(() => Sys(b, out _).Restore(doc));
+            Assert.That(Sys(b, out _).Restore(doc).Status, Is.EqualTo(SaveLoadStatus.Corrupt));
             AssertSameBits(before, All(b));
         }
 
@@ -224,7 +224,7 @@ namespace Game.World.Destruction.Tests
             var doc = new SaveDocument("t");
             var sec = doc.AddSection("destruction", 1);
             sec.Add("bld:osm-way:notanumber").Set("state", SaveValue.Of(1L));
-            Assert.Throws<FormatException>(() => Sys(m, out _).Restore(doc));
+            Assert.That(Sys(m, out _).Restore(doc).Status, Is.EqualTo(SaveLoadStatus.Corrupt));
         }
 
         [Test]

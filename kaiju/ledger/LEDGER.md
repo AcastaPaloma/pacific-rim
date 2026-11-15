@@ -292,6 +292,15 @@ One line per evaluator defect until it is fixed and re-evaluated, or a founder r
 | DEF-T005r2-arch-2 | T-005 | major | 5-row stance schedule embedded in ReferenceGait.cs, hard-coded l/42.0; literal-scan test misses it | evaluations/T-005/eval-arch.round2.md D-2 | closed by task/T-005 2232b3b | 2026-11-14 |
 | DEF-T005r2-arch-3 | T-005 | major | N-mech independence test still KnownFailing (cycle-1 arch-2); feature flags never read (arch-3) | evaluations/T-005/eval-arch.round2.md D-7 | open | 2026-11-14 |
 | DEF-T005r2-minor | T-005 | minor | 3 eval-physics + 6 eval-arch minors (incl. gait_log additions documented only in code; legacy waist table K 240→480 unstated) | evaluations/T-005/*.round2.md | open | 2026-11-14 |
+| DEF-M1net-1 | M1 net | blocking | Assets/Game/Net/MODULE.md missing | evaluations/M1-net/eval-combined.md | closed (MODULE.md written, 725973c) | 2026-11-15 |
+| DEF-M1net-minor | M1 net | minor | 5: no slot release/reconnect; net.coop and net.seatBridge not in Config/FeatureFlags; no evidence/T-029..T-031 folders; N=2 vs N=4 ratio clause unenforced (host-egress reading logged); stress/outage and join-burst cells untested | evaluations/M1-net/eval-combined.md | open | 2026-11-15 |
+| DEF-M1ai-1 | M1 AI | blocking | Assets/Game/AI/MODULE.md missing | evaluations/M1-ai/eval-combined.md | closed (05fb6b9) | 2026-11-15 |
+| DEF-M1ai-5 | M1 AI | minor | Wrap() loops forever on huge/infinite heading | evaluations/M1-ai/eval-combined.md | closed (NaN/range guard, 05fb6b9) | 2026-11-15 |
+| DEF-M1ai-minor | M1 AI | minor | 5: no Unity test mirror, empty Policy/, harness in runtime asmdef; "death is public" visibility; allies not range-filtered in observation; M-007 C2/C3 do not discriminate vs null; harness kaiju take no damage, 100-seed logs not in repo | evaluations/M1-ai/eval-combined.md | open | 2026-11-15 |
+| DEF-M1save-1 | M1 save | blocking | SaveSystem.Restore partly applied when a participant Read threw | evaluations/M1-save/eval-combined.md | closed (rollback + test SaveRestoreRollbackTests, 05fb6b9) | 2026-11-15 |
+| DEF-M1save-minor | M1 save | minor | 4: IOException escapes JsonFileSaveStore.Load; destruction participant drops unknown same-version fields; no .bak fallback; test gap (now covered for multi-participant) | evaluations/M1-save/eval-combined.md | open | 2026-11-15 |
+| DEF-M1geo-minor | M1 geo | minor | 6: N tower top uses lidar max 233.25 m (official 229.18); Geo MODULE.md lacks landmarks/floating-origin/seams; M-005 landmarks row not_evaluated with stale reason; others in report | evaluations/M1-geo/eval-combined.md | open | 2026-11-15 |
+| DEF-M1ds-minor | M1 destruction/seismic | minor | 5: Destruction MODULE.md stale (ModelRevision, test count); test-assembly coupling; no M-050..054 run artifacts; per-vertex slip at bridge ends; S-wave delay | evaluations/M1-destruction-seismic/eval-combined.md | open | 2026-11-15 |
 
 ## Founder questions raised by the swarm
 
