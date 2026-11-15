@@ -9,3 +9,4 @@ Tests (dotnet, kaiju/DotnetTests):
 - Physics.Body.Tests 112/0, Control.Tests 7/0, Core.Tests 96/0 (all green; solver tests unchanged).
 Unity compile / EditMode: SKIPPED (5 Unity processes running, limit is fewer than 2). The Unity-only edits (ArticulatedBody.cs getters, BodyWorld.CreateQpSolver) are therefore not compiled yet; Physics.Body.Contracts and the pure classes are compiled by dotnet.
 imp 0/1/2: LocomotionController.cs, walk_tuning.json, mech_frame_balanced.json, body_tuning.json not touched.
+- Unity EditMode (batch, 6000.6.9f1, 04:32): 322 total, 315 pass, 7 fail = the 7 documented KnownGap ReferenceGaitTests (reftests.md); 9.4a Unity edits compile. Raw log/xml not committed.
