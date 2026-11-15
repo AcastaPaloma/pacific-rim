@@ -109,3 +109,10 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 - T-005 round 2: step 6.1 done (task/T-005 dd936b9). Next is 6.2 stance impedance; see QUEUE §6 for the step list, carried caveats and the stop rule.
 - M1 planning runs in its own session ("M1 planning: walk-independent tracks", local_f1fe798d); it writes only `plans/M1.md`, `research/briefs/`, one line in `ledger/IDS.md`, using reserved IDs T-020–039, R-020–029, Q-100–129, M-050–069. Round 2 keeps Q-073–Q-099, T/R below those blocks.
 - Calibration (Q-072 = now) waits on the founders' filled `checkpoints/M0/sheets/`.
+
+## Snapshot: session 4 (T-005 round 2), 2026-11-14 evening
+- T-005 round 2 steps 6.2–6.7 done on `task/T-005` (head b34f7d7), each by one Sonnet worker; per-step evidence `evidence/T-005/round2/step*.md`; report `evidence/T-005/round2/REPORT.md`; final evidence `round2/final/` (c1ba9af, 78 MB) with `METRICS.md`.
+- Result: **stop rule hit.** Stance-impedance controller (flag `imp`, off in the shipped config) walks stably only at the legacy step cap 0.25 l (Fr 0.016); caps 0.30/0.35/0.40 fall (stance-knee collapse). Best stable unassisted walk stays the legacy controller, M-001.1 Fr 0.0226. Gate not met.
+- Found and fixed on the way: step 6.1's waist keys leaked into the legacy waist (`curve` fell); split into `imp_waist_*` (c1ba9af).
+- eval-physics r2 FAIL, eval-arch r2 FAIL; defects DEF-T005r2-* in the ledger. Founder question **Q-073** (next approach; default R-008 (c) then (b)) is blocking the M0 walk gate. Q-073 is not yet mirrored into `GAME_BREAKDOWN.md` §11 (scribe item).
+- Run scripts: `evidence/T-005/round2/scripts/` (`final.sh`, `run65.sh`, variants). No agents running; no Unity jobs running. T-005 not merged; M1 untouched.
