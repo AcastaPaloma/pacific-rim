@@ -8,6 +8,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using Game.AI;
+using Game.Audio.SliceBridge.Unity;
 using Game.Cameras;
 using Game.Composition;
 using Game.Core;
@@ -60,6 +61,8 @@ namespace Game.Slice
         GameCompositionResult _comp;
         GeoTileSetBuilder _builder;
         IEventBus _bus;
+        SliceAudioBehaviour _audio;   // T-188: only when audio.slice is on
+        readonly Dictionary<BuildingId, (double x, double z)> _audioPos = new Dictionary<BuildingId, (double x, double z)>();
         readonly SliceBuildingIndex _index = new SliceBuildingIndex();
         readonly List<SliceFootprint> _footprints = new List<SliceFootprint>();   // Unity-frame building footprints for the spawn planner
         float _spawnYawDeg;
@@ -137,6 +140,7 @@ namespace Game.Slice
             if (_comp.Geo == null || _comp.Destruction == null) { Debug.LogError("[Slice] composition did not install Geo/Destruction: " + _lastMsg); yield break; }
             foreach (var inst in _builder.Instances) _comp.Geo.Add(inst);
             _bus.Subscribe<BuildingDamaged>(this); _bus.Subscribe<EmergencePoint>(this);
+            _audio = SliceAudioInstaller.TryInstall(_flags, _bus, LocateForAudio);
             RegisterBuildings();
             yield return null;
 
@@ -207,6 +211,12 @@ namespace Game.Slice
             return FaultTraceSet.Build(FaultTraceSet.PiecesFromGeo(GeoFaultsLoader.LoadGlobal(path), 0.0, 0.0));
         }
 
+        bool LocateForAudio(BuildingId id, out double x, out double y, out double z)
+        {
+            if (_audioPos.TryGetValue(id, out var p)) { x = p.x; z = p.z; y = 10.0; return true; }
+            x = y = z = 0; return false;
+        }
+
         void RegisterBuildings()
         {
             var all = new List<KeyValuePair<BuildingId, (GeoBuildingData b, GeoTileInstance t)>>();
@@ -221,6 +231,7 @@ namespace Game.Slice
                 _comp.Destruction.Register(b.Id, BuildingAttributesFromGeo.From(b));
                 _comp.ShakingBridge?.AddBuilding(b.Id, x, z);
                 _index.Add(b.Id, x, z, Math.Sqrt(Math.Max(b.AreaM2, 20.0)) * 0.6);
+                if (_audio != null) _audioPos[b.Id] = (x, z);
                 _footprints.Add(new SliceFootprint(x - OriginX, z - OriginZ, Math.Sqrt(Math.Max(b.AreaM2, 20.0)) * 0.6, b.HeightM));
             }
             _buildingCount = all.Count;
@@ -355,6 +366,7 @@ namespace Game.Slice
             if (!Ready) return;
             float dt = Time.deltaTime;
             MoveMech(dt);
+            if (_audio != null && _cam != null) _audio.Tick(_mechT.position, _cam.transform, _root.Services.Clock.Step, OriginX, OriginZ);
             { var mp = _mechT.position; if (_haveLastM) _mechTravel += Math.Sqrt((mp.x - _lastMX) * (mp.x - _lastMX) + (mp.z - _lastMZ) * (mp.z - _lastMZ)); _lastMX = mp.x; _lastMZ = mp.z; _haveLastM = true; }
             MoveImpactor(dt);
             for (int i = 0; i < 3 && _removals.Count > 0; i++) { var id = _removals.Dequeue(); if (!_comp.Geo.IsRemoved(id)) { _comp.Geo.RemoveBuilding(id); _removedCount++; } }
