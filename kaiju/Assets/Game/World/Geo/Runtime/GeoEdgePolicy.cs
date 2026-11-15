@@ -6,8 +6,40 @@ using System.Collections.Generic;
 
 namespace Game.World.Geo
 {
+    /// <summary>
+    /// The one height lattice shared by render meshes, data and TerrainColliders. Unity stores terrain heights as 15-bit levels
+    /// (0..32766 over size.y), so a collider whose levels are multiples of StepM represents lattice heights exactly.
+    /// Every shared-border height (edges and corners) is snapped to this lattice by GeoEdgePolicy.EdgeHeight, so the render
+    /// vertex and the collider surface at that point are the same number in both tiles.
+    /// </summary>
+    public static class GeoHeightLattice
+    {
+        public const double StepM = 0.005;
+        public const int MaxLevel = 32766;
+
+        public static double Snap(double h, double step = StepM) => Math.Round(h / step) * step;
+
+        /// <summary>Collider plan for a data lattice: step (StepM, doubled while the range does not fit) and the integer level of the lowest sample.</summary>
+        public static void Plan(float[] data, out double step, out long kMin)
+        {
+            double lo = double.MaxValue, hi = double.MinValue;
+            foreach (var v in data) { if (v < lo) lo = v; if (v > hi) hi = v; }
+            step = StepM;
+            kMin = (long)Math.Floor(lo / step);
+            while ((hi / step - kMin) > MaxLevel - 1) step *= 2;   // range above ~164 m: coarser lattice
+            if (step != StepM) kMin = (long)Math.Floor(lo / step);
+        }
+
+        /// <summary>Stored level of a height, and the height a collider reports for a level.</summary>
+        public static long Level(double h, double step, long kMin) => (long)Math.Round(h / step) - kMin;
+        public static double ColliderHeight(long level, double step, long kMin) => (level + kMin) * step;
+    }
+
     public sealed class GeoEdgePolicy
     {
+        /// <summary>The single rule for a height on a shared edge or corner: mean of the tiles containing the point, snapped to the lattice.</summary>
+        public static float EdgeHeight(double sum, int count) => (float)GeoHeightLattice.Snap(sum / count);
+
         /// <summary>Indexed by (int)GeoDirection (N, E, S, W): the border is shared with a tile of the set.</summary>
         public readonly bool[] Forced = new bool[4];
         /// <summary>Per forced side: shared heights along the border (index = x for N/S, z for E/W), corners included.</summary>
@@ -51,7 +83,7 @@ namespace Game.World.Geo
                 var mine = own.Of(d);
                 bool mineFirst = d == GeoDirection.East || d == GeoDirection.North ? true : false;   // A (west/south tile) first
                 var row = new float[n];
-                for (int k = 0; k < n; k++) row[k] = (float)(mineFirst ? mine[k] + theirs[k] : theirs[k] + mine[k]) * 0.5f;
+                for (int k = 0; k < n; k++) row[k] = EdgeHeight(mineFirst ? mine[k] + theirs[k] : theirs[k] + mine[k], 2);
                 p.Forced[(int)d] = true;
                 p.Rows[(int)d] = row;
             }
@@ -77,7 +109,7 @@ namespace Game.World.Geo
                     if (vals.Count < 2) continue;
                     vals.Sort((a, b) => a.j != b.j ? a.j.CompareTo(b.j) : a.i.CompareTo(b.i));
                     double s = 0; foreach (var v in vals) s += v.v;
-                    p.Corners[cz * 2 + cx] = (float)(s / vals.Count);
+                    p.Corners[cz * 2 + cx] = EdgeHeight(s, vals.Count);
                 }
             return p.Any ? p : null;
         }

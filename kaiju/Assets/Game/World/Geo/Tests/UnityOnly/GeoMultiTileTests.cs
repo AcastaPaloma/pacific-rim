@@ -192,8 +192,11 @@ namespace Game.World.Geo.Unity.Tests
                 {
                     // Unity rejected a ray exactly on one border: the hit is a hair inside, where 1 m stair-stepped data (piers) changes
                     // by slope * offset. Compare each hit with the data surface at its own offset point instead of with the other tile.
-                    Assert.AreEqual(a.Model.Heights.SampleData(x, offA), ya, 0.0025 + 1e-3, "collider A vs data, x=" + x + " off " + offA);
-                    Assert.AreEqual(b.Model.Heights.SampleData(x, 2048.0 - offB), yb, 0.0025 + 1e-3, "collider B vs data, x=" + x + " off " + offB);
+                    // Each border hit must sit on the shared (averaged) edge vertex; an inset hit may move by at most a 10 m/m slope
+                    // times its offset (Unity rejects some rays exactly on a TerrainCollider border). Gaps are covered by the
+                    // scene-wide midpoint rays in SharedEdge_NoCrack_BetweenVertices.
+                    Assert.AreEqual(kv.Value, ya, 0.0035 + 10.0 * offA, "collider A vs shared edge vertex, x=" + x + " off " + offA);
+                    Assert.AreEqual(kv.Value, yb, 0.0035 + 10.0 * offB, "collider B vs shared edge vertex, x=" + x + " off " + offB);
                 }
                 worst = System.Math.Max(worst, System.Math.Abs(ya - yb));
             }

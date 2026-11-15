@@ -79,7 +79,7 @@ namespace Game.World.Geo.Tests
             Assert.IsFalse(pa.Forced[(int)GeoDirection.North] || pa.Forced[(int)GeoDirection.West] || pa.Forced[(int)GeoDirection.South]);
             for (int r = 0; r < N; r++)
             {
-                float expect = (float)(0.5 * ((double)d[a][r * N + N - 1] + d[b][r * N]));
+                float expect = (float)GeoHeightLattice.Snap(0.5 * ((double)d[a][r * N + N - 1] + d[b][r * N]));   // mean, on the shared 0.005 m lattice
                 Assert.AreEqual(expect, ha[r * N + N - 1], 1e-6f, "row " + r);
                 Assert.AreEqual(ha[r * N + N - 1], hb[r * N], 0f, "A east == B west exactly, row " + r);
             }
@@ -110,7 +110,7 @@ namespace Game.World.Geo.Tests
             Assert.AreEqual(c, hnw[N - 1], 0f);                       // nw's SE
             Assert.AreEqual(c, hne[0], 0f);                           // ne's SW
             double mean = (d[sw][(N - 1) * N + N - 1] + (double)d[se][(N - 1) * N] + d[nw][N - 1] + d[ne][0]) / 4;
-            Assert.AreEqual(mean, c, 1e-6);
+            Assert.AreEqual(GeoHeightLattice.Snap(mean), c, 1e-6);
         }
 
         [Test]
