@@ -499,7 +499,7 @@ namespace Game.Units.Mech
             }
             if (_qpDiag)
             {
-                _dbg.QpK ??= new double[_qpFoot ? 52 : _t.qp_plan > 0.5 ? 38 : 22];
+                _dbg.QpK ??= new double[_qpFoot ? 53 : _t.qp_plan > 0.5 ? 38 : 22];
                 for (int pl = 0; pl < 2; pl++)
                 {
                     var leg = legs[pl]; int[] d3 = { leg.Hip[0], leg.Knee, leg.Ankle[0] };
@@ -511,7 +511,7 @@ namespace Game.Units.Mech
                 }
                 for (int i = 0; i < 16; i++) _dbg.QpK[6 + i] = c.Diag[i];
                 if (_t.qp_plan > 0.5) for (int i = 0; i < 15; i++) _dbg.QpK[22 + i] = c.PlanDiag[i];
-                if (_qpFoot) for (int i = 0; i < 14; i++) _dbg.QpK[38 + i] = c.FootLog[i];
+                if (_qpFoot) for (int i = 0; i < 15; i++) _dbg.QpK[38 + i] = c.FootLog[i];
             }
         }
 

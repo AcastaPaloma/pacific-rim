@@ -340,6 +340,41 @@ SETS['p1'] = _seeded({
   'Rfootrate15': dict(R, qp_foot=1, qp_foot_rate=1.5),
   'Rfootpre03': dict(R, qp_foot=1, qp_foot_pre=0.3),
 }, 4)
+# T-005 r6 7b: contact constraints from the measured contact points (qp_foot_meas); drive off (7a: it fights the stance ankle PD)
+N7 = dict(R, qp_foot=1, qp_foot_drive=0)
+SETS['p2'] = _seeded({
+  'Sbase': dict(R),
+  'Snodrv': dict(N7),
+  'Smeas': dict(N7, qp_foot_meas=1),
+  'Smeasm15': dict(N7, qp_foot_meas=1, qp_foot_cop_m=0.15),
+  'Smeasm03': dict(N7, qp_foot_meas=1, qp_foot_cop_m=0.03),
+  'Smeasfl05': dict(N7, qp_foot_meas=1, qp_foot_fric_floor=0.05),
+  'Smeasheel0': dict(N7, qp_foot_meas=1, qp_foot_heel_deg=0.0),
+  'Smeasw3': dict(N7, qp_foot_meas=1, qp_foot_w=3.0),
+}, 4)
+# T-005 r6 7c: forced load transfer (qp_foot_unload) + planner reach on top of the measured-contact constraints (7b best: qp_foot_meas 1, cop_m 0.08)
+M7 = dict(N7, qp_foot_meas=1)
+SETS['p3'] = _seeded({
+  'Tmeas': dict(M7),
+  'Tun1': dict(M7, qp_foot_unload=1.0),
+  'Tun2at1': dict(M7, qp_foot_unload=2.0, qp_foot_unload_at=1.0),
+  'Tun05': dict(M7, qp_foot_unload=0.5),
+  'Tlmax09': dict(M7, qp_plan_lmax=0.9),
+  'Tun1lmax09': dict(M7, qp_foot_unload=1.0, qp_plan_lmax=0.9),
+  'Tun1kxi2': dict(M7, qp_foot_unload=1.0, qp_plan_kxi=2.0),
+  'Tun1ds0': dict(M7, qp_foot_unload=1.0, qp_plan_ds=0),
+}, 4)
+# T-005 r6 7c cycle 2: reach-driven CoM height (qp_foot_zdip) on the 7b best (qp_foot_meas 1)
+SETS['p4'] = _seeded({
+  'Umeas': dict(M7),
+  'Uz1': dict(M7, qp_foot_zdip=1.0),
+  'Uz1m1': dict(M7, qp_foot_zdip=1.0, qp_foot_zdip_margin=1.0),
+  'Uz1max2': dict(M7, qp_foot_zdip=1.0, qp_foot_zdip_max=2.0),
+  'Uz15': dict(M7, qp_foot_zdip=1.5),
+  'Uz1up3': dict(M7, qp_foot_zdip=1.0, qp_foot_zdip_up=3.0),
+  'Uz1un1': dict(M7, qp_foot_zdip=1.0, qp_foot_unload=1.0),
+  'Uz1pd01': dict(M7, qp_foot_zdip=1.0, qp_pd_swing=0.1),
+}, 4)
 def load_set(name):
     return SETS[name]
 def check_line(line):
