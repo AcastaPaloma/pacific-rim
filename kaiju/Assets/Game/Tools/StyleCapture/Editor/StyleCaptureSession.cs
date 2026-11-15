@@ -76,6 +76,7 @@ namespace Game.Tools.StyleCapture
         {
             Capture.Binder.Configure(Settings, Flags);
             Rig.Configure(RigSettings, Flags.IsOn(CameraFlags.SnapPosition), Flags.IsOn(CameraFlags.QuantiseRotation), Flags.IsOn(CameraFlags.FootfallImpulse));
+            Rig.ConfigureLayers(Flags.IsOn(PixelFlags.LayerSnap));
         }
 
         public void SetProfile(string id) { Capture.Binder.profile = Catalog.FindProfile(id) ?? throw new ArgumentException("unknown palette profile " + id); }
@@ -243,6 +244,9 @@ namespace Game.Tools.StyleCapture
                     }
                     j.Append("]");
                 }
+                // T-182: what the layered path used (absent on the single-snap path), versioned key pixel_layers@v1.
+                string layers = binder.LayersJson();
+                if (layers != null) j.Append(",\n \"layers\": ").Append(layers);
                 if (!string.IsNullOrEmpty(ExtraJson)) { j.Append(",\n ").Append(ExtraJson); ExtraJson = null; }
                 j.Append("\n}\n");
                 return j.ToString();

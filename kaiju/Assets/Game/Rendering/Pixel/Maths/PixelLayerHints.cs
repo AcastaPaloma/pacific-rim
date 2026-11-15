@@ -54,6 +54,17 @@ namespace Game.Rendering.Pixel
             return true;
         }
 
+        /// <summary>
+        /// Whole-output-pixel present shift of one layer: round(remainder * scale) per axis (ties to even, like Mathf.RoundToInt and HLSL round), limited to the guard band.
+        /// The main layer's shift equals the v1 present shift.
+        /// </summary>
+        public static void ShiftOutputPx(in PixelLayerHint l, int scale, int guardTexels, out int shiftX, out int shiftY)
+        {
+            int limit = guardTexels * scale;
+            shiftX = Math.Max(-limit, Math.Min(limit, (int)Math.Round(l.SubTexelX * (double)scale)));
+            shiftY = Math.Max(-limit, Math.Min(limit, (int)Math.Round(l.SubTexelY * (double)scale)));
+        }
+
         static bool Finite(float v) => !float.IsNaN(v) && !float.IsInfinity(v);
     }
 }
