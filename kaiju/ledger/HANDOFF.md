@@ -698,3 +698,6 @@ Brain coordination group = same-target active allies (m007_3v4 C1 0.86 PASS); re
 
 ## Build lead 8 note (2026-11-15)
 - T-115d merged locally (54521e2); the worker's `git push` was denied by the classifier, so the integration branch has unpushed commits. Not routed around; the founder or a permitted session pushes. Open research item from T-115d: C2 control (`nofocus@1`) is not translation invariant (float precision at large map coordinates?), so C2 verdicts need a local-frame or double-precision harness first (queue as T-115e). Softness raster is a low-land proxy (Assumed) until the liquefaction layer is fetched. — decided autonomously (founder asleep)
+
+## T-184 (C11 tie flips) - worker, 2026-11-15
+Exact-depth tie flips were tracker artifacts (wrong silhouette latched in far B06; near corner at the output border in A16). Fixed in `Tools/Rendering/Pixel/c11_slab.py` (edge identity by class depth, 16 px border margin). exact_layersnap now 0.96/0.96/0.95 px near/ref/far, 1 px gate unchanged; no Stabiliser change (new Camera tie-jitter test passes). Still open: near layer at 124.2 m vs the edge at 123.49 m gives a real 4.6 px texel flip (ref664.874_layersnap near 4.58) - needs the rig/planner to supply the true near-edge depth or Q-260. Evidence `evidence/T-184/`, notes `tasks/T-184.progress.md`.

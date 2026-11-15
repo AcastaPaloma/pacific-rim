@@ -336,6 +336,31 @@ public void ForwardMotion_IsContinuous_AtAnyHeading()
         }
 
         [Test]
+        public void JitterOnAHalfTexelTie_NeverMovesAnExactLayerEdgeByMoreThanTheShiftRounding()
+        {
+            // T-184: the position step is a tie at exactly half a texel. Jitter of +-1e-6 m around that tie (several times, for each layer's own grid) flips the whole-texel step back and forth;
+            // the present shift (round(4 * remainder)) must cancel it, so an edge exactly at the layer depth stays within the 0.5 px shift rounding of the commanded motion on every frame.
+            const double K = 4.0;
+            foreach (int layer in new[] { 0, 1, 2 })
+            {
+                var st = new LayerSnapState(); var s = T1();
+                float depth = layer == 0 ? s.NearDepth : layer == 1 ? s.MainDepth : s.FarDepth;
+                double grid = TexelAt(depth), start = 10.0, worst = 0;
+                for (int i = 0; i < 60; i++)
+                {
+                    double along = i < 3 ? 0.0 : (0.5 + (i % 2 == 0 ? 1e-6 : -1e-6) / grid) * grid;   // frames 3.. sit on the tie, alternating either side of it
+                    CameraLayerStabiliser.TryStabilise(Pose((float)(start + along), 70f, -150f, 0f, 0f), Grid(), s, i == 0, ref st, out var r);
+                    var h = r.Hints; var l = layer == 0 ? h.LayerNear : layer == 1 ? h.LayerMain : h.LayerFar;
+                    double snapped = r.Rendered.Position.X + l.OffsetRight;                      // the layer's own snapped x (m)
+                    double steps = (snapped - start) / l.Grid, rem = l.SubTexelX;
+                    double apparentPx = -K * steps - Math.Round(K * rem, MidpointRounding.AwayFromZero), commandedPx = -K * along / l.Grid;
+                    worst = Math.Max(worst, Math.Abs(apparentPx - commandedPx));
+                }
+                Assert.LessOrEqual(worst, 0.5 + 1e-3, "layer " + layer);
+            }
+        }
+
+        [Test]
         public void ALayerCut_FiresOnlyForTheLayerWhoseReferenceDepthChanged_AndAGlobalCutFiresAll()
         {
             var st = new LayerSnapState();
