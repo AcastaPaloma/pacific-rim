@@ -26,6 +26,11 @@ namespace Game.AI.Harness
         public float MechFleeMps = 4.5f;            // harness constant
         public float MechFleeRadiusM = 400f;      // harness constant
         public float MechRespawnSeconds = 0f;     // 0 = dead mechs stay dead
+        // Combat (T-033b). All Assumed config, harness-only (the runtime brain never sees them). MechDps = 0 keeps the legacy invulnerable kaiju.
+        public float KaijuMaxHp = 400f;           // harness constant; HpFrac in the observation = hp / KaijuMaxHp
+        public float MechDps = 0f;                // declared damage per second of one mech inside MechRangeM
+        public float MechRangeM = 300f;           // harness constant
+        public float MechShotIntervalSeconds = 1f; // damage is applied (and logged as a hit) once per interval to the nearest kaiju in range
         public bool MeasureTiming;
 
         /// <summary>M-007@v1 scenario (R-024 5 rev 2): 3 kaiju vs 2 slow decoy mechs, 300 s (90 s cannot fit approach 600-900 m + assembly + flank arc).</summary>
@@ -39,13 +44,26 @@ namespace Game.AI.Harness
             sc.Brain.DirectCharge = directCharge;
             return sc;
         }
+
+        /// <summary>M007-3v4 (R-024 5 rev 3): 4 kaiju vs 3 slow mechs that shoot back (declared DPS in range); kaiju die, Retreat is reachable.</summary>
+        public static HarnessScenario M007ThreeVsFour(ulong seed, bool directCharge)
+        {
+            var sc = new HarnessScenario
+            {
+                Name = "m007_3v4", Seed = seed, KaijuCount = 4, MechCount = 3, DurationSeconds = 300.0,
+                MechWalkMps = 1.5f, MechFleeRadiusM = 0f, MechRespawnSeconds = 0f, MechDps = 6f,
+            };
+            sc.Brain.DirectCharge = directCharge;
+            return sc;
+        }
         public BrainConfig Brain = BrainConfig.Default();
     }
 
     /// <summary>Timing and counters of one harness run.</summary>
     public sealed class HarnessResult
     {
-        public long Steps, Decisions, Hits, Deaths;
+        public long Steps, Decisions, Hits, Deaths, KaijuDeaths, KaijuHits;
+        public int KaijuRetreats, KaijuWithdrawn;
         public int MechsAliveAtEnd;
         public long[] DecideTicks;   // Stopwatch ticks per due Decide call (MeasureTiming)
         public long[] TickTotals;    // Stopwatch ticks per step: sum of Decide calls in that step (all steps)
@@ -73,7 +91,7 @@ namespace Game.AI.Harness
         private sealed class Kaiju
         {
             public EntityId Id; public ScriptedKaijuBrain Brain = new ScriptedKaijuBrain();
-            public float X, Y, Heading, Speed, Hp = 1f, Cooldown;
+            public float X, Y, Heading, Speed, Hp = 1f, HpAbs, Cooldown; public bool EverRetreated, EverWithdrawn;
             public BrainIntent Intent; public BrainState State; public bool Alive = true;
             public double[] LastSeen; public float[] LastX, LastY, LastHead, LastHp, LastSpeed; public bool[] EverSeen;
         }
@@ -81,7 +99,7 @@ namespace Game.AI.Harness
         private sealed class Mech
         {
             public EntityId Id; public float X, Y, Heading, Hp; public bool Alive = true;
-            public float WX, WY; public double RespawnAt;
+            public float WX, WY; public double RespawnAt, NextShot;
         }
 
         private readonly HarnessScenario _sc;
@@ -101,7 +119,7 @@ namespace Game.AI.Harness
             _k = new Kaiju[sc.KaijuCount]; _m = new Mech[sc.MechCount];
             for (int i = 0; i < _k.Length; i++)
             {
-                var k = new Kaiju { Id = EntityId.FromValue((ulong)(i + 1)) };
+                var k = new Kaiju { Id = EntityId.FromValue((ulong)(i + 1)), HpAbs = sc.KaijuMaxHp };
                 k.X = -1000f + _rng.Range(-100f, 100f); k.Y = (i - (_k.Length - 1) * 0.5f) * 200f + _rng.Range(-50f, 50f);
                 k.Heading = _rng.Range(-0.2f, 0.2f);
                 k.Brain.Reset(sc.Seed + (ulong)i, sc.Brain);
@@ -166,6 +184,8 @@ namespace Game.AI.Harness
                         res.AllocatedBytesInDecide += GC.GetAllocatedBytesForCurrentThread() - a0;
                     }
                     k.State = k.Intent.State;
+                    if (k.State == BrainState.Retreat && !k.EverRetreated) { k.EverRetreated = true; res.KaijuRetreats++; }
+                    if (k.State == BrainState.Withdrawn && !k.EverWithdrawn) { k.EverWithdrawn = true; res.KaijuWithdrawn++; }
                     _log.WriteDecision(step, now, k.Id.Value, 1, RoleOf(k), k.Alive, k.X, k.Y, k.Heading, k.Speed, k.Hp,
                         k.Intent, prev, _obs);
                     res.Decisions++;
@@ -202,12 +222,44 @@ namespace Game.AI.Harness
                         }
                     }
                 }
+                // 5. mech fire (after kinematics): each mech shoots the nearest live kaiju inside MechRangeM once per interval
+                if (_sc.MechDps > 0f) MechFire(step, now, res);
                 res.Steps++;
             }
             for (int j = 0; j < _m.Length; j++) if (_m[j].Alive) res.MechsAliveAtEnd++;
             if (res.DecideTicks != null) Array.Resize(ref res.DecideTicks, ncall);
             _log.Flush();
             return res;
+        }
+
+        private void MechFire(long step, double now, HarnessResult res)
+        {
+            float dmg = _sc.MechDps * _sc.MechShotIntervalSeconds, r2 = _sc.MechRangeM * _sc.MechRangeM;
+            for (int j = 0; j < _m.Length; j++)
+            {
+                Mech m = _m[j];
+                if (!m.Alive || now < m.NextShot) continue;
+                Kaiju tk = null; float bd = float.PositiveInfinity;
+                for (int i = 0; i < _k.Length; i++)
+                {
+                    Kaiju k = _k[i]; if (!k.Alive) continue;
+                    float dx = k.X - m.X, dy = k.Y - m.Y, d2 = dx * dx + dy * dy;
+                    if (d2 <= r2 && d2 < bd) { bd = d2; tk = k; }
+                }
+                if (tk == null) continue;
+                m.NextShot = now + _sc.MechShotIntervalSeconds;
+                tk.HpAbs -= dmg; res.KaijuHits++;
+                tk.Hp = tk.HpAbs > 0f ? tk.HpAbs / _sc.KaijuMaxHp : 0f;
+                _log.WriteHit(step, m.Id.Value, tk.Id.Value, dmg, tk.HpAbs > 0f ? tk.HpAbs : 0f);
+                if (tk.HpAbs <= 0f)
+                {
+                    tk.Alive = false; tk.Speed = 0f; res.KaijuDeaths++;
+                    _log.WriteDeath(step, tk.Id.Value);
+                    // closing decision row (alive 0, no target) so row-replaying metrics stop counting this kaiju
+                    var stop = new BrainIntent { State = tk.State, Reason = ReasonCode.None };
+                    _log.WriteDecision(step, now, tk.Id.Value, 1, "solo", false, tk.X, tk.Y, tk.Heading, 0f, 0f, stop, tk.State, _obs);
+                }
+            }
         }
 
         private void StepMech(Mech m, double now, float dt)
@@ -223,6 +275,7 @@ namespace Game.AI.Harness
             float nd = float.PositiveInfinity, nx = 0, ny = 0;
             for (int i = 0; i < _k.Length; i++)
             {
+                if (!_k[i].Alive) continue;
                 float dx = m.X - _k[i].X, dy = m.Y - _k[i].Y, d = MathF.Sqrt(dx * dx + dy * dy);
                 if (d < nd) { nd = d; nx = dx; ny = dy; }
             }
@@ -288,6 +341,7 @@ namespace Game.AI.Harness
             for (int i = 0; i < _k.Length; i++)
             {
                 Kaiju a = _k[i]; if (a == k) continue;
+                { float ax = a.X - k.X, ay = a.Y - k.Y; if (ax * ax + ay * ay > _sc.Brain.AllyAwarenessM * _sc.Brain.AllyAwarenessM) continue; } // DEF-M1ai-4: range-filter in the observation
                 o.Allies[na++] = new AllyObs
                 {
                     Id = a.Id, Pos = new Float2(a.X, a.Y), HeadingRad = a.Heading, HpFrac = a.Hp, Alive = a.Alive,

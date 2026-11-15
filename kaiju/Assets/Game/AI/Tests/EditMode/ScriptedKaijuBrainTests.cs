@@ -379,7 +379,8 @@ namespace Game.AI.Tests
             ulong a = RunStream(7, 99, out int m1), b = RunStream(7, 99, out int m2), c = RunStream(7, 100, out _);
             Assert.AreEqual(a, b); Assert.AreEqual(m1, m2);
             Assert.AreNotEqual(a, c);
-            Assert.That(System.Numerics.BitOperations.PopCount((uint)m1), Is.GreaterThanOrEqualTo(3), "stream should exercise several states");
+            int bits = 0; for (uint v = (uint)m1; v != 0; v &= v - 1) bits++;
+            Assert.That(bits, Is.GreaterThanOrEqualTo(3), "stream should exercise several states");
         }
 
         [Test]

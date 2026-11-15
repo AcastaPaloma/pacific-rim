@@ -222,11 +222,13 @@ def run(rep, inputs, reg, ratings=None, out_dir=None, images=False, options=None
     if errs:
         raise InvalidInput(errs)
     ids = reg.p("scripted_brain_id"), reg.p("control_brain_id")
+    nofocus_id = reg.p("nofocus_brain_id")
     for lg in logs:
-        if lg.brain_id not in ids:
-            raise InvalidInput([ContractError(lg.path, "header.brain_id", "unknown brain", " or ".join(ids), lg.brain_id)])
+        if lg.brain_id not in ids and lg.brain_id != nofocus_id:
+            raise InvalidInput([ContractError(lg.path, "header.brain_id", "unknown brain", " or ".join(ids + (nofocus_id,)), lg.brain_id)])
     scripted = [compute_run(lg, reg) for lg in logs if lg.brain_id == ids[0]]
     control = [compute_run(lg, reg) for lg in logs if lg.brain_id == ids[1]]
+    nofocus = [compute_run(lg, reg) for lg in logs if lg.brain_id == nofocus_id]
     rep.coverage["required"] = ["scripted runs", "control runs"]
     rep.coverage["provided"] = [n for n, v in (("scripted runs", scripted), ("control runs", control)) if v]
     rep.coverage["missing"] = [n for n, v in (("scripted runs", scripted), ("control runs", control)) if not v]
@@ -243,6 +245,18 @@ def run(rep, inputs, reg, ratings=None, out_dir=None, images=False, options=None
     pc = pool(control) if control else None
     level = float(reg.p("bootstrap_ci_level"))
     ci = lambda runs, f: bootstrap_ci(runs, f, n_boot, seed, level)  # noqa: E731
+
+    def disc(stat, direction, control=control):
+        """T-033b: does the scripted brain differ from the null control? CI non-overlap, `direction` is the better side
+        ("higher" / "lower"). Diagnostic only; it never changes a clause status (thresholds are R-024's)."""
+        if not scripted or not control:
+            return None
+        cs, cc = ci(scripted, stat), ci(control, stat)
+        if cs is None or cc is None:
+            return None
+        overlap = not (cs[0] > cc[1] or cc[0] > cs[1])
+        better = (cs[0] > cc[1]) if direction == "higher" else (cs[1] < cc[0])
+        return {"scripted_ci95": cs, "control_ci95": cc, "ci_overlap": overlap, "scripted_better_non_overlapping": better}
 
     # C1
     if ps and ps["commits_multi"] > 0:
@@ -261,7 +275,8 @@ def run(rep, inputs, reg, ratings=None, out_dir=None, images=False, options=None
             "fr_commit_ci95_bootstrap": ci(scripted, lambda p: p["fr_commit"]),
             "fr_commit_null": _fin(null) if null is not None else None,
             "null_commit_events_multi": pc["commits_multi"] if pc else 0,
-            "null_commit_events_flanked": pc["commits_flanked"] if pc else 0})
+            "null_commit_events_flanked": pc["commits_flanked"] if pc else 0,
+            "discrimination_vs_null": disc(lambda p: p["fr_commit"], "higher")})
     else:
         rep.add("M-007.C1", status="NOT_RUN", note="no commit event with >= 2 engaged kaiju in the scripted runs",
                 diagnostics={"commit_events": ps["commits"] if ps else 0})
@@ -269,7 +284,11 @@ def run(rep, inputs, reg, ratings=None, out_dir=None, images=False, options=None
     if ps and ps["ff_ticks"] > 0 and not math.isnan(ps["fe"]):
         rep.add("M-007.C2", parts=[part("focus_excess", ps["fe"], ">=", reg.t("M-007.C2", "fe_min"), unit="ratio")],
                 diagnostics={"mean_ff": ps["mean_ff"], "mean_ff_chance": ps["mean_ff_chance"], "ff_ticks": ps["ff_ticks"],
-                             "fe_ci95_bootstrap": ci(scripted, lambda p: p["fe"])})
+                             "fe_ci95_bootstrap": ci(scripted, lambda p: p["fe"]),
+                             "fe_null": _fin(pc["fe"]) if pc else None,
+                             "discrimination_vs_null": disc(lambda p: p["fe"], "higher"),
+                             "fe_nofocus": _fin(pool(nofocus)["fe"]) if nofocus else None,
+                             "discrimination_vs_nofocus": disc(lambda p: p["fe"], "higher", nofocus)})
     else:
         rep.add("M-007.C2", status="NOT_RUN", note="no tick with >= 2 kaiju with a target and >= 2 live targets")
     # C3
@@ -280,7 +299,14 @@ def run(rep, inputs, reg, ratings=None, out_dir=None, images=False, options=None
             part("switch_rate_per_kaiju_min", sr if not math.isnan(sr) else 0.0, "<=",
                  reg.t("M-007.C3", "switch_rate_max"), unit="1/kaiju-min")],
                 diagnostics={"voluntary_switches": ps["voluntary"], "thrash": ps["thrash"],
-                             "engaged_kaiju_minutes": ps["engaged_minutes"]})
+                             "engaged_kaiju_minutes": ps["engaged_minutes"],
+                             "thrash_fraction_null": pc["thrash_fraction"] if pc else None,
+                             "switch_rate_null": _fin(pc["switch_rate"]) if pc else None,
+                             "discrimination_switch_rate_vs_null": disc(lambda p: p["switch_rate"], "lower"),
+                             "discrimination_thrash_fraction_vs_null": disc(lambda p: p["thrash_fraction"], "lower"),
+                             "switch_rate_nofocus": _fin(pool(nofocus)["switch_rate"]) if nofocus else None,
+                             "discrimination_switch_rate_vs_nofocus": disc(lambda p: p["switch_rate"], "lower", nofocus),
+                             "discrimination_thrash_fraction_vs_nofocus": disc(lambda p: p["thrash_fraction"], "lower", nofocus)})
         # C4
         rep.add("M-007.C4", parts=[part("leaks", ps["leaks"], "<=", reg.t("M-007.C4", "leaks_max"), unit="ticks")],
                 diagnostics={"control_leaks": pc["leaks"] if pc else None})
@@ -290,7 +316,7 @@ def run(rep, inputs, reg, ratings=None, out_dir=None, images=False, options=None
     rep.add("M-007.C5", status="PENDING", note="panel: >= 12 raters x 6 blinded clips (human step; no ratings file format yet)")
     rep.add("M-007.C6", status="NOT_APPLICABLE", spec_clause="R-024 section 5 C6: deferred, waits for a trained policy",
             note="win rate vs scripted baseline needs a policy (R-024 section 5)")
-    rep.extra["m007"] = {"scripted": _strip(ps), "control": _strip(pc), "runs": {"scripted": n_s, "control": n_c},
+    rep.extra["m007"] = {"scripted": _strip(ps), "control": _strip(pc), "runs": {"scripted": n_s, "control": n_c, "nofocus": len(nofocus)},
                          "scripted_run_fr": [round(r["commits_flanked"] / r["commits_multi"], 6) if r["commits_multi"] else None
                                              for r in scripted]}
     for r in scripted + control:

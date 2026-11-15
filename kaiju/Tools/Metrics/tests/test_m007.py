@@ -106,6 +106,18 @@ def test_flanked_scripted_vs_clustered_control_passes_headless(tmp_path):
     assert rep["headless_verdict"] == "PASS"
 
 
+def test_discrimination_vs_null_reported(tmp_path):
+    rep = run(tmp_path, sets(tmp_path, FLANKED, CLUSTER))
+    d = sm(rep, "M-007.C1")["diagnostics"]["discrimination_vs_null"]
+    assert d["ci_overlap"] is False and d["scripted_better_non_overlapping"] is True
+    # identical behaviour in both sets: C2 CI overlaps (a measured fact, not a status change)
+    (tmp_path / "b").mkdir()
+    rep2 = run(tmp_path / "b", sets(tmp_path / "b", FLANKED, FLANKED))
+    d2 = sm(rep2, "M-007.C1")["diagnostics"]["discrimination_vs_null"]
+    assert d2["ci_overlap"] is True and d2["scripted_better_non_overlapping"] is False
+    assert "discrimination_switch_rate_vs_null" in sm(rep2, "M-007.C3")["diagnostics"]
+
+
 def test_clustered_scripted_fails_c1(tmp_path):
     rep = run(tmp_path, sets(tmp_path, CLUSTER, CLUSTER))
     assert sm(rep, "M-007.C1")["status"] == "FAIL"
