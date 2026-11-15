@@ -117,3 +117,5 @@ Next unblocked (§18): T-123 (economy tuning, uses T-122 wiring), Bay route plan
 - T-181 ✓ design + T-181a (merged dd65613): layer-slab design note in Rendering.Pixel MODULE.md (contract v2, radial slab boundaries on haze band edges, slab cameras, composite, budgets, T-180..T-185 step/test table); `PixelLayerPlan` + tests (dotnet 64/64). Finding: C11 slab lock needs exact depths (0.25 % off fails); Q-260 open.
 - T-181 open: T-181b contract v2 + layerSnap flag, T-180 depthShift, T-181c (Camera brief needed), T-181d slab cameras/Present, T-182 capture jobs, T-183 Unity run, T-184/T-185.
 - T-181b ✓ + T-180 ✓ (merge a11a894): hints contract v2 + `rendering.pixel.layerSnap` flag + `PixelLayerHints` validation; `rendering.pixel.depthShift` flag and depth-aware Present shader (compiles in Unity, EditMode 96/96, dotnet 83/83; captures in T-183). Open: T-181c (Camera brief), T-181d, T-182..T-185.
+
+- T-181c (rig side of layer snap) done and merged (fd277f3): `CameraLayerStabiliser`, rig wiring behind `rendering.pixel.layerSnap` (default off), dotnet 27 + Unity EditMode 34 passed. Next: T-181d (slab cameras + layered Present), T-182, T-183 captures.
