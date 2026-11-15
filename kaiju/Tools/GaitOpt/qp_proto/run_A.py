@@ -8,7 +8,7 @@ import planar_model as P, planar_sim as S
 from controller import QPWalker, DEFAULT
 
 
-def metrics_A(res, ctl, ref, model, mu=0.4):
+def metrics_A(res, ctl, ref, model, mu=0.4, k0=0):
     L = {k: np.array(v) for k, v in ctl.log.items() if k not in ("td_events",)}; n = len(L["t"]); l = 42.4
     out = {"fell": bool(res["fell"]), "t_end_s": float(res["t_end"]), "steps_done": float(res["t_end"] / ref.ts), "ticks": n}
     q = res["q"]; t = res["t"]
@@ -16,7 +16,7 @@ def metrics_A(res, ctl, ref, model, mu=0.4):
     rs = [ref.at(x) for x in L["tref"]]
     czr = np.array([r["com"][1] for r in rs]); out["com_z_rms_m"] = float(np.sqrt(np.mean((L["com"][:, 1] - czr) ** 2))); out["com_z_rms_pct_l"] = 100 * out["com_z_rms_m"] / l
     thr = np.array([r["q"][2] for r in rs]); out["pelvis_pitch_rms_deg"] = float(np.rad2deg(np.sqrt(np.mean((L["q"][:, 2] - thr) ** 2))))
-    td = ctl.td_events; xs = [P.PlanarModel.points(model, ref.q[0])[2, 0]] + [e[1] for e in td]    # heel x at touchdowns (start: B heel at node 0)
+    td = ctl.td_events; xs = [P.PlanarModel.points(model, ref.q[k0])[2 if k0 == 0 else 0, 0]] + [e[1] for e in td]    # heel x at touchdowns (start: B heel at node 0)
     sl = np.diff(xs); out["touchdowns"] = len(td)
     out["foot_placement_rms_m"] = float(np.sqrt(np.mean((sl - ref.d) ** 2))) if len(sl) else float("nan"); out["foot_placement_rms_pct_step"] = 100 * out["foot_placement_rms_m"] / ref.d if len(sl) else float("nan")
     out["sat_ticks_pct"] = float(100 * res["sat"].any(1).mean())
@@ -26,6 +26,7 @@ def metrics_A(res, ctl, ref, model, mu=0.4):
     out["fr_cmd_max"] = float(L["fr_cmd"].max())
     out["solver_ok_pct"] = float(100 * np.mean((L["status1"] == "ok") & (L["status2"] == "ok"))); out["torque_rows_dropped_pct"] = float(100 * L["tdrop"].mean())
     out["ms_per_tick_p50"] = float(np.percentile(L["ms"], 50)); out["ms_per_tick_p99"] = float(np.percentile(L["ms"], 99)); out["ctrl_resid_max_over_mgl"] = float(L["resid"].max())
+    # solver_ok: status1 = the full QP with all hard rows (9.3b-4: a fallback solve without torque rows never counts as success)
     passes = {"no_fall": not out["fell"], "speed_5pct": abs(out["mean_speed_ratio"] - 1) <= 0.05, "com_z_1pct": out["com_z_rms_pct_l"] <= 1.0, "pitch_3deg": out["pelvis_pitch_rms_deg"] <= 3.0,
               "foot_5pct": out["foot_placement_rms_pct_step"] <= 5.0, "sat_1pct": out["sat_ticks_pct"] <= 1.0, "friction_le_1": out["fr_plant_vs_mu04_max"] <= 1.0, "solver_100": out["solver_ok_pct"] >= 100.0}
     out["pass"] = passes; out["PASS_ALL"] = all(passes.values())

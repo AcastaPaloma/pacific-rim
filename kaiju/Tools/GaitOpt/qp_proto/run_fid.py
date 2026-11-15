@@ -43,6 +43,7 @@ class PushSim(S.PlantSim):
 def extra_metrics(res, ctl, ref, model):
     Lg = ctl.log; o = {}
     o["qp_limit_row_active_ticks_pct"] = float(100 * np.mean(Lg["u_act"]))
+    it = np.array(Lg["iters"]); o["gi_iters_p50"] = float(np.percentile(it, 50)); o["gi_iters_p99"] = float(np.percentile(it, 99)); o["gi_iters_max"] = int(it.max())   # deterministic cost proxy (wall ms depends on machine load)
     Fn, Ft = res["Fn"], res["Ft"]
     for thr in (1e-3, 1e-2, 5e-2):
         ok = Fn > thr * model.W; o[f"fr_plant_vs_mu04_max_Fn>{thr:g}W"] = float((np.abs(Ft)[ok] / (0.4 * Fn[ok])).max()) if ok.any() else 0.0
@@ -56,28 +57,43 @@ def extra_metrics(res, ctl, ref, model):
     return o, sp
 
 
+PRESETS = {"b3": dict(kvs=5.0),                                                   # 9.3b-3 final (A_v2_final)
+           "b4": dict(kvs=5.0, onset=1.0, land=1.0, land_act=1.0, land_k0=36.0,   # 9.3b-4 final: onset fix, landing quintic from the measured state at node 36,
+                      fr_meas=1.0, fr_margin=0.9)}                                  #   per-foot shear <= 0.9 mu x measured load, QP cone 0.9 mu
+
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--tag", default="A_fid"); ap.add_argument("--steps", type=float, default=20); ap.add_argument("--set", nargs="*", default=[])
     ap.add_argument("--push", type=float, default=0.0); ap.add_argument("--push_step", type=int, default=4); ap.add_argument("--dv_frac", type=float, default=0.15)
     ap.add_argument("--delay", type=int, default=1); ap.add_argument("--quiet", action="store_true")
     ap.add_argument("--ref", default=None, help="reference json (default planar_model's, out/stride_fr010_lat.json)")
     ap.add_argument("--friction", default="tanh", choices=["tanh", "stick"], help="plant friction law (planar_sim.PlantSim); 9.3b-2 runs = tanh")
-    a = ap.parse_args(); kw = {}
+    ap.add_argument("--preset", default=None, choices=sorted(PRESETS), help="named parameter set (applied before --set)")
+    ap.add_argument("--mirror", action="store_true", help="start in the mirrored step: ref node N state, leg A new stance (symmetry test)")
+    ap.add_argument("--mu_plant", type=float, default=0.8); ap.add_argument("--lim_scale", type=float, default=1.0)
+    ap.add_argument("--model_mass", type=float, default=1.0, help="controller model mass and inertia scale (plant unchanged): criterion C")
+    a = ap.parse_args(); kw = dict(PRESETS[a.preset]) if a.preset else {}
     for s in a.set:
         k, v = s.split("="); kw[k] = (v.lower() == "true") if v.lower() in ("true", "false") else float(v)
     out_dir = P.ROOT / "Tools/GaitOpt/out/proto"; out_dir.mkdir(parents=True, exist_ok=True)
     model = P.PlanarModel(); ref = P.load_reference(a.ref, model)
-    q0 = ref.q[0].copy(); qd0 = ref.qd[0].copy(); qd0[0] *= 1.02; q0[2] += np.deg2rad(1.0)
-    ctl = FIDWalker(ref, model, **kw); Tp = 0.1; Fx = a.push * model.mtot * a.dv_frac * ref.v / Tp; pinfo = {}
+    k0 = ref.N if a.mirror else 0
+    if a.mirror: kw["start_par"] = 1.0
+    q0 = ref.q[k0].copy(); qd0 = ref.qd[k0].copy(); qd0[0] *= 1.02; q0[2] += np.deg2rad(1.0)
+    cmodel = model
+    if a.model_mass != 1.0:
+        cmodel = P.PlanarModel(); cmodel.mass = model.mass * a.model_mass; cmodel.inertia = model.inertia * a.model_mass
+        cmodel.mtot = float(cmodel.mass.sum()); cmodel.W = cmodel.mtot * P.G0; cmodel.MR = np.repeat(cmodel.mass, 2)
+    ctl = FIDWalker(ref, cmodel, **kw); Tp = 0.1; Fx = a.push * model.mtot * a.dv_frac * ref.v / Tp; pinfo = {}
     def push_fn(t):
         if a.push == 0 or len(ctl.td_events) != a.push_step: return 0.0
         tau = t - ctl.t_anchor
         if 0.5 * ref.ts <= tau < 0.5 * ref.ts + Tp - 1e-9:
             pinfo.setdefault("t_push", t); return Fx
         return 0.0
-    sim = PushSim(model, push_fn=push_fn, delay_ticks=a.delay, friction=a.friction); t0 = time.time()
+    sim = PushSim(model, push_fn=push_fn, delay_ticks=a.delay, friction=a.friction, mu=a.mu_plant, lim_scale=a.lim_scale); t0 = time.time()
     res = sim.run(q0, qd0, ctl, a.steps * ref.ts, ref=ref); wall = time.time() - t0
-    mt = metrics_A(res, ctl, ref, model); ex, sp = extra_metrics(res, ctl, ref, model); mt.update(ex); mt["wall_s"] = wall; mt["tag"] = a.tag; mt["ref"] = a.ref or "Tools/GaitOpt/out/stride_fr010_lat.json"; mt["friction"] = a.friction; mt["plant_slip_substeps_pct"] = float(100 * sim.n_slip / max(1, sim.n_slip + sim.n_stick)) if a.friction == "stick" else None; mt["params"] = {k: v for k, v in ctl.p.items()}
+    mt = metrics_A(res, ctl, ref, model, k0=k0); ex, sp = extra_metrics(res, ctl, ref, model); mt.update(ex); mt["wall_s"] = wall; mt["tag"] = a.tag; mt["ref"] = a.ref or "Tools/GaitOpt/out/stride_fr010_lat.json"; mt["friction"] = a.friction; mt["plant_slip_substeps_pct"] = float(100 * sim.n_slip / max(1, sim.n_slip + sim.n_stick)) if a.friction == "stick" else None; mt["params"] = {k: v for k, v in ctl.p.items()}; mt["run"] = dict(preset=a.preset, mirror=a.mirror, mu_plant=a.mu_plant, lim_scale=a.lim_scale, model_mass=a.model_mass, delay=a.delay)
     if a.push:
         mt["push"] = dict(sign=a.push, dv=a.dv_frac * ref.v, impulse_Ns=float(Fx * Tp), step=a.push_step, **pinfo)
         # step index (0 = step ending at touchdown 1 ... ) of the step containing the push = push_step; recovery: some step k in push_step+1 .. push_step+4 and all after within 5 %
@@ -88,7 +104,7 @@ def main():
     L = ctl.log
     np.savez_compressed(out_dir / f"{a.tag}.npz", t=np.array(L["t"]), phase=np.array(L["tref"]), parity=np.array(L["parity"]), q=np.array(L["q"]), com=np.array(L["com"]), F=np.array(L["F"]), u=np.array(L["u"]),
                         fn_meas=np.array(L["fn_meas"]), fmax=np.array(L["fmax"]), loaded=np.array(L["loaded"]), u_act=np.array(L["u_act"]), sat=res["sat"], Fn_plant=res["Fn"], Ft_plant=res["Ft"],
-                        status=np.array(L["status2"]), ms=np.array(L["ms"]), td_events=np.array(ctl.td_events), fell=res["fell"], q_plant=res["q"], fx=res["fx"])
+                        status=np.array(L["status2"]), status1=np.array(L["status1"]), iters=np.array(L["iters"]), ms=np.array(L["ms"]), td_events=np.array(ctl.td_events), fell=res["fell"], q_plant=res["q"], fx=res["fx"])
     json.dump(mt, open(out_dir / f"{a.tag}.json", "w"), indent=1, default=float)
     keys = ["fell", "steps_done", "mean_speed_ratio", "com_z_rms_pct_l", "pelvis_pitch_rms_deg", "touchdowns", "foot_placement_rms_pct_step", "sat_ticks_pct", "qp_limit_row_active_ticks_pct",
             "fr_plant_vs_mu04_max", "fr_plant_vs_mu04_max_Fn>0.01W", "fr_plant_vs_mu04_ticks_gt1_pct_Fn>0.001W", "solver_ok_pct", "torque_rows_dropped_pct", "ms_per_tick_p50", "ms_per_tick_p99", "PASS_ALL"]

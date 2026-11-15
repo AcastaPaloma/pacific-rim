@@ -25,6 +25,17 @@ DEFAULT = dict(
     w_cx=1e4, w_cz=1e4, w_L=1e3, w_prior=1e-2, w_smooth=1e-3, w_st=1e6, w_swing=1e3, w_fp=1e3, w_trunk=1e4, w_post=10.0, w_reg=1e-4, w_breg=1e-6,
     kvs=20.0, on_bw=0.03, off_bw=0.01, T_out=0.3, T_in=0.08, T_blend=0.2, load_thr=0.01, td_min_frac=0.6, sigma=0.0, late_vz=2.0,
     kn=2e9, zeta=0.7, fcap=4.0, predict=0.0, sw_post=0.0, meas_avg=1.0, hold_sched=1.0, z_hold=0.05, rate_bw=0.0,
+    # 9.3b-4 options (defaults = 9.3b-3 behaviour)
+    onset=0.0,        # 1: the complementarity onset node (Fn = 0 by construction, next node loaded) counts as scheduled-loaded in t_off (no fmax = 0 at touchdown)
+    fr_margin=1.0,    # QP friction cone mu * fr_margin (<= 1 tightens; the budget mu stays the reference for all metrics)
+    land=0.0, land_k0=34.0, v_td=0.3, land_post=0.0, land_lead=0.0, om_land=0.0, land_act=0.0,   # 1: swing heel (x, z) and foot pitch follow a quintic from the reference at node land_k0 to the landing state
+                                                        #    (heel at the reference landing point, velocity (0, -v_td), foot pitch/rate of the reference just after landing); swing-leg posture weight x land_post meanwhile
+                                                        #    land_act 1: the quintic starts from the MEASURED swing heel/pitch state (pos, vel; acc 0) on the first tick of the window (re-planned once per step)
+                                                        #    the quintic ends land_lead s before ts, then the heel target keeps descending at v_td (x, pitch held); om_land > 0: swing PD frequency in that window
+    start_par=0.0,    # 1: start in the mirrored step (state = ref node N, leg A new stance) for left/right symmetry tests
+    fr_meas=0.0,      # 1: per-foot shear row |sum Ft_cmd| <= mu fr_margin * sum Fn_meas (last tick's read-back): the shear also fits the load the plant actually carries
+    fmin_td=0.0, T_hold=0.3,   # > 0: a point keeps Fn_cmd >= min(fmin_td m g, fmax/2) for T_hold s after its first contact (no heel bounce after touchdown)
+    land_nounder=0.0, # 1: the re-planned landing quintic is lengthened (h/4 steps) until its heel z stays >= 0 before the end (no early impact)
 )
 
 
@@ -34,8 +45,9 @@ class FIDWalker:
         self.l = 42.4; self.W = model.W; self.mt = model.mtot; self.h = ref.h; self.ts = ref.ts; self.n2 = ref.n2; self.T2 = ref.n2 * ref.h
         self.D = np.diag([G0, G0] + [G0 / self.l] * 7)
         self.Pinv = np.linalg.pinv(model.CJ.T); self.Nm = null_space(model.CJ)          # 9x3: Nm^T Q = 0 <=> Q in range(CJ^T)
-        self._build_ref(p["sigma"])
+        self._build_ref(p["sigma"]); self._build_land()
         self.flags = ref.F[:, :, 1] > p["load_thr"] * self.W                             # raw schedule (2N, 4)
+        if p["onset"]: self.flags = self.flags | np.roll(self.flags, -1, axis=0)           # onset node of each loaded interval counts as loaded (9.3b-4)
         self.reset()
 
     # ------------------------------------------------------------------ reference splines (controller side)
@@ -59,6 +71,47 @@ class FIDWalker:
         self.S = dict(q=(per(q, dq), dq), qd=(per(qd, z9), z9), qdd=(per(qdd, z9), z9), F=(per(F, np.zeros(8)), np.zeros(8)), com=(per(com, dc), dc),
                       comd=(per(comd, z2), z2), comdd=(per(comdd, z2), z2), L=(per(L, np.zeros(1)), np.zeros(1)), Ldot=(per(Ld, np.zeros(1)), np.zeros(1)))
 
+    def _build_land(self):
+        """Per parity: quintic (heel x, heel z, foot pitch) of the swing leg over step-local tau in [tau0, ts] (no Xoff; added at use)."""
+        self.LQ = {}
+        if not self.p["land"]: return
+        m, h, ts = self.m, self.h, self.ts; tau0 = self.p["land_k0"] * h; Tl = ts - self.p["land_lead"] - tau0
+        for par in (0, 1):
+            i = 2 * par; fi = 5 + 3 * par
+            r0 = self.refc(par * ts + tau0); _, _, _, pt0, Jp0, _, bp0 = m.kin(r0["q"], r0["qd"])
+            p0 = np.array([pt0[i, 0], pt0[i, 1], r0["q"][fi]]); v0 = np.array([*(Jp0[i] @ r0["qd"]), r0["qd"][fi]]); a0 = np.array([*(Jp0[i] @ r0["qdd"] + bp0[i]), r0["qdd"][fi]])
+            r1 = self.refc((par + 1) * ts); r1b = self.refc((par + 1) * ts + h); pt1 = m.points(r1["q"])
+            p1 = np.array([pt1[i, 0], 0.0, r1["q"][fi]]); v1 = np.array([0.0, -self.p["v_td"], (r1b["q"][fi] - r1["q"][fi]) / h]); a1 = np.zeros(3)
+            # quintic coefficients per channel, s in [0, Tl]
+            T = Tl; A = np.array([[T**3, T**4, T**5], [3 * T**2, 4 * T**3, 5 * T**4], [6 * T, 12 * T**2, 20 * T**3]])
+            co = np.zeros((6, 3))
+            for c in range(3):
+                b = np.array([p1[c] - (p0[c] + v0[c] * T + 0.5 * a0[c] * T**2), v1[c] - (v0[c] + a0[c] * T), a1[c] - a0[c]])
+                co[:, c] = [p0[c], v0[c], 0.5 * a0[c], *np.linalg.solve(A, b)]
+            self.LQ[par] = (tau0, Tl, co); self.LQend = getattr(self, "LQend", {}); self.LQend[par] = (p1, v1)
+
+    def _replan_land(self, par, tau, x0, v0, xo):
+        """land_act: quintic from the measured state (x0, v0) at tau to the landing state of the reference (+ Xoff), ending at ts - land_lead."""
+        p1, v1 = self.LQend[par]; p1 = p1 + np.array([xo[0], 0.0, 0.0]); T = max(self.ts - self.p["land_lead"] - tau, 2 * self.h)
+        for _ in range(80):
+            A = np.array([[T**3, T**4, T**5], [3 * T**2, 4 * T**3, 5 * T**4], [6 * T, 12 * T**2, 20 * T**3]]); co = np.zeros((6, 3))
+            for c in range(3):
+                b = np.array([p1[c] - (x0[c] + v0[c] * T), v1[c] - v0[c], 0.0]); co[:, c] = [x0[c], v0[c], 0.0, *np.linalg.solve(A, b)]
+            if not self.p["land_nounder"]: break
+            ss = np.linspace(0, T, 41)[:-2]; zz = np.polyval(co[::-1, 1], ss)
+            if zz.min() >= 0: break
+            T += 0.25 * self.h
+        co[0, 0] -= xo[0]                       # stored without Xoff (added back at use, as for the reference quintic)
+        self.LQ[par] = (tau, T, co); self.land_plan = (self.t_anchor, par)
+
+    def land_target(self, par, tau):
+        """(pos, vel, acc) of [heel x, heel z, foot pitch] for the swing leg at step-local tau (clamped to the landing end)."""
+        tau0, Tl, co = self.LQ[par]; s = float(np.clip(tau - tau0, 0.0, Tl)); ex = max(0.0, tau - tau0 - Tl)
+        P_ = np.array([1, s, s**2, s**3, s**4, s**5]); V_ = np.array([0, 1, 2 * s, 3 * s**2, 4 * s**3, 5 * s**4]); A_ = np.array([0, 0, 2, 6 * s, 12 * s**2, 20 * s**3])
+        pos, vel, acc = P_ @ co, V_ @ co, A_ @ co
+        if ex > 0: pos = pos + np.array([0.0, -self.p["v_td"] * ex, 0.0]); vel = np.array([0.0, -self.p["v_td"], 0.0]); acc = np.zeros(3)
+        return pos, vel, acc
+
     def refc(self, tq):
         nw = np.floor(tq / self.T2); tl = tq - nw * self.T2; fr = tl / self.T2 + nw
         o = {k: s(tl) + dr * fr for k, (s, dr) in self.S.items()}
@@ -75,7 +128,7 @@ class FIDWalker:
     def reset(self):
         self.parity = 0; self.t_anchor = 0.0; self.Xoff = 0.0; self.Fprev = np.zeros((4, 2)); self.inc = np.zeros(4, bool); self.t_in = np.zeros(4); self.f_in = np.zeros(4)
         self.t_rel = np.zeros(2) - 10.0; self.td_events = []; self.u_prev = None; self.F_meas = None   # F_meas: tick-averaged plant contact force of the last tick (set by the sim = contact-impulse read-back)
-        self.log = {k: [] for k in ("t", "tref", "parity", "q", "com", "L", "F", "u", "fr_cmd", "status1", "status2", "tdrop", "ms", "resid", "loaded", "qdd", "fn_meas", "fmax", "u_act", "wrench", "wd")}
+        self.log = {k: [] for k in ("t", "tref", "parity", "q", "com", "L", "F", "u", "fr_cmd", "status1", "status2", "tdrop", "ms", "resid", "loaded", "qdd", "fn_meas", "fmax", "u_act", "wrench", "wd", "iters")}
 
     def sense(self, q, qd, Minv, pts, Jp):
         fn = np.zeros(4); kn, z = self.p["kn"], self.p["zeta"]
@@ -88,8 +141,9 @@ class FIDWalker:
     def __call__(self, t, q, qd, k):
         m, p = self.m, self.p
         if k < 0:
-            self.inc[:] = self.flags[0]; self.f_in[:] = self.ref.F[0, :, 1]; self.t_in[:] = -1.0      # start: reference contact state at node 0
-            return self.ref.at(0.0)["u"].copy()
+            k0 = int(p["start_par"]) * self.ref.N; self.parity = int(p["start_par"])
+            self.inc[:] = self.flags[k0]; self.f_in[:] = self.ref.F[k0, :, 1]; self.t_in[:] = -1.0      # start: reference contact state at node 0 (N if mirrored)
+            return self.ref.at(k0 * self.h)["u"].copy()
         t0 = time.perf_counter(); W, l, mu = self.W, self.l, p["mu"]
         coms, Jc, Jw, pts, Jp, ba, bp = m.kin(q, qd)
         M = Jc.T @ (m.MR[:, None] * Jc) + Jw.T @ (m.inertia[:, None] * Jw); h = Jc.T @ (m.MR * ba.reshape(-1)) + G0 * (Jc[1::2].T @ m.mass)
@@ -128,11 +182,14 @@ class FIDWalker:
         fmin = np.zeros(4)
         if p["rate_bw"] > 0:
             for i in S: fmin[i] = min(max(0.0, fn_meas[i] / W - p["rate_bw"]), fmax[i])
+        if p["fmin_td"] > 0:
+            for i in S:
+                if t - self.t_in[i] < p["T_hold"] and self.t_in[i] >= 0: fmin[i] = max(fmin[i], min(p["fmin_td"], 0.5 * fmax[i]))
         # ---- generators
         Gm = np.zeros((3, nb)); Em = np.zeros((2 * len(S), nb)); Jb = np.zeros((9, nb))
         for a, i in enumerate(S):
             for b, sg in enumerate((1.0, -1.0)):
-                col = 2 * a + b; g = np.array([sg * mu, 1.0])
+                col = 2 * a + b; g = np.array([sg * mu * p["fr_margin"], 1.0])
                 Gm[0, col], Gm[1, col] = g; Gm[2, col] = ((pts[i, 0] - c[0]) * g[1] - (pts[i, 1] - c[1]) * g[0]) / l
                 Em[2 * a:2 * a + 2, col] = g; Jb[:, col] = W * (Jp[i].T @ g)
         # ---- quadratic cost  sum w ||T x - y||^2
@@ -160,7 +217,7 @@ class FIDWalker:
         for i in S:
             add(qrow(Jp[i] @ D / G0), (-p["kvs"] * vp[i] - bp[i]) / G0, p["w_st"])
         # feet
-        Kp, Kd = p["om_sw"] ** 2, 2 * p["om_sw"]
+        Kp, Kd = p["om_sw"] ** 2, 2 * p["om_sw"]; land_on = False; lt = None
         for leg in (0, 1):
             ns = sum(self.inc[2 * leg:2 * leg + 2])
             if ns == 2: continue
@@ -168,12 +225,20 @@ class FIDWalker:
             if ns == 0:
                 bl = float(np.clip((t - self.t_rel[leg]) / p["T_blend"], 0.0, 1.0)) if leg == sw_leg else 1.0
                 i = 2 * leg; pr = ptr[i] + xo; vr = ptvr[i].copy(); ar = ptar[i].copy()
+                lt = None; Kp_, Kd_ = Kp, Kd
+                if leg == sw_leg and p["land"] and p["land_act"] and tau >= p["land_k0"] * self.h and getattr(self, "land_plan", None) != (self.t_anchor, self.parity):
+                    self._replan_land(self.parity, tau, np.array([pts[i, 0], pts[i, 1], q[fidx]]), np.array([vp[i, 0], vp[i, 1], qd[fidx]]), xo)
+                if leg == sw_leg and p["land"] and tau >= self.LQ[self.parity][0]:
+                    lt = self.land_target(self.parity, tau); pr = lt[0][:2] + xo; vr = lt[1][:2].copy(); ar = lt[2][:2].copy()
+                    if p["om_land"] > 0: Kp_, Kd_ = p["om_land"] ** 2, 2 * p["om_land"]
                 if leg == sw_leg and late > 0: pr = pr + np.array([0.0, -p["late_vz"] * late]); vr = vr + np.array([0.0, -p["late_vz"]])
-                a_des = ar + Kp * (pr - pts[i]) + Kd * (vr - vp[i])
+                a_des = ar + Kp_ * (pr - pts[i]) + Kd_ * (vr - vp[i])
                 add(qrow(Jp[i] @ D / G0), (a_des - bp[i]) / G0, p["w_swing"] * bl)
             Kf, Kfd = p["om_fp"] ** 2, 2 * p["om_fp"]
             e = np.zeros(9); e[fidx] = 1.0
             a_f = qddr[fidx] + Kf * (qr[fidx] - q[fidx]) + Kfd * (qdr[fidx] - qd[fidx])
+            if ns == 0 and leg == sw_leg and lt is not None:
+                a_f = lt[2][2] + Kf * (lt[0][2] - q[fidx]) + Kfd * (lt[1][2] - qd[fidx]); land_on = True
             add(qrow(e @ D / (G0 / l)), np.array([a_f / (G0 / l)]), p["w_fp"] * bl)
         # trunk
         e = np.zeros(9); e[2] = 1.0; a_th = qddr[2] + p["om_th"] ** 2 * (qr[2] - q[2]) + 2 * p["om_th"] * (qdr[2] - qd[2])
@@ -182,6 +247,7 @@ class FIDWalker:
         CJ = m.CJ; Kq, Kqd = p["om_post"] ** 2, 2 * p["om_post"]
         a_j = CJ @ qddr + Kq * (CJ @ qr - CJ @ q) + Kqd * (CJ @ qdr - CJ @ qd)
         wpost = np.full(6, p["w_post"]); wpost[3 * sw_leg:3 * sw_leg + 3] += p["sw_post"]
+        if land_on: wpost[3 * sw_leg:3 * sw_leg + 3] *= p["land_post"]
         for j in range(6): add(qrow(CJ[j] @ D / (G0 / l)), np.array([a_j[j] / (G0 / l)]), wpost[j])
         add(qrow(np.eye(9)), np.zeros(9), p["w_reg"])
         # ---- hard rows
@@ -194,11 +260,17 @@ class FIDWalker:
             for a, i in enumerate(S):
                 Cin.append(-brow(Em[2 * a + 1])); din.append(np.array([-fmax[i]]))
                 if fmin[i] > 0: Cin.append(brow(Em[2 * a + 1])); din.append(np.array([fmin[i]]))
+            if p["fr_meas"]:
+                for f in (0, 1):
+                    al = [a for a, i in enumerate(S) if i // 2 == f]
+                    if not al: continue
+                    tv = sum(Em[2 * a] for a in al); cap = max(mu * p["fr_margin"] * fn_meas[2 * f:2 * f + 2].sum() / W, 1e-3)   # floor: the +-rows never coincide (GI degeneracy)
+                    Cin.append(-brow(tv)); din.append(np.array([-cap])); Cin.append(brow(tv)); din.append(np.array([-cap]))
         C = np.vstack(Cin); d = np.concatenate(din)
         U_, Sv, Vt = np.linalg.svd(E, full_matrices=True); rk = int((Sv > 1e-10 * Sv[0]).sum())
         x0 = Vt[:rk].T @ ((U_[:, :rk].T @ e_) / Sv[:rk]); Z = Vt[rk:].T
         Hz = Z.T @ H @ Z; Hz = 0.5 * (Hz + Hz.T); gz = Z.T @ (H @ x0 + gv)
-        z, st, it, _ = gi_qp.solve(Hz, gz, C @ Z, d - C @ x0, 0); tdrop = 0
+        z, st, it, _ = gi_qp.solve(Hz, gz, C @ Z, d - C @ x0, 0); tdrop = 0; st1 = st; it1 = it         # st1: the full QP (all hard rows); only this counts as solver success
         if st != "ok":
             tdrop = 1; keep = np.ones(len(d), bool); keep[:12] = False
             z, st, it, _ = gi_qp.solve(Hz, gz, (C @ Z)[keep], (d - C @ x0)[keep], 0)
@@ -211,7 +283,7 @@ class FIDWalker:
         wrench = np.array([F[:, 0].sum(), F[:, 1].sum() - W, sum((pts[i, 0] - c[0]) * F[i, 1] - (pts[i, 1] - c[1]) * F[i, 0] for i in range(4))])
         self.Fprev = F.copy()
         Lg = self.log
-        for kk, v in (("t", t), ("tref", tref), ("parity", self.parity), ("q", q.copy()), ("com", c.copy()), ("L", Lm), ("F", F), ("u", u.copy()), ("fr_cmd", fr), ("status1", "ok"), ("status2", st),
+        for kk, v in (("t", t), ("tref", tref), ("parity", self.parity), ("q", q.copy()), ("com", c.copy()), ("L", Lm), ("F", F), ("u", u.copy()), ("fr_cmd", fr), ("status1", st1), ("status2", st), ("iters", it1),
                       ("tdrop", tdrop), ("ms", 1e3 * (time.perf_counter() - t0)), ("resid", float(np.abs(res).max() / (W * l))), ("loaded", sum(1 << i for i in S)), ("qdd", qdd), ("fn_meas", fn_meas),
                       ("fmax", fmax), ("u_act", u_act), ("wrench", wrench), ("wd", wd)):
             Lg[kk].append(v)
