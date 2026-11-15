@@ -19,14 +19,14 @@ import numpy as np
 import shapely
 from shapely.geometry import box, mapping
 
-from . import fetch, landmarks, terrain, vector
+from . import fetch, landmarks, landmarks_bay_emit, terrain, vector
 from .common import (BAYTM_ID, CACHE, GLOBAL_ROOT, PIPE, SAMPLES, SPEC, TILES_ROOT, Tile,
                      baytm_compound_crs, canonical_json, git_head, load_config, read_meta, sha256_bytes,
                      sha256_file, utc_now, write_if_changed)
 
 CODE_FILES = ["kaiju_geo/common.py", "kaiju_geo/fetch.py", "kaiju_geo/terrain.py", "kaiju_geo/vector.py",
-              "kaiju_geo/bake.py", "kaiju_geo/landmarks.py", "bake_tile.py"]
-CONFIG_FILES = ["config/sources.json", "config/bake.json", "config/landmarks.json", "config/ggb.json"]
+              "kaiju_geo/bake.py", "kaiju_geo/landmarks.py", "kaiju_geo/landmarks_bay.py", "kaiju_geo/landmarks_bay_emit.py", "bake_tile.py"]
+CONFIG_FILES = ["config/sources.json", "config/bake.json", "config/landmarks.json", "config/ggb.json", "config/landmarks_bay.json"]
 REQUIRED_SOURCE_FIELDS = ("product", "item", "url", "licence", "attribution", "fetched_utc", "source_sha256")
 
 
@@ -450,6 +450,11 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     files["buildings.geojson"] = fc(bfeats)
     files["roads.geojson"] = fc(rfeats)
     lfeats, lchecked = landmarks.build(tile.id, bfeats)  # T-022: tiles without a configured landmark get no file/entry
+    bay_checked = []
+    if bay:  # T-104b: the Bay landmarks (config/landmarks_bay.json) are emitted for the Bay driver only; the 15 committed M1 tiles keep their bytes
+        bay_feats, bay_checked = landmarks_bay_emit.build(tile.id, bfeats, lambda bx, bz: sample_h(np.asarray(bx, float), np.asarray(bz, float)))
+        lfeats = sorted(lfeats + bay_feats, key=lambda f: f["id"])
+        lchecked = sorted(lchecked + bay_checked, key=lambda r: r["slug"])
     if lchecked:
         files["landmarks.geojson"] = fc(lfeats)
     files["faults.geojson"] = fc(ffeats, {"empty_by_design": len(ffeats) == 0,
@@ -512,7 +517,8 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
         *([{"layer": "landmarks", "file": "landmarks.geojson", "sha256": sha256_bytes(files["landmarks.geojson"]),
             "count": len(lfeats), "checked": lchecked,
             "emit_rule": "R-020 §2: a part is emitted only when the sourced top (sourced height above the structure's baked base + that base) exceeds the baked building top at the landmark position by more than tol_height_m; it stacks on the baked top (part_of = owning OSM bid); otherwise recorded here as already right",
-            "sources": landmarks.source_entries(lfeats, lchecked)}] if lchecked else []),
+            "sources": landmarks.source_entries(lfeats, [c for c in lchecked if c not in bay_checked]) + landmarks_bay_emit.source_entries(bay_checked),
+            **({"bay_rule": "T-104b: config/landmarks_bay.json (landmarks_bay@v1, T-104): bridge towers as prisms from the baked surface to the used top over the measured footprint, bridge decks as 3-D lines at the measured deck profile (cut at tile edges), port cranes as points (position only), building landmarks (Oakland towers, Alcatraz lighthouse, airport towers) by the emit_rule above"} if bay_checked else {})}] if lchecked else []),
         {"layer": "roads", "file": "roads.geojson", "sha256": sha256_bytes(files["roads.geojson"]), "count": len(rfeats),
          "clip_rule": "clipped to the tile square; wid is the global OSM way id", "sources": [osm_src]},
         {"layer": "faults", "file": "faults.geojson", "sha256": sha256_bytes(files["faults.geojson"]), "count": len(ffeats),

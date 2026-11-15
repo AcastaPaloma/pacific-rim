@@ -328,6 +328,7 @@ def main(argv=None) -> int:
     ap.add_argument("--levels", type=int, nargs="*", default=[1, 2, 3, 4], help="lod: pyramid levels")
     ap.add_argument("--limit", type=int)
     ap.add_argument("--dep3-fill", action="store_true", help="l0: restrict to the tiles in config/dep3_fill.json (T-103 older-3DEP-project fill)")
+    ap.add_argument("--landmarks-bay", action="store_true", help="l0: restrict to the tiles that emit a landmark of config/landmarks_bay.json (T-104b)")
     ap.add_argument("--force", action="store_true", help="re-bake even when the input fingerprint matches")
     ap.add_argument("--no-retry-failed", action="store_true")
     ap.add_argument("--min-free-gb", type=float, default=DEFAULT_MIN_FREE_GB)
@@ -343,10 +344,14 @@ def main(argv=None) -> int:
     for sig in (signal.SIGINT, signal.SIGTERM):
         signal.signal(sig, lambda *_: d.request_stop("interrupted"))
     want = set(a.tile) if a.tile else None
+    landmark_tiles = set()
+    if a.landmarks_bay:
+        from kaiju_geo import landmarks_bay_emit
+        landmark_tiles = set(landmarks_bay_emit.affected_tiles())
     currency = None
     if a.stage in ("l0", "datasf"):
         tiles = [t for t in load_tiles(Path(a.manifest)) if (want is None or t["id"] in want) and (not a.classes or t["class"] in a.classes)
-                 and (not a.dep3_fill or t["id"] in dep3_fill_tiles())]
+                 and (not a.dep3_fill or t["id"] in dep3_fill_tiles()) and (not a.landmarks_bay or t["id"] in landmark_tiles)]
         if a.stage == "datasf":
             tiles = [t for t in tiles if t.get("sources", {}).get("datasf")]
         jobs = [(t["id"], plan_of(t)) for t in sorted(tiles, key=lambda t: t["id"])]

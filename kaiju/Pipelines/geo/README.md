@@ -93,3 +93,9 @@ checkout whose git-ignored `cache/` holds the T-101 fetches, with `nohup` (it co
 - T-144b: OSM `name` is not shipped. `buildings` and `roads` keep the property key with value `null`; the names stay in the cache extracts
   (M-126: no OSM venue name in shipped text). Tools that matched on baked names (`m005_check` bridge test, `known_gaps`) must read the OSM cache.
 - `Pipelines/build/copy_tiles.py` accepts `bay_manifest.json` as its tile set (`--class` filter) for the M3 player-build copy.
+
+## Bay landmarks in the bake (T-104b) and M-005@v2 (T-106)
+- `kaiju_geo/landmarks_bay_emit.py` emits `config/landmarks_bay.json` into the `landmarks` layer of a **Bay-driver** tile only (`bake.bake(plan=...)`; the 15 committed M1 tiles keep their bytes): bridge towers (prisms from the baked surface to the used top), bridge decks (3-D lines at the measured deck profile, cut at tile edges), port cranes (points), and stacked parts for Oakland towers / Alcatraz lighthouse / airport towers only when the sourced top is higher (T-022 rule). Both new files and the config are in the bake fingerprint (`CODE_FILES` / `CONFIG_FILES`).
+- Re-bake only the tiles that emit a landmark: `bake_bay.py --stage l0 --landmarks-bay --force --workers 3` (36 tiles; `landmarks_bay_emit.affected_tiles()`).
+- `m005_check.py bay [--tiles-root DIR] [--tiles ids] [--workers 4]` runs M-005@v2 (`m005_bay.py`, thresholds `config/m005_bay.json` + `m005_check.V12_TH`) over every baked tile and writes `evidence/T-106/m005_bay.json` (+ per-tile default-share table). A failing sub-measure is a finding; `not_run` rows name their owner.
+- `m100_check.py run --tile ... --per-class urban=2 ... --work DIR` bakes a sample twice (threads 1 / 2, reversed order, empty roots) and compares every file (M-100 step 2).

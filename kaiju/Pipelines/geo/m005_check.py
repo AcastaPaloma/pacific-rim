@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """M-005@v1 checker (R-004 §6) plus the T-003 tile checks, from the Unity as-built export.
 
+  bay:     M-005@v2 over every baked Bay tile (T-106, m005_bay.py): `m005_check.py bay [--tiles-root DIR] [--tiles ids] [--workers N]`
   prepare: writes evidence/T-003/control_points.json (NGS marks, 10,000 land, 10,000 wet points,
            50 shoreline profiles) that the Unity export samples on the as-built surfaces.
   check:   reads the export(s), the committed geo_tile@v1 tile, the references and the source cache
@@ -1467,7 +1468,7 @@ def v12_landmarks(loaded=None, th=V12_TH):
         if p["kind"] == "bridge_tower":
             tower_top.setdefault(p["lid"].split(":")[1], []).append(p["top_navd88_m"])
     for slug, ts in tower_top.items():
-        if br and max(abs(t - br["tower_top_navd88_m"]) for t in ts) > br["tower_top_tol_m"]:
+        if br and slug.startswith("ggb_") and max(abs(t - br["tower_top_navd88_m"]) for t in ts) > br["tower_top_tol_m"]:   # T-104b: Bay towers carry their own sourced tops (M-005.1 rows)
             bad.append({"slug": slug, "tops": ts, "sourced": br["tower_top_navd88_m"]})
     checks.append({"check": "height_vs_sourced", "result": "pass" if not bad else "fail", "landmarks": len(cfg["landmarks"]), "tower_slugs": sorted(tower_top), "bad": bad[:5]})
     # (3) continuity at tile cuts
@@ -1560,7 +1561,9 @@ def district_summary(rep):
 
 def main(argv=None):
     ap = std_args(argparse.ArgumentParser(description=__doc__.splitlines()[0]))
-    ap.add_argument("cmd", choices=["prepare", "prepare_v11", "check", "district"])
+    ap.add_argument("cmd", choices=["prepare", "prepare_v11", "check", "district", "bay"])
+    ap.add_argument("--workers", type=int, default=4, help="bay: scan processes")
+    ap.add_argument("--evid", default=None, help="bay: evidence folder (default evidence/T-106)")
     ap.add_argument("--tiles", default=None, help="district: comma-separated tile ids (default: the 15 GG + SoMa tiles)")
     ap.add_argument("--tiles-root", default=None, help="district: tiles folder (default Assets/StreamingAssets/Geo/tiles/v1)")
     ap.add_argument("--pieces", default=None, help="district: district_pieces@v1 JSON from the Unity multi-tile build (clipped pieces)")
@@ -1572,6 +1575,11 @@ def main(argv=None):
     if a.out:
         REPORT_PATH = Path(a.out)
     apply_std(a)
+    if a.cmd == "bay":   # T-106: M-005@v2 over every baked Bay tile (m005_bay.py)
+        import m005_bay
+        rep = m005_bay.run(root=a.tiles_root, workers=a.workers, only=a.tiles.split(",") if a.tiles else None, evid=a.evid or m005_bay.EVID_DEFAULT)
+        print(m005_bay.summary(rep))
+        return 0 if rep["result"] == "pass" else 1
     if a.cmd == "district":
         rep = district(a.tiles.split(",") if a.tiles else DISTRICT_TILES, a.tiles_root, pieces=a.pieces)
         out = Path(a.out) if a.out else V12_EVID / "m005_v12_district.json"

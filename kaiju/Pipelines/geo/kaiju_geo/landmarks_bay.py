@@ -161,27 +161,33 @@ def decimate(profile, keep=40.0):
 
 
 def check_rows(doc):
-    """M-005.1 rows for every landmark of the document: [{slug, name, pos_baytm, tol_pos_m, height_ref_m|None, height_tol_m|None, status}]
-    (consumed by m005_check; cranes 50 m, rest 5 m)."""
+    """M-005.1 rows for every landmark of the document: [{slug, name, pos_baytm, tol_pos_m, height_ref_m|None, height_tol_m|None, status,
+    kind, osm_id|None, ...}] (consumed by m005_check / m005_bay; cranes 50 m, rest 5 m). `kind` is tower | building | alcatraz |
+    airport_tower | crane_cluster; buildings carry `osm_id` and, when known, `footprint_baytm`; crane clusters carry `crane_ids`."""
     rows = []
     for b in doc["bridges"]:
         for t in b.get("towers", []):
             rows.append({"slug": t["slug"], "name": t["name"], "pos_baytm": t["pos_baytm"], "tol_pos_m": 5.0,
-                         "height_ref_m": t["top_navd88_m"], "height_tol_m": height_tol(t["top_navd88_m"]), "status": t["height_status"]})
+                         "height_ref_m": t["top_navd88_m"], "height_tol_m": height_tol(t["top_navd88_m"]), "status": t["height_status"],
+                         "kind": "tower", "osm_id": None})
     for x in doc["buildings"]:
         if x.get("pos_baytm"):
             rows.append({"slug": x["slug"], "name": x["name"], "pos_baytm": x["pos_baytm"], "tol_pos_m": 5.0,
-                         "height_ref_m": x.get("height_m"), "height_tol_m": height_tol(x["height_m"]) if x.get("height_m") else None, "status": x["status"]})
+                         "height_ref_m": x.get("height_m"), "height_tol_m": height_tol(x["height_m"]) if x.get("height_m") else None, "status": x["status"],
+                         "kind": "building", "osm_id": x.get("osm_id"), "footprint_baytm": x.get("footprint_baytm")})
     for k in ("alcatraz",):
         a = doc.get(k)
         if a and a.get("lighthouse", {}).get("pos_baytm"):
             rows.append({"slug": "alcatraz_lighthouse", "name": "Alcatraz lighthouse", "pos_baytm": a["lighthouse"]["pos_baytm"], "tol_pos_m": 5.0,
-                         "height_ref_m": a["lighthouse"]["height_m"], "height_tol_m": height_tol(a["lighthouse"]["height_m"]), "status": a["lighthouse"]["status"]})
+                         "height_ref_m": a["lighthouse"]["height_m"], "height_tol_m": height_tol(a["lighthouse"]["height_m"]), "status": a["lighthouse"]["status"],
+                         "kind": "alcatraz", "osm_id": a["lighthouse"].get("osm_id")})
     for ap in doc["airports"]:
         if ap.get("tower", {}).get("pos_baytm"):
             rows.append({"slug": f"{ap['slug']}_tower", "name": f"{ap['name']} control tower", "pos_baytm": ap["tower"]["pos_baytm"], "tol_pos_m": 5.0,
-                         "height_ref_m": ap["tower"].get("height_m"), "height_tol_m": None, "status": ap["tower"]["status"]})
+                         "height_ref_m": ap["tower"].get("height_m"), "height_tol_m": None, "status": ap["tower"]["status"],
+                         "kind": "airport_tower", "osm_id": ap["tower"].get("osm_id")})
     for cl in doc["cranes"].get("clusters", []):
         rows.append({"slug": cl["slug"], "name": cl["name"], "pos_baytm": cl["centroid_baytm"], "tol_pos_m": doc["cranes"]["pos_tol_m"],
-                     "height_ref_m": None, "height_tol_m": None, "status": "position only (cranes move)"})
+                     "height_ref_m": None, "height_tol_m": None, "status": "position only (cranes move)", "kind": "crane_cluster",
+                     "osm_id": None, "crane_ids": cl["ids"]})
     return rows
