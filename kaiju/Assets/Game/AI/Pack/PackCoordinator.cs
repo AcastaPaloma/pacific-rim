@@ -412,6 +412,11 @@ namespace Game.AI.Pack
             int fi = FocusTargetId.IsValid ? Board.IndexOf(FocusTargetId) : -1;
             bool haveFocus = fi >= 0;
             Float2 tp = haveFocus ? Board.ExtrapolatedPos(fi, now) : centroid;
+            // Bay: a raiding pack escorts its Raiders at the raid target instead of splitting off to chase a mech it cannot take alone
+            InfraTarget raidT = default;
+            bool haveRaid = Goal == PackGoal.Raid && TryInfra(RaidTargetId, out raidT);
+            bool raidGeo = _cfg.BayTactics && haveRaid;
+            if (raidGeo) { tp = raidT.Pos; haveFocus = false; }
             float ux = centroid.X - tp.X, uy = centroid.Y - tp.Y;
             float ul = MathF.Sqrt(ux * ux + uy * uy);
             if (ul < 1f) { ux = 1f; uy = 0f; ul = 1f; }
@@ -425,8 +430,6 @@ namespace Game.AI.Pack
                 baseAng = _baseAng;
             }
             else _baseSet = false;
-            InfraTarget raidT = default;
-            bool haveRaid = Goal == PackGoal.Raid && TryInfra(RaidTargetId, out raidT);
 
             int flankIdx = 0, anchorIdx = 0; float minAng = 0f, maxAng = 0f; int slotsUsed = 0;
             int nFlank = 0;
@@ -442,7 +445,7 @@ namespace Game.AI.Pack
                 switch (d.Role)
                 {
                     case PackRole.Anchor:
-                        if (Goal == PackGoal.Raid && haveRaid && !haveFocus)
+                        if (Goal == PackGoal.Raid && haveRaid && (raidGeo || !haveFocus))
                         {
                             // escort: stand between the pack and the raid target at standoff
                             float ex = centroid.X - raidT.Pos.X, ey = centroid.Y - raidT.Pos.Y;
@@ -548,10 +551,10 @@ namespace Game.AI.Pack
                 ref readonly PackMemberState m = ref _el[i];
                 float dt = Dist(m.Pos, tp);
                 PackRole r = _dir[i].Role;
-                if (r == PackRole.Flanker)   // the Anchor (heavy centre) closes at its own pace and does not gate the strike
+                if (r == PackRole.Flanker || r == PackRole.Anchor)   // the heavy Anchor holds a looser tolerance (it closes slowly and charges from further out)
                 {
                     haveHolder = true;
-                    float tol = Math.Max(_cfg.SlotTolMinM, _cfg.SlotTolFrac * m.Species.StandoffM);
+                    float tol = Math.Max(_cfg.SlotTolMinM, _cfg.SlotTolFrac * m.Species.StandoffM) * (r == PackRole.Anchor ? _cfg.AnchorTolMul : 1f);
                     float ds = Dist(m.Pos, _dir[i].SlotPos);
                     if (ds > tol) allHeld = false;
                     if (ds > _cfg.BaitStepInM) holdersNear = false;

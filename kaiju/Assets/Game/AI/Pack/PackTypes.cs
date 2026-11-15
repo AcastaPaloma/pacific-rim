@@ -157,6 +157,7 @@ namespace Game.AI.Pack
         public float StageTimeoutSeconds;    // advance this long after every member is within twice its stage radius
         public float SlotTolFrac;            // a slot counts as held within max(SlotTolMinM, this x standoff)
         public float SlotTolMinM;
+        public float AnchorTolMul;           // the Anchor's slot tolerance is this multiple of a Flanker's
         public float PaceMinFrac;            // lower bound of the synchronised-arrival pace (0 = pacing off)
         public float BaitJoinDelaySeconds;   // the Bait joins the strike this long after the gate opened (0 = never)
         public float BaitStepInM;            // the Bait steps into its band once every holder is within this of its slot
@@ -179,7 +180,7 @@ namespace Game.AI.Pack
                 MechStrength = 2.5f, MechValue = 4f, HuntHandlingBaseSeconds = 120f, RaidDamageRate = 1f,
                 DefenseRadiusM = 3000f, RiskScale = 1f, AnchorMinFit = 0.3f, RegroupMinSeconds = 30f,
                 WeightCrane = 1f, WeightPower = 2f, WeightBridge = 3f, WeightAirport = 3f, TransitDistanceM = 1500f,
-                SlotApproachFrac = 0f, StageFrac = 1.0f, StageTimeoutSeconds = 120f, SlotTolFrac = 0.4f, SlotTolMinM = 80f, PaceMinFrac = 0f, BaitJoinDelaySeconds = 0f, BaitStepInM = 100f, BaitDrawSeconds = 4f, GateTimeoutSeconds = 60f, CommitRangeFrac = 1.6f,
+                SlotApproachFrac = 0f, StageFrac = 1.0f, StageTimeoutSeconds = 120f, SlotTolFrac = 0.4f, SlotTolMinM = 80f, AnchorTolMul = 2f, PaceMinFrac = 0f, BaitJoinDelaySeconds = 0f, BaitStepInM = 100f, BaitDrawSeconds = 4f, GateTimeoutSeconds = 60f, CommitRangeFrac = 1.6f,
                 BaitOffsetRad = 0.9f, AnchorOffsetRad = 0.6f, LatchReleaseM = 700f,
             };
         }
