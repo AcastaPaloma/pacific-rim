@@ -1,0 +1,228 @@
+{
+ "assumed_thresholds_decisive": [
+  "M-053.offset"
+ ],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [],
+  "optional_not_provided": [],
+  "provided": [
+   "fault_rupture_dump",
+   "faults_bay.geojson"
+  ],
+  "required": [
+   "fault_rupture_dump",
+   "faults_bay.geojson"
+  ]
+ },
+ "exit_code": 0,
+ "extra": {
+  "m053": {
+   "mapped": 173,
+   "mapped_scale_uncertainty_m": {
+    "1/Peninsula section": 137.5,
+    "55/Southeast Extension section": 25.0,
+    "55/Southern Hayward section": 25.0
+   },
+   "ruptures": 173,
+   "samples": 10060
+  }
+ },
+ "failing_gating": [],
+ "failures_suppressed": false,
+ "flags": [],
+ "headless_verdict": "PASS",
+ "headless_verdict_label": "PASS (provisional: 1 assumed)",
+ "images": [],
+ "inputs": [
+  {
+   "path": "Assets/StreamingAssets/Geo/global/v1/faults_bay.geojson",
+   "role": "faults_bay.geojson",
+   "sha256": "0dbc51ca628f8859e8c81a20450cd320c7910bd58328c6a047c50a8e7eb16f4a"
+  },
+  {
+   "path": "Assets/StreamingAssets/Geo/global/v1/faults_bay.manifest.json",
+   "role": "faults manifest",
+   "sha256": "8844e970658dd8b6cf3458aebb7e8d5be67f8cf046ebea09fdd2e56f90eba688"
+  },
+  {
+   "path": "evidence/T-036c/dumps/fault_rupture_dump.json",
+   "role": "fault_rupture_dump@v1",
+   "sha256": "31be76b31fa66c6b379e3038988a938682bfcd389dbfc4f6f483dc3503cc985d"
+  }
+ ],
+ "invocation": {
+  "command": "m053",
+  "inputs": [
+   "evidence/T-036c/dumps/fault_rupture_dump.json"
+  ],
+  "label": "fault_rupture_dump.json",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "fault_rupture_dump.json",
+ "metric": "M-053",
+ "metric_version": "M-053@v1",
+ "normalisers": {},
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-053@v1.yaml",
+  "revision": "v1.0",
+  "sha256": "73928aafef45c91ff6c28404d415ee4e2148eee95730dbb02060ce73b5e2bd13",
+  "spec": "M-053@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "revw-172-31-218-200.rn.uwaterloo.ca",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-15T06:19:21Z",
+  "wall_time_s": 0.149
+ },
+ "submeasures": [
+  {
+   "decisive_part": "p95_m",
+   "diagnostics": {
+    "samples": 10060,
+    "step_m": 10.0
+   },
+   "id": "M-053.offset",
+   "kind": "gating",
+   "margin": 0.999999999994,
+   "margin_rel": 0.999999999994,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.999999999994,
+     "margin_rel": 0.999999999994,
+     "name": "p95_m",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 1.0,
+     "unit": "m",
+     "value": 6.09970467751e-12
+    },
+    {
+     "margin": 1.99999999999,
+     "margin_rel": 0.999999999994,
+     "name": "max_m",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 2.0,
+     "unit": "m",
+     "value": 1.13915122603e-11
+    }
+   ],
+   "status": "PASS",
+   "threshold": 1.0,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Rupture centreline distance to the dissolved mapped trace (10 m samples)",
+   "unit": "m",
+   "value": 6.09970467751e-12
+  },
+  {
+   "decisive_part": "mapped_share",
+   "diagnostics": {
+    "ruptures": 173,
+    "where": null
+   },
+   "id": "M-053.mapped",
+   "kind": "gating",
+   "margin": 0.0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.0,
+     "margin_rel": 0.0,
+     "name": "mapped_share",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 1.0,
+     "unit": "share",
+     "value": 1.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 1.0,
+   "threshold_status": "derived",
+   "title": "Every rupture vertex range maps to a baked fault_id and section",
+   "unit": "share",
+   "value": 1.0
+  },
+  {
+   "decisive_part": "slip_rel",
+   "diagnostics": {},
+   "id": "M-053.slip",
+   "kind": "gating",
+   "margin": 0.0499986597327,
+   "margin_rel": 0.999973194655,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.0499986597327,
+     "margin_rel": 0.999973194655,
+     "name": "slip_rel",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.05,
+     "unit": "relative",
+     "value": 1.34026725062e-06
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.05,
+   "threshold_status": "derived",
+   "title": "Applied right-lateral offset equals the slip profile",
+   "unit": "relative",
+   "value": 1.34026725062e-06
+  },
+  {
+   "decisive_part": "hash_mismatches",
+   "diagnostics": {
+    "actual": "0dbc51ca628f8859e8c81a20450cd320c7910bd58328c6a047c50a8e7eb16f4a",
+    "manifest": "0dbc51ca628f8859e8c81a20450cd320c7910bd58328c6a047c50a8e7eb16f4a"
+   },
+   "id": "M-053.hash",
+   "kind": "gating",
+   "margin": 0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "hash_mismatches",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "faults_bay.geojson hash equals the manifest hash",
+   "unit": "count",
+   "value": 0
+  }
+ ],
+ "tool": {
+  "git_commit": "e3ea093407fdb9b7a8e247254bf9ef9cd4c38eb1",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "PASS",
+ "verdict_label": "PASS (provisional: 1 assumed)",
+ "warnings": []
+}
