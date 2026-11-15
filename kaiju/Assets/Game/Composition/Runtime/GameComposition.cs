@@ -2,11 +2,13 @@
 // Each module keeps its own default-off flag; with every flag off nothing is registered and no data is read.
 using System;
 using Game.AI;
+using Game.AI.Pack;
 using Game.Hangar;
 using Game.Units.Placeholder;
 using Game.Core;
 using Game.Core.Unity;
 using Game.World.Destruction;
+using Game.World.Emergence;
 using Game.World.Geo.Unity;
 using Game.World.Seismic;
 using UnityEngine;
@@ -19,6 +21,8 @@ namespace Game.Composition
         /// <summary>Baked fault traces (FaultTraceSet.Build over PiecesFromGeo). Null result with seismic.enabled on = reported, not installed.</summary>
         public Func<FaultTraceSet> Faults;
         public Func<DistrictRefs> Districts;
+        /// <summary>Infrastructure clusters emergence sites are chosen near (F-044); null = site choice ignores infrastructure.</summary>
+        public IEmergenceTargets EmergenceTargets;
         /// <summary>Vs30 override for the Destruction/Seismic bridge; null = the Seismic default.</summary>
         public Func<double, double, double> Vs30At;
         /// <summary>Simulation step counter for the bridge; null = the bridge's own default.</summary>
@@ -41,6 +45,10 @@ namespace Game.Composition
         public QuakeDirector Seismic;
         public SeismicShakingBridge ShakingBridge;
         public IKaijuBrainFactory Brain;
+        /// <summary>Pack brain factory, directory and species roles (ai.pack AND kaiju.scriptedBrain on); null otherwise.</summary>
+        public PackHandle Pack;
+        /// <summary>Bay-wide emergence director (emergence.enabled AND seismic.enabled on); null otherwise.</summary>
+        public EmergenceDirector Emergence;
         public NetCoopHandle Net;
         public PlaceholderBodyFactory Placeholder;
         /// <summary>Hangar stub (hangar.stub AND units.placeholderBody on); registered with the SaveSystem when one was supplied.</summary>
@@ -55,7 +63,7 @@ namespace Game.Composition
         /// <summary>Set before Play Mode (a bootstrap or test); null = no data providers, so seismic stays uninstalled even when its flag is on.</summary>
         public static GameCompositionInputs Inputs { get; set; }
 
-        /// <summary>Installs every module whose flag is on. Order: Geo, Destruction, Seismic (needs the bus), the shaking bridge (needs both), the brain, the co-op net session (net.coop + net.seatBridge), the placeholder body factory (units.placeholderBody), the hangar stub, combat, then the meta layer (meta.economy, meta.salvage, meta.permadeath, meta.refit).</summary>
+        /// <summary>Installs every module whose flag is on. Order: Geo, Destruction, Seismic (needs the bus), emergence (needs Seismic), the shaking bridge (needs both), the brain, the pack layer (ai.pack, needs the brain), the co-op net session (net.coop + net.seatBridge), the placeholder body factory (units.placeholderBody), the hangar stub, combat, then the meta layer (meta.economy, meta.salvage, meta.permadeath, meta.refit).</summary>
         public static GameCompositionResult Install(IServiceRegistry registry, IFeatureFlags flags, ICoreErrorSink errors, GameCompositionInputs inputs = null, SaveSystem saves = null)
         {
             if (registry == null) throw new ArgumentNullException(nameof(registry));
@@ -82,7 +90,10 @@ namespace Game.Composition
                 if (r.ShakingBridge != null) registry.Register<SeismicShakingBridge>(r.ShakingBridge);
             }
 
+            r.Emergence = EmergenceInstaller.Install(registry, flags, errors, r.Seismic, inputs?.EmergenceTargets);
+
             r.Brain = ScriptedBrainModule.Install(registry, flags);
+            r.Pack = PackInstaller.Install(registry, flags, errors);
             r.Net = NetCoopInstaller.Install(registry, flags, errors, inputs?.Net);
             r.Placeholder = PlaceholderInstaller.Install(registry, flags, inputs?.PlaceholderBodyLimits);
             if (r.Placeholder != null)
