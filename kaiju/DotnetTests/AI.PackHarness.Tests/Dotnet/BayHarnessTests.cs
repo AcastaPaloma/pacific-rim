@@ -72,5 +72,47 @@ namespace Game.AI.PackHarness.Tests
             Assert.That(Kinds(log), Does.Contain("call"));
             Assert.That(log, Does.Contain("\"pack\":1").Or.Contain("\"pack\":2"));
         }
+
+        // T-115c: the water map (synthetic depth / soft-ground field)
+        static BayResult RunMap(string scenario, string comp, ulong seed, bool plan, double duration, out string log)
+        {
+            var w = new StringWriter();
+            var r = new BayHarness(new BayScenario { Name = scenario, Composition = comp, Seed = seed, DurationSeconds = duration, Map = "water", PlanRoutes = plan }, w).Run();
+            log = w.ToString(); return r;
+        }
+
+        [Test]
+        public void WaterMap_IsDeterministic_AndTheHeaderNamesTheMap()
+        {
+            RunMap("mixed", "LLH", 2, true, 300, out string a); RunMap("mixed", "LLH", 2, true, 300, out string b);
+            Assert.AreEqual(a, b);
+            Assert.That(a, Does.Contain("\"map\":\"m007_bay_synth@v1+water\""));
+            Run("hunt", "LLH", 2, duration: 30);
+        }
+
+        [Test]
+        public void CrossScenario_PlannedRoutesReachTheFarShore_StraightLinesStopAtTheChannel()
+        {
+            foreach (string comp in new[] { "LL", "MH" })
+            {
+                var planned = RunMap("cross", comp, 1, true, 6000, out string logP);
+                var straight = RunMap("cross", comp, 1, false, 6000, out string logS);
+                Assert.AreEqual(0, planned.BlockedSteps, comp);
+                Assert.AreEqual(1, planned.InfraDestroyed, comp + ": the pack walks round the channel and razes the bridge");
+                Assert.Greater(straight.BlockedSteps, 100000, comp + ": control stands at the shore");
+                Assert.AreEqual(0, straight.InfraDestroyed, comp);
+            }
+        }
+
+        [Test]
+        public void FlatMap_IsUnchangedByTheRoutePlanningFlag()
+        {
+            var cfg = Game.AI.Pack.PackConfig.Bay(); cfg.RoutePlanning = false;
+            var w1 = new StringWriter(); var w2 = new StringWriter();
+            new BayHarness(new BayScenario { Name = "hunt", Composition = "LLH", Seed = 3, DurationSeconds = 200, Pack = cfg }, w1).Run();
+            new BayHarness(new BayScenario { Name = "hunt", Composition = "LLH", Seed = 3, DurationSeconds = 200 }, w2).Run();
+            // the header hash covers the config fields it lists (RoutePlanning is not among them), so the logs are byte-equal
+            Assert.AreEqual(w1.ToString(), w2.ToString());
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace Game.AI.PackHarness
                .Append(",\"brain_period_steps\":").Append(logPeriodSteps.ToString(Inv))
                .Append(",\"brain_id\":\"").Append(s.BrainId).Append("\",\"scenario\":\"").Append(s.ScenarioId).Append("\",\"composition\":\"").Append(s.Composition)
                .Append("\",\"config_hash\":\"").Append(h.ToString("x16", Inv)).Append("\",\"call_range_m\":").Append(F(s.CallRangeM))
-               .Append(",\"map\":\"m007_bay_synth@v1\",\"decision_period_steps\":").Append(s.DecisionEverySteps.ToString(Inv)).Append('}');
+               .Append(",\"map\":\"").Append(s.Map == "water" ? SyntheticBayField.MapId : "m007_bay_synth@v1").Append("\",\"decision_period_steps\":").Append(s.DecisionEverySteps.ToString(Inv)).Append('}');
             Emit();
         }
 

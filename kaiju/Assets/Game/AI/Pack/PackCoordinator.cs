@@ -267,6 +267,23 @@ namespace Game.AI.Pack
             }
         }
 
+        // Pack-level path distance for goal choice: the most restricting member (tallest) walks the route; straight line unless RoutePlanning.
+        private float PathDist(Float2 a, Float2 b)
+        {
+            if (!_cfg.RoutePlanning || _n == 0) return Dist(a, b);
+            int w = 0;
+            for (int i = 1; i < _n; i++) if (_el[i].Species.HeightM > _el[w].Species.HeightM) w = i;
+            float d = _route.PathLength(a, b, _el[w].Species);
+            return float.IsInfinity(d) ? 1e7f : d;   // unreachable for the tallest member: a very long way, not a NaN utility
+        }
+
+        private float TransitDist(int i)
+        {
+            if (!_cfg.RoutePlanning) return Dist(_el[i].Pos, _dir[i].SlotPos);
+            float d = _route.PathLength(_el[i].Pos, _dir[i].SlotPos, _el[i].Species);
+            return float.IsInfinity(d) ? Dist(_el[i].Pos, _dir[i].SlotPos) : d;
+        }
+
         private float Dist(Float2 a, Float2 b) { float dx = b.X - a.X, dy = b.Y - a.Y; return MathF.Sqrt(dx * dx + dy * dy); }
 
         private void SelectGoal(double now, Float2 centroid, float strength, float speed)
@@ -305,7 +322,7 @@ namespace Game.AI.Pack
                     if (Dist(it.Pos, Board.ExtrapolatedPos(b, now)) <= _cfg.DefenseRadiusM) enemyNear += _cfg.MechStrength * Board[b].HpFrac;
                 float p = strength / (strength + enemyNear);
                 float risk = (1f - p) * strength * _cfg.RiskScale;
-                float t = Dist(centroid, it.Pos) / speed;
+                float t = PathDist(centroid, it.Pos) / speed;
                 float h = it.Hp / (_cfg.RaidDamageRate * raiders);
                 float u = (ClassWeight(it.Class) * p - risk) / (t + h);
                 if (it.Id == RaidTargetId) { curInfra = k; urCur = u; }
@@ -365,7 +382,7 @@ namespace Game.AI.Pack
             {
                 InfraTarget it = _infra.Get(k);
                 if (!it.Alive) continue;
-                float d = Dist(centroid, it.Pos);
+                float d = PathDist(centroid, it.Pos);
                 if (d < bd || (d == bd && best >= 0 && it.Id.Value < _infra.Get(best).Id.Value)) { bd = d; best = k; }
             }
             PackGoal want = best >= 0 ? PackGoal.Raid : (Board.Count > 0 ? PackGoal.Hunt : PackGoal.None);
@@ -504,10 +521,10 @@ namespace Game.AI.Pack
             {
                 // synchronised arrival: every member walks so that it reaches its (stage) slot when the slowest member does
                 float tmax = 1f;
-                for (int i = 0; i < _n; i++) { float t = Dist(_el[i].Pos, _dir[i].SlotPos) / Math.Max(1f, _el[i].Species.CruiseMps); if (t > tmax) tmax = t; }
+                for (int i = 0; i < _n; i++) { float t = TransitDist(i) / Math.Max(1f, _el[i].Species.CruiseMps); if (t > tmax) tmax = t; }
                 for (int i = 0; i < _n; i++)
                 {
-                    float t = Dist(_el[i].Pos, _dir[i].SlotPos) / Math.Max(1f, _el[i].Species.CruiseMps);
+                    float t = TransitDist(i) / Math.Max(1f, _el[i].Species.CruiseMps);
                     _dir[i].PaceFrac = Math.Min(1f, Math.Max(_cfg.PaceMinFrac, t / tmax));
                 }
             }

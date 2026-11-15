@@ -107,9 +107,10 @@ namespace Game.AI.Pack
         InfraTarget Get(int index);
     }
 
-    /// <summary>Path time and next waypoint. Straight line here; the Bay cost-field adapter comes with Track 1.</summary>
+    /// <summary>Path length and next waypoint. Straight line by default; <see cref="GridRoutePlanner"/> runs on an <see cref="IBayCostField"/> (Track 1 bake adapter, or the harness's synthetic Bay).</summary>
     public interface IRoutePlanner
     {
+        /// <summary>Effective walking length in metres (soft ground weighted); +Infinity when the species cannot reach it.</summary>
         float PathLength(Float2 from, Float2 to, in SpeciesRole species);
         Float2 NextWaypoint(Float2 from, Float2 to, in SpeciesRole species);
     }
@@ -166,6 +167,7 @@ namespace Game.AI.Pack
         public float CommitRangeFrac;        // a member commits only within this x standoff of the target
         public float BaitOffsetRad;          // Bait slot offset against the first flanker's side (strike geometry, P4)
         public float AnchorOffsetRad;        // Anchor slot offset against the first flanker's side (keeps the engaged spread above 90 degrees)
+        public bool RoutePlanning;           // T-115c: members transit along IRoutePlanner waypoints and goal utility / pacing use planner path lengths (needs a planner on the coordinator; straight line otherwise)
         public float LatchReleaseM;          // the approach bearing is re-latched while the pack centroid is farther than this from the target
 
         public static PackConfig Default()
@@ -194,6 +196,7 @@ namespace Game.AI.Pack
         {
             PackConfig c = Default();
             c.BayTactics = true; c.BaitJoinDelaySeconds = 7f; c.PaceMinFrac = 0.4f; c.BaitBandFrac = 0.8f; c.TransitDistanceM = 400f; c.SlotApproachFrac = 0.8f;
+            c.RoutePlanning = true;   // T-115c: a no-op while the coordinator holds the straight-line planner
             return c;
         }
     }

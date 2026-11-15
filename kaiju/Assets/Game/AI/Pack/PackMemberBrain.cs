@@ -94,7 +94,7 @@ namespace Game.AI.Pack
                 // target known to the pack board but not in this member's sight yet: walk to the slot (Bay-scale transit), else keep the inner behaviour
                 if (d.Valid && Dist(me, d.SlotPos) > 60f)
                 {
-                    intent.DesiredHeadingRad = Dir(me, d.SlotPos); intent.SpeedFrac = TransitSpeed(me, d, _cfg.SpeedApproach); intent.State = BrainState.Approach;
+                    intent.DesiredHeadingRad = Dir(me, Via(me, d)); intent.SpeedFrac = TransitSpeed(me, d, _cfg.SpeedApproach); intent.State = BrainState.Approach;
                     if (d.FocusTargetId.IsValid) intent.TargetId = d.FocusTargetId;
                 }
                 return;
@@ -131,7 +131,7 @@ namespace Game.AI.Pack
             }
             else
             {
-                intent.DesiredHeadingRad = Dir(me, d.SlotPos); intent.SpeedFrac = TransitSpeed(me, d, _cfg.SpeedApproach); intent.State = BrainState.Approach;
+                intent.DesiredHeadingRad = Dir(me, Via(me, d)); intent.SpeedFrac = TransitSpeed(me, d, _cfg.SpeedApproach); intent.State = BrainState.Approach;
             }
         }
 
@@ -181,6 +181,9 @@ namespace Game.AI.Pack
         }
 
         /// <summary>Bay-scale transit: beyond <see cref="PackConfig.TransitDistanceM"/> from the slot a member walks at full cruise speed instead of its tactical approach speed.</summary>
+        /// <summary>Transit aim point: the planner's next waypoint while the slot is far (RoutePlanning), the slot itself on the last stretch.</summary>
+        private Float2 Via(Float2 me, in PackDirective d) => _pcfg.RoutePlanning && Dist(me, d.SlotPos) > _pcfg.TransitDistanceM ? d.RoutePos : d.SlotPos;
+
         private float TransitSpeed(Float2 me, in PackDirective d, float tactical) => Dist(me, d.SlotPos) > _pcfg.TransitDistanceM ? (d.PaceFrac > 0f ? d.PaceFrac : 1f) : Math.Max(tactical, _pcfg.SlotApproachFrac);
 
         private void PostAnchor(in BrainObservation obs, in PackDirective d, Float2 me, ref BrainIntent intent)
@@ -190,7 +193,7 @@ namespace Game.AI.Pack
             if (intent.State == BrainState.Charge) return;
             if (Dist(me, d.SlotPos) > 60f)
             {
-                intent.DesiredHeadingRad = Dir(me, d.SlotPos); intent.SpeedFrac = TransitSpeed(me, d, _cfg.SpeedApproach); intent.State = BrainState.Approach;
+                intent.DesiredHeadingRad = Dir(me, Via(me, d)); intent.SpeedFrac = TransitSpeed(me, d, _cfg.SpeedApproach); intent.State = BrainState.Approach;
                 if (d.FocusTargetId.IsValid) intent.TargetId = d.FocusTargetId;
             }
             else intent.SpeedFrac *= _pcfg.AnchorSpeedFrac;
@@ -203,7 +206,7 @@ namespace Game.AI.Pack
             if (intent.State == BrainState.Charge || intent.State == BrainState.Retreat) return;
             if (Dist(me, d.SlotPos) > 60f)
             {
-                intent.DesiredHeadingRad = Dir(me, d.SlotPos); intent.SpeedFrac = TransitSpeed(me, d, _cfg.SpeedFlank); intent.State = BrainState.Flank;
+                intent.DesiredHeadingRad = Dir(me, Via(me, d)); intent.SpeedFrac = TransitSpeed(me, d, _cfg.SpeedFlank); intent.State = BrainState.Flank;
                 if (d.FocusTargetId.IsValid) intent.TargetId = d.FocusTargetId;
             }
         }
@@ -213,7 +216,7 @@ namespace Game.AI.Pack
         {
             if (!_pcfg.BayTactics || d.Goal != PackGoal.Hunt || d.CommitReady || !d.FocusTargetId.IsValid) return false;
             intent.Action = BrainAction.None; intent.TargetId = d.FocusTargetId; intent.State = label;
-            if (Dist(me, d.SlotPos) > 40f) { intent.DesiredHeadingRad = Dir(me, d.SlotPos); intent.SpeedFrac = TransitSpeed(me, d, tactical); }
+            if (Dist(me, d.SlotPos) > 40f) { intent.DesiredHeadingRad = Dir(me, Via(me, d)); intent.SpeedFrac = TransitSpeed(me, d, tactical); }
             else
             {
                 intent.SpeedFrac = 0f;
@@ -227,7 +230,7 @@ namespace Game.AI.Pack
             intent.Action = BrainAction.None;
             if (Dist(me, d.SlotPos) > 100f)
             {
-                intent.DesiredHeadingRad = Dir(me, d.SlotPos); intent.SpeedFrac = _cfg.SpeedRetreat; intent.State = BrainState.Retreat;
+                intent.DesiredHeadingRad = Dir(me, Via(me, d)); intent.SpeedFrac = _cfg.SpeedRetreat; intent.State = BrainState.Retreat;
             }
             else { intent.SpeedFrac = 0f; intent.State = BrainState.Idle; }
         }
