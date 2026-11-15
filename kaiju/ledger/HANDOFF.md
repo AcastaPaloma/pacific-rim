@@ -482,3 +482,10 @@ Worker escalated to Opus 5.5 high (§14) for the design; design `research/R-028.
 - D1: one render origin (anchor cluster of the lowest-id camera); other clusters get no PhysicsScene until T-111 — decided autonomously (founder asleep); alternative: PhysicsScene per cluster now, deferred because the harness that exercises it is T-111.
 - D2: L1..L4 reader left behind `LevelRoutingReader` with no default because `geo_lod@v1` (T-108) is unmerged; fails with backoff instead of faking data — decided autonomously (founder asleep).
 - D3: no Composition installer added (other modules' files); `StreamingModule.Install` is the entry point — decided autonomously (founder asleep).
+## T-108 (M2 worker, 2026-11-15)
+- Pyramid tiles live in the cache (`Pipelines/geo/cache/tiles/v1/L{n}/`), baked from StreamingAssets L0; one L(n) tile = 2^n x 2^n L0 tiles, quad-tree indices as `GeoTileId` — decided autonomously (founder asleep).
+- Forms per level: L1 B1; L2 B1+B2; L3, L4 B2 (R-101 table left L2 open; B1 blocks at 9+ km are sub-texel, B2 skyline carries the far field) — decided autonomously (founder asleep).
+- Terrain r16 is the node subsample, every node from exactly one L0 sample (half-open tile ownership, west/south fallback), so coarse levels reuse finer nodes bit-for-bit and neighbours agree to the r16 quantisation step.
+- R-101 caps are never relaxed: where the 150 k terrain cap fails at the nominal RTIN threshold the manifest reports both the count and the smallest ladder threshold that fits (`rtin_threshold_for_cap_m`); the choice (threshold vs pre-filtering the 1 m lidar noise) is the lead's / T-109's — escalated, not decided.
+- RTIN count validated against M1: 577 k triangles at 0.1 m on L0_30_36 vs the measured 589 k (-2 %).
+- Missing L0 coverage = open-ocean placeholder, recorded as `coverage` in the manifest (placeholder, tracked until Track 1 fills the Bay).
