@@ -99,6 +99,28 @@ namespace Game.Cameras.Tests
         }
 
         [Test]
+        public void LayerSnap_IsOffByDefault_AndFillsThreeLayersWhenOn()
+        {
+            var target = new MovingTarget { Ground = new Vector3(0, 0, 0) };
+            m_Rig.SetTarget(target);
+            m_Rig.Tick(Dt);
+            Assert.IsTrue(m_Rig.TryGetHints(out var off)); Assert.AreEqual(0, off.LayerCount, "default: v1 hints");
+            m_Rig.ConfigureLayers(true);
+            Assert.IsTrue(m_Rig.LayerSnap);
+            for (int i = 0; i < 120; i++) { target.Ground.x += 0.2f; m_Rig.Tick(Dt); }
+            Assert.IsTrue(m_Rig.TryGetHints(out var on));
+            Assert.AreEqual(3, on.LayerCount);
+            Assert.AreEqual(m_Settings.skylineDepthM, on.LayerMain.ReferenceDepth, 1e-3f); Assert.AreEqual(m_Settings.farDepthM, on.LayerFar.ReferenceDepth, 1e-2f);
+            Assert.Less(on.LayerNear.ReferenceDepth, on.LayerMain.ReferenceDepth);
+            Assert.AreEqual(on.ReferenceDepth, on.LayerMain.ReferenceDepth, "v1 fields are the main layer's");
+            m_Rig.SetScriptedLayerReferences(663f, 10353f);
+            m_Rig.Tick(Dt); m_Rig.TryGetHints(out on);
+            Assert.AreEqual(663f, on.LayerMain.ReferenceDepth); Assert.IsTrue(on.LayerMain.Cut, "a changed reference restarts that lattice");
+            m_Rig.ConfigureLayers(false); m_Rig.Tick(Dt); m_Rig.TryGetHints(out var back);
+            Assert.AreEqual(0, back.LayerCount);
+        }
+
+        [Test]
         public void WithoutAGrid_TheRigOffersNoHints_AndWithStabilisersOff_ItRendersTheWantedPose()
         {
             m_Grid.On = false;

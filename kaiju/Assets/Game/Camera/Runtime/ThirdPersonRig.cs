@@ -36,6 +36,9 @@ namespace Game.Cameras
         float m_OrbitYawDeg, m_ReferenceDepth;
         PixelStabilisationHints m_Hints;
         SnapState m_Snap;
+        LayerSnapState m_LayerSnap;
+        bool m_LayerSnapOn;
+        float m_LayerMainDepth, m_LayerFarDepth;   // 0 = take the settings value
 
         public string RigId => Id;
         public CameraPose WantedPose => m_Wanted;
@@ -43,6 +46,8 @@ namespace Game.Cameras
         public bool SnapPosition => m_SnapPosition;
         public bool QuantiseRotation => m_QuantiseRotation;
         public float ReferenceDepth => m_ReferenceDepth;
+        /// <summary>True when the rig fills the v2 layer hints (flag rendering.pixel.layerSnap).</summary>
+        public bool LayerSnap => m_LayerSnapOn;
         public CameraImpulse Impulse => m_Impulse ?? (m_Impulse = new CameraImpulse(Settings.Impulse));
 
         public ThirdPersonRigSettings Settings
@@ -62,12 +67,18 @@ namespace Game.Cameras
             m_SnapPosition = snapPosition; m_QuantiseRotation = quantiseRotation; m_ImpulseEnabled = footfallImpulse;
         }
 
+        /// <summary>Turns layer snap (hints v2) on or off. Off is the default and leaves the v1 path untouched. Turning it off or on restarts every lattice.</summary>
+        public void ConfigureLayers(bool layerSnap) { if (layerSnap != m_LayerSnapOn) m_LayerSnap = default; m_LayerSnapOn = layerSnap; }
+
+        /// <summary>Overrides the main and far slab reference depths (capture sequences, for example 663.0 for the reference-class edge); 0 restores the settings values.</summary>
+        public void SetScriptedLayerReferences(float mainDepth, float farDepth) { m_LayerMainDepth = mainDepth; m_LayerFarDepth = farDepth; }
+
         /// <summary>Play Mode wiring through the Core registry: flags, the event bus subscription, and registration as the active rig.</summary>
         public void Bind(IServiceRegistry registry)
         {
             if (registry == null) throw new ArgumentNullException(nameof(registry));
             if (registry.TryResolve<IFeatureFlags>(out var flags))
-                Configure(Settings, flags.IsOn(CameraFlags.SnapPosition), flags.IsOn(CameraFlags.QuantiseRotation), flags.IsOn(CameraFlags.FootfallImpulse));
+                { Configure(Settings, flags.IsOn(CameraFlags.SnapPosition), flags.IsOn(CameraFlags.QuantiseRotation), flags.IsOn(CameraFlags.FootfallImpulse)); ConfigureLayers(flags.IsOn(PixelFlags.LayerSnap)); }
             Subscribe(registry.Resolve<IEventBus>());
             if (!registry.IsRegistered<ICameraRig>()) registry.Register<ICameraRig>(this);
             if (!registry.IsRegistered<IPixelStabilisationSource>()) registry.Register<IPixelStabilisationSource>(this);
@@ -157,10 +168,17 @@ namespace Game.Cameras
             if (hasGrid)
             {
                 var settings = new StabiliserSettings { SnapPosition = m_SnapPosition, QuantiseRotation = m_QuantiseRotation, ReferenceDepth = m_ReferenceDepth };
-                StabilisedPose result = CameraStabiliser.Stabilise(wanted, grid, settings, cut, ref m_Snap);
+                StabilisedPose result;
+                var layers = new LayerSettings
+                {
+                    SnapPosition = m_SnapPosition, QuantiseRotation = m_QuantiseRotation, NearDepth = m_ReferenceDepth,
+                    MainDepth = m_LayerMainDepth > 0f ? m_LayerMainDepth : s.skylineDepthM, FarDepth = m_LayerFarDepth > 0f ? m_LayerFarDepth : s.farDepthM,
+                };
+                if (m_LayerSnapOn && CameraLayerStabiliser.TryStabilise(wanted, grid, layers, cut, ref m_LayerSnap, out result)) m_Snap = default;
+                else result = CameraStabiliser.Stabilise(wanted, grid, settings, cut, ref m_Snap);
                 m_Rendered = result.Rendered; m_Hints = result.Hints; m_HasHints = true;
             }
-            else { m_Rendered = wanted; m_Hints = default; m_HasHints = false; m_Snap = default; }
+            else { m_Rendered = wanted; m_Hints = default; m_HasHints = false; m_Snap = default; m_LayerSnap = default; }
 
             transform.SetPositionAndRotation(new Vector3(m_Rendered.Position.X, m_Rendered.Position.Y, m_Rendered.Position.Z), Quaternion.Euler(-m_Rendered.PitchDeg, m_Rendered.YawDeg, 0f));
         }
