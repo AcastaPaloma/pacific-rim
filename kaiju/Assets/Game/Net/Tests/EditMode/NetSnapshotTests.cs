@@ -67,7 +67,7 @@ namespace Game.Net.Tests
                     float F() => BitConverter.Int32BitsToSingle(rng.Next(int.MinValue, int.MaxValue));
                     list.Add(new EntityState(EntityId.FromValue(id), F(), F(), F(), F(), F(), F(), F(), F()));
                 }
-                var s = new StateSnapshot { HostStep = rng.NextInt64(), Entities = list.ToArray() };
+                var s = new StateSnapshot { HostStep = ((long)rng.Next() << 32) | (uint)rng.Next(), Entities = list.ToArray() };
                 var b1 = SnapshotCodec.Encode(s);
                 Assert.IsTrue(SnapshotCodec.TryDecode(b1, out var d));
                 AssertBitEqual(s, d);
