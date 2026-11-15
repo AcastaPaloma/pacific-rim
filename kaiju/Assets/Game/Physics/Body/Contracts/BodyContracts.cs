@@ -166,6 +166,8 @@ namespace Game.Physics.Body.Contracts
         int ModelColumnOfDof(int dof);
         /// <summary>Model column of base coordinate k (0..5): measured (step 9.4c-2) 0..2 = linear velocity of the root centre of mass, world frame, 3..5 = angular velocity, world frame (about the root COM).</summary>
         int ModelBaseColumn(int k);
+        /// <summary>First row of the 6-row block of link <paramref name="link"/> in <see cref="GetBodyJacobian"/> (engine articulation index * 6; not the link order).</summary>
+        int LinkJacobianRow(int link);
         /// <summary>Dense Jacobian, row-major, rows x cols, written into <paramref name="jac"/> (length >= rows*cols). Rows are 6 per link: row of link i = (engine articulation index of i) * 6, 3 linear then 3 angular, all in the world frame, the linear rows being the velocity of the link's centre of mass (measured, step 9.4c-2). DOF columns use anatomical signs; base columns are raw; the inert slot of a locked spherical axis is a (soft-locked) column that the model leaves at zero. False when the buffer is too small or the engine returns nothing.</summary>
         bool GetBodyJacobian(double[] jac, out int rows, out int cols);
         /// <summary>Bias force h in M qdd + h = S tau + J^T f: h = -(generalised gravity force) + Coriolis/centrifugal, SI (N, N m), model-column order, DOF entries in anatomical sign. With a floating base the gravity part is built from the Jacobian and the link masses because the engine's gravity list is the free-fall force (about zero); the Coriolis part is the engine's list (verified only at rest, where it is 0).</summary>

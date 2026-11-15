@@ -11,8 +11,9 @@ namespace Game.Units.Mech.Qp
     /// Per tick: reads the dense link Jacobian, bias force, link states and foot forces; builds the sagittal sub-model S = [x forward, z up, th (pitch, forward lean +), hip/knee/ankle of leg A, of leg B]
     /// with <see cref="WholeBodyModel"/> (M_ss, point Jacobians, A_G); converts it to the controller's planar coordinates (q9: a = hip - th, b = a - knee, f = ankle - b, same constant map for M, h, Jp);
     /// runs the controller; writes the 6 joint torques as feed-forward (<see cref="IArticulatedBody.SetDofFeedForward"/>, last write wins).
-    /// ASSUMED until the 9.5 probes settle them (WholeBodyProbeTests): base column order [lin x, y, z, ang x, y, z] in the world frame about the root COM (<see cref="BuildSColumns"/>), Jacobian rows = link index * 6
-    /// (<see cref="LinkRowIndex"/>), Jacobian reference point = link COM, bias sign as the engine reports (counteracting forces = +h). Heading yaw is applied to the base columns and the point-Jacobian rows.
+    /// Layout SETTLED by the step 9.4c-2 probes (WholeBodyProbeTests, evidence step4c.md): base columns [lin x, y, z, ang x, y, z] = root COM linear / root angular velocity, world frame, about the root COM (<see cref="BuildSColumns"/>);
+    /// the row block of link i starts at <see cref="IArticulatedBody.LinkJacobianRow"/> (engine articulation index * 6, not the link order), rows = link COM linear then angular, world frame; bias h in M qdd + h = S tau + J'f (gravity built from J).
+    /// Heading yaw is applied to the base columns and the point-Jacobian rows. Open (step4c): the soft-locked ankle axis (the inert slot is not a column of S; the ankle rows of M carry up to 4 % error).
     /// Buffers are sized on the first Apply (the engine's column count is known after the first step); no allocation afterwards.
     /// </summary>
     public sealed class WholeBodyQpDriver
@@ -24,9 +25,9 @@ namespace Game.Units.Mech.Qp
         readonly int[] _col = new int[NS], _bc = new int[6];
         double[] _jac, _jacS, _bias; int _rows, _cols; bool _havePrev; long _n;
         readonly double _heelZ, _toeZ, _ankleZ, _ankleH;
-        public readonly int[] LinkRowIndex;                       // row block (6 rows) of each link in the Jacobian; default = link index
-        public bool JacobianRefIsCom = true;
         public SagittalQpController Controller => _ctl;
+        /// <summary>The whole-body model of the last Apply (M_ss, point Jacobians, A_G); read-only access for tests and logs.</summary>
+        public WholeBodyModel Model => _wb;
         public long Ticks => _n;
         public bool Ready { get; private set; }
 
@@ -42,7 +43,6 @@ namespace Game.Units.Mech.Qp
             _wb = new WholeBodyModel(_links, NS, 4) { Links = _links, S = NS, Points = 4 };
             for (int i = 0; i < _links; i++) { _wb.Mass[i] = body.LinkMassKg(i); }
             var f = body.Frame; for (int i = 0; i < _links; i++) { string id = body.LinkId(i); foreach (var sg in f.segments) if (sg.id == id) { for (int k = 0; k < 3; k++) _wb.InertiaDiag[3 * i + k] = sg.inertia_principal_kgm2[k]; break; } }
-            LinkRowIndex = new int[_links]; for (int i = 0; i < _links; i++) { LinkRowIndex[i] = i; _wb.LinkRow[i] = 6 * i; }
             for (int s = 0; s < NS; s++) _wb.SagCols[s] = s;
             int root = 0; for (int i = 0; i < _links; i++) if (body.LinkParent(i) < 0) { root = i; break; }
             _root = root;
@@ -64,6 +64,7 @@ namespace Game.Units.Mech.Qp
         {
             _cols = _b.ModelColumns; _rows = _links * 6;
             _jac = new double[_rows * _cols]; _jacS = new double[_rows * NS]; _bias = new double[_cols];
+            for (int i = 0; i < _links; i++) _wb.LinkRow[i] = _b.LinkJacobianRow(i);   // engine indices exist once the articulation does (first step)
             for (int k = 0; k < 6; k++) _bc[k] = _b.ModelBaseColumn(k);
             for (int j = 0; j < 6; j++) _col[3 + j] = _b.ModelColumnOfDof(_dof[j]);
         }
@@ -99,10 +100,9 @@ namespace Game.Units.Mech.Qp
             {
                 _b.GetLink(i, out var ls); int o3 = 3 * i, o9 = 9 * i;
                 _wb.Com[o3] = ls.Com.X; _wb.Com[o3 + 1] = ls.Com.Y; _wb.Com[o3 + 2] = ls.Com.Z;
-                if (JacobianRefIsCom) { _wb.RefPos[o3] = ls.Com.X; _wb.RefPos[o3 + 1] = ls.Com.Y; _wb.RefPos[o3 + 2] = ls.Com.Z; } else { _wb.RefPos[o3] = ls.Position.X; _wb.RefPos[o3 + 1] = ls.Position.Y; _wb.RefPos[o3 + 2] = ls.Position.Z; }
+                _wb.RefPos[o3] = ls.Com.X; _wb.RefPos[o3 + 1] = ls.Com.Y; _wb.RefPos[o3 + 2] = ls.Com.Z;   // Jacobian rows are the velocity of the link COM
                 var ex = Vector3.Transform(Vector3.UnitX, ls.Rotation); var ey = Vector3.Transform(Vector3.UnitY, ls.Rotation); var ez = Vector3.Transform(Vector3.UnitZ, ls.Rotation);
                 _wb.Rot[o9] = ex.X; _wb.Rot[o9 + 3] = ex.Y; _wb.Rot[o9 + 6] = ex.Z; _wb.Rot[o9 + 1] = ey.X; _wb.Rot[o9 + 4] = ey.Y; _wb.Rot[o9 + 7] = ey.Z; _wb.Rot[o9 + 2] = ez.X; _wb.Rot[o9 + 5] = ez.Y; _wb.Rot[o9 + 8] = ez.Z;
-                _wb.LinkRow[i] = 6 * LinkRowIndex[i];
             }
             for (int leg = 0; leg < 2; leg++)
             {

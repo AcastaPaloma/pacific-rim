@@ -16,7 +16,7 @@ namespace Game.Units.Mech.UnityTests
     /// and body_tuning.json (gravity 0 unless a probe needs it, joints active, free base) and stepped through BodyWorld in edit mode.
     /// Each probe settles one ASSUMED part of plan section 7 risks 1-3: Jacobian layout, mass-matrix diagonal, bias sign, hip/knee/ankle sign mapping.
     /// </summary>
-    public class WholeBodyProbeTests
+    public partial class WholeBodyProbeTests
     {
         const double Dt = 1.0 / 60.0;
         // Tolerances, fixed before the first run (not tuned afterwards).
