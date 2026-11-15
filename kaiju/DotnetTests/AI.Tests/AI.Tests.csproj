@@ -10,6 +10,8 @@
   <ItemGroup>
     <Compile Include="Dotnet/**/*.cs" />
     <Compile Include="../../Assets/Game/AI/Tests/EditMode/**/*.cs" />
+    <!-- T-041: the engine-free RL policy codec (Assets/Game/AI/Policy) is compiled in directly. -->
+    <Compile Include="../../Assets/Game/AI/Policy/**/*.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../AI.Harness/AI.Harness.csproj" />

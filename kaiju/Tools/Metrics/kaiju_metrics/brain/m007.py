@@ -281,7 +281,20 @@ def run(rep, inputs, reg, ratings=None, out_dir=None, images=False, options=None
         rep.add("M-007.C1", status="NOT_RUN", note="no commit event with >= 2 engaged kaiju in the scripted runs",
                 diagnostics={"commit_events": ps["commits"] if ps else 0})
     # C2
-    if ps and ps["ff_ticks"] > 0 and not math.isnan(ps["fe"]):
+    pn = pool(nofocus) if nofocus else None
+    if ps and pn and ps["ff_ticks"] > 0 and pn["ff_ticks"] > 0 and pn["mean_ff"] < 1:
+        # R-024 rev 3: FE against the matched independent-selection control nofocus@1 (same brain, WeightFocus 0)
+        ffi = pn["mean_ff"]
+        fe_ind = (ps["mean_ff"] - ffi) / (1 - ffi)
+        cs, cn = ci(scripted, lambda p: p["mean_ff"]), ci(nofocus, lambda p: p["mean_ff"])
+        sep = bool(cs and cn and cs[0] > cn[1])
+        rep.add("M-007.C2", parts=[part("focus_excess_vs_nofocus", fe_ind, ">=", reg.t("M-007.C2", "fe_min"), unit="ratio"),
+                                   part("ff_ci_separation", 1.0 if sep else 0.0, ">=", 1.0, unit="CI non-overlap")],
+                diagnostics={"mean_ff": ps["mean_ff"], "mean_ff_nofocus": ffi, "ff_ci95_scripted": cs, "ff_ci95_nofocus": cn,
+                             "fe_chance_informational": _fin(ps["fe"]), "fe_ci95_bootstrap_vs_nofocus": ci(
+                                 scripted, lambda p: (p["mean_ff"] - ffi) / (1 - ffi)),
+                             "discrimination_vs_null": disc(lambda p: p["fe"], "higher")})
+    elif ps and ps["ff_ticks"] > 0 and not math.isnan(ps["fe"]):
         rep.add("M-007.C2", parts=[part("focus_excess", ps["fe"], ">=", reg.t("M-007.C2", "fe_min"), unit="ratio")],
                 diagnostics={"mean_ff": ps["mean_ff"], "mean_ff_chance": ps["mean_ff_chance"], "ff_ticks": ps["ff_ticks"],
                              "fe_ci95_bootstrap": ci(scripted, lambda p: p["fe"]),
@@ -292,7 +305,13 @@ def run(rep, inputs, reg, ratings=None, out_dir=None, images=False, options=None
     else:
         rep.add("M-007.C2", status="NOT_RUN", note="no tick with >= 2 kaiju with a target and >= 2 live targets")
     # C3
-    if ps:
+    churn = bool(scripted) and all(lg.header.get("scenario") == "m007_churn" for lg in logs if lg.brain_id == ids[0])
+    min_sw = reg.t("M-007.C3", "min_voluntary_switches")
+    if ps and churn and (ps["voluntary"] < min_sw * 1 or (nofocus and pool(nofocus)["voluntary"] < min_sw)):
+        rep.add("M-007.C3", status="NOT_RUN", note=f"churn scenario: fewer than {int(min_sw)} voluntary switches (scripted {ps['voluntary']})")
+        rep.add("M-007.C4", parts=[part("leaks", ps["leaks"], "<=", reg.t("M-007.C4", "leaks_max"), unit="ticks")],
+                diagnostics={"control_leaks": pc["leaks"] if pc else None})
+    elif ps:
         sr = ps["switch_rate"]
         rep.add("M-007.C3", parts=[
             part("thrash_fraction", ps["thrash_fraction"], "<=", reg.t("M-007.C3", "thrash_fraction_max"), unit="ratio"),
