@@ -66,6 +66,8 @@ def build_parser():
              "brain_log@v1 .jsonl files or directories holding them (one file per run; 100 seeds per brain)")
     p7.add_argument("--candidate", help="brain_id of a candidate policy: C1-C4 are measured on its logs and C6 pairs it with scripted@1 "
                                         "(duplicate format, Wilson bound, edge-time diagnostic; R-028 section 11)")
+    add("m008", "M-008@v1 performance at Bay scale (m008_run@v1 JSON from the C# M008BayRun; relative on the Mac, absolute row pending target PC)",
+        "m008_run.json files (schema: kaiju_metrics/perf/m008.py); >= 5 m008_bay@v1 seeds for a complete set")
     add("m015", "M-015@v2 floating-origin precision at Bay scale (m015_dump@v2 JSON from the C# FlythroughHarness)",
         "m015_dump.json files (schema: kaiju_metrics/streaming/m015.py); a unity-mode dump is required for a verdict")
     add("m101", "M-101@v1 streaming hitch (streaming_frames@v1 JSON, one per speed and mode)",
@@ -176,7 +178,7 @@ def _dispatch(args, argv):
                 for sid, e in m["submeasures"].items():
                     print(f"    {sid:<22} {e['kind']:<9} {e['title']}")
         return 0
-    if args.cmd in ("m001", "m002", "m003", "m004", "m007", "m015", "m101", "m102", "m050", "m051", "m052", "m053", "m054"):
+    if args.cmd in ("m001", "m002", "m003", "m004", "m007", "m008", "m015", "m101", "m102", "m050", "m051", "m052", "m053", "m054"):
         from .runner import run_metric_cli
         return run_metric_cli(args.cmd, args, argv)
     if args.cmd == "calibrate":

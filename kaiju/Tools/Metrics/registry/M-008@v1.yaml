@@ -1,0 +1,164 @@
+registry_schema: metric_registry@v1
+revision: v1.0
+metric_status: registered
+date: '2026-11-15'
+metric: M-008
+spec: M-008@v1
+title: Performance at Bay scale (2+ mechs, 3+ kaiju of mixed species, destruction, streaming)
+source: "GAME_BREAKDOWN.md M-008 ('60 fps on the target PC. Host simulation budget met with 2 mechs + 3 kaiju + destruction'); research/R-103.md section 10 (M-008@v1 draft); plans/M2.md Track 5; Q-019 / Q-207"
+note: "Reads m008_run@v1 (written by the C# M008BayRun, schema in kaiju_metrics/perf/m008.py): one run per seed of scenario m008_bay@v1, plus optional m008_ref@v1 (1 mech, 1 kaiju, no destruction, same session) and m008_sweep@v1 runs. The target PC does not exist (Q-019, Q-207): on the Mac every figure is RELATIVE (a regression budget). The absolute row M-008.abs is always PENDING (`pending target PC`), so the verdict can never be PASS from Mac data alone. Host numbers are main-thread milliseconds per 60 Hz frame; a frame_ms (rendered) series exists only when the run had a graphics device and rendered, otherwise M-008.b is NOT_RUN."
+procedure:
+  frame_hz:
+    value: 60
+    unit: Hz
+    status: derived
+    source: "M-008: 60 fps"
+  min_mechs:
+    value: 2
+    unit: count
+    status: derived
+    source: "M-008 / plans/M2.md Track 5: 2+ mechs"
+  min_kaiju:
+    value: 3
+    unit: count
+    status: derived
+    source: "M-008 / plans/M2.md Track 5: 3+ kaiju"
+  min_species:
+    value: 2
+    unit: count
+    status: derived
+    source: "plans/M2.md Track 5: kaiju of mixed species (R-103 section 10 uses one per species)"
+  min_fragments_peak:
+    value: 2000
+    unit: count
+    status: assumed_pending_calibration
+    source: "R-103 section 10: >= 2000 fragments peak"
+  min_events_per_min:
+    value: 6.0
+    unit: events/min
+    status: assumed_pending_calibration
+    source: "R-103 section 10: >= 6 destruction events/min"
+  min_warmup_s:
+    value: 60.0
+    unit: s
+    status: derived
+    source: "R-103 section 10: 60 s warm-up"
+  min_measure_s:
+    value: 600.0
+    unit: s
+    status: derived
+    source: "R-103 section 10: 600 s measured"
+  min_runs:
+    value: 5
+    unit: count
+    status: derived
+    source: "R-103 section 10: 5 runs, seeds 1-5"
+submeasures:
+  M-008.scope:
+    title: The run is the M-008 Bay scenario (bodies, species mix, destruction, real Bay tiles streaming, warm-up and measured length, runs)
+    kind: gating
+    thresholds:
+      scenario_defects_max:
+        value: 0
+        unit: count
+        status: derived
+        source: "R-103 section 10 scenario definition; each missing element makes the figures not the M-008 figures"
+  M-008.a:
+    title: Host simulation ms per frame p99 against B_host (relative budget on the Mac, all phases pooled per run, worst run decides)
+    kind: gating
+    thresholds:
+      b_host_ms:
+        value: 8.3
+        unit: ms
+        status: derived
+        source: "R-103 section 10: B_host = half of a 60 fps frame for everything that is not rendering"
+      ratio_max:
+        value: 0.6
+        unit: ratio
+        status: assumed_pending_calibration
+        source: "R-103 section 10: provisional PASS only if <= 0.6 (headroom for a lesser target PC; Assumed, Q-207)"
+  M-008.b:
+    title: Rendered frame time p99 against 16.7 ms (relative budget on the Mac; needs a run that rendered on a graphics device)
+    kind: gating
+    thresholds:
+      frame_budget_ms:
+        value: 16.7
+        unit: ms
+        status: derived
+        source: "60 fps"
+      ratio_max:
+        value: 0.6
+        unit: ratio
+        status: assumed_pending_calibration
+        source: "R-103 section 10: provisional PASS only if <= 0.6 (Assumed, Q-207)"
+  M-008.c:
+    title: Hitches, frames longer than 33.3 ms in the measured window (advisory)
+    kind: advisory
+    thresholds:
+      frames_over_33ms_max:
+        value: 0
+        unit: count
+        status: derived
+        source: "R-101 section 9 (a) / M-101.a: no frame longer than 33.3 ms"
+      frame_limit_ms:
+        value: 33.3
+        unit: ms
+        status: derived
+        source: "R-101 section 9 (a)"
+  M-008.d:
+    title: Brain plus pack-layer share of B_host, amortised per frame (advisory)
+    kind: advisory
+    thresholds:
+      share_of_b_host_max:
+        value: 0.025
+        unit: ratio
+        status: derived
+        source: "R-103 section 10: pack layer <= 0.5 % plus brain <= 2 % (M-058) of B_host"
+  M-008.e:
+    title: Managed allocation per frame in the measured window, median bytes (advisory; target 0 B steady)
+    kind: advisory
+    thresholds:
+      alloc_bytes_median_max:
+        value: 0
+        unit: bytes
+        status: derived
+        source: "R-103 section 10: managed allocation per frame target 0 B steady"
+  M-008.f:
+    title: Streaming over real Bay tiles, no late tile frame and no physics hold
+    kind: gating
+    thresholds:
+      late_tile_frames_max:
+        value: 0
+        unit: count
+        status: derived
+        source: "R-101 section 9 (d) / M-101.d"
+      physics_holds_max:
+        value: 0
+        unit: count
+        status: derived
+        source: "R-101 section 9 (d) / M-101.d"
+  M-008.net:
+    title: Net cost per frame, co-op off then on with a second process (informational; not run in the single-process batch)
+    kind: info
+  M-008.sweep:
+    title: Scaling sweep, host p99 against kaiju, mechs and fragments (informational)
+    kind: info
+  M-008.abs:
+    title: Absolute 60 fps on the target PC (avg >= 60 fps, p99 <= 16.7 ms, p99.9 <= 33.3 ms, B_host absolute, 30 min soak) - pending target PC
+    kind: gating
+    thresholds:
+      fps_avg_min:
+        value: 60.0
+        unit: fps
+        status: derived
+        source: "M-008: 60 fps on the target PC"
+      frame_p99_ms_max:
+        value: 16.7
+        unit: ms
+        status: derived
+        source: "R-103 section 10 pending-target-PC row"
+      frame_p999_ms_max:
+        value: 33.3
+        unit: ms
+        status: derived
+        source: "R-103 section 10 pending-target-PC row"

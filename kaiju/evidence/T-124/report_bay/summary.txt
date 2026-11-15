@@ -1,0 +1,14 @@
+M-008@v1  [m008_bay_seed1.json]  registry v1.0 sha256:a1733479da81  tool 1.0.0
+VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 1
+  FAIL           [G] M-008.f          5116 count  <= 0  margin -5116
+  FAIL           [A] M-008.c          3 count  <= 0  margin -3
+  PASS           [G] M-008.scope      0 count  <= 0  margin 0
+  PASS           [G] M-008.a          0.2069 ratio  <= 0.6  margin 0.3931 seed-threshold
+  NOT_RUN        [G] M-008.b          - 
+  PENDING        [G] M-008.abs        -   (pending target PC (Q-019, Q-207): absolute 60 fps needs target-class hardware; Mac figures are relative only)
+  PASS           [A] M-008.d          0.001071 ratio  <= 0.025  margin 0.02393
+  PASS           [A] M-008.e          0 bytes  <= 0  margin 0
+  NOT_RUN        [i] M-008.net        -   (co-op off/on with a second process is not part of the single-process batch run (tracked, owner Track 5 follow-up))
+  NOT_RUN        [i] M-008.sweep      -   (no m008_sweep@v1 run among the inputs)
+  warning: ADVISORY M-008.c failed: value 3 vs <= 0
+  inputs: 5 files hashed; report.json holds every value, threshold and hash
