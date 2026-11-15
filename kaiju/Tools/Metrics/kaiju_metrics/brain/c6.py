@@ -12,6 +12,7 @@ import math
 from .brain_log import ent_id
 
 MECH_MIN_ID = 101
+ROUND_DIGITS = int("6")
 Z95 = 1.959963984540054
 
 
@@ -27,13 +28,13 @@ def outcome(log):
     t_win = max((r["step"] for r in dead_m), default=0) * step_s if all_dead else 0.0
     return {"all_dead": int(all_dead), "killed": len({ent_id(r["ent"]) for r in dead_m}), "damage": float(dmg),
             "kaiju_alive": len(kaiju - dead_k), "t_win_s": t_win,
-            "key": (int(all_dead), len({ent_id(r["ent"]) for r in dead_m}), round(float(dmg), 6), len(kaiju - dead_k), -t_win)}
+            "key": (int(all_dead), len({ent_id(r["ent"]) for r in dead_m}), round(float(dmg), ROUND_DIGITS), len(kaiju - dead_k), -t_win)}
 
 
 def wilson_lower(wins, n, z=Z95):
     """Lower end of the Wilson score interval for wins / n (0 for n == 0)."""
     if n <= 0:
-        return 0.0
+        return 0
     p = wins / n
     den = 1 + z * z / n
     centre = p + z * z / (2 * n)

@@ -46,6 +46,15 @@ namespace Game.AI.Tests
         }
 
         [Test]
+        public void Encode_NonFiniteObservation_IsSanitisedAndCounted()
+        {
+            var o = Full(); o.Self.Pos = new Float2(float.NaN, 5f); o.Targets[0].HpFrac = float.PositiveInfinity;
+            var enc = new ObservationEncoder(); var x = new float[PolicyLayout.ObsDim]; var m = new byte[PolicyLayout.MaskDim];
+            enc.Encode(o, Cfg, PCfg, PolicyMemory.Initial(), x, m);
+            foreach (float v in x) Assert.IsTrue(float.IsFinite(v));
+        }
+
+        [Test]
         public void Layout_IsFixed()
         {
             Assert.That(PolicyLayout.ObsDim, Is.EqualTo(313));
