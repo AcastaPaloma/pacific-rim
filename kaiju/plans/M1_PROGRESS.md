@@ -40,3 +40,15 @@ Running: **T-030c** (net.coop/net.seatBridge flag files, composition wiring of H
 Queued (app cap of 5 concurrent sessions): **M1-cleanup** (full EditMode re-run after the save fix + GameCoreConfig; Ferry tower → 71.6 m and GGB N tower → 229.18 m sourced, re-bake affected tiles, M-005 district still PASS; DEF-M1save-minor, DEF-M1geo-minor) · **T-034** hangar stub (R-025 site, `Hangar` module, `hangar@v1`, M-059 over 3 cycles, flag `hangar.stub`; adapts to PlaceholderDamageRecord after T-030c merges).
 Out of M1 scope now: melee and cannon (plans/M1.md "Blocked until T-005's walk gate passes").
 After all tracks merge: one combined Sonnet/low evaluator per track (§13), batched EditMode, update reports/M1.md.
+
+## Session 5 hand-over (§16, ~80k tokens), 2026-11-15 ~06:45 UTC
+Merged: T-030c (0b37697, eeac0b3, 8b5cc99: flags, TEMPORARY placeholder body, slot release/rejoin, UDP, two-process co-op, hangar adapter + wiring) · T-034 (d8b9810: Crissy Field, hangar@v1, M-059 PASS) · M1-cleanup (09a23ee: EditMode 482/0/2, sourced landmark heights, M-005 district + landmarks row PASS, save Unreadable/.bak) · T-033b (64328d9, 8a95e9e) · T-036c (dbd3911, 831d963: exporters, district_pieces writer, M-050..054 on real Mw 7.2 input, baked fault_id) · T-040 (7474a66: Combat core cannon/melee/impact routing, 47/47, R-027).
+Running: T-033b session (R-024 rev 3 applied to fix C1 0.494 < 0.60 in 3v4; one cycle, else R-024 research item) · T-039b session (slice scene; player smoke run in progress) · T-041 Agent worker of session 5 (Opus high, R-028 RL policy design + scaffold; if session 5 is gone, check `task/T-041` and `tasks/T-041.progress.md`).
+Open for the successor:
+1. When T-039b, T-033b, T-041 report: check `git log`, then one combined Sonnet/low evaluator per track (§13) for T-030c, T-034, T-036c, T-033b, T-039b, T-040, T-041.
+2. Batched Unity EditMode + GameCoreConfig on the integration head (covers T-040's and T-034's new asmdefs, which were never run in Unity on the merged tree; watcher logs `evidence/T-040/unity-editmode.log`, `evidence/T-034/editmode.log` were task-branch only).
+3. DEF-M1save-6: register `DestructionSaveParticipant` in `Game.Composition`.
+4. T-041 implementation steps (Sonnet) from R-028 once the design lands.
+5. Update `reports/M1.md` after the evaluators.
+6. Archive finished sessions T-030c, T-036c (and later the others) once checked — the archive tool needs the user's go-ahead.
+Push note: T-040's worker had an integration push refused by the permission classifier; the branch has since been pushed by another session (in sync at hand-over).
