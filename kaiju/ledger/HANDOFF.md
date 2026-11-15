@@ -138,3 +138,10 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 - Session 3 (orchestrator), on the top session's request to decide Q-100–Q-106 and schedule M1: the research session had already logged the answers (2741a29). Asking orchestrator session 4 to land the Q-100 contracts on the integration branch, and the research session to start M1 wave W2 implementation, was refused twice by the permission check ("Undermining Oversight"). Not worked around. Q-100's merge and all M1 implementation wait for the user's own go-ahead.
 - User approved in session 3 ("Yes, go ahead"): Q-100 contract merge (to orchestrator session 4) and M1 wave W2 onward (to the M1 session, progress in `plans/M1_PROGRESS.md`). Both sent.
 - 2026-11-14 · Q-100 landed on the integration branch at 395e7f9 (user-approved); scope and regression in evidence/regression/Q-100.md.
+
+## Snapshot: session 4 hand-over (context threshold), 2026-11-14 night
+- Q-073 answered by the user ("do that" = the recommended default): R-008 option (c) as T-005 round 3; brief `tasks/T-005.round3.md`; ledger + GAME_BREAKDOWN §11 (413d28a).
+- Q-100 landed on the integration branch by user approval relayed from session local_21613a86 ("Yes, go ahead"): 395e7f9, regression `evidence/regression/Q-100.md` (EditMode 248/248), D-028. Not on main.
+- Round 3 step 8.1 NOT CONVERGED but no torque/friction limit binds (QUEUE §6). Next: 8.1b as written in QUEUE.
+- Decisions log: 2026-11-14 · Next round-3 step is 8.1b (converge with trust-constr and scaling, same limits) rather than 8.2 on an unconverged point — decided autonomously (user offline).
+- No agents or Unity jobs running. Resume from `ledger/QUEUE.md` §6 in a fresh session (user offline: decide autonomously, log choices here).
