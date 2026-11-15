@@ -9,6 +9,8 @@ Layer: L2. References only `Game.Core.Contracts`, `Game.World.Geo.Contracts` and
 |---|---|---|---|
 | `Game.World.Streaming.Contracts` | `Contracts/` | none | `FocusSample`, `IStreamingFocus`, `ResidencyKey`, `TileState`, events `TileResident` / `TileEvicted` / `ClusterOriginChanged`, `StreamingBudget`, `RingSpec`, `StreamingPlan`, `TileRequest`, `ITileCostModel`, `IStreamingScheduler`, `ClusterAssignment`, `ClusterInfo`, `StreamingFlags`, `StreamingContractVersions` |
 | `Game.World.Streaming` | `Runtime/` | none | `StreamingScheduler`, `ClusterAssigner`, `StreamingConfig`, `DefaultTileCostModel` |
+| `Game.World.Streaming.Host` | `Host/` | none | `StreamingHostCore` (runs the plan: worker-thread reads, main-thread build slice, eviction, render-origin rebase on the anchor cluster, hold queries), `ITileReader`, `ITileBuilder`, `IBuildSink`, `IWorkRunner`, `GeoL0TileReader` (L0 + 256 m physics chunks from `geo_tile@v1`), `LevelRoutingReader` (per level; geo_lod@v1 reader plugs in here) |
+| `Game.World.Streaming.Unity` | `Unity/` | UnityEngine | `UnityTileBuilder` (meshes at tile origin minus render origin, `MeshCollider`s baked on a worker via `Physics.BakeMesh`, exact-integer `ShiftOrigin` + one `Physics.SyncTransforms`), `StreamingHost` (MonoBehaviour driver), `StreamingModule.Install` (null unless `world.streaming`) |
 | `Game.World.Streaming.Tests` | `Tests/EditMode/` | test | engine-free NUnit, also run by `dotnet test DotnetTests/WorldStreaming.Tests` |
 
 ## How a host drives it
@@ -38,3 +40,10 @@ Foci link when their Chebyshev distance is below 3072 m and the merged AABB exte
 - The cost model and error ladder (`DefaultTileCostModel`: R-101 table, 0.1 x 2^n m) are defaults until T-108 measures `geo_lod@v1`.
 - Distance uses the tile's closest point in the horizontal plane plus the focus' altitude above NAVD88 0; terrain relief and the 1.2 m building tops are ignored (conservative at LOD scale, to be refined with `geo_lod@v1` AABBs).
 - `MainThreadSliceMs` is carried for the Unity loader; the scheduler does no main-thread work itself.
+
+## Unity loader (T-109)
+- Flow per tick: `scheduler.Tick` -> evictions (`builder.Release`, `Released`) -> origin (anchor = cluster of the lowest-id camera, else lowest focus id; a changed cluster origin is one `ShiftOrigin`, counted in `RebaseCount`, first placement is not a rebase) -> dispatch `plan.Load` (urgent physics first, then priority; at most 4 render and 4 physics reads in flight) -> `Pump` builds finished payloads in a `MainThreadSliceMs` (2 ms) slice; urgent payloads ignore the slice. Physics chunks report `Built` only after their collider bake finished on a worker, so `PhysicsRingResident` stays false (body held) until the chunk really collides.
+- Payload meshes are tile-local; every node (render or physics chunk) sits at the tile corner minus the render origin.
+- Reader: L0 render and chunks use `GeoL0TileReader` (cache of 3 tile models so the 64 chunks of a tile build the model once). Levels 1..4 have no default reader until T-108's `geo_lod@v1` format is merged: register it with `LevelRoutingReader.Register(level, reader)`. A level without a reader fails (scheduler backoff and park; parent fallback keeps coverage).
+- Not installed anywhere: nothing in Composition creates a `StreamingHost`; callers use `StreamingModule.Install(flags, configure)` (inert with `world.streaming` off).
+- Known limits: one render origin (anchor cluster); bodies of other clusters are not given their own `PhysicsScene` yet (T-111 host harness); the destruction journal flush on `TileEvicted` is T-110; rebase cost (M-101) is measured by `UnityTileBuilder.LastShiftMs` but not yet gated.
