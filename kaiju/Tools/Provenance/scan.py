@@ -125,6 +125,45 @@ def load_build_exclusions(root):
     return out
 
 
+BUILD_SETTINGS_FILE = "ProjectSettings/EditorBuildSettings.asset"
+
+
+def build_scene_list(root):
+    """Enabled scene paths in the real Unity build config (ProjectSettings/EditorBuildSettings.asset), or None if absent."""
+    path = os.path.join(root, BUILD_SETTINGS_FILE)
+    if not os.path.exists(path):
+        return None
+    scenes, cur = [], None
+    with open(path, encoding="utf-8") as fh:
+        for line in fh:
+            m = re.match(r"\s*-?\s*enabled:\s*(\d+)", line)
+            if m:
+                cur = m.group(1) == "1"
+            m = re.match(r"\s*path:\s*(\S.*?)\s*$", line)
+            if m and cur is not None:
+                if cur:
+                    scenes.append(m.group(1))
+                cur = None
+    return scenes
+
+
+def build_config_problems(root):
+    """M-120 check against the actual build config (T-140): every enabled build scene must exist, must not match
+    build_exclusions.json, and the list must not be empty."""
+    scenes = build_scene_list(root)
+    if scenes is None:
+        # a root with no ProjectSettings is not a Unity project (scanner fixtures); a Unity project must have the file
+        return ["%s missing" % BUILD_SETTINGS_FILE] if os.path.isdir(os.path.join(root, "ProjectSettings")) else []
+    bad = [] if scenes else ["%s lists no enabled scenes" % BUILD_SETTINGS_FILE]
+    ex = load_build_exclusions(root)
+    for sc in scenes:
+        if any(g.match(sc) for g in ex):
+            bad.append("build scene %s is excluded by %s" % (sc, EXCLUSIONS_FILE))
+        if not os.path.exists(os.path.join(root, sc)):
+            bad.append("build scene %s does not exist" % sc)
+    return bad
+
+
 def inventory(root, include_config):
     items, excluded = [], {}
     not_shipped = load_build_exclusions(root)
@@ -410,6 +449,7 @@ def scan_denylist(root, compiled):
 def build_report(root, denylist_path, include_config=False):
     items, excluded = inventory(root, include_config)
     records, problems = load_records(root)
+    problems = problems + build_config_problems(root)
     md_records, gens = parse_provenance_md(root)
     geo = geo_covered(root)
     rows = assign(items, records, md_records, geo)

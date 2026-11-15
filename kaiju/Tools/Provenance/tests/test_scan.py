@@ -266,3 +266,35 @@ def test_build_exclusions_need_a_reason(tree):
         {"spec": "build_exclusions@v1", "exclusions": [{"paths": ["a/**"]}]}))
     with pytest.raises(ValueError):
         report(tree)
+
+
+# ---- T-140: build config vs exclusions
+def _bs(tmp_path, scenes):
+    import scan
+    d = tmp_path / "ProjectSettings"
+    d.mkdir(exist_ok=True)
+    body = "".join("  - enabled: %d\n    path: %s\n    guid: abc\n" % (e, p) for e, p in scenes)
+    (d / "EditorBuildSettings.asset").write_text("EditorBuildSettings:\n  m_Scenes:\n" + body + "  m_configObjects: {}\n")
+    return scan
+
+
+def test_build_scene_list_reads_enabled_only(tmp_path):
+    scan = _bs(tmp_path, [(1, "Assets/A.unity"), (0, "Assets/B.unity")])
+    assert scan.build_scene_list(str(tmp_path)) == ["Assets/A.unity"]
+
+
+def test_build_config_flags_excluded_scene(tmp_path):
+    scan = _bs(tmp_path, [(1, "Assets/Scenes/SampleScene.unity")])
+    (tmp_path / "Assets/Scenes").mkdir(parents=True)
+    (tmp_path / "Assets/Scenes/SampleScene.unity").write_text("x")
+    (tmp_path / "Tools/Provenance").mkdir(parents=True)
+    (tmp_path / "Tools/Provenance/build_exclusions.json").write_text(
+        '{"spec":"build_exclusions@v1","exclusions":[{"paths":["Assets/Scenes/SampleScene.unity"],"reason":"r"}]}')
+    assert any("excluded" in p for p in scan.build_config_problems(str(tmp_path)))
+
+
+def test_real_repo_build_config_clean():
+    import scan, os
+    root = os.path.abspath(os.path.join(os.path.dirname(scan.__file__), "..", ".."))
+    assert scan.build_config_problems(root) == []
+    assert "Assets/Game/Slice/Scenes/M1Slice.unity" in scan.build_scene_list(root)
