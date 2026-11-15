@@ -1,0 +1,9 @@
+file stop@F0.gait.jsonl
+fall at None ; log end 60.0 s ; window 8.0-60.0 s
+forward progress 76.2 m, mean speed 1.46 m/s (cmd mean 1.45), steps(stances) 56
+pelvis tilt: mean 0.6 deg max 1.3 deg
+assist force |F|/W   : mean 6.0% p95 7.1% max 7.1%
+  vertical support /W: mean -0.1% p95 5.0% max 5.0%
+  servo (horizontal)/W: mean 5.0% p95 5.0% max 5.0%
+assist torque |T|/(W l): mean 22.2% p95 50.0% max 50.0%
+foot slip per ground contact (m, lowest sole end): mean 0.16 p90 0.40 max 0.66 ; contacts 56

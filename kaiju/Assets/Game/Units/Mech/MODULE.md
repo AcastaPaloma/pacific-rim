@@ -49,3 +49,7 @@ Owner role: implementation/mech (`impl-mech`).
 - Contact chatter: some touchdowns produce two `contact_begin` events within a few steps.
 - The biped controller needs exactly two legs; other body plans need their own controller.
 - `height_hz` is 0.5 Hz where R-005 suggests 0.3 Hz (0.3 Hz was less stable).
+
+## Assisted walk (T-005 assist branch)
+- `walk_mode` in walk_tuning (default 0 = pure physics, byte-identical). 1 = hand-of-god stabiliser on the imp 3 QP controller (did not stabilise it). 2 = assisted gait: procedural steps + IK leg drives + a capped pelvis servo (`WalkAssist.Servo`, engine external forces: forces <= 5 % W, pelvis couple <= 50 % W l). Set `"walk_mode": 2` to enable; the `kin_*` defaults are the tuned values. See `evidence/T-005/assist/assist.md`.
+- The assist is logged as `assist` and `kin` fields of the gait log step record (only when on) and counts as external force in `ext_f`; locomotion captures with walk_mode 2 therefore show non-zero external force by design.

@@ -16,7 +16,7 @@ namespace Game.Units.Mech
     /// The controller's only outputs are joint drive settings and joint torques through <see cref="IArticulatedBody"/>: it cannot move, pin or push a body.
     /// Engine-free. One instance per mech; needs exactly two legs (other body plans get their own controller).
     /// </summary>
-    public sealed class LocomotionController
+    public sealed partial class LocomotionController
     {
         sealed class Leg
         {
@@ -39,6 +39,8 @@ namespace Game.Units.Mech
             public double[] AngStRef, AngStMeas, AngSwRef, AngSwMeas; public double RefFroude;   // round 2 step 6a (imp > 0): hip flexion, knee, ankle plantar (deg), stance and swing leg; null when not available
             public double RefPhase; public double[] TauFfSt, TauFfSw;   // round 3 step 8.5 (imp = 2): optimised feed-forward torque hip, knee, ankle (N m) after scale, sign and limit; null otherwise
             public double YawMomentNm, YawBudgetNm, YawUtil, TrunkShare;   // round 2 step 3 (NaN logs as null)
+            public double[] Kin;   // walk_mode 2 diagnostics (KinUpdate)
+            public bool AssistOn; public Vector3 AssistF, AssistT; public double AssistFade;   // T-005 walk_mode 1: hand-of-god force (support + servo, N) and pelvis couple (N m) of this tick
             public int QpStatus; public long QpFailures; public double QpMassScale, QpFrictionCmd; public bool QpOn; public double[] QpJ, QpK; public double QpScale; public int QpIters; public double QpMs; public double[] QpTau; public double[] QpLat, QpYaw; public int QpRow; public bool QpMatchTd; public double QpMatchD, QpMatchZ; public int QpMatchRow, QpMatchNode, QpMatchTds;   // QpLat (step 9.5b, qp_lateral): [sum fy / W, roll, yaw moment / (W l)] commanded and their targets; round 4 step 9.4b (imp = 3): last QP status (0 optimal), failed solves, mass-scale estimate, commanded shear / (mu fn); log only
         }
 
@@ -50,6 +52,7 @@ namespace Game.Units.Mech
         readonly double _dt, _g, _mass, _l;
         readonly Leg[] _legs;
         readonly int _pelvis;
+        readonly WalkAssist _assist;
         readonly int[][] _descendants;      // per DOF: links on the distal side
         readonly double[] _prevTarget; readonly bool[] _hasPrev; readonly bool[] _isLegDof;
         readonly int[] _armShoulderFlex = { -1, -1 }, _elbow = { -1, -1 };
@@ -140,6 +143,7 @@ namespace Game.Units.Mech
             _soleFullHalfLength = (float)(sole.length_m * 0.5); _soleHalfLength = (float)(sole.length_m * 0.5 * (1 - tuning.sole_margin)); _soleHalfWidth = (float)(sole.width_m * 0.5 * (1 - tuning.sole_margin));
             _ankleToSoleCentre = (float)((sole.heel_z_m + sole.toe_z_m) * 0.5 - sole.ankle_z_m); _ankleHeight = (float)sole.ankle_height_m; _heelOff = sole.heel_z_m - sole.ankle_z_m; _toeOff = sole.toe_z_m - sole.ankle_z_m; _footWidth = (float)sole.width_m;
             _stanceWidth = (float)f.stance.neutral_stance_width_m; _comRest = (float)f.com_rest[1]; _pelvisRest = (float)f.segments[_pelvis].proximal_joint[1];
+            if (_t.walk_mode > 0.5) _assist = new WalkAssist(body, tuning, dt, _g, _l, _pelvis);
             _hipLimit = body.GetDof(_legs[0].Hip[0]).ForceLimitNm;
             double iTilt = body.DofInertia(_legs[0].Hip[0], true), iYaw = _legs[0].Hip[1] >= 0 ? body.DofInertia(_legs[0].Hip[1], true) : iTilt;
             double wa = 2 * Math.PI * tuning.attitude_hz / Math.Sqrt(_l / tuning.reference_leg_length_m), wy = 2 * Math.PI * tuning.yaw_hz / Math.Sqrt(_l / tuning.reference_leg_length_m);
@@ -207,9 +211,15 @@ namespace Game.Units.Mech
             if (FallDetected()) { _phase = LocoPhase.Falling; _restTime = 0; _bus?.Publish(new MechFallStarted { Unit = _b.UnitId, Step = step }); _limiter.Reset(_pelvisYaw); FallControl(step); Report(step); return; }
             double stepTime = _lim.StepTime(Math.Max(_cmd.Speed, _t.reach_speed_floor_frac * _lim.VCruise));
             _cmd = _limiter.Update(intent, _com2, _pelvisYaw, _vel2.Length(), StepCapFrac * _l / stepTime);
+            if (_t.walk_mode > 1.5) { KinUpdate(step); Report(step); return; }
             StateMachine(intent);
             WriteDrives();
             if (_qp != null) ApplyQp();
+            if (_assist != null)
+            {
+                _assist.Update(_phase != LocoPhase.Stand, _cmd, _pelvisState, _com, _comVel, _groundY, _comRest);
+                _dbg.AssistOn = _assist.Fade > 0; _dbg.AssistF = _assist.Force; _dbg.AssistT = _assist.Torque; _dbg.AssistFade = _assist.Fade;
+            }
             Report(step);
         }
 

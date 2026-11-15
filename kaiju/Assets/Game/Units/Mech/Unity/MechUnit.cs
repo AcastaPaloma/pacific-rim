@@ -112,6 +112,14 @@ namespace Game.Units.Mech.Unity
             Config = config; Id = id; _bus = bus; Seat = seat; _world = world; _dt = world.StepSeconds;
             Body = world.CreateBody(config.Frame, config.Body, id, spawn);
             Controller = new LocomotionController(Body, config.Walk, _dt, bus, config.GaitReferenceFor(), LocomotionController.QpWanted(config.Walk) ? world.CreateQpSolver(SagittalQpController.MaxNx, 3, SagittalQpController.MaxIn) : null, config.QpReferenceFor());
+            // walk_mode 2 plants its feet on the terrain under them: a downward ray at the foot xz, ignoring the mech's own articulation links (flat ground at y = 0 where the ray hits nothing)
+            if (config.Walk.walk_mode > 1.5) Controller.GroundHeight = (x, z) =>
+            {
+                float top = (float)Body.Com.Y + 200f; float best = float.NegativeInfinity;
+                foreach (var h in UnityEngine.Physics.RaycastAll(new Vector3(x, top, z), Vector3.down, top + 500f, ~0, QueryTriggerInteraction.Ignore))
+                    if (h.collider.GetComponentInParent<ArticulationBody>() == null && h.point.y > best) best = h.point.y;
+                return float.IsNegativeInfinity(best) ? 0f : best;
+            };
             bus.Subscribe<FootContact>(this); bus.Subscribe<FootLiftOff>(this); bus.Subscribe<MechFallStarted>(this); bus.Subscribe<MechFallEnded>(this);
         }
 
