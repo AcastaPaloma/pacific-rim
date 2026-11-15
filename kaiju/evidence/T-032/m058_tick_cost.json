@@ -1,0 +1,12 @@
+{
+  "metric": "M-058@v1 (harness variant)",
+  "scenario": "3 kaiju vs 4 mechs, 600 s simulated, step 0.02 s, brain period 10 steps, mech respawn 20 s, seed 7",
+  "host": "macOS 26.6.2 / .NET 11.0.0 (dotnet test, not Unity/IL2CPP)",
+  "host_budget_ms": 20,
+  "steps": 30000,
+  "decide_calls": 9000,
+  "per_decide_us": { "mean": 0.2175674444444367, "p50": 0.20800000000000002, "p99": 0.375, "max": 10.917 },
+  "per_tick_us": { "mean": 0.06527023333333101, "p99": 0.333, "max": 10.917, "note": "per 0.02 s step, sum of Decide calls in that step (all steps counted, incl. zero-call steps)" },
+  "share_of_20ms_budget": { "mean_tick": 3.2635116666665505E-06, "p99_tick": 1.665E-05, "max_tick": 0.00054585 },
+  "alloc_bytes_in_decide_total": 0
+}
