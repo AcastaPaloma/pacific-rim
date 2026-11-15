@@ -215,16 +215,33 @@ namespace Game.Core
                     if (FindMigration(s.Name, v) == null)
                         return new SaveLoadResult(SaveLoadStatus.MissingMigration, null, "No migration for section " + s.Name + " from v" + v);
             }
-            foreach (var p in _participants.Values)
+            // Phase 2: snapshot current state, then migrate + read each owned section. A throwing Read (or migration) rolls the
+            // already-applied participants back from the snapshot and returns Corrupt; nothing escapes.
+            var backup = Capture();
+            var applied = new List<ISaveParticipant>();
+            try
             {
-                if (!doc.TryGetSection(p.SectionName, out var s)) continue;
-                while (s.Version < p.SectionVersion)
+                foreach (var p in _participants.Values)
                 {
-                    int from = s.Version;
-                    FindMigration(s.Name, from).Migrate(s);
-                    if (s.Version != from + 1) s.Version = from + 1;
+                    if (!doc.TryGetSection(p.SectionName, out var s)) continue;
+                    while (s.Version < p.SectionVersion)
+                    {
+                        int from = s.Version;
+                        FindMigration(s.Name, from).Migrate(s);
+                        if (s.Version != from + 1) s.Version = from + 1;
+                    }
+                    p.Read(s);
+                    applied.Add(p);
                 }
-                p.Read(s);
+            }
+            catch (Exception e)
+            {
+                foreach (var p in applied)
+                {
+                    if (!backup.TryGetSection(p.SectionName, out var b)) continue;
+                    try { p.Read(b); } catch (Exception) { /* best effort: the participant's own Read is atomic per section */ }
+                }
+                return new SaveLoadResult(SaveLoadStatus.Corrupt, null, "Restore failed, earlier sections rolled back: " + e.Message);
             }
             return new SaveLoadResult(SaveLoadStatus.Ok, doc, null);
         }

@@ -56,6 +56,8 @@ namespace Game.AI
         private static float Wrap(float a)
         {
             const float TwoPi = 6.2831853071795864f;
+            if (float.IsNaN(a) || float.IsInfinity(a)) return 0f;
+            if (a > 64f || a < -64f) a -= TwoPi * MathF.Floor(a / TwoPi);
             while (a > MathF.PI) a -= TwoPi;
             while (a <= -MathF.PI) a += TwoPi;
             return a;
