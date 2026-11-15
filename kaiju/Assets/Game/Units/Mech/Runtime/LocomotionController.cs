@@ -38,7 +38,7 @@ namespace Game.Units.Mech
             public double[] AngStRef, AngStMeas, AngSwRef, AngSwMeas; public double RefFroude;   // round 2 step 6a (imp > 0): hip flexion, knee, ankle plantar (deg), stance and swing leg; null when not available
             public double RefPhase; public double[] TauFfSt, TauFfSw;   // round 3 step 8.5 (imp = 2): optimised feed-forward torque hip, knee, ankle (N m) after scale, sign and limit; null otherwise
             public double YawMomentNm, YawBudgetNm, YawUtil, TrunkShare;   // round 2 step 3 (NaN logs as null)
-            public int QpStatus; public long QpFailures; public double QpMassScale, QpFrictionCmd;   // round 4 step 9.4b (imp = 3): last QP status (0 optimal), failed solves, mass-scale estimate, commanded shear / (mu fn); log only
+            public int QpStatus; public long QpFailures; public double QpMassScale, QpFrictionCmd; public bool QpOn; public double QpScale; public int QpIters; public double QpMs; public double[] QpTau;   // round 4 step 9.4b (imp = 3): last QP status (0 optimal), failed solves, mass-scale estimate, commanded shear / (mu fn); log only
         }
 
         readonly IArticulatedBody _b;
@@ -78,7 +78,7 @@ namespace Game.Units.Mech
         public Debug DebugState => _dbg;
         public MechLimits Limits => _lim;
 
-        public LocomotionController(IArticulatedBody body, WalkTuning tuning, double dt, IEventBus bus, GaitReferenceData gaitReference = null, IQpSolver qpSolver = null)
+        public LocomotionController(IArticulatedBody body, WalkTuning tuning, double dt, IEventBus bus, GaitReferenceData gaitReference = null, IQpSolver qpSolver = null, GaitReferenceData qpReference = null)
         {
             if (tuning == null || tuning.schema != WalkTuning.Schema) throw new InvalidOperationException("walk tuning schema is not " + WalkTuning.Schema);
             _b = body; _t = tuning; _dt = dt; _bus = bus; _g = body.Tuning.gravity_mps2; _mass = body.TotalMassKg;
@@ -149,23 +149,32 @@ namespace Game.Units.Mech
             if (QpWanted(tuning))
             {
                 // imp = 3: the sagittal whole-body QP overwrites the feed-forward of the six sagittal leg DOFs (planar leg A = the left leg unless qp_leg_a_left = 0); imp 0 / 1 / 2 build nothing
-                if (gaitReference == null || gaitReference.schema != GaitReferenceData.SchemaV2) throw new InvalidOperationException("imp = 3 needs the QP reference (Config/Mech/gait_reference_qp.json, gait_reference_opt@v2)");
+                qpReference ??= gaitReference;   // step 9.5: with qp_engage_speed_frac > 0 the imp 2 pipeline runs on the @v1 reference (gaitReference) until the hand-off and the QP reads its own @v2 reference
+                if (qpReference == null || qpReference.schema != GaitReferenceData.SchemaV2) throw new InvalidOperationException("imp = 3 needs the QP reference (Config/Mech/gait_reference_qp.json, gait_reference_opt@v2)");
                 if (qpSolver == null) throw new InvalidOperationException("imp = 3 needs a QP solver (IBodyWorld.CreateQpSolver)");
-                int a = (_legs[0].Side < 0) == (tuning.qp_leg_a_left > 0.5) ? 0 : 1; var la = _legs[a]; var lb = _legs[1 - a];
-                var dofs = new[] { la.Hip[0], la.Knee, la.Ankle[0], lb.Hip[0], lb.Knee, lb.Ankle[0] };
-                _qpDof = new bool[nd]; foreach (int d in dofs) _qpDof[d] = true; _qpPd = tuning.qp_pd_scale;
-                _qp = new WholeBodyQpDriver(body, tuning, gaitReference.rows[0], qpSolver, dofs, new[] { la.Foot, lb.Foot }, dt);
+                int a0 = (_legs[0].Side < 0) == (tuning.qp_leg_a_left > 0.5) ? 0 : 1;
+                _qpDof = new bool[nd]; _qpPd = tuning.qp_pd_scale; _qpEngageFrac = tuning.qp_engage_speed_frac; _qpVRef = qpReference.rows[0].v;
+                // a hand-off start can begin at either foot's touchdown: one driver per assignment of planar leg A / B (the second one only then); the walking-start mode builds just the configured one
+                _qpDrv = new WholeBodyQpDriver[2]; _qpFoots = new int[2];
+                for (int k = 0; k < (_qpEngageFrac > 0 ? 2 : 1); k++)
+                {
+                    int a = k == 0 ? a0 : 1 - a0; var la = _legs[a]; var lb = _legs[1 - a];
+                    var dofs = new[] { la.Hip[0], la.Knee, la.Ankle[0], lb.Hip[0], lb.Knee, lb.Ankle[0] };
+                    foreach (int d in dofs) _qpDof[d] = true;
+                    _qpDrv[k] = new WholeBodyQpDriver(body, tuning, qpReference.rows[0], qpSolver, dofs, new[] { la.Foot, lb.Foot }, dt); _qpFoots[k] = lb.Foot;
+                }
+                _qp = _qpDrv[0]; _qpFootB = _qpFoots[0];
             }
         }
 
         /// <summary>True when this walk tuning asks for the imp = 3 whole-body QP (imp &gt;= 2.5); only then is a QP driver built.</summary>
         public static bool QpWanted(WalkTuning t) => t.imp >= GaitReferenceData.QpImp;
         public bool QpActive => _qp != null;
-        readonly WholeBodyQpDriver _qp; readonly bool[] _qpDof; readonly double _qpPd = 1.0; double _qpTime; bool _qpWalking;
+        WholeBodyQpDriver _qp; WholeBodyQpDriver[] _qpDrv; int[] _qpFoots; readonly bool[] _qpDof; readonly double _qpPd = 1.0; double _qpTime; double _qpScale = 1.0; bool _qpEngaged; readonly bool[] _qpPrevContact = new bool[2]; int _qpFootB; double _qpVRef, _qpEngageFrac;
         /// <summary>Joint drive write; the sagittal leg DOFs of the imp = 3 QP run on the reduced PD gains (qp_pd_scale on stiffness, its square root on damping) around the feed-forward the QP writes after this.</summary>
         void Drive(int dof, double target, double velocity, double stiffness, double damping)
         {
-            if (_qpDof != null && _qpDof[dof]) { stiffness *= _qpPd; damping *= Math.Sqrt(_qpPd); }
+            if (_qpEngaged && _qpDof[dof]) { stiffness *= _qpPd; damping *= Math.Sqrt(_qpPd); }
             _b.SetDofDrive(dof, target, velocity, stiffness, damping);
         }
 
@@ -194,12 +203,27 @@ namespace Game.Units.Mech
         /// <summary>imp = 3: while walking (not Stand) the QP torques replace the feed-forward of the six sagittal leg DOFs (last write wins); the QP clock restarts when walking starts.</summary>
         void ApplyQp()
         {
-            bool walking = _phase != LocoPhase.Stand;
-            if (walking && !_qpWalking) { _qp.Reset(); _qpTime = 0; }
-            _qpWalking = walking;
-            if (!walking) return;
-            _qp.Apply(_qpTime, _pelvisYaw, _groundY); _qpTime += _dt;
-            var c = _qp.Controller; _dbg.QpStatus = (int)c.LastStatus; _dbg.QpFailures = c.SolveFailures; _dbg.QpMassScale = c.MassScale; _dbg.QpFrictionCmd = c.FrictionRatioCmd;
+            if (_phase == LocoPhase.Stand) { _qpEngaged = false; _dbg.QpOn = false; return; }
+            if (!_qpEngaged)
+            {
+                // step 9.5: with qp_engage_speed_frac > 0 the imp 2 walk runs first; the QP takes over at the first touchdown of planar leg B (the reference starts at the heel strike of B) once the CoM speed reaches the fraction of the reference speed
+                bool td = false; int tdk = 0;
+                if (_qpEngageFrac > 0) for (int k = 0; k < 2; k++) { _b.GetFoot(_qpFoots[k], out var fk); if (fk.Contact && !_qpPrevContact[k]) { td = true; tdk = k; } _qpPrevContact[k] = fk.Contact; }
+                bool go = _qpEngageFrac <= 0 || (td && (_phase == LocoPhase.SingleSupport || _phase == LocoPhase.DoubleSupport) && Vector2.Dot(_vel2, Fwd(_pelvisYaw)) >= _qpEngageFrac * _qpVRef);
+                if (go) _qp = _qpDrv[tdk];
+                if (!go) return;
+                _qp.Reset(_qpEngageFrac > 0); _qpTime = 0; _qpEngaged = true; _qpScale = Math.Min(1.0, Math.Max(_t.qp_scale_min, Vector2.Dot(_vel2, Fwd(_pelvisYaw)) / _qpVRef));
+            }
+            long t0 = System.Diagnostics.Stopwatch.GetTimestamp();
+            if (_t.qp_scale_min < 1.0)
+            {
+                double st = Math.Min(1.0, Math.Max(_t.qp_scale_min, Vector2.Dot(_vel2, Fwd(_pelvisYaw)) / _qpVRef));
+                _qpScale += (st - _qpScale) * Math.Min(1.0, _dt / _t.qp_scale_tau);
+            }
+            _qp.TimeScale = _qpScale;
+            _qp.Apply(_qpTime, _pelvisYaw, _groundY); _qpTime += _dt * _qpScale;
+            var c = _qp.Controller; _dbg.QpOn = true; _dbg.QpScale = _qpScale; _dbg.QpMs = (System.Diagnostics.Stopwatch.GetTimestamp() - t0) * 1e3 / System.Diagnostics.Stopwatch.Frequency; _dbg.QpIters = c.LastIterations; _dbg.QpTau ??= new double[6]; System.Array.Copy(c.Tau, _dbg.QpTau, 6);
+            _dbg.QpStatus = (int)c.LastStatus; _dbg.QpFailures = c.SolveFailures; _dbg.QpMassScale = c.MassScale; _dbg.QpFrictionCmd = c.FrictionRatioCmd;
         }
 
         /// <summary>The step length cap (fraction of leg length): the legacy flat-foot cap for imp = 0, the reference gait's own range for imp > 0 (heel-to-toe rollover).</summary>

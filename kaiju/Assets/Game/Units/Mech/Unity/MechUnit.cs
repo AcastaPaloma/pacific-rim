@@ -34,10 +34,16 @@ namespace Game.Units.Mech.Unity
         /// <summary>The optimised reference (gait_reference_opt@v1) when this walk tuning asks for imp = 2, else null. A missing or invalid file throws.</summary>
         public GaitReferenceData GaitReferenceFor()
         {
-            string file = GaitReferenceData.FileFor(Walk.imp);   // imp >= 2.5 (the whole-body QP) reads gait_reference_qp.json (@v2), imp 2 gait_reference_opt.json (@v1)
+            string file = Walk.imp >= 2.5 && Walk.qp_engage_speed_frac > 0 ? GaitReferenceData.FileFor(2.0) : GaitReferenceData.FileFor(Walk.imp);   // imp >= 2.5 (the whole-body QP) reads gait_reference_qp.json (@v2), imp 2 gait_reference_opt.json (@v1); an imp 3 hand-off start (step 9.5) runs the imp 2 pipeline on the @v1 file first and passes the @v2 file as QpReferenceFor
             if (file == null) return null;
             string path = Path.Combine(Application.dataPath, "Game/Config/Mech", file);
             var d = JsonUtility.FromJson<GaitReferenceData>(File.ReadAllText(path)); d.Validate(); return d;
+        }
+        /// <summary>The @v2 reference of the imp = 3 QP when the imp 2 pipeline runs on the @v1 file before the hand-off (qp_engage_speed_frac > 0), else null.</summary>
+        public GaitReferenceData QpReferenceFor()
+        {
+            if (!(Walk.imp >= 2.5 && Walk.qp_engage_speed_frac > 0)) return null;
+            var d = JsonUtility.FromJson<GaitReferenceData>(File.ReadAllText(Path.Combine(Application.dataPath, "Game/Config/Mech", GaitReferenceData.FileFor(Walk.imp)))); d.Validate(); return d;
         }
         public MechConfig ScaledTo(double heightM, double massKg) => new MechConfig { Frame = MechFrameOps.Scale(Frame, heightM, massKg), Body = Body.ScaledFor(massKg, heightM), Walk = Walk };
         public MechConfig WithBody(Action<BodyTuning> edit) { var b = JsonUtility.FromJson<BodyTuning>(JsonUtility.ToJson(Body)); edit(b); return new MechConfig { Frame = Frame, Body = b, Walk = Walk }; }
@@ -78,7 +84,7 @@ namespace Game.Units.Mech.Unity
             if (!flags.IsOn(MechConfig.FlagEnabled)) throw new InvalidOperationException("feature flag " + MechConfig.FlagEnabled + " is off: Units.Mech assembles no mech");
             Config = config; Id = id; _bus = bus; Seat = seat; _world = world; _dt = world.StepSeconds;
             Body = world.CreateBody(config.Frame, config.Body, id, spawn);
-            Controller = new LocomotionController(Body, config.Walk, _dt, bus, config.GaitReferenceFor(), LocomotionController.QpWanted(config.Walk) ? world.CreateQpSolver(SagittalQpController.MaxNx, 3, SagittalQpController.MaxIn) : null);
+            Controller = new LocomotionController(Body, config.Walk, _dt, bus, config.GaitReferenceFor(), LocomotionController.QpWanted(config.Walk) ? world.CreateQpSolver(SagittalQpController.MaxNx, 3, SagittalQpController.MaxIn) : null, config.QpReferenceFor());
             bus.Subscribe<FootContact>(this); bus.Subscribe<FootLiftOff>(this); bus.Subscribe<MechFallStarted>(this); bus.Subscribe<MechFallEnded>(this);
         }
 

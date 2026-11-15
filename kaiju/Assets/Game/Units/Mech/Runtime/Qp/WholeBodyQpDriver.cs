@@ -58,7 +58,7 @@ namespace Game.Units.Mech.Qp
         }
 
         /// <summary>Restart at reference node 0 (called when walking starts).</summary>
-        public void Reset() { _ctl.Init(); _havePrev = false; _n = 0; }
+        public void Reset(bool anchorXoff = false) { _ctl.AnchorXoff = anchorXoff; _ctl.Init(); _havePrev = false; _n = 0; }
 
         void Allocate()
         {
@@ -87,6 +87,7 @@ namespace Game.Units.Mech.Qp
 
         /// <summary>One control tick: reads the body, runs the QP, writes the feed-forward of the six sagittal leg DOFs. Returns false when the engine model was not available yet or the QP kept the previous torques.</summary>
         /// <param name="t">seconds since the QP was enabled; <paramref name="yaw"/> heading (rad, forward = (sin yaw, cos yaw) in world x, z); <paramref name="groundY"/> world height of the ground.</param>
+        public double TimeScale { get => _ctl.TimeScale; set => _ctl.TimeScale = value; }
         public bool Apply(double t, double yaw, double groundY)
         {
             if (_b.ModelColumns <= 0) return false;

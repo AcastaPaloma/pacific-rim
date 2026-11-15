@@ -43,6 +43,9 @@ namespace Game.Units.Mech.Qp
         // inputs (planar, SI; filled by the caller before Step)
         public readonly double[] Q = new double[NQ], Qd = new double[NQ], M = new double[NQ * NQ], H = new double[NQ], Pts = new double[8], Jp = new double[4 * 2 * NQ], Bp = new double[8], Com = new double[2], ComD = new double[2], FnMeas = new double[4];
         public double AngMom;          // angular momentum about the CoM, counter-clockwise positive in the (x forward, z up) plane
+        public double TimeScale = 1.0;   // step 9.5 hand-off: the caller's clock t runs at this fraction of real time (reference velocities x s, accelerations x s^2; measured velocities enter the planners divided by s). 1 = unchanged
+        public bool AnchorXoff;        // hand-off start (step 9.5): the first Step after Init sets Xoff so that the reference heel of leg B (just landed) is at its measured x
+        bool _anchorPending;
         public bool HasFnMeas;         // false only on the first tick (no read-back yet)
         // outputs
         public readonly double[] Tau = new double[NJ];   // joint torques [hipA kneeA ankleA hipB kneeB ankleB], N m, clipped to the limits
@@ -100,7 +103,7 @@ namespace Game.Units.Mech.Qp
         {
             _sch.Reset(0);
             for (int i = 0; i < 4; i++) { _sch.Inc[i] = _ref.Flags[i]; _sch.FIn[i] = _ref.Node(QpReference.Cf + 2 * i + 1, 0); _sch.TIn[i] = -1.0; }
-            Array.Clear(_fprev, 0, 8); MassScale = 1.0; _hasComd = false; _planAnchor = double.NaN; _planPar = -1;
+            _anchorPending = AnchorXoff; Array.Clear(_fprev, 0, 8); MassScale = 1.0; _hasComd = false; _planAnchor = double.NaN; _planPar = -1;
             Array.Copy(_ref.Tau0, Tau, NJ);
         }
 
@@ -179,7 +182,7 @@ namespace Game.Units.Mech.Qp
             {
                 if (HasFnMeas && _hasComd && t > _tPrev + 1e-9)
                 {
-                    double den = g0 + (ComD[1] - _comdPrevZ) / (t - _tPrev), ftot = FnMeas[0] + FnMeas[1] + FnMeas[2] + FnMeas[3];
+                    double den = g0 + (ComD[1] - _comdPrevZ) / ((t - _tPrev) / TimeScale), ftot = FnMeas[0] + FnMeas[1] + FnMeas[2] + FnMeas[3];
                     if (den > 0.5 * g0 && ftot > 0.4 * _w0) MassScale = Math.Min(o.MassHi, Math.Max(o.MassLo, MassScale + o.MassEst * (ftot / (_mt * den) - MassScale)));
                 }
                 _comdPrevZ = ComD[1]; _tPrev = t; _hasComd = true;
@@ -187,12 +190,22 @@ namespace Game.Units.Mech.Qp
             double ms = MassScale, W = _w0 * ms;
             for (int i = 0; i < NQ * NQ; i++) _ms[i] = M[i] * ms; for (int i = 0; i < NQ; i++) _hs[i] = H[i] * ms;
             for (int i = 0; i < 4; i++) { _vp[2 * i] = 0; _vp[2 * i + 1] = 0; for (int j = 0; j < NQ; j++) { _vp[2 * i] += Jp[i * 18 + j] * Qd[j]; _vp[2 * i + 1] += Jp[i * 18 + 9 + j] * Qd[j]; } _fn[i] = FnMeas[i]; _pz[i] = Pts[2 * i + 1]; _px[i] = Pts[2 * i]; }
+            if (_anchorPending) { _sch.Xoff = Pts[4] - _ref.NodePointX(0, 2); _anchorPending = false; }
             // measured contact, touchdown / phase
             _sch.UpdateContact(t, W, _fn, _pz);
             int newPar = 1 - _sch.Parity; for (int p = 0; p < 4; p++) _tdRef[p] = _ref.NodePointX(newPar, p);
             _sch.TryTouchdown(t, _px, _tdRef);
             int swLeg = _sch.Parity, stLeg = 1 - swLeg; double tau = t - _sch.TAnchor, late = _sch.Late(t), tref = _sch.RefTime(t), xoff = _sch.Xoff;
             _ref.At(tref, _r); var r = _r;
+            double tsc = TimeScale;
+            if (tsc != 1.0)
+            {
+                double s2 = tsc * tsc;
+                for (int i = 0; i < NQ; i++) { r[QpReference.Cqd + i] *= tsc; r[QpReference.Cqdd + i] *= s2; }
+                for (int i = 0; i < 2; i++) { r[QpReference.Ccomd + i] *= tsc; r[QpReference.Ccomdd + i] *= s2; }
+                r[QpReference.Cl] *= tsc; r[QpReference.Cldot] *= s2;
+                for (int i = 0; i < 8; i++) { r[QpReference.Cptv + i] *= tsc; r[QpReference.Cpta + i] *= s2; }
+            }
             // contact set and force caps
             int nS = 0; for (int i = 0; i < 4; i++) if (_sch.Inc[i]) _sIdx[nS++] = i;
             int nb = 2 * nS, nx = NQ + nb;
@@ -252,10 +265,11 @@ namespace Game.Units.Mech.Qp
                     int i = 2 * leg; bl = _sch.SwingBlend(leg, t);
                     double prx = r[QpReference.Cpts + 2 * i] + xoff, prz = r[QpReference.Cpts + 2 * i + 1], vrx = r[QpReference.Cptv + 2 * i], vrz = r[QpReference.Cptv + 2 * i + 1], arx = r[QpReference.Cpta + 2 * i], arz = r[QpReference.Cpta + 2 * i + 1];
                     if (leg == swLeg && o.Land && o.LandAct && tau >= o.LandK0 * h && !(_planAnchor == _sch.TAnchor && _planPar == _sch.Parity))
-                        Replan(_sch.Parity, tau, Pts[2 * i], Pts[2 * i + 1], Q[fidx], _vp[2 * i], _vp[2 * i + 1], Qd[fidx], xoff);
+                        Replan(_sch.Parity, tau, Pts[2 * i], Pts[2 * i + 1], Q[fidx], _vp[2 * i] / tsc, _vp[2 * i + 1] / tsc, Qd[fidx] / tsc, xoff);
                     if (leg == swLeg && o.Land && tau >= _lqTau0[_sch.Parity])
                     {
                         LandTarget(_sch.Parity, tau); haveLt = true;
+                        if (tsc != 1.0) for (int c = 0; c < 3; c++) { _ltVel[c] *= tsc; _ltAcc[c] *= tsc * tsc; }
                         prx = _ltPos[0] + xoff; prz = _ltPos[1]; vrx = _ltVel[0]; vrz = _ltVel[1]; arx = _ltAcc[0]; arz = _ltAcc[1];
                     }
                     if (leg == swLeg && late > 0) { prz -= o.LateVz * late; vrz -= o.LateVz; }
