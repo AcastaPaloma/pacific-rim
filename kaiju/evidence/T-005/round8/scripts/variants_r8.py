@@ -511,6 +511,19 @@ SETS['q0'] = _seeded({
   'L7rtsat': dict(L7, qp_r8_retime=1, qp_r8_satk=0.7),
   'L7rtsatsl': dict(L7, qp_r8_retime=1, qp_r8_satk=0.7, qp_r8_swlim=0.90),
 }, 4)
+
+# cycle 3: the v6 ladder without its first row(s): row 0 at Fr 0.010 (v6e) or 0.015 (v6g), and the flags of the best cycle-2 configuration
+V6e = dict(L7, qp_ref_v5=8); V6g = dict(L7, qp_ref_v5=9)
+SETS['q2'] = _seeded({
+  'L7': dict(L7),
+  'V6e': dict(V6e),
+  'V6g': dict(V6g),
+  'V6grtt': dict(V6g, **RTT),
+  'V6ersl': dict(V6e, qp_r8_swlim=0.85),
+  'V6gc7': dict(V6g, qp_plan_lmax=1.3),
+  'V6gclk0': dict(V6g, qp_r7_clock=0),
+  'V6gup': dict(V6g, qp_ladder_up=0.7),
+}, 4)
 def load_set(name):
     return SETS[name]
 def check_line(line):
