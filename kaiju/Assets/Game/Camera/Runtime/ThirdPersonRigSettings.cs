@@ -14,6 +14,8 @@ namespace Game.Cameras
         public float pitchDeg = 4f;                    // looking slightly up: low horizon, large sky
         public float followLagSeconds = 0.6f;
         public float minReferenceDepthM = 20f;
+        public float skylineDepthM = 664.874f;         // layerSnap main slab reference depth (T1 skyline design depth)
+        public float farDepthM = 10353f;               // layerSnap far slab reference depth (T1 far design depth)
         public float impulseMetresPerMegaNs = 0.015f;
         public float impulseDegreesPerMegaNs = 0.012f;
         public float impulseMaxMetres = 0.5f;

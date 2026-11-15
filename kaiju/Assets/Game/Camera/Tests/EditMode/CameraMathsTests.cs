@@ -230,6 +230,193 @@ public void ForwardMotion_IsContinuous_AtAnyHeading()
             Assert.AreEqual(10.0, RigFraming.Approach(0, 10, 0, 0.016), 1e-12);
         }
     }
+    /// <summary>Layer snap (T-181c): the rig side of hints v2.</summary>
+    public class CameraLayerStabiliserTests
+    {
+        static PixelGrid Grid()
+        {
+            double tanH = Math.Tan(30.0 * Math.PI / 180.0), tanV = tanH * 270.0 / 480.0;
+            return new PixelGrid { InternalWidth = 480, InternalHeight = 270, Scale = 4, TanHalfHorizontalFov = (float)tanH, TanHalfVerticalFov = (float)tanV, TexelAngle = (float)PixelScaleRule.TexelAngle(tanV, 270) };
+        }
+
+        static LayerSettings T1(float main = 664.874f) => new LayerSettings { SnapPosition = true, QuantiseRotation = true, NearDepth = 124.2f, MainDepth = main, FarDepth = 10353f };
+        static CameraPose Pose(float x, float y, float z, float yaw, float pitch) => new CameraPose { Position = new CameraVec3(x, y, z), YawDeg = yaw, PitchDeg = pitch };
+        static float TexelAt(float depth) => (float)(2.0 * depth * Grid().TanHalfVerticalFov / Grid().InternalHeight);
+
+        static CameraPose PathAt(int i) => Pose(0.37f * i, 70f + 0.011f * i, -150f + 0.21f * i, 5f + 0.031f * i, 3f + 0.004f * i);
+
+        [Test]
+        public void MainLayer_EqualsTheV1Stabiliser_AtTheMainDepth_BitForBit()
+        {
+            var layered = new LayerSnapState(); var plain = new SnapState();
+            var plainSettings = new StabiliserSettings { SnapPosition = true, QuantiseRotation = true, ReferenceDepth = 664.874f };
+            for (int i = 0; i < 300; i++)
+            {
+                var wanted = PathAt(i);
+                Assert.IsTrue(CameraLayerStabiliser.TryStabilise(wanted, Grid(), T1(), i == 0, ref layered, out var r));
+                var v1 = CameraStabiliser.Stabilise(wanted, Grid(), plainSettings, i == 0, ref plain);
+                Assert.AreEqual(v1.Rendered.Position.X, r.Rendered.Position.X); Assert.AreEqual(v1.Rendered.Position.Y, r.Rendered.Position.Y); Assert.AreEqual(v1.Rendered.Position.Z, r.Rendered.Position.Z);
+                Assert.AreEqual(v1.Rendered.YawDeg, r.Rendered.YawDeg); Assert.AreEqual(v1.Rendered.PitchDeg, r.Rendered.PitchDeg);
+                Assert.AreEqual(v1.Hints.SubTexelX, r.Hints.SubTexelX); Assert.AreEqual(v1.Hints.SubTexelY, r.Hints.SubTexelY);
+                Assert.AreEqual(v1.Hints.PositionGrid, r.Hints.PositionGrid); Assert.AreEqual(v1.Hints.ReferenceDepth, r.Hints.ReferenceDepth);
+                Assert.AreEqual(v1.Hints.DitherOriginX, r.Hints.DitherOriginX); Assert.AreEqual(v1.Hints.DitherOriginY, r.Hints.DitherOriginY);
+                Assert.AreEqual(v1.Hints.Cut, r.Hints.Cut);
+                Assert.AreEqual(3, r.Hints.LayerCount);
+                Assert.AreEqual(0f, r.Hints.LayerMain.OffsetRight); Assert.AreEqual(0f, r.Hints.LayerMain.OffsetUp);
+                Assert.AreEqual(r.Hints.SubTexelX, r.Hints.LayerMain.SubTexelX); Assert.AreEqual(r.Hints.SubTexelY, r.Hints.LayerMain.SubTexelY);
+                Assert.AreEqual(r.Hints.ReferenceDepth, r.Hints.LayerMain.ReferenceDepth); Assert.AreEqual(r.Hints.PositionGrid, r.Hints.LayerMain.Grid);
+            }
+        }
+
+        [Test]
+        public void EachLayer_GridIsOneTexelAtItsOwnDepth_AndRemaindersStayInsideOneTexel()
+        {
+            var st = new LayerSnapState();
+            for (int i = 0; i < 400; i++)
+            {
+                Assert.IsTrue(CameraLayerStabiliser.TryStabilise(PathAt(i), Grid(), T1(), i == 0, ref st, out var r));
+                var h = r.Hints;
+                foreach (var l in new[] { h.LayerNear, h.LayerMain, h.LayerFar })
+                {
+                    Assert.AreEqual(TexelAt(l.ReferenceDepth), l.Grid, TexelAt(l.ReferenceDepth) * 1e-5, "grid is one texel at the layer's depth");
+                    Assert.LessOrEqual(Math.Abs(l.SubTexelX), 1.0f); Assert.LessOrEqual(Math.Abs(l.SubTexelY), 1.0f);
+                }
+                Assert.AreEqual(124.2f, h.LayerNear.ReferenceDepth); Assert.AreEqual(664.874f, h.LayerMain.ReferenceDepth); Assert.AreEqual(10353f, h.LayerFar.ReferenceDepth);
+            }
+        }
+
+        [Test]
+        public void LayerOffsets_StayWithinHalfTheirOwnGridPlusHalfTheMainGrid()
+        {
+            var st = new LayerSnapState();
+            for (int i = 0; i < 600; i++)
+            {
+                CameraLayerStabiliser.TryStabilise(PathAt(i), Grid(), T1(), i == 0, ref st, out var r);
+                var h = r.Hints;
+                foreach (var l in new[] { h.LayerNear, h.LayerFar })
+                {
+                    float lim = 0.5f * (l.Grid + h.PositionGrid) * 1.0001f + 1e-4f;
+                    Assert.LessOrEqual(Math.Abs(l.OffsetRight), lim, "right offset at step " + i); Assert.LessOrEqual(Math.Abs(l.OffsetUp), lim, "up offset at step " + i);
+                }
+            }
+        }
+
+        [Test]
+        public void LayerPositionPlusOffset_ReproducesTheLayersOwnSnappedPosition_AndLayersAreIndependentLattices()
+        {
+            // Pure lateral motion with no rotation: every layer's snapped x is its own whole-texel lattice, so the offset is the difference of the two lattices.
+            var st = new LayerSnapState(); var near = new SnapState(); var far = new SnapState();
+            var settings = T1();
+            for (int i = 0; i < 400; i++)
+            {
+                var wanted = Pose(0.173f * i, 70f, -150f, 0f, 0f);
+                CameraLayerStabiliser.TryStabilise(wanted, Grid(), settings, i == 0, ref st, out var r);
+                var n = CameraStabiliser.Stabilise(wanted, Grid(), new StabiliserSettings { SnapPosition = true, QuantiseRotation = true, ReferenceDepth = 124.2f }, i == 0, ref near);
+                var f = CameraStabiliser.Stabilise(wanted, Grid(), new StabiliserSettings { SnapPosition = true, QuantiseRotation = true, ReferenceDepth = 10353f }, i == 0, ref far);
+                Assert.AreEqual(n.Rendered.Position.X - r.Rendered.Position.X, r.Hints.LayerNear.OffsetRight, 2e-4, "near offset at " + i);
+                Assert.AreEqual(f.Rendered.Position.X - r.Rendered.Position.X, r.Hints.LayerFar.OffsetRight, 2e-4, "far offset at " + i);
+                Assert.AreEqual(n.Hints.SubTexelX, r.Hints.LayerNear.SubTexelX); Assert.AreEqual(f.Hints.SubTexelX, r.Hints.LayerFar.SubTexelX);
+                Assert.AreEqual(0f, r.Hints.LayerNear.OffsetUp, 1e-4); Assert.AreEqual(0f, r.Hints.LayerFar.OffsetUp, 1e-4);
+            }
+        }
+
+        [Test]
+        public void AMovingCamera_NearLayerSnapsInSmallerSteps_ThanMainThanFar()
+        {
+            var st = new LayerSnapState(); int nearSteps = 0, mainSteps = 0, farSteps = 0;
+            float px = 0, pn = 0, pf = 0;
+            for (int i = 0; i < 1000; i++)
+            {
+                CameraLayerStabiliser.TryStabilise(Pose(0.05f * i, 70f, -150f, 0f, 0f), Grid(), T1(), i == 0, ref st, out var r);
+                float x = r.Rendered.Position.X, n = x + r.Hints.LayerNear.OffsetRight, f = x + r.Hints.LayerFar.OffsetRight;
+                if (i > 0) { if (x != px) mainSteps++; if (n != pn) nearSteps++; if (f != pf) farSteps++; }
+                px = x; pn = n; pf = f;
+            }
+            Assert.Greater(nearSteps, mainSteps); Assert.Greater(mainSteps, farSteps); Assert.GreaterOrEqual(farSteps, 1);
+        }
+
+        [Test]
+        public void ALayerCut_FiresOnlyForTheLayerWhoseReferenceDepthChanged_AndAGlobalCutFiresAll()
+        {
+            var st = new LayerSnapState();
+            CameraLayerStabiliser.TryStabilise(PathAt(0), Grid(), T1(), true, ref st, out var r);
+            Assert.IsTrue(r.Hints.LayerNear.Cut && r.Hints.LayerMain.Cut && r.Hints.LayerFar.Cut && r.Hints.Cut, "first frame restarts every lattice");
+            CameraLayerStabiliser.TryStabilise(PathAt(1), Grid(), T1(), false, ref st, out r);
+            Assert.IsFalse(r.Hints.LayerNear.Cut || r.Hints.LayerMain.Cut || r.Hints.LayerFar.Cut || r.Hints.Cut);
+            var s = T1(); s.NearDepth = 124.2f * 1.001f;   // focus depth drifted by 0.1 %: more than the grid tolerance
+            CameraLayerStabiliser.TryStabilise(PathAt(2), Grid(), s, false, ref st, out r);
+            Assert.IsTrue(r.Hints.LayerNear.Cut); Assert.IsFalse(r.Hints.LayerMain.Cut); Assert.IsFalse(r.Hints.LayerFar.Cut); Assert.IsFalse(r.Hints.Cut, "v1 Cut stays the main layer's");
+            s.NearDepth = 124.2f * 1.001f * 1.00001f;       // 1e-5 relative: inside the tolerance
+            CameraLayerStabiliser.TryStabilise(PathAt(3), Grid(), s, false, ref st, out r);
+            Assert.IsFalse(r.Hints.LayerNear.Cut);
+            CameraLayerStabiliser.TryStabilise(PathAt(4), Grid(), s, true, ref st, out r);
+            Assert.IsTrue(r.Hints.LayerNear.Cut && r.Hints.LayerMain.Cut && r.Hints.LayerFar.Cut && r.Hints.Cut);
+        }
+
+        [Test]
+        public void ACutLayer_RestartsFromTheWantedPosition_SoItsOffsetIsZeroAlongTheForwardFreeAxes()
+        {
+            var st = new LayerSnapState();
+            for (int i = 0; i < 80; i++) CameraLayerStabiliser.TryStabilise(Pose(0.4f * i, 70f, -150f, 0f, 0f), Grid(), T1(), i == 0, ref st, out _);
+            CameraLayerStabiliser.TryStabilise(Pose(500f, 90f, 10f, 20f, 2f), Grid(), T1(), true, ref st, out var r);
+            Assert.AreEqual(500f, r.Rendered.Position.X, 1e-3); Assert.AreEqual(90f, r.Rendered.Position.Y, 1e-3);
+            Assert.AreEqual(0f, r.Hints.LayerNear.OffsetRight, 1e-3); Assert.AreEqual(0f, r.Hints.LayerFar.OffsetUp, 1e-3);
+        }
+
+        [Test]
+        public void UnusableLayering_ReturnsFalse_AndClearsTheState()
+        {
+            var st = new LayerSnapState();
+            CameraLayerStabiliser.TryStabilise(PathAt(0), Grid(), T1(), true, ref st, out _);
+            Assert.IsTrue(st.Active);
+            var bad = T1(); bad.NearDepth = 700f;   // near not closer than main
+            Assert.IsFalse(CameraLayerStabiliser.TryStabilise(PathAt(1), Grid(), bad, false, ref st, out var r)); Assert.AreEqual(0, r.Hints.LayerCount); Assert.IsFalse(st.Active);
+            var noSnap = T1(); noSnap.SnapPosition = false;
+            Assert.IsFalse(CameraLayerStabiliser.TryStabilise(PathAt(1), Grid(), noSnap, false, ref st, out _));
+            Assert.IsFalse(CameraLayerStabiliser.TryStabilise(PathAt(1), default, T1(), false, ref st, out _), "no grid");
+            var nan = T1(); nan.FarDepth = float.NaN;
+            Assert.IsFalse(CameraLayerStabiliser.TryStabilise(PathAt(1), Grid(), nan, false, ref st, out _));
+            // After a failure the next good frame restarts every lattice.
+            Assert.IsTrue(CameraLayerStabiliser.TryStabilise(PathAt(2), Grid(), T1(), false, ref st, out r));
+            Assert.IsTrue(r.Hints.LayerNear.Cut && r.Hints.LayerFar.Cut);
+        }
+
+        [Test]
+        public void Rotation_IsSharedByAllLayers_AndTurningInPlaceMovesNoLayer()
+        {
+            var st = new LayerSnapState();
+            CameraLayerStabiliser.TryStabilise(Pose(10f, 70f, -150f, 0f, 3f), Grid(), T1(), true, ref st, out var a);
+            for (int i = 1; i <= 60; i++)
+            {
+                CameraLayerStabiliser.TryStabilise(Pose(10f, 70f, -150f, 0.05f * i, 3f), Grid(), T1(), false, ref st, out var r);
+                Assert.AreEqual(a.Rendered.Position.X, r.Rendered.Position.X, 1e-4); Assert.AreEqual(0f, r.Hints.LayerNear.OffsetRight, 1e-3); Assert.AreEqual(0f, r.Hints.LayerFar.OffsetRight, 1e-3);
+            }
+        }
+
+        [Test]
+        public void TheLayeredCall_AllocatesNoMoreThanThreePlainStabiliserCalls()
+        {
+            var st = new LayerSnapState(); var near = new SnapState(); var main = new SnapState(); var far = new SnapState();
+            var s = T1();
+            for (int i = 0; i < 20; i++) { CameraLayerStabiliser.TryStabilise(PathAt(i), Grid(), s, i == 0, ref st, out _); }
+            var g = Grid();
+            long GcLayered() { long b = GC.GetAllocatedBytesForCurrentThread(); for (int i = 20; i < 220; i++) CameraLayerStabiliser.TryStabilise(PathAt(i), g, s, false, ref st, out _); return GC.GetAllocatedBytesForCurrentThread() - b; }
+            long GcPlain()
+            {
+                long b = GC.GetAllocatedBytesForCurrentThread();
+                for (int i = 20; i < 220; i++)
+                {
+                    CameraStabiliser.Stabilise(PathAt(i), g, new StabiliserSettings { SnapPosition = true, QuantiseRotation = true, ReferenceDepth = 124.2f }, false, ref near);
+                    CameraStabiliser.Stabilise(PathAt(i), g, new StabiliserSettings { SnapPosition = true, QuantiseRotation = true, ReferenceDepth = 664.874f }, false, ref main);
+                    CameraStabiliser.Stabilise(PathAt(i), g, new StabiliserSettings { SnapPosition = true, QuantiseRotation = true, ReferenceDepth = 10353f }, false, ref far);
+                }
+                return GC.GetAllocatedBytesForCurrentThread() - b;
+            }
+            GcLayered(); GcPlain();
+            Assert.LessOrEqual(GcLayered(), GcPlain(), "the wrapper itself allocates nothing beyond the three Stabilise calls");
+        }
+    }
+
 
     public class CameraArchitectureTests
     {

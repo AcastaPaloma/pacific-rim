@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="27" result="Passed" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.1137184">
+  <test-suite type="TestSuite" id="1000" name="KaijuGame" fullname="KaijuGame" runstate="Runnable" testcasecount="782" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.113718" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1062" name="Game.Camera.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-181c/kaiju/Library/ScriptAssemblies/Game.Camera.Tests.dll" runstate="Runnable" testcasecount="27" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.104457" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="82143" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1063" name="Game" fullname="Game" runstate="Runnable" testcasecount="27" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.103963" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1064" name="Cameras" fullname="Game.Cameras" runstate="Runnable" testcasecount="27" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.103598" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1065" name="Tests" fullname="Game.Cameras.Tests" runstate="Runnable" testcasecount="27" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.103256" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1058" name="CameraArchitectureTests" fullname="Game.Cameras.Tests.CameraArchitectureTests" classname="Game.Cameras.Tests.CameraArchitectureTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.022986" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1059" name="Camera_ReferencesNoUnitOrMechCode_AndPixelOnlyThroughContracts" fullname="Game.Cameras.Tests.CameraArchitectureTests.Camera_ReferencesNoUnitOrMechCode_AndPixelOnlyThroughContracts" methodname="Camera_ReferencesNoUnitOrMechCode_AndPixelOnlyThroughContracts" classname="Game.Cameras.Tests.CameraArchitectureTests" runstate="Runnable" seed="236201979" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.011637" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1060" name="CameraFlagFile_AllFalse_AndMatchesCameraFlagsAll" fullname="Game.Cameras.Tests.CameraArchitectureTests.CameraFlagFile_AllFalse_AndMatchesCameraFlagsAll" methodname="CameraFlagFile_AllFalse_AndMatchesCameraFlagsAll" classname="Game.Cameras.Tests.CameraArchitectureTests" runstate="Runnable" seed="1678812385" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.003017" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1061" name="ImpulseEvent_IsAnUnmanagedCoreEvent" fullname="Game.Cameras.Tests.CameraArchitectureTests.ImpulseEvent_IsAnUnmanagedCoreEvent" methodname="ImpulseEvent_IsAnUnmanagedCoreEvent" classname="Game.Cameras.Tests.CameraArchitectureTests" runstate="Runnable" seed="1565028538" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.000262" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1041" name="CameraImpulseTests" fullname="Game.Cameras.Tests.CameraImpulseTests" classname="Game.Cameras.Tests.CameraImpulseTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.006611" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1046" name="Orbit_FramesTheFocusFromTheGivenDistance" fullname="Game.Cameras.Tests.CameraImpulseTests.Orbit_FramesTheFocusFromTheGivenDistance" methodname="Orbit_FramesTheFocusFromTheGivenDistance" classname="Game.Cameras.Tests.CameraImpulseTests" runstate="Runnable" seed="217557582" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.003549" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1043" name="Response_DecaysToExactlyZero_WithinTheStatedTime" fullname="Game.Cameras.Tests.CameraImpulseTests.Response_DecaysToExactlyZero_WithinTheStatedTime" methodname="Response_DecaysToExactlyZero_WithinTheStatedTime" classname="Game.Cameras.Tests.CameraImpulseTests" runstate="Runnable" seed="132891339" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.000823" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1045" name="Response_FallsOffWithDistance_AndIgnoresBadInput" fullname="Game.Cameras.Tests.CameraImpulseTests.Response_FallsOffWithDistance_AndIgnoresBadInput" methodname="Response_FallsOffWithDistance_AndIgnoresBadInput" classname="Game.Cameras.Tests.CameraImpulseTests" runstate="Runnable" seed="1158751440" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.000322" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1042" name="Response_IsProportionalToTheImpulse_UntilTheCap" fullname="Game.Cameras.Tests.CameraImpulseTests.Response_IsProportionalToTheImpulse_UntilTheCap" methodname="Response_IsProportionalToTheImpulse_UntilTheCap" classname="Game.Cameras.Tests.CameraImpulseTests" runstate="Runnable" seed="604913280" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.000330" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1044" name="Response_IsReproducible_AndIndependentOfTheStepSize" fullname="Game.Cameras.Tests.CameraImpulseTests.Response_IsReproducible_AndIndependentOfTheStepSize" methodname="Response_IsReproducible_AndIndependentOfTheStepSize" classname="Game.Cameras.Tests.CameraImpulseTests" runstate="Runnable" seed="1152751614" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.000220" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1047" name="CameraLayerStabiliserTests" fullname="Game.Cameras.Tests.CameraLayerStabiliserTests" classname="Game.Cameras.Tests.CameraLayerStabiliserTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.047408" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1054" name="ACutLayer_RestartsFromTheWantedPosition_SoItsOffsetIsZeroAlongTheForwardFreeAxes" fullname="Game.Cameras.Tests.CameraLayerStabiliserTests.ACutLayer_RestartsFromTheWantedPosition_SoItsOffsetIsZeroAlongTheForwardFreeAxes" methodname="ACutLayer_RestartsFromTheWantedPosition_SoItsOffsetIsZeroAlongTheForwardFreeAxes" classname="Game.Cameras.Tests.CameraLayerStabiliserTests" runstate="Runnable" seed="969700720" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.001584" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1053" name="ALayerCut_FiresOnlyForTheLayerWhoseReferenceDepthChanged_AndAGlobalCutFiresAll" fullname="Game.Cameras.Tests.CameraLayerStabiliserTests.ALayerCut_FiresOnlyForTheLayerWhoseReferenceDepthChanged_AndAGlobalCutFiresAll" methodname="ALayerCut_FiresOnlyForTheLayerWhoseReferenceDepthChanged_AndAGlobalCutFiresAll" classname="Game.Cameras.Tests.CameraLayerStabiliserTests" runstate="Runnable" seed="332767932" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.000771" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1052" name="AMovingCamera_NearLayerSnapsInSmallerSteps_ThanMainThanFar" fullname="Game.Cameras.Tests.CameraLayerStabiliserTests.AMovingCamera_NearLayerSnapsInSmallerSteps_ThanMainThanFar" methodname="AMovingCamera_NearLayerSnapsInSmallerSteps_ThanMainThanFar" classname="Game.Cameras.Tests.CameraLayerStabiliserTests" runstate="Runnable" seed="1168675782" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.004416" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1049" name="EachLayer_GridIsOneTexelAtItsOwnDepth_AndRemaindersStayInsideOneTexel" fullname="Game.Cameras.Tests.CameraLayerStabiliserTests.EachLayer_GridIsOneTexelAtItsOwnDepth_AndRemaindersStayInsideOneTexel" methodname="EachLayer_GridIsOneTexelAtItsOwnDepth_AndRemaindersStayInsideOneTexel" classname="Game.Cameras.Tests.CameraLayerStabiliserTests" runstate="Runnable" seed="1812978329" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.011295" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1050" name="LayerOffsets_StayWithinHalfTheirOwnGridPlusHalfTheMainGrid" fullname="Game.Cameras.Tests.CameraLayerStabiliserTests.LayerOffsets_StayWithinHalfTheirOwnGridPlusHalfTheMainGrid" methodname="LayerOffsets_StayWithinHalfTheirOwnGridPlusHalfTheMainGrid" classname="Game.Cameras.Tests.CameraLayerStabiliserTests" runstate="Runnable" seed="2001710976" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.003783" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1051" name="LayerPositionPlusOffset_ReproducesTheLayersOwnSnappedPosition_AndLayersAreIndependentLattices" fullname="Game.Cameras.Tests.CameraLayerStabiliserTests.LayerPositionPlusOffset_ReproducesTheLayersOwnSnappedPosition_AndLayersAreIndependentLattices" methodname="LayerPositionPlusOffset_ReproducesTheLayersOwnSnappedPosition_AndLayersAreIndependentLattices" classname="Game.Cameras.Tests.CameraLayerStabiliserTests" runstate="Runnable" seed="1065275640" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.003480" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1048" name="MainLayer_EqualsTheV1Stabiliser_AtTheMainDepth_BitForBit" fullname="Game.Cameras.Tests.CameraLayerStabiliserTests.MainLayer_EqualsTheV1Stabiliser_AtTheMainDepth_BitForBit" methodname="MainLayer_EqualsTheV1Stabiliser_AtTheMainDepth_BitForBit" classname="Game.Cameras.Tests.CameraLayerStabiliserTests" runstate="Runnable" seed="1220749176" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.017229" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1056" name="Rotation_IsSharedByAllLayers_AndTurningInPlaceMovesNoLayer" fullname="Game.Cameras.Tests.CameraLayerStabiliserTests.Rotation_IsSharedByAllLayers_AndTurningInPlaceMovesNoLayer" methodname="Rotation_IsSharedByAllLayers_AndTurningInPlaceMovesNoLayer" classname="Game.Cameras.Tests.CameraLayerStabiliserTests" runstate="Runnable" seed="1003853924" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.001117" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1057" name="TheLayeredCall_AllocatesNoMoreThanThreePlainStabiliserCalls" fullname="Game.Cameras.Tests.CameraLayerStabiliserTests.TheLayeredCall_AllocatesNoMoreThanThreePlainStabiliserCalls" methodname="TheLayeredCall_AllocatesNoMoreThanThreePlainStabiliserCalls" classname="Game.Cameras.Tests.CameraLayerStabiliserTests" runstate="Runnable" seed="2133298805" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.001425" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1055" name="UnusableLayering_ReturnsFalse_AndClearsTheState" fullname="Game.Cameras.Tests.CameraLayerStabiliserTests.UnusableLayering_ReturnsFalse_AndClearsTheState" methodname="UnusableLayering_ReturnsFalse_AndClearsTheState" classname="Game.Cameras.Tests.CameraLayerStabiliserTests" runstate="Runnable" seed="1353448809" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.000203" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1031" name="CameraStabiliserTests" fullname="Game.Cameras.Tests.CameraStabiliserTests" classname="Game.Cameras.Tests.CameraStabiliserTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.025207" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1033" name="ACut_RendersTheWantedPosition_SoItEqualsAStaticFrame" fullname="Game.Cameras.Tests.CameraStabiliserTests.ACut_RendersTheWantedPosition_SoItEqualsAStaticFrame" methodname="ACut_RendersTheWantedPosition_SoItEqualsAStaticFrame" classname="Game.Cameras.Tests.CameraStabiliserTests" runstate="Runnable" seed="1607410773" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.000391" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1036" name="ForwardMotion_IsContinuous_AtAnyHeading" fullname="Game.Cameras.Tests.CameraStabiliserTests.ForwardMotion_IsContinuous_AtAnyHeading" methodname="ForwardMotion_IsContinuous_AtAnyHeading" classname="Game.Cameras.Tests.CameraStabiliserTests" runstate="Runnable" seed="1780076210" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.000324" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1034" name="LateralTranslation_RendersInWholeTexelJumps_AndTheRemainderRestoresTheMotion" fullname="Game.Cameras.Tests.CameraStabiliserTests.LateralTranslation_RendersInWholeTexelJumps_AndTheRemainderRestoresTheMotion" methodname="LateralTranslation_RendersInWholeTexelJumps_AndTheRemainderRestoresTheMotion" classname="Game.Cameras.Tests.CameraStabiliserTests" runstate="Runnable" seed="1611589036" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.000982" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1040" name="Quaternion_AgreesWithTheBasis" fullname="Game.Cameras.Tests.CameraStabiliserTests.Quaternion_AgreesWithTheBasis" methodname="Quaternion_AgreesWithTheBasis" classname="Game.Cameras.Tests.CameraStabiliserTests" runstate="Runnable" seed="1037336715" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.000155" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1039" name="Remainders_StayInsideOneTexel_AlongAnyPath" fullname="Game.Cameras.Tests.CameraStabiliserTests.Remainders_StayInsideOneTexel_AlongAnyPath" methodname="Remainders_StayInsideOneTexel_AlongAnyPath" classname="Game.Cameras.Tests.CameraStabiliserTests" runstate="Runnable" seed="1824405091" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.019960" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1032" name="TexelGrid_MatchesTheCaptureProtocolNumbers" fullname="Game.Cameras.Tests.CameraStabiliserTests.TexelGrid_MatchesTheCaptureProtocolNumbers" methodname="TexelGrid_MatchesTheCaptureProtocolNumbers" classname="Game.Cameras.Tests.CameraStabiliserTests" runstate="Runnable" seed="1892027639" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.000172" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1035" name="TurningOnTheSpot_NeverMovesTheCamera" fullname="Game.Cameras.Tests.CameraStabiliserTests.TurningOnTheSpot_NeverMovesTheCamera" methodname="TurningOnTheSpot_NeverMovesTheCamera" classname="Game.Cameras.Tests.CameraStabiliserTests" runstate="Runnable" seed="1166860662" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.001185" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1038" name="WithStabilisersOff_ThePoseIsUntouched" fullname="Game.Cameras.Tests.CameraStabiliserTests.WithStabilisersOff_ThePoseIsUntouched" methodname="WithStabilisersOff_ThePoseIsUntouched" classname="Game.Cameras.Tests.CameraStabiliserTests" runstate="Runnable" seed="1462613911" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.000232" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1037" name="Yaw_TurnsInWholeTexelSteps_AndTheDitherOriginFollows" fullname="Game.Cameras.Tests.CameraStabiliserTests.Yaw_TurnsInWholeTexelSteps_AndTheDitherOriginFollows" methodname="Yaw_TurnsInWholeTexelSteps_AndTheDitherOriginFollows" classname="Game.Cameras.Tests.CameraStabiliserTests" runstate="Runnable" seed="1737279449" result="Passed" start-time="2026-11-15 16:26:00Z" end-time="2026-11-15 16:26:00Z" duration="0.000370" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/kuanw/Library/Application Support/DefaultCompany/KaijuGame/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
