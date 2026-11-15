@@ -1,0 +1,43 @@
+registry_schema: metric_registry@v1
+revision: v1.0
+metric: M-054
+metric_status: registered
+date: '2026-11-14'
+spec: M-054@v1
+title: Length-displacement-magnitude consistency
+source: "research/R-022.md \xA72, \xA75 (Wells and Coppersmith 1994 Table 2A, strike-slip)"
+note: "Reads rupture_dump@v1 (schema in kaiju_metrics/destruction/m054.py). Thresholds are the 2 sigma fail limits; 1-2 sigma is a recorded warning (verdict unaffected)."
+submeasures:
+  M-054.consistency:
+    title: dM_L, dAD, dMD within 2 sigma of the WC94 regressions (1-2 sigma warns)
+    kind: gating
+    thresholds:
+      dM_L_max_sigma2:
+        value: 0.56
+        unit: magnitude
+        status: derived
+        source: "R-022 \xA75: 2 x 0.28"
+      dAD_max_sigma2:
+        value: 0.56
+        unit: log10 m
+        status: derived
+        source: "R-022 \xA75: 2 x 0.28"
+      dMD_max_sigma2:
+        value: 0.68
+        unit: log10 m
+        status: derived
+        source: "R-022 \xA75: 2 x 0.34"
+  M-054.range:
+    title: Inside the WC94 validity ranges and SRL not above trace length
+    kind: gating
+    thresholds:
+      out_of_range_max:
+        value: 0
+        unit: count
+        status: derived
+        source: "R-022 \xA72 valid ranges"
+      srl_over_trace_max:
+        value: 0
+        unit: count
+        status: derived
+        source: "R-022 \xA75"

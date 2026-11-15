@@ -1,0 +1,59 @@
+registry_schema: metric_registry@v1
+revision: v1.0
+metric_status: registered
+date: '2026-11-14'
+metric: M-051
+spec: M-051@v1
+title: Damage state versus fragility
+source: "research/R-021.md \xA72.4, \xA74 M-051; research/R-026.md C-3"
+note: "Reads fragility_dump@v1 (schema in kaiju_metrics/destruction/m051.py) and registry/hazus_rows_mc.csv (Hazus 6.1 Moderate-Code
+  rows copied from R-021 \xA72.2). Per R-026 C-3 the PGA route is compared against the PGA-to-drift chain
+  (Sa = PGA min(2.5, 1.5/T), Sd = Sa T^2/4pi^2, theta = Sd/(0.75 H), beta_tot), not against raw theta_k. The chain constants
+  (2.5, 1.5, 0.75, beta_D 0.5) are R-021 Assumed; the R-026 Q-NEW-c confirmation is pending (autonomous assumption: the chain as written)."
+submeasures:
+  M-051.pga:
+    title: PGA route, empirical F_k vs Phi(ln(theta/theta_k)/beta_tot)
+    kind: gating
+    thresholds:
+      max_abs_dev:
+        value: 0.015
+        unit: probability
+        status: derived
+        source: "R-021 \xA74 M-051: 3 sigma binomial at N = 10,000, p = 0.5"
+      median_dev:
+        value: 0.015
+        unit: probability
+        status: derived
+        source: "R-021 \xA74 M-051"
+      median_window:
+        value: 0.05
+        unit: probability
+        status: derived
+        source: grid points whose predicted Phi is within this of 0.5 are the median points
+  M-051.energy:
+    title: Energy route, empirical F_k vs Phi(ln(E/E_k)/beta_E)
+    kind: gating
+    thresholds:
+      max_abs_dev:
+        value: 0.015
+        unit: probability
+        status: derived
+        source: "R-021 \xA74 M-051"
+  M-051.monotone:
+    title: State never decreases with intensity; F_k non-increasing in k; two runs bit-equal
+    kind: gating
+    thresholds:
+      violations_max:
+        value: 0
+        unit: count
+        status: derived
+        source: "R-021 \xA74 M-051"
+  M-051.table:
+    title: Loaded medians and beta equal the committed Hazus rows
+    kind: gating
+    thresholds:
+      table_abs_tol:
+        value: 1.0e-09
+        unit: absolute
+        status: derived
+        source: "R-021 \xA74 M-051 (copied values)"

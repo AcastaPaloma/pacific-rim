@@ -185,3 +185,7 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 
 ## Snapshot: T-005 session 5 hand-over, 2026-11-14 night
 - Round 3 closed. The offline strides are FEASIBLE at Fr 0.02–0.20 with lateral shear, τ ≤ 0.70 of limit; binding limits are the ROM margins and push-off friction. imp = 2 joint tracking falls in every Unity run, 3 cycles. Best stable walk is still legacy Fr 0.0226. Next step waits on Q-074. No agents or Unity jobs running. T-005 not merged.
+- 2026-11-15 · T-036b: M-051 compares the PGA route against the R-021 §2.4 chain (Sa = PGA min(2.5, 1.5/T), Sd, theta = Sd/(0.75 H), beta_tot 0.64), not raw theta_k, because R-026 C-3 / Q-NEW-c has no founder answer; a test proves raw-theta data FAILs — decided autonomously (user offline).
+- 2026-11-15 · T-036b: M-051 median check = grid points whose predicted Phi lies within 0.05 of 0.5 (|F - Phi| <= 0.015 there); M-054 warn band (1-2 sigma) is a report warning, only > 2 sigma or out-of-range fails; M-053 p95 / max stay at the assumed 1.0 / 2.0 m — decided autonomously (user offline).
+- 2026-11-15 · T-036b: exporter writes `w_ext_j` = 0 (C# DebrisAccount balance excludes external work); `fragility_dump@v1` / `fault_rupture_dump@v1` / `rupture_dump@v1` schemas live in the m051/m053/m054 docstrings — decided autonomously (user offline).
+- 2026-11-15 · T-035 step 2 (T-036b): `district --pieces` added (`district_pieces@v1`); viewpoint/graphics rows left blocked on Q-NEW-h and Q-072, landmarks row left to T-023 step 2 — decided autonomously (user offline).

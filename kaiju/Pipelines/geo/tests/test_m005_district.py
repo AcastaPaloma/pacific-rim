@@ -184,3 +184,46 @@ def test_real_district_run(capsys):
     assert rows(rep, "edge_vertex_gap_all_edges")[0]["result"] == "pass"
     assert rows(rep, "landmarks")[0]["result"] == "not_evaluated"
     assert not [x for x in rep["rows"] if x["result"] == "error"]
+
+
+# ------------------------------------------------------------------ real clipped pieces (T-035 step 2)
+def _pieces(tmp_path, mutate=None):
+    ba = [(61990, 73800, 20, 10, "osm_height")]            # straddles the 30/31 tile edge at x = 62000? computed below
+    mk(tmp_path, ba=ba)
+    from shapely.geometry import box as _box
+    t30, t31 = parse_tile("L0_30_36"), parse_tile("L0_31_36")
+    x0, z0, x1, z1 = t30.bounds
+    xe = x1
+    ba = [(xe - 10, z0 + 100, 20, 10, "osm_height")]
+    mk(tmp_path, ba=ba)
+    g = _box(xe - 10, z0 + 100, xe + 10, z0 + 120)
+    pcs = [{"bid": "osm:L0_30_36:0", "tile": "L0_30_36", "area_m2": g.intersection(_box(*t30.bounds)).area, "height_m": 10, "base_navd88_m": 1.0},
+           {"bid": "osm:L0_30_36:0", "tile": "L0_31_36", "area_m2": g.intersection(_box(*t31.bounds)).area, "height_m": 10, "base_navd88_m": 1.0}]
+    if mutate:
+        mutate(pcs)
+    p = tmp_path / "pieces.json"
+    p.write_text(json.dumps({"format": "district_pieces", "schema": 1, "pieces": pcs}))
+    return M.district(["L0_30_36", "L0_31_36"], tmp_path, pieces=str(p))
+
+
+def test_pieces_pass(tmp_path):
+    rep = _pieces(tmp_path)
+    assert rows(rep, "clipped_pieces_area")[0]["result"] == "pass" and rows(rep, "clipped_pieces_height_base")[0]["result"] == "pass"
+
+
+@pytest.mark.parametrize("mut,check", [
+    (lambda p: p[0].update(area_m2=p[0]["area_m2"] * 1.01), "clipped_pieces_area"),
+    (lambda p: p[1].update(height_m=10.5), "clipped_pieces_height_base"),
+    (lambda p: p[1].update(base_navd88_m=2.0), "clipped_pieces_height_base"),
+])
+def test_pieces_each_check_fails(tmp_path, mut, check):
+    rep = _pieces(tmp_path, mut)
+    assert rows(rep, check)[0]["result"] == "fail" and rep["result"] == "fail"
+
+
+def test_pieces_unknown_bid_or_empty_is_error(tmp_path):
+    rep = _pieces(tmp_path, lambda p: p[0].update(bid="nope"))
+    assert rows(rep, "clipped_pieces")[0]["result"] == "error" and rep["result"] == "error"
+    (tmp_path / "e.json").write_text(json.dumps({"format": "district_pieces", "schema": 1, "pieces": []}))
+    rep = M.district(["L0_30_36", "L0_31_36"], tmp_path, pieces=str(tmp_path / "e.json"))
+    assert rows(rep, "clipped_pieces")[0]["result"] == "error"

@@ -1,0 +1,51 @@
+registry_schema: metric_registry@v1
+revision: v1.0
+metric: M-053
+metric_status: registered
+date: '2026-11-14'
+spec: M-053@v1
+title: Rupture offset from the mapped trace
+source: "research/R-022.md \xA75; research/R-026.md \xA71"
+note: Reads fault_rupture_dump@v1 (schema in kaiju_metrics/destruction/m053.py) and faults_bay.geojson. p95 / max are assumed pending the first real run; mapped-scale uncertainty is reported only.
+submeasures:
+  M-053.offset:
+    title: Rupture centreline distance to the dissolved mapped trace (10 m samples)
+    kind: gating
+    thresholds:
+      p95_m:
+        value: 1.0
+        unit: m
+        status: assumed_pending_calibration
+        source: "R-022 \xA75 (Assumed)"
+      max_m:
+        value: 2.0
+        unit: m
+        status: assumed_pending_calibration
+        source: "R-022 \xA75 (Assumed)"
+  M-053.mapped:
+    title: Every rupture vertex range maps to a baked fault_id and section
+    kind: gating
+    thresholds:
+      mapped_share:
+        value: 1.0
+        unit: share
+        status: derived
+        source: "R-022 \xA75: 100 %, no fictional trace (Q-030)"
+  M-053.slip:
+    title: Applied right-lateral offset equals the slip profile
+    kind: gating
+    thresholds:
+      slip_rel:
+        value: 0.05
+        unit: relative
+        status: derived
+        source: "R-022 \xA75"
+  M-053.hash:
+    title: faults_bay.geojson hash equals the manifest hash
+    kind: gating
+    thresholds:
+      hash_mismatches:
+        value: 0
+        unit: count
+        status: derived
+        source: "R-022 \xA75"

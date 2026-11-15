@@ -21,7 +21,7 @@ Session 3 (regression `evidence/regression/M1-merge-4.md`):
 1. **T-023 step 2** (Unity, World.Geo): optional `landmarks` layer reader (manifest without it stays valid; validator accepts the new licence id), static colliders per R-020 §3 (4 leg boxes, deck BoxColliders per 40 m segment following `y_navd88_m`, cable capsule chain r 0.46 m), meshes, layer order terrain, water, buildings, landmarks; `geo_export@v1` landmarks array; then `m005_check.py district` landmarks row (T-035 later step) and M-060. Branch from the integration head (task/T-022 is merged).
 2. R-024 revision for M-007 C1 (flank timeout from arc length/speed, pack-assembly gate), then re-run the harness. T-033 (brain_log Python tool, M-007).
 3. T-030 step 2: per-mech MonoBehaviour owning PilotSeat + RemotePilotSource per slot (`tasks/T-030.progress.md`), then T-031 loopback test.
-4. T-036 step 3 (M-051, needs R-021 C-3), step 4 (M-053/M-054), C# `destruction_dump@v1` exporter; T-035 steps 2–3.
+4. ~~T-036 step 3 (M-051), step 4 (M-053/M-054), C# `destruction_dump@v1` exporter~~ DONE (task/T-036b). T-035 step 2: `--pieces` input done; viewpoints/graphics blocked (Q-NEW-h, Q-072); step 3 landmarks row left to T-023 step 2. Still open: FaultRupture/QuakeBegan dump exporter (M-053/M-054 real input), Unity writer of `district_pieces@v1`.
 5. Composition root: install Destruction + Seismic + bridge + brain behind flags (T-039 or a small step).
 6. Evaluators per track (eval-arch, eval-physics, eval-perf), Sonnet medium.
 
