@@ -499,7 +499,7 @@ namespace Game.Units.Mech
             }
             if (_qpDiag)
             {
-                _dbg.QpK ??= new double[_qpFoot ? 53 : _t.qp_plan > 0.5 ? 38 : 22];
+                _dbg.QpK ??= new double[_qpFoot ? (_t.qp_r10_diag > 0.5 ? 70 : 53) : _t.qp_plan > 0.5 ? 38 : 22];
                 for (int pl = 0; pl < 2; pl++)
                 {
                     var leg = legs[pl]; int[] d3 = { leg.Hip[0], leg.Knee, leg.Ankle[0] };
@@ -512,6 +512,7 @@ namespace Game.Units.Mech
                 for (int i = 0; i < 16; i++) _dbg.QpK[6 + i] = c.Diag[i];
                 if (_t.qp_plan > 0.5) for (int i = 0; i < 16; i++) _dbg.QpK[22 + i] = c.PlanDiag[i];
                 if (_qpFoot) for (int i = 0; i < 15; i++) _dbg.QpK[38 + i] = c.FootLog[i];
+                if (_qpFoot && _t.qp_r10_diag > 0.5) { _dbg.QpK[53] = c.PlanDiag[16]; _dbg.QpK[54] = c.PlanDiag[17]; for (int i = 0; i < 14; i++) _dbg.QpK[55 + i] = c.R10Log[i]; _dbg.QpK[69] = c.R9GateHeld; }   // round 10: 53,54 = PlanDiag[16..17]; 55..68 = R10Log[0..13]; 69 = seconds the lift-off was held by the gate
             }
         }
 
