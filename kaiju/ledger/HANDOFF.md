@@ -710,3 +710,7 @@ Exact-depth tie flips were tracker artifacts (wrong silhouette latched in far B0
 - Result: near 0.96 / ref 0.96 / far 0.96 px, 24/24, 72/72, 48/48 starts within 1 px (was near 4.58 px). Any-depth model figure (about 5 px at N = 12-20) is unchanged and still reported, not claimed.
 - T-185 C7 at 1 km, layered on vs off (tuning of T-177): identical, 9/9 far and 4/4 near frames pass in all five profiles (1 km dL min 6.4 / 8.9 / 6.4 / 8.3 / 4.5 L*); no haze or composite change needed. Evidence `evidence/T-187/`, notes `tasks/T-187.progress.md`.
 - Default `nearEdgeOffsetInTargetHeights` stays 0 (flag layerSnap is off by default; mech bounds are unmeasured) - decided autonomously (user offline).
+
+
+## T-115e (M2 worker, 2026-11-15)
+- C2 control: harness now simulates in a local frame (translation-invariant; regression tests added), but the T-115d swing (nofocus ff 0.70-1.00) was NOT float precision: it is spawn-to-infrastructure geometry for the non-pack nofocus arm. M-007@v2 on m007_bay_real@v1 with nofocus 200 seeds: control ff 0.9748 vs candidate 0.9610, fe_vs_nofocus -0.5464, C2 FAIL (no threshold touched). The ff metric saturates, so C2 needs a control/scenario definition decision (research item). Other clause statuses unchanged. Details `evidence/T-115/C2_T-115e.md`.

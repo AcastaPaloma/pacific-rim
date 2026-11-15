@@ -48,6 +48,17 @@ namespace Game.AI.PackHarness
         public string ScenarioId => "m007_bay_" + Name;
     }
 
+    /// <summary>T-115e: a cost field seen from a local frame whose origin is (ox, oy) BayTM metres (integer), so the planner works on small coordinates.</summary>
+    public sealed class LocalFrameField : IBayCostField
+    {
+        readonly IBayCostField _f;
+        public LocalFrameField(IBayCostField f, double ox, double oy) { _f = f; OriginX = (float)(f.OriginX - ox); OriginY = (float)(f.OriginY - oy); }
+        public float OriginX { get; } public float OriginY { get; }
+        public float CellM => _f.CellM; public int Nx => _f.Nx; public int Ny => _f.Ny;
+        public float DepthM(int ix, int iy) => _f.DepthM(ix, iy);
+        public float Softness(int ix, int iy) => _f.Softness(ix, iy);
+    }
+
     public sealed class BayResult
     {
         public long Steps, Decisions, Hits, MechDeaths, KaijuDeaths, InfraDestroyed, BlockedSteps;
@@ -99,6 +110,11 @@ namespace Game.AI.PackHarness
         BayLayout _lay;
         GridRoutePlanner _planner;
         double _now;
+        // T-115e local frame: every simulated position is kept relative to an integer-metre scenario origin (the spawn), so float32 arithmetic always works on small numbers and
+        // a pure translation of the scenario is bit-identical. Only the cost-field lookups and the log writer see absolute BayTM coordinates (added back in double).
+        readonly double _ox, _oy;
+        float AX(float x) => (float)(x + _ox);
+        float AY(float y) => (float)(y + _oy);
 
         public BayHarness(BayScenario sc, TextWriter w)
         {
@@ -108,8 +124,13 @@ namespace Game.AI.PackHarness
             _packLayer = b == BayBrains.Candidate || b == BayBrains.NoRoles || b == BayBrains.NoBait || b == BayBrains.NearestInfra || b == BayBrains.RandomRole || b == BayBrains.Omniscient;
             _omniscient = b == BayBrains.Omniscient;
             _lay = sc.Layout ?? BayLayout.For(sc.Map);
+            if (sc.Name == "emerge") { _ox = Math.Round(_lay.TraceX[30]); _oy = Math.Round(_lay.TraceZ[30]); }
+            else if (sc.Name == "cross") { _ox = Math.Round((double)_lay.CrossX); _oy = Math.Round((double)_lay.CrossY); }
+            else if (sc.Name == "raid") { _ox = Math.Round((double)_lay.RaidX); _oy = Math.Round((double)_lay.RaidY); }
+            else if (sc.Name == "mixed") { _ox = Math.Round((double)_lay.MixedX); _oy = Math.Round((double)_lay.MixedY); }
+            else { _ox = Math.Round((double)_lay.HuntX); _oy = Math.Round((double)_lay.HuntY); }
             if (sc.Map == "real" && sc.Field == null) throw new ArgumentException("Map real needs Field (BayRasterCostField)");
-            if (sc.Map == "water" || sc.Map == "real") { _field = sc.Field ?? new SyntheticBayField(); if (sc.PlanRoutes) _planner = new GridRoutePlanner(_field); }
+            if (sc.Map == "water" || sc.Map == "real") { _field = sc.Field ?? new SyntheticBayField(); if (sc.PlanRoutes) _planner = new GridRoutePlanner(new LocalFrameField(_field, _ox, _oy)); }
             BuildInfra();
             BuildScenario();
         }
@@ -119,7 +140,7 @@ namespace Game.AI.PackHarness
         void BuildInfra()
         {
             // synthetic Bay (R-103 6.2): 2 bridges, 3 power nodes, 4 port cranes (one cluster), 1 airport; Port-SFO about 21 km. `cross` = T-115c route check (one raid target beyond the channel).
-            foreach (var n in _sc.Name == "cross" ? _lay.CrossInfra : _lay.Infra) Add(n.Class, n.C, n.X, n.Y, n.Hp);
+            foreach (var n in _sc.Name == "cross" ? _lay.CrossInfra : _lay.Infra) Add(n.Class, n.C, (float)(n.X - _ox), (float)(n.Y - _oy), n.Hp);
         }
 
         void Add(string cls, byte c, float x, float y, float hp)
@@ -135,10 +156,8 @@ namespace Game.AI.PackHarness
             else
             {
                 foreach (char ch in comp) list.Add(ch);
-                float sx = _lay.HuntX, sy = _lay.HuntY;
-                if (_sc.Name == "cross") { sx = _lay.CrossX; sy = _lay.CrossY; }          // west of the channel, the target 20 km east beyond deep water                                  // hunt/churn/raid: >= 15 km from every target, 25 km from the nearest
-                if (_sc.Name == "raid") { sx = _lay.RaidX; sy = _lay.RaidY; }
-                if (_sc.Name == "mixed") { sx = _lay.MixedX; sy = _lay.MixedY; }         // 20 km from the nearest target
+                float sx = 0f, sy = 0f;   // the scenario origin is the spawn (local frame)
+
                 for (int i = 0; i < list.Count; i++)
                     NewKaiju(list[i], sx + _rng.Range(-150f, 150f), sy + (i - (list.Count - 1) * 0.5f) * 200f + _rng.Range(-50f, 50f), 0.0, 0.3f);
                 if (_sc.Name != "raid" && _sc.Name != "cross") BuildMechs();
@@ -151,7 +170,7 @@ namespace Game.AI.PackHarness
         void PlanEmergence()
         {
             int n = 61; var x = new double[n]; var z = new double[n]; var arc = new double[n]; var br = new bool[n - 1];
-            for (int i = 0; i < n; i++) { x[i] = _lay.TraceX[i]; z[i] = _lay.TraceZ[i]; arc[i] = i == 0 ? 0 : arc[i - 1] + Math.Sqrt(500.0 * 500.0 + Math.Pow(z[i] - z[i - 1], 2)); }
+            for (int i = 0; i < n; i++) { x[i] = _lay.TraceX[i] - _ox; z[i] = _lay.TraceZ[i] - _oy; arc[i] = i == 0 ? 0 : arc[i - 1] + Math.Sqrt(500.0 * 500.0 + Math.Pow(z[i] - z[i - 1], 2)); }
             var trace = new EmergenceTrace(1, x, z, arc, br);
             var tg = new TargetList(); foreach (var nd in _infra.N) tg.Items.Add(new EmergenceTarget(nd.X, nd.Y, 1f));
             var req = new EmergenceRequest { EventId = 1, Mw = 7.0f, Seed = (uint)(_sc.Seed & 0xFFFFFFFF), VertexStart = 0, VertexEnd = n - 1, RuptureEndS = 0f };
@@ -211,15 +230,15 @@ namespace Game.AI.PackHarness
                 else
                 {
                     float ang = (float)(_rng.NextDouble() * 2 * Math.PI), r = 3000f + _rng.Range(-300f, 300f);
-                    m.X = _lay.HuntX + (float)Math.Cos(ang) * r; m.Y = _lay.HuntY + (float)Math.Sin(ang) * r; m.HX = m.X; m.HY = m.Y; NewWaypoint(m);
+                    m.X = (float)(_lay.HuntX - _ox) + (float)Math.Cos(ang) * r; m.Y = (float)(_lay.HuntY - _oy) + (float)Math.Sin(ang) * r; m.HX = m.X; m.HY = m.Y; NewWaypoint(m);
                 }
                 m.Heading = (float)Math.Atan2(m.WY - m.Y, m.WX - m.X); m.Aim = m.Heading;
                 _m.Add(m);
             }
         }
 
-        float DepthAt(float x, float y) { int ix = (int)((x - _field.OriginX) / _field.CellM), iy = (int)((y - _field.OriginY) / _field.CellM); return x < _field.OriginX || y < _field.OriginY || ix >= _field.Nx || iy >= _field.Ny ? 0f : _field.DepthM(ix, iy); }
-        float SoftAt(float x, float y) { int ix = (int)((x - _field.OriginX) / _field.CellM), iy = (int)((y - _field.OriginY) / _field.CellM); return x < _field.OriginX || y < _field.OriginY || ix >= _field.Nx || iy >= _field.Ny ? 0f : _field.Softness(ix, iy); }
+        float DepthAt(float lx, float ly) { double x = lx + _ox, y = ly + _oy; int ix = (int)((x - _field.OriginX) / _field.CellM), iy = (int)((y - _field.OriginY) / _field.CellM); return x < _field.OriginX || y < _field.OriginY || ix >= _field.Nx || iy >= _field.Ny ? 0f : _field.DepthM(ix, iy); }
+        float SoftAt(float lx, float ly) { double x = lx + _ox, y = ly + _oy; int ix = (int)((x - _field.OriginX) / _field.CellM), iy = (int)((y - _field.OriginY) / _field.CellM); return x < _field.OriginX || y < _field.OriginY || ix >= _field.Nx || iy >= _field.Ny ? 0f : _field.Softness(ix, iy); }
 
         void Mark(int[] idx) { foreach (int i in idx) { var n = _infra.N[i]; n.Defended = true; _infra.N[i] = n; } }
         void NewWaypoint(M m) { float a = (float)(_rng.NextDouble() * 2 * Math.PI), r = 2000f * (float)Math.Sqrt(_rng.NextDouble()); m.WX = m.HX + (float)Math.Cos(a) * r; m.WY = m.HY + (float)Math.Sin(a) * r; }
@@ -268,7 +287,7 @@ namespace Game.AI.PackHarness
                         if (!_packLayer) SoloDecide(k); else k.Brain.Decide(_obs, ref k.Intent);
                         k.State = k.Intent.State;
                         _res.Decisions++;
-                        if (logStep) _log.Decision(step, _now, k.Id.Value, k.Sp, _packLayer ? PackIdOf(k) : 0, RoleOf(k), GoalOf(k), true, k.X, k.Y, k.Heading, k.Speed, k.HpAbs > 0 ? k.HpAbs / k.HpMax : 0f, k.Intent, prev, _obs, BoardAge(k), BoardSourceName(k));
+                        if (logStep) _log.Decision(step, _now, k.Id.Value, k.Sp, _packLayer ? PackIdOf(k) : 0, RoleOf(k), GoalOf(k), true, AX(k.X), AY(k.Y), k.Heading, k.Speed, k.HpAbs > 0 ? k.HpAbs / k.HpMax : 0f, k.Intent, prev, _obs, BoardAge(k), BoardSourceName(k));
                     }
                 }
                 for (int i = 0; i < _k.Count; i++) if (_k[i].Alive && _k[i].Emerged) StepKaiju(_k[i], dt, step);
@@ -454,7 +473,7 @@ namespace Game.AI.PackHarness
                     float dmg = _sc.MechDps * dt;
                     tk.HpAbs -= dmg; _res.Hits++;
                     if (step % 10 == 0) _log.Hit(step, m.Id.Value, tk.Id.Value, _sc.MechDps, Math.Max(0f, tk.HpAbs));
-                    if (tk.HpAbs <= 0f) { tk.Alive = false; tk.Speed = 0f; _res.KaijuDeaths++; _log.Death(step, tk.Id.Value); _log.Decision(step, _now, tk.Id.Value, tk.Sp, _packLayer ? PackIdOf(tk) : 0, "Free", "free", false, tk.X, tk.Y, tk.Heading, 0f, 0f, new BrainIntent { State = tk.State }, tk.State, _obs, 0f, "own"); }
+                    if (tk.HpAbs <= 0f) { tk.Alive = false; tk.Speed = 0f; _res.KaijuDeaths++; _log.Death(step, tk.Id.Value); _log.Decision(step, _now, tk.Id.Value, tk.Sp, _packLayer ? PackIdOf(tk) : 0, "Free", "free", false, AX(tk.X), AY(tk.Y), tk.Heading, 0f, 0f, new BrainIntent { State = tk.State }, tk.State, _obs, 0f, "own"); }
                 }
             }
         }
@@ -583,11 +602,11 @@ namespace Game.AI.PackHarness
             for (int j = 0; j < _m.Count; j++)
             {
                 M m = _m[j];
-                _log.Sample(step, _now, m.Id.Value, m.Alive, m.X, m.Y, m.Heading, m.Hp);
+                _log.Sample(step, _now, m.Id.Value, m.Alive, AX(m.X), AY(m.Y), m.Heading, m.Hp);
                 if (m.Alive && m.Aiming >= 0 && m.Lock > 0.0) _log.MechTarget(step, _now, m.Id.Value, _k[m.Aiming].Id.Value);
             }
             if (step % 100 == 0)
-                for (int i = 0; i < _infra.N.Count; i++) { var n = _infra.N[i]; _log.InfraRow(step, _now, n.Id.Value, n.ClassName, n.Hp, n.HpMax, n.X, n.Y); }
+                for (int i = 0; i < _infra.N.Count; i++) { var n = _infra.N[i]; _log.InfraRow(step, _now, n.Id.Value, n.ClassName, n.Hp, n.HpMax, AX(n.X), AY(n.Y)); }
         }
 
         static float Dist(float ax, float ay, float bx, float by) { float dx = bx - ax, dy = by - ay; return (float)Math.Sqrt(dx * dx + dy * dy); }

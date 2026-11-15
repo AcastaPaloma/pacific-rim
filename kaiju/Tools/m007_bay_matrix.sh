@@ -22,7 +22,9 @@ run_family() {  # scenario seeds40 brains...
     $RUN --scenario "$sc" --brain "$b" --comps "$LAST" --seeds "1-$n5" --out "$LOGS" >/dev/null
   done
 }
-run_family hunt "$HS" scriptedpack@1 directcharge@1 nofocus@1 solo@1 noroles@1 nobait@1 randomrole@1 omniscient@1
+run_family hunt "$HS" scriptedpack@1 directcharge@1 solo@1 noroles@1 nobait@1 randomrole@1 omniscient@1
+# T-115e: the nofocus@1 control may take a larger sample (M007_NF_SEEDS, default = hunt seeds); extra seeds only tighten the control mean
+run_family hunt "${M007_NF_SEEDS:-$HS}" nofocus@1
 run_family churn "$HS" scriptedpack@1
 run_family raid "$LS" scriptedpack@1 nearestinfra@1 solo@1 omniscient@1
 run_family mixed "$LS" scriptedpack@1 nearestinfra@1 solo@1 noroles@1 omniscient@1
