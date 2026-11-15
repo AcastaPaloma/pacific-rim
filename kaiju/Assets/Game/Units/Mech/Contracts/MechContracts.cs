@@ -86,6 +86,7 @@ namespace Game.Units.Mech.Contracts
         public double imp_hip_zeta_heel, imp_hip_zeta_flat, imp_hip_zeta_toe, imp_knee_zeta_heel, imp_knee_zeta_flat, imp_knee_zeta_toe, imp_ankle_zeta_heel, imp_ankle_zeta_flat, imp_ankle_zeta_toe;
         public double imp_step_length_max_frac = 0.66;   // round 2 step 6a: step length cap (x leg length) when imp > 0; the reference's step at Fr 0.15 is 0.651 l
         public double imp_kload_hip = 0.5, imp_kload_knee = 1.0, imp_kload_ankle = 0.5, imp_kload_zeta = 1.0;   // round 2 step 6b: stance stiffness = kload x foot load x leg length
+        public double imp_waist_ff = 0.9, imp_waist_max_deg = 25;   // imp=1 waist table; legacy imp=0 uses ref_waist_ff, ref_waist_max_deg
         public double imp_waist_hz = 0.8, imp_waist_zeta = 1.0, imp_arm_hz = 0.6, imp_arm_zeta = 1.0;
         public double imp_ff_gravity = 1.0, imp_ff_coriolis = 1.0, imp_ff_accel = 1.0, imp_ff_stance_gravity_share = 0.0;   // round 2 step 4: gains on the body's inverse dynamics; share of the gravity term applied on stance-leg DOFs   // round 2 step 3: waist yaw and shoulder drive of the tracked upper body
         public double yaw_budget_flat_wl, yaw_budget_edge_wl, yaw_filter;

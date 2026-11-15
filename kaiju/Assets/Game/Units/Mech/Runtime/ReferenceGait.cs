@@ -119,10 +119,10 @@ namespace Game.Units.Mech
             if (_t.imp > 0 && Speed > 1e-6) ApplySchedule(fr, l);
             if (Speed > 1e-6 && _t.ref_ankle_heel_rise > 0) { var end = Sample(Duty - 1e-6); _toeOffExtra = Math.Max(0, end.L.FootPitch); }
             // R-007 change 4: the trunk turns against the limbs. Waist yaw rate = -gain x (angular momentum of legs and arms about the vertical) / trunk yaw inertia, zero mean, bounded.
-            const int K = 480; var table = new double[K + 1]; double T = 2 * StepTime, mean = 0, max = _t.ref_waist_max_deg * Math.PI / 180;
-            if (_sched != null && _t.ref_waist_ff > 0 && _g.UpperYawInertia > 0)
+            const int K = 480; var table = new double[K + 1]; double T = 2 * StepTime, mean = 0, max = (_sched != null ? _t.imp_waist_max_deg : _t.ref_waist_max_deg) * Math.PI / 180;
+            if (_sched != null && _t.imp_waist_ff > 0 && _g.UpperYawInertia > 0)
             {
-                // round 2: the declared trunk share k = ref_waist_ff. The waist turns the upper body (torso, head, arms) so that the vertical angular momentum of the whole body, with the upper body
+                // round 2: the declared trunk share k = imp_waist_ff. The waist turns the upper body (torso, head, arms) so that the vertical angular momentum of the whole body, with the upper body
                 // riding on the pelvis, is cut to (1 - k) of itself, over the first eight stride harmonics (R-008 yaw.py): upper inertia x d(waist)/dt = -k x L0, zero mean.
                 const int H = 8; var L0 = new double[K]; for (int i = 0; i < K; i++) L0[i] = AngularMomentumY((double)i / K);
                 for (int i = 0; i <= K; i++) table[i] = 0;
@@ -130,7 +130,7 @@ namespace Game.Units.Mech
                 {
                     double a = 0, b = 0; for (int i = 0; i < K; i++) { double w = 2 * Math.PI * h * i / K; a += L0[i] * Math.Cos(w); b += L0[i] * Math.Sin(w); }
                     a *= 2.0 / K; b *= 2.0 / K; double om = 2 * Math.PI * h / T;
-                    for (int i = 0; i <= K; i++) { double w = 2 * Math.PI * h * i / K; table[i] += -_t.ref_waist_ff / _g.UpperYawInertia * (a * Math.Sin(w) - b * Math.Cos(w)) / om; }
+                    for (int i = 0; i <= K; i++) { double w = 2 * Math.PI * h * i / K; table[i] += -_t.imp_waist_ff / _g.UpperYawInertia * (a * Math.Sin(w) - b * Math.Cos(w)) / om; }
                 }
                 double peak = 0; for (int i = 0; i <= K; i++) peak = Math.Max(peak, Math.Abs(table[i]));
                 if (peak > max) for (int i = 0; i <= K; i++) table[i] *= max / peak;

@@ -76,7 +76,7 @@ namespace Game.Units.Mech.Tests
             }
             r.HipExcursion = hipMax - hipMin; r.FlatFraction = ssN > 0 ? (double)ssFlat / ssN : 0;
             // declared trunk share: how much of the limbs' yaw momentum the waist (and the pelvis cancel) takes out, from the single-support peak moments with and without them
-            var noWaist = Repo.Walk(); noWaist.imp = 1; noWaist.ref_waist_ff = 0; var g0 = new ReferenceGait(geo, noWaist, G); g0.Configure(gait.Speed, 0);
+            var noWaist = Repo.Walk(); noWaist.imp = 1; noWaist.imp_waist_ff = 0; var g0 = new ReferenceGait(geo, noWaist, G); g0.Configure(gait.Speed, 0);
             var M0 = g0.YawMomentProfile(NY, 8); double peakWith = 0, peakLimbs = 0;
             for (int i = 0; i < NY; i++)
             {
