@@ -72,13 +72,44 @@ namespace Game.Tools.StyleCapture
             Binder.PrepareFrame();
             m_Request.destination = World.targetTexture;
             if (!RenderPipeline.SupportsRenderRequest(World, m_Request)) throw new InvalidOperationException("the active render pipeline does not support single-camera requests (is the pixel pipeline active?)");
-            RenderPipeline.SubmitRenderRequest(World, m_Request);
+            if (Binder.Layered)
+            {
+                // Layered path (T-181d): one render per slab into the slab's own targets, then the unshifted internal composite that Read and the metrics use.
+                try { for (int slab = 0; slab < PixelLayerPlan.Count; slab++) { Binder.BeginSlab(slab); RenderPipeline.SubmitRenderRequest(World, m_Request); Binder.EndSlabs(); } }
+                finally { Binder.EndSlabs(); }
+                Binder.CompositeInternal();
+            }
+            else RenderPipeline.SubmitRenderRequest(World, m_Request);
             if (!renderOutput) return;
             if (m_Output == null) SetOutputSize(Binder.outputSize.x, Binder.outputSize.y);
             Present.targetTexture = m_Output;
             m_Request.destination = m_Output;
             RenderPipeline.SubmitRenderRequest(Present, m_Request);
             Present.targetTexture = null;
+        }
+
+        Texture2D m_RegionTex;
+
+        /// <summary>
+        /// Reads a rectangle of the presented output (bottom-left origin, as <see cref="Texture2D.ReadPixels(Rect, int, int, bool)"/>) as RGB bytes, row by row from the bottom.
+        /// Cheap enough for per-frame use (the C11 job reads three one-pixel-high windows per frame).
+        /// </summary>
+        public byte[] ReadOutputRegion(int x, int y, int width, int height)
+        {
+            if (m_Output == null) throw new InvalidOperationException("no output has been rendered");
+            if (m_RegionTex == null || m_RegionTex.width != width || m_RegionTex.height != height)
+            {
+                if (m_RegionTex != null) UnityEngine.Object.DestroyImmediate(m_RegionTex);
+                m_RegionTex = new Texture2D(width, height, GraphicsFormat.R8G8B8A8_UNorm, TextureCreationFlags.None) { hideFlags = HideFlags.HideAndDontSave };
+            }
+            var previous = RenderTexture.active;
+            RenderTexture.active = m_Output;
+            m_RegionTex.ReadPixels(new Rect(x, y, width, height), 0, 0, false);
+            RenderTexture.active = previous;
+            NativeArray<byte> rgba = m_RegionTex.GetRawTextureData<byte>();
+            var rgb = new byte[width * height * 3];
+            for (int i = 0, n = width * height; i < n; i++) { rgb[i * 3] = rgba[i * 4]; rgb[i * 3 + 1] = rgba[i * 4 + 1]; rgb[i * 3 + 2] = rgba[i * 4 + 2]; }
+            return rgb;
         }
 
         /// <summary>Reads the visible internal image (guard band cropped) and optionally the presented output.</summary>
@@ -151,7 +182,7 @@ namespace Game.Tools.StyleCapture
 
         public void Dispose()
         {
-            Destroy(ref m_ColourTex); Destroy(ref m_DepthTex); Destroy(ref m_OutputTex);
+            Destroy(ref m_ColourTex); Destroy(ref m_DepthTex); Destroy(ref m_OutputTex); Destroy(ref m_RegionTex);
             if (m_Output != null) { m_Output.Release(); UnityEngine.Object.DestroyImmediate(m_Output); m_Output = null; }
         }
     }

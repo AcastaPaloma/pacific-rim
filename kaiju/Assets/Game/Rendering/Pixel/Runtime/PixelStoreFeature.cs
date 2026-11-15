@@ -17,10 +17,10 @@ namespace Game.Rendering.Pixel
             public Pass() : base(PixelStageId.Store, ScriptableRenderPassInput.Depth) { }
             protected override void Record(RenderGraph renderGraph, UniversalResourceData resources, PixelFrameContext context)
             {
-                if (binder.InternalColourHandle == null) return;
+                if (binder.StoreColourHandle == null) return;   // the composite targets, or the active slab's targets while the layered path renders a slab
                 int scale = ColourScale(context);
-                var colour = renderGraph.ImportTexture(binder.InternalColourHandle);
-                var depth = renderGraph.ImportTexture(binder.InternalDepthHandle);
+                var colour = renderGraph.ImportTexture(binder.StoreColourHandle);
+                var depth = renderGraph.ImportTexture(binder.StoreDepthHandle);
                 using (var builder = Begin(renderGraph, resources, context, resources.activeColorTexture, scale, colour, 1, true, false, out var data))
                 {
                     data.dst2 = depth;

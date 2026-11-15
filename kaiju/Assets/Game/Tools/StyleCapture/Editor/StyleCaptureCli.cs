@@ -60,7 +60,7 @@ namespace Game.Tools.StyleCapture
 
         /// <summary>
         /// Writes style_capture@v1 capture sets. Arguments: -captureOut &lt;dir&gt; (default evidence/T-004/captures),
-        /// -captureJobs &lt;list&gt; (stills,hazecal,m004,m004ab,subpixel,controls,stages,cut,orbit,dolly; default all; m004direction = the M-004 sets with direction anchoring, on request), -captureProfiles &lt;list&gt;,
+        /// -captureJobs &lt;list&gt; (stills,hazecal,m004,m004ab,subpixel,controls,stages,cut,orbit,dolly; default all; m004direction = the M-004 sets with direction anchoring, c11slab = the T-182 C11 slab / depthShift captures, both on request), -captureProfiles &lt;list&gt;,
         /// -captureCommit &lt;hash&gt; (default: git rev-parse HEAD).
         /// </summary>
         public static void Run()
@@ -92,6 +92,8 @@ namespace Game.Tools.StyleCapture
                 if (jobs.Contains("m004direction")) StyleCaptureJobs.M004(s, "direction", "m004direction_");
                 if (jobs.Contains("m004ab")) StyleCaptureJobs.M004Ab(s);
                 if (jobs.Contains("subpixel")) StyleCaptureJobs.SubPixel(s);
+                if (jobs.Contains("layercheck")) C11SlabJobs.LayerCheck(s);   // T-181d acceptance (layered vs single render); on request
+                if (jobs.Contains("c11slab")) C11SlabJobs.Run(s);   // T-182; not in the default list: request it explicitly
                 if (jobs.Contains("orbit")) StyleCaptureJobs.Orbit(s);
                 if (jobs.Contains("dolly")) StyleCaptureJobs.Dolly(s);
             }

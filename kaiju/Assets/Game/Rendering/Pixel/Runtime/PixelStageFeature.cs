@@ -35,6 +35,8 @@ namespace Game.Rendering.Pixel
         public Vector4 targetSize, thresholdInfo, camPos, camRight, camUp, camForward, tanHalf;
         public int id0, id1, id2; public Vector4 v0, v1, v2;
         public int texId0, texId1; public Texture tex0, tex1;
+        /// <summary>Layered present (T-181d): slab colour 0..2 then slab depth 0..2, and the per-slab shift / boundary vectors. Null when the pass is not layered.</summary>
+        public TextureHandle[] slabTex; public Vector4 v3, v4;
     }
 
     static class PixelIds
@@ -68,6 +70,11 @@ namespace Game.Rendering.Pixel
         public static readonly int PresentMode = Shader.PropertyToID("_PixelPresentMode");
         public static readonly int PresentDepth = Shader.PropertyToID("_PixelPresentDepth");
         public static readonly int InternalDepthTex = Shader.PropertyToID("_PixelInternalDepthTex");
+        public static readonly int[] SlabColour = { Shader.PropertyToID("_PixelSlabColour0"), Shader.PropertyToID("_PixelSlabColour1"), Shader.PropertyToID("_PixelSlabColour2") };
+        public static readonly int[] SlabDepth = { Shader.PropertyToID("_PixelSlabDepth0"), Shader.PropertyToID("_PixelSlabDepth1"), Shader.PropertyToID("_PixelSlabDepth2") };
+        public static readonly int SlabShift01 = Shader.PropertyToID("_PixelSlabShift01");
+        public static readonly int SlabShift2 = Shader.PropertyToID("_PixelSlabShift2");
+        public static readonly int SlabInfo = Shader.PropertyToID("_PixelSlabInfo");
     }
 
     /// <summary>One profiling sampler per pass name (Pixel.Dither, Pixel.Haze, ...), shared by every renderer, so tools can read CPU and GPU time per pass.</summary>

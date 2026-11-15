@@ -15,6 +15,7 @@ Arguments parsed by `Run` and its helpers:
 - `-captureOut <dir>`: output root. Default `evidence/T-004/captures`.
 - `-captureJobs <a,b>`: comma-separated job names. Default `stills,hazecal,m004,m004ab,subpixel,controls,stages,cut,orbit,dolly`.
 - `-captureProfiles <a,b>`: comma-separated profile ids. Default: all five (`warm_rust_sepia`, `warm_amber_haze`, `slate_teal`, `lavender_peach`, `slate_crimson`).
+- `-captureC11Phases`, `-captureC11Frames`, `-captureC11Configs`: see `c11slab` below.
 - `-captureCommit <hash>`: git commit recorded in the sidecars. Default `git rev-parse HEAD`.
 
 Other entry points: `StyleCaptureCli.Preview` (`-executeMethod ...StyleCaptureCli.Preview`, with `-captureOut`, default `Temp/pixel_preview`) writes one PNG set per profile for a quick look.
@@ -32,6 +33,8 @@ Other entry points: `StyleCaptureCli.Preview` (`-executeMethod ...StyleCaptureCl
 - `cut`: moving-then-cut check and a static check at the new pose.
 - `orbit`: 20 s orbit follow-mode run per profile, with one camera-shake impulse.
 - `dolly`: 180-frame dolly toward the 10 km layer per profile.
+- `c11slab` (T-182, on request, not in the default list): the T1 translation through the shipped present stage in eight configurations (single snap, `depthShift`, `layerSnap` at main depth 663.0 and 664.874 m, plus `layerSnap` at the class points' geometric depths) from many start offsets, one `c11_slab@v1` sequence each (`sequence.json` and `c11_frames.json.gz`: per frame the log-coded eye depth of the presented output along the row of each class point, near 124 m, reference 663 m, far 10.4 km). Arguments: `-captureC11Phases` (group B starts, default 48; group A gets half), `-captureC11Frames` (180), `-captureC11Configs` (name filters). Analysis: `Tools/Rendering/Pixel/c11_slab.py <captureOut>`.
+- `layercheck` (T-181d acceptance, on request): the layered render against the single render on cut frames from three viewpoints (shares of identical texels, palette exactness of the output), written to `layercheck.json`.
 
 ## Output layout
 
