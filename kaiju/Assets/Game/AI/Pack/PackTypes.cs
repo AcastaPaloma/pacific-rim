@@ -147,6 +147,7 @@ namespace Game.AI.Pack
         public float AnchorMinFit;           // covering rule threshold (R-103 4.3)
         public float RegroupMinSeconds;
         public float WeightCrane, WeightPower, WeightBridge, WeightAirport;
+        public float TransitDistanceM;       // farther than this from the slot a member walks at full speed (Bay-scale transit)
 
         public static PackConfig Default()
         {
@@ -159,10 +160,13 @@ namespace Game.AI.Pack
                 GoalDwellSeconds = 30f, GoalSwitchRatio = 1.3f, FocusClaimExpirySeconds = 6f, BoardStalenessSeconds = 60f,
                 MechStrength = 2.5f, MechValue = 4f, HuntHandlingBaseSeconds = 120f, RaidDamageRate = 1f,
                 DefenseRadiusM = 3000f, RiskScale = 1f, AnchorMinFit = 0.3f, RegroupMinSeconds = 30f,
-                WeightCrane = 1f, WeightPower = 2f, WeightBridge = 3f, WeightAirport = 3f,
+                WeightCrane = 1f, WeightPower = 2f, WeightBridge = 3f, WeightAirport = 3f, TransitDistanceM = 1500f,
             };
         }
     }
+
+    /// <summary>Ablations of the pack layer for the M-007@v2 controls (R-103 5.3). `None` is the candidate.</summary>
+    public enum PackControl : byte { None = 0, NoRoles = 1, NoBait = 2, NearestInfra = 3, RandomRole = 4 }
 
     /// <summary>Counters for tests, brain_log@v2 and the P2/P3 clauses (R-103 5).</summary>
     public struct PackStats

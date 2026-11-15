@@ -1,0 +1,581 @@
+// m007_bay harness (R-103 6, T-115 step 2): deterministic 2D kinematic Bay-scale simulation of mixed-species packs against patrolling or
+// guarding mechs and F-044 infrastructure, writing brain_log@v2. Pure C#; separate assembly from M1's Game.AI.Harness (never edits it).
+// Phase 1 map `m007_bay_synth@v1`: 60 km x 60 km, straight-line routes, kaiju wade through water (no route planner yet, tracked).
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Game.AI.Pack;
+using Game.Core;
+using Game.World.Emergence;
+
+namespace Game.AI.PackHarness
+{
+    /// <summary>Control and candidate ids of R-103 5.3 (the brain_id written to the log).</summary>
+    public static class BayBrains
+    {
+        public const string Candidate = "scriptedpack@1", DirectCharge = "directcharge@1", NoFocus = "nofocus@1", Solo = "solo@1",
+            NoRoles = "noroles@1", NoBait = "nobait@1", NearestInfra = "nearestinfra@1", RandomRole = "randomrole@1", Omniscient = "omniscient@1";
+        public static readonly string[] All = { Candidate, DirectCharge, NoFocus, Solo, NoRoles, NoBait, NearestInfra, RandomRole, Omniscient };
+    }
+
+    public sealed class BayScenario
+    {
+        public string Name = "hunt";               // hunt | churn | raid | mixed | emerge  (logged as m007_bay_<name>)
+        public string Composition = "LLH";         // L Strider, M Breacher, H Bastion (emerge: label only)
+        public ulong Seed = 1;
+        public string BrainId = BayBrains.Candidate;
+        public SpeciesRole[] Species;              // index = SpeciesId (1..3); defaults to the R-103 0.2 numbers
+        public float StepSeconds = 0.1f;
+        public int DecisionEverySteps = 2;         // brain 5 Hz
+        public int CoordinatorEverySteps = 10;     // pack layer 1 Hz
+        public int LogEveryDecisions = 0;          // 0 = by scenario (1 for hunt/churn, 5 otherwise)
+        public double DurationSeconds = 0;         // 0 = by scenario
+        public float CallRangeM = 5000f;
+        public float HearingRangeM = 4000f;        // mech footsteps: the board hears them (source "heard"); sight stays 1200 m
+        public float MechSpeed = 3f, MechCruise = 9.12f, MechRange = 300f, MechDps = 6f, MechTraverse = 0.6f, MechLockSeconds = 3f;
+        public float MeleeDamageToMech = 25f, MechHpAbs = 100f, MeleeCooldown = 2f, KaijuHpRef = 400f;
+        public float InfraDamageRate = 1f;         // hp/s per kaiju at the target (the coordinator plans with PackConfig.RaidDamageRate)
+        public PackConfig Pack = PackConfig.Default();
+        public EmergenceOptions Emergence = new EmergenceOptions { SiteCount = 5 };
+
+        public double Duration => DurationSeconds > 0 ? DurationSeconds : Name == "hunt" ? 600 : Name == "churn" ? 900 : Name == "raid" ? 6000 : Name == "mixed" ? 3600 : 1200;
+        public int LogEvery => LogEveryDecisions > 0 ? LogEveryDecisions : (Name == "hunt" || Name == "churn" ? 1 : 5);
+        public string ScenarioId => "m007_bay_" + Name;
+    }
+
+    public sealed class BayResult
+    {
+        public long Steps, Decisions, Hits, MechDeaths, KaijuDeaths, InfraDestroyed;
+        public int Kaiju, Packs;
+    }
+
+    public sealed class BayHarness
+    {
+        sealed class K
+        {
+            public EntityId Id; public int Sp; public char Letter; public SpeciesRole S; public IKaijuBrain Brain; public BrainConfig Cfg;
+            public float X, Y, Heading, Speed, HpAbs, HpMax, Cooldown; public bool Alive, Emerged; public double EmergeAt;
+            public BrainIntent Intent; public BrainState State; public int PackIdx = -1; public double JoinWaitUntil;
+            public double[] LastSeen; public float[] LX, LY, LH, LHp; public bool[] Ever;
+            public PackRole Role = PackRole.Free; public int Infra = -1; public float InfraDmg;
+            public bool WasEligible;
+        }
+
+        sealed class M
+        {
+            public EntityId Id; public float X, Y, Heading, Hp; public bool Alive = true; public float WX, WY, HX, HY, Aim;
+            public int Aiming = -1; public double Lock; public double RespawnAt; public int Cluster = -1; public bool Guard;
+        }
+
+        sealed class I : IInfrastructureSource
+        {
+            public readonly List<Node> N = new List<Node>();
+            public struct Node { public EntityId Id; public float X, Y, Hp, HpMax; public byte Class; public bool Alive, Defended; public string ClassName; }
+            public int Count => N.Count;
+            public InfraTarget Get(int i) => new InfraTarget { Id = N[i].Id, Pos = new Float2(N[i].X, N[i].Y), Class = N[i].Class, Hp = N[i].Hp, Alive = N[i].Alive };
+        }
+
+        sealed class Pk { public PackCoordinator C; public readonly List<K> Members = new List<K>(); public int Id; public PackGoal LastGoal = PackGoal.None; public EntityId LastRaid; public PackRole[] Prev = new PackRole[8]; public EntityId[] PrevId = new EntityId[8]; public int PrevN; public bool Active; }
+
+        readonly BayScenario _sc;
+        readonly TextWriter _w;
+        readonly BayLog _log;
+        readonly List<K> _k = new List<K>();
+        readonly List<M> _m = new List<M>();
+        readonly I _infra = new I();
+        readonly List<Pk> _packs = new List<Pk>();
+        readonly PackDirectory _dir = new PackDirectory();
+        readonly BrainObservation _obs = new BrainObservation();
+        readonly PackMemberState[] _states = new PackMemberState[16];
+        readonly Rng _rng;
+        BayResult _res = new BayResult();
+        bool _packLayer, _omniscient, _noFormation;
+        double _now;
+
+        public BayHarness(BayScenario sc, TextWriter w)
+        {
+            _sc = sc; _w = w; _log = new BayLog(w); _rng = new Rng(sc.Seed * 0x9E3779B97F4A7C15UL + 777UL);
+            if (sc.Species == null) sc.Species = new[] { default(SpeciesRole), SpeciesRole.Strider, SpeciesRole.Breacher, SpeciesRole.Bastion };
+            string b = sc.BrainId;
+            _packLayer = b == BayBrains.Candidate || b == BayBrains.NoRoles || b == BayBrains.NoBait || b == BayBrains.NearestInfra || b == BayBrains.RandomRole || b == BayBrains.Omniscient;
+            _omniscient = b == BayBrains.Omniscient;
+            BuildInfra();
+            BuildScenario();
+        }
+
+        // ------------------------------------------------------------------------------------------ setup
+
+        void BuildInfra()
+        {
+            // synthetic Bay (R-103 6.2): 2 bridges, 3 power nodes, 4 port cranes (one cluster), 1 airport; Port-SFO about 21 km
+            Add("bridge", 2, 34000, 38000, 1500); Add("bridge", 2, 14000, 46000, 1500);
+            Add("power", 1, 20000, 38000, 600); Add("power", 1, 28000, 24000, 600); Add("power", 1, 46000, 33500, 600);
+            Add("crane", 0, 39850, 30000, 300); Add("crane", 0, 40050, 30100, 300); Add("crane", 0, 40150, 29900, 300); Add("crane", 0, 39950, 29850, 300);
+            Add("airport", 3, 30000, 11800, 2000);
+        }
+
+        void Add(string cls, byte c, float x, float y, float hp)
+        {
+            _infra.N.Add(new I.Node { Id = EntityId.FromValue((ulong)(201 + _infra.N.Count)), X = x, Y = y, Hp = hp, HpMax = hp, Class = c, ClassName = cls, Alive = true });
+        }
+
+        void BuildScenario()
+        {
+            string comp = _sc.Composition;
+            var list = new List<char>();
+            if (_sc.Name == "emerge") { PlanEmergence(); }
+            else
+            {
+                foreach (char ch in comp) list.Add(ch);
+                float sx = 6000f, sy = 2000f;                                  // hunt/churn/raid: >= 15 km from every target, 25 km from the nearest
+                if (_sc.Name == "mixed") { sx = 10000f; sy = 12000f; }         // 20 km from the nearest target
+                for (int i = 0; i < list.Count; i++)
+                    NewKaiju(list[i], sx + _rng.Range(-150f, 150f), sy + (i - (list.Count - 1) * 0.5f) * 200f + _rng.Range(-50f, 50f), 0.0, 0.3f);
+                if (_sc.Name != "raid") BuildMechs();
+                var pk = NewPack();
+                foreach (var k in _k) Join(k, pk);
+            }
+            _res.Kaiju = _k.Count;
+        }
+
+        void PlanEmergence()
+        {
+            int n = 61; var x = new double[n]; var z = new double[n]; var arc = new double[n]; var br = new bool[n - 1];
+            for (int i = 0; i < n; i++) { x[i] = 10000 + i * 500.0; z[i] = 22000 + 2500 * Math.Sin(i * 0.15); arc[i] = i == 0 ? 0 : arc[i - 1] + Math.Sqrt(500.0 * 500.0 + Math.Pow(z[i] - z[i - 1], 2)); }
+            var trace = new EmergenceTrace(1, x, z, arc, br);
+            var tg = new TargetList(); foreach (var nd in _infra.N) tg.Items.Add(new EmergenceTarget(nd.X, nd.Y, 1f));
+            var req = new EmergenceRequest { EventId = 1, Mw = 7.0f, Seed = (uint)(_sc.Seed & 0xFFFFFFFF), VertexStart = 0, VertexEnd = n - 1, RuptureEndS = 0f };
+            var plan = EmergencePlanner.Plan(req, trace, tg, _sc.Emergence);
+            if (plan == null) return;
+            char[] letter = { ' ', 'L', 'M', 'H' };
+            foreach (var s in plan.Sites)
+                foreach (var kk in s.Kaiju)
+                    NewKaiju(letter[kk.SpeciesId], (float)kk.X, (float)kk.Z, kk.TimeS, kk.HeadingRad);
+        }
+
+        sealed class TargetList : IEmergenceTargets
+        {
+            public readonly List<EmergenceTarget> Items = new List<EmergenceTarget>();
+            public int Count => Items.Count; public EmergenceTarget Get(int i) => Items[i];
+        }
+
+        void NewKaiju(char letter, float x, float y, double at, float heading)
+        {
+            int sp = letter == 'L' ? 1 : letter == 'M' ? 2 : 3;
+            SpeciesRole s = _sc.Species[sp];
+            var cfg = BrainConfig.Default();
+            cfg.CruiseSpeedMps = s.CruiseMps; cfg.MeleeReachM = s.MeleeReachM; cfg.StandoffM = s.StandoffM; cfg.EngageRadiusM = s.StandoffM * 1.2f;
+            cfg.AllyAwarenessM = _sc.CallRangeM; cfg.AssemblyRadiusM = Math.Max(375f, s.StandoffM * 1.5f);
+            cfg.BrainPeriodSteps = _sc.DecisionEverySteps;
+            if (_sc.BrainId == BayBrains.DirectCharge) cfg.DirectCharge = true;
+            if (_sc.BrainId == BayBrains.NoFocus) cfg.WeightFocus = 0f;
+            var k = new K
+            {
+                Id = EntityId.FromValue((ulong)(_k.Count + 1)), Sp = sp, Letter = letter, S = s, Cfg = cfg, X = x, Y = y, Heading = heading, Alive = true,
+                HpMax = _sc.KaijuHpRef * Math.Max(0.5f, s.HpRel), EmergeAt = at, Emerged = at <= 0.0,
+            };
+            k.HpAbs = k.HpMax;
+            k.Brain = new Game.AI.ScriptedKaijuBrain();
+            k.Brain.Reset(_sc.Seed * 31UL + (ulong)_k.Count, cfg);
+            if (_packLayer) k.Brain = new PackMemberBrain(k.Brain, _dir, _sc.Pack);
+            _k.Add(k);
+        }
+
+        void BuildMechs()
+        {
+            int n = (_sc.Seed % 2UL == 1UL) ? 3 : 4;
+            bool guard = _sc.Name == "mixed";
+            if (guard) n = 3;
+            for (int j = 0; j < n; j++)
+            {
+                var m = new M { Id = EntityId.FromValue((ulong)(101 + j)), Hp = 1f };
+                if (guard)
+                {
+                    // 3 guards split across 2 defended clusters 7 km apart: Port cranes (2 mechs) and the east power node (1 mech)
+                    int c = j < 2 ? 0 : 1; m.Cluster = c; m.Guard = true;
+                    var node = c == 0 ? _infra.N[5] : _infra.N[4];
+                    m.HX = node.X + (j == 1 ? 200f : -150f); m.HY = node.Y + 150f * (j - 1);
+                    m.X = m.HX; m.Y = m.HY;
+                    Mark(c == 0 ? new[] { 5, 6, 7, 8 } : new[] { 4 });
+                }
+                else
+                {
+                    float ang = (float)(_rng.NextDouble() * 2 * Math.PI), r = 3000f + _rng.Range(-300f, 300f);
+                    m.X = 6000f + (float)Math.Cos(ang) * r; m.Y = 2000f + (float)Math.Sin(ang) * r; m.HX = m.X; m.HY = m.Y; NewWaypoint(m);
+                }
+                m.Heading = (float)Math.Atan2(m.WY - m.Y, m.WX - m.X); m.Aim = m.Heading;
+                _m.Add(m);
+            }
+        }
+
+        void Mark(int[] idx) { foreach (int i in idx) { var n = _infra.N[i]; n.Defended = true; _infra.N[i] = n; } }
+        void NewWaypoint(M m) { float a = (float)(_rng.NextDouble() * 2 * Math.PI), r = 2000f * (float)Math.Sqrt(_rng.NextDouble()); m.WX = m.HX + (float)Math.Cos(a) * r; m.WY = m.HY + (float)Math.Sin(a) * r; }
+
+        Pk NewPack()
+        {
+            var p = new Pk { Id = _packs.Count + 1, C = new PackCoordinator(_infra) };
+            p.C.Reset(_sc.Seed * 17UL + (ulong)p.Id, _sc.Pack);
+            switch (_sc.BrainId)
+            {
+                case BayBrains.NoRoles: p.C.Control = PackControl.NoRoles; break;
+                case BayBrains.NoBait: p.C.Control = PackControl.NoBait; break;
+                case BayBrains.NearestInfra: p.C.Control = PackControl.NearestInfra; break;
+                case BayBrains.RandomRole: p.C.Control = PackControl.RandomRole; break;
+            }
+            _packs.Add(p); _res.Packs = _packs.Count;
+            return p;
+        }
+
+        void Join(K k, Pk p) { if (k.PackIdx >= 0) { _packs[k.PackIdx].Members.Remove(k); } k.PackIdx = p.Id - 1; p.Members.Add(k); if (_packLayer) _dir.Assign(k.Id, p.C); }
+
+        // ------------------------------------------------------------------------------------------ run
+
+        public BayResult Run()
+        {
+            float dt = _sc.StepSeconds; long total = (long)Math.Round(_sc.Duration / dt);
+            int logPeriodSteps = _sc.DecisionEverySteps * _sc.LogEvery;
+            _log.Header(_sc, logPeriodSteps, _packLayer);
+            for (long step = 0; step < total; step++)
+            {
+                _now = step * (double)dt;
+                EmergenceTick(step);
+                for (int j = 0; j < _m.Count; j++) StepMech(_m[j], dt);
+                for (int i = 0; i < _k.Count; i++) if (_k[i].Alive && _k[i].Emerged) Perceive(_k[i]);
+                if (step % _sc.CoordinatorEverySteps == 0) { if (_sc.Name == "emerge") Formation(step); if (_packLayer) TickPacks(step); }
+                bool decStep = step % _sc.DecisionEverySteps == 0;
+                bool logStep = step % logPeriodSteps == 0;
+                if (logStep) LogWorld(step);
+                if (decStep)
+                {
+                    for (int i = 0; i < _k.Count; i++)
+                    {
+                        K k = _k[i]; if (!k.Alive || !k.Emerged) continue;
+                        FillObs(k, step);
+                        BrainState prev = k.State;
+                        if (!_packLayer) SoloDecide(k); else k.Brain.Decide(_obs, ref k.Intent);
+                        k.State = k.Intent.State;
+                        _res.Decisions++;
+                        if (logStep) _log.Decision(step, _now, k.Id.Value, k.Sp, _packLayer ? PackIdOf(k) : 0, RoleOf(k), GoalOf(k), true, k.X, k.Y, k.Heading, k.Speed, k.HpAbs > 0 ? k.HpAbs / k.HpMax : 0f, k.Intent, prev, _obs, BoardAge(k), BoardSourceName(k));
+                    }
+                }
+                for (int i = 0; i < _k.Count; i++) if (_k[i].Alive && _k[i].Emerged) StepKaiju(_k[i], dt, step);
+                MechFire(step, dt);
+                _res.Steps++;
+            }
+            _w.Flush();
+            return _res;
+        }
+
+        int PackIdOf(K k) => k.PackIdx >= 0 ? k.PackIdx + 1 : 0;
+
+        // ------------------------------------------------------------------------------------------ emergence and formation (R-103 4.5)
+
+        void EmergenceTick(long step)
+        {
+            if (_sc.Name != "emerge") return;
+            for (int i = 0; i < _k.Count; i++)
+            {
+                K k = _k[i];
+                if (k.Emerged || _now < k.EmergeAt) continue;
+                k.Emerged = true; k.JoinWaitUntil = _now + 180.0;
+                // call at emergence: heard by every already-emerged kaiju within call range, delay = distance / 343 (R-103 4.1)
+                var heard = new List<ulong>(); float far = 0f;
+                for (int j = 0; j < _k.Count; j++)
+                {
+                    K o = _k[j]; if (o == k || !o.Emerged || !o.Alive) continue;
+                    float d = Dist(k.X, k.Y, o.X, o.Y);
+                    if (d <= _sc.CallRangeM) { heard.Add(o.Id.Value); if (d > far) far = d; }
+                }
+                _log.Call(step, _now, k.Id.Value, heard, far / 343f, far, _sc.CallRangeM);
+            }
+        }
+
+        // Co-emerged members within call range auto-form a valid pack (size 2-5, a species with fit >= 0.6 for Anchor/Flanker/Raider); singletons wait
+        // up to 180 s, may be adopted by any pack within range with size < 5, and otherwise fly solo (R-103 4.5 step 2).
+        void Formation(long step)
+        {
+            for (int pass = 0; pass < 2; pass++)
+                for (int i = 0; i < _k.Count; i++)
+                {
+                    K k = _k[i]; if (!k.Alive || !k.Emerged) continue;
+                    if (k.PackIdx >= 0 && _packs[k.PackIdx].Members.Count >= 2) continue;
+                    // adoption by an existing pack within call range
+                    Pk host = null; float best = float.MaxValue;
+                    foreach (var p in _packs)
+                    {
+                        if (p == (k.PackIdx >= 0 ? _packs[k.PackIdx] : null)) continue;
+                        int live = 0; float dmin = float.MaxValue;
+                        foreach (var m in p.Members) if (m.Alive && m.Emerged) { live++; float d = Dist(k.X, k.Y, m.X, m.Y); if (d < dmin) dmin = d; }
+                        if (live >= 2 && live < 5 && dmin <= _sc.CallRangeM && dmin < best) { best = dmin; host = p; }
+                    }
+                    if (host != null) { if (k.PackIdx >= 0) { var old = _packs[k.PackIdx]; old.Members.Remove(k); } Join(k, host); continue; }
+                    // form with unassigned neighbours within call range
+                    if (k.PackIdx >= 0) continue;   // already a (singleton) pack of its own
+                    var group = new List<K> { k };
+                    foreach (var o in _k) if (o != k && o.Alive && o.Emerged && o.PackIdx < 0 && Dist(k.X, k.Y, o.X, o.Y) <= _sc.CallRangeM && group.Count < 5) group.Add(o);
+                    if (group.Count >= 2) { var np = NewPack(); foreach (var g in group) Join(g, np); }
+                    else if (_now >= k.JoinWaitUntil) { var np = NewPack(); Join(k, np); }   // gave up waiting: solo pack of one
+                }
+        }
+
+        // ------------------------------------------------------------------------------------------ pack tick
+
+        void TickPacks(long step)
+        {
+            foreach (var p in _packs)
+            {
+                int n = 0;
+                foreach (var m in p.Members)
+                {
+                    if (!m.Emerged) continue;
+                    _states[n++] = new PackMemberState { Id = m.Id, Species = m.S, Pos = new Float2(m.X, m.Y), HpFrac = m.HpAbs > 0 ? m.HpAbs / m.HpMax : 0f, Alive = m.Alive, State = m.State, TargetId = m.Intent.TargetId };
+                }
+                // board: members' own sight, plus the heard mechs inside hearing range of any member
+                foreach (var m in p.Members)
+                {
+                    if (!m.Alive || !m.Emerged) continue;
+                    FillObs(m, step);
+                    p.C.Board.Ingest(_obs);
+                    for (int j = 0; j < _m.Count; j++)
+                    {
+                        M me = _m[j];
+                        float d = Dist(m.X, m.Y, me.X, me.Y);
+                        bool alive = me.Alive;
+                        if (_omniscient) { p.C.Board.Observe(me.Id, new Float2(me.X, me.Y), default, me.Hp, alive, _now, m.Id, BoardSource.Map); }
+                        else if (d <= _sc.HearingRangeM) p.C.Board.Observe(me.Id, new Float2(me.X, me.Y), default, me.Hp, alive, _now, m.Id, d <= m.Cfg.SightRangeM ? BoardSource.Own : BoardSource.Heard);
+                    }
+                }
+                if (n == 0) continue;
+                p.C.Update(_now, _states, n);
+                LogPackEvents(p, step);
+            }
+        }
+
+        void LogPackEvents(Pk p, long step)
+        {
+            if (p.C.Goal != p.LastGoal || (p.C.Goal == PackGoal.Raid && p.C.RaidTargetId != p.LastRaid))
+            {
+                _log.GoalChange(step, _now, p.Id, GoalName(p.C.Goal), p.C.Goal == PackGoal.Raid ? p.C.RaidTargetId.Value : (p.C.Goal == PackGoal.Hunt ? p.C.FocusTargetId.Value : 0));
+                p.LastGoal = p.C.Goal; p.LastRaid = p.C.RaidTargetId;
+            }
+            var members = p.Members;
+            int died = 0, retreated = 0;
+            foreach (var m in members) { if (!m.Alive && m.WasEligible) died++; if (m.State == BrainState.Retreat || m.State == BrainState.Withdrawn) retreated += m.WasEligible ? 1 : 0; }
+            foreach (var m in members)
+            {
+                if (!m.Emerged) continue;
+                PackRole now = m.Alive ? p.C.RoleOf(m.Id) : PackRole.Free;
+                if (now != m.Role)
+                {
+                    bool eligible = m.Alive && m.State != BrainState.Retreat && m.State != BrainState.Withdrawn;
+                    string reason = !eligible ? (m.Alive ? "retreat" : "death") : (died > 0 ? "death" : (retreated > 0 ? "retreat" : (p.C.Stats.GoalSwitches != _goalSwitchesSeen(p) ? "goal_change" : "auction")));
+                    _log.RoleChange(step, _now, m.Id.Value, RoleName(m.Role), RoleName(now), reason);
+                    m.Role = now;
+                }
+                m.WasEligible = m.Alive && m.State != BrainState.Retreat && m.State != BrainState.Withdrawn;
+            }
+            _goalSeen[p.Id] = p.C.Stats.GoalSwitches;
+        }
+
+        readonly Dictionary<int, int> _goalSeen = new Dictionary<int, int>();
+        int _goalSwitchesSeen(Pk p) => _goalSeen.TryGetValue(p.Id, out int v) ? v : 0;
+
+        // ------------------------------------------------------------------------------------------ solo (no pack layer): own sight only, otherwise walk to the nearest target
+
+        void SoloDecide(K k)
+        {
+            k.Brain.Decide(_obs, ref k.Intent);
+            bool seeing = false;
+            for (int i = 0; i < _obs.TargetCount; i++) if (_obs.Targets[i].Alive && _obs.Targets[i].Visible) { seeing = true; break; }
+            if (seeing) { k.Infra = -1; return; }
+            // nothing visible: transit to the nearest living infrastructure target and stand on it (the solo kaiju has the map but no board or roles)
+            int best = -1; float bd = float.MaxValue;
+            for (int i = 0; i < _infra.N.Count; i++) { var n = _infra.N[i]; if (!n.Alive) continue; float d = Dist(k.X, k.Y, n.X, n.Y); if (d < bd) { bd = d; best = i; } }
+            k.Infra = best;
+            if (best < 0) return;
+            k.Intent.DesiredHeadingRad = (float)Math.Atan2(_infra.N[best].Y - k.Y, _infra.N[best].X - k.X);
+            k.Intent.SpeedFrac = 1f; k.Intent.State = BrainState.Approach; k.Intent.Action = BrainAction.None; k.Intent.TargetId = default;
+        }
+
+        // ------------------------------------------------------------------------------------------ mechs
+
+        void StepMech(M m, float dt)
+        {
+            if (!m.Alive)
+            {
+                if (_sc.Name == "churn" && _now >= m.RespawnAt) { m.Alive = true; m.Hp = 1f; m.X = m.HX + _rng.Range(-500f, 500f); m.Y = m.HY + _rng.Range(-500f, 500f); NewWaypoint(m); }
+                return;
+            }
+            // nearest live kaiju
+            float nd = float.MaxValue; int ni = -1;
+            for (int i = 0; i < _k.Count; i++) { K k = _k[i]; if (!k.Alive || !k.Emerged) continue; float d = Dist(m.X, m.Y, k.X, k.Y); if (d < nd) { nd = d; ni = i; } }
+            float tx, ty, v;
+            if (m.Guard)
+            {
+                // respond to a kaiju within 4 km of the post, return afterwards
+                if (ni >= 0 && Dist(m.HX, m.HY, _k[ni].X, _k[ni].Y) < 4000f) { tx = _k[ni].X; ty = _k[ni].Y; v = nd > _sc.MechRange * 0.8f ? _sc.MechCruise : 0f; }
+                else { tx = m.HX; ty = m.HY; v = Dist(m.X, m.Y, tx, ty) > 30f ? _sc.MechCruise : 0f; }
+            }
+            else if (_sc.Name == "churn" && nd < 400f) { tx = m.X + (m.X - _k[ni].X); ty = m.Y + (m.Y - _k[ni].Y); v = 4.5f; }
+            else { if (Dist(m.X, m.Y, m.WX, m.WY) < 20f) NewWaypoint(m); tx = m.WX; ty = m.WY; v = _sc.MechSpeed; }
+            if (v > 0f) { m.Heading = (float)Math.Atan2(ty - m.Y, tx - m.X); m.X += (float)Math.Cos(m.Heading) * v * dt; m.Y += (float)Math.Sin(m.Heading) * v * dt; }
+        }
+
+        void MechFire(long step, float dt)
+        {
+            for (int j = 0; j < _m.Count; j++)
+            {
+                M m = _m[j]; if (!m.Alive) { m.Aiming = -1; continue; }
+                int t = -1; float bd = _sc.MechRange * _sc.MechRange;
+                for (int i = 0; i < _k.Count; i++) { K k = _k[i]; if (!k.Alive || !k.Emerged) continue; float dx = k.X - m.X, dy = k.Y - m.Y, d2 = dx * dx + dy * dy; if (d2 <= bd) { bd = d2; t = i; } }
+                if (t != m.Aiming) { m.Aiming = t; m.Lock = 0; }
+                if (t < 0) continue;
+                K tk = _k[t];
+                float want = (float)Math.Atan2(tk.Y - m.Y, tk.X - m.X), diff = Wrap(want - m.Aim), max = _sc.MechTraverse * dt;
+                m.Aim = Wrap(m.Aim + (diff > max ? max : diff < -max ? -max : diff));
+                if (Math.Abs(Wrap(want - m.Aim)) < 0.05f) m.Lock += dt; else m.Lock = Math.Max(0.0, m.Lock - dt);
+                if (m.Lock >= _sc.MechLockSeconds)
+                {
+                    float dmg = _sc.MechDps * dt;
+                    tk.HpAbs -= dmg; _res.Hits++;
+                    if (step % 10 == 0) _log.Hit(step, m.Id.Value, tk.Id.Value, _sc.MechDps, Math.Max(0f, tk.HpAbs));
+                    if (tk.HpAbs <= 0f) { tk.Alive = false; tk.Speed = 0f; _res.KaijuDeaths++; _log.Death(step, tk.Id.Value); _log.Decision(step, _now, tk.Id.Value, tk.Sp, _packLayer ? PackIdOf(tk) : 0, "Free", "free", false, tk.X, tk.Y, tk.Heading, 0f, 0f, new BrainIntent { State = tk.State }, tk.State, _obs, 0f, "own"); }
+                }
+            }
+        }
+
+        // ------------------------------------------------------------------------------------------ kaiju kinematics, melee, raiding
+
+        void StepKaiju(K k, float dt, long step)
+        {
+            float dh = Wrap(k.Intent.DesiredHeadingRad - k.Heading), turn = 0.5f * dt;
+            k.Heading = Wrap(k.Heading + (dh > turn ? turn : dh < -turn ? -turn : dh));
+            float sp = Math.Max(0f, Math.Min(1f, k.Intent.SpeedFrac));
+            float top = k.Intent.State == BrainState.Charge ? k.S.ChargeMps : k.S.CruiseMps;
+            float ts = sp * top, ds = ts - k.Speed, ma = 2f * dt;
+            k.Speed += ds > ma ? ma : ds < -ma ? -ma : ds;
+            k.X += (float)Math.Cos(k.Heading) * k.Speed * dt; k.Y += (float)Math.Sin(k.Heading) * k.Speed * dt;
+            if (k.Cooldown > 0f) k.Cooldown -= dt;
+            if (k.Intent.Action == BrainAction.Melee && k.Cooldown <= 0f)
+                for (int j = 0; j < _m.Count; j++)
+                {
+                    M m = _m[j]; if (!m.Alive || m.Id.Value != k.Intent.TargetId.Value) continue;
+                    if (Dist(k.X, k.Y, m.X, m.Y) > k.Cfg.MeleeReachM) break;
+                    m.Hp -= _sc.MeleeDamageToMech / _sc.MechHpAbs; k.Cooldown = _sc.MeleeCooldown; _res.Hits++;
+                    _log.Hit(step, k.Id.Value, m.Id.Value, _sc.MeleeDamageToMech, Math.Max(0f, m.Hp * _sc.MechHpAbs));
+                    if (m.Hp <= 0f) { m.Alive = false; m.RespawnAt = _now + 30.0; _res.MechDeaths++; _log.Death(step, m.Id.Value); }
+                    break;
+                }
+            // infrastructure damage: a kaiju standing at its raid target (pack directive) or at the solo target
+            int target = -1;
+            if (_packLayer && _dir.TryGetDirective(k.Id, out PackDirective d) && d.Goal == PackGoal.Raid && d.FocusTargetId.IsValid)
+            { for (int i = 0; i < _infra.N.Count; i++) if (_infra.N[i].Id == d.FocusTargetId) { target = i; break; } }
+            else if (!_packLayer) target = k.Infra;
+            if (target >= 0)
+            {
+                var n = _infra.N[target];
+                if (n.Alive && Dist(k.X, k.Y, n.X, n.Y) <= Math.Max(k.Cfg.MeleeReachM * 1.5f, 60f))
+                {
+                    n.Hp -= _sc.InfraDamageRate * dt;
+                    if (n.Hp <= 0f) { n.Hp = 0f; n.Alive = false; _res.InfraDestroyed++; }
+                    _infra.N[target] = n;
+                }
+            }
+        }
+
+        // ------------------------------------------------------------------------------------------ perception (R-024 1.2): sight range, 270 degree view, 3 s memory
+
+        bool Visible(K k, M m)
+        {
+            if (!m.Alive) return false;
+            float dx = m.X - k.X, dy = m.Y - k.Y, r = k.Cfg.SightRangeM;
+            if (dx * dx + dy * dy > r * r) return false;
+            return Math.Abs(Wrap((float)Math.Atan2(dy, dx) - k.Heading)) <= 270f * 0.017453292f * 0.5f;
+        }
+
+        void Perceive(K k)
+        {
+            if (k.LastSeen == null) { int n = _m.Count; k.LastSeen = new double[n]; k.LX = new float[n]; k.LY = new float[n]; k.LH = new float[n]; k.LHp = new float[n]; k.Ever = new bool[n]; }
+            for (int j = 0; j < _m.Count; j++)
+            {
+                M m = _m[j]; if (!Visible(k, m)) continue;
+                k.LastSeen[j] = _now; k.Ever[j] = true; k.LX[j] = m.X; k.LY[j] = m.Y; k.LH[j] = m.Heading; k.LHp[j] = m.Hp;
+            }
+        }
+
+        void FillObs(K k, long step)
+        {
+            BrainObservation o = _obs; o.Step = step; o.TimeSeconds = _now;
+            o.Self = new SelfObs { Id = k.Id, PackId = (uint)(k.PackIdx + 1), Pos = new Float2(k.X, k.Y), HeadingRad = k.Heading, Speed = k.Speed, HpFrac = k.HpAbs > 0 ? k.HpAbs / k.HpMax : 0f, State = (byte)k.State, Cooldowns = Math.Max(0f, k.Cooldown) };
+            int nt = 0;
+            if (k.Ever != null)
+                for (int j = 0; j < _m.Count && nt < BrainContracts.MaxTargets; j++)
+                {
+                    M m = _m[j]; bool vis = Visible(k, m);
+                    if (!k.Ever[j]) continue;
+                    double age = vis ? 0.0 : _now - k.LastSeen[j];
+                    if (age > k.Cfg.MemorySeconds) continue;
+                    o.Targets[nt++] = new TargetObs { Id = m.Id, Pos = vis ? new Float2(m.X, m.Y) : new Float2(k.LX[j], k.LY[j]), HeadingRad = vis ? m.Heading : k.LH[j], HpFrac = vis ? m.Hp : k.LHp[j], Alive = m.Alive, Visible = vis, MemoryAge = (float)age };
+                }
+            o.TargetCount = nt;
+            int na = 0;
+            foreach (K a in _k)
+            {
+                if (a == k || !a.Emerged || na >= BrainContracts.MaxAllies) continue;
+                if (_packLayer && a.PackIdx != k.PackIdx) continue;
+                if (!_packLayer && Dist(a.X, a.Y, k.X, k.Y) > k.Cfg.AllyAwarenessM) continue;
+                o.Allies[na++] = new AllyObs { Id = a.Id, Pos = new Float2(a.X, a.Y), HeadingRad = a.Heading, HpFrac = a.HpAbs > 0 ? a.HpAbs / a.HpMax : 0f, Alive = a.Alive, State = (byte)a.State, TargetId = a.Intent.TargetId };
+            }
+            o.AllyCount = na;
+        }
+
+        // ------------------------------------------------------------------------------------------ log helpers
+
+        string RoleOf(K k) => _packLayer && k.PackIdx >= 0 ? RoleName(_packs[k.PackIdx].C.RoleOf(k.Id)) : "Free";
+        string GoalOf(K k)
+        {
+            if (_packLayer && k.PackIdx >= 0) return GoalName(_packs[k.PackIdx].C.Goal);
+            for (int i = 0; i < _obs.TargetCount; i++) if (_obs.Targets[i].Alive && _obs.Targets[i].Visible) return "hunt";
+            return k.Infra >= 0 ? "raid" : "free";
+        }
+        float BoardAge(K k)
+        {
+            if (!_packLayer || k.PackIdx < 0 || !k.Intent.TargetId.IsValid) return 0f;
+            var b = _packs[k.PackIdx].C.Board; int ix = b.IndexOf(k.Intent.TargetId);
+            return ix < 0 ? 0f : (float)Math.Max(0.0, _now - b[ix].TObserved);
+        }
+        string BoardSourceName(K k)
+        {
+            if (_omniscient) return "oracle";
+            if (!_packLayer || k.PackIdx < 0 || !k.Intent.TargetId.IsValid) return "own";
+            var b = _packs[k.PackIdx].C.Board; int ix = b.IndexOf(k.Intent.TargetId);
+            if (ix < 0) return "own";
+            switch (b[ix].Source) { case Game.AI.Pack.BoardSource.Heard: return "heard"; case Game.AI.Pack.BoardSource.Called: return "called"; case Game.AI.Pack.BoardSource.Map: return "map"; default: return "own"; }
+        }
+        static string RoleName(PackRole r) => r == PackRole.Anchor ? "Anchor" : r == PackRole.Flanker ? "Flanker" : r == PackRole.Bait ? "Bait" : r == PackRole.Raider ? "Raider" : "Free";
+        static string GoalName(PackGoal g) => g == PackGoal.Hunt ? "hunt" : g == PackGoal.Raid ? "raid" : g == PackGoal.Regroup ? "regroup" : "free";
+
+        void LogWorld(long step)
+        {
+            for (int j = 0; j < _m.Count; j++)
+            {
+                M m = _m[j];
+                _log.Sample(step, _now, m.Id.Value, m.Alive, m.X, m.Y, m.Heading, m.Hp);
+                if (m.Alive && m.Aiming >= 0 && m.Lock > 0.0) _log.MechTarget(step, _now, m.Id.Value, _k[m.Aiming].Id.Value);
+            }
+            if (step % 100 == 0)
+                for (int i = 0; i < _infra.N.Count; i++) { var n = _infra.N[i]; _log.InfraRow(step, _now, n.Id.Value, n.ClassName, n.Hp, n.HpMax, n.X, n.Y); }
+        }
+
+        static float Dist(float ax, float ay, float bx, float by) { float dx = bx - ax, dy = by - ay; return (float)Math.Sqrt(dx * dx + dy * dy); }
+        static float Wrap(float a) { while (a > Math.PI) a -= 6.2831855f; while (a <= -Math.PI) a += 6.2831855f; return a; }
+
+        sealed class Rng
+        {
+            ulong _s; public Rng(ulong s) { _s = s; }
+            public ulong Next() { unchecked { ulong z = (_s += 0x9E3779B97F4A7C15UL); z = (z ^ (z >> 30)) * 0xBF58476D1CE4E5B9UL; z = (z ^ (z >> 27)) * 0x94D049BB133111EBUL; return z ^ (z >> 31); } }
+            public double NextDouble() => (Next() >> 11) * (1.0 / 9007199254740992.0);
+            public float Range(float a, float b) => a + (b - a) * (float)NextDouble();
+        }
+    }
+}

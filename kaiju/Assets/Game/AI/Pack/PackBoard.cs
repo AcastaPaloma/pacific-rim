@@ -3,7 +3,7 @@ using Game.Core;
 
 namespace Game.AI.Pack
 {
-    public enum BoardSource : byte { Own = 0, Called = 1, Map = 2 }
+    public enum BoardSource : byte { Own = 0, Called = 1, Map = 2, Heard = 3 }
 
     /// <summary>One opposing unit on the shared board (R-103 4.4). Fixed fields, no allocation.</summary>
     public struct BoardEntry
