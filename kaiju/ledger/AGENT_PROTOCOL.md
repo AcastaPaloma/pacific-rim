@@ -261,3 +261,8 @@ The night of 2026-11-14 ran about 10 sessions at once and used up the 5-hour usa
   1. Stop; never retry in a loop.
   2. Write the state to the progress file.
   3. Leave the next session as a card.
+
+## 18. Always keep a queue of unblocked work, with no stopping point (founder instruction, 2026-11-15)
+- A lead always keeps its queue stocked with work whose inputs are already merged. It refills the queue before it drains. When the next item is blocked, the lead takes the next unblocked one: from the current milestone, then the next milestone (M2, then M3), then the research and design gaps.
+- There is no deadline and no "done for tonight". The leads keep moving toward the final product until the founder pauses the hourly watchdog task (`kaiju-watchdog`).
+- A blocker is logged and worked around, never waited on (§12, §15). Every item still keeps the full scope (§15) and the budget pacing (§17).
