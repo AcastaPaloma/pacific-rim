@@ -33,6 +33,7 @@ namespace Game.Units.Mech
         public struct Debug
         {
             public LocoPhase Phase; public int Stance; public Vector2 Dcm, CopCommand, SwingTarget, Reference; public float ComHeightTarget, StepTime, TimeInStep; public bool SwingClamped;
+            public double[] AngStRef, AngStMeas, AngSwRef, AngSwMeas; public double RefFroude;   // round 2 step 6a (imp > 0): hip flexion, knee, ankle plantar (deg), stance and swing leg; null when not available
             public double YawMomentNm, YawBudgetNm, YawUtil, TrunkShare;   // round 2 step 3 (NaN logs as null)
         }
 
@@ -157,14 +158,33 @@ namespace Game.Units.Mech
             if (_phase == LocoPhase.Falling || _phase == LocoPhase.Fallen) { _cmd = new LocoCommand { Move = intent.move, Heading = _pelvisYaw, Causes = LimitCause.Fallen }; FallControl(step); Report(step); return; }
             if (FallDetected()) { _phase = LocoPhase.Falling; _restTime = 0; _bus?.Publish(new MechFallStarted { Unit = _b.UnitId, Step = step }); _limiter.Reset(_pelvisYaw); FallControl(step); Report(step); return; }
             double stepTime = _lim.StepTime(Math.Max(_cmd.Speed, _t.reach_speed_floor_frac * _lim.VCruise));
-            _cmd = _limiter.Update(intent, _com2, _pelvisYaw, _vel2.Length(), _t.step_length_max_frac * _l / stepTime);
+            _cmd = _limiter.Update(intent, _com2, _pelvisYaw, _vel2.Length(), StepCapFrac * _l / stepTime);
             StateMachine(intent);
             WriteDrives();
             Report(step);
         }
 
+        /// <summary>The step length cap (fraction of leg length): the legacy flat-foot cap for imp = 0, the reference gait's own range for imp > 0 (heel-to-toe rollover).</summary>
+        double StepCapFrac => _t.imp > 0 && _t.ref_track > 0 ? _t.imp_step_length_max_frac : _t.step_length_max_frac;
+
+        void ImpAngles()
+        {
+            if (!ImpActive) { _dbg.AngStRef = null; return; }
+            _dbg.AngStRef ??= new double[3]; _dbg.AngStMeas ??= new double[3]; _dbg.AngSwRef ??= new double[3]; _dbg.AngSwMeas ??= new double[3];
+            const double R2D = 180 / Math.PI;
+            for (int k = 0; k < 2; k++)
+            {
+                var leg = _legs[k == 0 ? _stance : 1 - _stance]; var rl = RefLeg(leg);
+                var rf = k == 0 ? _dbg.AngStRef : _dbg.AngSwRef; var ms = k == 0 ? _dbg.AngStMeas : _dbg.AngSwMeas;
+                rf[0] = rl.HipFlexion * R2D; rf[1] = rl.Knee * R2D; rf[2] = rl.AnklePlantar * R2D;
+                ms[0] = _b.DofPosition(leg.Hip[0]) * R2D; ms[1] = _b.DofPosition(leg.Knee) * R2D; ms[2] = _b.DofPosition(leg.Ankle[0]) * R2D;
+            }
+            _dbg.RefFroude = _ref.Speed * _ref.Speed / (_g * _l);
+        }
+
         void Report(long step)
         {
+            ImpAngles();
             YawDiagnostics();
             _dbg.Phase = _phase; _dbg.Stance = _stance; _dbg.Dcm = _dcm; _dbg.ComHeightTarget = (float)_comHeightTarget; _dbg.StepTime = (float)_stepT; _dbg.TimeInStep = (float)_time;
             if (_cmd.Causes != _lastCauses) { _lastCauses = _cmd.Causes; _bus?.Publish(new IntentLimited { Unit = _b.UnitId, Step = step, Causes = (int)_cmd.Causes, RequestedSpeed = _cmd.RequestedSpeed, Speed = _cmd.Speed }); }
@@ -344,7 +364,7 @@ namespace Game.Units.Mech
                     float heading = _cmd.Heading;
                     double T = _stepT, tr = Math.Max(T - _time, _t.step_end_freeze * T);
                     float speed = _stomp ? 0 : Math.Min(_cmd.Speed, _vel2.Length() + (float)(_lim.AccelStart * T));
-                    speed = Math.Min(speed, (float)(_t.step_length_max_frac * _l / T));
+                    speed = Math.Min(speed, (float)(StepCapFrac * _l / T));
                     float s = (float)(speed * T);
                     float travelScale = Clamp(s / (float)((_t.cop_toe_frac - _t.cop_heel_frac) * _l * _t.cop_travel_full_step_ratio), 0, 1);
                     float travel = (float)((_t.cop_toe_frac - _t.cop_heel_frac) * _l) * travelScale;
@@ -442,7 +462,7 @@ namespace Game.Units.Mech
             _capture = false;
             _tds = (2 * _t.duty_factor - 1) * _stepT; _tss = _stepT - _tds;
             // the reference gait for this step: same step time, the step length the limited command allows
-            double planSpeed = _stomp ? 0 : Math.Min(_cmd.Speed, _t.step_length_max_frac * _l / _stepT);
+            double planSpeed = _stomp ? 0 : Math.Min(_cmd.Speed, StepCapFrac * _l / _stepT);
             if (_t.ref_track > 0) _ref.Configure(planSpeed, planSpeed * _stepT);
         }
 

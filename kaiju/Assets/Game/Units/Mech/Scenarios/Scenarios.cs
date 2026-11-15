@@ -48,6 +48,12 @@ namespace Game.Units.Mech.Scenarios
         {
             yield return new ScenarioSpec { Name = "stand", Seconds = 30, Script = (p, l) => p.At(0, MoveId.Stand, default, 0), StripStart = 0, StripInterval = 2, StripFrames = 8 };
             yield return Walk("walk_fr010", 0.10);
+            yield return Walk("walk_fr003", 0.03);
+            yield return Walk("walk_fr005", 0.05);
+            yield return Walk("walk_fr0075", 0.075);
+            yield return Walk("walk_fr0125", 0.125);
+            yield return Walk("walk_fr015", 0.15);
+            yield return Walk("walk_fr0175", 0.175);
             yield return Walk("walk_fr020", 0.20);
             yield return Walk("walk_fr030", 0.30);
             yield return Walk("walk_fr025", 0.25);

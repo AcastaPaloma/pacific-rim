@@ -53,6 +53,7 @@ namespace Game.Units.Mech
         }
 
         static string F(double v) => JsonLine.Text(v);
+        static string Arr(double[] a) => "[" + F(a[0]) + "," + F(a[1]) + "," + F(a[2]) + "]";
         static string D(double v) => v.ToString("R", System.Globalization.CultureInfo.InvariantCulture);
 
         public void WriteStep(long n, in IntentFrame intent, in LocoCommand cmd, in LocomotionController.Debug dbg)
@@ -91,7 +92,9 @@ namespace Game.Units.Mech
               .Num("yaw", yaw).Num("yaw_rate", _yawRate).Raw("feet", feet).Num("ext_f", _b.ExternalForceMagnitudeN).Raw("intent", intentJson).Num("p_loco_W", power)
               .Raw("ctl", "{\"phase\":\"" + dbg.Phase + "\",\"stance\":" + dbg.Stance + ",\"dcm\":[" + F(dbg.Dcm.X) + "," + F(dbg.Dcm.Y) + "],\"cop_cmd\":[" + F(dbg.CopCommand.X) + "," + F(dbg.CopCommand.Y) + "],\"swing_target\":[" + F(dbg.SwingTarget.X) + "," + F(dbg.SwingTarget.Y) + "],\"ref\":[" + F(dbg.Reference.X) + "," + F(dbg.Reference.Y) + "],\"com_h_target\":" + F(dbg.ComHeightTarget) + ",\"swing_clamped\":" + (dbg.SwingClamped ? "true" : "false") + "}")
               // optional (round 2 step 3): vertical free moment the stance foot(s) must supply, the friction budget, their ratio and the trunk's share of the legs' yaw momentum; null when not available
-              .Num("yaw_moment_nm", dbg.YawMomentNm).Num("yaw_budget_nm", dbg.YawBudgetNm).Num("yaw_util", dbg.YawUtil).Num("trunk_share", dbg.TrunkShare);
+              .Num("yaw_moment_nm", dbg.YawMomentNm).Num("yaw_budget_nm", dbg.YawBudgetNm).Num("yaw_util", dbg.YawUtil).Num("trunk_share", dbg.TrunkShare)
+              // optional (round 2 step 6a, imp > 0): reference and measured hip flexion, knee, ankle plantar angle (deg) of the stance and swing leg, and the Froude of the reference in use
+              .Raw("angles", dbg.AngStRef == null ? "null" : "{\"fr_ref\":" + F(dbg.RefFroude) + ",\"st_ref\":" + Arr(dbg.AngStRef) + ",\"st_meas\":" + Arr(dbg.AngStMeas) + ",\"sw_ref\":" + Arr(dbg.AngSwRef) + ",\"sw_meas\":" + Arr(dbg.AngSwMeas) + "}");
             _w.WriteLine(_j.End());
             if (intent.move != _lastMove || cmd.Causes != _lastCauses)
             {
