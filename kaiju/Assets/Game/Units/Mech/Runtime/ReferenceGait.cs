@@ -98,11 +98,19 @@ namespace Game.Units.Mech
         public double StepWidth { get; private set; }
         double _legMax;
 
-        public ReferenceGait(GaitGeometry geometry, WalkTuning tuning, double gravity) { _g = geometry; _t = tuning; _gravity = gravity; Configure(0, 0); }
+        public ReferenceGait(GaitGeometry geometry, WalkTuning tuning, double gravity) : this(geometry, tuning, gravity, null) { }
+        /// <summary>With <paramref name="optimised"/> (gait_reference_opt@v1) and imp = 2 the pattern is the optimised stride (round 3 step 8.4a); imp 0 and 1 never look at it.</summary>
+        public ReferenceGait(GaitGeometry geometry, WalkTuning tuning, double gravity, GaitReferenceData optimised) { _g = geometry; _t = tuning; _gravity = gravity; _data = optimised; Configure(0, 0); }
+        readonly GaitReferenceData _data;
+        OptimisedReference _opt;
+        /// <summary>True when the current pattern is the optimised reference (imp = 2, data present, walking speed).</summary>
+        public bool IsOptimised => _opt != null;
 
         /// <param name="stepLength">the step the controller is going to take (already limited); 0 = from the speed by the R-001 stride rule</param>
         public void Configure(double speed, double stepLength)
         {
+            _opt = null;
+            if (_t.imp >= 1.5 && _data != null && speed > 1e-6) { ConfigureOptimised(speed); return; }
             double l = _g.HipHeight, tStar = Math.Sqrt(l / _gravity);
             Speed = Math.Max(0, speed);
             double fr = Speed * Speed / (_gravity * l);
@@ -294,6 +302,7 @@ namespace Game.Units.Mech
         /// <summary>The whole-body reference at a stride phase in [0, 1).</summary>
         public GaitSample Sample(double phase)
         {
+            if (_opt != null) return SampleOptimised(phase);
             // pass 1 with the scheduled foot pitch; pass 2 lets a stance heel rise by what the ankle's dorsiflexion range requires (what the joint stop would do passively)
             var first = Build(phase, 0, 0);
             double lo = (_g.AnkleRom[0] + _t.ref_ankle_margin_deg) * Math.PI / 180, k = _t.ref_ankle_soft_deg * Math.PI / 180;
@@ -301,6 +310,68 @@ namespace Game.Units.Mech
             double needR = first.R.Support == FootSupport.Swing || first.R.Support == FootSupport.Heel ? 0 : k * Math.Log(1 + Math.Exp((lo - (first.R.AnklePlantar - first.R.FootPitch)) / k));
             return _t.ref_ankle_heel_rise <= 0 || (needL < 1e-6 && needR < 1e-6) ? first : Build(phase, needL, needR);
         }
+
+        // ---- imp = 2: the optimised reference (gait_reference_opt@v1), see OptimisedReference ----
+        void ConfigureOptimised(double speed)
+        {
+            double l = _g.HipHeight; Speed = speed;
+            _opt = new OptimisedReference(_data, speed * speed / (_gravity * l), l);
+            StepTime = _opt.StepTime; StepLength = _opt.StepLength; Duty = _opt.Duty; Rollover = 1; FrontReach = _opt.FrontReach; StepWidth = _t.step_width_walk_frac * l;
+            _legMax = LegLength(_t.knee_min_flex_deg * Math.PI / 180);
+            _toeOffExtra = 0; _waist = null; _sched = null; _hsPitch = 0; _toPitch = 0; Tilt = _opt.MeanPelvisPitch; HipTarget = _opt.MeanPelvisHeight;
+        }
+
+        const double Rad = Math.PI / 180;
+        static FootSupport SupportOf(bool heel, bool toe) => heel ? (toe ? FootSupport.Flat : FootSupport.Heel) : (toe ? FootSupport.Toe : FootSupport.Swing);
+
+        /// <summary>Stance and swing leg at a step phase, mapped to left and right for a stride phase (left stance in the first half, right in the second).</summary>
+        void OptimisedAt(double phase, out double[] v, out bool[] fl, out double prog, out bool leftStance)
+        {
+            phase -= Math.Floor(phase); leftStance = phase < 0.5;
+            v = _opt.At(2 * (leftStance ? phase : phase - 0.5), out fl, out prog);
+        }
+
+        GaitSample SampleOptimised(double phase)
+        {
+            OptimisedAt(phase, out var v, out var fl, out double prog, out bool leftStance);
+            var s = new GaitSample { Phase = phase - Math.Floor(phase), HipHeight = v[1], PelvisTilt = v[2] * Rad };
+            var st = OptLegSample(v, OptimisedReference.Stance, SupportOf(fl[0], fl[1]), 0, leftStance ? -1 : 1);
+            var sw = OptLegSample(v, OptimisedReference.Swing, SupportOf(fl[2], fl[3]), prog, leftStance ? 1 : -1);
+            if (leftStance) { s.L = st; s.R = sw; } else { s.L = sw; s.R = st; }
+            double fs = v[OptimisedReference.Stance + OptimisedReference.HeelFn] + v[OptimisedReference.Stance + OptimisedReference.ToeFn], fw = v[OptimisedReference.Swing + OptimisedReference.HeelFn] + v[OptimisedReference.Swing + OptimisedReference.ToeFn];
+            s.LeadShare = fs + fw > 0 ? fs / (fs + fw) : 1;   // the stance leg is the one that landed last
+            return s;
+        }
+
+        LegSample OptLegSample(double[] v, int o, FootSupport support, double progress, int side)
+        {
+            return new LegSample
+            {
+                Ankle = new Vector3((float)(side * 0.5 * StepWidth), (float)v[o + OptimisedReference.AnkleY], (float)v[o + OptimisedReference.AnkleX]),
+                FootPitch = v[o + OptimisedReference.FootPitch] * Rad, Support = support, SwingProgress = support == FootSupport.Swing ? progress : 0,
+                HipFlexion = v[o + OptimisedReference.Hip] * Rad, Knee = v[o + OptimisedReference.Knee] * Rad, AnklePlantar = v[o + OptimisedReference.Ankle] * Rad, Reachable = true
+            };
+        }
+
+        /// <summary>Feed-forward joint torques, joint rates and the contact forces of the optimised reference at a stride phase (imp = 2 only; false otherwise). Torques and forces are those of the reference mech.</summary>
+        public bool TryOptimised(double phase, out OptimisedSample sample)
+        {
+            sample = default;
+            if (_opt == null) return false;
+            OptimisedAt(phase, out var v, out var fl, out double prog, out bool leftStance);
+            sample.Phase = phase - Math.Floor(phase); sample.PelvisX = v[0];
+            var st = OptLeg(v, OptimisedReference.Stance, fl[0], fl[1], true); var sw = OptLeg(v, OptimisedReference.Swing, fl[2], fl[3], false);
+            if (leftStance) { sample.L = st; sample.R = sw; } else { sample.L = sw; sample.R = st; }
+            return true;
+        }
+
+        static OptimisedLeg OptLeg(double[] v, int o, bool heel, bool toe, bool stance) => new OptimisedLeg
+        {
+            HipRate = v[o + OptimisedReference.HipRate] * Rad, KneeRate = v[o + OptimisedReference.KneeRate] * Rad, AnkleRate = v[o + OptimisedReference.AnkleRate] * Rad,
+            HipTorque = v[o + OptimisedReference.TauHip], KneeTorque = v[o + OptimisedReference.TauKnee], AnkleTorque = v[o + OptimisedReference.TauAnkle],
+            HeelNormal = v[o + OptimisedReference.HeelFn], HeelTangential = v[o + OptimisedReference.HeelFt], ToeNormal = v[o + OptimisedReference.ToeFn], ToeTangential = v[o + OptimisedReference.ToeFt],
+            HeelContact = heel, ToeContact = toe, IsStance = stance
+        };
 
         GaitSample Build(double phase, double heelRiseL, double heelRiseR)
         {
