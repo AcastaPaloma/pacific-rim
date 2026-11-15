@@ -714,3 +714,6 @@ Exact-depth tie flips were tracker artifacts (wrong silhouette latched in far B0
 
 ## T-115e (M2 worker, 2026-11-15)
 - C2 control: harness now simulates in a local frame (translation-invariant; regression tests added), but the T-115d swing (nofocus ff 0.70-1.00) was NOT float precision: it is spawn-to-infrastructure geometry for the non-pack nofocus arm. M-007@v2 on m007_bay_real@v1 with nofocus 200 seeds: control ff 0.9748 vs candidate 0.9610, fe_vs_nofocus -0.5464, C2 FAIL (no threshold touched). The ff metric saturates, so C2 needs a control/scenario definition decision (research item). Other clause statuses unchanged. Details `evidence/T-115/C2_T-115e.md`.
+
+## Build lead 8 note: T-115e result (2026-11-15)
+- C2 still fails honestly (fe_vs_nofocus -0.5464 vs 0.5; control ff 0.9748 saturates near 1, so C2 cannot discriminate on this scenario). Not a harness bug. Needs a research item: a nofocus control/scenario definition where the control is not saturated (e.g. longer sorties, denser infrastructure, or mech-visible starts) without changing the clause threshold. Queue as T-115f (M-007 research, M-007@v3 proposal). — decided autonomously (founder asleep)
