@@ -42,6 +42,9 @@ namespace Game.AI.Pack
         private bool _anchorLatched, _huntBlocked;
         private bool _started;
 
+        /// <summary>Ablation switches of the M-007@v2 controls (R-103 5.3). Defaults are the candidate; frozen per run.</summary>
+        public PackControl Control = PackControl.None;
+
         public PackGoal Goal { get; private set; }
         public EntityId FocusTargetId { get; private set; }
         public EntityId RaidTargetId { get; private set; }
@@ -137,6 +140,7 @@ namespace Game.AI.Pack
             else
             {
                 _alloc.Allocate(Goal, _el, _n, _curRole, _curSince, goalPoint, now, _cfg, _newRole);
+                if (Control != PackControl.None) ApplyControl(now);
             }
             if (Goal == PackGoal.Hunt && _n >= 2 && bestAnchor >= _cfg.AnchorMinFit) _anchorLatched = true;
             bool forced = membershipChanged || goalChanged || !_started;
@@ -157,6 +161,37 @@ namespace Game.AI.Pack
             BuildDirectives(now, centroid);
             SavePrev(now);
             _started = true;
+        }
+
+        // ------------------------------------------------------------------ controls (R-103 5.3)
+
+        private double _randomRoleAt = double.NegativeInfinity;
+        private ulong _randomState;
+
+        private void ApplyControl(double now)
+        {
+            switch (Control)
+            {
+                case PackControl.NoRoles:   // roles by species only, no auction, no bait
+                    for (int i = 0; i < _n; i++)
+                        _newRole[i] = Goal == PackGoal.Raid ? PackRole.Raider : (_el[i].Species.FitAnchor >= 0.5f ? PackRole.Anchor : PackRole.Flanker);
+                    break;
+                case PackControl.NoBait:    // Bait slots go to Flanker
+                    for (int i = 0; i < _n; i++) if (_newRole[i] == PackRole.Bait) _newRole[i] = PackRole.Flanker;
+                    break;
+                case PackControl.RandomRole: // uniform every 20 s, held between draws
+                    if (now - _randomRoleAt >= 20.0 || _randomRoleAt == double.NegativeInfinity)
+                    {
+                        _randomRoleAt = now;
+                        for (int i = 0; i < _n; i++)
+                        {
+                            _randomState = Mix(_randomState + _seed + (ulong)i * 7919UL + (ulong)now);
+                            _newRole[i] = (PackRole)(1 + (int)(_randomState % 4UL));
+                        }
+                    }
+                    else for (int i = 0; i < _n; i++) _newRole[i] = _curRole[i] == PackRole.Free ? PackRole.Flanker : _curRole[i];
+                    break;
+            }
         }
 
         // ------------------------------------------------------------------ membership memory
@@ -231,6 +266,7 @@ namespace Game.AI.Pack
 
         private void SelectGoal(double now, Float2 centroid, float strength, float speed)
         {
+            if (Control == PackControl.NearestInfra) { SelectGoalNearest(now, centroid); return; }
             // hunt utility over the aged board
             float uh = 0f; bool haveMechs = Board.Count > 0;
             if (haveMechs)
@@ -313,6 +349,26 @@ namespace Game.AI.Pack
             if (Goal == PackGoal.Raid && bestInfra >= 0) RaidTargetId = _infra.Get(bestInfra).Id;
             if (Goal == PackGoal.Hunt || (Goal == PackGoal.Raid && haveMechs)) SelectFocus(now, centroid);
             else if (!haveMechs) FocusTargetId = default;
+        }
+
+        // nearestinfra@1 (R-103 5.3): goal = nearest living F-044 target, no utility, no hysteresis; mechs only when no infrastructure is left.
+        private void SelectGoalNearest(double now, Float2 centroid)
+        {
+            int best = -1; float bd = float.MaxValue;
+            int ic = _infra != null ? _infra.Count : 0;
+            for (int k = 0; k < ic; k++)
+            {
+                InfraTarget it = _infra.Get(k);
+                if (!it.Alive) continue;
+                float d = Dist(centroid, it.Pos);
+                if (d < bd || (d == bd && best >= 0 && it.Id.Value < _infra.Get(best).Id.Value)) { bd = d; best = k; }
+            }
+            PackGoal want = best >= 0 ? PackGoal.Raid : (Board.Count > 0 ? PackGoal.Hunt : PackGoal.None);
+            if (want != Goal) { Goal = want; _goalSince = now; if (want == PackGoal.Hunt) FocusTargetId = default; }
+            else if (!_started) _goalSince = now;
+            if (Goal == PackGoal.Raid) RaidTargetId = _infra.Get(best).Id;
+            HuntUtility = 0f; RaidUtility = 0f;
+            if (Board.Count > 0 && Goal != PackGoal.None) SelectFocus(now, centroid); else FocusTargetId = default;
         }
 
         private float Thresh(float uCur) => uCur > 0f ? uCur * _cfg.GoalSwitchRatio : uCur + (_cfg.GoalSwitchRatio - 1f) * Math.Abs(uCur);

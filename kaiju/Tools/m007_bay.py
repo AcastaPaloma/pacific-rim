@@ -781,9 +781,11 @@ def wil_guard(runs, num, den, op, thr):
     return comp_guard(runs, lambda rs: wilson(ssum(rs, num), ssum(rs, den)), op, thr)
 
 
-def evaluate(runs, cfg=CFG, ratings=None):
+def evaluate(runs, cfg=CFG, ratings=None, prims=None):
+    """`prims` = precomputed `compute_run` results (the CLI streams runs so that only the per-run measures stay in memory)."""
     T = cfg["T"]
-    prims = [compute_run(r, cfg) for r in runs]
+    if prims is None:
+        prims = [compute_run(r, cfg) for r in runs]
     A = defaultdict(list)
     for p in prims:
         A[(p["brain"], p["scenario"])].append(p)
@@ -1088,14 +1090,18 @@ def main(argv=None):
     if not files:
         print("no .jsonl files", file=sys.stderr)
         return 2
-    try:
-        runs = [load_run(f) for f in files]
-    except InputError as e:
-        for x in e.errors[:50]:
+    prims, errs = [], []
+    for f in files:   # stream: a Bay run is tens of MB of rows; keep only the per-run measures
+        try:
+            prims.append(compute_run(load_run(f), cfg))
+        except InputError as e:
+            errs += e.errors
+    if errs:
+        for x in errs[:50]:
             print(x, file=sys.stderr)
         return 2
     ratings = json.load(open(a.ratings)) if a.ratings else None
-    rep = evaluate(runs, cfg, ratings)
+    rep = evaluate([], cfg, ratings, prims=prims)
     text = json.dumps(rep, indent=1, default=lambda o: None if isinstance(o, float) and math.isnan(o) else str(o))
     if a.out:
         open(a.out, "w").write(text)
