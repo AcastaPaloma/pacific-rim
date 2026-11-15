@@ -30,7 +30,7 @@ from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, wait
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from kaiju_geo.common import CACHE, GLOBAL_ROOT, canonical_json, parse_tile, sha256_bytes, sha256_file, utc_now  # noqa: E402
+from kaiju_geo.common import CACHE, GLOBAL_ROOT, canonical_json, load_config, parse_tile, sha256_bytes, sha256_file, utc_now  # noqa: E402
 
 MANIFEST = GLOBAL_ROOT / "bay_manifest.json"
 OUT_ROOT = CACHE / "bake" / "tiles" / "v1"
@@ -41,12 +41,21 @@ CLASSES = ("urban", "rural", "water_only", "ocean_only")
 
 
 # ---------------------------------------------------------------- planning
+def dep3_fill_tiles() -> set:
+    """T-103: tiles whose newest 3DEP project leaves holes; their older same-key projects are read too (config/dep3_fill.json)."""
+    try:
+        return set(load_config("dep3_fill.json")["tiles"])
+    except OSError:
+        return set()
+
+
 def plan_of(t: dict) -> dict:
     """What the bake may use for this tile: the manifest's sources, plus anything the cache already holds (the 15 district tiles were
     fetched before bay_manifest@v1, e.g. L0_31_36 has a 3DEP window the manifest lists no item for; ignoring it would change its bytes)."""
     s = t.get("sources", {})
     tid = t["id"]
-    return {"cudem": bool(s.get("cudem")),
+    fill = tid in dep3_fill_tiles()
+    return {**({"dep3_fill": True} if fill else {}), "cudem": bool(s.get("cudem")),
             "dep3": bool(s.get("dep3_1m")) or (CACHE / "3dep" / f"tnm_query__{tid}.json").exists(),
             "osm": bool(s.get("osm")),
             "datasf": bool(s.get("datasf")) or (CACHE / "datasf" / f"ynuv-fyni__{tid}.geojson").exists()}
@@ -318,6 +327,7 @@ def main(argv=None) -> int:
     ap.add_argument("--class", dest="classes", nargs="*", choices=CLASSES, help="l0: restrict to these coverage classes")
     ap.add_argument("--levels", type=int, nargs="*", default=[1, 2, 3, 4], help="lod: pyramid levels")
     ap.add_argument("--limit", type=int)
+    ap.add_argument("--dep3-fill", action="store_true", help="l0: restrict to the tiles in config/dep3_fill.json (T-103 older-3DEP-project fill)")
     ap.add_argument("--force", action="store_true", help="re-bake even when the input fingerprint matches")
     ap.add_argument("--no-retry-failed", action="store_true")
     ap.add_argument("--min-free-gb", type=float, default=DEFAULT_MIN_FREE_GB)
@@ -335,7 +345,8 @@ def main(argv=None) -> int:
     want = set(a.tile) if a.tile else None
     currency = None
     if a.stage in ("l0", "datasf"):
-        tiles = [t for t in load_tiles(Path(a.manifest)) if (want is None or t["id"] in want) and (not a.classes or t["class"] in a.classes)]
+        tiles = [t for t in load_tiles(Path(a.manifest)) if (want is None or t["id"] in want) and (not a.classes or t["class"] in a.classes)
+                 and (not a.dep3_fill or t["id"] in dep3_fill_tiles())]
         if a.stage == "datasf":
             tiles = [t for t in tiles if t.get("sources", {}).get("datasf")]
         jobs = [(t["id"], plan_of(t)) for t in sorted(tiles, key=lambda t: t["id"])]

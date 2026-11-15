@@ -11,7 +11,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from .common import (CACHE, PIPE, Tile, canonical_json, finish_fetch, http_get, http_json,
+from .common import (CACHE, pipe_rel, PIPE, Tile, canonical_json, finish_fetch, http_get, http_json,
                      is_offline, load_config, meta_path, NetworkForbidden, up_to_date, utc_now)
 
 SRC = load_config("sources.json")
@@ -119,7 +119,7 @@ def _window_read(url: str, dest: Path, bounds, bounds_crs: str, label: str, extr
         dst.write(data, 1)
     src_info.update(extra)
     meta = finish_fetch(dest, tmp, url, src_info)
-    print(f"[{label}] fetched window {data.shape} -> {dest.relative_to(PIPE)}")
+    print(f"[{label}] fetched window {data.shape} -> {pipe_rel(dest)}")
     return meta
 
 
@@ -132,15 +132,13 @@ def fetch_cudem(tile: Tile) -> list[dict]:
         url = cudem_url(item, cat)
         dest = CACHE / "cudem" / f"{item}__{tile.id}.tif"
         m = _window_read(url, dest, bb, "EPSG:4269", "cudem", {"item": item, "version": cudem_version(item)})
-        m.update(item=item, version=cudem_version(item), file=str(dest.relative_to(PIPE)))
+        m.update(item=item, version=cudem_version(item), file=str(pipe_rel(dest)))
         out.append(m)
     return out
 
 
 # ---------------------------------------------------------------- 3DEP 1 m (land detail)
-def fetch_3dep(tile: Tile) -> list[dict]:
-    """TNM discovery (cached per tile) -> newest project per UTM 10 km tile -> windowed reads."""
-    bb = tile.bounds_lonlat(FETCH_MARGIN_M)
+def _tnm_items(tile: Tile, bb) -> list[dict]:
     q = CACHE / "3dep" / f"tnm_query__{tile.id}.json"
     m = up_to_date(q, "3dep-tnm")
     if m is None:
@@ -155,13 +153,38 @@ def fetch_3dep(tile: Tile) -> list[dict]:
         tmp = q.with_name(q.name + ".part")
         tmp.write_text(canonical_json(items, indent=1) + "\n")
         finish_fetch(q, tmp, url)
-    items = json.loads(q.read_text())
+    return json.loads(q.read_text())
+
+
+def _key_of(url: str) -> str:
+    name = url.rsplit("/", 1)[1]
+    mk = re.search(r"_(x\d+y\d+)_", name)
+    return mk.group(1) if mk else name
+
+
+def window_valid_share(path: Path) -> float:
+    """Share of cells of a fetched 3DEP window that hold data (nodata / NaN are holes)."""
+    import numpy as np
+    import rasterio
+    with rasterio.open(path) as src:
+        d = src.read(1)
+        ok = np.isfinite(d) if src.nodata is None else (np.isfinite(d) & (d != src.nodata))
+    return float(ok.mean())
+
+
+def fetch_3dep(tile: Tile, fill: bool = False) -> list[dict]:
+    """TNM discovery (cached per tile) -> newest project per UTM 10 km tile -> windowed reads.
+
+    fill=True (T-103, tiles listed in config/dep3_fill.json only): for every UTM key whose newest window has holes, the
+    OLDER projects for the same key are read too (newest first, so `sample_rasters` takes an older project only at
+    nodes the newer ones leave empty). Entries carry `fill: True`. Every project is US-Gov public domain 1 m 3DEP."""
+    bb = tile.bounds_lonlat(FETCH_MARGIN_M)
+    items = _tnm_items(tile, bb)
     # newest project per UTM tile key (e.g. x55y419); ties broken by URL for determinism
-    best = {}
+    best, by_key = {}, {}
     for it in items:
-        name = it["url"].rsplit("/", 1)[1]
-        mk = re.search(r"_(x\d+y\d+)_", name)
-        key = mk.group(1) if mk else name
+        key = _key_of(it["url"])
+        by_key.setdefault(key, []).append(it)
         cand = (it["pub"], it["url"])
         if key not in best or cand > best[key][0]:
             best[key] = (cand, it)
@@ -174,8 +197,21 @@ def fetch_3dep(tile: Tile) -> list[dict]:
             m = _window_read(it["url"], dest, bb, "EPSG:4269", "3dep", {"item": name, "published": it["pub"]})
         except ValueError:  # window does not intersect this item
             continue
-        m.update(item=name, file=str(dest.relative_to(PIPE)))
+        m.update(item=name, file=str(pipe_rel(dest)))
         out.append(m)
+        if not fill or window_valid_share(dest) >= 1.0:
+            continue
+        for old in sorted(by_key[key], key=lambda d: (d["pub"], d["url"]), reverse=True):
+            if old is it:
+                continue
+            oname = old["url"].rsplit("/", 1)[1].removesuffix(".tif")
+            odest = CACHE / "3dep" / f"{oname}__{tile.id}.tif"
+            try:
+                om = _window_read(old["url"], odest, bb, "EPSG:4269", "3dep", {"item": oname, "published": old["pub"], "fill_for": name})
+            except ValueError:
+                continue
+            om.update(item=oname, file=str(pipe_rel(odest)), fill=True)
+            out.append(om)
     return out
 
 
@@ -335,7 +371,7 @@ def fetch_lidar_dsm(tile: Tile) -> dict:
     n = p.execute()
     m = finish_fetch(dest, tmp, SRC["lidar_ept"]["url"], {"points_kept": int(n), "ept_bounds_3857": bounds,
                                                           "pdal_filters": LIDAR_FILTER})
-    print(f"[lidar-dsm] {n} first-return points kept -> {dest.relative_to(PIPE)}")
+    print(f"[lidar-dsm] {n} first-return points kept -> {pipe_rel(dest)}")
     return m
 
 

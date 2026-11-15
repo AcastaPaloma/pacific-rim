@@ -173,7 +173,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
 
     # ---- sources (cache only after first fetch; --offline proves it)
     cud = fetch.fetch_cudem(tile) if plan.get("cudem", True) else []
-    dep = fetch.fetch_3dep(tile) if plan.get("dep3", True) else []
+    dep = fetch.fetch_3dep(tile, fill=bool(plan.get("dep3_fill"))) if plan.get("dep3", True) else []
     osm = fetch.fetch_osm_tile(tile) if plan.get("osm", True) else None
     osm_pbf = fetch.fetch_osm_pbf()
     wat = fetch.fetch_osm_water()
