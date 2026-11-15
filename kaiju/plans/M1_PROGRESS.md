@@ -72,3 +72,5 @@ Slice minor defects f2-f5 on LEDGER.md; M1 slice gate ready for re-evaluation (e
 
 ## Session 7 (build lead, 2026-11-15)
 - T-039c ✓ merged 85d9ff7 (spawn planner, strengthened pixel smoke; player run pass, min share 0.506). T-119/T-112 ✓ (eae5dea). T-176 ✓ 6678a16 (C7/C6 haze model, C11 slab model; shader steps T-180..T-185 staged, need Unity + Rendering.Pixel worker). T-042 (R-024 rev 4) running. Open: final batched EditMode (after T-042), reports/M1.md.
+Final batch ✓ (9a7908a): GameCoreConfig regen identical, Unity EditMode 675/673/0/2 (evidence/regression/M1-final-batch.md); LEDGER rows slice-f1, combat-f1, ai-f2 closed, ai-f5 part.
+reports/M1.md updated with final status; remaining: T-005 walk, slice eval-style re-check, C5/C6, minors batch.
