@@ -94,6 +94,34 @@ SETS['i2'] = _seeded({
   'Nrm1': dict(J1, qp_td_rematch=1.0),
   'Nrm1em3': dict(J1, qp_td_rematch=1.0, qp_cx_emax=3.0),
 }, 4)
+# 9.5j: QP joint-range rows (qp_rom), foot-pitch weight ramp at the ankle stop (qp_fp_rom), stance contact hold (qp_z_hold_ss), then rematch + late_cx on top
+R = dict(J1, qp_rom=1)
+RF = dict(R, qp_fp_rom=1)
+RFZ = dict(RF, qp_z_hold_ss=1.0)
+SETS['j1'] = _seeded({
+  'Pbase': dict(J1),
+  'Prom': dict(R),
+  'Promfp': dict(RF),
+  'Promfpz': dict(RFZ),
+  'Pz1': dict(J1, qp_z_hold_ss=1.0),
+  'Promfpzrl': dict(RFZ, qp_td_rematch=1.0, qp_late_cx=1.0),
+}, 4)
+SETS['j2'] = _seeded({
+  'Qm6': dict(RFZ, qp_rom_margin_deg=6.0),
+  'Qm10': dict(RFZ, qp_rom_margin_deg=10.0),
+  'Qa60': dict(RFZ, qp_rom_amax=60.0),
+  'Qa15': dict(RFZ, qp_rom_amax=15.0),
+  'Qh05': dict(RFZ, qp_rom_horizon_s=0.05),
+  'Qb8': dict(RFZ, qp_fp_rom_band_deg=8.0, qp_rom_margin_deg=6.0),
+  'Qz3': dict(RFZ, qp_z_hold_ss=3.0),
+  'Qz3rl': dict(RFZ, qp_z_hold_ss=3.0, qp_rom_margin_deg=6.0, qp_td_rematch=1.0, qp_late_cx=1.0),
+}, 4)
+SETS['j3'] = _seeded({
+  'Sm1': dict(RFZ, qp_rom_margin_deg=1.0),
+  'Sa100': dict(RFZ, qp_rom_amax=100.0, qp_rom_margin_deg=6.0),
+  'Srl': dict(RF, qp_td_rematch=1.0, qp_late_cx=1.0),
+  'Sfpz': dict(J1, qp_rom=1, qp_fp_rom=1, qp_z_hold_ss=1.0, qp_rom_amax=60.0, qp_rom_horizon_s=0.2),
+}, 4)
 def load_set(name):
     return SETS[name]
 def check_line(line):

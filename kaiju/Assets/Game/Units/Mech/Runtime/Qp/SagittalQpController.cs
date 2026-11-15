@@ -17,6 +17,7 @@ namespace Game.Units.Mech.Qp
         public double SolverRegularisation = 1e-12;
         /// <summary>Step 9.5b (stage 2, qp_lateral): 3D contact forces at 2 sole corners per heel / toe point (diamond pyramid |fx| + |fy| &lt;= mu' fz shared by both shears), lateral CoM, roll and yaw momentum rows. Off = the planar QP unchanged.</summary>
         public double WTau;   // step 9.5b: weight of sum (tau_j / LIM_j)^2 (0 = off, as the prototype); fixes the internal double-support force the other rows leave free
+        public bool Rom, FpRom; public double RomMargin = 3 * Math.PI / 180, RomHorizon = 0.1, RomAmax = 30.0, FpRomBand = 3 * Math.PI / 180;   // step 9.5j (qp_rom, qp_fp_rom)
         public double LateCx, CxEmax;   // CxEmax (qp_cx_emax, 9.5i): clamp of the CoM-x position error in the CoM row (0 = off)   // step 9.5i (qp_late_cx k): while the touchdown is late the CoM-x reference advances at k x the reference CoM speed (0 = frozen at the step end, as the prototype)
         public double ArmRefYawFf;   // step 9.5h (qp_arm_ref_yawff w): the filtered measured yaw-momentum rate of the arms in the feed-forward is replaced by (1 - w) measured + w predicted from the reference shoulder acceleration (DLArmRefPred)
         public bool YawTrunk; public double YawFf = 1.0, YawCap = 0.1, YawBudget = 0, YawBudgetFloor = 0.1;   // step 9.5e: trunk yaw task with the legs' and arms' yaw-momentum rate as feed-forward
@@ -26,10 +27,10 @@ namespace Game.Units.Mech.Qp
         {
             Mu = t.qp_mu, LimFrac = t.qp_lim_frac, OmX = t.qp_om_x, OmZ = t.qp_om_z, KL = t.qp_kL, OmSw = t.qp_om_sw, OmTh = t.qp_om_th, OmPost = t.qp_om_post, OmFp = t.qp_om_fp,
             WCx = t.qp_w_cx, WCz = t.qp_w_cz, WL = t.qp_w_L, WPrior = t.qp_w_prior, WSmooth = t.qp_w_smooth, WSt = t.qp_w_st, WSwing = t.qp_w_swing, WFp = t.qp_w_fp, WTrunk = t.qp_w_trunk, WPost = t.qp_w_post, WReg = t.qp_w_reg, WBreg = t.qp_w_breg,
-            Kvs = t.qp_kvs, OnBw = t.qp_on_bw, OffBw = t.qp_off_bw, TOut = t.qp_T_out, TIn = t.qp_T_in, TBlend = t.qp_T_blend, LoadThr = t.qp_load_thr, TdMinFrac = t.qp_td_min_frac, LateVz = t.qp_late_vz, FCap = t.qp_fcap, ZHold = t.qp_z_hold,
+            Kvs = t.qp_kvs, OnBw = t.qp_on_bw, OffBw = t.qp_off_bw, TOut = t.qp_T_out, TIn = t.qp_T_in, TBlend = t.qp_T_blend, LoadThr = t.qp_load_thr, TdMinFrac = t.qp_td_min_frac, LateVz = t.qp_late_vz, FCap = t.qp_fcap, ZHold = Math.Max(t.qp_z_hold, t.qp_z_hold_ss),
             HoldSched = t.qp_hold_sched > 0.5, Onset = t.qp_onset > 0.5, Land = t.qp_land > 0.5, LandAct = t.qp_land_act > 0.5, FrMeas = t.qp_fr_meas > 0.5, FrMargin = t.qp_fr_margin, LandK0 = t.qp_land_k0, VTd = t.qp_v_td, LandPost = t.qp_land_post,
             MassEst = t.qp_mass_est, MassLo = t.qp_mass_lo, MassHi = t.qp_mass_hi, SgFloor = t.qp_sg_floor, SolverRegularisation = t.qp_solver_reg,
-            WTau = t.qp_w_tau, YawTrunk = t.qp_yaw_trunk > 0.5, YawFf = t.qp_yaw_ff, YawCap = t.qp_yaw_cap, YawBudget = t.qp_yaw_budget, YawBudgetFloor = t.qp_yaw_budget_floor, ArmRefYawFf = t.qp_arm_ref_yawff, LateCx = t.qp_late_cx, CxEmax = t.qp_cx_emax, Lateral = t.qp_lateral > 0.5, OmY = t.qp_om_y, WCy = t.qp_w_cy, WRoll = t.qp_w_roll, KRoll = t.qp_k_roll, WYaw = t.qp_w_yaw, OmYaw = t.qp_om_yaw
+            WTau = t.qp_w_tau, YawTrunk = t.qp_yaw_trunk > 0.5, YawFf = t.qp_yaw_ff, YawCap = t.qp_yaw_cap, YawBudget = t.qp_yaw_budget, YawBudgetFloor = t.qp_yaw_budget_floor, ArmRefYawFf = t.qp_arm_ref_yawff, LateCx = t.qp_late_cx, CxEmax = t.qp_cx_emax, Rom = t.qp_rom > 0.5, FpRom = t.qp_rom > 0.5 && t.qp_fp_rom > 0.5, RomMargin = t.qp_rom_margin_deg * Math.PI / 180, RomHorizon = t.qp_rom_horizon_s, RomAmax = t.qp_rom_amax, FpRomBand = t.qp_fp_rom_band_deg * Math.PI / 180, Lateral = t.qp_lateral > 0.5, OmY = t.qp_om_y, WCy = t.qp_w_cy, WRoll = t.qp_w_roll, KRoll = t.qp_k_roll, WYaw = t.qp_w_yaw, OmYaw = t.qp_om_yaw
         };
     }
 
@@ -41,7 +42,7 @@ namespace Game.Units.Mech.Qp
     /// </summary>
     public sealed class SagittalQpController
     {
-        public const int NQ = 9, NJ = 6, MaxNb = 32, MaxNx = NQ + MaxNb, MaxIn = 64;   // MaxNb: 8 generators x 4 points with Lateral (2 without)
+        public const int NQ = 9, NJ = 6, MaxNb = 32, MaxNx = NQ + MaxNb, MaxIn = 80;   // MaxNb: 8 generators x 4 points with Lateral (2 without)
         static readonly int[] CjIdx = { 2, 3, 3, 4, 4, 5 };
 
         readonly QpReference _ref; readonly SagittalQpOptions _o; readonly IQpSolver _solver; readonly ContactSchedule _sch;
@@ -77,6 +78,10 @@ namespace Game.Units.Mech.Qp
         /// <summary>Lateral: last commanded [sum fy / W, roll moment / (W l), yaw moment / (W l)] and their targets (log only).</summary>
         public readonly double[] LatCmd = new double[6];
         // outputs
+        /// <summary>Step 9.5j: anatomical range (rad) of the six joints [hipA kneeA ankleA hipB kneeB ankleB] for the qp_rom rows; set by the driver (+-inf = unbounded).</summary>
+        public readonly double[] RomLo = { double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity }, RomHi = { double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity };
+        /// <summary>Step 9.5j diagnostics: ROM rows added to the last QP (count), ticks where they were infeasible and dropped, bit mask of binding joints (bit j: lower, bit 6 + j: upper bound row active in the last tick), foot-pitch weight scale of leg A / B, contact points in the set.</summary>
+        public int RomRows, NS; public long RomRowsDropped; public int RomActive; public readonly double[] FpScale = { 1.0, 1.0 };
         public readonly double[] Tau = new double[NJ];   // joint torques [hipA kneeA ankleA hipB kneeB ankleB], N m, clipped to the limits
         public readonly double[] Force = new double[8];  // commanded contact forces [ft, fn] per point, N
         // diagnostics
@@ -363,7 +368,10 @@ namespace Game.Units.Mech.Qp
                 }
                 double af = r[QpReference.Cqdd + fidx] + kf * (r[QpReference.Cq + fidx] - Q[fidx]) + kfd * (r[QpReference.Cqd + fidx] - Qd[fidx]);
                 if (ns == 0 && leg == swLeg && haveLt) { af = _ltAcc[2] + kf * (_ltPos[2] - Q[fidx]) + kfd * (_ltVel[2] - Qd[fidx]); landOn = true; }
-                ClearRow(nx); _row[fidx] = 1.0; AddRow(nx, o.WFp * bl, af / (g0 / l));
+                double fps = 1.0;
+                if (o.FpRom) { int aj = 3 * leg + 2; double qa = 0; for (int c = 0; c < NQ; c++) qa += _cj[aj * NQ + c] * Q[c]; double dist = Math.Min(qa - RomLo[aj], RomHi[aj] - qa) - o.RomMargin; fps = Math.Max(0.0, Math.Min(1.0, dist / Math.Max(o.FpRomBand, 1e-6))); }
+                FpScale[leg] = fps;
+                ClearRow(nx); _row[fidx] = 1.0; AddRow(nx, o.WFp * bl * fps, af / (g0 / l));
             }
             // trunk
             { double ath = r[QpReference.Cqdd + 2] + o.OmTh * o.OmTh * (r[QpReference.Cq + 2] - Q[2]) + 2 * o.OmTh * (r[QpReference.Cqd + 2] - Qd[2]); ClearRow(nx); _row[2] = 1.0; AddRow(nx, o.WTrunk, ath / (g0 / l)); }
@@ -429,8 +437,32 @@ namespace Game.Units.Mech.Qp
                     for (int a = 0; a < nS; a++) if (_sIdx[a] / 2 == f) for (int c = 0; c < nb; c++) { double tv = _em[(2 * a) * MaxNb + c]; _ain[mi * nx + NQ + c] -= tv; _ain[(mi + 1) * nx + NQ + c] += tv; }
                     _bin[mi] = -cap; _bin[mi + 1] = -cap; mi += 2;
                 }
-            // ---- solve (drop the torque rows if infeasible, as the prototype), keep the previous torques if that fails too
+            // step 9.5j (qp_rom): joint-range rows on qdd_j = CJ_j D x[0..8], velocity-damper form: the joint's next velocity over the horizon T (qd + qdd T) stays on the braking envelope
+            // of the margin point, +-sqrt(2 a_b dist) (a_b = RomAmax) while inside, and +-dist / T back toward it once past it; a bound on qdd limited to +-2 a_b keeps the row reachable
+            int miBase = mi; RomRows = 0; RomActive = 0; NS = nS;
+            if (o.Rom)
+            {
+                double hr = Math.Max(o.RomHorizon, 1e-3), ab = Math.Max(o.RomAmax, 1e-3), cap = 2 * ab;
+                for (int j = 0; j < NJ; j++)
+                {
+                    double qj = 0, qdj = 0; for (int c = 0; c < NQ; c++) { double cj = _cj[j * NQ + c]; if (cj == 0) continue; qj += cj * Q[c]; qdj += cj * Qd[c]; }
+                    if (!double.IsInfinity(RomHi[j]))
+                    {
+                        double d = RomHi[j] - o.RomMargin - qj, vlim = d >= 0 ? Math.Sqrt(2 * ab * d) : d / hr, ub = Math.Min(cap, Math.Max(-cap, (vlim - qdj) / hr));
+                        Array.Clear(_ain, mi * nx, nx); for (int c = 0; c < NQ; c++) _ain[mi * nx + c] = -_cj[j * NQ + c] * _dd[c]; _bin[mi] = -ub; mi++; RomRows++;
+                        if (qdj > vlim) RomActive |= 1 << (6 + j);
+                    }
+                    if (!double.IsInfinity(RomLo[j]))
+                    {
+                        double d = qj - (RomLo[j] + o.RomMargin), vlim = d >= 0 ? -Math.Sqrt(2 * ab * d) : -d / hr, lb = Math.Min(cap, Math.Max(-cap, (vlim - qdj) / hr));
+                        Array.Clear(_ain, mi * nx, nx); for (int c = 0; c < NQ; c++) _ain[mi * nx + c] = _cj[j * NQ + c] * _dd[c]; _bin[mi] = lb; mi++; RomRows++;
+                        if (qdj < vlim) RomActive |= 1 << j;
+                    }
+                }
+            }
+            // ---- solve (drop the ROM rows, then the torque rows if infeasible, as the prototype), keep the previous torques if that fails too
             var st = _solver.Solve(nx, 3, mi, _hq, _gq, _aeq, _beq, _ain, _bin); LastIterations = _solver.Iterations;
+            if (st != QpStatus.Optimal && RomRows > 0) { RomRowsDropped++; mi = miBase; RomActive = 0; st = _solver.Solve(nx, 3, mi, _hq, _gq, _aeq, _beq, _ain, _bin); LastIterations = _solver.Iterations; }
             if (st != QpStatus.Optimal)
             {
                 Array.Copy(_ain, 2 * NJ * nx, _ain2, 0, (mi - 2 * NJ) * nx); Array.Copy(_bin, 2 * NJ, _bin2, 0, mi - 2 * NJ);

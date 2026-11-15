@@ -39,7 +39,7 @@ namespace Game.Units.Mech
             public double[] AngStRef, AngStMeas, AngSwRef, AngSwMeas; public double RefFroude;   // round 2 step 6a (imp > 0): hip flexion, knee, ankle plantar (deg), stance and swing leg; null when not available
             public double RefPhase; public double[] TauFfSt, TauFfSw;   // round 3 step 8.5 (imp = 2): optimised feed-forward torque hip, knee, ankle (N m) after scale, sign and limit; null otherwise
             public double YawMomentNm, YawBudgetNm, YawUtil, TrunkShare;   // round 2 step 3 (NaN logs as null)
-            public int QpStatus; public long QpFailures; public double QpMassScale, QpFrictionCmd; public bool QpOn; public double QpScale; public int QpIters; public double QpMs; public double[] QpTau; public double[] QpLat, QpYaw; public int QpRow; public bool QpMatchTd; public double QpMatchD, QpMatchZ; public int QpMatchRow, QpMatchNode, QpMatchTds;   // QpLat (step 9.5b, qp_lateral): [sum fy / W, roll, yaw moment / (W l)] commanded and their targets; round 4 step 9.4b (imp = 3): last QP status (0 optimal), failed solves, mass-scale estimate, commanded shear / (mu fn); log only
+            public int QpStatus; public long QpFailures; public double QpMassScale, QpFrictionCmd; public bool QpOn; public double[] QpJ; public double QpScale; public int QpIters; public double QpMs; public double[] QpTau; public double[] QpLat, QpYaw; public int QpRow; public bool QpMatchTd; public double QpMatchD, QpMatchZ; public int QpMatchRow, QpMatchNode, QpMatchTds;   // QpLat (step 9.5b, qp_lateral): [sum fy / W, roll, yaw moment / (W l)] commanded and their targets; round 4 step 9.4b (imp = 3): last QP status (0 optimal), failed solves, mass-scale estimate, commanded shear / (mu fn); log only
         }
 
         readonly IArticulatedBody _b;
@@ -425,6 +425,7 @@ namespace Game.Units.Mech
             _dbg.QpRow = _qpRow;
             if (_qpLat) { _dbg.QpLat ??= new double[6]; System.Array.Copy(c.LatCmd, _dbg.QpLat, 6); }
             if (_qpLat && c.TrunkYaw) { QpArmTrim(); QpArmFf(); QpArmRef(); _dbg.QpYaw ??= new double[19]; System.Array.Copy(c.YawLog, _dbg.QpYaw, 5); _dbg.QpYaw[5] = _armTrim[0]; _dbg.QpYaw[6] = _armTrim[1]; _dbg.QpYaw[7] = c.YawLog[5]; _dbg.QpYaw[8] = c.YawLog[6]; _dbg.QpYaw[9] = c.YawShareLog; _dbg.QpYaw[10] = _armFf[0]; _dbg.QpYaw[11] = _armFf[1]; _dbg.QpYaw[12] = _lLegsRefLog; _dbg.QpYaw[13] = _armRef[0]; _dbg.QpYaw[14] = _armRef[1]; _dbg.QpYaw[15] = _armShoulderFlex[0] >= 0 ? _b.DofPosition(_armShoulderFlex[0]) : 0; _dbg.QpYaw[16] = _armShoulderFlex[1] >= 0 ? _b.DofPosition(_armShoulderFlex[1]) : 0; _dbg.QpYaw[17] = c.DLArmRefPred; _dbg.QpYaw[18] = c.DLArms; }
+            if (_t.qp_rom > 0.5 || _t.qp_z_hold_ss > 0) { _dbg.QpJ ??= new double[6]; _dbg.QpJ[0] = c.NS; _dbg.QpJ[1] = c.RomRows; _dbg.QpJ[2] = c.RomActive; _dbg.QpJ[3] = c.RomRowsDropped; _dbg.QpJ[4] = c.FpScale[0]; _dbg.QpJ[5] = c.FpScale[1]; }   // step 9.5j log
             _dbg.QpStatus = (int)c.LastStatus; _dbg.QpFailures = c.SolveFailures; _dbg.QpMassScale = c.MassScale; _dbg.QpFrictionCmd = c.FrictionRatioCmd;
         }
 

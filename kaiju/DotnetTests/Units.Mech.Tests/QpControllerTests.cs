@@ -105,6 +105,25 @@ namespace Game.Units.Mech.Tests
             Assert.That(yawM, Is.LessThan(0)); Assert.That(fy, Is.LessThan(0));
         }
 
+        /// <summary>Step 9.5j: the joint-range rows (qp_rom) and the foot-pitch weight ramp (qp_fp_rom) on the golden replay (nominal stride): feasible every tick (no row dropped), the golden plant has no ROM (its knee runs to 1 deg, its ankle to -23.5 deg), so rows bind there; (the ranges of mech_frame: hip -20..120, knee 0..135, ankle -20..40 deg).</summary>
+        [Test]
+        public void RomRows_GoldenReplay_StayFeasibleAndMoveTheTorquesLittle()
+        {
+            var a = Golden(out int n); var d = Ref(); var c0 = Make(d); var c = Make(d, new SagittalQpOptions { Rom = true, FpRom = true });
+            double r = Math.PI / 180; double[] lo = { -20, 0, -20, -20, 0, -20 }, hi = { 120, 135, 40, 120, 135, 40 };
+            for (int j = 0; j < 6; j++) { c.RomLo[j] = lo[j] * r; c.RomHi[j] = hi[j] * r; }
+            double worst = 0; int failed = 0, bound = 0, mask = 0; double fpMin = 1, qmin = 9, qmax = -9; var jmin = new double[] { 9, 9, 9, 9, 9, 9 }; var jmax = new double[] { -9, -9, -9, -9, -9, -9 };
+            for (int k = 0; k < n; k++)
+            {
+                Feed(c0, a, k); c0.Step(a[k * Row]); Feed(c, a, k); if (!c.Step(a[k * Row])) failed++;
+                if (c.RomActive != 0) { bound++; mask |= c.RomActive; } fpMin = Math.Min(fpMin, Math.Min(c.FpScale[0], c.FpScale[1])); { double qa = c.Q[4] + c.Q[5]; qmin = Math.Min(qmin, qa); qmax = Math.Max(qmax, qa); for (int j = 0; j < 6; j++) { double qj = 0; for (int cc = 0; cc < 9; cc++) qj += (j % 3 == 0 ? (cc == 2 || cc == 3 + 3 * (j / 3) ? 1 : 0) : j % 3 == 1 ? (cc == 3 + 3 * (j / 3) ? 1 : cc == 4 + 3 * (j / 3) ? -1 : 0) : (cc == 4 + 3 * (j / 3) || cc == 5 + 3 * (j / 3) ? 1 : 0)) * c.Q[cc]; jmin[j] = Math.Min(jmin[j], qj); jmax[j] = Math.Max(jmax[j], qj); } }
+                for (int j = 0; j < 6; j++) worst = Math.Max(worst, Math.Abs(c.Tau[j] - c0.Tau[j]) / Lim[j]);
+            }
+            TestContext.WriteLine("joint min deg " + string.Join(" ", System.Linq.Enumerable.Select(jmin, v => (v / r).ToString("F1"))) + " max " + string.Join(" ", System.Linq.Enumerable.Select(jmax, v => (v / r).ToString("F1"))));
+            TestContext.WriteLine($"qp_rom: ticks {n}, rows {c.RomRows}, ticks with a binding row {bound}, dropped {c.RomRowsDropped}, min foot-pitch scale {fpMin:G3}, mask {mask:X}, ankle A deg {qmin / r:G4}..{qmax / r:G4}, max |dtau|/LIM {worst:G3}");
+            Assert.That(failed, Is.EqualTo(0)); Assert.That(c.RomRowsDropped, Is.EqualTo(0)); Assert.That(worst, Is.LessThan(0.3), "the rows move the torques by less than 0.3 LIM on the golden replay (its knees run to 1 deg and its ankle to -23.5 deg: past the 3 deg margin, so rows do bind there)");
+        }
+
         /// <summary>Step 9.5b: the torque regulariser (qp_w_tau) on the golden replay: feasible every tick, torques stay near the planar QP (the reference walk needs no internal double-support force), the peak |tau| / LIM does not grow.</summary>
         [TestCase(1.0)]
         [TestCase(10.0)]
