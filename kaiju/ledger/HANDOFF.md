@@ -230,3 +230,4 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 - 2026-11-15 · QP solver home: `Game.Physics.Body` runtime (`Runtime/Qp/`), engine-free and already mirrored in DotnetTests; R-009 left it open — decided autonomously (user offline).
 - 2026-11-15 · 9.3 split into 9.3a (plant, reference @v2, PD sanity), 9.3b (controller, criterion A), 9.3c (B/C/D, yaw, verdict); 9.3a runs in parallel with 9.2 because the Python prototype does not use the C# solver — decided autonomously (user offline).
 - 2026-11-15 · Workers stay Sonnet/Haiku at ≤ medium per this session's brief; no §14 escalation unless the stop rule ends a loop with evidence it can work — decided autonomously (user offline).
+- 2026-11-15 · QP iteration cap stays 60: controller shapes need ≤ 22; only a large random case (n 40, m 80) needed 71 — decided autonomously (user offline).
