@@ -52,3 +52,4 @@ Open for the successor:
 5. Update `reports/M1.md` after the evaluators.
 6. Archive finished sessions T-030c, T-036c (and later the others) once checked — the archive tool needs the user's go-ahead.
 Push note: T-040's worker had an integration push refused by the permission classifier; the branch has since been pushed by another session (in sync at hand-over).
+- Post-hand-over results: T-033b rev 3 merged (71903df). M-007 3v4: C2 PASS (CI non-overlap), C3 0.068, C4 0, but **C1 still FAIL 0.494 < 0.60** after the one cycle, so it is routed to R-024 as a research item, threshold untouched. T-036c: M-053 PASS on production faults (provisional, assumed thresholds). T-030c and T-036c are done and can be archived once the user agrees. T-039b: build + smoke running.
