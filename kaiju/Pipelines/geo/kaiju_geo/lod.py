@@ -56,11 +56,11 @@ from .common import SAMPLES, TILE_SIZE_M, Tile, canonical_json, sha256_bytes, sh
 from .terrain import decode_r16, quantise_r16
 
 SPEC = "geo_lod@v1"
-GENERATOR = "bake_lod.py@7"
+GENERATOR = "bake_lod.py@8"
 # bake_lod.py@5 / @6 manifests are what @7 writes (same geometry bytes) for every tile whose forms fit their caps (@6 only differs where
 # the nominal tolerance missed a cap, @7 only where the footprint tolerance ladder missed it); bake_bay.lod_current accepts them for such
 # tiles so only the others re-bake.
-GENERATOR_COMPAT = ("bake_lod.py@5", "bake_lod.py@6")
+GENERATOR_COMPAT = ("bake_lod.py@5", "bake_lod.py@6", "bake_lod.py@7")
 MAX_LEVEL = 4
 CHUNK_M = 256.0
 N = SAMPLES - 1                       # 2048 cells per tile edge
@@ -894,6 +894,9 @@ BLOCK_PROFILES = ({"g": 0.55, "t": 0.35, "dh": 1.0}, {"g": 0.30, "t": 0.65, "dh"
 BLOCK_SEARCH_STEPS = 5
 BLOCK_SAMPLE_M = 8.0                       # boundary sampling step for the error measure (vertices are always included)
 BLOCK_ID_PREFIX = "blk:"
+EXTENDED_LEVELS = (1,)                     # T-108e: B1 levels that get the extended-block ladder and the skyline fallback after the envelope blocks miss the cap
+EXTENDED_SCALES = (2.0, 3.0, 4.0, 6.0, 8.0)  # multiples of the R-101 section 8 envelope (max / rms, band, closing, simplification) tried in order
+SKYLINE_LEVELS = (1, 2)                    # B1 levels whose last resort is the skyline form (T-108d L2, T-108e L1)
 SURFACE_MAX_CELL_FACTOR = 4                # a skyline surface that misses its cap at CHUNK_M cells may grow to 4 x CHUNK_M (flagged)
 FOOTPRINT_RMS_DEF = ("rms of the boundary displacement (M-102 (a) contour displacement) between the L0 footprints and the form, "
                      "boundary-length weighted over both directions; max includes the depth of every filled gap")
@@ -1151,13 +1154,15 @@ def block_error_ok(er: dict, bud: dict) -> bool:
 
 
 def fit_merged(inputs, level: int, landmarks: set[str], mb: MeshBuilder, tri_cap: int, reserve: int, tile_id: str,
-               hopeless_exit: bool) -> dict:
+               hopeless_exit: bool, scale: float = 1.0) -> dict:
     """Merged-block fit of one form (T-108d). For each profile: probe the largest knob (BLOCK_PHI_HI, beyond the budget); when even that
     cannot reach the cap the form is hopeless (`hopeless_exit` returns at once, else the largest in-budget knob is searched for the report).
     Otherwise the smallest knob that reaches the cap is searched (bisection, triangles only) and its measured errors are checked against the
     budget; if they are over, the largest in-budget knob is searched instead (cap missed, flagged).
     -> {'fit': 'merged_blocks' | 'over_cap_error_budget' | 'hopeless', 'tris', 'blocks', 'refs', 'lm', 'err', 'params', 'ladder', 'budget'}"""
     bud = footprint_error_budget_m(level)
+    if scale != 1.0:                                  # T-108e: extended ladder, the envelope x scale (flagged by the caller, never silent)
+        bud = {**bud, "max_m": bud["max_m"] * scale, "rms_m": bud["rms_m"] * scale}
     B, room = bud["max_m"], tri_cap - reserve
     rows: dict = {}
     cache: dict = {}
@@ -1484,15 +1489,28 @@ def _bake_form(form: str, level: int, tile: Tile, items, grids, lm: set[str]) ->
             r, note = r2, {"surface_cell_over_chunk": r2["cell"] > CHUNK_M}
     merged = None
     skyline = None
+    ext_scale = 1.0
     if form == "b1" and r["fit"]["fit"] == "over_cap_error_budget":
-        fallback = grids is not None and "b2" in FORMS[level]
+        fallback = level in SKYLINE_LEVELS
         mb = MeshBuilder(tile.x0, tile.z0)
         m = fit_merged(inputs, level, lm, mb, cap, 0, tile.id, hopeless_exit=fallback)
         if m["fit"] == "merged_blocks" or (m["fit"] == "over_cap_error_budget" and m["tris"] < r["mb"].triangles):
             merged = m
+        ext_ladder = []
+        if (merged is None or merged["fit"] != "merged_blocks") and level in EXTENDED_LEVELS:
+            for sc in EXTENDED_SCALES:                       # smallest multiple of the envelope whose blocks reach the cap (measured errors)
+                x = fit_merged(inputs, level, lm, MeshBuilder(tile.x0, tile.z0), cap, 0, tile.id, hopeless_exit=True, scale=sc)
+                ext_ladder.append({"scale": sc, "fit": x["fit"], "triangles": x["tris"]})
+                if x["fit"] == "merged_blocks":
+                    merged, ext_scale = x, sc
+                    break
         r["block_ladder"] = m["ladder"]
         r["block_floor_tris"] = m["tris"]
+        if ext_ladder:
+            r["extended_ladder"] = ext_ladder
         if (merged is None or merged["fit"] != "merged_blocks") and fallback:
+            if grids is None:
+                grids = rooftop_grids(items, level, tile)
             sky_inputs = _piece_inputs(items, True)
             skyline = _prism_form("b2", level, tile, sky_inputs, grids, lm, cap, nominal, CHUNK_M * SURFACE_MAX_CELL_FACTOR)
             if not skyline["cap_ok"]:
@@ -1515,6 +1533,9 @@ def _bake_form(form: str, level: int, tile: Tile, items, grids, lm: set[str]) ->
         if "block_ladder" in r:
             stat["block_floor_triangles"] = r["block_floor_tris"]
             stat["block_ladder"] = r["block_ladder"]
+        if "extended_ladder" in r:
+            stat["extended_ladder"] = r["extended_ladder"]
+        _switch_record(stat)
         out_files = _form_files(form, idx, mb)
         stat["file_bytes"] = len(out_files[f"{form}.lodmesh"])
         return out_files, stat
@@ -1530,9 +1551,15 @@ def _bake_form(form: str, level: int, tile: Tile, items, grids, lm: set[str]) ->
                 "footprint_rms_m": round(er["footprint_rms_m"], 3), "height_max_m": round(er["height_max_m"], 3),
                 "height_rms_m": round(er["height_rms_m"], 3), "surface_cell_m": None, "surface_columns": 0,
                 "members": int(sum(len(b.members) for b in merged["blocks"]) + len(merged["lm"])), "blocks": len(merged["blocks"]),
-                "footprint_tol_nominal_m": nominal, "footprint_fit": "merged_blocks" if cap_ok else "over_cap_error_budget",
-                "error_budget_met": True, "merge": merged["params"], "footprint_rms_def": FOOTPRINT_RMS_DEF,
+                "footprint_tol_nominal_m": nominal, "footprint_fit": ("merged_blocks" if ext_scale == 1.0 else "merged_blocks_extended") if cap_ok else "over_cap_error_budget",
+                "error_budget_met": ext_scale == 1.0, "merge": merged["params"], "footprint_rms_def": FOOTPRINT_RMS_DEF,
                 "footprint_error_budget_m": _budget_record(level), "footprint_ladder": r["fit"]["ladder"], "block_ladder": merged["ladder"]}
+        if ext_scale != 1.0:
+            stat["error_scale"] = ext_scale
+            stat["extended_ladder"] = r.get("extended_ladder")
+            stat["extended_error_note"] = ("merged blocks at %g x the B1 envelope (max %g m / rms %g m); measured errors above are exact, the switch distance "
+                                           "follows them (switch_m102)" % (ext_scale, merged["budget"]["max_m"], merged["budget"]["rms_m"]))
+            _switch_record(stat)
         out_files = _form_files(form, idx, mb)
         stat["file_bytes"] = len(out_files[f"{form}.lodmesh"])
         return out_files, stat
@@ -1554,6 +1581,14 @@ def _bake_form(form: str, level: int, tile: Tile, items, grids, lm: set[str]) ->
         stat["block_ladder"] = r["block_ladder"]
     stat.update(note)
     return out_files, stat
+
+
+def _switch_record(stat: dict, k: int = K_DESIGN) -> None:
+    """M-102 selection distances (m, k = K_DESIGN, 1158 px/m at 1 m) of a form that is outside the B1 error envelope: the distance beyond which
+    its measured rms (and max, guard 4/k) is invisible at 1/k output px. The streaming selector's per-level rule (terrain error) does not read
+    this yet; it is the number a per-tile switch rule must use (T-108e, M-102 render evidence may tighten it)."""
+    stat["switch_m102"] = {"k": k, "rms_d_m": round(stat["footprint_rms_m"] * PX_PER_M_AT_1M * k),
+                           "max_d_m": round(stat["footprint_max_m"] * PX_PER_M_AT_1M * k / 4.0)}
 
 
 def _budget_record(level: int) -> dict:
