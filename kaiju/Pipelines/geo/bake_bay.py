@@ -76,8 +76,18 @@ def _init_worker(out_root: str, offline: bool):
         os.environ[k] = "1"
     signal.signal(signal.SIGINT, signal.SIG_IGN)  # the parent decides when to stop
     if offline:
-        from kaiju_geo.common import set_offline
+        from kaiju_geo import fetch
+        from kaiju_geo.common import read_meta, set_offline
         set_offline(True)
+        _orig = fetch._window_read
+
+        def _cache_only(url, dest, bounds, bounds_crs, label, extra):
+            # fetch_3dep skips a TNM item whose window misses the tile (ValueError at fetch time, nothing cached). Offline
+            # that item is simply absent from the cache: treat it the same way instead of failing with NetworkForbidden.
+            if label == "3dep" and read_meta(dest) is None:
+                raise ValueError("3dep item not in cache (window did not intersect the tile at fetch time)")
+            return _orig(url, dest, bounds, bounds_crs, label, extra)
+        fetch._window_read = _cache_only
     _W["out"] = Path(out_root)
 
 
