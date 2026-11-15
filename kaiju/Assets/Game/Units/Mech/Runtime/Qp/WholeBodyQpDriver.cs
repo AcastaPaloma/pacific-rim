@@ -25,6 +25,8 @@ namespace Game.Units.Mech.Qp
         readonly int[] _col = new int[NS], _bc = new int[6];
         double[] _jac, _jacS, _bias; int _rows, _cols; bool _havePrev; long _n;
         readonly double _heelZ, _toeZ, _ankleZ, _ankleH, _halfW; readonly bool _lat;
+        readonly bool[] _rest;   // step 9.5e: link of a leg or an arm (not the trunk: pelvis, torso, head)
+        readonly double _ffAlpha, _ffMax; double _lRestPrev = double.NaN, _dlRest;
         /// <summary>Stage 2 (qp_lateral): heading the yaw task holds (rad, same convention as the yaw argument of Apply); set by the caller each tick.</summary>
         public double DesiredYaw;
         /// <summary>Stage 2: world positions of the 8 sole corners (corner c = 2 * point + k) and the commanded world corner forces of the last Apply (ground on foot, N).</summary>
@@ -51,6 +53,8 @@ namespace Game.Units.Mech.Qp
             int root = 0; for (int i = 0; i < _links; i++) if (body.LinkParent(i) < 0) { root = i; break; }
             _root = root;
             var sole = f.foot_sole; _heelZ = sole.heel_z_m; _toeZ = sole.toe_z_m; _ankleZ = sole.ankle_z_m; _ankleH = sole.ankle_height_m; _halfW = 0.5 * sole.width_m; _lat = opt.Lateral;
+            _rest = new bool[_links]; for (int i = 0; i < _links; i++) { string id = body.LinkId(i); _rest[i] = id.Contains("arm") || id.Contains("hand") || id.Contains("thigh") || id.Contains("shank") || id.Contains("foot"); }
+            _ffAlpha = Math.Max(0.0, Math.Min(1.0, tuning.qp_yaw_ff_alpha)); _ffMax = tuning.qp_yaw_ff_max;
             for (int leg = 0; leg < 2; leg++) { body.GetFoot(_foot[leg], out var fs); _wb.PointLink[2 * leg] = _wb.PointLink[2 * leg + 1] = fs.Link; }
             // S = P q9
             for (int i = 0; i < 3; i++) _p[i * NS + i] = 1;
@@ -62,7 +66,7 @@ namespace Game.Units.Mech.Qp
         }
 
         /// <summary>Restart at reference node 0 (called when walking starts).</summary>
-        public void Reset(bool anchorXoff = false, int startNode = 0) { _ctl.AnchorXoff = anchorXoff; _ctl.StartNode = startNode; _ctl.Init(); _havePrev = false; _n = 0; }
+        public void Reset(bool anchorXoff = false, int startNode = 0) { _ctl.AnchorXoff = anchorXoff; _ctl.StartNode = startNode; _ctl.Init(); _havePrev = false; _n = 0; _lRestPrev = double.NaN; _dlRest = 0; }
 
         void Allocate()
         {
@@ -200,18 +204,26 @@ namespace Game.Units.Mech.Qp
                 }
             }
             double mt = _wb.TotalMass; var com = new Vector3((float)_wb.ComTotal[0], (float)_wb.ComTotal[1], (float)_wb.ComTotal[2]);
-            double vx = 0, vy = 0, vz = 0, lx = 0, ly = 0, lz = 0, izz = 0;
+            double vx = 0, vy = 0, vz = 0, lx = 0, ly = 0, lz = 0, izz = 0, lyRest = 0, izzTrunk = 0;
             for (int i = 0; i < _links; i++)
             {
                 _b.GetLink(i, out var ls); double m = _wb.Mass[i]; double dx = ls.Com.X - com.X, dy = ls.Com.Y - com.Y, dz = ls.Com.Z - com.Z, ux = ls.Velocity.X, uy = ls.Velocity.Y, uz = ls.Velocity.Z;
                 vx += m * ux; vy += m * uy; vz += m * uz;
                 lx += m * (dy * uz - dz * uy); ly += m * (dz * ux - dx * uz); lz += m * (dx * uy - dy * ux); izz += m * (dx * dx + dz * dz);
+                if (_rest[i]) lyRest += m * (dz * ux - dx * uz); else izzTrunk += m * (dx * dx + dz * dz);
                 int o9 = 9 * i;
                 for (int k = 0; k < 3; k++)
                 {
                     double ex = _wb.Rot[o9 + k], ey = _wb.Rot[o9 + 3 + k], ez = _wb.Rot[o9 + 6 + k], ik = _wb.InertiaDiag[3 * i + k], wk = ex * ls.AngularVelocity.X + ey * ls.AngularVelocity.Y + ez * ls.AngularVelocity.Z;
                     lx += ik * wk * ex; ly += ik * wk * ey; lz += ik * wk * ez; izz += ik * ey * ey;
+                    if (_rest[i]) lyRest += ik * wk * ey; else izzTrunk += ik * ey * ey;
                 }
+            }
+            if (c.TrunkYaw)
+            {
+                // step 9.5e: rate of the legs' and arms' vertical angular momentum about the CoM (finite difference, low-pass); the ground moment must carry it for the trunk to hold its heading
+                if (!double.IsNaN(_lRestPrev)) { double raw = (lyRest - _lRestPrev) / _dt; if (_ffMax > 0) { double mx = _ffMax * mt * _b.Tuning.gravity_mps2 * _ctl.Reference.LegLength; raw = Math.Max(-mx, Math.Min(mx, raw)); } _dlRest += _ffAlpha * (raw - _dlRest); }
+                _lRestPrev = lyRest; c.DLRest = _dlRest; c.LTrunk = ly - lyRest; c.ITrunk = izzTrunk;
             }
             c.ComY = Vector3.Dot(com, rt); c.ComDY = (vx * rt.X + vz * rt.Z) / mt; c.LRoll = lx * fw.X + lz * fw.Z; c.LYaw = ly; c.Izz = izz; c.YRef = yref;
             double e = yaw - DesiredYaw; while (e > Math.PI) e -= 2 * Math.PI; while (e < -Math.PI) e += 2 * Math.PI; c.YawErr = e;
