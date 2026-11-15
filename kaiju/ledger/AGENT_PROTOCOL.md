@@ -242,7 +242,7 @@ This section adds to §11.4, §12 and §15. Where it differs, it overrides them 
 ## 17. Token budget pacing (founder instruction, 2026-11-15 04:10)
 The night of 2026-11-14 ran about 10 sessions at once and used up the 5-hour usage window early, so every session stopped. Pace the work so it lasts the whole window. This section overrides §12 on how many sessions run at once.
 
-- **At most 2 lead orchestrators at a time:**
+- **At most 3 lead orchestrators at a time** (founder, 2026-11-15 afternoon: build everything that doesn't need the walk), namely T-005, the M2 build lead, and the M3/render/audio lead. The original rule allowed 2:
   - one for T-005, the critical path;
   - one for everything else (M1 remainder, M2/M3 and R&D), working down one priority list.
 - **At most 2 workers in flight per lead.** Track sessions only for work longer than about an hour. Everything else runs as Agent workers.
@@ -266,3 +266,8 @@ The night of 2026-11-14 ran about 10 sessions at once and used up the 5-hour usa
 - A lead always keeps its queue stocked with work whose inputs are already merged. It refills the queue before it drains. When the next item is blocked, the lead takes the next unblocked one: from the current milestone, then the next milestone (M2, then M3), then the research and design gaps.
 - There is no deadline and no "done for tonight". The leads keep moving toward the final product until the founder pauses the hourly watchdog task (`kaiju-watchdog`).
 - A blocker is logged and worked around, never waited on (§12, §15). Every item still keeps the full scope (§15) and the budget pacing (§17).
+
+- **Disk guard (2026-11-15):** the data volume is 96 % full (38 GB free).
+  - Before any download, bake or capture set, check `df -h` and keep at least 25 GB free.
+  - Slim evidence as in T-004.
+  - Never duplicate the 75 GB Bay cache. Task worktrees use an APFS clone (`cp -cR`) or the shared path.
