@@ -140,6 +140,13 @@ namespace Game.Meta.Roster
             return m;
         }
 
+        public void SetSpecHash(EntityId mechId, long specHash)
+        {
+            if (!_s.Mechs.TryGetValue(mechId.Value, out var m)) throw new ArgumentException(mechId + " is not in the roster");
+            if (m.State == MechState.Lost) return;
+            m.SpecHash = specHash;
+        }
+
         public MechInstance Retire(EntityId mechId, long step)
         {
             if (!_s.Mechs.TryGetValue(mechId.Value, out var m)) throw new ArgumentException(mechId + " is not in the roster");

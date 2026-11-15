@@ -12,6 +12,9 @@
     <Compile Include="../../Assets/Game/Composition/Tests/EditMode/PlaceholderDamageAdapterTests.cs" />
     <Compile Include="../../Assets/Game/Composition/Runtime/DestructionSaveInstaller.cs" />
     <Compile Include="../../Assets/Game/Composition/Tests/EditMode/DestructionSaveRegistrationTests.cs" />
+    <Compile Include="../../Assets/Game/Composition/Runtime/MetaAdapters.cs" />
+    <Compile Include="../../Assets/Game/Composition/Runtime/MetaInstaller.cs" />
+    <Compile Include="../../Assets/Game/Composition/Tests/EditMode/MetaCompositionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../Hangar/Hangar.csproj" />
@@ -20,6 +23,16 @@
     <ProjectReference Include="../Core.Contracts/Core.Contracts.csproj" />
     <ProjectReference Include="../Core/Core.csproj" />
     <ProjectReference Include="../WorldDestruction/WorldDestruction.csproj" />
+    <ProjectReference Include="../WorldDestruction.Contracts/WorldDestruction.Contracts.csproj" />
+    <ProjectReference Include="../WorldGeo.Contracts/WorldGeo.Contracts.csproj" />
+    <ProjectReference Include="../Meta.Economy/Meta.Economy.csproj" />
+    <ProjectReference Include="../Meta.Economy.Contracts/Meta.Economy.Contracts.csproj" />
+    <ProjectReference Include="../Meta.Salvage/Meta.Salvage.csproj" />
+    <ProjectReference Include="../Meta.Salvage.Contracts/Meta.Salvage.Contracts.csproj" />
+    <ProjectReference Include="../Meta.Roster/Meta.Roster.csproj" />
+    <ProjectReference Include="../Meta.Roster.Contracts/Meta.Roster.Contracts.csproj" />
+    <ProjectReference Include="../Meta.Refit/Meta.Refit.csproj" />
+    <ProjectReference Include="../Meta.Refit.Contracts/Meta.Refit.Contracts.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />

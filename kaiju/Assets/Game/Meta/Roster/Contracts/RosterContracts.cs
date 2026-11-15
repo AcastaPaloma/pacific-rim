@@ -79,6 +79,8 @@ namespace Game.Meta.Roster
     {
         /// <summary>Adds a flyable mech to the slot (and makes it active when the slot has no active mech). Throws ArgumentException for an empty chassis.</summary>
         MechInstance Create(PlayerSlot slot, string chassis, long specHash, long step);
+        /// <summary>Stores the MechBuildSpec hash after a refit (T-122). Throws for an unknown mech; a Lost mech keeps its last hash and the call is ignored.</summary>
+        void SetSpecHash(EntityId mechId, long specHash);
         /// <summary>Snapshot, or null for an unknown id.</summary>
         MechInstance Get(EntityId mechId);
         /// <summary>Every mech of the slot in id order, tombstones included. Clears <paramref name="into"/> first.</summary>
