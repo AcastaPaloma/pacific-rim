@@ -1,0 +1,7 @@
+M-051@v1  [fragility_dump.json]  registry v1.0 sha256:9fbb280dbba9  tool 1.0.0
+VERDICT: PASS   headless: PASS   exit 0   failing gating: 0
+  PASS           [G] M-051.pga        0.01019 probability  <= 0.015  margin 0.004814
+  PASS           [G] M-051.energy     0.009686 probability  <= 0.015  margin 0.005314
+  PASS           [G] M-051.monotone   0 count  <= 0  margin 0
+  PASS           [G] M-051.table      0 absolute  <= 1e-09  margin 1e-09
+  inputs: 2 files hashed; report.json holds every value, threshold and hash

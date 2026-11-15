@@ -1,0 +1,220 @@
+{
+ "assumed_thresholds_decisive": [],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [],
+  "optional_not_provided": [],
+  "provided": [
+   "fragility_dump"
+  ],
+  "required": [
+   "fragility_dump"
+  ]
+ },
+ "exit_code": 0,
+ "extra": {
+  "m051": {
+   "classes": [
+    "A",
+    "B",
+    "C"
+   ],
+   "energy_points": 39,
+   "pga_points": 18
+  }
+ },
+ "failing_gating": [],
+ "failures_suppressed": false,
+ "flags": [],
+ "headless_verdict": "PASS",
+ "headless_verdict_label": "PASS",
+ "images": [],
+ "inputs": [
+  {
+   "path": "Tools/Metrics/registry/hazus_rows_mc.csv",
+   "role": "hazus_rows_mc.csv",
+   "sha256": "cec3436c1291a7d3b166ed3a8ca18e3c05c1d507a35d5824ec182e235ef8766b"
+  },
+  {
+   "path": "evidence/T-036c/dumps/fragility_dump.json",
+   "role": "fragility_dump@v1",
+   "sha256": "81df7e0e3fcecbf57caa5924937e6218a0dc9c1838baffbb0132004ea5981941"
+  }
+ ],
+ "invocation": {
+  "command": "m051",
+  "inputs": [
+   "evidence/T-036c/dumps/fragility_dump.json"
+  ],
+  "label": "fragility_dump.json",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "fragility_dump.json",
+ "metric": "M-051",
+ "metric_version": "M-051@v1",
+ "normalisers": {},
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-051@v1.yaml",
+  "revision": "v1.0",
+  "sha256": "9fbb280dbba9439187da6a6c0a15227fef8e8e8cb357112ea9a4fa1d4fe3cce7",
+  "spec": "M-051@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "revw-172-31-218-200.rn.uwaterloo.ca",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-15T06:19:21Z",
+  "wall_time_s": 0.016
+ },
+ "submeasures": [
+  {
+   "decisive_part": "max_abs_dev",
+   "diagnostics": {
+    "median_where": "A.DS1@0.8g",
+    "points": 18,
+    "where": "C.DS2@0.8g"
+   },
+   "id": "M-051.pga",
+   "kind": "gating",
+   "margin": 0.0048144825768,
+   "margin_rel": 0.32096550512,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.0048144825768,
+     "margin_rel": 0.32096550512,
+     "name": "max_abs_dev",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.015,
+     "unit": "probability",
+     "value": 0.0101855174232
+    },
+    {
+     "margin": 0.00726109076964,
+     "margin_rel": 0.484072717976,
+     "name": "median_dev",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.015,
+     "unit": "probability",
+     "value": 0.00773890923036
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.015,
+   "threshold_status": "derived",
+   "title": "PGA route, empirical F_k vs Phi(ln(theta/theta_k)/beta_tot)",
+   "unit": "probability",
+   "value": 0.0101855174232
+  },
+  {
+   "decisive_part": "max_abs_dev",
+   "diagnostics": {
+    "points": 39,
+    "where": "C.DS1@5.97e+06J"
+   },
+   "id": "M-051.energy",
+   "kind": "gating",
+   "margin": 0.00531398299672,
+   "margin_rel": 0.354265533115,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.00531398299672,
+     "margin_rel": 0.354265533115,
+     "name": "max_abs_dev",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.015,
+     "unit": "probability",
+     "value": 0.00968601700328
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.015,
+   "threshold_status": "derived",
+   "title": "Energy route, empirical F_k vs Phi(ln(E/E_k)/beta_E)",
+   "unit": "probability",
+   "value": 0.00968601700328
+  },
+  {
+   "decisive_part": "violations_max",
+   "diagnostics": {
+    "where": null
+   },
+   "id": "M-051.monotone",
+   "kind": "gating",
+   "margin": 0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "violations_max",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "State never decreases with intensity; F_k non-increasing in k; two runs bit-equal",
+   "unit": "count",
+   "value": 0
+  },
+  {
+   "decisive_part": "table_abs_tol",
+   "diagnostics": {
+    "where": "A.DS1"
+   },
+   "id": "M-051.table",
+   "kind": "gating",
+   "margin": 1e-09,
+   "margin_rel": 1.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 1e-09,
+     "margin_rel": 1.0,
+     "name": "table_abs_tol",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 1e-09,
+     "unit": "absolute",
+     "value": 0.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 1e-09,
+   "threshold_status": "derived",
+   "title": "Loaded medians and beta equal the committed Hazus rows",
+   "unit": "absolute",
+   "value": 0.0
+  }
+ ],
+ "tool": {
+  "git_commit": "e3ea093407fdb9b7a8e247254bf9ef9cd4c38eb1",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "PASS",
+ "verdict_label": "PASS",
+ "warnings": []
+}

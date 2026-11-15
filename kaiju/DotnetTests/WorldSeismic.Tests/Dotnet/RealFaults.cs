@@ -45,7 +45,7 @@ namespace Game.World.Seismic.Tests
                     if (g.GetProperty("type").GetString() == "LineString") lines.Add(Flat(c));
                     else foreach (JsonElement l in c.EnumerateArray()) lines.Add(Flat(l));
                     foreach (double[] xz in lines)
-                        list.Add(new FaultPiece { FaultName = Str(p, "fault_name"), Section = Str(p, "section"), Linetype = Str(p, "linetype"), SlipSense = Str(p, "slip_sense"), Xz = xz });
+                        list.Add(new FaultPiece { BakedFaultId = Str(p, "fault_id"), FaultName = Str(p, "fault_name"), Section = Str(p, "section"), Linetype = Str(p, "linetype"), SlipSense = Str(p, "slip_sense"), Xz = xz });
                 }
             }
             return list;
