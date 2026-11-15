@@ -20,6 +20,8 @@ The M-052 energy row sits exactly on the assumed 25 % E_frac cap (T-024's cap, n
 Only 2 of 17,670 buildings reach state 3 under this scenario (none state 4): M-052's energy rule is exercised by the archetype transition checks
 and 2 real buildings, not by a collapse population. A harder scenario (closer rupture, higher PGA) would need the founder's choice of scenario.
 
+Since the second pass the Seismic input is the production path: `GeoFaultsLoader.LoadGlobal` -> `GeoFaultData.FaultId` -> `PiecesFromGeo` -> `FaultSystem.SectionBakedIds` (test `ProductionPath_EqualsDirectReading_AndKeepsEveryBakedFaultId` proves it equals an independent reading of the geojson). M-053 on production faults: PASS (provisional, assumed 1/2 m), 173 runs, 10,060 samples, p95 6.1e-12 m, max 1.1e-11 m, mapped share 1.0, slip rel 1.3e-6, hash ok; M-005 district stays PASS.
+
 ## Finding fixed during this run
 First M-053 run FAILED: max offset 20.5 m (p95 0). Cause: the dissolve joins baked pieces within 50 m with a straight chord that lies on no piece
 (the polyline sampled every 10 m left the trace there). Fix: `FaultSystem.Chord[]` flags those segments; the exporter ends a run at a chord

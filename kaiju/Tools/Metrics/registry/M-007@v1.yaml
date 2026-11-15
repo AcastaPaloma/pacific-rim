@@ -14,7 +14,7 @@ procedure:
   bootstrap_resamples: {value: 2000, unit: resamples, status: derived, source: "R-024 section 5: 95 % bootstrap interval across runs"}
   flank_spread_deg: {value: 90.0, unit: deg, status: assumed_pending_calibration, source: "R-024 section 3.1 Flanked: spread >= 90 deg"}
   commit_fresh_s: {value: 8.0, unit: s, status: assumed_pending_calibration, source: "R-024 section 3.1 commit event: no pack Charge toward T in the previous 8 s"}
-  thrash_window_s: {value: 4.0, unit: s, status: assumed_pending_calibration, source: "R-024 section 3.3 thrash: A-B-A within 4 s"}
+  thrash_window_s: {value: 12.0, unit: s, status: assumed_pending_calibration, source: "R-024 rev 3 section 3.3 thrash: A-B-A within 12 s (> any brain minimum dwell; was 4 s = RetargetMinSeconds, structurally zero)"}
   memory_s: {value: 3.0, unit: s, status: assumed_pending_calibration, source: "R-024 section 3.4 leak: not visible and memory age > 3 s"}
   bootstrap_ci_level: {value: 0.95, unit: ratio, status: derived, source: "R-024 section 5: 95 % bootstrap interval"}
   bootstrap_seed: {value: 7, unit: seed, status: derived, source: "deterministic report"}
@@ -39,6 +39,7 @@ submeasures:
     title: C3 Target switching (thrash fraction, voluntary switch rate)
     kind: gating
     thresholds:
+      min_voluntary_switches: {value: 200.0, unit: switches, status: assumed_pending_calibration, source: "R-024 rev 3: churn scenario C3 is NOT_RUN under 200 voluntary switches per brain"}
       thrash_fraction_max: {value: 0.10, unit: ratio, status: assumed_pending_calibration, source: "R-024 section 5 C3"}
       switch_rate_max: {value: 3.0, unit: 1/kaiju-min, status: assumed_pending_calibration, source: "R-024 section 5 C3"}
   M-007.C4:

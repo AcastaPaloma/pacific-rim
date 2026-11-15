@@ -214,3 +214,18 @@ def test_cli_validate_brain_log(tmp_path):
     write_log(str(p), "scripted@1", engagement_rows(FLANKED))
     r = cli("validate", "brain_log", str(p))
     assert r.returncode == 0
+
+
+def test_c2_uses_nofocus_control_when_present(tmp_path):
+    def split(i):   # independent selection: kaiju 3 picks the other target
+        rows = engagement_rows(FLANKED, targets=(101, 102))
+        for r in rows:
+            if r["kind"] == "decision" and r["ent"] == ent(3):
+                r["target"] = r["i_target"] = ent(102)
+        return rows
+    scripted = make_set(tmp_path, "s", "scripted@1", lambda i: engagement_rows(FLANKED, targets=(101, 102)))
+    nofocus = make_set(tmp_path, "n", "nofocus@1", split)
+    rep = run(tmp_path, [scripted, nofocus])
+    c2 = sm(rep, "M-007.C2")
+    assert any(p["name"] == "focus_excess_vs_nofocus" for p in c2["parts"])
+    assert c2["status"] == "PASS"

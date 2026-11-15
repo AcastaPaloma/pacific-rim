@@ -1,0 +1,11 @@
+{
+  "task": "T-039b", "scene": "M1Slice", "platform": "OSXPlayer", "development_build": true,
+  "graphics_device": "Apple M5 Pro", "resolution": "1920x1080",
+  "pixel_pipeline": true, "frames_recorded": 38187, "warmup_frames": 60,
+  "frame_ms": { "mean": 0.52, "median": 0.501, "p95": 0.709, "max": 48.705 },
+  "draw_calls": { "median": 54, "max": 110 },
+  "load_seconds": 33.37, "tiles": 15, "buildings_registered": 16615, "landmark_colliders": 154,
+  "quakes": 1, "impacts": 1, "building_damaged_events": 1125, "state_counts": [0, 975, 145, 4, 1], "buildings_removed_from_scene": 1,
+  "kaiju": { "decisions": 100, "melee_hits": 0, "state": "Approach", "distance_to_mech_m": 373.308 },
+  "log": "install: geo=True destruction=True seismic=True bridge=True brain=True | ready in 33.4 s: tiles 15, buildings 16615, landmark colliders 154 | emergence at (75364, 82861) t=28 s | quake Mw 6.90 on Chabot fault, buildings damaged so far 1124 | impact 16875 MJ on bld:osm-way:288511114: state 0 -> 4 (thresholds MJ 0.0/0.0/0.0/0.1) | "
+}

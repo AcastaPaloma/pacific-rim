@@ -1,0 +1,128 @@
+Mono path[0] = '/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Builds/M1Slice/M1Slice.app/Contents/Resources/Data/Managed'
+Mono config path = '/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Builds/M1Slice/M1Slice.app/Contents/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Found 2 interfaces on host : 0) 10.39.69.198 1) 172.31.218.200
+Player connection [8319410560]  Target information:
+
+Player connection [8319410560]  * "[IP] 10.39.69.198 [Port] 55000 [Flags] 2 [Guid] 1851677839 [EditorId] 2490844509 [Version] 1048832 [Id] OSXPlayer(1,revw-172-31-218-200.rn.uwaterloo.ca) [Debug] 0 [PackageName] OSXPlayer [ProjectName] KaijuGame" 
+
+Player connection [8319410560]  * "[IP] 172.31.218.200 [Port] 55000 [Flags] 2 [Guid] 1851677839 [EditorId] 2490844509 [Version] 1048832 [Id] OSXPlayer(1,revw-172-31-218-200.rn.uwaterloo.ca) [Debug] 0 [PackageName] OSXPlayer [ProjectName] KaijuGame" 
+
+Player connection [8319410560] Started UDP target info broadcast (1) on [225.0.0.222:54997].
+
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+ preferred device: Apple M5 Pro (high power)
+Metal devices available: 1
+0: Apple M5 Pro (high power)
+Using device Apple M5 Pro (high power)
+Initialize engine version: 6000.6.9f1 (8c45277fb9c5)
+[EntityIdStore] init: VM path (explicit commit), pageSize=16384, blockCount=262144, entitiesPerBlock=1024, blocksPerSlotPage=0, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Builds/M1Slice/M1Slice.app/Contents/Resources/Data/UnitySubsystems
+GfxDevice: creating device client; kGfxThreadingModeThreaded
+Initializing Metal device caps: Apple M5 Pro
+Mac GPU Family: 2
+Apple GPU Family: 9
+MSL Version: 3.0
+Has Float MSAA: 1
+Has Float Filtering: 1
+ReadWrite Texture Tier: 2
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory is not a mono symbol file
+- Finished resetting the current domain, in  0.004 seconds
+[Physics::Module] Selected backend (deferred post-plugins).
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Metal RecreateSurface[0x70900a400]: surface size 1920x1080
+UnloadTime: 1.149375 ms
+[Slice] ready in 33.4 s: tiles 15, buildings 16615, landmark colliders 154
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap/<Start>d__76:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:135)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] emergence at (75364, 82861) t=28 s
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:Log (string) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:389)
+Game.Slice.SliceBootstrap:Handle (Game.World.Seismic.EmergencePoint&) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:387)
+Game.Slice.SliceBootstrap:Game.Core.IEventHandler<Game.World.Seismic.EmergencePoint>.Handle (Game.World.Seismic.EmergencePoint modreq(System.Runtime.InteropServices.InAttribute)&)
+Game.Core.EventBus/Channel`1<Game.World.Seismic.EmergencePoint>:DispatchNext (Game.Core.EventBus) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Core/Runtime/EventBus.cs:273)
+Game.Core.EventBus:Publish<Game.World.Seismic.EmergencePoint> (Game.World.Seismic.EmergencePoint&) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Core/Runtime/EventBus.cs:85)
+Game.Core.EventBus:Game.Core.IEventBus.Publish<Game.World.Seismic.EmergencePoint> (Game.World.Seismic.EmergencePoint modreq(System.Runtime.InteropServices.InAttribute)&)
+Game.World.Seismic.CoreBusSeismicSink:Flush () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/World/Seismic/Runtime/SeismicModule.cs:33)
+Game.World.Seismic.QuakeDirector:Run (Game.World.Seismic.QuakeScenario,double) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/World/Seismic/Runtime/SeismicModule.cs:65)
+Game.Slice.SliceBootstrap:TriggerQuake () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:344)
+Game.Slice.SliceBootstrap:SmokeTick () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:400)
+Game.Slice.SliceBootstrap:Update () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:313)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] quake Mw 6.90 on Chabot fault, buildings damaged so far 1124
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:Log (string) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:389)
+Game.Slice.SliceBootstrap:TriggerQuake () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:348)
+Game.Slice.SliceBootstrap:SmokeTick () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:400)
+Game.Slice.SliceBootstrap:Update () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:313)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] impact 16875 MJ on bld:osm-way:288511114: state 0 -> 4 (thresholds MJ 0.0/0.0/0.0/0.1)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:Log (string) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:389)
+Game.Slice.SliceBootstrap:MoveImpactor (single) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:377)
+Game.Slice.SliceBootstrap:Update () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:304)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[SliceSmoke] {   "task": "T-039b", "scene": "M1Slice", "platform": "OSXPlayer", "development_build": true,   "graphics_device": "Apple M5 Pro", "resolution": "1920x1080",   "pixel_pipeline": true, "frames_recorded": 38187, "warmup_frames": 60,   "frame_ms": { "mean": 0.52, "median": 0.501, "p95": 0.709, "max": 48.705 },   "draw_calls": { "median": 54, "max": 110 },   "load_seconds": 33.37, "tiles": 15, "buildings_registered": 16615, "landmark_colliders": 154,   "quakes": 1, "impacts": 1, "building_damaged_events": 1125, "state_counts": [0, 975, 145, 4, 1], "buildings_removed_from_scene": 1,   "kaiju": { "decisions": 100, "melee_hits": 0, "state": "Approach", "distance_to_mech_m": 373.308 },   "log": "install: geo=True destruction=True seismic=True bridge=True brain=True | ready in 33.4 s: tiles 15, buildings 16615, landmark colliders 154 | emergence at (75364, 82861) t=28 s | quake Mw 6.90 on Chabot fault, buildings damaged so far 1124 | impact 16875 MJ on bld:osm-way:288511114: state 0 -> 4 (thresholds MJ 0.0/0.0/0.0/0.1) | " } 
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:FinishSmoke () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:432)
+Game.Slice.SliceBootstrap:SmokeTick () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:408)
+Game.Slice.SliceBootstrap:Update () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:313)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+Thread 0x1720cf000 may have been prematurely finalized
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+Thread 0x170d5f000 may have been prematurely finalized
+Thread 0x170b2f000 may have been prematurely finalized
+Thread 0x170bbb000 may have been prematurely finalized
+Thread 0x170c47000 may have been prematurely finalized
+Thread 0x170cd3000 may have been prematurely finalized
+Thread 0x170deb000 may have been prematurely finalized
+CodeReloadManager destroyed
+PlayerConnection::Cleanup##utp:{"type":"MemoryLeaks","version":2,"phase":"Immediate","time":1794725376757,"processId":40078,"allocatedMemory":863346,"memoryLabels":[{"Default":54551},{"Permanent":1472},{"Thread":8120},{"Manager":16015},{"VertexData":8},{"Geometry":408},{"Texture":16},{"Shader":78020},{"Material":212},{"GfxDevice":38632},{"GfxThread":320},{"Animation":880},{"Audio":3448},{"FreeType":8},{"FontEngine":736},{"Physics":2000},{"Physics2D":16},{"Serialization":16392},{"Input":43216},{"JobScheduler":456},{"TextLib":280},{"Mono":56},{"ScriptingNativeRuntime":128},{"BaseObject":36520},{"Resource":996},{"Renderer":2736},{"Transform":6525},{"File":4600},{"WebCam":32},{"Culling":32},{"Terrain":11298},{"Wind":24},{"String":3255},{"Utility":317816},{"PoolAlloc":1536},{"AI":40},{"TypeTree":5512},{"ScriptManager":5712},{"CodeReload":440},{"RuntimeInitializeOnLoadManager":64},{"Sprites":78},{"SpriteAtlas":120},{"GI":7200},{"Director":8248},{"CloudService":144},{"WebRequest":520},{"VR":49402},{"SceneManager":408},{"Video":2080},{"LazyScriptCache":32},{"NativeArray":648},{"Camera":1169},{"Secure":241},{"SerializationCache":3608},{"APIUpdating":10320},{"Subsystems":336},{"VirtualTexturing":57496},{"Baselib":16},{"Analytics":80},{"Hierarchy":1452},{"UIElements":40},{"CoreStats":14696},{"Identifiers":7152},{"EntityIdStore":33152},{"Gui":2020},{"CoreBusinessMetrics":128},{"AssetReference":32}]}

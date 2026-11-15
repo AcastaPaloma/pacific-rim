@@ -1,0 +1,33 @@
+{
+ "spec": "provenance@v1",
+ "records": [
+  {
+   "paths": [
+    "art/models/mech_frame_balanced/mech_frame_balanced.blend",
+    "art/models/mech_frame_balanced/mech_frame_balanced.fbx",
+    "Assets/Game/Units/Mech/Art/Models/mech_frame_balanced.fbx"
+   ],
+   "class": "code-generated",
+   "tool": "Blender 5.3 (batch), script-built from mech_frame@v1 dimensions; no hand modelling",
+   "generator": "Pipelines/blender/mech_frame_balanced/build_greybox.py",
+   "stage": "D-023 stage 2 (Blender), T-007",
+   "human_edits": "none (README: everything re-runnable and deterministic, nothing modelled by hand)",
+   "influenced_by": ["art/concepts/mech_frame_balanced (pre-generated AI concept layers, D-023)"],
+   "evidence": "Pipelines/blender/mech_frame_balanced/README.md; Assets/Game/Units/Mech/Art/ART_ASSETS.md"
+  },
+  {
+   "paths": [
+    "Assets/Game/Units/Mech/Art/Materials/*.mat",
+    "Assets/Game/Units/Mech/Art/Prefabs/MechFrameBalanced.prefab",
+    "Assets/Game/Units/Mech/Art/Data/MechFrameBalanced_PartMap.asset"
+   ],
+   "class": "code-generated",
+   "tool": "Unity batch import script (flat URP Lit colours from palette_roles.json; prefab and part map built from the model)",
+   "generator": "Assets/Game/Units/Mech/Art/Editor/MechFrameImport.cs",
+   "stage": "D-023 stage 3 (Unity), T-007",
+   "human_edits": "none (ART_ASSETS.md: nothing here is edited by hand)",
+   "influenced_by": ["art/concepts/mech_frame_balanced (pre-generated AI concept layers, D-023)"],
+   "evidence": "Assets/Game/Units/Mech/Art/ART_ASSETS.md"
+  }
+ ]
+}

@@ -1,0 +1,16 @@
+"appbuild"
+{
+	"appid" "${APP_ID}"
+	"desc" "${BUILD_DESC}"
+	"buildoutput" "${BUILD_OUTPUT}"
+	"contentroot" "${CONTENT_ROOT}"
+	// Empty setlive: the build is uploaded but never put on a branch automatically.
+	"setlive" ""
+	"preview" "0"
+	"local" ""
+	"depots"
+	{
+		"${DEPOT_ID_MAC}" "depot_build_${DEPOT_ID_MAC}.vdf"
+		"${DEPOT_ID_WIN}" "depot_build_${DEPOT_ID_WIN}.vdf"
+	}
+}

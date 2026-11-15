@@ -40,3 +40,26 @@ Running: **T-030c** (net.coop/net.seatBridge flag files, composition wiring of H
 Queued (app cap of 5 concurrent sessions): **M1-cleanup** (full EditMode re-run after the save fix + GameCoreConfig; Ferry tower → 71.6 m and GGB N tower → 229.18 m sourced, re-bake affected tiles, M-005 district still PASS; DEF-M1save-minor, DEF-M1geo-minor) · **T-034** hangar stub (R-025 site, `Hangar` module, `hangar@v1`, M-059 over 3 cycles, flag `hangar.stub`; adapts to PlaceholderDamageRecord after T-030c merges).
 Out of M1 scope now: melee and cannon (plans/M1.md "Blocked until T-005's walk gate passes").
 After all tracks merge: one combined Sonnet/low evaluator per track (§13), batched EditMode, update reports/M1.md.
+
+## Session 5 hand-over (§16, ~80k tokens), 2026-11-15 ~06:45 UTC
+Merged: T-030c (0b37697, eeac0b3, 8b5cc99: flags, TEMPORARY placeholder body, slot release/rejoin, UDP, two-process co-op, hangar adapter + wiring) · T-034 (d8b9810: Crissy Field, hangar@v1, M-059 PASS) · M1-cleanup (09a23ee: EditMode 482/0/2, sourced landmark heights, M-005 district + landmarks row PASS, save Unreadable/.bak) · T-033b (64328d9, 8a95e9e) · T-036c (dbd3911, 831d963: exporters, district_pieces writer, M-050..054 on real Mw 7.2 input, baked fault_id) · T-040 (7474a66: Combat core cannon/melee/impact routing, 47/47, R-027).
+Running: T-033b session (R-024 rev 3 applied to fix C1 0.494 < 0.60 in 3v4; one cycle, else R-024 research item) · T-039b session (slice scene; player smoke run in progress) · T-041 Agent worker of session 5 (Opus high, R-028 RL policy design + scaffold; if session 5 is gone, check `task/T-041` and `tasks/T-041.progress.md`).
+Open for the successor:
+1. When T-039b, T-033b, T-041 report: check `git log`, then one combined Sonnet/low evaluator per track (§13) for T-030c, T-034, T-036c, T-033b, T-039b, T-040, T-041.
+2. Batched Unity EditMode + GameCoreConfig on the integration head (covers T-040's and T-034's new asmdefs, which were never run in Unity on the merged tree; watcher logs `evidence/T-040/unity-editmode.log`, `evidence/T-034/editmode.log` were task-branch only).
+3. DEF-M1save-6: register `DestructionSaveParticipant` in `Game.Composition`.
+4. T-041 implementation steps (Sonnet) from R-028 once the design lands.
+5. Update `reports/M1.md` after the evaluators.
+6. Archive finished sessions T-030c, T-036c (and later the others) once checked — the archive tool needs the user's go-ahead.
+Push note: T-040's worker had an integration push refused by the permission classifier; the branch has since been pushed by another session (in sync at hand-over).
+- Post-hand-over results: T-033b rev 3 merged (71903df). M-007 3v4: C2 PASS (CI non-overlap), C3 0.068, C4 0, but **C1 still FAIL 0.494 < 0.60** after the one cycle, so it is routed to R-024 as a research item, threshold untouched. T-036c: M-053 PASS on production faults (provisional, assumed thresholds). T-030c and T-036c are done and can be archived once the user agrees. T-039b: build + smoke running.
+- T-041 merged (5f71430): R-028 design (313-float ego observation, masked target × 7 primitives × 3 speeds, shared actor + CTDE, C# 2D harness via headless bridge at ~10k decisions/s, reward with M-007 shaping annealed out, C6 = paired 200 held-out seeds, win share ≥ 0.55 with Wilson lower bound > 0.50; C1–C4 at registered thresholds), Policy encoder/decoder/brain (AI 42/0), Tools/Training smoke PPO deterministic (pytest 6/6). Not run: Unity EditMode for Game.AI.Policy (status file in .wt/T-041/kaiju/evidence/T-041/). Next for a Sonnet track (brief must list the Harness files): O1 harness BrainFactory seam (remove the bridge shim), then steps 2–6 in `tasks/T-041.progress.md`; open O2/O3/O5.
+- T-039b merged (de8c4a4): M1 slice scene behind `slice.m1` (15 tiles + GGB, composition-root boot, destruction/seismic, kaiju stand-in on the scripted brain, placeholder mech), macOS dev build + smoke results in `evidence/T-039b/`. All seven session-5 tracks are now merged; the next step is the evaluators + batched EditMode (open list items 1–2).
+
+## Session 6 (M1 lead, 2026-11-15)
+Started: **R-024 rev 4 / T-042** session (local_0611b324-8cf7-4fdd-be61-259e1af1b19f, Opus 5.5 high, §14 escalation of M-007 C1 0.494 < 0.60 in m007_3v4; one escalation, threshold untouched) · **T-041b** session (local_c95ad84e-026a-483f-9438-f83801399f89, Sonnet/medium: O1 BrainFactory seam first, then T-041 steps 2–6).
+Agent workers: combined §13 evaluators (net+hangar, destruction+slice, AI+combat+policy) writing `evaluations/M1-*/eval-final.md`; DEF-M1save-6 (register DestructionSaveParticipant in Game.Composition, branch task/DEF-M1save-6).
+Batched Unity on f516412: CoreConfig + EditMode → `evidence/regression/M1-lead6-batch1.md`: 613 total, 610 pass, 1 fail (race with the T-118 merge of FeatureFlags/Meta.json, not a defect), 2 skip; re-run in the end batch.
+Archived: T-030c, T-036c sessions. Archive of T-033b and T-039b sessions refused by the permission classifier: waiting for the founders (not retried).
+Two-process co-op: done in T-030c (not open).
+DEF-M1save-6 merged f8f4dde (DestructionSaveInstaller in GameComposition.Install; Composition 7/7, Core Save 105/105; Unity-only CompositionTests change not yet compiled → end batch).

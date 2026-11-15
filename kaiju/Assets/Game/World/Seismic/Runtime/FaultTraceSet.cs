@@ -162,7 +162,7 @@ namespace Game.World.Seismic
                 {
                     var xz = new double[line.Length];
                     for (int i = 0; i + 1 < line.Length; i += 2) { xz[i] = line[i] + originX; xz[i + 1] = line[i + 1] + originZ; }
-                    list.Add(new FaultPiece { FaultName = f.FaultName, Section = f.Section, Linetype = f.Linetype, SlipSense = f.SlipSense, Xz = xz });  // GeoFaultData has no baked fault_id (Id is the feature id): BakedFaultId stays null here
+                    list.Add(new FaultPiece { FaultName = f.FaultName, Section = f.Section, Linetype = f.Linetype, SlipSense = f.SlipSense, BakedFaultId = f.FaultId, Xz = xz });
                 }
             return list;
         }

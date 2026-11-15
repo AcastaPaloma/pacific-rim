@@ -34,6 +34,8 @@ namespace Game.Composition
     {
         public GeoWorldService Geo;
         public DamageModel Destruction;
+        /// <summary>destruction@v1 save section owner; set when Destruction installed AND a SaveSystem was supplied.</summary>
+        public DestructionSaveParticipant DestructionSave;
         public QuakeDirector Seismic;
         public SeismicShakingBridge ShakingBridge;
         public IKaijuBrainFactory Brain;
@@ -41,6 +43,7 @@ namespace Game.Composition
         public PlaceholderBodyFactory Placeholder;
         /// <summary>Hangar stub (hangar.stub AND units.placeholderBody on); registered with the SaveSystem when one was supplied.</summary>
         public HangarService Hangar;
+        public CombatHandle Combat;
     }
 
     public static class GameComposition
@@ -57,6 +60,7 @@ namespace Game.Composition
             var r = new GameCompositionResult();
             r.Geo = GeoModule.Install(registry, flags);
             r.Destruction = DestructionModule.Install(registry, flags);
+            r.DestructionSave = DestructionSaveInstaller.Install(r.Destruction, saves);
 
             if (flags.IsOn(SeismicFlags.Enabled))
             {
@@ -82,6 +86,7 @@ namespace Game.Composition
                 r.Hangar = HangarModule.Install(registry, flags, r.Geo);
                 if (r.Hangar != null) saves?.Register(r.Hangar);
             }
+            r.Combat = CombatInstaller.Install(registry, flags, errors);
             return r;
         }
     }

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Mirrors the Unity assembly Game.World.Streaming (netstandard2.1, C# 9, engine-free). T-107. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>Game.World.Streaming</AssemblyName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../Assets/Game/World/Streaming/Runtime/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Core.Contracts/Core.Contracts.csproj" />
+    <ProjectReference Include="../WorldGeo.Contracts/WorldGeo.Contracts.csproj" />
+    <ProjectReference Include="../WorldStreaming.Contracts/WorldStreaming.Contracts.csproj" />
+  </ItemGroup>
+</Project>

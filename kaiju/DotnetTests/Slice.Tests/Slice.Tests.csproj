@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- NUnit tests of the engine-free slice logic. T-039b. -->
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <AssemblyName>Game.Slice.Tests</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Dotnet/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Slice.Logic/Slice.Logic.csproj" />
+    <ProjectReference Include="../AI.Scripted/AI.Scripted.csproj" />
+    <ProjectReference Include="../AI.Contracts/AI.Contracts.csproj" />
+    <ProjectReference Include="../Core.Contracts/Core.Contracts.csproj" />
+    <ProjectReference Include="../WorldSeismic/WorldSeismic.csproj" />
+    <ProjectReference Include="../WorldSeismic.Contracts/WorldSeismic.Contracts.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+  </ItemGroup>
+</Project>

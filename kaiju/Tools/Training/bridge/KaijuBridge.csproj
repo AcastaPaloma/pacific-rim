@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    T-041 headless training bridge (R-028 section 5). Compiles the UNMODIFIED 2D harness sources (Assets/Game/AI/Harness) and the
+    policy codec (Assets/Game/AI/Policy) into one console process that Python drives over stdin/stdout (binary, lockstep).
+    Policy brains are hosted through HarnessScenario.BrainFactory (O1).
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net11.0</TargetFramework>
+    <AssemblyName>KaijuBridge</AssemblyName>
+    <RootNamespace>Game.AI.Training</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Deterministic>true</Deterministic>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <TieredPGO>true</TieredPGO>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="*.cs" />
+    <Compile Include="../../../Assets/Game/AI/Harness/**/*.cs" />
+    <Compile Include="../../../Assets/Game/AI/Policy/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../DotnetTests/Core.Contracts/Core.Contracts.csproj" />
+    <ProjectReference Include="../../../DotnetTests/AI.Contracts/AI.Contracts.csproj" />
+    <ProjectReference Include="../../../DotnetTests/AI.Scripted/AI.Scripted.csproj" />
+  </ItemGroup>
+</Project>

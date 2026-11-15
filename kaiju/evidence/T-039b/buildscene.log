@@ -1,0 +1,532 @@
+Unity Editor version:    6000.6.9f1 (8c45277fb9c5)
+Branch:                  6000.6/staging
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 26.6.2 (Build 25G83)
+Darwin version:          25.6.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        24576 MB
+Date:                    2026-11-15T06:17:24Z
+VBCSCompilerPreWarmer: watching VBCSCompiler (PID 5040)
+VBCSCompilerPreWarmer: pre-warm launched (dotnet PID 5042)
+VBCSCompiler prewarm took 4.14 ms
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kuanw" at "2026-11-15T06:17:24.691262Z"
+Launching external process: /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Helpers/PackageManager/Server/UnityPackageManager
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/MacOS/Unity
+-batchmode
+-quit
+-projectPath
+/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju
+-logFile
+/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/evidence/T-039b/buildscene.log
+-executeMethod
+Game.Slice.Editor.SliceEditorTools.BuildScene
+-hubSessionId
+cbfaeebc-2d06-45c2-a51d-8964a13167ef
+-accessToken
+cI42j5_IM7Xhvx6nHZt87a9-gFCSWd1xlJ5CTqxBU8M003f
+Successfully changed project path to: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju
+/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-remapper-allocator-initial-capacity=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=1"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Logging is directed to a specific file, skipping project log.
+Player connection [8319410560]  Target information:
+
+Player connection [8319410560]  * "[IP] 10.39.69.198 [Port] 55505 [Flags] 2 [Guid] 1433399320 [EditorId] 1433399320 [Version] 1048832 [Id] OSXEditor(0,revw-172-31-218-200.rn.uwaterloo.ca) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8319410560]  * "[IP] 172.31.218.200 [Port] 55505 [Flags] 2 [Guid] 1433399320 [EditorId] 1433399320 [Version] 1048832 [Id] OSXEditor(0,revw-172-31-218-200.rn.uwaterloo.ca) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8319410560] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [8319410560] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.19.0+4cc3dda
+  Session Id:              4b1e66678edf441184f96f818b8cc387
+  Correlation Id:          b081f4decbdb0f021f9123b7bc614413
+  External correlation Id: 4902229830822966623
+  Machine Id:              Jtoxy/laSQwJh0RLupJMEeaAObc=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-kuanw" (connect: 0.00s, validation: 0.00s, handshake: 0.13s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kuanw-notifications" at "2026-11-15T06:17:24.821333Z"
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated the access token cI42j5_IM7...
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 3574486243256-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 0.13s
+Initialising UDS system complete:
+  - System type: Client
+  - Resource namespace: cf7e20687797b2e8d70e8c30d191b345
+  - Shared memory size: 1073741824
+  - Command buffer id: 1052672
+  - Command buffer size: 8192
+  - Hashmap size: 4194304
+  - Service connected: false
+[Package Manager] Connected to IPC stream "Upm-5039" after 0.1 seconds.
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+Launching Unity Data Store - /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Helpers/Unity.DataStore 
+Unity Data Store artifact dir = Library/DataStore, working dir = /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaijuUnity Data Store running and initialised
+[Physics::Module] Selected backend (deferred post-plugins).
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Initialize engine version: 6000.6.9f1 (8c45277fb9c5)
+[EntityIdStore] init: VM path (explicit commit), pageSize=16384, blockCount=262144, entitiesPerBlock=1024, blocksPerSlotPage=0, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+ preferred device: Apple M5 Pro (high power)
+Metal devices available: 1
+0: Apple M5 Pro (high power)
+Using device Apple M5 Pro (high power)
+Initializing Metal device caps: Apple M5 Pro
+Mac GPU Family: 2
+Apple GPU Family: 9
+MSL Version: 3.0
+Has Float MSAA: 1
+Has Float Filtering: 1
+ReadWrite Texture Tier: 2
+Initialize mono
+Mono path[0] = '/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/Managed'
+Mono path[1] = '/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = '/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/lib/mono/unityjit-macos'
+Mono config path = '/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56039
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/Hub/Editor/6000.6.9f1/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.6.9f1/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.6.9f1/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.000452 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:False
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  0.492 seconds
+Domain Reload Profiling: 759ms
+	BeginReloadAssembly (61ms)
+	RebuildCommonClasses (3ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (28ms)
+	LoadAllAssembliesAndSetupDomain (167ms)
+		LoadAssemblies (59ms)
+		TypeCache.Refresh (114ms)
+			TypeCache.ScanAssembly (106ms)
+		AnalyzeDomain (0ms)
+	FinalizeReload (492ms)
+		SetupLoadedEditorAssemblies (0ms)
+			BeforeProcessingInitializeOnLoad (50ms)
+			ProcessInitializeOnLoadAttributes (49ms)
+			ProcessInitializeOnLoadMethodAttributes (287ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 64 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.collab-proxy@2.14.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.collab-proxy@ac5a9def1e96)
+    com.unity.ide.rider@3.1.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.ide.rider@570989d4a882)
+    com.unity.ide.visualstudio@2.0.28 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.ide.visualstudio@b5edea5f33f4)
+    com.unity.inputsystem@1.20.1 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.inputsystem@2436e68c60c4)
+    com.unity.pipeline@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.pipeline@178b93997022)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.splines@2.9.2 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.splines@c3dd4719f1ee)
+    com.unity.nuget.mono-cecil@1.11.6 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.settings-manager@2.1.1 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.settings-manager@0b8638c5ce86)
+    com.unity.searcher@4.9.5 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.searcher@a463122f2c00)
+    com.unity.profiling.core@1.0.3 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.profiling.core@8a49f7027d06)
+  Built-in packages:
+    com.unity.render-pipelines.universal@17.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.render-pipelines.universal@2a6014b851d8)
+    com.unity.ugui@2.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.ugui@ff4f88904a57)
+    com.unity.modules.accessibility@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.physics2d)
+    com.unity.modules.physicscore2d@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.physicscore2d)
+    com.unity.modules.screencapture@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.terrainphysics)
+    com.unity.modules.tetgen@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.tetgen)
+    com.unity.modules.tilemap@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.tilemap)
+    com.unity.modules.timelinefoundation@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.timelinefoundation)
+    com.unity.modules.ui@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.video)
+    com.unity.modules.wind@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.xr)
+    com.unity.cinemachine@6.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.cinemachine@39083c3c55f9)
+    com.unity.test-framework@1.8.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.test-framework@01a8b42f9cf6)
+    com.unity.modules.subsystems@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.modules.hierarchycore)
+    com.unity.render-pipelines.core@17.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.render-pipelines.core@77e675a23c5f)
+    com.unity.shadergraph@17.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.shadergraph@807b608040c3)
+    com.unity.render-pipelines.universal-config@17.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.render-pipelines.universal-config@561422b74439)
+    com.unity.ext.nunit@2.1.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.ext.nunit@0198eae3b53e)
+    com.unity.mathematics@1.4.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.mathematics@8306a64d0cd6)
+    com.unity.graph-authoring@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.graph-authoring@cfd2588851ee)
+    com.unity.burst@2.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.burst@626e66ab421b)
+    com.unity.collections@6.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.collections@c70d71c1212e)
+    com.unity.test-framework.performance@6.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.unity.test-framework.performance@816c370aad5b)
+  Git packages:
+    com.coplaydev.unity-mcp@https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#v10.3.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.coplaydev.unity-mcp@da7b9ae4aeeb)
+    com.gamebooom.unity.mcp@https://github.com/FunplayAI/funplay-unity-mcp.git#v0.7.6 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/PackageCache/com.gamebooom.unity.mcp@c96c612ed183)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.01 seconds
+Assembly reference Packages/com.unity.cinemachine/Editor/Samples/ExposeHDRPInternals/HDRP-Editor-ref.asmref has no target assembly definition
+Assembly reference Packages/com.unity.cinemachine/Editor/Samples/ExposeHDRPInternals/HDRP-Editor-ref.asmref has no target assembly definition
+[ScriptCompilation] Requested script compilation because: AssetDatabase observed changes in script compilation related files
+Starting: /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/200b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju
+DisplayProgressbar: Compiling Scripts
+warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.runtime.interopservices.windowsruntime has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll" in favor of "/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.WindowsRuntime.dll"
+warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.componentmodel.composition has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/NetStandard/compat/2.1.0/shims/netfx/System.ComponentModel.Composition.dll" in favor of "/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/System.ComponentModel.Composition.dll"
+ExitCode: 0 Duration: 0s758ms
+[1042/1436  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[1424/1436  0s] Csc Library/Bee/artifacts/200b0aE.dag/Game.Slice.dll (+2 others)
+[1425/1436  0s] ILPostProcess Library/Bee/artifacts/200b0aE.dag/post-processed/Game.Slice.dll (+pdb)
+Processing assembly Library/Bee/artifacts/200b0aE.dag/Game.Slice.dll, with 142 defines and 313 references
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, Unity.Pipeline.CodeGen.MethodReloadInPlaceILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+1 processor(s) skipped this assembly
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+running Unity.Pipeline.CodeGen.MethodReloadInPlaceILPostProcessor
+[1426/1436  0s] CopyFiles Library/ScriptAssemblies/Game.Slice.dll
+[1427/1436  0s] CopyFiles Library/ScriptAssemblies/Game.Slice.pdb
+[1428/1436  0s] Csc Library/Bee/artifacts/200b0aE.dag/Game.Slice.PlayMode.Tests.dll (+2 others)
+[1429/1436  0s] Csc Library/Bee/artifacts/200b0aE.dag/Game.Slice.Editor.dll (+2 others)
+[1430/1436  0s] ILPostProcess Library/Bee/artifacts/200b0aE.dag/post-processed/Game.Slice.PlayMode.Tests.dll (+pdb)
+Processing assembly Library/Bee/artifacts/200b0aE.dag/Game.Slice.PlayMode.Tests.dll, with 140 defines and 303 references
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, Unity.Pipeline.CodeGen.MethodReloadInPlaceILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+1 processor(s) skipped this assembly
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+running Unity.Pipeline.CodeGen.MethodReloadInPlaceILPostProcessor
+[1431/1436  0s] ILPostProcess Library/Bee/artifacts/200b0aE.dag/post-processed/Game.Slice.Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/200b0aE.dag/Game.Slice.Editor.dll, with 140 defines and 321 references
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, Unity.Pipeline.CodeGen.MethodReloadInPlaceILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+1 processor(s) skipped this assembly
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+running Unity.Pipeline.CodeGen.MethodReloadInPlaceILPostProcessor
+[1432/1436  0s] CopyFiles Library/ScriptAssemblies/Game.Slice.PlayMode.Tests.dll
+[1433/1436  0s] CopyFiles Library/ScriptAssemblies/Game.Slice.Editor.dll
+[1434/1436  0s] CopyFiles Library/ScriptAssemblies/Game.Slice.PlayMode.Tests.pdb
+[1435/1436  0s] CopyFiles Library/ScriptAssemblies/Game.Slice.Editor.pdb
+*** Tundra build success (0.74 seconds), 13 items updated, 1436 evaluated
+AssetDatabase: script compilation time: 1.156807s
+Total cache size 265114128
+Total cache size after purge 265114128, took 00:00:00.1051521
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory is not a mono symbol file
+Assembly reference Packages/com.unity.cinemachine/Editor/Samples/ExposeHDRPInternals/HDRP-Editor-ref.asmref has no target assembly definition
+'Packages/com.unity.render-pipelines.core/Editor/Deprecated.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
+'Packages/com.unity.render-pipelines.core/Editor/Deprecated.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
+'Packages/com.unity.cinemachine/Editor/Editors/CinemachineVirtualCameraBaseEditor.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
+'Packages/com.unity.cinemachine/Editor/Obsolete/CinemachineVirtualCameraBaseEditor.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
+Importing 'GUID: 570926df85c6f4b24bf8209c2bec866d - Path: Assets/Game/Slice' with importer (DefaultImporter)
+Imported 'GUID: 570926df85c6f4b24bf8209c2bec866d' -> (Import Result ID: 'b04d8726c5f7672bdf1b7dc7fc9aa351') in 0.005 seconds [static dependencies only]. Details - ImportResultOutputID=e0faac5c90168b417003d6de8dc49859 DependenciesID=722cdf2ce49267a8ec94ed27be9da20a StaticDependenciesID=4c570601be0b65131f4ca8c5015b5f34 
+Importing 'GUID: b0e69d75e937446bebfbced6706fb02d - Path: Assets/Game/Slice/Tests' with importer (DefaultImporter)
+Imported 'GUID: b0e69d75e937446bebfbced6706fb02d' -> (Import Result ID: '8cfba603e78a8ed9e31835acab5243a2') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=46524cfab6ce4e170680ae058163f04d DependenciesID=6c1659b4a5900e65da4cba439723faca StaticDependenciesID=6c01597ae6ab1bde499919ee7a6f47ec 
+Importing 'GUID: 5559ccd154eb246acb9767c8cc73d5b4 - Path: Assets/Game/Slice/Config' with importer (DefaultImporter)
+Imported 'GUID: 5559ccd154eb246acb9767c8cc73d5b4' -> (Import Result ID: 'cf8bef6c4511c9fafa3baeaed0ccbfbf') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=2abdd86a5947ed546e058b302ee51463 DependenciesID=8d9c3459b1c3fb224677854670eebd83 StaticDependenciesID=23bc7a5f42c4d8323d87403c21bc23bc 
+Importing 'GUID: 85d2d2aaf0a3049249d0f4ce79361d58 - Path: Assets/Game/Slice/Materials' with importer (DefaultImporter)
+Imported 'GUID: 85d2d2aaf0a3049249d0f4ce79361d58' -> (Import Result ID: 'd27f3d28a9777e129635f014c2062f54') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=a05a9e9afdd461c120226158296364fa DependenciesID=81f93474d8ea609639047d5cd479bf6a StaticDependenciesID=adcffc4b87850587f4eec755acbc836d 
+Importing 'GUID: bcaa2faa0362d4ac88e8fd649b465dcd - Path: Assets/Game/Slice/Scenes' with importer (DefaultImporter)
+Imported 'GUID: bcaa2faa0362d4ac88e8fd649b465dcd' -> (Import Result ID: '237316394a9c392513dab22aa05c833e') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=55ac004ddffb0ce8ff1a5b4776d8655a DependenciesID=86fcf7fce87aa5c6db8758ef0c33af95 StaticDependenciesID=68d2e01cc4385bc366dc1f0f4c874237 
+Importing 'GUID: 1d688c9a3399a4b29a72e311df23cff7 - Path: Assets/Game/Slice/Runtime' with importer (DefaultImporter)
+Imported 'GUID: 1d688c9a3399a4b29a72e311df23cff7' -> (Import Result ID: 'cfb10fb4f89058121f406f37bc4d3bba') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=3a634124702ae781339657f4c09e1f35 DependenciesID=9b3cf8bbf38f7ccb3d6705c3c0ff7926 StaticDependenciesID=b3e3d015d681c1c879d4ca4d03bdfa8b 
+Importing 'GUID: eebdb0586054f436d9dc90e704b90596 - Path: Assets/Game/Slice/Logic' with importer (DefaultImporter)
+Imported 'GUID: eebdb0586054f436d9dc90e704b90596' -> (Import Result ID: '395ffd966dd8183ffe99309d9612335a') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=7a9fb7411efb9f3ecd28ba3f8149ade5 DependenciesID=2de0797bfc5ce69b111197b9ad43f02a StaticDependenciesID=a8e47debe31c30e48e5b79a7f3202f39 
+Importing 'GUID: 6f934d5a3a7c04cb9a44949549ccc061 - Path: Assets/Game/Slice/Editor' with importer (DefaultImporter)
+Imported 'GUID: 6f934d5a3a7c04cb9a44949549ccc061' -> (Import Result ID: 'dbfcbac77818c2543e6967cbca41a1a4') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=9702c780a11c77e7ce2e6d06a0f2873a DependenciesID=fc9fa77bdabf2a09da1906b6fa59ec5c StaticDependenciesID=5befdf045b3f2fd95bc542be2cf9369c 
+Importing 'GUID: 7b569cb491ce44509820768442bf1b5c - Path: Assets/Game/Slice/Tests/PlayMode' with importer (DefaultImporter)
+Imported 'GUID: 7b569cb491ce44509820768442bf1b5c' -> (Import Result ID: 'fba256980e5806fdd2d48f5178f764a6') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=ab0f8587508e7472c58b95a03d7313dc DependenciesID=8891ea0190a4fe33727c986707c1fc79 StaticDependenciesID=afc19f415d60c57af013781d24dbfea0 
+Importing 'GUID: c66f4183b1c0d42ea9f1421e018e912f - Path: Assets/Game/Slice/Logic/Game.Slice.Logic.asmdef' with importer (AssemblyDefinitionImporter)
+Imported 'GUID: c66f4183b1c0d42ea9f1421e018e912f' -> (Import Result ID: 'c7ad2c0ce74d22c2a54d0920e85c09fa') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=5687bd824c13e40ed356ea3a1e948595 DependenciesID=1726205854f5fe03d1eedfab149dbb22 StaticDependenciesID=66d47f90bc0c2be2b955c2f3727e74e3 
+Importing 'GUID: cbbfceae530ce454480c9021f4b7404c - Path: Assets/Game/Slice/Runtime/Game.Slice.asmdef' with importer (AssemblyDefinitionImporter)
+Imported 'GUID: cbbfceae530ce454480c9021f4b7404c' -> (Import Result ID: '57290691139e16c20315861b0e8db42c') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=ddbe1f57847a1fe333391e4d62c4b3e9 DependenciesID=ae8850cd304653901c71927a438cc658 StaticDependenciesID=dd7720fd8eccc711ae97f98c93f94ed3 
+Importing 'GUID: 9f4bbebae3b31467fbe2210dbd9712a7 - Path: Assets/Game/Slice/Tests/PlayMode/Game.Slice.PlayMode.Tests.asmdef' with importer (AssemblyDefinitionImporter)
+Imported 'GUID: 9f4bbebae3b31467fbe2210dbd9712a7' -> (Import Result ID: '65b7ab1ca9bf0c1ad273de4a31d9fb4e') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=17285a145ad251a9f07def571502f7cd DependenciesID=cf887e4f22f2cf6d75fd73d03aeb0c3e StaticDependenciesID=e9394f9f45e83cc2ba9c4881f6d47a98 
+Importing 'GUID: dfdb807e150854684a63f544a43f2e7b - Path: Assets/Game/Slice/Editor/Game.Slice.Editor.asmdef' with importer (AssemblyDefinitionImporter)
+Imported 'GUID: dfdb807e150854684a63f544a43f2e7b' -> (Import Result ID: '667e54c0b85538575ae8d1142a489c27') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=47c4bdbad45ccea500116b3fd08e92a8 DependenciesID=ee0d1ffe64899d5e4ccf337938e0930d StaticDependenciesID=8cee4aeddce1ae7064b515f4fdc3feb5 
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Start HTTP server: port:7801
+Pipeline: Descriptor written to /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Library/Pipeline/.unity-pipeline-port
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  0.552 seconds
+Domain Reload Profiling: 1153ms
+	BeginReloadAssembly (159ms)
+		DisableScriptedObjects (52ms)
+		CreateAndSetChildDomain (42ms)
+	RebuildCommonClasses (5ms)
+	RebuildNativeTypeToScriptingClass (8ms)
+	initialDomainReloadingComplete (37ms)
+	LoadAllAssembliesAndSetupDomain (392ms)
+		LoadAssemblies (169ms)
+		TypeCache.Refresh (132ms)
+			TypeCache.ScanAssembly (120ms)
+		AnalyzeDomain (39ms)
+			BuildScriptInfoCaches (36ms)
+	FinalizeReload (552ms)
+		SetupLoadedEditorAssemblies (0ms)
+			BeforeProcessingInitializeOnLoad (51ms)
+			ProcessInitializeOnLoadAttributes (195ms)
+			ProcessInitializeOnLoadMethodAttributes (37ms)
+		AwakeInstancesAfterBackupRestoration (9ms)
+Starting new worker id: 0 with log in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039b/kaiju/Logs/AssetImportWorkerHW0.log
+Importing 'GUID: 21d1330d2beb34ca181891d40e7bd81e - Path: Assets/Game/Core/MODULE.md' with importer (TextScriptImporter)
+Imported 'GUID: 21d1330d2beb34ca181891d40e7bd81e' -> (Import Result ID: '3a5cf5dc64b30f0f436bf635dc2e1131') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=9ba762fb8106e3c310ff023d0dcc70aa DependenciesID=81e3c018b60d6fe9eb1b20b81ccb110b StaticDependenciesID=856cf061ec0ce3613e3991e84aabaff8 
+Importing 'GUID: 78b5bffd2f4014a338b0379189548615 - Path: Assets/Game/Config/FeatureFlags/Slice.json' with importer (TextScriptImporter)
+Imported 'GUID: 78b5bffd2f4014a338b0379189548615' -> (Import Result ID: '15dd3efec90768029e5542a929fd057c') in 0.005 seconds [static dependencies only]. Details - ImportResultOutputID=428a7bb36823ba4b47504d7e42228116 DependenciesID=70a6e67844a4a55faf07382877f75c28 StaticDependenciesID=e67d4c395885f399a76121ccece082a7 
+Importing 'GUID: c9c3ede7fb8cd4ac68390a6fba3d8af9 - Path: Assets/Game/Slice/Config/slice_m1.flags.json' with importer (TextScriptImporter)
+Imported 'GUID: c9c3ede7fb8cd4ac68390a6fba3d8af9' -> (Import Result ID: '7dee390e8d49ba27a1dc0afaa3594156') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=60e9be0c4a6db9fbba2af075dfb2223e DependenciesID=dfbeaa8f9e129678e48c819771538b36 StaticDependenciesID=2c7dd424e69fd338eb8b3187ca1f3835 
+Importing 'GUID: 2cc570304f0349799a144566c830f260 - Path: Assets/Game/Net/MODULE.md' with importer (TextScriptImporter)
+Imported 'GUID: 2cc570304f0349799a144566c830f260' -> (Import Result ID: 'f87c12483dbf11a026f0e70828172d8c') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=24504c814b4fa9cb3cf48358455de52a DependenciesID=4ec5abee1ca3b429808a5cfcb24ee490 StaticDependenciesID=86ec8cb815bc95f1561ab07d36623ef5 
+Importing 'GUID: 7ed74200c00b47839b22d58bfe9c6d65 - Path: Assets/Game/AI/MODULE.md' with importer (TextScriptImporter)
+Imported 'GUID: 7ed74200c00b47839b22d58bfe9c6d65' -> (Import Result ID: '94ce2afc348d4765c925d3a42e268606') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=be4893ed4d903c204e81e9067dde640c DependenciesID=2a7111654b00852d8051e4bffee39748 StaticDependenciesID=b9bf57edc3dd8945520bde5ab5611efd 
+Importing 'GUID: 6fa0a1dd8c3ea4dd6816d8f03ee5be0e - Path: Assets/Game/Slice/MODULE.md' with importer (TextScriptImporter)
+Imported 'GUID: 6fa0a1dd8c3ea4dd6816d8f03ee5be0e' -> (Import Result ID: '3ec9660d4a7236ba225979d682e8b5ac') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=7d3ba0361dac950e3033a60739b19de8 DependenciesID=877d7356a969ed508af5eded40f517e1 StaticDependenciesID=50b8150e4c8b6c23616b574bcb7a8b72 
+Launching external process: /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Helpers/UnityShaderCompiler
+
+Asset Pipeline Refresh (id=b84617a64dcc24e90949339e23e1c520): Total: 3.002 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=19 (actual=19, local cache=0, cache server=0)
+		Asset DB Process Time: managed=1 ms, native=1077 ms
+		Asset DB Callback time: managed=102 ms, native=9 ms
+		Scripting: domain reloads=1, domain reload time=625 ms, compile time=1158 ms, other=27 ms
+		Project Asset Count: scripts=1530, non-scripts=2463
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 1
+	InvokePackagesCallback: 8.468ms
+	ApplyChangesToAssetFolders: 0.219ms
+	Scan: 270.618ms
+	Collect global state as custom dependencies: 11.349ms
+	OnSourceAssetsModified: 0.283ms
+	CategorizeScriptCompilationAssets: 25.832ms
+	ProcessAssetsWithTransientArtifactChanges: 33.617ms
+	CategorizeAssets: 43.402ms
+	CompileScripts: 1157.840ms
+	ImportOutOfDateAssets: 582.808ms (556.530ms without children)
+		ImportManagerImport: 22.525ms (0.977ms without children)
+			UpdateCategorizedAssets: 0.099ms
+		UnloadImportedAssets: 1.494ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.368ms
+		ImportSchedulerStart: 1.854ms
+	PostProcessAllAssets: 102.300ms
+		XRBuildSystem.XRAssetImported 0.102ms
+		MonoPostProcessAllAssets: 101.826ms
+			AssetPostprocessor.OnPostprocessAllAssets 65.656ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 8.962ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 8.663ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 3.317ms
+			SyncVS.PostprocessSyncProject 2.512ms
+			AssetChangedListener.OnPostprocessAllAssets 0.955ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 0.868ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 0.802ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 0.792ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 0.615ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.418ms
+			MaterialPostprocessor.OnPostprocessAllAssets 0.347ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.310ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.266ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.232ms
+			PostProcessor.OnPostprocessAllAssets 0.202ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.173ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.171ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.162ms
+			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.154ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.134ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.129ms
+			AssetEvents.OnPostprocessAllAssets 0.123ms
+			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 0.119ms
+			CinemachineSettings.OnPostprocessAllAssets 0.117ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.091ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.087ms
+			DomainReloadProcessor.OnPostprocessAllAssets 0.082ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.074ms
+			ThemePostprocessor.OnPostprocessAllAssets 0.061ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.056ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.052ms
+			SamplePostprocessor.OnPostprocessAllAssets 0.050ms
+	PostAssetChangesProfiler: 1.534ms
+	UnloadStreamsBegin: 0.924ms
+	PersistCurrentRevisions: 0.143ms
+	GenerateScriptTypeHashes: 0.798ms
+	GenerateScriptTypeSerializationHashes: 1.495ms
+	Untracked: 754.529ms
+
+Application.AssetDatabase Initial Refresh End
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Launched and connected shader compiler UnityShaderCompiler after 0.01 seconds
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Scanning for USB devices : 0.180ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-KaijuGame
+2026-11-15 01:17:29.370 Unity[5039:4610207] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x74cdd8dc0 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Unloading 68 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6188 unused Assets / (11.1 MB). Loaded Objects now: 7142.
+Memory consumption went from 0.54 GB to 0.53 GB.
+Total: 8.021292 ms (FindLiveObjects: 0.345166 ms CreateObjectMapping: 0.111375 ms MarkObjects: 4.907459 ms  DeleteObjects: 2.591500 ms)
+
+2026-11-15 01:17:29.452 Unity[5039:4610207] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x74cdd4f00 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Importing 'GUID: f52d356f40229438c9edc621d791fd2d - Path: Assets/Game/Core/Unity/Resources/GameCoreConfig.asset' with importer (NativeFormatImporter)
+Imported 'GUID: f52d356f40229438c9edc621d791fd2d' -> (Import Result ID: 'f89ee1fec6074506208e714c679d35a0') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=741fd0c886fc930528f8ca454b8b6bd1 DependenciesID=5be5df5fe2f70dfa746ff35e6ffa5076 StaticDependenciesID=bde0b7ceba3756308e98830009a63b0c 
+Asset Pipeline Refresh (id=a386a73dccf314ac5b85237732e096c7): Total: 0.033 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+[Core] CoreConfigAsset at Assets/Game/Core/Unity/Resources/GameCoreConfig.asset: 10 flag file(s)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Core.Unity.CoreConfigAsset:CreateOrUpdate () (at Assets/Game/Core/Unity/CoreConfigAsset.cs:48)
+Game.Slice.Editor.SliceEditorTools:BuildScene () (at Assets/Game/Slice/Editor/SliceEditorTools.cs:36)
+
+(Filename: Assets/Game/Core/Unity/CoreConfigAsset.cs Line: 48)
+
+Asset Pipeline Refresh (id=5b7d5af08f8314179921148c20e89347): Total: 0.078 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Importing 'GUID: 196d4c1cfbc644473807f6f6a12dc4b9 - Path: Assets/Game/Slice/Materials/SliceKaiju.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 196d4c1cfbc644473807f6f6a12dc4b9' -> (Import Result ID: '60d917c8015db41199fd8a5cf095a89c') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=67a23039decac1381f68c7f21e5f3313 DependenciesID=13fa7fe3636225eea3d9ee36174d15f6 StaticDependenciesID=6b7189ebf7eca6ffa41cb9d0a49272ec 
+Asset Pipeline Refresh (id=8e03256307e344bbe8561bc9ad5200b0): Total: 0.024 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: a356b7b45d3f84d6cb92b92d83e9716d - Path: Assets/Game/Slice/Materials/SliceMech.mat' with importer (NativeFormatImporter)
+Imported 'GUID: a356b7b45d3f84d6cb92b92d83e9716d' -> (Import Result ID: '609432b0a2bda129bcd41ba81eead33d') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=f96e824e7e5263be0b214e8528943114 DependenciesID=db76fc7954cce42b6f82ec1944f02425 StaticDependenciesID=e345ca2b3ad15e2ab8a8948311ff87ec 
+Asset Pipeline Refresh (id=64d5a88c83cee49419dc2fc6de32bc02): Total: 0.020 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 040618899884d473fa80a1624de29a3c - Path: Assets/Game/Slice/Materials/SliceImpactor.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 040618899884d473fa80a1624de29a3c' -> (Import Result ID: 'c2fe67000f9e7d95eea5efc2a661b342') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=2f91125eb2aa6adaa298468ba2240252 DependenciesID=904cca503d391f3cbbed4d26278bed58 StaticDependenciesID=8d8c439b83712042775fcb634ff45690 
+Asset Pipeline Refresh (id=632db6cb6841d47e49409543caee7943): Total: 0.021 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: a356b7b45d3f84d6cb92b92d83e9716d - Path: Assets/Game/Slice/Materials/SliceMech.mat' with importer (NativeFormatImporter)
+Imported 'GUID: a356b7b45d3f84d6cb92b92d83e9716d' -> (Import Result ID: 'bf8c6221a88aaa3d171ae8ee66bd9352') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=f96e824e7e5263be0b214e8528943114 DependenciesID=eb7d1643b9c99136386b02e0fd0faf2c StaticDependenciesID=2c7748e93c6c723b2c6677bd0ff03dde 
+Importing 'GUID: 040618899884d473fa80a1624de29a3c - Path: Assets/Game/Slice/Materials/SliceImpactor.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 040618899884d473fa80a1624de29a3c' -> (Import Result ID: 'fe34ae7f27e812248b76482624e87a4d') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=2f91125eb2aa6adaa298468ba2240252 DependenciesID=9e4e3c608607db703d94a81804400563 StaticDependenciesID=920b8c6c0a995654982c56516e5dd751 
+Importing 'GUID: 196d4c1cfbc644473807f6f6a12dc4b9 - Path: Assets/Game/Slice/Materials/SliceKaiju.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 196d4c1cfbc644473807f6f6a12dc4b9' -> (Import Result ID: 'e7cca6ee73b16a8cad82cf84e5089807') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=67a23039decac1381f68c7f21e5f3313 DependenciesID=37a95601626357798999f722767ebcd6 StaticDependenciesID=8e5effcf4d7b4952c6749ae287653ce2 
+Asset Pipeline Refresh (id=de0e57793515f40a2a57c76b05cb8ab3): Total: 0.024 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 31 unused Assets / (24.5 KB). Loaded Objects now: 7142.
+Memory consumption went from 0.50 GB to 0.50 GB.
+Total: 5.331333 ms (FindLiveObjects: 0.226125 ms CreateObjectMapping: 0.051166 ms MarkObjects: 4.953000 ms  DeleteObjects: 0.038458 ms)
+
+Importing 'GUID: 91f6d0a553c8349118fc20dcc5199e29 - Path: Assets/Game/Slice/Scenes/M1Slice.unity' with importer (DefaultImporter)
+Imported 'GUID: 91f6d0a553c8349118fc20dcc5199e29' -> (Import Result ID: '23c21495dbe880570ad4288e858e5ede') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=3d4b1c24534a68a8d78de539a6238a72 DependenciesID=6eda62512457fa1e53c80e26297ceb58 StaticDependenciesID=10ad7d83a2ce10599f025885136edcbc 
+Asset Pipeline Refresh (id=a4a2c376da84446a6babe33c083998b4): Total: 0.022 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+[Slice] wrote Assets/Game/Slice/Scenes/M1Slice.unity
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Slice.Editor.SliceEditorTools:BuildScene () (at Assets/Game/Slice/Editor/SliceEditorTools.cs:53)
+
+(Filename: Assets/Game/Slice/Editor/SliceEditorTools.cs Line: 53)
+
+Thread 0x421c5b000 may have been prematurely finalized
+Batchmode quit successfully invoked - shutting down!
+Pipeline Server stopped
+Thread 0x17c347000 may have been prematurely finalized
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+Worker ready: AssetImportWorkerHW0 0
+Thread 0x16e7d3000 may have been prematurely finalized
+Thread 0x16ea8f000 may have been prematurely finalized
+Thread 0x16e8eb000 may have been prematurely finalized
+Thread 0x16eb1b000 may have been prematurely finalized
+Thread 0x16e85f000 may have been prematurely finalized
+Thread 0x16eba7000 may have been prematurely finalized
+Thread 0x16ea03000 may have been prematurely finalized
+Thread 0x16e977000 may have been prematurely finalized
+Thread 0x16ec33000 may have been prematurely finalized
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+[Licensing::IpcConnector] LicenseClient-kuanw-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-kuanw channel disconnected successfully.
+Shut down UDS service system complete
+Lingering sessions upon destruction of worker manager
+Unity Data Store service was successfully shut down
+UDS shutting down local client system
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+CodeReloadManager destroyed
+debugger-agent: Unable to listen on 43
+Exiting batchmode successfully now!
+[ExitDontLaunchBugReporter] Exiting without the bug reporter. Application will exit with return code 0
+[Package Manager] Server process was shutdown
