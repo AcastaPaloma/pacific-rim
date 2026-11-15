@@ -1,0 +1,12 @@
+s_015: verdict NOT CONVERGED; trust-constr status 0 (The maximum number of function evaluations is exceeded.); iterations 600; runtime 420 s; N=40
+max dynamics residual 2.45e-05, max eq residual 2.45e-05, max ineq violation 9.98e-09 (feasible tol 1e-05); optimality 9.08e-04
+objective 0.23707; step time 3.000 s (ref 5.538), step length 7.49 m, v 2.498 m/s
+peak |tau| / limit: hip_A 7.387e+08/1.2e+09 = 0.616, knee_A 7.559e+08/8.0e+08 = 0.945, ankle_A 5.049e+08/1.0e+09 = 0.505, hip_B 5.917e+08/1.2e+09 = 0.493, knee_B 2.629e+08/8.0e+08 = 0.329, ankle_B 3.699e+08/1.0e+09 = 0.370
+peak total Fn 1.418 BW (node 34), peak point Fn 0.980 BW, peak friction use 0.564 (mu 0.400)
+ROM margin to 5 deg-margin bound / to physical ROM (deg): hip_A 8.7/13.7, knee_A 3.0/8.0, ankle_A 0.0/5.0, hip_B 17.9/22.9, knee_B 1.2/6.2, ankle_B 3.3/8.3
+knee deg min 6.2 max 44.7
+binding within 2% (27): rom knee_B @node 0 (7.19); rom knee_B @node 1 (7.48); rom ankle_A @node 11 (-14.7); rom ankle_A @node 12 (-14.8); rom ankle_A @node 13 (-14.8); rom ankle_A @node 14 (-14.8); rom knee_B @node 14 (7.64); rom ankle_A @node 15 (-14.4); rom knee_B @node 15 (6.85); rom ankle_A @node 16 (-15); rom knee_B @node 16 (6.18); rom ankle_A @node 17 (-14.1); rom knee_B @node 17 (6.32); rom ankle_A @node 18 (-14.2); rom knee_B @node 18 (7.05); rom ankle_A @node 19 (-14.5); rom knee_B @node 19 (7.08); rom ankle_A @node 20 (-14.7); rom knee_B @node 20 (7.02); rom ankle_A @node 21 (-14.8); rom knee_B @node 21 (6.92); rom ankle_A @node 22 (-14.7); rom knee_B @node 22 (6.95); rom ankle_A @node 23 (-14.4); rom knee_B @node 23 (7.43); rom ankle_A @node 24 (-13.8); clear 1 @node 16 (0.00561)
+worst eq: ('dyn', 13, 1) -2.45e-05; ('dyn', 12, 1) -2.12e-05; ('dyn', 14, 1) -1.58e-05; ('dyn', 11, 1) -1.41e-05; ('dyn', 39, 1) 1.31e-05
+worst ineq: ('r7_cop_hi', 8, 0) -9.98e-09; ('r7_cop_lo', 8, 0) -7.37e-09; ('r7_cop_lo', 0, 1) -5.54e-09; ('friction', (0, 3), 0) -1.22e-09; ('friction', (8, 0), 1) -1.11e-09; ('friction', (0, 2), 0) -1.08e-09; ('friction', (8, 1), 1) -1.00e-09; ('friction', (8, 0), 0) 4.07e-10
+--lat: mu_eff min 0.3692 (used; mu 0.4000; single solve), mu_eff min at final step time 0.3693 (stale 0.00 %), peak a_lat 0.154 g (zc 42.26 m, omega 0.482); 3D friction use sqrt(Ft^2+Fy^2)/(mu Fn) max 0.653; verdict NOT CONVERGED
+--trans: Fn=0 rows 4 (max |Fn| there 9.3e-10 BW), rate rows 200 (max |dFn| 0.400 BW/0.11 s, bound 0.5), lift-off speeds (m/s): A_heel@node8 0.57, A_toe@node8 0.55

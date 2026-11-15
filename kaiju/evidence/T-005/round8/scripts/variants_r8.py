@@ -480,17 +480,36 @@ SETS['t1'] = _seeded({
 # control = L7 (r7 best, v5 rows); V6 = the same flags on the round-8 ladder (very slow rows Fr 0.005 / 0.010 / 0.015 added under the same hard limits)
 V6 = dict(L7, qp_ref_v5=6)
 R8 = dict(qp_r8_retime=1)
+# cycle 2: round-8 rows (v6 = slow rows under the hard limits, v6d = slow rows derated to 0.7 of the torque limits) with the cycle-1 lessons (whole-clock retime hurts; keep the CoM clock real, optionally stretch the planner's remaining time)
+V6d = dict(L7, qp_ref_v5=7)
+RT = dict(qp_r8_retime=1, qp_r8_refclock=1)
+RTT = dict(qp_r8_retime=1, qp_r8_refclock=1, qp_r8_trem=1)
 SETS['q1'] = _seeded({
   'L7': dict(L7),
   'V6': dict(V6),
-  'V6rt': dict(V6, **R8),
-  'V6rt_g5': dict(V6, qp_r8_retime=1, qp_r8_gmin=0.5),
-  'V6rt_k6': dict(V6, qp_r8_retime=1, qp_r8_gk=6.0),
-  'V6sl90': dict(V6, qp_r8_swlim=0.90),
-  'V6rtsl90': dict(V6, qp_r8_retime=1, qp_r8_swlim=0.90),
-  'V6rtsat': dict(V6, qp_r8_retime=1, qp_r8_satk=0.7),
+  'V6d': dict(V6d),
+  'V6c': dict(V6, qp_plan_lmax=1.3),
+  'V6rt': dict(V6, **RT),
+  'V6rtt': dict(V6, **RTT),
+  'V6sl85': dict(V6, qp_r8_swlim=0.85),
+  'V6rttsl85': dict(V6, qp_r8_swlim=0.85, **RTT),
+  'V6drt': dict(V6d, **RT),
+  'V6drtt': dict(V6d, **RTT),
+  'L7rt': dict(L7, **RT),
+  'L7rtt': dict(L7, **RTT),
+}, 4)
+
+# cycle 1: controller flags on the round-7 rows (v5) while the round-8 rows are still being optimised
+SETS['q0'] = _seeded({
+  'L7': dict(L7),
   'L7rt': dict(L7, **R8),
+  'L7rt_g5': dict(L7, qp_r8_retime=1, qp_r8_gmin=0.5),
+  'L7rt_k6': dict(L7, qp_r8_retime=1, qp_r8_gk=6.0),
+  'L7sl90': dict(L7, qp_r8_swlim=0.90),
+  'L7sl80': dict(L7, qp_r8_swlim=0.80),
+  'L7rtsl90': dict(L7, qp_r8_retime=1, qp_r8_swlim=0.90),
   'L7rtsat': dict(L7, qp_r8_retime=1, qp_r8_satk=0.7),
+  'L7rtsatsl': dict(L7, qp_r8_retime=1, qp_r8_satk=0.7, qp_r8_swlim=0.90),
 }, 4)
 def load_set(name):
     return SETS[name]
