@@ -47,7 +47,12 @@ namespace Game.Units.Mech
         /// <summary>Reference file (under Config/Mech) for a walk tuning: the imp = 3 QP reads the @v2 file, imp 1.5 .. 2.5 the @v1 file, below 1.5 none.</summary>
         public const double QpImp = 2.5;   // imp at and above which the whole-body QP (imp = 3) is built
         public const string LadderFile = "gait_reference_qp_ladder_v3.json";   // step 9.5b: low-Froude @v2 rows of the imp 3 start ladder (qp_ladder); step 9.5f: the v3 file (Fr 0.02 .. 0.09; the old gait_reference_qp_ladder.json has 0.02 .. 0.06)
-        public const string LadderFileV4 = "gait_reference_qp_ladder_v4.json", MainFileV4 = "gait_reference_qp_v4.json";   // step 9.5h (qp_ref_v4): 3D-aware strides of 9.5g (Fr 0.07 .. 0.09 in the ladder, the Fr 0.10 row in its own file standing in for the main file's row), with shoulder_* arm swing
+        public const string LadderFileV4 = "gait_reference_qp_ladder_v4.json", MainFileV4 = "gait_reference_qp_v4.json";
+        public const string LadderFileV5 = "gait_reference_qp_ladder_v5.json", MainFileV5 = "gait_reference_qp_v5.json";
+        /// <summary>qp_ref_v5 value to the v5 file suffix: 1 = v5 (default body), 2 = v5a (toe lever 7 m rows), 3 = v5b (ankle limit 1.6e9 rows), 4 = v5c (both).</summary>
+        public static string V5Suffix(double v) => v > 3.5 ? "v5c" : v > 2.5 ? "v5b" : v > 1.5 ? "v5a" : "v5";
+        public static string LadderFileV5For(double v) => "gait_reference_qp_ladder_" + V5Suffix(v) + ".json";
+        public static string MainFileV5For(double v) => "gait_reference_qp_" + V5Suffix(v) + ".json";   // round 7 (qp_ref_v5): flat-foot strides re-optimised under the hard limits (step time <= 3 s, CoP window, F_z <= 1.5 W, bounded CoM dip)   // step 9.5h (qp_ref_v4): 3D-aware strides of 9.5g (Fr 0.07 .. 0.09 in the ladder, the Fr 0.10 row in its own file standing in for the main file's row), with shoulder_* arm swing
         public static string FileFor(double imp) => imp >= QpImp ? "gait_reference_qp.json" : imp >= 1.5 ? "gait_reference_opt.json" : null;
         public string schema, notes;
         public GaitRefSource source;

@@ -60,7 +60,7 @@ namespace Game.Units.Mech.Editor
                     {
                         EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
                         string capture = (repeat > 1 ? name + "_run" + (k + 1) : name) + (variant.Key.Length > 0 ? "@" + variant.Key : "");
-                        var cfg = variant.Value == null ? config : config.WithWalk(w => JsonUtility.FromJsonOverwrite(variant.Value, w));
+                        var cfg = variant.Value == null ? config : config.WithWalk(w => JsonUtility.FromJsonOverwrite(variant.Value, w)).WithExperiments();
                         summary.AppendLine("EFFECTIVE " + capture + " " + Effective(cfg.Walk, variant.Value));
                         bool phys = Arg("-nophys") == null && (Arg("-physlist") == null || Array.IndexOf(Arg("-physlist").Split(','), name) >= 0);
                         try { var r = ScenarioRunner.Run(ScenarioLibrary.Find(name), cfg, dt, outDir, commit, engine, strips && k == 0, capture, phys); summary.AppendLine(r.Line()); }

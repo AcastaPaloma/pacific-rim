@@ -22,7 +22,7 @@ API NOTE (for step 9.3b)
       The force-consistency check sum F = m (cdd + g) is asserted in load_reference (tolerance 5 % of m g, max residual stored in ref.fc_resid).
   Contact schedule of the reference: step 1 (nodes 0..N-1): leg B is the new stance leg (heel down from node 0), leg A toe-off at k_ds.
 """
-import json, pathlib
+import os, json, pathlib
 import numpy as np
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -35,8 +35,8 @@ SW6 = [3, 4, 5, 0, 1, 2]                  # joint swap
 class PlanarModel:
     def __init__(self, root=ROOT):
         root = pathlib.Path(root)
-        J = json.load(open(root / "Assets/Game/Config/Mech/mech_frame_balanced.json")); S = {s["id"]: s for s in J["segments"]}
-        BT = json.load(open(root / "Assets/Game/Config/Mech/body_tuning.json"))
+        J = json.load(open(os.environ.get("R7_FRAME") or root / "Assets/Game/Config/Mech/mech_frame_balanced.json")); S = {s["id"]: s for s in J["segments"]}
+        BT = json.load(open(os.environ.get("R7_BODY") or root / "Assets/Game/Config/Mech/body_tuning.json"))
         lim = {k["kind"]: k["force_limit_nm"] for k in BT["joint_kinds"]}
         self.LIM = np.array([lim["hip"], lim["knee"], lim["ankle"]] * 2)            # N m
         self.l_leg = None

@@ -43,17 +43,37 @@ namespace Game.Units.Mech.Unity
         public GaitReferenceData QpReferenceFor()
         {
             if (!(Walk.imp >= 2.5 && Walk.qp_engage_speed_frac > 0)) return null;
-            var d = JsonUtility.FromJson<GaitReferenceData>(File.ReadAllText(Path.Combine(Application.dataPath, "Game/Config/Mech", Walk.qp_ref_v4 > 0.5 ? GaitReferenceData.MainFileV4 : GaitReferenceData.FileFor(Walk.imp)))); d.Validate();
+            var d = JsonUtility.FromJson<GaitReferenceData>(File.ReadAllText(Path.Combine(Application.dataPath, "Game/Config/Mech", Walk.qp_ref_v5 > 0.5 ? GaitReferenceData.MainFileV5For(Walk.qp_ref_v5) : Walk.qp_ref_v4 > 0.5 ? GaitReferenceData.MainFileV4 : GaitReferenceData.FileFor(Walk.imp)))); d.Validate();
             if (Walk.qp_ladder > 0.5)
             {
                 // step 9.5b speed ladder: the low-Froude @v2 rows first, the Fr 0.10 row last (rows sorted by Froude)
-                var lad = JsonUtility.FromJson<GaitReferenceData>(File.ReadAllText(Path.Combine(Application.dataPath, "Game/Config/Mech", Walk.qp_ref_v4 > 0.5 ? GaitReferenceData.LadderFileV4 : GaitReferenceData.LadderFile))); lad.Validate();
+                var lad = JsonUtility.FromJson<GaitReferenceData>(File.ReadAllText(Path.Combine(Application.dataPath, "Game/Config/Mech", Walk.qp_ref_v5 > 0.5 ? GaitReferenceData.LadderFileV5For(Walk.qp_ref_v5) : Walk.qp_ref_v4 > 0.5 ? GaitReferenceData.LadderFileV4 : GaitReferenceData.LadderFile))); lad.Validate();
                 var all = new GaitRefRow[lad.rows.Length + d.rows.Length]; lad.rows.CopyTo(all, 0); d.rows.CopyTo(all, lad.rows.Length); d.rows = all; d.Validate();
             }
             return d;
         }
         public MechConfig ScaledTo(double heightM, double massKg) => new MechConfig { Frame = MechFrameOps.Scale(Frame, heightM, massKg), Body = Body.ScaledFor(massKg, heightM), Walk = Walk };
         public MechConfig WithBody(Action<BodyTuning> edit) { var b = JsonUtility.FromJson<BodyTuning>(JsonUtility.ToJson(Body)); edit(b); return new MechConfig { Frame = Frame, Body = b, Walk = Walk }; }
+        /// <summary>Round 7 body experiments (walk-tuning fields exp_*, default 0 = off; the default body_tuning / frame files are never edited): exp_ankle_limit_nm replaces the ankle joint force limit, exp_toe_m trims the foot at the toe to this lever from the ankle (the foot box shortens, its mass is kept, its inertia follows the box).</summary>
+        public MechConfig WithExperiments()
+        {
+            var c = this;
+            if (Walk.exp_ankle_limit_nm > 0) c = c.WithBody(b => { foreach (var k in b.joint_kinds) if (k.kind == "ankle") k.force_limit_nm = Walk.exp_ankle_limit_nm; });
+            if (Walk.exp_toe_m > 0 && Walk.exp_toe_m < Frame.foot_sole.toe_z_m)
+            {
+                var f = JsonUtility.FromJson<MechFrameData>(JsonUtility.ToJson(Frame)); double toe = Walk.exp_toe_m, heel = f.foot_sole.heel_z_m, d = toe - heel;
+                f.foot_sole.area_m2 *= d / f.foot_sole.length_m; f.foot_sole.length_m = d; f.foot_sole.toe_z_m = toe;
+                foreach (var sg in f.segments)
+                    if (sg.kind == "foot")
+                    {
+                        double d0 = sg.depth_z_m, w = sg.width_x_m, h = sg.height_y_m, m = sg.mass_kg;
+                        sg.depth_z_m = d; sg.length_m = d; sg.distal_end[2] = toe; sg.com[2] = 0.5 * (heel + toe) + f.foot_sole.ankle_z_m * 0.0;
+                        sg.hull_volume_m3 *= d / d0; sg.inertia_principal_kgm2 = new[] { m * (h * h + d * d) / 12.0, m * (w * w + d * d) / 12.0, m * (w * w + h * h) / 12.0 };
+                    }
+                c = new MechConfig { Frame = f, Body = c.Body, Walk = c.Walk };
+            }
+            return c;
+        }
         public MechConfig WithWalk(Action<WalkTuning> edit) { var w = JsonUtility.FromJson<WalkTuning>(JsonUtility.ToJson(Walk)); edit(w); return new MechConfig { Frame = Frame, Body = Body, Walk = w }; }
     }
 

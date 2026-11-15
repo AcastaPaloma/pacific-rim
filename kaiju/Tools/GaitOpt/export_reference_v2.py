@@ -5,7 +5,7 @@ One row (Fr 0.10, mu 0.40). Rows and nodes keep the @v1 layout (stance = solver 
 the per-node @v2 additions (planar_model.load_reference, SI, node k of the first step; the second half of the 2N-node cycle is node k with the legs swapped and x advanced by step_length_m):
   q9 qd9 (planar q = [hip x, hip z, th, a0 b0 f0 (leg A), a1 b1 f1 (leg B)], rad), f4x2 (A heel, A toe, B heel, B toe as [ft, fn] N), com comd comdd (x, z), ang_mom ang_mom_dot (about the CoM, ccw),
   pts ptv pta (4 sole points x (x, z): position, velocity J qd, acceleration J qdd + Jdot qd with the node central-difference qdd)."""
-import json, pathlib, sys
+import json, os, pathlib, sys
 import numpy as np
 HERE = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
@@ -15,7 +15,7 @@ SRC = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else HERE / "out/stride_fr0
 OUT = pathlib.Path(sys.argv[2]) if len(sys.argv) > 2 else ROOT / "Assets/Game/Config/Mech/gait_reference_qp.json"      # optional 2nd argument: output path (9.5g)
 D = 180 / np.pi
 model = P.PlanarModel(); ref = P.load_reference(SRC, model)
-J = json.load(open(ROOT / "Assets/Game/Config/Mech/mech_frame_balanced.json")); S = {s["id"]: s for s in J["segments"]}
+J = json.load(open(os.environ.get("R7_FRAME") or ROOT / "Assets/Game/Config/Mech/mech_frame_balanced.json")); S = {s["id"]: s for s in J["segments"]}
 HIPY = S["thigh_L"]["proximal_joint"][1]; LT = HIPY - S["thigh_L"]["distal_end"][1]; LS = S["shank_L"]["proximal_joint"][1] - S["shank_L"]["distal_end"][1]
 d0 = json.load(open(SRC)); s = d0["summary"]; N = s["nodes"] if "nodes" in s and isinstance(s["nodes"], int) else len(d0["nodes"]); sch = s["schedule"]; v, T = s["v"], s["step_time_s"]
 assert s["verdict"] == "FEASIBLE" and N == 40 and ref.N == N and abs(ref.d - s["step_length_m"]) < 1e-9
