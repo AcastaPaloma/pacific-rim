@@ -163,7 +163,8 @@ namespace Game.World.Geo.Unity.Tests
         {
             foreach (float off in new[] { 0f, 1e-3f, 1e-2f })
             {
-                var o = new Vector3(x, 2000f, inward * off);
+                // x = 2048 is the tiles' own east border (half-open collider extent): sample 1 mm inside along the edge.
+                var o = new Vector3(Mathf.Min(x, 2048f - 1e-3f), 2000f, inward * off);
                 if (inst.PhysicsSurface.Raycast(new Ray(o, Vector3.down), out var hit, 5000f)) { usedOffset = off; return hit.point.y; }
             }
             Assert.Fail("collider of " + inst.TileName + " missed a straight-down ray at x=" + x);
