@@ -10,6 +10,9 @@ namespace Game.World.Geo.Unity
     public sealed class GeoWorldService : IGeoWorld
     {
         readonly List<GeoTileInstance> _tiles = new List<GeoTileInstance>();
+        readonly Dictionary<GeoTileId, GeoTileInstance> _byTile = new Dictionary<GeoTileId, GeoTileInstance>();
+        // building ids are unique across a tile set (GeoSeams.AssertSingleOwner), so one global dictionary is safe
+        readonly Dictionary<BuildingId, GeoTileInstance> _owners = new Dictionary<BuildingId, GeoTileInstance>();
         readonly List<GeoTileId> _ids = new List<GeoTileId>();
         readonly IEventBus _bus;
 
@@ -18,13 +21,13 @@ namespace Game.World.Geo.Unity
         public IReadOnlyList<GeoTileId> Tiles => _ids;
         public double WaterLevelNavd88 => _tiles.Count > 0 ? _tiles[0].Model.Context.WaterLevelNavd88 : double.NaN;
 
-        public void Add(GeoTileInstance t) { _tiles.Add(t); _ids.Add(t.Model.Tile); }
-
-        GeoTileInstance Owner(BuildingId id)
+        public void Add(GeoTileInstance t)
         {
-            foreach (var t in _tiles) if (t.Model.ById.ContainsKey(id)) return t;
-            return null;
+            _tiles.Add(t); _ids.Add(t.Model.Tile); _byTile[t.Model.Tile] = t;
+            foreach (var kv in t.Model.ById) _owners[kv.Key] = t;
         }
+
+        GeoTileInstance Owner(BuildingId id) => _owners.TryGetValue(id, out var t) ? t : null;
 
         public bool TryGetBuilding(BuildingId id, out GeoBuildingInfo info)
         {
@@ -58,14 +61,27 @@ namespace Game.World.Geo.Unity
 
         public double SampleTerrain(double x, double z)
         {
-            foreach (var t in _tiles)
-                if (t.Model.Tile.Contains(x, z)) return t.Model.Heights.SampleData(x - t.Model.Context.OriginX, z - t.Model.Context.OriginZ);
-            return double.NaN;
+            if (!_byTile.TryGetValue(GeoTileId.Containing(x, z, _ids.Count > 0 ? _ids[0].Level : 0), out var t)) return double.NaN;
+            return t.Model.Heights.SampleData(x - t.Model.Context.OriginX, z - t.Model.Context.OriginZ);
         }
     }
 
     public static class GeoModule
     {
+        /// <summary>Tile set built when none is requested: the single M0 tile (existing scenes and tests unchanged).</summary>
+        public static readonly string[] DefaultTileKeys = { "L0_30_36" };
+
+        public static string DefaultTilesRoot => System.IO.Path.Combine(Application.streamingAssetsPath, "Geo/tiles/v1");
+
+        /// <summary>Loads the tile set (manifests validated, hashes not re-verified at runtime) and returns a staged builder; call BuildNext() once per tile.
+        /// keys null = DefaultTileKeys; the first key holds the floating origin.</summary>
+        public static GeoTileSetBuilder CreateTileSetBuilder(IEnumerable<string> keys = null, string tilesRoot = null, IReadOnlyDictionary<string, double> settings = null, GeoWorldService world = null)
+        {
+            var ids = GeoTileSet.ParseKeys(keys ?? DefaultTileKeys);
+            var set = GeoTileSetLoader.Load(tilesRoot ?? DefaultTilesRoot, ids, verifyHashes: false);
+            return new GeoTileSetBuilder(set, ids[0], settings ?? GeoTileBuilder.LoadSettings(), world);
+        }
+
         /// <summary>Composition-root hook. Registers IGeoWorld only when world.geo.enabled is on (default off, MODULARITY rule 5).</summary>
         public static GeoWorldService Install(IServiceRegistry registry, IFeatureFlags flags)
         {
