@@ -12,10 +12,10 @@
   37.805325
  ],
  "build": {
-  "built_utc": "2026-11-15T00:55:23Z",
-  "git": "55ca01eb72e87e57ecbb1874c13cac04643fe257",
+  "built_utc": "2026-11-15T03:21:50Z",
+  "git": "2cce3852ea8009a1fbde98d9d58f2bbaf854b736",
   "git_dirty_pipeline": false,
-  "inputs_sha256": "8bc1214d7634030d3338898031be12868d1bdfc6d314630e8bf0077bf0418125",
+  "inputs_sha256": "b51f780e882be5bc69a01a401e6315d9cd120359e6678f8064310c564add6c32",
   "script": "Pipelines/geo/bake_tile.py"
  },
  "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
@@ -604,7 +604,7 @@
    "base_rule": "base_navd88_m = 10th percentile of the surface along the footprint ring (1 m steps); ground_min_navd88_m = minimum under the footprint; walls reach ground_min - skirt",
    "count": 2503,
    "count_excluded": 12,
-   "count_height_capped_to_parent": 53,
+   "count_height_capped_to_parent": 57,
    "count_parts": 457,
    "count_rendered": 2391,
    "count_structures": 2046,
@@ -626,9 +626,12 @@
     "struct_class"
    ],
    "file": "buildings.geojson",
+   "height_fill_rule": "T-020b: only a building whose R-004 chain ended at default is re-resolved: (a) lidar_3dep = median over 1 m cells inside the footprint eroded 1.0 m of (3DEP first-return p95 - terrain), needs >= 0.7 of cells with returns, mean multi-return share <= 0.3 (vegetation test) and height >= 2.0 m; (b) assessor_stories = stories x metres_per_level; (c) else default. height_source is lidar_3dep / assessor_stories for filled buildings",
    "height_source_counts": {
+    "assessor_stories": 7,
     "datasf": 281,
-    "default": 334,
+    "default": 30,
+    "lidar_3dep": 297,
     "osm_height": 1556,
     "osm_levels": 332
    },
@@ -637,7 +640,7 @@
    "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
    "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
    "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
-   "sha256": "0f42c6572a610e6109ed64a92e4abca2292cf1dfd9796b5fd6c320437eef112a",
+   "sha256": "3efccc7a30bd17b77325e351d22e6df7713d42728a63bb03d3b978409d1b7880",
    "sources": [
     {
      "attribution": "© OpenStreetMap contributors (ODbL)",

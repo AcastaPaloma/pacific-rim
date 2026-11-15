@@ -12,10 +12,10 @@
   37.805254
  ],
  "build": {
-  "built_utc": "2026-11-15T00:53:12Z",
-  "git": "55ca01eb72e87e57ecbb1874c13cac04643fe257",
+  "built_utc": "2026-11-15T03:18:28Z",
+  "git": "2cce3852ea8009a1fbde98d9d58f2bbaf854b736",
   "git_dirty_pipeline": false,
-  "inputs_sha256": "69774dd8aa9f7bdb8a65b44166600efa8100770bb13a8bb691a7f0265bf4cbd9",
+  "inputs_sha256": "59255030e4552fc54dd8c2c41f2b64662b2361264ca169d4caaf1921dc603d1d",
   "script": "Pipelines/geo/bake_tile.py"
  },
  "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
@@ -35,7 +35,7 @@
     {
      "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
      "doi": "10.25921/ds9v-ky35",
-     "fetched_utc": "2026-11-15T00:41:44Z",
+     "fetched_utc": "2026-11-15T03:17:54Z",
      "item": "ncei19_n38x00_w122x50_2022v1",
      "licence": "US-Gov-PD",
      "product": "NOAA NCEI CUDEM 1/9 arc-second topobathy (2022v1)",
@@ -50,7 +50,7 @@
     },
     {
      "attribution": "U.S. Geological Survey 3D Elevation Program",
-     "fetched_utc": "2026-11-15T00:41:55Z",
+     "fetched_utc": "2026-11-15T03:18:07Z",
      "item": "USGS_1M_10_x54y419_CA_SanFrancisco_B23",
      "licence": "US-Gov-PD",
      "product": "USGS 3DEP 1 m DEM",
@@ -78,7 +78,7 @@
     {
      "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
      "doi": "10.25921/ds9v-ky35",
-     "fetched_utc": "2026-11-15T00:41:44Z",
+     "fetched_utc": "2026-11-15T03:17:54Z",
      "item": "ncei19_n38x00_w122x50_2022v1",
      "licence": "US-Gov-PD",
      "product": "NOAA NCEI CUDEM 1/9 arc-second topobathy (2022v1)",
@@ -93,7 +93,7 @@
     },
     {
      "attribution": "U.S. Geological Survey 3D Elevation Program",
-     "fetched_utc": "2026-11-15T00:41:55Z",
+     "fetched_utc": "2026-11-15T03:18:07Z",
      "item": "USGS_1M_10_x54y419_CA_SanFrancisco_B23",
      "licence": "US-Gov-PD",
      "product": "USGS 3DEP 1 m DEM",
@@ -164,7 +164,7 @@
     {
      "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
      "doi": "10.25921/ds9v-ky35",
-     "fetched_utc": "2026-11-15T00:41:44Z",
+     "fetched_utc": "2026-11-15T03:17:54Z",
      "item": "ncei19_n38x00_w122x50_2022v1",
      "licence": "US-Gov-PD",
      "product": "NOAA NCEI CUDEM 1/9 arc-second topobathy (2022v1)",
@@ -179,7 +179,7 @@
     },
     {
      "attribution": "U.S. Geological Survey 3D Elevation Program",
-     "fetched_utc": "2026-11-15T00:41:55Z",
+     "fetched_utc": "2026-11-15T03:18:07Z",
      "item": "USGS_1M_10_x54y419_CA_SanFrancisco_B23",
      "licence": "US-Gov-PD",
      "product": "USGS 3DEP 1 m DEM",
@@ -225,9 +225,11 @@
     "struct_class"
    ],
    "file": "buildings.geojson",
+   "height_fill_rule": "T-020b: only a building whose R-004 chain ended at default is re-resolved: (a) lidar_3dep = median over 1 m cells inside the footprint eroded 1.0 m of (3DEP first-return p95 - terrain), needs >= 0.7 of cells with returns, mean multi-return share <= 0.3 (vegetation test) and height >= 2.0 m; (b) assessor_stories = stories x metres_per_level; (c) else default. height_source is lidar_3dep / assessor_stories for filled buildings",
    "height_source_counts": {
     "datasf": 49,
-    "default": 94,
+    "default": 25,
+    "lidar_3dep": 69,
     "osm_height": 832,
     "osm_levels": 3
    },
@@ -236,7 +238,7 @@
    "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
    "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
    "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
-   "sha256": "5ea6cace5cdc0706c04c13023af308f5cbaeae1a6cad54f0a5cd9c7ed9c462fa",
+   "sha256": "0cbffe3af80b10f8152cb7c4767ac7df8fbf8041d0a72e61dfc0f173f1556e84",
    "sources": [
     {
      "attribution": "© OpenStreetMap contributors (ODbL)",
@@ -255,7 +257,7 @@
     },
     {
      "attribution": "City and County of San Francisco",
-     "fetched_utc": "2026-11-15T00:42:06Z",
+     "fetched_utc": "2026-11-15T03:18:18Z",
      "item": "ynuv-fyni",
      "licence": "PDDL-1.0",
      "product": "DataSF Building Footprints ynuv-fyni",
@@ -266,7 +268,7 @@
     },
     {
      "attribution": "City and County of San Francisco, Office of the Assessor-Recorder",
-     "fetched_utc": "2026-11-15T00:53:03Z",
+     "fetched_utc": "2026-11-15T03:18:18Z",
      "item": "wv5m-vpq2",
      "licence": "PDDL-1.0",
      "product": "DataSF Assessor Historical Secured Property Tax Rolls wv5m-vpq2",

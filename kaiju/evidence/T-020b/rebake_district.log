@@ -1,0 +1,345 @@
+== fetch lidar 2026-11-15T03:02:44Z
+-- fetch L0_25_36
+[lidar-v11] 2765233 first returns kept; classes [1, 2, 9, 20]
+[lidar-v11] -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/cache/lidar/rind_v11__L0_25_36.npz
+[fetch_lidar_dsm] L0_25_36: 4.0 % of 1 m cells have first returns
+-- fetch L0_25_37
+Traceback (most recent call last):
+  File "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/fetch_lidar_dsm.py", line 39, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/fetch_lidar_dsm.py", line 28, in main
+    rc = lidar_ref_v11.main(argv)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/lidar_ref_v11.py", line 59, in main
+    arr = p.arrays[0]
+          ~~~~~~~~^^^
+IndexError: list index out of range
+!! lidar fetch failed for L0_25_37 (bake will skip the lidar fill there)
+-- fetch L0_25_38
+Traceback (most recent call last):
+  File "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/fetch_lidar_dsm.py", line 39, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/fetch_lidar_dsm.py", line 28, in main
+    rc = lidar_ref_v11.main(argv)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/lidar_ref_v11.py", line 59, in main
+    arr = p.arrays[0]
+          ~~~~~~~~^^^
+IndexError: list index out of range
+!! lidar fetch failed for L0_25_38 (bake will skip the lidar fill there)
+-- fetch L0_26_36
+[lidar-v11] 19707573 first returns kept; classes [1, 2, 9, 20]
+[lidar-v11] -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/cache/lidar/rind_v11__L0_26_36.npz
+[fetch_lidar_dsm] L0_26_36: 36.2 % of 1 m cells have first returns
+-- fetch L0_26_37
+[lidar-v11] 5824053 first returns kept; classes [1, 2, 9, 17, 20]
+[lidar-v11] -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/cache/lidar/rind_v11__L0_26_37.npz
+[fetch_lidar_dsm] L0_26_37: 7.8 % of 1 m cells have first returns
+-- fetch L0_26_38
+[lidar-v11] up to date: cache/lidar/rind_v11__L0_26_38.npz (sha256 cd4b4662c54a, fetched 2026-11-15T02:58:30Z)
+[fetch_lidar_dsm] L0_26_38: 10.6 % of 1 m cells have first returns
+-- fetch L0_27_36
+[lidar-v11] 53253664 first returns kept; classes [1, 2, 9, 17, 20]
+[lidar-v11] -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/cache/lidar/rind_v11__L0_27_36.npz
+[fetch_lidar_dsm] L0_27_36: 98.8 % of 1 m cells have first returns
+-- fetch L0_27_37
+[lidar-v11] 9183996 first returns kept; classes [1, 2, 9, 17, 20]
+[lidar-v11] -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/cache/lidar/rind_v11__L0_27_37.npz
+[fetch_lidar_dsm] L0_27_37: 15.9 % of 1 m cells have first returns
+-- fetch L0_27_38
+Traceback (most recent call last):
+  File "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/fetch_lidar_dsm.py", line 39, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/fetch_lidar_dsm.py", line 28, in main
+    rc = lidar_ref_v11.main(argv)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/lidar_ref_v11.py", line 58, in main
+    n = p.execute()
+        ^^^^^^^^^^^
+RuntimeError: readers.ept: Could not read from 's3-us-west-2.amazonaws.com/usgs-lidar-public/CA_SanFrancisco_1_B23/ept.json'.
+!! lidar fetch failed for L0_27_38 (bake will skip the lidar fill there)
+-- fetch L0_29_35
+Traceback (most recent call last):
+  File "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/fetch_lidar_dsm.py", line 39, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/fetch_lidar_dsm.py", line 28, in main
+    rc = lidar_ref_v11.main(argv)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/lidar_ref_v11.py", line 58, in main
+    n = p.execute()
+        ^^^^^^^^^^^
+RuntimeError: readers.ept: Error reading tile 8-132-133-125: Could not read from 's3-us-west-2.amazonaws.com/usgs-lidar-public/CA_SanFrancisco_1_B23/ept-data/8-132-133-125.laz'.
+!! lidar fetch failed for L0_29_35 (bake will skip the lidar fill there)
+-- fetch L0_29_36
+[lidar-v11] 56809906 first returns kept; classes [1, 2, 17]
+[lidar-v11] -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/cache/lidar/rind_v11__L0_29_36.npz
+[fetch_lidar_dsm] L0_29_36: 99.8 % of 1 m cells have first returns
+-- fetch L0_30_35
+[lidar-v11] 53262950 first returns kept; classes [1, 2, 9, 17, 20]
+[lidar-v11] -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/cache/lidar/rind_v11__L0_30_35.npz
+[fetch_lidar_dsm] L0_30_35: 92.2 % of 1 m cells have first returns
+-- fetch L0_30_36
+[lidar-v11] up to date: cache/lidar/rind_v11__L0_30_36.npz (sha256 2a9f64117682, fetched 2026-11-14T16:43:24Z)
+[fetch_lidar_dsm] L0_30_36: 79.8 % of 1 m cells have first returns
+-- fetch L0_31_35
+[lidar-v11] 7694494 first returns kept; classes [1, 2, 9, 20]
+[lidar-v11] -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/cache/lidar/rind_v11__L0_31_35.npz
+[fetch_lidar_dsm] L0_31_35: 14.1 % of 1 m cells have first returns
+-- fetch L0_31_36
+[lidar-v11] 8553550 first returns kept; classes [1, 2, 9, 17, 20]
+[lidar-v11] -> /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-020b/kaiju/Pipelines/geo/cache/lidar/rind_v11__L0_31_36.npz
+[fetch_lidar_dsm] L0_31_36: 11.1 % of 1 m cells have first returns
+== bake 2026-11-15T03:16:11Z
+-- bake L0_25_36
+[cudem] fetched window (787, 107) -> cache/cudem/ncei19_n38x00_w122x50_2022v1__L0_25_36.tif
+[cudem] fetched window (787, 897) -> cache/cudem/ncei19_n38x00_w122x75_2022v1__L0_25_36.tif
+[3dep] fetched window (2708, 2708) -> cache/3dep/USGS_1M_10_x54y419_CA_SanFrancisco_B23__L0_25_36.tif
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-extract] L0_25_36: 0.07 MB
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-water] up to date: cache/osm/water-polygons-split-4326.zip (sha256 22d97b206fd5, fetched 2026-11-14T12:14:47Z)
+[datasf] 0 MB (0.1 MB/s)
+[datasf] fetched cache/datasf/ynuv-fyni__L0_25_36.geojson (0.00 MB)
+[datasf-licence] up to date: cache/datasf/ynuv-fyni.meta.json (sha256 df045b13f5ca, fetched 2026-11-14T12:05:42Z)
+[assessor] 0 MB (0.4 MB/s)
+[assessor] fetched cache/assessor/wv5m-vpq2__L0_25_36.json (0.00 MB)
+[assessor-licence] up to date: cache/assessor/wv5m-vpq2.meta.json (sha256 039d1db0bb56, fetched 2026-11-15T00:55:10Z)
+[tides] up to date: cache/noaa/tides_9414290_datums.json (sha256 7b5d1b79efb7, fetched 2026-11-14T12:14:48Z)
+[bake] L0_25_36: 1 buildings (1 structures, 0 parts), 18 roads, 0 fault pieces, water 98.0 %, h -57.80..97.88 m, 16.74 s
+{"tile": "L0_25_36", "status": "baked"}
+-- bake L0_25_37
+[cudem] fetched window (788, 106) -> cache/cudem/ncei19_n38x00_w122x50_2022v1__L0_25_37.tif
+[cudem] fetched window (788, 899) -> cache/cudem/ncei19_n38x00_w122x75_2022v1__L0_25_37.tif
+[3dep] fetched window (2708, 2708) -> cache/3dep/USGS_1M_10_x54y419_CA_SanFrancisco_B23__L0_25_37.tif
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-extract] L0_25_37: 0.07 MB
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-water] up to date: cache/osm/water-polygons-split-4326.zip (sha256 22d97b206fd5, fetched 2026-11-14T12:14:47Z)
+[datasf] 0 MB (0.1 MB/s)
+[datasf] fetched cache/datasf/ynuv-fyni__L0_25_37.geojson (0.00 MB)
+[datasf-licence] up to date: cache/datasf/ynuv-fyni.meta.json (sha256 df045b13f5ca, fetched 2026-11-14T12:05:42Z)
+[assessor] 0 MB (0.0 MB/s)
+[bake] L0_25_37: lidar cache missing (rind_v11__L0_25_37.npz); default heights are not filled from 3DEP (run fetch_lidar_dsm.py --tile L0_25_37)
+[assessor] fetched cache/assessor/wv5m-vpq2__L0_25_37.json (0.00 MB)
+[assessor-licence] up to date: cache/assessor/wv5m-vpq2.meta.json (sha256 039d1db0bb56, fetched 2026-11-15T00:55:10Z)
+[tides] up to date: cache/noaa/tides_9414290_datums.json (sha256 7b5d1b79efb7, fetched 2026-11-14T12:14:48Z)
+[bake] L0_25_37: 0 buildings (0 structures, 0 parts), 0 roads, 0 fault pieces, water 97.0 %, h -84.03..130.80 m, 14.43 s
+{"tile": "L0_25_37", "status": "baked"}
+-- bake L0_25_38
+[cudem] fetched window (788, 104) -> cache/cudem/ncei19_n38x00_w122x50_2022v1__L0_25_38.tif
+[cudem] fetched window (788, 900) -> cache/cudem/ncei19_n38x00_w122x75_2022v1__L0_25_38.tif
+[3dep] fetched window (2708, 2708) -> cache/3dep/USGS_1M_10_x54y419_CA_SanFrancisco_B23__L0_25_38.tif
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-extract] L0_25_38: 0.12 MB
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-water] up to date: cache/osm/water-polygons-split-4326.zip (sha256 22d97b206fd5, fetched 2026-11-14T12:14:47Z)
+[datasf] 0 MB (0.1 MB/s)
+[datasf] fetched cache/datasf/ynuv-fyni__L0_25_38.geojson (0.00 MB)
+[datasf-licence] up to date: cache/datasf/ynuv-fyni.meta.json (sha256 df045b13f5ca, fetched 2026-11-14T12:05:42Z)
+[assessor] 0 MB (0.0 MB/s)
+[bake] L0_25_38: lidar cache missing (rind_v11__L0_25_38.npz); default heights are not filled from 3DEP (run fetch_lidar_dsm.py --tile L0_25_38)
+[assessor] fetched cache/assessor/wv5m-vpq2__L0_25_38.json (0.00 MB)
+[assessor-licence] up to date: cache/assessor/wv5m-vpq2.meta.json (sha256 039d1db0bb56, fetched 2026-11-15T00:55:10Z)
+[tides] up to date: cache/noaa/tides_9414290_datums.json (sha256 7b5d1b79efb7, fetched 2026-11-14T12:14:48Z)
+[bake] L0_25_38: 30 buildings (30 structures, 0 parts), 119 roads, 0 fault pieces, water 4.9 %, h -9.93..262.77 m, 13.06 s
+{"tile": "L0_25_38", "status": "baked"}
+-- bake L0_26_36
+[cudem] fetched window (787, 861) -> cache/cudem/ncei19_n38x00_w122x50_2022v1__L0_26_36.tif
+[cudem] fetched window (787, 143) -> cache/cudem/ncei19_n38x00_w122x75_2022v1__L0_26_36.tif
+[3dep] fetched window (2708, 2708) -> cache/3dep/USGS_1M_10_x54y419_CA_SanFrancisco_B23__L0_26_36.tif
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-extract] L0_26_36: 0.44 MB
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-water] up to date: cache/osm/water-polygons-split-4326.zip (sha256 22d97b206fd5, fetched 2026-11-14T12:14:47Z)
+[datasf] fetched cache/datasf/ynuv-fyni__L0_26_36.geojson (3.57 MB)
+[datasf-licence] up to date: cache/datasf/ynuv-fyni.meta.json (sha256 df045b13f5ca, fetched 2026-11-14T12:05:42Z)
+[assessor] 0 MB (4.4 MB/s)
+[assessor] fetched cache/assessor/wv5m-vpq2__L0_26_36.json (0.34 MB)
+[assessor-licence] up to date: cache/assessor/wv5m-vpq2.meta.json (sha256 039d1db0bb56, fetched 2026-11-15T00:55:10Z)
+[tides] up to date: cache/noaa/tides_9414290_datums.json (sha256 7b5d1b79efb7, fetched 2026-11-14T12:14:48Z)
+[bake] L0_26_36: 423 buildings (423 structures, 0 parts), 375 roads, 0 fault pieces, water 70.1 %, h -51.33..107.68 m, 21.18 s
+{"tile": "L0_26_36", "status": "baked"}
+-- bake L0_26_37
+[cudem] up to date: cache/cudem/ncei19_n38x00_w122x50_2022v1__L0_26_37.tif (sha256 1a56e472fbd1, fetched 2026-11-14T12:07:08Z)
+[cudem] up to date: cache/cudem/ncei19_n38x00_w122x75_2022v1__L0_26_37.tif (sha256 e1499a90272c, fetched 2026-11-14T12:07:09Z)
+[3dep-tnm] up to date: cache/3dep/tnm_query__L0_26_37.json (sha256 04792dfbf6fd, fetched 2026-11-14T12:05:48Z)
+[3dep] up to date: cache/3dep/USGS_1M_10_x54y419_CA_SanFrancisco_B23__L0_26_37.tif (sha256 034f38bf707a, fetched 2026-11-14T12:07:15Z)
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-extract] up to date: cache/osm/tiles/L0_26_37.osm.pbf (sha256 dd9f0af0318b, fetched 2026-11-14T12:12:58Z)
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-water] up to date: cache/osm/water-polygons-split-4326.zip (sha256 22d97b206fd5, fetched 2026-11-14T12:14:47Z)
+[datasf] up to date: cache/datasf/ynuv-fyni__L0_26_37.geojson (sha256 b526d70bc138, fetched 2026-11-14T12:05:49Z)
+[datasf-licence] up to date: cache/datasf/ynuv-fyni.meta.json (sha256 df045b13f5ca, fetched 2026-11-14T12:05:42Z)
+[assessor] 0 MB (0.0 MB/s)
+[assessor] fetched cache/assessor/wv5m-vpq2__L0_26_37.json (0.00 MB)
+[assessor-licence] up to date: cache/assessor/wv5m-vpq2.meta.json (sha256 039d1db0bb56, fetched 2026-11-15T00:55:10Z)
+[tides] up to date: cache/noaa/tides_9414290_datums.json (sha256 7b5d1b79efb7, fetched 2026-11-14T12:14:48Z)
+[bake] L0_26_37: 28 buildings (6 structures, 22 parts), 6 roads, 0 fault pieces, water 96.4 %, h -114.57..151.84 m, 9.84 s
+{"tile": "L0_26_37", "status": "baked"}
+-- bake L0_26_38
+[cudem] fetched window (787, 858) -> cache/cudem/ncei19_n38x00_w122x50_2022v1__L0_26_38.tif
+[cudem] fetched window (787, 147) -> cache/cudem/ncei19_n38x00_w122x75_2022v1__L0_26_38.tif
+[3dep] fetched window (2708, 2708) -> cache/3dep/USGS_1M_10_x54y419_CA_SanFrancisco_B23__L0_26_38.tif
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-extract] L0_26_38: 0.23 MB
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-water] up to date: cache/osm/water-polygons-split-4326.zip (sha256 22d97b206fd5, fetched 2026-11-14T12:14:47Z)
+[datasf] 0 MB (0.1 MB/s)
+[datasf] fetched cache/datasf/ynuv-fyni__L0_26_38.geojson (0.00 MB)
+[datasf-licence] up to date: cache/datasf/ynuv-fyni.meta.json (sha256 df045b13f5ca, fetched 2026-11-14T12:05:42Z)
+[assessor] 0 MB (0.0 MB/s)
+[assessor] fetched cache/assessor/wv5m-vpq2__L0_26_38.json (0.00 MB)
+[assessor-licence] up to date: cache/assessor/wv5m-vpq2.meta.json (sha256 039d1db0bb56, fetched 2026-11-15T00:55:10Z)
+[tides] up to date: cache/noaa/tides_9414290_datums.json (sha256 7b5d1b79efb7, fetched 2026-11-14T12:14:48Z)
+[bake] L0_26_38: 113 buildings (91 structures, 22 parts), 315 roads, 0 fault pieces, water 11.3 %, h -38.60..287.26 m, 26.71 s
+{"tile": "L0_26_38", "status": "baked"}
+-- bake L0_27_36
+[cudem] fetched window (787, 992) -> cache/cudem/ncei19_n38x00_w122x50_2022v1__L0_27_36.tif
+[3dep] fetched window (2708, 2708) -> cache/3dep/USGS_1M_10_x54y419_CA_SanFrancisco_B23__L0_27_36.tif
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-extract] L0_27_36: 0.76 MB
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-water] up to date: cache/osm/water-polygons-split-4326.zip (sha256 22d97b206fd5, fetched 2026-11-14T12:14:47Z)
+[datasf] fetched cache/datasf/ynuv-fyni__L0_27_36.geojson (6.51 MB)
+[datasf-licence] up to date: cache/datasf/ynuv-fyni.meta.json (sha256 df045b13f5ca, fetched 2026-11-14T12:05:42Z)
+[assessor] 1 MB (3.7 MB/s)
+[assessor] fetched cache/assessor/wv5m-vpq2__L0_27_36.json (0.63 MB)
+[assessor-licence] up to date: cache/assessor/wv5m-vpq2.meta.json (sha256 039d1db0bb56, fetched 2026-11-15T00:55:10Z)
+[tides] up to date: cache/noaa/tides_9414290_datums.json (sha256 7b5d1b79efb7, fetched 2026-11-14T12:14:48Z)
+[bake] L0_27_36: 978 buildings (965 structures, 13 parts), 1697 roads, 0 fault pieces, water 0.0 %, h -0.15..120.22 m, 34.57 s
+{"tile": "L0_27_36", "status": "baked"}
+-- bake L0_27_37
+[cudem] fetched window (787, 992) -> cache/cudem/ncei19_n38x00_w122x50_2022v1__L0_27_37.tif
+[3dep] fetched window (2708, 2708) -> cache/3dep/USGS_1M_10_x54y419_CA_SanFrancisco_B23__L0_27_37.tif
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-extract] L0_27_37: 0.34 MB
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-water] up to date: cache/osm/water-polygons-split-4326.zip (sha256 22d97b206fd5, fetched 2026-11-14T12:14:47Z)
+[datasf] 0 MB (3.5 MB/s)
+[datasf] fetched cache/datasf/ynuv-fyni__L0_27_37.geojson (0.27 MB)
+[datasf-licence] up to date: cache/datasf/ynuv-fyni.meta.json (sha256 df045b13f5ca, fetched 2026-11-14T12:05:42Z)
+[assessor] 0 MB (0.0 MB/s)
+[assessor] fetched cache/assessor/wv5m-vpq2__L0_27_37.json (0.00 MB)
+[assessor-licence] up to date: cache/assessor/wv5m-vpq2.meta.json (sha256 039d1db0bb56, fetched 2026-11-15T00:55:10Z)
+[tides] up to date: cache/noaa/tides_9414290_datums.json (sha256 7b5d1b79efb7, fetched 2026-11-14T12:14:48Z)
+[bake] L0_27_37: 115 buildings (106 structures, 9 parts), 389 roads, 0 fault pieces, water 90.1 %, h -109.77..68.22 m, 17.12 s
+{"tile": "L0_27_37", "status": "baked"}
+-- bake L0_27_38
+[cudem] fetched window (787, 992) -> cache/cudem/ncei19_n38x00_w122x50_2022v1__L0_27_38.tif
+[3dep] fetched window (2708, 2708) -> cache/3dep/USGS_1M_10_x54y419_CA_SanFrancisco_B23__L0_27_38.tif
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-extract] L0_27_38: 0.20 MB
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-water] up to date: cache/osm/water-polygons-split-4326.zip (sha256 22d97b206fd5, fetched 2026-11-14T12:14:47Z)
+[datasf] 0 MB (0.1 MB/s)
+[datasf] fetched cache/datasf/ynuv-fyni__L0_27_38.geojson (0.00 MB)
+[datasf-licence] up to date: cache/datasf/ynuv-fyni.meta.json (sha256 df045b13f5ca, fetched 2026-11-14T12:05:42Z)
+[assessor] 0 MB (0.0 MB/s)
+[bake] L0_27_38: lidar cache missing (rind_v11__L0_27_38.npz); default heights are not filled from 3DEP (run fetch_lidar_dsm.py --tile L0_27_38)
+[assessor] fetched cache/assessor/wv5m-vpq2__L0_27_38.json (0.00 MB)
+[assessor-licence] up to date: cache/assessor/wv5m-vpq2.meta.json (sha256 039d1db0bb56, fetched 2026-11-15T00:55:10Z)
+[tides] up to date: cache/noaa/tides_9414290_datums.json (sha256 7b5d1b79efb7, fetched 2026-11-14T12:14:48Z)
+[bake] L0_27_38: 28 buildings (28 structures, 0 parts), 72 roads, 0 fault pieces, water 91.5 %, h -90.93..94.26 m, 24.63 s
+{"tile": "L0_27_38", "status": "baked"}
+-- bake L0_29_35
+[bake] L0_29_35: lidar cache missing (rind_v11__L0_29_35.npz); default heights are not filled from 3DEP (run fetch_lidar_dsm.py --tile L0_29_35)
+[cudem] fetched window (787, 991) -> cache/cudem/ncei19_n38x00_w122x50_2022v1__L0_29_35.tif
+[3dep] fetched window (60, 208) -> cache/3dep/USGS_1M_10_x54y418_CA_CaliforniaGaps_B23__L0_29_35.tif
+[3dep] fetched window (2661, 208) -> cache/3dep/USGS_1M_10_x54y419_CA_SanFrancisco_B23__L0_29_35.tif
+[3dep] fetched window (60, 2512) -> cache/3dep/USGS_1M_10_x55y418_CA_CaliforniaGaps_B23__L0_29_35.tif
+[3dep] fetched window (2661, 2512) -> cache/3dep/USGS_1M_10_x55y419_CA_SanFrancisco_B23__L0_29_35.tif
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-extract] L0_29_35: 1.62 MB
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-water] up to date: cache/osm/water-polygons-split-4326.zip (sha256 22d97b206fd5, fetched 2026-11-14T12:14:47Z)
+[datasf] fetched cache/datasf/ynuv-fyni__L0_29_35.geojson (14.44 MB)
+[datasf-licence] up to date: cache/datasf/ynuv-fyni.meta.json (sha256 df045b13f5ca, fetched 2026-11-14T12:05:42Z)
+[assessor] fetched cache/assessor/wv5m-vpq2__L0_29_35.json (3.88 MB)
+[assessor-licence] up to date: cache/assessor/wv5m-vpq2.meta.json (sha256 039d1db0bb56, fetched 2026-11-15T00:55:10Z)
+[tides] up to date: cache/noaa/tides_9414290_datums.json (sha256 7b5d1b79efb7, fetched 2026-11-14T12:14:48Z)
+[bake] L0_29_35: 4137 buildings (3996 structures, 141 parts), 5227 roads, 0 fault pieces, water 0.0 %, h 1.98..73.21 m, 37.13 s
+{"tile": "L0_29_35", "status": "baked"}
+-- bake L0_29_36
+[cudem] fetched window (787, 991) -> cache/cudem/ncei19_n38x00_w122x50_2022v1__L0_29_36.tif
+[3dep] fetched window (2708, 224) -> cache/3dep/USGS_1M_10_x54y419_CA_SanFrancisco_B23__L0_29_36.tif
+[3dep] fetched window (2708, 2496) -> cache/3dep/USGS_1M_10_x55y419_CA_SanFrancisco_B23__L0_29_36.tif
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-extract] L0_29_36: 1.80 MB
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-water] up to date: cache/osm/water-polygons-split-4326.zip (sha256 22d97b206fd5, fetched 2026-11-14T12:14:47Z)
+[datasf] fetched cache/datasf/ynuv-fyni__L0_29_36.geojson (20.56 MB)
+[datasf-licence] up to date: cache/datasf/ynuv-fyni.meta.json (sha256 df045b13f5ca, fetched 2026-11-14T12:05:42Z)
+[assessor] fetched cache/assessor/wv5m-vpq2__L0_29_36.json (4.82 MB)
+[assessor-licence] up to date: cache/assessor/wv5m-vpq2.meta.json (sha256 039d1db0bb56, fetched 2026-11-15T00:55:10Z)
+[tides] up to date: cache/noaa/tides_9414290_datums.json (sha256 7b5d1b79efb7, fetched 2026-11-14T12:14:48Z)
+[bake] L0_29_36: 7520 buildings (7429 structures, 91 parts), 4431 roads, 0 fault pieces, water 0.0 %, h 2.95..115.52 m, 65.03 s
+{"tile": "L0_29_36", "status": "baked"}
+-- bake L0_30_35
+[cudem] up to date: cache/cudem/ncei19_n38x00_w122x50_2022v1__L0_30_35.tif (sha256 0b8f29e7ddc8, fetched 2026-11-14T12:06:35Z)
+[3dep-tnm] up to date: cache/3dep/tnm_query__L0_30_35.json (sha256 691ff1c51efb, fetched 2026-11-14T12:05:43Z)
+[3dep] up to date: cache/3dep/USGS_1M_10_x55y418_CA_CaliforniaGaps_B23__L0_30_35.tif (sha256 69a2b3883303, fetched 2026-11-14T12:06:42Z)
+[3dep] up to date: cache/3dep/USGS_1M_10_x55y419_CA_SanFrancisco_B23__L0_30_35.tif (sha256 9d4cdf410231, fetched 2026-11-14T12:07:06Z)
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-extract] up to date: cache/osm/tiles/L0_30_35.osm.pbf (sha256 93940042ddd7, fetched 2026-11-14T12:12:56Z)
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-water] up to date: cache/osm/water-polygons-split-4326.zip (sha256 22d97b206fd5, fetched 2026-11-14T12:14:47Z)
+[datasf] up to date: cache/datasf/ynuv-fyni__L0_30_35.geojson (sha256 01df8dddc848, fetched 2026-11-14T12:05:47Z)
+[datasf-licence] up to date: cache/datasf/ynuv-fyni.meta.json (sha256 df045b13f5ca, fetched 2026-11-14T12:05:42Z)
+[assessor] fetched cache/assessor/wv5m-vpq2__L0_30_35.json (3.41 MB)
+[assessor-licence] up to date: cache/assessor/wv5m-vpq2.meta.json (sha256 039d1db0bb56, fetched 2026-11-15T00:55:10Z)
+[tides] up to date: cache/noaa/tides_9414290_datums.json (sha256 7b5d1b79efb7, fetched 2026-11-14T12:14:48Z)
+[bake] L0_30_35: 1976 buildings (1464 structures, 512 parts), 4240 roads, 0 fault pieces, water 10.1 %, h -14.71..36.23 m, 41.7 s
+{"tile": "L0_30_35", "status": "baked"}
+-- bake L0_30_36
+[cudem] up to date: cache/cudem/ncei19_n38x00_w122x50_2022v1__L0_30_36.tif (sha256 b95bbd20e3e7, fetched 2026-11-14T12:06:03Z)
+[3dep-tnm] up to date: cache/3dep/tnm_query__L0_30_36.json (sha256 478ed4da4bb6, fetched 2026-11-14T12:05:34Z)
+[3dep] up to date: cache/3dep/USGS_1M_10_x55y419_CA_SanFrancisco_B23__L0_30_36.tif (sha256 e94c89f6dc13, fetched 2026-11-14T12:06:33Z)
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-extract] up to date: cache/osm/tiles/L0_30_36.osm.pbf (sha256 4e3f23d1fd39, fetched 2026-11-14T12:12:54Z)
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-water] up to date: cache/osm/water-polygons-split-4326.zip (sha256 22d97b206fd5, fetched 2026-11-14T12:14:47Z)
+[datasf] up to date: cache/datasf/ynuv-fyni__L0_30_36.geojson (sha256 ccfdd93b3d02, fetched 2026-11-14T12:05:41Z)
+[datasf-licence] up to date: cache/datasf/ynuv-fyni.meta.json (sha256 df045b13f5ca, fetched 2026-11-14T12:05:42Z)
+[assessor] up to date: cache/assessor/wv5m-vpq2__L0_30_36.json (sha256 1c3ea2d72e17, fetched 2026-11-15T00:55:10Z)
+[assessor-licence] up to date: cache/assessor/wv5m-vpq2.meta.json (sha256 039d1db0bb56, fetched 2026-11-15T00:55:10Z)
+[tides] up to date: cache/noaa/tides_9414290_datums.json (sha256 7b5d1b79efb7, fetched 2026-11-14T12:14:48Z)
+[bake] L0_30_36: 2503 buildings (2046 structures, 457 parts), 4131 roads, 0 fault pieces, water 37.9 %, h -29.48..91.74 m, 15.35 s
+{"tile": "L0_30_36", "status": "baked"}
+-- bake L0_31_35
+[cudem] fetched window (786, 990) -> cache/cudem/ncei19_n38x00_w122x50_2022v1__L0_31_35.tif
+[3dep] fetched window (29, 2708) -> cache/3dep/USGS_1M_10_x55y418_CA_CaliforniaGaps_B23__L0_31_35.tif
+[3dep] fetched window (2691, 2708) -> cache/3dep/USGS_1M_10_x55y419_CA_SanFrancisco_B23__L0_31_35.tif
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-extract] L0_31_35: 0.10 MB
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-water] up to date: cache/osm/water-polygons-split-4326.zip (sha256 22d97b206fd5, fetched 2026-11-14T12:14:47Z)
+[datasf] 0 MB (3.9 MB/s)
+[datasf] fetched cache/datasf/ynuv-fyni__L0_31_35.geojson (0.09 MB)
+[datasf-licence] up to date: cache/datasf/ynuv-fyni.meta.json (sha256 df045b13f5ca, fetched 2026-11-14T12:05:42Z)
+[assessor] 0 MB (23.0 MB/s)
+[assessor] fetched cache/assessor/wv5m-vpq2__L0_31_35.json (0.03 MB)
+[assessor-licence] up to date: cache/assessor/wv5m-vpq2.meta.json (sha256 039d1db0bb56, fetched 2026-11-15T00:55:10Z)
+[tides] up to date: cache/noaa/tides_9414290_datums.json (sha256 7b5d1b79efb7, fetched 2026-11-14T12:14:48Z)
+[bake] L0_31_35: 3 buildings (3 structures, 0 parts), 19 roads, 0 fault pieces, water 98.7 %, h -23.91..3.82 m, 41.12 s
+{"tile": "L0_31_35", "status": "baked"}
+-- bake L0_31_36
+[cudem] fetched window (786, 991) -> cache/cudem/ncei19_n38x00_w122x50_2022v1__L0_31_36.tif
+[3dep] fetched window (2708, 2708) -> cache/3dep/USGS_1M_10_x55y419_CA_SanFrancisco_B23__L0_31_36.tif
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-extract] L0_31_36: 0.17 MB
+[osm-pbf] up to date: cache/osm/norcal-latest.osm.pbf (sha256 83538f21b060, fetched 2026-11-14T12:11:47Z)
+[osm-water] up to date: cache/osm/water-polygons-split-4326.zip (sha256 22d97b206fd5, fetched 2026-11-14T12:14:47Z)
+[datasf] 0 MB (20.6 MB/s)
+[datasf] fetched cache/datasf/ynuv-fyni__L0_31_36.geojson (0.02 MB)
+[datasf-licence] up to date: cache/datasf/ynuv-fyni.meta.json (sha256 df045b13f5ca, fetched 2026-11-14T12:05:42Z)
+[assessor] 0 MB (2.3 MB/s)
+[assessor] fetched cache/assessor/wv5m-vpq2__L0_31_36.json (0.00 MB)
+[assessor-licence] up to date: cache/assessor/wv5m-vpq2.meta.json (sha256 039d1db0bb56, fetched 2026-11-15T00:55:10Z)
+[tides] up to date: cache/noaa/tides_9414290_datums.json (sha256 7b5d1b79efb7, fetched 2026-11-14T12:14:48Z)
+[bake] L0_31_36: 3 buildings (3 structures, 0 parts), 2 roads, 0 fault pieces, water 99.9 %, h -41.88..-7.17 m, 15.03 s
+{"tile": "L0_31_36", "status": "baked"}
+== done 2026-11-15T03:22:47Z

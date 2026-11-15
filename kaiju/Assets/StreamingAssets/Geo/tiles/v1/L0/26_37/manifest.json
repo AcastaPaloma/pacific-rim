@@ -12,10 +12,10 @@
   37.823673
  ],
  "build": {
-  "built_utc": "2026-11-15T00:52:42Z",
-  "git": "55ca01eb72e87e57ecbb1874c13cac04643fe257",
+  "built_utc": "2026-11-15T03:17:26Z",
+  "git": "2cce3852ea8009a1fbde98d9d58f2bbaf854b736",
   "git_dirty_pipeline": false,
-  "inputs_sha256": "3500d4d1d6f4ee0cc16b7b2bcfec59fb4059c58e22c14b7f1e2cf540c75627a0",
+  "inputs_sha256": "8aab7c702a769b2adfb6fdb74f6ec173f04c580c17ec29104a69e173b9dc149f",
   "script": "Pipelines/geo/bake_tile.py"
  },
  "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
@@ -250,8 +250,10 @@
     "struct_class"
    ],
    "file": "buildings.geojson",
+   "height_fill_rule": "T-020b: only a building whose R-004 chain ended at default is re-resolved: (a) lidar_3dep = median over 1 m cells inside the footprint eroded 1.0 m of (3DEP first-return p95 - terrain), needs >= 0.7 of cells with returns, mean multi-return share <= 0.3 (vegetation test) and height >= 2.0 m; (b) assessor_stories = stories x metres_per_level; (c) else default. height_source is lidar_3dep / assessor_stories for filled buildings",
    "height_source_counts": {
-    "default": 5,
+    "default": 1,
+    "lidar_3dep": 4,
     "osm_height": 23
    },
    "layer": "buildings",
@@ -259,7 +261,7 @@
    "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
    "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
    "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
-   "sha256": "a53c6e2ddf81c805178be3b822a22f66743715a9ad2621475cf77d0e27f4d91e",
+   "sha256": "ef8462affe0f101c1e2a945b2a22285bfc895b9bdd17e74ad98f42121d6ac79a",
    "sources": [
     {
      "attribution": "© OpenStreetMap contributors (ODbL)",
@@ -289,7 +291,7 @@
     },
     {
      "attribution": "City and County of San Francisco, Office of the Assessor-Recorder",
-     "fetched_utc": "2026-11-15T00:52:34Z",
+     "fetched_utc": "2026-11-15T03:17:18Z",
      "item": "wv5m-vpq2",
      "licence": "PDDL-1.0",
      "product": "DataSF Assessor Historical Secured Property Tax Rolls wv5m-vpq2",
