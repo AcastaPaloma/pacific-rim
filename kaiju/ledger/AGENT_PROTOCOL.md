@@ -105,3 +105,43 @@ The account's usage limit was hit three times during M0. From now on:
 3. **Atomic tasks.** One purpose per worker, sized to finish in about five minutes of active work and never to sit idle: a worker does not wait on a long build, capture, bake or queue. Long commands are started by a script that writes its result to a file; a later worker (or the orchestrator) reads that file. A slice is a list of such steps in `ledger/QUEUE.md`, not one long-lived implementer.
 4. **Reap before compaction.** Any session or worker that approaches about 150k tokens of context, or 85% of its window, stops, writes its state to a shared Markdown file (`tasks/<task>.progress.md` for workers, `ledger/HANDOFF.md` and `ledger/QUEUE.md` for the orchestrator) and ends. Work continues in a fresh session or worker that reads that file. Nobody compacts and nobody resumes a large old agent.
 5. **File access per worker.** A worker reads and writes only inside the module folder(s) and task files its brief lists, in its task worktree. Anything outside is off limits even for reading unless listed. (This is enforced by the brief and checked by the architecture evaluator from the diff; the harness has no per-agent path permissions.)
+
+## 12. Keep work moving without wasting tokens (founder instruction, 2026-11-15)
+The founders want steady progress whenever they are away, and want token use kept low. When this section and §10 or §11 differ, this section wins on scheduling and §11 still wins on models, effort and brief size.
+
+**Founders offline.**
+- Do not wait for an answer from a founder. Pick the option you would recommend and log it in `ledger/HANDOFF.md`, marked "decided autonomously (user offline)", so it can be reviewed later. Then keep going.
+- Still ask, and park the work, for the items in `FABLE_ORCHESTRATOR_PROMPT.md` §8 that cannot be undone: deleting assets, rewriting history, spending money, licence or IP questions. Do other work in the meantime.
+- If a permission check refuses an action, log it as waiting for the founders and move on. Never route around it through another session or worker.
+
+**Blocked work never idles a session.**
+- When one task is blocked (on a founder, a failing result, a long job or another task), work on the parts of the milestone that don't depend on it.
+- The milestone progress file (`plans/M<n>_PROGRESS.md`) lists the next steps in order. Read it as a set of tracks, and run every track whose inputs are already merged.
+
+**Parallel tracks.**
+- Run independent tracks at the same time, one session each.
+- Two tracks are independent when they share no files, neither needs the other's result, and both can merge on their own.
+- Each track session gets:
+  - its own task worktree `.wt/T-0xx` and branch `task/T-0xx`, cut from the integration head;
+  - a narrow brief naming its files, the order of its steps and what done looks like;
+  - a stop rule: hand over at about 150k tokens (§11.4).
+- The lead orchestrator starts track sessions, tells running sessions which tracks exist so nobody duplicates one, and checks merged results. It doesn't do track work itself.
+- Before starting a session, check the linked sessions. Don't start one for work that has already landed or is already running. When a session hands over, start its successor promptly, so a track never sits idle with work left.
+- Work that depends on several tracks (a composition root, the evaluator passes) waits until those tracks have merged.
+
+**Saving tokens while running in parallel.**
+- Track sessions run on Sonnet at medium effort and do the work themselves. Use at most an occasional Haiku/low helper for mechanical steps. Don't keep an orchestrator with its own workers inside each track.
+- The lead orchestrator runs at medium effort, and wakes only on session reports. It never polls.
+- Long jobs (Unity, bakes, captures, fetches) run in the background and write their results to a file. Nobody sits waiting on one.
+- Archive sessions that have finished, handed over or been replaced, so their notes stop costing context.
+
+**One integration branch, many writers.**
+- Every commit, merge or push on the integration branch goes through a shared lock. Take it, check that you are on the integration branch, run git, and release it:
+  ```bash
+  until mkdir /tmp/kaiju-merge.lock 2>/dev/null; do sleep 15; done
+  git -C <integration worktree> branch --show-current   # must print the integration branch
+  # ... commit / merge / push with git -C <integration worktree> ...
+  rmdir /tmp/kaiju-merge.lock
+  ```
+- Never run git against `main`. Once, during M1, a merge run from the wrong folder landed on the founders' local `main`.
+- Unity still follows §9: start a batch process only while fewer than 2 are running machine-wide. Otherwise do other work and check again later.

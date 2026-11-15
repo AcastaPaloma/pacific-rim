@@ -7,6 +7,8 @@ Workers: one Sonnet (medium) per step, code only; the orchestrator re-runs dotne
 Integration Unity script: `unity run <kaiju> -- -executeMethod Game.Core.Unity.CoreConfigAsset.CreateOrUpdate`, then `unity test <kaiju> --mode EditMode`.
 Geo cache (`Pipelines/geo/cache`, git-ignored, 1.7 GB+): task worktrees get an APFS clone (`cp -cR`); never commit it or a symlink to it.
 
+Scheduling: `ledger/AGENT_PROTOCOL.md` §12 (parallel track sessions on Sonnet/medium, shared merge lock `/tmp/kaiju-merge.lock`, never idle on a blocker). Running tracks (2026-11-15): T-023 step 2; AI (R-024 + T-033); co-op net (T-030 step 2 + T-031); destruction metrics (T-035/T-036); T-005 round 4.
+
 ## Merged into the integration branch
 Session 2 (regressions `evidence/regression/M1-merge-{1,2,3}.md`): T-020/T-020b, T-021 1–3, T-024/T-024b, T-025, T-027 1–4, T-029 1–4, T-035 1, T-036 2.
 Session 3 (regression `evidence/regression/M1-merge-4.md`):

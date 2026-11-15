@@ -203,6 +203,8 @@ Stop and ask (as a `Q-###`, batched, with recommendations) for:
 
 For everything else, make the call, log it, and keep going.
 
+When the founders are offline, follow `ledger/AGENT_PROTOCOL.md` §12: decide with the recommended option, log it, keep every independent track running in parallel, and keep token use low.
+
 **Report format** (after each milestone or significant session):
 1. What passed, with evidence links.
 2. What failed and why.
