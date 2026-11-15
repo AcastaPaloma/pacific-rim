@@ -53,6 +53,58 @@ namespace Game.AI.Pack
                 case PackRole.Flanker: PostFlanker(obs, d, me, ref intent); break;
                 default: if (d.Goal == PackGoal.Regroup) PostRegroup(d, me, ref intent); break;
             }
+            if (_pcfg.AvoidOtherMechsM > 0f && d.Goal == PackGoal.Hunt && d.Role != PackRole.Raider) AvoidOtherMechs(obs, d, ref intent);
+        }
+
+        /// <summary>
+        /// T-113b: a member that is not charging steers around a seen mech other than the pack focus (it would otherwise walk through that mech's
+        /// weapon range on its way to the slot and be shot by a mech nobody is fighting). Own sight only; the focus itself is never avoided.
+        /// </summary>
+        private void AvoidOtherMechs(in BrainObservation obs, in PackDirective d, ref BrainIntent intent)
+        {
+            if (intent.State == BrainState.Charge || intent.Action == BrainAction.Melee || intent.SpeedFrac <= 0f) return;
+            Float2 me = obs.Self.Pos;
+            int k = -1; float dk = _pcfg.AvoidOtherMechsM;
+            for (int i = 0; i < obs.TargetCount; i++)
+            {
+                if (!obs.Targets[i].Alive || obs.Targets[i].Id == d.FocusTargetId) continue;
+                float q = Dist(me, obs.Targets[i].Pos);
+                if (q < dk) { dk = q; k = i; }
+            }
+            if (k < 0) return;
+            float r0 = _pcfg.MechWeaponRangeM;
+            float w = Math.Min(3f, Math.Max(0f, 2f * (_pcfg.AvoidOtherMechsM - dk) / Math.Max(1f, _pcfg.AvoidOtherMechsM - r0)));
+            float away = Dir(obs.Targets[k].Pos, me);
+            float vx = MathF.Cos(intent.DesiredHeadingRad) + w * MathF.Cos(away), vy = MathF.Sin(intent.DesiredHeadingRad) + w * MathF.Sin(away);
+            if (vx * vx + vy * vy > 1e-6f) intent.DesiredHeadingRad = MathF.Atan2(vy, vx);
+            if (dk < r0 * 1.1f) intent.SpeedFrac = 1f;   // inside or at its weapon range: get out at full speed
+        }
+
+        /// <summary>
+        /// T-113b pincer (bait-first strike): once the strikers charge, the Bait keeps its distance to the focus at the nearest charging striker's distance
+        /// +/- BaitSwingM, alternating every BaitSwingSeconds (nearer first: it holds the turret while the strikers close). The nearest threat therefore
+        /// alternates between bearings >= 90 deg apart. Returns false when the pincer does not apply.
+        /// </summary>
+        private bool Pincer(in BrainObservation obs, in PackDirective d, Float2 tp, float dist, ref BrainIntent intent)
+        {
+            if (!_pcfg.BayTactics || !d.BaitFirst || !d.CommitReady || d.Goal != PackGoal.Hunt || _pcfg.BaitSwingM <= 0f) return false;
+            float ds = float.MaxValue;
+            for (int i = 0; i < obs.AllyCount; i++)
+            {
+                if (!obs.Allies[i].Alive || obs.Allies[i].State != (byte)BrainState.Charge || obs.Allies[i].TargetId != d.FocusTargetId) continue;
+                float q = Dist(obs.Allies[i].Pos, tp);
+                if (q < ds) ds = q;
+            }
+            float band = _pcfg.BaitBandFrac * _pcfg.MechWeaponRangeM;
+            bool nearer = ((long)Math.Floor((obs.TimeSeconds - d.GateOpenAt) / _pcfg.BaitSwingSeconds) & 1L) == 0L;
+            float want = ds == float.MaxValue ? band : ds + (nearer ? -_pcfg.BaitSwingM : _pcfg.BaitSwingM);
+            want = Math.Max(want, 0.8f * _cfg.MeleeReachM);
+            float toT = Dir(obs.Self.Pos, tp);
+            intent.TargetId = d.FocusTargetId; intent.DesiredHeadingRad = toT;
+            if (dist > want) { intent.SpeedFrac = _cfg.SpeedCharge; intent.State = BrainState.Charge; }
+            else { intent.SpeedFrac = 0f; intent.State = BrainState.Flank; }
+            intent.Action = dist <= _cfg.MeleeReachM ? BrainAction.Melee : BrainAction.None;
+            return true;
         }
 
         private static float Dist(Float2 a, Float2 b) { float dx = b.X - a.X, dy = b.Y - a.Y; return MathF.Sqrt(dx * dx + dy * dy); }
@@ -103,6 +155,7 @@ namespace Game.AI.Pack
             float dist = Dist(me, tp);
             float toT = Dir(me, tp);
             intent.TargetId = d.FocusTargetId;
+            if (!_baitRetreating && obs.Self.HpFrac >= _pcfg.BaitRetreatHp && Pincer(obs, d, tp, dist, ref intent)) return;
             if (d.BaitJoin && !_baitRetreating && obs.Self.HpFrac >= _pcfg.BaitRetreatHp)
             {
                 // bait and strike: the lock is drawn and the strike is under way, the Bait joins it
@@ -150,7 +203,7 @@ namespace Game.AI.Pack
                 {
                     float dist = Dist(me, tp);
                     // within the commit range only: a straggler still in transit keeps walking to its slot
-                    if (dist <= _pcfg.CommitRangeFrac * _stand(obs))
+                    if (dist <= Math.Max(_pcfg.CommitRangeFrac * _stand(obs), d.CommitRangeM))
                     {
                         intent.DesiredHeadingRad = Dir(me, tp); intent.SpeedFrac = _cfg.SpeedCharge; intent.State = BrainState.Charge; intent.TargetId = d.FocusTargetId;
                         intent.Action = dist <= _cfg.MeleeReachM ? BrainAction.Melee : BrainAction.None;

@@ -1,0 +1,9 @@
+hold-out seeds hunt/mv2 3001-3030, mixed/raid 3001-3010; same seeds for all three arms of code
+clause measure                                    base (HEAD 68deb4f)          it2                          final (it1)                 
+C1     fr_commit                                  PASS  0.818 cf=-             PASS  0.925 cf=-             PASS  0.898 cf=-            
+C2     fe_vs_nofocus                              FAIL  0.845 cf=LL            FAIL  0.838 cf=LL            FAIL  0.831 cf=LL           
+P1     member_fit_time_min_over_species_x_comp    PASS  0.705 cf=-             FAIL  0.654 cf=LL:L          FAIL  0.654 cf=LL:L         
+P4     bs_rate_minus_k_nobait                     PASS  0.001 cf=-             FAIL  -0.044 cf=-            FAIL  -0.077 cf=LH          
+P5     kx_ratio_vs_noroles                        FAIL  0.926 cf=LH,LLH,LLMH,LMH,LMHH,MH,MMH FAIL  0.865 cf=LH,LLH,LLMH,LLMHH,LMH,LMHH,MH,MMH FAIL  0.901 cf=LH,LLH,LLMH,LMH,LMHH,MH,MMH
+P6     participation_share                        FAIL  0.724 cf=LH,LL,LLH,LLMH,LLMHH,LMH,LMHH FAIL  0.643 cf=LH,LL,LLH,LLMH,LLMHH,LMH,LMHH FAIL  0.691 cf=LH,LL,LLH,LLMH,LLMHH,LMH,LMHH
+I3     ival_per_kaiju_hour_ratio                  FAIL  1.001 cf=-             FAIL  1.001 cf=-             FAIL  1.001 cf=-            

@@ -82,6 +82,9 @@ namespace Game.AI.Pack
         public float PaceFrac;           // far transit speed fraction that makes every member arrive together (0 = full speed)
         public bool BaitJoin;            // hunt: the strike is under way and the Bait may join it (Bait-and-strike)
         public bool CommitReady;         // hunt: the formation is in place (slots held, Bait drawing) or the gate timed out; Anchor/Flanker may commit
+        public double GateOpenAt;        // T-113b: time the hunt commit gate opened (valid while CommitReady in a hunt)
+        public bool BaitFirst;           // T-113b: bait-first strike geometry is active for this pack
+        public float CommitRangeM;       // T-113b: when > 0, an Anchor/Flanker commits from within this distance of the focus (its hold slot may lie outside the default commit range)
         public bool Valid;
     }
 
@@ -169,6 +172,20 @@ namespace Game.AI.Pack
         public float AnchorOffsetRad;        // Anchor slot offset against the first flanker's side (keeps the engaged spread above 90 degrees)
         public bool RoutePlanning;           // T-115c: members transit along IRoutePlanner waypoints and goal utility / pacing use planner path lengths (needs a planner on the coordinator; straight line otherwise)
         public float LatchReleaseM;          // the approach bearing is re-latched while the pack centroid is farther than this from the target
+        // T-113b bait-first strike (R-103 4.2 Bait "nearest threat at the edge of enemy weapon range", P4 strike >= 90 deg from the Bait):
+        // with a Bait in the hunt, the strikers (Anchor/Flanker) hold outside mech weapon range on one side of the approach axis, the Bait takes a wide
+        // slot on the other side and steps in first to draw the lock, and the strikers commit only once it has drawn it.
+        public bool BaitFirst;
+        public float BaitWideOffsetRad;      // Bait slot offset from the approach axis (to the side opposite every striker)
+        public float HoldOutsideMarginM;     // with a Bait, a striker's hold slot is at least MechWeaponRangeM + this from the focus
+        public float StrikeArcMinRad, StrikeArcMaxRad;   // striker slots spread over [min, max] on the side opposite the Bait (anchors nearest the axis)
+        // T-113b pincer: once the strike is on, the Bait holds its distance to the focus at (nearest charging striker's distance) +/- BaitSwingM,
+        // the sign alternating every BaitSwingSeconds, so the nearest threat to the mech alternates between two bearings >= 90 deg apart (a slow turret
+        // swinging between them re-acquires each time). 0 = off.
+        public float BaitSwingM, BaitSwingSeconds;
+        // T-113b: in a hunt, a member not charging steers around any seen mech other than the focus that is within this distance (0 = off)
+        public float AvoidOtherMechsM;
+        public bool StrictAnchorTol;         // T-113b: under bait-first the Anchor holds the Flanker's slot tolerance (no AnchorTolMul)
 
         public static PackConfig Default()
         {
@@ -184,6 +201,7 @@ namespace Game.AI.Pack
                 WeightCrane = 1f, WeightPower = 2f, WeightBridge = 3f, WeightAirport = 3f, TransitDistanceM = 1500f,
                 SlotApproachFrac = 0f, StageFrac = 1.0f, StageTimeoutSeconds = 120f, SlotTolFrac = 0.4f, SlotTolMinM = 80f, AnchorTolMul = 2f, PaceMinFrac = 0f, BaitJoinDelaySeconds = 0f, BaitStepInM = 100f, BaitDrawSeconds = 4f, GateTimeoutSeconds = 60f, CommitRangeFrac = 1.6f,
                 BaitOffsetRad = 0.9f, AnchorOffsetRad = 0.6f, LatchReleaseM = 700f,
+                BaitFirst = false, BaitWideOffsetRad = 100f * deg, HoldOutsideMarginM = 40f, StrikeArcMinRad = 0f, StrikeArcMaxRad = 70f * deg,
             };
         }
 
@@ -197,6 +215,9 @@ namespace Game.AI.Pack
             PackConfig c = Default();
             c.BayTactics = true; c.BaitJoinDelaySeconds = 7f; c.PaceMinFrac = 0.4f; c.BaitBandFrac = 0.8f; c.TransitDistanceM = 400f; c.SlotApproachFrac = 0.8f;
             c.RoutePlanning = true;   // T-115c: a no-op while the coordinator holds the straight-line planner
+            // T-113b: bait-first strike geometry (fixes the C1 unflanked commits) stays OFF by default: on the same hold-out seeds it raised C1 0.818 -> 0.898
+            // but turned P4 (+0.001 -> -0.077) and P1 (0.705 -> 0.654) from PASS to FAIL (evidence/T-113b/compare.txt). Kept as a flag for the R-NEW-a hunt-timing work.
+            c.BaitFirst = false; c.BaitSwingSeconds = 4f;
             return c;
         }
     }
