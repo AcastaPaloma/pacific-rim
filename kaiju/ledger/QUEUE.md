@@ -91,6 +91,7 @@ Brief `tasks/T-006.md`, spec `expectations/T-006.md` (19 criteria). Worktree `.w
   - 6.6 Continuation in small Froude increments from the stable gait; stop after three consecutive failed increments.
   - 6.7 Evidence regenerated for the best stable speed; open evaluator defects; eval-physics and eval-arch.
   - T-005 round 8 done (task/T-005-r8 7101666, not merged): very slow rows Fr 0.005-0.015 feasible (knee still at 0.95-0.99 of limit; derated twins +30 %), swing retime / swing saturation flags default 0; 3 Unity cycles, nothing stable, no config beats the L7 control 30.8 s (lower row 0 is worse: 14.6-18.0 s); next: stance-side start-up momentum (HANDOFF 2026-11-15 round 8).
+  - T-005 round 9 done (task/T-005-r9 d935d70, not merged): stance-side start-up flags qp_r9_gate / qp_r9_launch (default 0) + offline row-0 DCM test; 2 Unity cycles, 80 runs, nothing stable, no config beats the L7 control 30.8 s (gate 0.7-1.0 worse, 20.6-21.9 s); the start-up is not the binding stage on the v5 rows (collapse at 22-25 s in steps 3-5); next: per-step trace of steps 3-5 (HANDOFF 2026-11-15 round 9).
 - **Calibration (Q-072 = now)** — waiting on the founders' filled `checkpoints/M0/sheets/`.
 - Still not allowed: any assist, body-data change, band change, or merging T-005's modules before its gate is met.
 
