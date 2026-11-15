@@ -18,6 +18,7 @@ from kaiju_geo.common import CACHE, canonical_json  # noqa: E402
 
 def scan(root: Path) -> dict:
     rows, counts, fit, n = [], {}, {}, 0
+    outside = []                                  # T-108d: forms that meet their cap with the skyline form but are outside the B1 error envelope
     for man_path in sorted(root.glob("L[1-4]/*/manifest.json")):
         m = json.loads(man_path.read_text())
         n += 1
@@ -27,6 +28,11 @@ def scan(root: Path) -> dict:
             counts.setdefault(key, {"tiles": 0, "over_cap": 0})
             counts[key]["tiles"] += 1
             fit[f.get("footprint_fit", "nominal")] = fit.get(f.get("footprint_fit", "nominal"), 0) + 1
+            if f.get("error_budget_met") is False:
+                outside.append({"tile": m["tile"], "form": form, "triangles": f["triangles"], "cap": f["tri_cap"], "fit": f.get("footprint_fit"),
+                                "surface_cell_m": f.get("surface_cell_m"), "err_max_bound_m": f["footprint_max_m"], "err_rms_est_m": f["footprint_rms_m"],
+                                "budget_max_m": (f.get("footprint_error_budget_m") or {}).get("max"),
+                                "block_floor_triangles": f.get("block_floor_triangles")})
             if f["within_cap"]:
                 continue
             counts[key]["over_cap"] += 1
@@ -36,11 +42,14 @@ def scan(root: Path) -> dict:
             rows.append({"tile": m["tile"], "form": form, "triangles": f["triangles"], "cap": f["tri_cap"], "over_by": f["triangles"] - f["tri_cap"],
                          "buildings": f["buildings"], "tol_m": f["footprint_tol_m"], "tol_nominal_m": f.get("footprint_tol_nominal_m", f["footprint_tol_m"]),
                          "err_max_m": f["footprint_max_m"], "err_rms_m": f["footprint_rms_m"],
+                         "height_max_m": f.get("height_max_m"), "block_floor_triangles": f.get("block_floor_triangles"),
                          "budget_max_m": bud.get("max"), "budget_rms_m": bud.get("rms"), "fit": f.get("footprint_fit", "nominal"),
                          "ladder_floor_prism_triangles": floor, "ladder_rungs": len(lad),
                          "ladder_last_tol_m": lad[-1]["tol_m"] if lad else None, "ladder_last_err_max_m": lad[-1]["err_max_m"] if lad else None})
     rows.sort(key=lambda r: (r["tile"], r["form"]))
-    return {"tiles": n, "counts": counts, "fit_classes": fit, "over_cap_total": len(rows), "over_cap": rows}
+    outside.sort(key=lambda r: (r["tile"], r["form"]))
+    return {"tiles": n, "counts": counts, "fit_classes": fit, "over_cap_total": len(rows), "over_cap": rows,
+            "outside_error_envelope_total": len(outside), "outside_error_envelope": outside}
 
 
 def main(argv=None) -> int:
@@ -58,7 +67,7 @@ def main(argv=None) -> int:
             c[k] = c.get(k, 0) + 1
         doc["before_over_cap"] = {"total": len(b), "by_level_form": c,
                                   "by_tile_form": {f"{t}/{f}": {"triangles": tr, "cap": cp, "tol_m": tl} for t, f, tr, cp, tl in b}}
-    print(json.dumps({k: doc[k] for k in ("tiles", "counts", "fit_classes", "over_cap_total")}, indent=1))
+    print(json.dumps({k: doc[k] for k in ("tiles", "counts", "fit_classes", "over_cap_total", "outside_error_envelope_total")}, indent=1))
     if "before_over_cap" in doc:
         print("before:", doc["before_over_cap"]["total"], doc["before_over_cap"]["by_level_form"])
     if a.out:

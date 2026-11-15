@@ -261,6 +261,10 @@ namespace Game.World.Streaming.Host
     {
         public readonly List<string> Bids = new List<string>();
         public readonly List<string> PartOf = new List<string>();     // parent structure bid or null, parallel to Bids
+        /// <summary>T-108d merged blocks (bake_lod.py@7): the building ids a block row stands for and, parallel, each member's parent structure (or null);
+        /// null for an ordinary row. A block is hidden once every member (or its parent) is removed.</summary>
+        public readonly List<string[]> Members = new List<string[]>();
+        public readonly List<string[]> MemberPartOf = new List<string[]>();
 
         public static LodBuildingIndex Parse(string json)
         {
@@ -273,6 +277,16 @@ namespace Game.World.Streaming.Host
                 var o = GeoJson.Obj(r);
                 idx.Bids.Add(GeoJson.Str(o, "bid") ?? throw new InvalidDataException("index row without bid"));
                 idx.PartOf.Add(GeoJson.Str(o, "part_of"));
+                var mem = GeoJson.Arr(GeoJson.Get(o, "members"));
+                if (mem == null || mem.Count == 0) { idx.Members.Add(null); idx.MemberPartOf.Add(null); continue; }
+                var ms = new string[mem.Count]; var mp = new string[mem.Count];
+                var mpArr = GeoJson.Arr(GeoJson.Get(o, "member_part_of"));
+                for (int k = 0; k < mem.Count; k++)
+                {
+                    ms[k] = mem[k] as string;
+                    mp[k] = mpArr != null && k < mpArr.Count ? mpArr[k] as string : null;
+                }
+                idx.Members.Add(ms); idx.MemberPartOf.Add(mp);
             }
             return idx;
         }

@@ -12,7 +12,9 @@ Forms (R-101 section 4):
           edge-preserving, error-bounded noise pre-filter (T-108b,
           `prefiltered_terrain`: bilateral, change clamped to 0.5 x the RTIN threshold); slope.u8; RTIN triangle
           count measured at 0.1 x 2^n m on the filtered nodes.
-  B1      merged building blocks per 256 m chunk, per-building index ranges (L1, L2).
+  B1      per-building prisms (index range per building), or, where those cannot meet the cap inside the error envelope (T-108d,
+          bake_lod.py@7), merged blocks per 256 m chunk (height bands, closed footprints, one range per block listing its members);
+          on L2 a skyline form in the B1 slot when even blocks cannot fit (flagged `error_budget_met: false`) (L1, L2).
   B2      skyline: exact-height prisms for buildings >= 60 m plus a max-pooled rooftop surface (L2, L3, L4).
   W       water.png: majority vote of the 2^n x 2^n L0 cells.
 Everything is deterministic (no clocks, no random, sorted iteration, fixed zlib level); two runs over the same
@@ -20,6 +22,10 @@ L0 inputs give byte-identical files. Output goes to the git-ignored cache (`cach
 
 Placeholders (flagged, tracked): L0 tiles that do not exist (outside the baked Bay set) are filled with open
 ocean (terrain = MSL, water = 255) and the manifest records the covered fraction (`coverage`); R-101 O11.
+
+`b*.index.json` rows of a merged block (T-108d, the `.lodmesh` format itself is unchanged) add `members` (building ids) and parallel
+`member_part_of` (parent structure id or null); the index gets `merged_blocks: true`. The journal replay hides such a row once EVERY member
+(by its own id or its parent structure) is removed. A skyline fallback index carries `skyline_fallback: true` and a `surface` record.
 
 `.lodmesh` (little-endian): header 32 B = 'KLOD', u32 version(1), u32 vertex_count, u32 index_count,
 u32 chunk_count, u32 range_count, u32 flags(0), u32 reserved(0); chunk table (48 B each) = i32 cx, i32 cz,
@@ -50,10 +56,11 @@ from .common import SAMPLES, TILE_SIZE_M, Tile, canonical_json, sha256_bytes, sh
 from .terrain import decode_r16, quantise_r16
 
 SPEC = "geo_lod@v1"
-GENERATOR = "bake_lod.py@6"
-# bake_lod.py@5 manifests are what @6 writes (same geometry bytes) for every tile whose forms fit their caps at the nominal tolerance
-# (@6 only differs where the nominal tolerance missed a cap); bake_bay.lod_current accepts them for such tiles so only the others re-bake.
-GENERATOR_COMPAT = ("bake_lod.py@5",)
+GENERATOR = "bake_lod.py@7"
+# bake_lod.py@5 / @6 manifests are what @7 writes (same geometry bytes) for every tile whose forms fit their caps (@6 only differs where
+# the nominal tolerance missed a cap, @7 only where the footprint tolerance ladder missed it); bake_bay.lod_current accepts them for such
+# tiles so only the others re-bake.
+GENERATOR_COMPAT = ("bake_lod.py@5", "bake_lod.py@6")
 MAX_LEVEL = 4
 CHUNK_M = 256.0
 N = SAMPLES - 1                       # 2048 cells per tile edge
@@ -873,6 +880,369 @@ def fit_footprint_tolerance(inputs, nominal: float, level: int, landmarks: set[s
     return {"tol": best[0], "pieces": best[1], "fit": "over_cap_error_budget", "ladder": ladder, "budget": bud}
 
 
+# ---------------------------------------------------------------- merged blocks (T-108d, bake_lod.py@7)
+# B1 / B2 form change for tiles whose per-building prisms cannot meet the cap at any in-budget footprint tolerance (T-102b: >= 10 tris
+# per prism, 184 tiles over cap). Buildings of one 256 m chunk are grouped into height bands, the footprints of one band are
+# closed (buffer +g, union, buffer -g), cut free of the buildings of the other bands, simplified (tolerance t) and extruded as ONE block
+# per connected component to the band height (mid-range of its members). Landmarks never merge. Every block keeps its member list so
+# the journal replay can hide it once all its members (or their parent structures) are removed. All errors are measured and held to
+# the same R-101 section 8 B1 envelope as the prisms: footprint (symmetric boundary displacement) max / rms, and roof height max / rms.
+BLOCK_PHI_LO, BLOCK_PHI_HI = 0.3, 2.0     # knob range of the merge search (phi x budget = the largest closing / simplification / band size)
+# (g, t) = fraction x phi x the level's max footprint budget: closing gap and simplification tolerance (footprint error ~ g + t where both act);
+# dh = fraction x budget (not scaled by phi): band half-range, the band spans 2 x dh so the height error is <= dh <= budget by construction.
+BLOCK_PROFILES = ({"g": 0.55, "t": 0.35, "dh": 1.0}, {"g": 0.30, "t": 0.65, "dh": 1.0})
+BLOCK_SEARCH_STEPS = 5
+BLOCK_SAMPLE_M = 8.0                       # boundary sampling step for the error measure (vertices are always included)
+BLOCK_ID_PREFIX = "blk:"
+SURFACE_MAX_CELL_FACTOR = 4                # a skyline surface that misses its cap at CHUNK_M cells may grow to 4 x CHUNK_M (flagged)
+FOOTPRINT_RMS_DEF = ("rms of the boundary displacement (M-102 (a) contour displacement) between the L0 footprints and the form, "
+                     "boundary-length weighted over both directions; max includes the depth of every filled gap")
+
+
+@dataclass
+class Block:
+    bid: str
+    rings: list                 # [exterior (n,2) ccw, hole (m,2) cw ...], closed rings without the repeated vertex
+    ground: float
+    bottom: float
+    top: float
+    members: list               # [(bid, part_of or None)], sorted by bid
+    chunk: tuple[int, int] | None = None
+    landmark: bool = False
+
+
+def _cluster(tops: np.ndarray, pairs: np.ndarray, dh: float) -> np.ndarray:
+    """Range-constrained single-linkage clustering: touching buildings (`pairs`, (k,2) indices) merge, smallest height difference first,
+    while the cluster's top range stays <= 2 x dh (so the cluster mid-range is within dh of every member). -> label per item."""
+    n = len(tops)
+    parent = list(range(n))
+    lo, hi = tops.tolist(), tops.tolist()
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    if len(pairs):
+        d = np.abs(tops[pairs[:, 0]] - tops[pairs[:, 1]])
+        for k in np.lexsort((pairs[:, 1], pairs[:, 0], d)):
+            a, b = find(int(pairs[k, 0])), find(int(pairs[k, 1]))
+            if a == b:
+                continue
+            nlo, nhi = min(lo[a], lo[b]), max(hi[a], hi[b])
+            if nhi - nlo > 2.0 * dh:
+                continue
+            parent[b] = a
+            lo[a], hi[a] = nlo, nhi
+    return np.array([find(i) for i in range(n)])
+
+
+def _polys(g):
+    if g is None or g.is_empty:
+        return []
+    if g.geom_type == "Polygon":
+        return [g]
+    if g.geom_type in ("MultiPolygon", "GeometryCollection"):
+        return [q for p in g.geoms for q in _polys(p)]
+    return []
+
+
+def _drop_small_holes(poly, max_radius: float):
+    if not poly.interiors:
+        return poly
+    keep = [h for h in poly.interiors if shapely.minimum_bounding_radius(shapely.Polygon(h)) > max_radius]
+    return shapely.Polygon(poly.exterior, keep) if len(keep) != len(poly.interiors) else poly
+
+
+def _rectify(poly, tol: float):
+    """Replace a hole-free polygon of more than 4 vertices by its minimum rotated rectangle when the two stay within `tol` of each other
+    (the measured block error decides in the end)."""
+    if poly.interiors or len(poly.exterior.coords) <= 5 or tol <= 0:
+        return poly
+    with np.errstate(all="ignore"):
+        box = shapely.oriented_envelope(poly)
+    if box.geom_type == "Polygon" and box.is_valid and shapely.hausdorff_distance(box, poly) <= tol:
+        return box
+    return poly
+
+
+def build_blocks(inputs, g: float, t: float, dh: float, landmarks: set[str], mb: MeshBuilder, tile_id: str) -> tuple[list, list, list]:
+    """Merge the inputs: closing gap g (m), simplification tolerance t (m), height half-range dh (m) -> (blocks, refs). refs[k] = (union
+    of the member exteriors, member_areas, member_tops) for the error measure. Landmark inputs are returned as plain prism pieces (3rd item)."""
+    by_chunk: dict[tuple[int, int], list] = {}
+    blocks: list[Block] = []
+    refs: list = []
+    lm_inputs = []
+    for it in inputs:
+        bid, part_of, ext, gmin, bottom, top = it
+        if bid in landmarks or part_of in landmarks:
+            lm_inputs.append(it)                      # landmarks never merge: exact id, prism, own range (as in the prism form)
+            continue
+        c = ext.representative_point()
+        by_chunk.setdefault(mb.chunk_of(c.x, c.y), []).append(it)
+    for ck in sorted(by_chunk):
+        its = by_chunk[ck]
+        tops = np.array([x[5] for x in its])
+        exts = np.array([x[2] for x in its], dtype=object)
+        grown = shapely.buffer(exts, g, quad_segs=2) if g > 0 else exts
+        tree = shapely.STRtree(grown)
+        pq = tree.query(grown, predicate="intersects")
+        pairs = pq.T[pq[0] < pq[1]] if pq.size else np.zeros((0, 2), dtype=np.int64)
+        label = _cluster(tops, pairs, dh)
+        ext_tree = shapely.STRtree(exts)
+        for lab in sorted(set(label.tolist())):
+            sel = np.nonzero(label == lab)[0]
+            geoms = exts[sel]
+            top_b = 0.5 * (float(tops[sel].min()) + float(tops[sel].max()))
+            own = shapely.union_all(geoms)
+            if g > 0 and len(sel) > 1:
+                u = shapely.buffer(shapely.union_all(shapely.buffer(geoms, g, quad_segs=2)), -g, quad_segs=2)
+                near = ext_tree.query(u, predicate="intersects")
+                oth = np.setdiff1d(near, sel)
+                if len(oth):
+                    u = u.difference(shapely.union_all(exts[oth]))
+                u = shapely.union(u, own)                      # never lose a member to the difference
+            else:
+                u = own
+            comps = _polys(u)
+            if t > 0:
+                comps = [q for p in comps for q in (_polys(shapely.simplify(p, t, preserve_topology=True)) or [p])]
+            comps = [q for p in comps for q in (_polys(p) if p.is_valid else _polys(shapely.make_valid(p)))]
+            comps = [_rectify(_drop_small_holes(p, 0.5 * g), t) for p in comps if p.area > 1e-6]
+            if not comps:
+                continue
+            if len(comps) > 1:
+                ctree = shapely.STRtree(comps)
+            groups: dict[int, list[int]] = {k: [] for k in range(len(comps))}
+            for k in sel:
+                if len(comps) == 1:
+                    groups[0].append(int(k))
+                    continue
+                q = its[k][2].representative_point()
+                hit = [int(h) for h in ctree.query(q, predicate="intersects")] or [int(ctree.nearest(q))]
+                groups[hit[0]].append(int(k))
+            for n, p in enumerate(comps):
+                ms = groups[n]
+                if not ms:
+                    continue
+                p = orient(p, 1.0)
+                rings = [np.asarray(p.exterior.coords)[:-1]] + [np.asarray(h.coords)[:-1] for h in p.interiors]
+                rings = [r for r in rings if len(r) >= 3]
+                if not rings:
+                    continue
+                mem = sorted(((its[k][0], its[k][1]) for k in ms), key=lambda m: m[0])
+                blocks.append(Block(f"{BLOCK_ID_PREFIX}{tile_id}:{ck[0]}_{ck[1]}:{lab}_{n}", rings, min(its[k][3] for k in ms),
+                                    min(its[k][4] for k in ms), top_b, mem, ck, False))
+                refs.append((shapely.union_all([its[k][2] for k in ms]), [its[k][2].area for k in ms], [its[k][5] for k in ms]))
+    return blocks, refs, _simplify_inputs(lm_inputs, t, landmarks, mb)
+
+
+def block_triangles(blocks: list) -> int:
+    """Exact triangle count: walls 2 per edge, roof n + 2h - 2 per polygon of n vertices and h holes (constrained Delaunay, no Steiner points)."""
+    tot = 0
+    for b in blocks:
+        n = sum(len(r) for r in b.rings)
+        tot += 2 * n + n + 2 * (len(b.rings) - 1) - 2
+    return tot
+
+
+def _sample_boundary(geom, step: float):
+    """Points along the boundary of `geom` (vertices plus <= step spacing) and per-point weights (m of boundary)."""
+    lines = shapely.boundary(geom)
+    if lines.is_empty:
+        return np.zeros((0, 2)), np.zeros(0)
+    xy = shapely.get_coordinates(shapely.segmentize(lines, step))
+    return xy, np.full(len(xy), float(shapely.length(lines)) / max(len(xy), 1))
+
+
+def _fill_radius(region) -> float:
+    """Largest distance from a point of `region` (polygon or multi) to its boundary: the depth of a filled courtyard or slit."""
+    r = 0.0
+    for q in _polys(region):
+        if q.area > 1e-6:
+            r = max(r, float(shapely.length(shapely.maximum_inscribed_circle(q, 0.05))))
+    return r
+
+
+def block_errors(blocks: list, refs: list) -> dict:
+    """Measured errors of the merged form vs the L0 footprints / heights it replaces (m).
+    footprint: boundary samples of each solid against the other solid (0 inside it), both ways; max also takes the depth of every filled
+    gap (inscribed radius of block minus reference and reference minus block); rms is boundary-length weighted.
+    height: |block top - member top|, max and member-area-weighted rms."""
+    dmax, d2, wsum = 0.0, 0.0, 0.0
+    hmax, h2, asum = 0.0, 0.0, 0.0
+    for b, (ref, areas, tops) in zip(blocks, refs):
+        poly = shapely.Polygon(b.rings[0], b.rings[1:])
+        for a, o in ((ref, poly), (poly, ref)):
+            xy, w = _sample_boundary(a, BLOCK_SAMPLE_M)
+            if len(xy):
+                d = shapely.distance(shapely.points(xy), o)
+                dmax, d2, wsum = max(dmax, float(d.max())), d2 + float(((d ** 2) * w).sum()), wsum + float(w.sum())
+        if abs(poly.area - ref.area) > 1e-3 or not shapely.equals(poly, ref):
+            for x in (poly.difference(ref), ref.difference(poly)):
+                if not x.is_empty and x.area > 1e-6:
+                    dmax = max(dmax, _fill_radius(x))
+        e = np.abs(np.asarray(tops) - b.top)
+        a = np.asarray(areas)
+        hmax = max(hmax, float(e.max()))
+        h2 += float(((e ** 2) * a).sum())
+        asum += float(a.sum())
+    return {"footprint_max_m": dmax, "footprint_rms_m": math.sqrt(d2 / wsum) if wsum else 0.0,
+            "height_max_m": hmax, "height_rms_m": math.sqrt(h2 / asum) if asum else 0.0}
+
+
+def _walls(ring: np.ndarray, bottom: float, top: float, vbase: int):
+    """Wall quads of one ring (4 vertices per edge) wound so the normal points to the right of the walking direction (out of the solid for a
+    ccw exterior and for a cw hole): -> (vertices (4n,3), triangles (2n,3) with vertex indices offset by vbase)."""
+    n = len(ring)
+    p0, p1 = ring, np.roll(ring, -1, axis=0)
+    v = np.empty((4 * n, 3))
+    v[0::4] = np.column_stack([p0[:, 0], np.full(n, bottom), p0[:, 1]])
+    v[1::4] = np.column_stack([p1[:, 0], np.full(n, bottom), p1[:, 1]])
+    v[2::4] = np.column_stack([p1[:, 0], np.full(n, top), p1[:, 1]])
+    v[3::4] = np.column_stack([p0[:, 0], np.full(n, top), p0[:, 1]])
+    base = 4 * np.arange(n)
+    wt = np.empty((2 * n, 3), dtype=np.int64)
+    wt[0::2] = np.column_stack([base, base + 3, base + 2])
+    wt[1::2] = np.column_stack([base, base + 2, base + 1])
+    d = p1 - p0
+    want = np.column_stack([d[:, 1], np.zeros(n), -d[:, 0]])
+    a, b, c = v[wt[0::2, 0]], v[wt[0::2, 1]], v[wt[0::2, 2]]
+    flip = np.einsum("ij,ij->i", np.cross(b - a, c - a), want) < 0
+    for k in np.nonzero(flip)[0]:
+        wt[2 * k] = wt[2 * k][[0, 2, 1]]
+        wt[2 * k + 1] = wt[2 * k + 1][[0, 2, 1]]
+    return v, wt + vbase
+
+
+def _extrude_block(b: Block):
+    """Walls of every ring plus a constrained-Delaunay roof (holes respected, no Steiner points)."""
+    vs, ts, off = [], [], 0
+    for ring in b.rings:
+        v, wt = _walls(ring, b.bottom, b.top, off)
+        vs.append(v)
+        ts.append(wt)
+        off += len(v)
+    pts = np.vstack(b.rings)
+    roof = np.column_stack([pts[:, 0], np.full(len(pts), b.top), pts[:, 1]])
+    key = {(float(x), float(y)): k for k, (x, y) in enumerate(pts)}
+    poly = shapely.Polygon(b.rings[0], b.rings[1:])
+    rt = []
+    try:
+        for tri in shapely.constrained_delaunay_triangles(poly).geoms:
+            ids = [key.get((float(x), float(y))) for x, y in list(tri.exterior.coords)[:3]]
+            if None not in ids:
+                rt.append(ids)
+    except Exception:                                     # invalid polygon: fall back to the exterior ring
+        rt = []
+    if not rt:
+        rt = [list(q) for q in _ear_clip([tuple(q) for q in b.rings[0]])]
+    rt = np.array(rt, dtype=np.int64).reshape(-1, 3) + off
+    a, bb, c = roof[rt[:, 0] - off], roof[rt[:, 1] - off], roof[rt[:, 2] - off]
+    up = np.cross(bb - a, c - a)[:, 1] < 0
+    rt[up] = rt[up][:, [0, 2, 1]]
+    return np.vstack(vs + [roof]), np.vstack(ts + [rt])
+
+
+def block_error_ok(er: dict, bud: dict) -> bool:
+    return (er["footprint_max_m"] <= bud["max_m"] and er["footprint_rms_m"] <= bud["rms_m"]
+            and er["height_max_m"] <= bud["max_m"] and er["height_rms_m"] <= bud["rms_m"])
+
+
+def fit_merged(inputs, level: int, landmarks: set[str], mb: MeshBuilder, tri_cap: int, reserve: int, tile_id: str,
+               hopeless_exit: bool) -> dict:
+    """Merged-block fit of one form (T-108d). For each profile: probe the largest knob (BLOCK_PHI_HI, beyond the budget); when even that
+    cannot reach the cap the form is hopeless (`hopeless_exit` returns at once, else the largest in-budget knob is searched for the report).
+    Otherwise the smallest knob that reaches the cap is searched (bisection, triangles only) and its measured errors are checked against the
+    budget; if they are over, the largest in-budget knob is searched instead (cap missed, flagged).
+    -> {'fit': 'merged_blocks' | 'over_cap_error_budget' | 'hopeless', 'tris', 'blocks', 'refs', 'lm', 'err', 'params', 'ladder', 'budget'}"""
+    bud = footprint_error_budget_m(level)
+    B, room = bud["max_m"], tri_cap - reserve
+    rows: dict = {}
+    cache: dict = {}
+
+    def ev(pi: int, phi: float, errs: bool) -> dict:
+        key = (pi, round(phi, 4))
+        e = cache.get(key)
+        if e is None:
+            pr = BLOCK_PROFILES[pi]
+            g, t, dh = pr["g"] * phi * B, pr["t"] * phi * B, pr["dh"] * B      # dh is fixed: the band mid-range keeps height error <= dh
+            blocks, refs, lm = build_blocks(inputs, g, t, dh, landmarks, mb, tile_id)
+            e = cache[key] = {"pi": pi, "phi": round(phi, 4), "g": round(g, 3), "t": round(t, 3), "dh": round(dh, 3), "blocks": blocks, "refs": refs,
+                              "lm": lm, "tris": block_triangles(blocks) + prism_triangles_est(lm), "err": None}
+        if errs and e["err"] is None:
+            er = block_errors(e["blocks"], e["refs"])
+            if e["lm"]:
+                er["footprint_max_m"] = max(er["footprint_max_m"], max(p.err_m for p in e["lm"]))
+            e["err"] = er
+            e["in_budget"] = block_error_ok(er, bud)
+        row = {"profile": pi, "phi": e["phi"], "g_m": e["g"], "t_m": e["t"], "dh_m": e["dh"], "triangles": e["tris"], "blocks": len(e["blocks"])}
+        if e["err"] is not None:
+            row.update({k: round(v, 3) for k, v in e["err"].items()})
+            row["in_budget"] = bool(e["in_budget"])
+        rows[key] = row
+        return e
+
+    def in_budget_best(pi: int, lo: float, hi: float) -> dict:
+        best = ev(pi, lo, True)
+        for _ in range(BLOCK_SEARCH_STEPS):
+            mid = round(0.5 * (lo + hi), 4)
+            e = ev(pi, mid, True)
+            if e["in_budget"]:
+                lo, best = mid, e
+            else:
+                hi = mid
+        return best
+
+    results = []
+    for pi in range(len(BLOCK_PROFILES)):
+        top = ev(pi, BLOCK_PHI_HI, False)
+        if top["tris"] > room:
+            if hopeless_exit:
+                results.append(("hopeless", top))
+                break
+            results.append(("over", in_budget_best(pi, BLOCK_PHI_LO, BLOCK_PHI_HI)))
+            continue
+        lo, hi = BLOCK_PHI_LO, BLOCK_PHI_HI
+        if ev(pi, lo, False)["tris"] <= room:
+            hi = lo
+        else:
+            for _ in range(BLOCK_SEARCH_STEPS):
+                mid = round(0.5 * (lo + hi), 4)
+                if ev(pi, mid, False)["tris"] <= room:
+                    hi = mid
+                else:
+                    lo = mid
+        e = ev(pi, hi, True)
+        if e["in_budget"]:
+            results.append(("fit", e))
+        else:
+            results.append(("over", in_budget_best(pi, BLOCK_PHI_LO, hi)))
+    fits = [r for r in results if r[0] == "fit"]
+    if fits:
+        kind, e = min(fits, key=lambda r: (r[1]["err"]["footprint_max_m"], r[1]["tris"]))
+        fit = "merged_blocks"
+    else:
+        cands = [r for r in results if r[0] == "over"]
+        if not cands:
+            return {"fit": "hopeless", "tris": results[0][1]["tris"], "ladder": [rows[k] for k in sorted(rows)], "budget": bud}
+        kind, e = min(cands, key=lambda r: r[1]["tris"])
+        fit = "over_cap_error_budget"
+    return {"fit": fit, "tris": e["tris"], "blocks": e["blocks"], "refs": e["refs"], "lm": e["lm"], "err": e["err"],
+            "params": {"profile": e["pi"], "phi": e["phi"], "closing_gap_m": e["g"], "simplify_tol_m": e["t"], "band_half_range_m": e["dh"]},
+            "ladder": [rows[k] for k in sorted(rows)], "budget": bud}
+
+
+def build_block_meshes(blocks: list, lm: list, mb: MeshBuilder):
+    for p in lm:
+        v, t = _extrude(p)
+        mb.add(p.chunk, v, t, p.bid)
+    for b in blocks:
+        v, t = _extrude_block(b)
+        mb.add(b.chunk, v, t, b.bid)
+
+
 def _extrude(piece: Piece):
     ring = piece.ring
     n = len(ring)
@@ -914,21 +1284,30 @@ def build_prisms(pieces: list[Piece], mb: MeshBuilder):
         mb.add(p.chunk, v, t, p.bid)
 
 
-def building_index(pieces: list[Piece], form: str, tile: Tile) -> dict:
+def building_index(pieces: list, form: str, tile: Tile) -> dict:
     by: dict[str, dict] = {}
+    merged = False
     for p in pieces:
         e = by.setdefault(p.bid, {"bid": p.bid, "chunk": list(p.chunk), "h_min": p.ground,
                                   "h_max": p.top, "landmark": False})
         e["h_min"] = min(e["h_min"], p.ground)
         e["h_max"] = max(e["h_max"], p.top)
         e["landmark"] = e["landmark"] or p.landmark
-        if p.part_of and "part_of" not in e:
+        if isinstance(p, Block):
+            # T-108d merged block: the journal replay hides the row once EVERY member (or its parent structure) is removed
+            e["members"] = [m[0] for m in p.members]
+            e["member_part_of"] = [m[1] for m in p.members]
+            merged = True
+        elif p.part_of and "part_of" not in e:
             e["part_of"] = p.part_of
     rows = [by[k] for k in sorted(by)]
     for r in rows:
         r["h_min"] = round(r["h_min"], 3)
         r["h_max"] = round(r["h_max"], 3)
-    return {"spec": SPEC, "form": form, "tile": tile.id, "chunk_m": CHUNK_M, "buildings": rows}
+    out = {"spec": SPEC, "form": form, "tile": tile.id, "chunk_m": CHUNK_M, "buildings": rows}
+    if merged:
+        out["merged_blocks"] = True
+    return out
 
 
 def rooftop_grids(items, level: int, tile: Tile):
@@ -963,18 +1342,18 @@ def rooftop_grids(items, level: int, tile: Tile):
     return top, gnd, n0, cell0
 
 
-def rooftop_coarsest_triangles(grids) -> int:
-    """Triangles of the rooftop surface at the coarsest allowed cell (CHUNK_M): the least it can cost."""
+def rooftop_coarsest_triangles(grids, max_cell: float = CHUNK_M) -> int:
+    """Triangles of the rooftop surface at the coarsest allowed cell (CHUNK_M, or `max_cell`): the least it can cost."""
     top, _, n0, cell0 = grids
     f = 1
-    while cell0 * f < CHUNK_M:
+    while cell0 * f < max_cell:
         f *= 2
     T = top.reshape(n0 // f, f, n0 // f, f).max(axis=(1, 3)) if f > 1 else top
     return _surface_triangles(T)
 
 
-def rooftop_emit(grids, tile: Tile, tri_cap: int, mb: MeshBuilder):
-    """Emit the rooftop surface; the cell size doubles while the mesh would exceed `tri_cap` (never above CHUNK_M).
+def rooftop_emit(grids, tile: Tile, tri_cap: int, mb: MeshBuilder, max_cell: float = CHUNK_M):
+    """Emit the rooftop surface; the cell size doubles while the mesh would exceed `tri_cap` (never above `max_cell`, default CHUNK_M).
     Returns (cell_m, columns, triangles_cap_ok)."""
     top, gnd, n0, cell0 = grids
     f = 1
@@ -985,7 +1364,7 @@ def rooftop_emit(grids, tile: Tile, tri_cap: int, mb: MeshBuilder):
         else:
             T, G = top, gnd
         tris = _surface_triangles(T)
-        if tris <= tri_cap or cell0 * f >= CHUNK_M:
+        if tris <= tri_cap or cell0 * f >= max_cell:
             break
         f *= 2
     cell = cell0 * f
@@ -1066,6 +1445,121 @@ def _attribution(src: L0Source, tiles) -> tuple[list[str], bool]:
                 if s.get("licence") not in LICENCES:
                     ok = False
     return sorted(att), ok
+
+
+def _prism_form(form: str, level: int, tile: Tile, inputs, grids, lm: set[str], cap: int, nominal: float, max_cell: float) -> dict:
+    """The per-building prism form (B1) or tall prisms + rooftop surface (B2) at the smallest footprint tolerance that fits `cap`."""
+    mb = MeshBuilder(tile.x0, tile.z0)
+    reserve = rooftop_coarsest_triangles(grids, max_cell) if form == "b2" else 0
+    fit = fit_footprint_tolerance(inputs, nominal, level, lm, mb, cap, reserve)
+    build_prisms(fit["pieces"], mb)
+    cell, cols = None, 0
+    if form == "b1":
+        cap_ok = mb.triangles <= cap
+    else:
+        cell, cols, cap_ok = rooftop_emit(grids, tile, max(0, cap - mb.triangles), mb, max_cell)
+        cap_ok = cap_ok and mb.triangles <= cap
+    return {"mb": mb, "fit": fit, "pieces": fit["pieces"], "cell": cell, "cols": cols, "cap_ok": bool(cap_ok)}
+
+
+def _form_files(form: str, idx: dict, mb: MeshBuilder) -> dict:
+    sorted_bids = [r["bid"] for r in idx["buildings"]]
+    return {f"{form}.lodmesh": mb.encode(sorted_bids), f"{form}.index.json": (canonical_json(idx, indent=1) + "\n").encode()}
+
+
+def _bake_form(form: str, level: int, tile: Tile, items, grids, lm: set[str]) -> tuple[dict, dict]:
+    """One building form of a pyramid tile -> (files, stats record). Escalation (caps and error budgets never relaxed silently):
+    nominal prisms -> adaptive footprint tolerance (T-102b) -> merged blocks inside the same error envelope (T-108d) -> for B1 at a level
+    that has a skyline form (L2) the skyline form at the B1 cap, flagged as outside the B1 error envelope; B2 whose rooftop surface misses
+    its cap at CHUNK_M cells may grow its cells to SURFACE_MAX_CELL_FACTOR x CHUNK_M (flagged). What still misses is stored flagged."""
+    nominal = FOOTPRINT_TOL_M[level]
+    cap = BUDGET["b1_tris_cap"] if form == "b1" else BUDGET["b2_tris_cap"]
+    inputs = _piece_inputs(items, None if form == "b1" else True)
+    r = _prism_form(form, level, tile, inputs, grids, lm, cap, nominal, CHUNK_M)
+    note: dict = {}
+    mode = "prisms"
+    if form == "b2" and not r["cap_ok"] and grids is not None:
+        r2 = _prism_form(form, level, tile, inputs, grids, lm, cap, nominal, CHUNK_M * SURFACE_MAX_CELL_FACTOR)
+        if r2["cap_ok"] or r2["mb"].triangles < r["mb"].triangles:
+            r, note = r2, {"surface_cell_over_chunk": r2["cell"] > CHUNK_M}
+    merged = None
+    skyline = None
+    if form == "b1" and r["fit"]["fit"] == "over_cap_error_budget":
+        fallback = grids is not None and "b2" in FORMS[level]
+        mb = MeshBuilder(tile.x0, tile.z0)
+        m = fit_merged(inputs, level, lm, mb, cap, 0, tile.id, hopeless_exit=fallback)
+        if m["fit"] == "merged_blocks" or (m["fit"] == "over_cap_error_budget" and m["tris"] < r["mb"].triangles):
+            merged = m
+        r["block_ladder"] = m["ladder"]
+        r["block_floor_tris"] = m["tris"]
+        if (merged is None or merged["fit"] != "merged_blocks") and fallback:
+            sky_inputs = _piece_inputs(items, True)
+            skyline = _prism_form("b2", level, tile, sky_inputs, grids, lm, cap, nominal, CHUNK_M * SURFACE_MAX_CELL_FACTOR)
+            if not skyline["cap_ok"]:
+                skyline = None
+    out_files: dict = {}
+    if skyline is not None:                                   # skyline form in the B1 slot: cap met, B1 error envelope NOT met (flagged)
+        mb, pieces = skyline["mb"], skyline["pieces"]
+        idx = building_index(pieces, form, tile)
+        idx["surface"] = {"cell_m": skyline["cell"], "columns": skyline["cols"]}
+        idx["skyline_fallback"] = True
+        emax, erms = _err_stats(pieces)
+        cell = skyline["cell"]
+        stat = {"triangles": mb.triangles, "vertices": mb.vertices, "buildings": len(idx["buildings"]), "tri_cap": cap, "within_cap": True,
+                "footprint_tol_m": skyline["fit"]["tol"], "footprint_max_m": round(max(emax, cell * math.sqrt(2.0)), 3),
+                "footprint_rms_m": round(max(erms, 0.41 * cell), 3), "surface_cell_m": cell, "surface_columns": skyline["cols"]}
+        stat.update({"footprint_tol_nominal_m": nominal, "footprint_fit": "skyline_fallback", "error_budget_met": False,
+                     "skyline_error_note": "footprint_max_m = surface cell diagonal (bound), footprint_rms_m = 0.41 x cell (grid quantisation estimate); "
+                                           "outside the B1 envelope: this tile's B1 slot holds the skyline form, its switch distance must follow these errors",
+                     "footprint_error_budget_m": _budget_record(level), "footprint_ladder": r["fit"]["ladder"]})
+        if "block_ladder" in r:
+            stat["block_floor_triangles"] = r["block_floor_tris"]
+            stat["block_ladder"] = r["block_ladder"]
+        out_files = _form_files(form, idx, mb)
+        stat["file_bytes"] = len(out_files[f"{form}.lodmesh"])
+        return out_files, stat
+    if merged is not None:
+        mb = MeshBuilder(tile.x0, tile.z0)
+        build_block_meshes(merged["blocks"], merged["lm"], mb)
+        pieces = list(merged["blocks"]) + list(merged["lm"])
+        idx = building_index(pieces, form, tile)
+        er = merged["err"]
+        cap_ok = mb.triangles <= cap
+        stat = {"triangles": mb.triangles, "vertices": mb.vertices, "buildings": len(idx["buildings"]), "tri_cap": cap, "within_cap": bool(cap_ok),
+                "footprint_tol_m": merged["params"]["simplify_tol_m"], "footprint_max_m": round(er["footprint_max_m"], 3),
+                "footprint_rms_m": round(er["footprint_rms_m"], 3), "height_max_m": round(er["height_max_m"], 3),
+                "height_rms_m": round(er["height_rms_m"], 3), "surface_cell_m": None, "surface_columns": 0,
+                "members": int(sum(len(b.members) for b in merged["blocks"]) + len(merged["lm"])), "blocks": len(merged["blocks"]),
+                "footprint_tol_nominal_m": nominal, "footprint_fit": "merged_blocks" if cap_ok else "over_cap_error_budget",
+                "error_budget_met": True, "merge": merged["params"], "footprint_rms_def": FOOTPRINT_RMS_DEF,
+                "footprint_error_budget_m": _budget_record(level), "footprint_ladder": r["fit"]["ladder"], "block_ladder": merged["ladder"]}
+        out_files = _form_files(form, idx, mb)
+        stat["file_bytes"] = len(out_files[f"{form}.lodmesh"])
+        return out_files, stat
+    fit, mb, pieces = r["fit"], r["mb"], r["pieces"]
+    idx = building_index(pieces, form, tile)
+    if form == "b2":
+        idx["surface"] = {"cell_m": r["cell"], "columns": r["cols"]}
+    emax, erms = _err_stats(pieces)
+    stat = {"triangles": mb.triangles, "vertices": mb.vertices, "buildings": len(idx["buildings"]),
+            "tri_cap": cap, "within_cap": r["cap_ok"], "footprint_tol_m": fit["tol"], "footprint_max_m": round(emax, 3),
+            "footprint_rms_m": round(erms, 3), "surface_cell_m": r["cell"], "surface_columns": r["cols"]}
+    out_files = _form_files(form, idx, mb)
+    stat["file_bytes"] = len(out_files[f"{form}.lodmesh"])
+    if fit["fit"] != "nominal":     # tiles that fit at the nominal tolerance keep the @5 form record byte for byte
+        stat.update({"footprint_tol_nominal_m": nominal, "footprint_fit": fit["fit"], "footprint_error_budget_m": _budget_record(level),
+                     "footprint_ladder": fit["ladder"]})
+    if "block_ladder" in r:
+        stat["block_floor_triangles"] = r["block_floor_tris"]
+        stat["block_ladder"] = r["block_ladder"]
+    stat.update(note)
+    return out_files, stat
+
+
+def _budget_record(level: int) -> dict:
+    b = footprint_error_budget_m(level)
+    return {"max": b["max_m"], "rms": b["rms_m"], "k": K_DESIGN, "m102_d_max_m": b["m102_d_max_m"], "m102_d_rms_m": b["m102_d_rms_m"],
+            "ring_d_min_m": b["ring_d_min_m"]}
 
 
 def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, rtin: bool = True,
@@ -1160,41 +1654,8 @@ def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, r
     bstats: dict = {}
     grids = rooftop_grids(items, level, tile) if "b2" in forms else None
     for form in forms:
-        nominal = FOOTPRINT_TOL_M[level]
-        mb = MeshBuilder(tile.x0, tile.z0)
-        cap = BUDGET["b1_tris_cap"] if form == "b1" else BUDGET["b2_tris_cap"]
-        inputs = _piece_inputs(items, None if form == "b1" else True)
-        # b2: the rooftop surface needs at least its coarsest-cell triangles, the prisms get the rest of the cap
-        reserve = rooftop_coarsest_triangles(grids) if form == "b2" else 0
-        fit = fit_footprint_tolerance(inputs, nominal, level, lm, mb, cap, reserve)
-        tol, pieces = fit["tol"], fit["pieces"]
-        build_prisms(pieces, mb)
-        if form == "b1":
-            cell, cols = None, 0
-            cap_ok = mb.triangles <= cap
-        else:
-            cell, cols, cap_ok = rooftop_emit(grids, tile, max(0, cap - mb.triangles), mb)
-            cap_ok = cap_ok and mb.triangles <= cap
-        idx = building_index(pieces, form, tile)
-        if form == "b2":
-            idx["surface"] = {"cell_m": cell, "columns": cols}
-        sorted_bids = [r["bid"] for r in idx["buildings"]]
-        files[f"{form}.lodmesh"] = mb.encode(sorted_bids)
-        files[f"{form}.index.json"] = (canonical_json(idx, indent=1) + "\n").encode()
-        emax, erms = _err_stats(pieces)
-        bstats[form] = {"triangles": mb.triangles, "vertices": mb.vertices, "buildings": len(sorted_bids),
-                        "tri_cap": cap, "within_cap": bool(cap_ok), "footprint_tol_m": tol,
-                        "footprint_max_m": round(emax, 3),
-                        "footprint_rms_m": round(erms, 3),
-                        "surface_cell_m": cell, "surface_columns": cols,
-                        "file_bytes": len(files[f"{form}.lodmesh"])}
-        if fit["fit"] != "nominal":     # tiles that fit at the nominal tolerance keep the @5 form record byte for byte
-            bstats[form].update({"footprint_tol_nominal_m": nominal, "footprint_fit": fit["fit"],
-                                 "footprint_error_budget_m": {"max": fit["budget"]["max_m"], "rms": fit["budget"]["rms_m"], "k": K_DESIGN,
-                                                              "m102_d_max_m": fit["budget"]["m102_d_max_m"],
-                                                              "m102_d_rms_m": fit["budget"]["m102_d_rms_m"],
-                                                              "ring_d_min_m": fit["budget"]["ring_d_min_m"]},
-                                 "footprint_ladder": fit["ladder"]})
+        files_f, bstats[form] = _bake_form(form, level, tile, items, grids, lm)
+        files.update(files_f)
     lap("buildings", t)
 
     # manifest
@@ -1233,7 +1694,7 @@ def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, r
             "terrain": terr,
             "terrain_ground_zone": None if gmask is None else {"inside": terr_in, "outside": terr_out},
             "buildings": {"footprint_max_m": ferr["footprint_max_m"], "footprint_rms_m": ferr["footprint_rms_m"],
-                          "height_max_m": 0.0, "forms": bstats},
+                          "height_max_m": round(max([0.0] + [f.get("height_max_m", 0.0) for f in bstats.values()]), 3), "forms": bstats},
             "switch_hint_m": {"k4_fov50_1080": round(max(terr["rms_m"], 1e-6) * 1158 * 4, 1)},
         },
         "stats": {"triangles": (ttri or 0) + bt, "vertices": ((ttri or 0) // 2 + 2) + bv,
@@ -1305,6 +1766,12 @@ def validate_level_tile(tile_dir: Path, src: L0Source | None = None) -> list[str
         for k in ("file", "index"):
             if form.get(k) not in (man.get("files") or {}):
                 errs.append(f"form file {form.get(k)} not in files")
+    for form in (man.get("buildings") or {}).values():          # T-108d merged-block rows: members and member_part_of are parallel and non-empty
+        ip = tile_dir / (form.get("index") or "")
+        if form.get("index") and ip.exists():
+            for r in json.loads(ip.read_text()).get("buildings", []):
+                if "members" in r and (not r["members"] or len(r["members"]) != len(r.get("member_part_of") or [])):
+                    errs.append(f"index row {r.get('bid')}: members / member_part_of missing or not parallel")
     if src is not None:
         tiles = contributing(man["level"], man["i"], man["j"], src)
         fp = sha256_bytes("\n".join(sorted(sha256_file(src.tiles[k] / "manifest.json") for k in tiles)).encode())

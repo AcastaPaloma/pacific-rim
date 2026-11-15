@@ -47,7 +47,7 @@ namespace Game.World.Streaming.Host.Tests
         };
         static float[] Ups(int vertices) { var n = new float[vertices * 3]; for (int k = 1; k < n.Length; k += 3) n[k] = 1f; return n; }
 
-        static void WriteSyntheticTile(string dir, GeoTileId id)
+        static void WriteSyntheticTile(string dir, GeoTileId id, string indexOverride = null)
         {
             double ox = id.OriginX, oz = id.OriginZ;
             // terrain: gentle slope plus a rough bump so the RTIN mesh is non-trivial; heights 0..~41 m
@@ -80,6 +80,7 @@ namespace Game.World.Streaming.Host.Tests
                 + "{\"bid\":\"osm:w101\",\"chunk\":[0,0],\"h_min\":5.0,\"h_max\":25.0,\"landmark\":false},"
                 + "{\"bid\":\"osm:w102\",\"chunk\":[0,0],\"h_min\":5.0,\"h_max\":35.0,\"landmark\":false},"
                 + "{\"bid\":\"osm:w103\",\"chunk\":[1,0],\"h_min\":5.0,\"h_max\":15.0,\"landmark\":false,\"part_of\":\"osm:w101\"}]}";
+            if (indexOverride != null) index = indexOverride;
             // water: the south-west quarter of the tile
             var w = new byte[2048 * 2048];
             for (int row = 1024; row < 2048; row++) for (int col = 0; col < 1024; col++) w[row * 2048 + col] = 255;   // png row 0 = north
@@ -263,6 +264,32 @@ namespace Game.World.Streaming.Host.Tests
             var c0 = new GeoLodTileReader(_root, j3).Load(T).Meshes.First(m => m.Layer == "buildings" && m.ChunkX == 0);
             Assert.AreEqual(8, c0.VertexCount); Assert.AreEqual(12, c0.TriangleCount);
             Assert.LessOrEqual(c0.Indices.Max(), 7);
+        }
+
+        [Test]
+        public void MergedBlockRowsGoOnlyWhenEveryMemberIsRemoved()
+        {
+            // T-108d: row 1 is a merged block standing for w102 and w104 (w104 is a part of structure w200); rows 0 and 2 are ordinary
+            var id = GeoTileId.From(1, 2, 1);
+            string index = "{\"spec\":\"geo_lod@v1\",\"form\":\"b1\",\"tile\":\"L1_02_01\",\"chunk_m\":256.0,\"merged_blocks\":true,\"buildings\":["
+                + "{\"bid\":\"blk:L1_02_01:0_0:3_0\",\"chunk\":[0,0],\"h_min\":5.0,\"h_max\":25.0,\"landmark\":false,\"members\":[\"osm:w102\",\"osm:w104\"],\"member_part_of\":[null,\"osm:w200\"]},"
+                + "{\"bid\":\"osm:w101\",\"chunk\":[0,0],\"h_min\":5.0,\"h_max\":25.0,\"landmark\":false},"
+                + "{\"bid\":\"osm:w103\",\"chunk\":[1,0],\"h_min\":5.0,\"h_max\":15.0,\"landmark\":false}]}";
+            var dir = LodSpec.TileFolder(_root, id);
+            Directory.CreateDirectory(dir);
+            WriteSyntheticTile(dir, id, index);
+            var parsed = LodBuildingIndex.Parse(index);
+            Assert.AreEqual(new[] { "osm:w102", "osm:w104" }, parsed.Members[0]);
+            Assert.AreEqual(new string[] { null, "osm:w200" }, parsed.MemberPartOf[0]);
+            Assert.IsNull(parsed.Members[1]);
+            var before = new GeoLodTileReader(_root, new StreamingJournal()).Load(id);
+            var j = new StreamingJournal();
+            j.RecordRemoval(GeoTileId.From(0, 4, 2), Bld(102));
+            Assert.AreEqual(before.B1Triangles, new GeoLodTileReader(_root, j).Load(id).B1Triangles, "one member gone: the block stays");
+            j.RecordRemoval(GeoTileId.From(0, 4, 2), Bld(200));                      // the parent of member w104 goes: both members are gone
+            var r = new GeoLodTileReader(_root, j).Load(id);
+            Assert.AreEqual(before.B1Triangles - 12, r.B1Triangles, "block hidden once every member (or its parent) is removed");
+            Assert.AreEqual(1, r.RemovedBuildingsHidden);
         }
 
         [Test]

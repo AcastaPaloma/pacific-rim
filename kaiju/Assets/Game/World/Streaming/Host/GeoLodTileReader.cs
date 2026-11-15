@@ -178,7 +178,8 @@ namespace Game.World.Streaming.Host
             if (removed != null && removed.Count > 0)
                 for (int k = 0; k < index.Bids.Count; k++)
                 {
-                    if ((TryBid(index.Bids[k], out var b) && removed.Contains(b)) || (index.PartOf[k] != null && TryBid(index.PartOf[k], out var p) && removed.Contains(p)))
+                    if ((TryBid(index.Bids[k], out var b) && removed.Contains(b)) || (index.PartOf[k] != null && TryBid(index.PartOf[k], out var p) && removed.Contains(p))
+                        || AllMembersRemoved(index.Members[k], index.MemberPartOf[k], removed))
                     { if (hide == null) hide = new HashSet<int>(); hide.Add(k); }
                 }
             double ox = id.OriginX, oz = id.OriginZ;
@@ -225,6 +226,19 @@ namespace Game.World.Streaming.Host
                 tris += kept / 3;
             }
             if (form == "b1") res.B1Triangles += tris; else res.B2Triangles += tris;
+        }
+
+        /// <summary>A merged block (T-108d) stands for several buildings: it goes once all of them, each by its own id or its parent structure, are removed.</summary>
+        static bool AllMembersRemoved(string[] members, string[] memberPartOf, HashSet<BuildingId> removed)
+        {
+            if (members == null || members.Length == 0) return false;
+            for (int m = 0; m < members.Length; m++)
+            {
+                bool gone = (TryBid(members[m], out var b) && removed.Contains(b))
+                    || (memberPartOf != null && memberPartOf[m] != null && TryBid(memberPartOf[m], out var p) && removed.Contains(p));
+                if (!gone) return false;
+            }
+            return true;
         }
 
         static bool TryBid(string bid, out BuildingId id)
