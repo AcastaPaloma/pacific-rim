@@ -1,0 +1,1319 @@
+{
+ "configs": [
+  "M0StyleFrame",
+  "M3HazeFarLift",
+  "M3Layered",
+  "M3LayeredFarLift"
+ ],
+ "zone_half_width": 0.04,
+ "paths": {
+  "p1_d_approach_t192": {
+   "M0StyleFrame": {
+    "frames": 180,
+    "layered_frames": 0,
+    "bounds_m": [
+     320.685428,
+     2630.754918
+    ],
+    "pairs_straddle": 1397,
+    "straddle_diff_rate": 0.31424481030780244,
+    "straddle_hard_rate": 0.16750178954903364,
+    "pairs_zone": 21504,
+    "zone_diff_rate": 0.04096912202380952,
+    "zone_hard_rate": 0.020786830357142856,
+    "pairs_other_far": 5420803,
+    "other_diff_rate": 0.11129808627983714,
+    "other_hard_rate": 0.03700614097210321,
+    "seam_texels": 31518,
+    "impure_seam_texels": 6521,
+    "pure_share": 0.7931023542102925,
+    "three_index_window_share_mean": 0.029632438882126876,
+    "c1_per_frame": {
+     "evaluated": 180,
+     "pass": 101,
+     "drop_fail": 16,
+     "rho_fail": 22,
+     "span_fail": 79,
+     "worst_drop": 4.043270759150836,
+     "min_rho": 0.7,
+     "min_span": 8.61755123385046
+    },
+    "grid_frames_sampled": 0,
+    "grid_frames_with_different_slab_offsets": 0,
+    "grid": {
+     "near": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "main": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 11178,
+    "blink_zone_rate": 0.0005367686527106817,
+    "blink_rest_texels": 2671410,
+    "blink_rest_rate": 0.0007336949401252522
+   },
+   "M3HazeFarLift": {
+    "frames": 180,
+    "layered_frames": 0,
+    "bounds_m": [
+     320.685428,
+     2630.754918
+    ],
+    "pairs_straddle": 1397,
+    "straddle_diff_rate": 0.31424481030780244,
+    "straddle_hard_rate": 0.16750178954903364,
+    "pairs_zone": 21504,
+    "zone_diff_rate": 0.04096912202380952,
+    "zone_hard_rate": 0.020786830357142856,
+    "pairs_other_far": 5420803,
+    "other_diff_rate": 0.12389345268588436,
+    "other_hard_rate": 0.007223837501565728,
+    "seam_texels": 31518,
+    "impure_seam_texels": 6521,
+    "pure_share": 0.7931023542102925,
+    "three_index_window_share_mean": 0.029632438882126876,
+    "c1_per_frame": {
+     "evaluated": 180,
+     "pass": 158,
+     "drop_fail": 16,
+     "rho_fail": 22,
+     "span_fail": 0,
+     "worst_drop": 4.043270759150836,
+     "min_rho": 0.7,
+     "min_span": 16.52551980799926
+    },
+    "grid_frames_sampled": 0,
+    "grid_frames_with_different_slab_offsets": 0,
+    "grid": {
+     "near": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "main": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 11178,
+    "blink_zone_rate": 0.0005367686527106817,
+    "blink_rest_texels": 2671410,
+    "blink_rest_rate": 0.0005644959029126941
+   },
+   "M3Layered": {
+    "frames": 180,
+    "layered_frames": 180,
+    "bounds_m": [
+     320.685428,
+     2630.754918
+    ],
+    "pairs_straddle": 1529,
+    "straddle_diff_rate": 0.30935251798561153,
+    "straddle_hard_rate": 0.17985611510791366,
+    "pairs_zone": 24918,
+    "zone_diff_rate": 0.0494823019503973,
+    "zone_hard_rate": 0.019182919977526285,
+    "pairs_other_far": 5479078,
+    "other_diff_rate": 0.11170857578592602,
+    "other_hard_rate": 0.036622950065686236,
+    "seam_texels": 36712,
+    "impure_seam_texels": 7348,
+    "pure_share": 0.7998474613205492,
+    "three_index_window_share_mean": 0.037411582429645596,
+    "c1_per_frame": {
+     "evaluated": 180,
+     "pass": 105,
+     "drop_fail": 18,
+     "rho_fail": 25,
+     "span_fail": 75,
+     "worst_drop": 4.212806500766373,
+     "min_rho": 0.7,
+     "min_span": 8.632895026738776
+    },
+    "grid_frames_sampled": 36,
+    "grid_frames_with_different_slab_offsets": 33,
+    "grid": {
+     "near": {
+      "blocks": 1955609,
+      "declared_offset_uniform_share": 0.8995668357018197,
+      "own_offset_uniform_share": 0.9999662509223469
+     },
+     "main": {
+      "blocks": 543145,
+      "declared_offset_uniform_share": 0.994198602583104,
+      "own_offset_uniform_share": 0.994198602583104
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 12992,
+    "blink_zone_rate": 0.00046182266009852215,
+    "blink_rest_texels": 2714554,
+    "blink_rest_rate": 0.0007802386690410285
+   },
+   "M3LayeredFarLift": {
+    "frames": 180,
+    "layered_frames": 180,
+    "bounds_m": [
+     320.685428,
+     2630.754918
+    ],
+    "pairs_straddle": 1529,
+    "straddle_diff_rate": 0.30935251798561153,
+    "straddle_hard_rate": 0.17985611510791366,
+    "pairs_zone": 24918,
+    "zone_diff_rate": 0.0494823019503973,
+    "zone_hard_rate": 0.019182919977526285,
+    "pairs_other_far": 5479078,
+    "other_diff_rate": 0.1244172833458476,
+    "other_hard_rate": 0.0070869587912418845,
+    "seam_texels": 36712,
+    "impure_seam_texels": 7348,
+    "pure_share": 0.7998474613205492,
+    "three_index_window_share_mean": 0.037411582429645596,
+    "c1_per_frame": {
+     "evaluated": 180,
+     "pass": 155,
+     "drop_fail": 18,
+     "rho_fail": 25,
+     "span_fail": 0,
+     "worst_drop": 4.212806500766373,
+     "min_rho": 0.7,
+     "min_span": 16.268930797273416
+    },
+    "grid_frames_sampled": 36,
+    "grid_frames_with_different_slab_offsets": 33,
+    "grid": {
+     "near": {
+      "blocks": 1955609,
+      "declared_offset_uniform_share": 0.899557120058253,
+      "own_offset_uniform_share": 0.9999662509223469
+     },
+     "main": {
+      "blocks": 543145,
+      "declared_offset_uniform_share": 0.9941157517789909,
+      "own_offset_uniform_share": 0.9941157517789909
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 12992,
+    "blink_zone_rate": 0.00046182266009852215,
+    "blink_rest_texels": 2714554,
+    "blink_rest_rate": 0.0005835212708975397
+   }
+  },
+  "p1_d_scale_proxy_v5": {
+   "M0StyleFrame": {
+    "frames": 300,
+    "layered_frames": 0,
+    "bounds_m": [
+     320.685428,
+     2630.754918
+    ],
+    "pairs_straddle": 20386,
+    "straddle_diff_rate": 0.3122240753458256,
+    "straddle_hard_rate": 0.2974099872461493,
+    "pairs_zone": 193578,
+    "zone_diff_rate": 0.0815330254471066,
+    "zone_hard_rate": 0.07846449493227536,
+    "pairs_other_far": 7925919,
+    "other_diff_rate": 0.11529111009082985,
+    "other_hard_rate": 0.10571215779520331,
+    "seam_texels": 490,
+    "impure_seam_texels": 0,
+    "pure_share": 1.0,
+    "three_index_window_share_mean": 0.0,
+    "c1_per_frame": {
+     "evaluated": 300,
+     "pass": 300,
+     "drop_fail": 0,
+     "rho_fail": 0,
+     "span_fail": 0,
+     "worst_drop": 0.0,
+     "min_rho": 1.0,
+     "min_span": 16.3652534906073
+    },
+    "grid_frames_sampled": 0,
+    "grid_frames_with_different_slab_offsets": 0,
+    "grid": {
+     "near": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "main": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 109316,
+    "blink_zone_rate": 0.0014727944674155658,
+    "blink_rest_texels": 3956324,
+    "blink_rest_rate": 0.0017852430690711884
+   },
+   "M3HazeFarLift": {
+    "frames": 300,
+    "layered_frames": 0,
+    "bounds_m": [
+     320.685428,
+     2630.754918
+    ],
+    "pairs_straddle": 20386,
+    "straddle_diff_rate": 0.3122240753458256,
+    "straddle_hard_rate": 0.2974099872461493,
+    "pairs_zone": 193578,
+    "zone_diff_rate": 0.0815330254471066,
+    "zone_hard_rate": 0.07846449493227536,
+    "pairs_other_far": 7925919,
+    "other_diff_rate": 0.14916427987719783,
+    "other_hard_rate": 0.032019126110170944,
+    "seam_texels": 490,
+    "impure_seam_texels": 0,
+    "pure_share": 1.0,
+    "three_index_window_share_mean": 0.0,
+    "c1_per_frame": {
+     "evaluated": 300,
+     "pass": 300,
+     "drop_fail": 0,
+     "rho_fail": 0,
+     "span_fail": 0,
+     "worst_drop": 0.0,
+     "min_rho": 1.0,
+     "min_span": 24.028904850207223
+    },
+    "grid_frames_sampled": 0,
+    "grid_frames_with_different_slab_offsets": 0,
+    "grid": {
+     "near": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "main": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 109316,
+    "blink_zone_rate": 0.0014727944674155658,
+    "blink_rest_texels": 3956324,
+    "blink_rest_rate": 0.0024128458639888946
+   },
+   "M3Layered": {
+    "frames": 300,
+    "layered_frames": 300,
+    "bounds_m": [
+     320.685428,
+     2630.754918
+    ],
+    "pairs_straddle": 20391,
+    "straddle_diff_rate": 0.31273601098523857,
+    "straddle_hard_rate": 0.29792555539208476,
+    "pairs_zone": 193565,
+    "zone_diff_rate": 0.08147650659985017,
+    "zone_hard_rate": 0.0784077699997417,
+    "pairs_other_far": 7925942,
+    "other_diff_rate": 0.11666840357903199,
+    "other_hard_rate": 0.10702891845537098,
+    "seam_texels": 490,
+    "impure_seam_texels": 0,
+    "pure_share": 1.0,
+    "three_index_window_share_mean": 0.0,
+    "c1_per_frame": {
+     "evaluated": 300,
+     "pass": 300,
+     "drop_fail": 0,
+     "rho_fail": 0,
+     "span_fail": 0,
+     "worst_drop": 0.0,
+     "min_rho": 1.0,
+     "min_span": 16.362227103354336
+    },
+    "grid_frames_sampled": 60,
+    "grid_frames_with_different_slab_offsets": 0,
+    "grid": {
+     "near": {
+      "blocks": 3103953,
+      "declared_offset_uniform_share": 1.0,
+      "own_offset_uniform_share": 1.0
+     },
+     "main": {
+      "blocks": 793745,
+      "declared_offset_uniform_share": 1.0,
+      "own_offset_uniform_share": 1.0
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 109310,
+    "blink_zone_rate": 0.0014728753087549173,
+    "blink_rest_texels": 3956334,
+    "blink_rest_rate": 0.0017983820375125053
+   },
+   "M3LayeredFarLift": {
+    "frames": 300,
+    "layered_frames": 300,
+    "bounds_m": [
+     320.685428,
+     2630.754918
+    ],
+    "pairs_straddle": 20391,
+    "straddle_diff_rate": 0.31273601098523857,
+    "straddle_hard_rate": 0.29792555539208476,
+    "pairs_zone": 193565,
+    "zone_diff_rate": 0.08147650659985017,
+    "zone_hard_rate": 0.0784077699997417,
+    "pairs_other_far": 7925942,
+    "other_diff_rate": 0.15006064894242224,
+    "other_hard_rate": 0.03246932667435618,
+    "seam_texels": 490,
+    "impure_seam_texels": 0,
+    "pure_share": 1.0,
+    "three_index_window_share_mean": 0.0,
+    "c1_per_frame": {
+     "evaluated": 300,
+     "pass": 300,
+     "drop_fail": 0,
+     "rho_fail": 0,
+     "span_fail": 0,
+     "worst_drop": 0.0,
+     "min_rho": 1.0,
+     "min_span": 24.036172984177586
+    },
+    "grid_frames_sampled": 60,
+    "grid_frames_with_different_slab_offsets": 0,
+    "grid": {
+     "near": {
+      "blocks": 3103953,
+      "declared_offset_uniform_share": 1.0,
+      "own_offset_uniform_share": 1.0
+     },
+     "main": {
+      "blocks": 793745,
+      "declared_offset_uniform_share": 1.0,
+      "own_offset_uniform_share": 1.0
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 109310,
+    "blink_zone_rate": 0.0014728753087549173,
+    "blink_rest_texels": 3956334,
+    "blink_rest_rate": 0.002420169783440933
+   }
+  },
+  "p1_d_strafe_t192": {
+   "M0StyleFrame": {
+    "frames": 180,
+    "layered_frames": 0,
+    "bounds_m": [
+     320.685428,
+     2630.754918
+    ],
+    "pairs_straddle": 1600,
+    "straddle_diff_rate": 0.270625,
+    "straddle_hard_rate": 0.235625,
+    "pairs_zone": 21944,
+    "zone_diff_rate": 0.03522602989427634,
+    "zone_hard_rate": 0.026248632883703972,
+    "pairs_other_far": 5638586,
+    "other_diff_rate": 0.10148820998739755,
+    "other_hard_rate": 0.03346122591727784,
+    "seam_texels": 0,
+    "impure_seam_texels": 0,
+    "pure_share": 1.0,
+    "three_index_window_share_mean": 0.0,
+    "c1_per_frame": {
+     "evaluated": 180,
+     "pass": 78,
+     "drop_fail": 24,
+     "rho_fail": 102,
+     "span_fail": 89,
+     "worst_drop": 3.417433889722396,
+     "min_rho": 0.7999999999999999,
+     "min_span": 12.799593633786952
+    },
+    "grid_frames_sampled": 0,
+    "grid_frames_with_different_slab_offsets": 0,
+    "grid": {
+     "near": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "main": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 12327,
+    "blink_zone_rate": 0.00016224547740731728,
+    "blink_rest_texels": 2854180,
+    "blink_rest_rate": 0.000346158966848622
+   },
+   "M3HazeFarLift": {
+    "frames": 180,
+    "layered_frames": 0,
+    "bounds_m": [
+     320.685428,
+     2630.754918
+    ],
+    "pairs_straddle": 1600,
+    "straddle_diff_rate": 0.270625,
+    "straddle_hard_rate": 0.235625,
+    "pairs_zone": 21944,
+    "zone_diff_rate": 0.03522602989427634,
+    "zone_hard_rate": 0.026248632883703972,
+    "pairs_other_far": 5638586,
+    "other_diff_rate": 0.12282405553449038,
+    "other_hard_rate": 0.007391214747810887,
+    "seam_texels": 0,
+    "impure_seam_texels": 0,
+    "pure_share": 1.0,
+    "three_index_window_share_mean": 0.0,
+    "c1_per_frame": {
+     "evaluated": 180,
+     "pass": 78,
+     "drop_fail": 24,
+     "rho_fail": 102,
+     "span_fail": 0,
+     "worst_drop": 3.417433889722396,
+     "min_rho": 0.7999999999999999,
+     "min_span": 20.375700132069728
+    },
+    "grid_frames_sampled": 0,
+    "grid_frames_with_different_slab_offsets": 0,
+    "grid": {
+     "near": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "main": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 12327,
+    "blink_zone_rate": 0.00016224547740731728,
+    "blink_rest_texels": 2854180,
+    "blink_rest_rate": 0.00030691827425039766
+   },
+   "M3Layered": {
+    "frames": 180,
+    "layered_frames": 180,
+    "bounds_m": [
+     320.685428,
+     2630.754918
+    ],
+    "pairs_straddle": 1577,
+    "straddle_diff_rate": 0.3024730500951173,
+    "straddle_hard_rate": 0.2561826252377933,
+    "pairs_zone": 21491,
+    "zone_diff_rate": 0.03447954957889349,
+    "zone_hard_rate": 0.02549904611232609,
+    "pairs_other_far": 5446428,
+    "other_diff_rate": 0.10346395839621858,
+    "other_hard_rate": 0.03423858719880259,
+    "seam_texels": 0,
+    "impure_seam_texels": 0,
+    "pure_share": 1.0,
+    "three_index_window_share_mean": 0.0,
+    "c1_per_frame": {
+     "evaluated": 180,
+     "pass": 78,
+     "drop_fail": 28,
+     "rho_fail": 99,
+     "span_fail": 88,
+     "worst_drop": 3.9106504097539982,
+     "min_rho": 0.7999999999999999,
+     "min_span": 12.325488689683628
+    },
+    "grid_frames_sampled": 36,
+    "grid_frames_with_different_slab_offsets": 32,
+    "grid": {
+     "near": {
+      "blocks": 1889018,
+      "declared_offset_uniform_share": 0.854664698801176,
+      "own_offset_uniform_share": 0.999570676404354
+     },
+     "main": {
+      "blocks": 549598,
+      "declared_offset_uniform_share": 0.9944122795206678,
+      "own_offset_uniform_share": 0.9944122795206678
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 11998,
+    "blink_zone_rate": 0.0006667777962993832,
+    "blink_rest_texels": 2747135,
+    "blink_rest_rate": 0.0003003128714096686
+   },
+   "M3LayeredFarLift": {
+    "frames": 180,
+    "layered_frames": 180,
+    "bounds_m": [
+     320.685428,
+     2630.754918
+    ],
+    "pairs_straddle": 1577,
+    "straddle_diff_rate": 0.3024730500951173,
+    "straddle_hard_rate": 0.2561826252377933,
+    "pairs_zone": 21491,
+    "zone_diff_rate": 0.03447954957889349,
+    "zone_hard_rate": 0.02549904611232609,
+    "pairs_other_far": 5446428,
+    "other_diff_rate": 0.1256864131867712,
+    "other_hard_rate": 0.007476092587655616,
+    "seam_texels": 0,
+    "impure_seam_texels": 0,
+    "pure_share": 1.0,
+    "three_index_window_share_mean": 0.0,
+    "c1_per_frame": {
+     "evaluated": 180,
+     "pass": 81,
+     "drop_fail": 28,
+     "rho_fail": 99,
+     "span_fail": 0,
+     "worst_drop": 3.9106504097539982,
+     "min_rho": 0.7999999999999999,
+     "min_span": 19.911100482446503
+    },
+    "grid_frames_sampled": 36,
+    "grid_frames_with_different_slab_offsets": 32,
+    "grid": {
+     "near": {
+      "blocks": 1889018,
+      "declared_offset_uniform_share": 0.8546636400500154,
+      "own_offset_uniform_share": 0.999570676404354
+     },
+     "main": {
+      "blocks": 549598,
+      "declared_offset_uniform_share": 0.9943977234269411,
+      "own_offset_uniform_share": 0.9943977234269411
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 11998,
+    "blink_zone_rate": 0.0006667777962993832,
+    "blink_rest_texels": 2747135,
+    "blink_rest_rate": 0.00026718745165417787
+   }
+  },
+  "p3_a_strafe_t192": {
+   "M0StyleFrame": {
+    "frames": 180,
+    "layered_frames": 0,
+    "bounds_m": [
+     320.00174,
+     2871.503358
+    ],
+    "pairs_straddle": 85936,
+    "straddle_diff_rate": 0.6885822007075033,
+    "straddle_hard_rate": 0.013882424129584807,
+    "pairs_zone": 2260421,
+    "zone_diff_rate": 0.393459006087804,
+    "zone_hard_rate": 0.007272096658100416,
+    "pairs_other_far": 11756628,
+    "other_diff_rate": 0.42149960005539006,
+    "other_hard_rate": 0.004878609751027251,
+    "seam_texels": 257254,
+    "impure_seam_texels": 40445,
+    "pure_share": 0.8427818420704829,
+    "three_index_window_share_mean": 0.1326776049621728,
+    "c1_per_frame": {
+     "evaluated": 154,
+     "pass": 11,
+     "drop_fail": 65,
+     "rho_fail": 74,
+     "span_fail": 143,
+     "worst_drop": 8.70855653580751,
+     "min_rho": -0.5,
+     "min_span": -3.591707712584828
+    },
+    "grid_frames_sampled": 0,
+    "grid_frames_with_different_slab_offsets": 0,
+    "grid": {
+     "near": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "main": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 1149141,
+    "blink_zone_rate": 0.00019405799636424076,
+    "blink_rest_texels": 5541178,
+    "blink_rest_rate": 0.00025590226482527723
+   },
+   "M3HazeFarLift": {
+    "frames": 180,
+    "layered_frames": 0,
+    "bounds_m": [
+     320.00174,
+     2871.503358
+    ],
+    "pairs_straddle": 85936,
+    "straddle_diff_rate": 0.6885822007075033,
+    "straddle_hard_rate": 0.013882424129584807,
+    "pairs_zone": 2260421,
+    "zone_diff_rate": 0.393459006087804,
+    "zone_hard_rate": 0.007272096658100416,
+    "pairs_other_far": 11756628,
+    "other_diff_rate": 0.40400453259216845,
+    "other_hard_rate": 0.005199535104793654,
+    "seam_texels": 391926,
+    "impure_seam_texels": 38450,
+    "pure_share": 0.9018947454366385,
+    "three_index_window_share_mean": 0.12970221802755455,
+    "c1_per_frame": {
+     "evaluated": 154,
+     "pass": 20,
+     "drop_fail": 65,
+     "rho_fail": 74,
+     "span_fail": 134,
+     "worst_drop": 8.709546481922814,
+     "min_rho": 0.5,
+     "min_span": 1.0220238154316732
+    },
+    "grid_frames_sampled": 0,
+    "grid_frames_with_different_slab_offsets": 0,
+    "grid": {
+     "near": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "main": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 1149141,
+    "blink_zone_rate": 0.00019405799636424076,
+    "blink_rest_texels": 5541178,
+    "blink_rest_rate": 0.0002374946265938398
+   },
+   "M3Layered": {
+    "frames": 180,
+    "layered_frames": 180,
+    "bounds_m": [
+     320.00174,
+     2871.503358
+    ],
+    "pairs_straddle": 89284,
+    "straddle_diff_rate": 0.6838963308095516,
+    "straddle_hard_rate": 0.013193853321983782,
+    "pairs_zone": 2409234,
+    "zone_diff_rate": 0.389693155583891,
+    "zone_hard_rate": 0.0073554499064847996,
+    "pairs_other_far": 12146396,
+    "other_diff_rate": 0.4200552163785867,
+    "other_hard_rate": 0.004803235461778127,
+    "seam_texels": 271263,
+    "impure_seam_texels": 33406,
+    "pure_share": 0.8768501417443588,
+    "three_index_window_share_mean": 0.06218566726322989,
+    "c1_per_frame": {
+     "evaluated": 147,
+     "pass": 11,
+     "drop_fail": 66,
+     "rho_fail": 72,
+     "span_fail": 136,
+     "worst_drop": 8.407826375344342,
+     "min_rho": -0.5,
+     "min_span": -3.2575720337205922
+    },
+    "grid_frames_sampled": 36,
+    "grid_frames_with_different_slab_offsets": 29,
+    "grid": {
+     "near": {
+      "blocks": 1236095,
+      "declared_offset_uniform_share": 0.6737483769451377,
+      "own_offset_uniform_share": 0.9966159558933577
+     },
+     "main": {
+      "blocks": 762275,
+      "declared_offset_uniform_share": 0.9997100783837853,
+      "own_offset_uniform_share": 0.9997100783837853
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 1243280,
+    "blink_zone_rate": 0.0019496814876777556,
+    "blink_rest_texels": 5794503,
+    "blink_rest_rate": 0.002185864775633044
+   },
+   "M3LayeredFarLift": {
+    "frames": 180,
+    "layered_frames": 180,
+    "bounds_m": [
+     320.00174,
+     2871.503358
+    ],
+    "pairs_straddle": 89284,
+    "straddle_diff_rate": 0.6838963308095516,
+    "straddle_hard_rate": 0.013193853321983782,
+    "pairs_zone": 2409234,
+    "zone_diff_rate": 0.389693155583891,
+    "zone_hard_rate": 0.0073554499064847996,
+    "pairs_other_far": 12146396,
+    "other_diff_rate": 0.40355147321065443,
+    "other_hard_rate": 0.005137573318044299,
+    "seam_texels": 409941,
+    "impure_seam_texels": 31839,
+    "pure_share": 0.9223327259288532,
+    "three_index_window_share_mean": 0.0600149324277397,
+    "c1_per_frame": {
+     "evaluated": 147,
+     "pass": 19,
+     "drop_fail": 66,
+     "rho_fail": 72,
+     "span_fail": 128,
+     "worst_drop": 8.407665472763796,
+     "min_rho": 0.5,
+     "min_span": 1.2497074812823854
+    },
+    "grid_frames_sampled": 36,
+    "grid_frames_with_different_slab_offsets": 29,
+    "grid": {
+     "near": {
+      "blocks": 1236095,
+      "declared_offset_uniform_share": 0.6737224889672719,
+      "own_offset_uniform_share": 0.9966159558933577
+     },
+     "main": {
+      "blocks": 762275,
+      "declared_offset_uniform_share": 0.9994870617559279,
+      "own_offset_uniform_share": 0.9994870617559279
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 1243280,
+    "blink_zone_rate": 0.0019496814876777556,
+    "blink_rest_texels": 5794503,
+    "blink_rest_rate": 0.0021717134325411514
+   }
+  },
+  "p4_a_sunrise_v5": {
+   "M0StyleFrame": {
+    "frames": 360,
+    "layered_frames": 0,
+    "bounds_m": [
+     358.51238,
+     2677.7318
+    ],
+    "pairs_straddle": 0,
+    "straddle_diff_rate": null,
+    "straddle_hard_rate": null,
+    "pairs_zone": 0,
+    "zone_diff_rate": null,
+    "zone_hard_rate": null,
+    "pairs_other_far": 11893515,
+    "other_diff_rate": 0.1189699596797078,
+    "other_hard_rate": 0.014043199171985743,
+    "seam_texels": 0,
+    "impure_seam_texels": 0,
+    "pure_share": 1.0,
+    "three_index_window_share_mean": 0.0,
+    "c1_per_frame": {
+     "evaluated": 360,
+     "pass": 284,
+     "drop_fail": 0,
+     "rho_fail": 76,
+     "span_fail": 0,
+     "worst_drop": 0.3385268514567201,
+     "min_rho": 0.5,
+     "min_span": 17.71888417920527
+    },
+    "grid_frames_sampled": 0,
+    "grid_frames_with_different_slab_offsets": 0,
+    "grid": {
+     "near": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "main": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 0,
+    "blink_zone_rate": null,
+    "blink_rest_texels": 6022121,
+    "blink_rest_rate": 0.0
+   },
+   "M3HazeFarLift": {
+    "frames": 360,
+    "layered_frames": 0,
+    "bounds_m": [
+     358.51238,
+     2677.7318
+    ],
+    "pairs_straddle": 0,
+    "straddle_diff_rate": null,
+    "straddle_hard_rate": null,
+    "pairs_zone": 0,
+    "zone_diff_rate": null,
+    "zone_hard_rate": null,
+    "pairs_other_far": 11893515,
+    "other_diff_rate": 0.09863316269412364,
+    "other_hard_rate": 0.006293597813598419,
+    "seam_texels": 0,
+    "impure_seam_texels": 0,
+    "pure_share": 1.0,
+    "three_index_window_share_mean": 0.0,
+    "c1_per_frame": {
+     "evaluated": 360,
+     "pass": 360,
+     "drop_fail": 0,
+     "rho_fail": 0,
+     "span_fail": 0,
+     "worst_drop": 0.0,
+     "min_rho": 1.0,
+     "min_span": 30.537878480918348
+    },
+    "grid_frames_sampled": 0,
+    "grid_frames_with_different_slab_offsets": 0,
+    "grid": {
+     "near": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "main": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 0,
+    "blink_zone_rate": null,
+    "blink_rest_texels": 6022121,
+    "blink_rest_rate": 0.0
+   },
+   "M3Layered": {
+    "frames": 360,
+    "layered_frames": 360,
+    "bounds_m": [
+     358.51238,
+     2677.7318
+    ],
+    "pairs_straddle": 0,
+    "straddle_diff_rate": null,
+    "straddle_hard_rate": null,
+    "pairs_zone": 0,
+    "zone_diff_rate": null,
+    "zone_hard_rate": null,
+    "pairs_other_far": 11893515,
+    "other_diff_rate": 0.11902486354958984,
+    "other_hard_rate": 0.014043199171985743,
+    "seam_texels": 0,
+    "impure_seam_texels": 0,
+    "pure_share": 1.0,
+    "three_index_window_share_mean": 0.0,
+    "c1_per_frame": {
+     "evaluated": 360,
+     "pass": 284,
+     "drop_fail": 0,
+     "rho_fail": 76,
+     "span_fail": 0,
+     "worst_drop": 0.337351865378281,
+     "min_rho": 0.5,
+     "min_span": 17.71888417920527
+    },
+    "grid_frames_sampled": 72,
+    "grid_frames_with_different_slab_offsets": 0,
+    "grid": {
+     "near": {
+      "blocks": 3524831,
+      "declared_offset_uniform_share": 1.0,
+      "own_offset_uniform_share": 1.0
+     },
+     "main": {
+      "blocks": 1196462,
+      "declared_offset_uniform_share": 1.0,
+      "own_offset_uniform_share": 1.0
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 0,
+    "blink_zone_rate": null,
+    "blink_rest_texels": 6022129,
+    "blink_rest_rate": 0.0
+   },
+   "M3LayeredFarLift": {
+    "frames": 360,
+    "layered_frames": 360,
+    "bounds_m": [
+     358.51238,
+     2677.7318
+    ],
+    "pairs_straddle": 0,
+    "straddle_diff_rate": null,
+    "straddle_hard_rate": null,
+    "pairs_zone": 0,
+    "zone_diff_rate": null,
+    "zone_hard_rate": null,
+    "pairs_other_far": 11893515,
+    "other_diff_rate": 0.09881284044288001,
+    "other_hard_rate": 0.006294186369630845,
+    "seam_texels": 0,
+    "impure_seam_texels": 0,
+    "pure_share": 1.0,
+    "three_index_window_share_mean": 0.0,
+    "c1_per_frame": {
+     "evaluated": 360,
+     "pass": 360,
+     "drop_fail": 0,
+     "rho_fail": 0,
+     "span_fail": 0,
+     "worst_drop": 0.0,
+     "min_rho": 1.0,
+     "min_span": 30.538255496445057
+    },
+    "grid_frames_sampled": 72,
+    "grid_frames_with_different_slab_offsets": 0,
+    "grid": {
+     "near": {
+      "blocks": 3524831,
+      "declared_offset_uniform_share": 1.0,
+      "own_offset_uniform_share": 1.0
+     },
+     "main": {
+      "blocks": 1196462,
+      "declared_offset_uniform_share": 1.0,
+      "own_offset_uniform_share": 1.0
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 0,
+    "blink_zone_rate": null,
+    "blink_rest_texels": 6022129,
+    "blink_rest_rate": 0.0
+   }
+  },
+  "p4_d_dolly_v4": {
+   "M0StyleFrame": {
+    "frames": 180,
+    "layered_frames": 0,
+    "bounds_m": [
+     338.307622,
+     2601.182894
+    ],
+    "pairs_straddle": 77824,
+    "straddle_diff_rate": 0.930419921875,
+    "straddle_hard_rate": 0.31744706003289475,
+    "pairs_zone": 219907,
+    "zone_diff_rate": 0.13146466460822076,
+    "zone_hard_rate": 0.08543156879953799,
+    "pairs_other_far": 8268879,
+    "other_diff_rate": 0.13400280739384382,
+    "other_hard_rate": 0.02740310990159609,
+    "seam_texels": 5728471,
+    "impure_seam_texels": 1370527,
+    "pure_share": 0.7607516909835103,
+    "three_index_window_share_mean": 0.13047009536477025,
+    "c1_per_frame": {
+     "evaluated": 180,
+     "pass": 180,
+     "drop_fail": 0,
+     "rho_fail": 0,
+     "span_fail": 0,
+     "worst_drop": 0.0,
+     "min_rho": 0.9999999999999999,
+     "min_span": 20.561229194082845
+    },
+    "grid_frames_sampled": 0,
+    "grid_frames_with_different_slab_offsets": 0,
+    "grid": {
+     "near": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "main": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 45118,
+    "blink_zone_rate": 0.020922913249700786,
+    "blink_rest_texels": 3288656,
+    "blink_rest_rate": 0.01000621530497565
+   },
+   "M3HazeFarLift": {
+    "frames": 180,
+    "layered_frames": 0,
+    "bounds_m": [
+     338.307622,
+     2601.182894
+    ],
+    "pairs_straddle": 77824,
+    "straddle_diff_rate": 0.930419921875,
+    "straddle_hard_rate": 0.31744706003289475,
+    "pairs_zone": 219907,
+    "zone_diff_rate": 0.13146466460822076,
+    "zone_hard_rate": 0.08543156879953799,
+    "pairs_other_far": 8268879,
+    "other_diff_rate": 0.13400280739384382,
+    "other_hard_rate": 0.02740310990159609,
+    "seam_texels": 5728471,
+    "impure_seam_texels": 1370527,
+    "pure_share": 0.7607516909835103,
+    "three_index_window_share_mean": 0.13047009536477025,
+    "c1_per_frame": {
+     "evaluated": 180,
+     "pass": 180,
+     "drop_fail": 0,
+     "rho_fail": 0,
+     "span_fail": 0,
+     "worst_drop": 0.0,
+     "min_rho": 0.9999999999999999,
+     "min_span": 20.561229194082845
+    },
+    "grid_frames_sampled": 0,
+    "grid_frames_with_different_slab_offsets": 0,
+    "grid": {
+     "near": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "main": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 45118,
+    "blink_zone_rate": 0.020922913249700786,
+    "blink_rest_texels": 3288656,
+    "blink_rest_rate": 0.01000621530497565
+   },
+   "M3Layered": {
+    "frames": 180,
+    "layered_frames": 180,
+    "bounds_m": [
+     338.307622,
+     2601.182894
+    ],
+    "pairs_straddle": 56808,
+    "straddle_diff_rate": 0.9128819884523307,
+    "straddle_hard_rate": 0.3418004506407548,
+    "pairs_zone": 231128,
+    "zone_diff_rate": 0.12687342078848085,
+    "zone_hard_rate": 0.0796485064552975,
+    "pairs_other_far": 8221944,
+    "other_diff_rate": 0.13094725529631435,
+    "other_hard_rate": 0.02640348803154096,
+    "seam_texels": 5614369,
+    "impure_seam_texels": 1353162,
+    "pure_share": 0.7589823540276743,
+    "three_index_window_share_mean": 0.13368181001799662,
+    "c1_per_frame": {
+     "evaluated": 180,
+     "pass": 180,
+     "drop_fail": 0,
+     "rho_fail": 0,
+     "span_fail": 0,
+     "worst_drop": 0.0,
+     "min_rho": 0.9999999999999999,
+     "min_span": 20.54879389463369
+    },
+    "grid_frames_sampled": 36,
+    "grid_frames_with_different_slab_offsets": 32,
+    "grid": {
+     "near": {
+      "blocks": 1735399,
+      "declared_offset_uniform_share": 0.8186803150168924,
+      "own_offset_uniform_share": 1.0003468942877114
+     },
+     "main": {
+      "blocks": 768739,
+      "declared_offset_uniform_share": 0.9981176966434642,
+      "own_offset_uniform_share": 0.9981176966434642
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 46976,
+    "blink_zone_rate": 0.023607799727520435,
+    "blink_rest_texels": 3285202,
+    "blink_rest_rate": 0.009965597244857394
+   },
+   "M3LayeredFarLift": {
+    "frames": 180,
+    "layered_frames": 180,
+    "bounds_m": [
+     338.307622,
+     2601.182894
+    ],
+    "pairs_straddle": 56808,
+    "straddle_diff_rate": 0.9128819884523307,
+    "straddle_hard_rate": 0.3418004506407548,
+    "pairs_zone": 231128,
+    "zone_diff_rate": 0.12687342078848085,
+    "zone_hard_rate": 0.0796485064552975,
+    "pairs_other_far": 8221944,
+    "other_diff_rate": 0.13094725529631435,
+    "other_hard_rate": 0.02640348803154096,
+    "seam_texels": 5614369,
+    "impure_seam_texels": 1353162,
+    "pure_share": 0.7589823540276743,
+    "three_index_window_share_mean": 0.13368181001799662,
+    "c1_per_frame": {
+     "evaluated": 180,
+     "pass": 180,
+     "drop_fail": 0,
+     "rho_fail": 0,
+     "span_fail": 0,
+     "worst_drop": 0.0,
+     "min_rho": 0.9999999999999999,
+     "min_span": 20.54879389463369
+    },
+    "grid_frames_sampled": 36,
+    "grid_frames_with_different_slab_offsets": 32,
+    "grid": {
+     "near": {
+      "blocks": 1735399,
+      "declared_offset_uniform_share": 0.8186803150168924,
+      "own_offset_uniform_share": 1.0003468942877114
+     },
+     "main": {
+      "blocks": 768739,
+      "declared_offset_uniform_share": 0.9981176966434642,
+      "own_offset_uniform_share": 0.9981176966434642
+     },
+     "far": {
+      "blocks": 0,
+      "declared_offset_uniform_share": null,
+      "own_offset_uniform_share": null
+     }
+    },
+    "blink_zone_texels": 46976,
+    "blink_zone_rate": 0.023607799727520435,
+    "blink_rest_texels": 3285202,
+    "blink_rest_rate": 0.009965597244857394
+   }
+  }
+ }
+}

@@ -26,6 +26,16 @@ namespace Game.Tools.Capture
         static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
         public const int Warmup = 3, DeterminismFrames = 10;
 
+        /// <summary>T-192: focus depth (the near layer reference) for a layerSnap run. The path's reference_depth_m (600 m, a scene scale) is too close to the main layer (664.874 m) for separate slabs, so the binder fell back to the single-snap path
+        /// (warning "reference depths ... too close"). With layerSnap on the near layer takes -captureFocusM, default 124.2 m (the shipping rig focus, ParallaxShiftMath.NearDepthM); layerSnap off keeps the path value.</summary>
+        public const float DefaultFocusM = 124.2f;   // = ParallaxShiftMath.NearDepthM (that assembly is not referenced here)
+        public static float FocusDepth(StyleCaptureSession s, CapturePath p)
+        {
+            if (!s.Flags.IsOn(Game.Rendering.Pixel.PixelFlags.LayerSnap)) return (float)p.ReferenceDepthM;
+            string a = StyleCaptureCli.Arg("-captureFocusM");
+            return a != null && float.TryParse(a, NumberStyles.Float, Inv, out float v) && v > 0f ? v : DefaultFocusM;
+        }
+
         /// <summary>Frames to render for a path: still_frames or every frame of the clip, thinned by stride, at most maxFrames (0 = no limit).</summary>
         public static List<int> FramePlan(CapturePath p, int maxFrames, int stride)
         {
@@ -130,8 +140,8 @@ namespace Game.Tools.Capture
         static SequenceResult RenderOne(StyleCaptureSession s, CaptureTile tile, CapturePath p, CaptureOutput output, List<int> plan, string outRoot, int stride)
         {
             string seq = "x" + output.Scale.ToString(Inv);
-            s.Grid((float)p.ReferenceDepthM, out _, out float dptF); double dpt = dptF;
-            float refDepth = (float)p.ReferenceDepthM;
+            float refDepth = FocusDepth(s, p);
+            s.Grid(refDepth, out _, out float dptF); double dpt = dptF;
             // warm-up (C10): the first renders of a run differ until lighting and haze state settle; throwaway frames at the first pose, nothing written
             for (int i = 0; i < Warmup; i++) { s.Rig.Cut(); s.Rig.SetScriptedPose(PoseAt(p, tile, plan[0], dpt, out _), refDepth); s.Rig.Tick(StyleCaptureSession.Dt); s.Capture.Render(true); s.Capture.Read(true); }
 
