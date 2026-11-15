@@ -56,6 +56,7 @@ namespace Game.Tools.Capture
             Directory.CreateDirectory(pathDir);
             File.WriteAllText(Path.Combine(pathDir, "capture_path.json"), rawJson);
             s.SetProfile(p.ProfileId);
+            if (p.IsMotionSet) return RenderMotionSet(s, tile, p, outRoot);
             var plan = FramePlan(p, maxFrames, stride);
             try
             {
@@ -71,6 +72,59 @@ namespace Game.Tools.Capture
             }
             finally { s.Settings = baseSettings; s.Apply(); }
             return results;
+        }
+
+        /// <summary>
+        /// M-004 motion sets (T-191): from the first keyframe pose, each requested class (S0 static, T1-T3 translation along the camera's right axis,
+        /// Y1-Y2 yaw) is written as its own sequence "&lt;viewpoint&gt;_&lt;class&gt;" with purpose M-004 and the class's nominal speed, exactly as the
+        /// StyleCapture M-004 job does (same formulas, grid at the path's reference depth, snap depth = reference depth). Frame limits do not apply: the metric needs
+        /// 60 (S0) and 180 frames. The full file set is written: the M-004 input contract requires color_output as well.
+        /// </summary>
+        static List<SequenceResult> RenderMotionSet(StyleCaptureSession s, CaptureTile tile, CapturePath p, string outRoot)
+        {
+            var results = new List<SequenceResult>();
+            var output = p.Outputs[0];
+            var baseSettings = s.Settings.Clone();
+            try
+            {
+                s.Settings = baseSettings.Clone();
+                s.Settings.targetLines = output.InternalH; s.Settings.minScale = output.Scale; s.Settings.maxScale = output.Scale;
+                s.Capture.SetOutputSize(output.OutputW, output.OutputH); s.Apply();
+                s.Grid((float)p.ReferenceDepthM, out float metresPerTexel, out float degreesPerTexel); double dpt = degreesPerTexel;
+                float refDepth = (float)p.ReferenceDepthM;
+                CameraPose basePose = PoseAt(p, tile, 0, dpt, out _);
+                float yawRad = basePose.YawDeg * Mathf.Deg2Rad;
+                foreach (string id in p.MotionSet)
+                {
+                    CapturePath.TryMotionClass(id, out var m);
+                    var spec = new MotionSpec { Type = m.Type, Axis = m.Axis, SpeedPxPerFrame = (float)m.SpeedPxPerFrame, Notes = "camera driven by capture_path@v1 " + p.PathId + " motion class " + id + "; no simulation, animation or VFX time" };
+                    if (m.Type == "translate") { spec.SpeedSiKey = "m_per_s"; spec.SpeedSi = (float)m.SpeedPxPerFrame * metresPerTexel / StyleCaptureSession.Dt; }
+                    if (m.Type == "yaw") { spec.SpeedSiKey = "deg_per_s"; spec.SpeedSi = (float)m.SpeedPxPerFrame * degreesPerTexel / StyleCaptureSession.Dt; }
+                    // warm-up (C10), then start every class from a cut at the same pose
+                    for (int i = 0; i < Warmup; i++) { s.Rig.Cut(); s.Rig.SetScriptedPose(basePose, refDepth); s.Rig.Tick(StyleCaptureSession.Dt); s.Capture.Render(true); s.Capture.Read(true); }
+                    var w = s.Begin(p.PathId, p.ViewpointId + "_" + id, "M-004", spec, m.Frames, p.ViewpointId, true);   // the metric's input contract requires color_output too
+                    s.Rig.Cut();
+                    for (int i = 0; i < m.Frames; i++)
+                    {
+                        var pose = basePose;
+                        if (m.Type == "translate") { float d = i * (float)m.SpeedPxPerFrame * metresPerTexel; pose.Position.X += Mathf.Cos(yawRad) * d; pose.Position.Z -= Mathf.Sin(yawRad) * d; }
+                        else if (m.Type == "yaw") pose.YawDeg += i * (float)m.SpeedPxPerFrame * degreesPerTexel;
+                        var f = w.FrameScripted(i, pose, refDepth);
+                        if (i == 0) CheckInternal(p, output, f);
+                    }
+                    w.End();
+                    results.Add(new SequenceResult { PathId = p.PathId + "/" + p.ViewpointId + "_" + id, Directory = w.Directory, Scale = output.Scale, FrameCount = m.Frames, InternalW = output.InternalW, InternalH = output.InternalH,
+                        OutputW = output.OutputW, OutputH = output.OutputH, Deterministic = true, DeterminismFrames = 0 });
+                    Debug.Log("[Capture] " + p.PathId + " motion " + id + ": " + m.Frames + " frames at " + m.SpeedPxPerFrame + " px/frame (" + m.Type + ")");
+                }
+            }
+            finally { s.Settings = baseSettings; s.Apply(); }
+            return results;
+        }
+
+        static void CheckInternal(CapturePath p, CaptureOutput o, CapturedFrame f)
+        {
+            if (f.Width != o.InternalW || f.Height != o.InternalH) throw new InvalidOperationException(p.PathId + ": renderer produced " + f.Width + "x" + f.Height + ", path asks " + o.InternalW + "x" + o.InternalH);
         }
 
         static SequenceResult RenderOne(StyleCaptureSession s, CaptureTile tile, CapturePath p, CaptureOutput output, List<int> plan, string outRoot, int stride)

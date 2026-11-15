@@ -1,0 +1,26 @@
+{
+ "schema": "hud_frame@v1",
+ "id": "hud_slice_v4_street",
+ "composite": true,
+ "live_imgui": false,
+ "note": "HUD text composited over a driver frame; strings follow SliceBootstrap.OnGUI (feelcheck); state values are scene definitions, not a running simulation",
+ "source_frame": "hud_v4_street/x4/f000000_color_output.png",
+ "source_sha256": "55ad96ae935fa2dd1b1862ca7e5180922f3107056e8e6cd5f289ccfb5562350b",
+ "output_sha256": "924caa79a3bc805ad2005f1d7da6bdf5b4560fb17e09d0c12036a9e14d566e56",
+ "hud_lines": [
+  "Kaiju feel check (TEMPORARY: capsule mech and kaiju; mech body awaits T-005)  60 fps   buildings destroyed 2  damaged events 31",
+  "WASD move   Space stop   F cannon   R arm swing   Q quake   I impactor   H hangar (repair + redeploy)   kaiju Charge d=88 m   mech hp 0.80",
+  "ammo 14/20   kaiju hp 62%   shots 6 hits k5/b1   hangar cycles 0",
+  "kaiju melee hit; mech hp 0.80"
+ ],
+ "font": "Arial.ttf",
+ "font_px": 12,
+ "origin_px": [
+  10,
+  10
+ ],
+ "size": [
+  1920,
+  1080
+ ]
+}

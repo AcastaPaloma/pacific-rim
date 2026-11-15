@@ -1,0 +1,552 @@
+{
+ "check": "M-003 numbers (report only; gates owned by T-190)",
+ "frames": 242,
+ "scale_check_all_pass": true,
+ "sets": {
+  "p1_d_scale_proxy_v5": {
+   "verdict": "FAIL",
+   "frames": 60,
+   "scale_match_min": 1.0,
+   "submeasures": {
+    "M-003.a.output": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.95,
+     "op": ">="
+    },
+    "M-003.a.internal": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.995,
+     "op": ">="
+    },
+    "M-003.a.A3": {
+     "status": "REPORTED",
+     "value": 1.0,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.a.A5": {
+     "status": "REPORTED",
+     "value": 1.0,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.b.DIG": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.8,
+     "op": ">="
+    },
+    "M-003.b.DIG_max": {
+     "status": "PASS",
+     "value": 0.260518407213,
+     "threshold": 0.5,
+     "op": "<="
+    },
+    "M-003.b.O": {
+     "status": "REPORTED",
+     "value": 1.26702455043,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.c1": {
+     "status": "FAIL",
+     "value": 6.58950242275,
+     "threshold": 15.0,
+     "op": ">="
+    },
+    "M-003.c2": {
+     "status": "NOT_RUN",
+     "value": null,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.d-i": {
+     "status": "PASS",
+     "value": 3,
+     "threshold": 12,
+     "op": "<="
+    },
+    "M-003.d-ii": {
+     "status": "PASS",
+     "value": 1,
+     "threshold": 3,
+     "op": "<="
+    },
+    "M-003.d-iii": {
+     "status": "NOT_APPLICABLE",
+     "value": null,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.d-iv": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.995,
+     "op": ">="
+    },
+    "M-003.e.sky": {
+     "status": "PASS",
+     "value": 0.461898148148,
+     "threshold": 0.2,
+     "op": "in"
+    },
+    "M-003.e.horizon": {
+     "status": "FAIL",
+     "value": 0.525928325411,
+     "threshold": 0.45,
+     "op": "<="
+    },
+    "M-003.e.contrast": {
+     "status": "FAIL",
+     "value": 22.5530581192,
+     "threshold": 25.0,
+     "op": ">="
+    },
+    "M-003.f": {
+     "status": "PENDING",
+     "value": null,
+     "threshold": null,
+     "op": null
+    }
+   }
+  },
+  "p3_a_golden_gate_v3": {
+   "verdict": "FAIL",
+   "frames": 60,
+   "scale_match_min": 1.0,
+   "submeasures": {
+    "M-003.a.output": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.95,
+     "op": ">="
+    },
+    "M-003.a.internal": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.995,
+     "op": ">="
+    },
+    "M-003.a.A3": {
+     "status": "REPORTED",
+     "value": 1.0,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.a.A5": {
+     "status": "REPORTED",
+     "value": 1.0,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.b.DIG": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.8,
+     "op": ">="
+    },
+    "M-003.b.DIG_max": {
+     "status": "FAIL",
+     "value": 0.57631041241,
+     "threshold": 0.5,
+     "op": "<="
+    },
+    "M-003.b.O": {
+     "status": "REPORTED",
+     "value": 0.876987121303,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.c1": {
+     "status": "FAIL",
+     "value": 5.57612260059,
+     "threshold": 2.0,
+     "op": "<="
+    },
+    "M-003.c2": {
+     "status": "NOT_RUN",
+     "value": null,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.d-i": {
+     "status": "PASS",
+     "value": 7,
+     "threshold": 12,
+     "op": "<="
+    },
+    "M-003.d-ii": {
+     "status": "PASS",
+     "value": 1,
+     "threshold": 3,
+     "op": "<="
+    },
+    "M-003.d-iii": {
+     "status": "NOT_APPLICABLE",
+     "value": null,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.d-iv": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.995,
+     "op": ">="
+    },
+    "M-003.e.sky": {
+     "status": "FAIL",
+     "value": 0.51862654321,
+     "threshold": 0.2,
+     "op": "in"
+    },
+    "M-003.e.horizon": {
+     "status": "FAIL",
+     "value": 0.555579566643,
+     "threshold": 0.45,
+     "op": "<="
+    },
+    "M-003.e.contrast": {
+     "status": "PASS",
+     "value": 43.3752171441,
+     "threshold": 25.0,
+     "op": ">="
+    },
+    "M-003.f": {
+     "status": "PENDING",
+     "value": null,
+     "threshold": null,
+     "op": null
+    }
+   }
+  },
+  "p4_a_still_v5": {
+   "verdict": "FAIL",
+   "frames": 2,
+   "scale_match_min": 1.0,
+   "submeasures": {
+    "M-003.a.output": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.95,
+     "op": ">="
+    },
+    "M-003.a.internal": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.995,
+     "op": ">="
+    },
+    "M-003.a.A3": {
+     "status": "REPORTED",
+     "value": 1.0,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.a.A5": {
+     "status": "REPORTED",
+     "value": 1.0,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.b.DIG": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.8,
+     "op": ">="
+    },
+    "M-003.b.DIG_max": {
+     "status": "PASS",
+     "value": 0.397979973124,
+     "threshold": 0.5,
+     "op": "<="
+    },
+    "M-003.b.O": {
+     "status": "REPORTED",
+     "value": 1.03677789581,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.c1": {
+     "status": "FAIL",
+     "value": 1.38832240677,
+     "threshold": 15.0,
+     "op": ">="
+    },
+    "M-003.c2": {
+     "status": "NOT_RUN",
+     "value": null,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.d-i": {
+     "status": "PASS",
+     "value": 4,
+     "threshold": 12,
+     "op": "<="
+    },
+    "M-003.d-ii": {
+     "status": "PASS",
+     "value": 2,
+     "threshold": 3,
+     "op": "<="
+    },
+    "M-003.d-iii": {
+     "status": "NOT_APPLICABLE",
+     "value": null,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.d-iv": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.995,
+     "op": ">="
+    },
+    "M-003.e.sky": {
+     "status": "FAIL",
+     "value": 0.645339506173,
+     "threshold": 0.2,
+     "op": "in"
+    },
+    "M-003.e.horizon": {
+     "status": "PASS",
+     "value": 0.392418220103,
+     "threshold": 0.45,
+     "op": "<="
+    },
+    "M-003.e.contrast": {
+     "status": "FAIL",
+     "value": 22.0888485633,
+     "threshold": 25.0,
+     "op": ">="
+    },
+    "M-003.f": {
+     "status": "PENDING",
+     "value": null,
+     "threshold": null,
+     "op": null
+    }
+   }
+  },
+  "p4_a_sunrise_v5": {
+   "verdict": "FAIL",
+   "frames": 60,
+   "scale_match_min": 1.0,
+   "submeasures": {
+    "M-003.a.output": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.95,
+     "op": ">="
+    },
+    "M-003.a.internal": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.995,
+     "op": ">="
+    },
+    "M-003.a.A3": {
+     "status": "REPORTED",
+     "value": 1.0,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.a.A5": {
+     "status": "REPORTED",
+     "value": 1.0,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.b.DIG": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.8,
+     "op": ">="
+    },
+    "M-003.b.DIG_max": {
+     "status": "PASS",
+     "value": 0.399544715447,
+     "threshold": 0.5,
+     "op": "<="
+    },
+    "M-003.b.O": {
+     "status": "REPORTED",
+     "value": 1.04152689062,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.c1": {
+     "status": "FAIL",
+     "value": 1.24973955191,
+     "threshold": 15.0,
+     "op": ">="
+    },
+    "M-003.c2": {
+     "status": "NOT_RUN",
+     "value": null,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.d-i": {
+     "status": "PASS",
+     "value": 4,
+     "threshold": 12,
+     "op": "<="
+    },
+    "M-003.d-ii": {
+     "status": "PASS",
+     "value": 2,
+     "threshold": 3,
+     "op": "<="
+    },
+    "M-003.d-iii": {
+     "status": "NOT_APPLICABLE",
+     "value": null,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.d-iv": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.995,
+     "op": ">="
+    },
+    "M-003.e.sky": {
+     "status": "FAIL",
+     "value": 0.657816358025,
+     "threshold": 0.2,
+     "op": "in"
+    },
+    "M-003.e.horizon": {
+     "status": "PASS",
+     "value": 0.392418220103,
+     "threshold": 0.45,
+     "op": "<="
+    },
+    "M-003.e.contrast": {
+     "status": "FAIL",
+     "value": 22.0888485633,
+     "threshold": 25.0,
+     "op": ">="
+    },
+    "M-003.f": {
+     "status": "PENDING",
+     "value": null,
+     "threshold": null,
+     "op": null
+    }
+   }
+  },
+  "p4_d_dolly_v4": {
+   "verdict": "INCOMPLETE",
+   "frames": 60,
+   "scale_match_min": 1.0,
+   "submeasures": {
+    "M-003.a.output": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.95,
+     "op": ">="
+    },
+    "M-003.a.internal": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.995,
+     "op": ">="
+    },
+    "M-003.a.A3": {
+     "status": "REPORTED",
+     "value": 1.0,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.a.A5": {
+     "status": "REPORTED",
+     "value": 1.0,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.b.DIG": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.8,
+     "op": ">="
+    },
+    "M-003.b.DIG_max": {
+     "status": "PASS",
+     "value": 0.397260273973,
+     "threshold": 0.5,
+     "op": "<="
+    },
+    "M-003.b.O": {
+     "status": "REPORTED",
+     "value": 1.04886714655,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.c1": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.9,
+     "op": ">="
+    },
+    "M-003.c2": {
+     "status": "NOT_RUN",
+     "value": null,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.d-i": {
+     "status": "PASS",
+     "value": 6,
+     "threshold": 12,
+     "op": "<="
+    },
+    "M-003.d-ii": {
+     "status": "PASS",
+     "value": 1,
+     "threshold": 3,
+     "op": "<="
+    },
+    "M-003.d-iii": {
+     "status": "NOT_APPLICABLE",
+     "value": null,
+     "threshold": null,
+     "op": null
+    },
+    "M-003.d-iv": {
+     "status": "PASS",
+     "value": 1.0,
+     "threshold": 0.995,
+     "op": ">="
+    },
+    "M-003.e.sky": {
+     "status": "PASS",
+     "value": 0.387160493827,
+     "threshold": 0.2,
+     "op": "in"
+    },
+    "M-003.e.horizon": {
+     "status": "FAIL",
+     "value": 0.5,
+     "threshold": 0.45,
+     "op": "<="
+    },
+    "M-003.e.contrast": {
+     "status": "PASS",
+     "value": 27.4877996792,
+     "threshold": 25.0,
+     "op": ">="
+    },
+    "M-003.f": {
+     "status": "PENDING",
+     "value": null,
+     "threshold": null,
+     "op": null
+    }
+   }
+  }
+ }
+}

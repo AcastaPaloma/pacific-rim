@@ -1,0 +1,701 @@
+{
+ "schema": "shots@v1",
+ "plan": "store/capture_plan.md",
+ "shots": [
+  {
+   "id": "P1-a",
+   "pillar": "P1",
+   "label": "P1-a",
+   "location": "Street canyon, SoMa near Salesforce Tower (37.7898, -122.3969), eye 1.7 m, looking up at a foot plant",
+   "path_type": "static` + impact shake (existing orbit-style shake)",
+   "duration": "4 s",
+   "systems": "kaiju foot + dust/debris VFX, scale cues (cars, people), pixel snap",
+   "plan_status": "B-kaiju",
+   "plan_blockers": [
+    "B-kaiju"
+   ],
+   "plan_now": false,
+   "paths": [],
+   "status": "BLOCKED",
+   "blockers": [
+    "B-kaiju"
+   ]
+  },
+  {
+   "id": "P1-b",
+   "pillar": "P1",
+   "label": "P1-b",
+   "location": "V4 Bay east of Ferry Building, kaiju wading in from water toward the Ferry Building",
+   "path_type": "dolly` (slow push), eye 10 m",
+   "duration": "6 s",
+   "systems": "kaiju body + wake, water pass, Ferry Building landmark",
+   "plan_status": "B-kaiju, B-M2",
+   "plan_blockers": [
+    "B-M2",
+    "B-kaiju"
+   ],
+   "plan_now": false,
+   "paths": [
+    {
+     "blockers": [
+      "B-kaiju",
+      "B-M2"
+     ],
+     "path_id": "p1_b_kaiju_wade_v4",
+     "file": "store/paths/p1_b_kaiju_wade_v4.json",
+     "state": "blocked: kaiju,m2_streaming",
+     "mode": "clip",
+     "purpose": "M-003",
+     "viewpoint": "V4",
+     "tile": "L0_30_36",
+     "profile_id": "slate_teal",
+     "captured": false
+    }
+   ],
+   "status": "BLOCKED",
+   "blockers": [
+    "B-M2",
+    "B-kaiju"
+   ]
+  },
+  {
+   "id": "P1-c",
+   "pillar": "P1",
+   "label": "P1-c",
+   "location": "V5 Coit Tower deck, hdg 170, kaiju silhouette over Financial District, mech small in foreground",
+   "path_type": "orbit` 40 deg arc",
+   "duration": "5 s",
+   "systems": "kaiju + mech bodies, haze depth bands",
+   "plan_status": "B-kaiju, B-walk, B-M2",
+   "plan_blockers": [
+    "B-M2",
+    "B-kaiju",
+    "B-walk"
+   ],
+   "plan_now": false,
+   "paths": [],
+   "status": "BLOCKED",
+   "blockers": [
+    "B-M2",
+    "B-kaiju",
+    "B-walk"
+   ]
+  },
+  {
+   "id": "P1-d",
+   "pillar": "P1",
+   "label": "P1-d (placeholder)",
+   "location": "V5 same framing with a scale-reference proxy (Transamerica Pyramid / Salesforce Tower only), no kaiju",
+   "path_type": "orbit",
+   "duration": "5 s",
+   "systems": "landmark geometry, haze",
+   "plan_status": "NOW (style-only fallback; not for the store)",
+   "plan_blockers": [],
+   "plan_now": true,
+   "paths": [
+    {
+     "blockers": [],
+     "path_id": "p1_d_scale_proxy_v5",
+     "file": "store/paths/p1_d_scale_proxy_v5.json",
+     "state": "runnable",
+     "mode": "clip",
+     "purpose": "M-003",
+     "viewpoint": "V5",
+     "tile": "L0_30_36",
+     "profile_id": "slate_crimson",
+     "captured": true
+    }
+   ],
+   "status": "NOW_RUNNABLE",
+   "blockers": []
+  },
+  {
+   "id": "P1-e",
+   "pillar": "P1",
+   "label": "P1-e",
+   "location": "Pack emerges from the water at range (trailer climax, R-121 T9)",
+   "path_type": "crane` rise then hold",
+   "duration": "7 s",
+   "systems": "3+ kaiju types, mechs forming up, AI policies",
+   "plan_status": "B-kaiju, B-walk, B-M2",
+   "plan_blockers": [
+    "B-M2",
+    "B-kaiju",
+    "B-walk"
+   ],
+   "plan_now": false,
+   "paths": [],
+   "status": "BLOCKED",
+   "blockers": [
+    "B-M2",
+    "B-kaiju",
+    "B-walk"
+   ]
+  },
+  {
+   "id": "P2-a",
+   "pillar": "P2",
+   "label": "P2-a",
+   "location": "Mech foot strike on pavement (street test scene), heel-to-toe roll, debris settle",
+   "path_type": "follow` (locked profile, no cut)",
+   "duration": "4 s",
+   "systems": "walk (T-005), gait log, ground deflection/debris",
+   "plan_status": "B-walk",
+   "plan_blockers": [
+    "B-walk"
+   ],
+   "plan_now": false,
+   "paths": [
+    {
+     "blockers": [
+      "B-walk"
+     ],
+     "path_id": "p2_a_foot_strike",
+     "file": "store/paths/p2_a_foot_strike.json",
+     "state": "blocked: walk",
+     "mode": "clip",
+     "purpose": "M-003",
+     "viewpoint": "V5",
+     "tile": "L0_30_36",
+     "profile_id": "warm_rust_sepia",
+     "captured": false
+    }
+   ],
+   "status": "BLOCKED",
+   "blockers": [
+    "B-walk"
+   ]
+  },
+  {
+   "id": "P2-b",
+   "pillar": "P2",
+   "label": "P2-b",
+   "location": "Mech arm hits kaiju limb, hit stop, plate dent, strain gauge visible",
+   "path_type": "static` close",
+   "duration": "3 s",
+   "systems": "Combat, damage model, kaiju limb collider, HUD",
+   "plan_status": "B-walk, B-kaiju, B-HUD",
+   "plan_blockers": [
+    "B-HUD",
+    "B-kaiju",
+    "B-walk"
+   ],
+   "plan_now": false,
+   "paths": [],
+   "status": "BLOCKED",
+   "blockers": [
+    "B-HUD",
+    "B-kaiju",
+    "B-walk"
+   ]
+  },
+  {
+   "id": "P2-c",
+   "pillar": "P2",
+   "label": "P2-c",
+   "location": "Overheat/ammo/power warning, vent, retreat",
+   "path_type": "follow",
+   "duration": "4 s",
+   "systems": "heat/power/ammo systems (D-019), HUD",
+   "plan_status": "B-walk, B-HUD",
+   "plan_blockers": [
+    "B-HUD",
+    "B-walk"
+   ],
+   "plan_now": false,
+   "paths": [],
+   "status": "BLOCKED",
+   "blockers": [
+    "B-HUD",
+    "B-walk"
+   ]
+  },
+  {
+   "id": "P3-a",
+   "pillar": "P3",
+   "label": "P3-a",
+   "location": "Golden Gate (south tower 37.8140, -122.4779; north tower 37.8255, -122.4792) from V3 Vista Point Marin, hdg 160, haze to the 10 km layer",
+   "path_type": "dolly` toward the 10 km layer (existing `dolly` job geometry), profile `warm_amber_haze",
+   "duration": "6 s",
+   "systems": "Geo tiles for Marin headlands + bridge, haze",
+   "plan_status": "B-M2 (test scenes only hold station geometry). Fallback NOW: StyleCapture `dolly` over the test scene",
+   "plan_blockers": [
+    "B-M2"
+   ],
+   "plan_now": false,
+   "paths": [
+    {
+     "blockers": [],
+     "path_id": "p3_a_golden_gate_v3",
+     "file": "store/paths/p3_a_golden_gate_v3.json",
+     "state": "runnable",
+     "mode": "clip",
+     "purpose": "M-003",
+     "viewpoint": "V3",
+     "tile": "L0_26_38",
+     "profile_id": "warm_amber_haze",
+     "captured": true
+    }
+   ],
+   "status": "NOW_RUNNABLE",
+   "blockers": [],
+   "note": "plan blockers B-M2 are superseded: the path runs on real tiles through the shipping pixel pipeline (T-147)"
+  },
+  {
+   "id": "P3-b",
+   "pillar": "P3",
+   "label": "P3-b",
+   "location": "Bay Bridge W2/W6/SAS towers (37.7908,-122.3858 / 37.8056,-122.3699 / 37.8153,-122.3585) from V1 Treasure Island SW shore, hdg 235",
+   "path_type": "dolly` lateral (truck)",
+   "duration": "5 s",
+   "systems": "streamed terrain, bridge landmarks",
+   "plan_status": "B-M2",
+   "plan_blockers": [
+    "B-M2"
+   ],
+   "plan_now": false,
+   "paths": [
+    {
+     "blockers": [
+      "B-M2"
+     ],
+     "path_id": "p3_b_bay_bridge_v1",
+     "file": "store/paths/p3_b_bay_bridge_v1.json",
+     "state": "blocked: m2_streaming",
+     "mode": "clip",
+     "purpose": "M-003",
+     "viewpoint": "V1",
+     "tile": "L0_31_37",
+     "profile_id": "slate_teal",
+     "captured": false
+    }
+   ],
+   "status": "BLOCKED",
+   "blockers": [
+    "B-M2"
+   ]
+  },
+  {
+   "id": "P3-c",
+   "pillar": "P3",
+   "label": "P3-c",
+   "location": "Twin Peaks V2 hdg 45 over the city grid to Salesforce Tower",
+   "path_type": "orbit` 60 deg",
+   "duration": "6 s",
+   "systems": "streamed city, landmark heights",
+   "plan_status": "B-M2",
+   "plan_blockers": [
+    "B-M2"
+   ],
+   "plan_now": false,
+   "paths": [
+    {
+     "blockers": [
+      "B-M2"
+     ],
+     "path_id": "p3_c_twin_peaks_v2",
+     "file": "store/paths/p3_c_twin_peaks_v2.json",
+     "state": "blocked: m2_streaming",
+     "mode": "clip",
+     "purpose": "M-003",
+     "viewpoint": "V2",
+     "tile": "L0_28_34",
+     "profile_id": "lavender_peach",
+     "captured": false
+    }
+   ],
+   "status": "BLOCKED",
+   "blockers": [
+    "B-M2"
+   ]
+  },
+  {
+   "id": "P3-d",
+   "pillar": "P3",
+   "label": "P3-d",
+   "location": "SoMa canyon with a mech passing a landmark (Salesforce / Transamerica 37.7952,-122.4028)",
+   "path_type": "follow",
+   "duration": "5 s",
+   "systems": "walk, streamed city",
+   "plan_status": "B-walk, B-M2",
+   "plan_blockers": [
+    "B-M2",
+    "B-walk"
+   ],
+   "plan_now": false,
+   "paths": [],
+   "status": "BLOCKED",
+   "blockers": [
+    "B-M2",
+    "B-walk"
+   ]
+  },
+  {
+   "id": "P3-e",
+   "pillar": "P3",
+   "label": "P3-e",
+   "location": "Sutro Tower (37.7552, -122.4529) hazed skyline from V2",
+   "path_type": "static",
+   "duration": "4 s (still)",
+   "systems": "landmark geometry",
+   "plan_status": "B-M2",
+   "plan_blockers": [
+    "B-M2"
+   ],
+   "plan_now": false,
+   "paths": [],
+   "status": "BLOCKED",
+   "blockers": [
+    "B-M2"
+   ]
+  },
+  {
+   "id": "P4-a",
+   "pillar": "P4",
+   "label": "P4-a",
+   "location": "Sunrise sky with dithered bands, bay and piers tiny below, from V5 hdg 170 (no actors)",
+   "path_type": "static` + slow `yaw` 0.25 px/frame (matches M-004 yaw set)",
+   "duration": "6 s",
+   "systems": "pixel pipeline, haze, palette profile `lavender_peach`",
+   "plan_status": "NOW (V5 geometry in test scene scope to confirm; else B-M2)",
+   "plan_blockers": [
+    "B-M2"
+   ],
+   "plan_now": true,
+   "paths": [
+    {
+     "blockers": [],
+     "path_id": "p4_a_still_v5",
+     "file": "store/paths/p4_a_still_v5.json",
+     "state": "runnable",
+     "mode": "still",
+     "purpose": "M-003",
+     "viewpoint": "V5",
+     "tile": "L0_30_36",
+     "profile_id": "lavender_peach",
+     "captured": true
+    },
+    {
+     "blockers": [],
+     "path_id": "p4_a_sunrise_v5",
+     "file": "store/paths/p4_a_sunrise_v5.json",
+     "state": "runnable",
+     "mode": "clip",
+     "purpose": "M-003",
+     "viewpoint": "V5",
+     "tile": "L0_30_36",
+     "profile_id": "lavender_peach",
+     "captured": true
+    }
+   ],
+   "status": "NOW_RUNNABLE",
+   "blockers": [],
+   "note": "plan blockers B-M2 are superseded: the path runs on real tiles through the shipping pixel pipeline (T-147)"
+  },
+  {
+   "id": "P4-b",
+   "pillar": "P4",
+   "label": "P4-b",
+   "location": "Palette tour: the five district profiles on the same fixed station",
+   "path_type": "static` x5, hard cuts",
+   "duration": "2 s each",
+   "systems": "StyleCapture profiles",
+   "plan_status": "NOW",
+   "plan_blockers": [],
+   "plan_now": true,
+   "paths": [],
+   "status": "NOW_UNPATHED",
+   "blockers": [],
+   "note": "plan: capturable now; no capture_path file defines it yet"
+  },
+  {
+   "id": "P4-c",
+   "pillar": "P4",
+   "label": "P4-c",
+   "location": "Golden-hour close-up of a mech plated forearm (S5)",
+   "path_type": "static` close",
+   "duration": "3 s",
+   "systems": "mech mesh with plates, outline off/on per style",
+   "plan_status": "B-walk (mesh: placeholder unit only)",
+   "plan_blockers": [
+    "B-walk"
+   ],
+   "plan_now": false,
+   "paths": [],
+   "status": "BLOCKED",
+   "blockers": [
+    "B-walk"
+   ]
+  },
+  {
+   "id": "P4-d",
+   "pillar": "P4",
+   "label": "P4-d",
+   "location": "Dolly across haze layers (reuse of `dolly`, 180 frames)",
+   "path_type": "dolly",
+   "duration": "3 s",
+   "systems": "pixel pipeline",
+   "plan_status": "NOW",
+   "plan_blockers": [],
+   "plan_now": true,
+   "paths": [
+    {
+     "blockers": [],
+     "path_id": "p4_d_dolly_v4",
+     "file": "store/paths/p4_d_dolly_v4.json",
+     "state": "runnable",
+     "mode": "clip",
+     "purpose": "M-003",
+     "viewpoint": "V4",
+     "tile": "L0_30_36",
+     "profile_id": "slate_teal",
+     "captured": true
+    }
+   ],
+   "status": "NOW_RUNNABLE",
+   "blockers": []
+  },
+  {
+   "id": "P4-e",
+   "pillar": "P4",
+   "label": "P4-e",
+   "location": "Title card T11 (logotype layer, title only)",
+   "path_type": "static`, composited",
+   "duration": "3 s",
+   "systems": "logotype asset",
+   "plan_status": "NOW (needs logotype; non-world frame, UI palette check)",
+   "plan_blockers": [],
+   "plan_now": true,
+   "paths": [],
+   "status": "NOW_UNPATHED",
+   "blockers": [],
+   "note": "plan: capturable now; no capture_path file defines it yet"
+  },
+  {
+   "id": "P5-a",
+   "pillar": "P5",
+   "label": "P5-a",
+   "location": "Hangar: assembling a mech, hatch opens (D-023 frame)",
+   "path_type": "static` + `crane",
+   "duration": "5 s",
+   "systems": "hangar scene, assembly UI",
+   "plan_status": "B-HUD (UI not built)",
+   "plan_blockers": [
+    "B-HUD"
+   ],
+   "plan_now": false,
+   "paths": [],
+   "status": "BLOCKED",
+   "blockers": [
+    "B-HUD"
+   ]
+  },
+  {
+   "id": "P5-b",
+   "pillar": "P5",
+   "label": "P5-b",
+   "location": "Two mechs flank one kaiju, callouts, one draws aggro",
+   "path_type": "orbit",
+   "duration": "6 s",
+   "systems": "two mech instances, kaiju, intent controls, ping/callouts",
+   "plan_status": "B-walk, B-kaiju, B-coop",
+   "plan_blockers": [
+    "B-coop",
+    "B-kaiju",
+    "B-walk"
+   ],
+   "plan_now": false,
+   "paths": [],
+   "status": "BLOCKED",
+   "blockers": [
+    "B-coop",
+    "B-kaiju",
+    "B-walk"
+   ]
+  },
+  {
+   "id": "P5-c",
+   "pillar": "P5",
+   "label": "P5-c",
+   "location": "Mixed pack at range, tactical read from V4",
+   "path_type": "crane` high",
+   "duration": "6 s",
+   "systems": "3+ kaiju types, mechs, AI",
+   "plan_status": "B-kaiju, B-walk, B-M2",
+   "plan_blockers": [
+    "B-M2",
+    "B-kaiju",
+    "B-walk"
+   ],
+   "plan_now": false,
+   "paths": [],
+   "status": "BLOCKED",
+   "blockers": [
+    "B-M2",
+    "B-kaiju",
+    "B-walk"
+   ]
+  },
+  {
+   "id": "P5-d",
+   "pillar": "P5",
+   "label": "P5-d",
+   "location": "Split-role 2-player screenshot",
+   "path_type": "static",
+   "duration": "still",
+   "systems": "netcode co-op session, HUD",
+   "plan_status": "B-coop",
+   "plan_blockers": [
+    "B-coop"
+   ],
+   "plan_now": false,
+   "paths": [],
+   "status": "BLOCKED",
+   "blockers": [
+    "B-coop"
+   ]
+  }
+ ],
+ "tally": {
+  "NOW_RUNNABLE": 4,
+  "NOW_UNPATHED": 2,
+  "BLOCKED": 16
+ },
+ "per_pillar": {
+  "P1": {
+   "NOW_RUNNABLE": 1,
+   "NOW_UNPATHED": 0,
+   "BLOCKED": 4
+  },
+  "P2": {
+   "NOW_RUNNABLE": 0,
+   "NOW_UNPATHED": 0,
+   "BLOCKED": 3
+  },
+  "P3": {
+   "NOW_RUNNABLE": 1,
+   "NOW_UNPATHED": 0,
+   "BLOCKED": 4
+  },
+  "P4": {
+   "NOW_RUNNABLE": 2,
+   "NOW_UNPATHED": 2,
+   "BLOCKED": 1
+  },
+  "P5": {
+   "NOW_RUNNABLE": 0,
+   "NOW_UNPATHED": 0,
+   "BLOCKED": 4
+  }
+ },
+ "extra_paths": [
+  {
+   "blockers": [],
+   "path_id": "hud_v3_gate",
+   "file": "store/paths_hud/hud_v3_gate.json",
+   "state": "runnable",
+   "mode": "still",
+   "purpose": "M-003",
+   "viewpoint": "V3",
+   "tile": "L0_26_38",
+   "profile_id": "warm_amber_haze",
+   "captured": true
+  },
+  {
+   "blockers": [],
+   "path_id": "hud_v4_street",
+   "file": "store/paths_hud/hud_v4_street.json",
+   "state": "runnable",
+   "mode": "still",
+   "purpose": "M-003",
+   "viewpoint": "V4",
+   "tile": "L0_30_36",
+   "profile_id": "slate_teal",
+   "captured": true
+  },
+  {
+   "blockers": [],
+   "path_id": "hud_v5_skyline",
+   "file": "store/paths_hud/hud_v5_skyline.json",
+   "state": "runnable",
+   "mode": "still",
+   "purpose": "M-003",
+   "viewpoint": "V5",
+   "tile": "L0_30_36",
+   "profile_id": "lavender_peach",
+   "captured": true
+  },
+  {
+   "blockers": [],
+   "path_id": "m004_v4_lavender_peach",
+   "file": "store/paths_motion/m004_v4_lavender_peach.json",
+   "state": "runnable",
+   "mode": "clip",
+   "purpose": "M-004",
+   "viewpoint": "V4",
+   "tile": "L0_30_36",
+   "profile_id": "lavender_peach",
+   "captured": true
+  },
+  {
+   "blockers": [],
+   "path_id": "m004_v4_slate_teal",
+   "file": "store/paths_motion/m004_v4_slate_teal.json",
+   "state": "runnable",
+   "mode": "clip",
+   "purpose": "M-004",
+   "viewpoint": "V4",
+   "tile": "L0_30_36",
+   "profile_id": "slate_teal",
+   "captured": true
+  },
+  {
+   "blockers": [],
+   "path_id": "m004_v4_warm_amber_haze",
+   "file": "store/paths_motion/m004_v4_warm_amber_haze.json",
+   "state": "runnable",
+   "mode": "clip",
+   "purpose": "M-004",
+   "viewpoint": "V4",
+   "tile": "L0_30_36",
+   "profile_id": "warm_amber_haze",
+   "captured": true
+  },
+  {
+   "blockers": [],
+   "path_id": "m004_v5_lavender_peach",
+   "file": "store/paths_motion/m004_v5_lavender_peach.json",
+   "state": "runnable",
+   "mode": "clip",
+   "purpose": "M-004",
+   "viewpoint": "V5",
+   "tile": "L0_30_36",
+   "profile_id": "lavender_peach",
+   "captured": true
+  },
+  {
+   "blockers": [],
+   "path_id": "m004_v5_slate_teal",
+   "file": "store/paths_motion/m004_v5_slate_teal.json",
+   "state": "runnable",
+   "mode": "clip",
+   "purpose": "M-004",
+   "viewpoint": "V5",
+   "tile": "L0_30_36",
+   "profile_id": "slate_teal",
+   "captured": true
+  },
+  {
+   "blockers": [],
+   "path_id": "m004_v5_warm_amber_haze",
+   "file": "store/paths_motion/m004_v5_warm_amber_haze.json",
+   "state": "runnable",
+   "mode": "clip",
+   "purpose": "M-004",
+   "viewpoint": "V5",
+   "tile": "L0_30_36",
+   "profile_id": "warm_amber_haze",
+   "captured": true
+  }
+ ]
+}

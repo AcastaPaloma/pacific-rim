@@ -7,7 +7,7 @@ namespace Game.Tools.Capture.Tests
 {
     public class CapturePathTests
     {
-        const string Good = @"{ ""schema"": ""capture_path@v1"", ""path_id"": ""t_good"", ""pillar"": ""P4"", ""viewpoint"": {""id"":""V5"",""tile"":""L0_30_36"",""baytm"":[61591.4,75450.7],""heading_deg"":170},
+        internal const string Good = @"{ ""schema"": ""capture_path@v1"", ""path_id"": ""t_good"", ""pillar"": ""P4"", ""viewpoint"": {""id"":""V5"",""tile"":""L0_30_36"",""baytm"":[61591.4,75450.7],""heading_deg"":170},
           ""profile_id"": ""lavender_peach"", ""district_id"": ""SF-Test"", ""time_of_day"": ""fixed_v1"", ""fps"": 60, ""duration_s"": 1.0, ""seed"": 7, ""interpolation"": ""linear"",
           ""keyframes"": [ {""t_s"":0.0,""pos_baytm"":[0,0],""alt_navd88"":146,""yaw_deg"":350,""pitch_deg"":-2}, {""t_s"":1.0,""pos_baytm"":[60,0],""alt_navd88"":146,""yaw_deg"":10,""pitch_deg"":-2} ],
           ""shake"": [ {""t_s"":0.5,""amp_internal_px"":2.0,""decay_s"":0.4} ], ""snap"": {""enabled"":true,""dither_anchor"":""direction""},
@@ -131,6 +131,46 @@ namespace Game.Tools.Capture.Tests
             for (int i = 0; i < 200; i++) { double v = CapturePathSampler.Noise(9, i, i & 1); Assert.That(v, Is.InRange(-1.0, 1.0)); }
             Assert.AreEqual(first, CapturePathSampler.Noise(9, 12, 0));
             Assert.AreNotEqual(CapturePathSampler.Noise(9, 12, 0), CapturePathSampler.Noise(9, 12, 1));
+        }
+    }
+
+    public class CaptureMotionSetTests
+    {
+        // ---- M-004 motion sets (T-191) ----
+        const string MotionSetJson = "\"purpose\": \"M-004\", \"motion_set\": {\"classes\": [\"S0\",\"T1\",\"T2\",\"T3\",\"Y1\",\"Y2\"]}, ";
+        static string Motion(string duration = "3.0") => CapturePathTests.Good.Replace("\"fps\": 60,", MotionSetJson + "\"fps\": 60,").Replace("\"duration_s\": 1.0", "\"duration_s\": " + duration)
+            .Replace("\"t_s\":1.0,\"pos_baytm\"", "\"t_s\":" + duration + ",\"pos_baytm\"").Replace("\"shake\": [ {\"t_s\":0.5,\"amp_internal_px\":2.0,\"decay_s\":0.4} ],", "\"shake\": [],");
+
+        [Test] public void MotionSetLintsCleanAndParses()
+        {
+            var p = CapturePath.Parse(Motion());
+            Assert.That(p.Lint(), Is.Empty);
+            Assert.IsTrue(p.IsMotionSet); Assert.AreEqual(6, p.MotionSet.Count);
+        }
+
+        [Test] public void MotionClassTableMatchesTheRegistry()
+        {
+            Assert.IsTrue(CapturePath.TryMotionClass("T2", out var t2)); Assert.AreEqual(0.25, t2.SpeedPxPerFrame); Assert.AreEqual(180, t2.Frames);
+            Assert.IsTrue(CapturePath.TryMotionClass("S0", out var s0)); Assert.AreEqual(0.0, s0.SpeedPxPerFrame); Assert.AreEqual(60, s0.Frames);
+            Assert.IsTrue(CapturePath.TryMotionClass("Y2", out var y2)); Assert.AreEqual("yaw", y2.Type); Assert.AreEqual(1.0, y2.SpeedPxPerFrame);
+            Assert.IsFalse(CapturePath.TryMotionClass("T9", out _));
+        }
+
+        [TestCase("\"classes\": [\"S0\",\"T1\",\"T2\",\"T3\",\"Y1\",\"Y2\"]", "\"classes\": [\"S0\",\"T9\"]")]
+        [TestCase("\"classes\": [\"S0\",\"T1\",\"T2\",\"T3\",\"Y1\",\"Y2\"]", "\"classes\": []")]
+        [TestCase("\"classes\": [\"S0\",\"T1\",\"T2\",\"T3\",\"Y1\",\"Y2\"]", "\"classes\": [\"S0\",\"S0\"]")]
+        [TestCase("\"purpose\": \"M-004\"", "\"purpose\": \"M-005\"")]
+        [TestCase("\"mode\": \"clip\"", "\"mode\": \"still\", \"still_frames\": [0]")]
+        public void BrokenMotionSetIsReported(string from, string to)
+        {
+            string json = Motion(); Assert.That(json, Does.Contain(from));
+            Assert.That(CapturePath.Parse(json.Replace(from, to)).Lint().Any(e => e.StartsWith("L17", StringComparison.Ordinal)));
+        }
+
+        [Test] public void MotionSetNeedsEnoughFramesAndPlainPathsRejectIt()
+        {
+            Assert.That(CapturePath.Parse(Motion("2.0")).Lint().Any(e => e.StartsWith("L17")));   // 120 frames < 180
+            Assert.That(CapturePath.Parse(CapturePathTests.Good.Replace("\"fps\": 60,", "\"motion_set\": {\"classes\": [\"S0\"]}, \"fps\": 60,")).Lint().Any(e => e.StartsWith("L17")));
         }
     }
 }

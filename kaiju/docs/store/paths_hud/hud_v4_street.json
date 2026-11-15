@@ -1,0 +1,71 @@
+{
+ "schema": "capture_path@v1",
+ "path_id": "hud_v4_street",
+ "pillar": "P4",
+ "viewpoint": {
+  "id": "V4",
+  "tile": "L0_30_36",
+  "baytm": [
+   63300.0,
+   74900.0
+  ],
+  "heading_deg": 270
+ },
+ "profile_id": "slate_teal",
+ "district_id": "SF-Embarcadero",
+ "time_of_day": "fixed_v1",
+ "fps": 60,
+ "duration_s": 1.0,
+ "seed": 191101,
+ "interpolation": "linear",
+ "keyframes": [
+  {
+   "t_s": 0,
+   "pos_baytm": [
+    63300.0,
+    74900.0
+   ],
+   "alt_navd88": 10,
+   "yaw_deg": 270,
+   "pitch_deg": 0,
+   "hfov_deg": 60
+  },
+  {
+   "t_s": 1.0,
+   "pos_baytm": [
+    63300.0,
+    74900.0
+   ],
+   "alt_navd88": 10,
+   "yaw_deg": 270,
+   "pitch_deg": 0,
+   "hfov_deg": 60
+  }
+ ],
+ "shake": [],
+ "snap": {
+  "enabled": true,
+  "dither_anchor": "direction"
+ },
+ "outputs": [
+  {
+   "internal_wh": [
+    480,
+    270
+   ],
+   "output_wh": [
+    1920,
+    1080
+   ],
+   "scale": 4
+  }
+ ],
+ "mode": "still",
+ "actors": null,
+ "requires": [],
+ "reference_depth_m": 600,
+ "still_frames": [
+  0
+ ],
+ "notes": "T-191 HUD-on pass: world frame for the feel-check slice HUD composite (docs/store/hud_scenes.json); x4 only."
+}
