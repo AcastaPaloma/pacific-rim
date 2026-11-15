@@ -83,6 +83,9 @@ namespace Game.Core.Unity
     {
         private static CoreRoot s_root;
 
+        /// <summary>Raised once per Play session after the root exists and the clock is driving; composition roots install modules here.</summary>
+        public static event Action<CoreRoot> Booted;
+
         public static bool IsBooted => s_root != null;
         public static CoreRoot Root => s_root ?? throw new InvalidOperationException("[Core] not booted: CoreRuntime.Root is only available in Play Mode or a player.");
 
@@ -100,6 +103,7 @@ namespace Game.Core.Unity
             var root = CoreRoot.Create(config, Application.persistentDataPath, Application.version);
             s_root = root;
             root.StartDriving();
+            Booted?.Invoke(root);
             Application.quitting -= Shutdown;
             Application.quitting += Shutdown;
         }

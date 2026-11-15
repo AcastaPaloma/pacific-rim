@@ -1,0 +1,35 @@
+{
+    "name": "Game.Composition.Tests",
+    "rootNamespace": "Game.Composition.Tests",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Game.Core.Contracts",
+        "Game.Core",
+        "Game.Core.Unity",
+        "Game.Composition",
+        "Game.World.Destruction.Contracts",
+        "Game.World.Destruction",
+        "Game.World.Seismic.Contracts",
+        "Game.World.Seismic",
+        "Game.World.Geo.Contracts",
+        "Game.World.Geo.Unity",
+        "Game.AI.Contracts",
+        "Game.AI.Scripted"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
