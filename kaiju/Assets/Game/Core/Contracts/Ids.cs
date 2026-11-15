@@ -59,6 +59,8 @@ namespace Game.Core
         OsmWay = 1,
         OsmRelation = 2,
         Landmark = 3,
+        /// <summary>World.Infrastructure target (F-044): packed (kind, source, 52-bit id), see InfraId.ToBuildingId.</summary>
+        Infrastructure = 4,
     }
 
     /// <summary>
@@ -95,7 +97,7 @@ namespace Game.Core
             int colon = s.IndexOf(':', 4);
             if (colon < 0) return false;
             string token = s.Substring(4, colon - 4);
-            for (int i = 1; i <= 3; i++)
+            for (int i = 1; i <= 4; i++)
             {
                 var src = (BuildingSource)i;
                 if (TokenOf(src) == token && IdHash.TryParseUInt64(s, colon + 1, out var v)) { id = new BuildingId(src, v); return true; }
@@ -111,6 +113,7 @@ namespace Game.Core
                 case BuildingSource.OsmWay: return "osm-way";
                 case BuildingSource.OsmRelation: return "osm-relation";
                 case BuildingSource.Landmark: return "landmark";
+                case BuildingSource.Infrastructure: return "infra";
                 default: return null;
             }
         }
