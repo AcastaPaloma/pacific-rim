@@ -523,3 +523,9 @@ Worker escalated to Opus 5.5 high (§14) for the design; design `research/R-028.
 
 ### T-042 (R-024 rev 4) - merged (decided autonomously (founder asleep))
 Brain coordination group = same-target active allies (m007_3v4 C1 0.86 PASS); rev 4b: switch-back lockout 6 s + ratio^2 for 6 s more, so C3 can fail (3v4 thrash 0.075 PASS; pytest fixtures prove FAIL > 0.10). Open research items, thresholds unchanged: churn thrash 0.35 (no lockout 0.61), churn C1 0.35, 2-mech C2 FAIL (rev 3 passed; scenario at FE ceiling 0.94). Evidence evidence/T-042/, regression note evidence/regression/T-042.md. dotnet AI 48/48, pytest Tools/Metrics 466 pass. Unity EditMode not run (no asmdef change).
+## T-110 (M2 worker, 2026-11-15)
+- Journal lives in `Game.World.Streaming.Host` (engine-free) and the save section is the new `streaming@v1` (per-tile journals only); `destruction@v1` stays the per-building damage authority (R-101 O10 confirmed) - decided autonomously (founder asleep).
+- Terrain craters need a hook between height decode and RTIN: added `GeoTileContext.HeightEdit` (null = unchanged) called by `TerrainLayer`; the baked M1 output is byte-identical (WorldGeo 73/73) - decided autonomously (founder asleep). Crater profile and seam rule in World.Streaming MODULE.md.
+- Flush rides the `TileEvicted` bus event (fires inside `scheduler.Tick`, before `builder.Release`), not a new host callback; ordering is tested through the real scheduler and host. LOD (B1/B2 index ranges) replay waits for the geo_lod@v1 reader (T-108 follow-up); only L0 replays today, tracked in MODULE.md.
+- Nothing installs the journal yet (no composition root); the future installer does `journal.Attach(bus, locator)`, registers `StreamingSaveParticipant`, passes the journal to `GeoL0TileReader`.
+- Verification: dotnet Streaming.Host 20/20 (13 new), Streaming 36/36, WorldGeo 73/73. Host.Tests asmdef gained Game.Core and Game.World.Geo references: Unity EditMode awaiting Unity slot.
