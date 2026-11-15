@@ -246,6 +246,22 @@ namespace Game.Units.Mech
             }
             return L;
         }
+        // step 9.5h (qp_arm_ref): the shoulders track the reference arm swing of the active QP row (3D-aware stride, 9.5g); arm 0 = left. The row's arm A / B is the arm on the lateral side of its leg A / B.
+        readonly double[] _armRef = new double[2], _armRefQdd = new double[2]; double _armRefBlend; bool _armRefOn;
+        void QpArmRef()
+        {
+            if (_t.qp_arm_ref < 0.5 || _qp == null || _qpLegNow == null) return;
+            var c = _qp.Controller; double pred = 0;
+            for (int arm = 0; arm < 2; arm++)
+            {
+                int d = _armShoulderFlex[arm]; if (d < 0) continue;
+                int k = (_qpLegNow[0].Side < 0) == (arm == 0) ? 0 : 1;
+                _armRef[arm] = _t.qp_arm_ref_gain * c.RefArm(k); _armRefQdd[arm] = _t.qp_arm_ref_gain * c.RefArmQdd(k);
+                pred += YawSens(d) * _armRefQdd[arm];
+            }
+            c.DLArmRefPred = pred;
+            _armRefOn = true; _armRefBlend = Math.Min(1.0, _armRefBlend + _dt / Math.Max(_t.qp_arm_ref_blend_s, 1e-3));
+        }
         void QpArmFf()
         {
             if (_t.qp_arm_ff < 0.5 || _qp == null) return;
@@ -394,7 +410,7 @@ namespace Game.Units.Mech
             var c = _qp.Controller; _dbg.QpOn = true; _dbg.QpScale = _qpScale; _dbg.QpMs = (System.Diagnostics.Stopwatch.GetTimestamp() - t0) * 1e3 / System.Diagnostics.Stopwatch.Frequency; _dbg.QpIters = c.LastIterations; _dbg.QpTau ??= new double[6]; System.Array.Copy(c.Tau, _dbg.QpTau, 6);
             _dbg.QpRow = _qpRow;
             if (_qpLat) { _dbg.QpLat ??= new double[6]; System.Array.Copy(c.LatCmd, _dbg.QpLat, 6); }
-            if (_qpLat && c.TrunkYaw) { QpArmTrim(); QpArmFf(); _dbg.QpYaw ??= new double[13]; System.Array.Copy(c.YawLog, _dbg.QpYaw, 5); _dbg.QpYaw[5] = _armTrim[0]; _dbg.QpYaw[6] = _armTrim[1]; _dbg.QpYaw[7] = c.YawLog[5]; _dbg.QpYaw[8] = c.YawLog[6]; _dbg.QpYaw[9] = c.YawShareLog; _dbg.QpYaw[10] = _armFf[0]; _dbg.QpYaw[11] = _armFf[1]; _dbg.QpYaw[12] = _lLegsRefLog; }
+            if (_qpLat && c.TrunkYaw) { QpArmTrim(); QpArmFf(); QpArmRef(); _dbg.QpYaw ??= new double[13]; System.Array.Copy(c.YawLog, _dbg.QpYaw, 5); _dbg.QpYaw[5] = _armTrim[0]; _dbg.QpYaw[6] = _armTrim[1]; _dbg.QpYaw[7] = c.YawLog[5]; _dbg.QpYaw[8] = c.YawLog[6]; _dbg.QpYaw[9] = c.YawShareLog; _dbg.QpYaw[10] = _armFf[0]; _dbg.QpYaw[11] = _armFf[1]; _dbg.QpYaw[12] = _lLegsRefLog; }
             _dbg.QpStatus = (int)c.LastStatus; _dbg.QpFailures = c.SolveFailures; _dbg.QpMassScale = c.MassScale; _dbg.QpFrictionCmd = c.FrictionRatioCmd;
         }
 
@@ -868,6 +884,12 @@ namespace Game.Units.Mech
                     var smp = _ref.Sample(StancePhase());
                     bool imp = ImpActive;   // round 2 step 3: with imp = 1 the waist and both shoulders follow the reference fully, with their own drive gains
                     double trackUpper = imp ? 1 : _t.ref_track * _t.ref_track_upper;
+                    if (imp && _armRefOn && (d == _armShoulderFlex[0] || d == _armShoulderFlex[1]))
+                    {
+                        // step 9.5h: reference arm swing of the QP row blended in over qp_arm_ref_blend_s after the hand-off (the imp 2 reference arm underneath until then); the qp_arm_ff feed-forward, when on, is added
+                        bool armL = d == _armShoulderFlex[0]; int ai = armL ? 0 : 1; double bl = _armRefBlend, fb = _armFfOn ? _armFfBlend : 0;
+                        Track(d, (1.0 - bl) * (armL ? smp.ArmFlexionL : smp.ArmFlexionR) + bl * _armRef[ai] + fb * _armFf[ai], Vector3.Zero, default, true, 1, _t.qp_arm_ref_hz > 0 ? _t.qp_arm_ref_hz : _t.imp_arm_hz, _t.imp_arm_zeta, (1.0 - bl) * RefQdd(g => armL ? g.ArmFlexionL : g.ArmFlexionR) + bl * _armRefQdd[ai] + fb * _armFfQdd[ai]); continue;
+                    }
                     if (imp && _armFfOn && (d == _armShoulderFlex[0] || d == _armShoulderFlex[1]))
                     {
                         // step 9.5f: momentum-cancelling shoulder feed-forward, blended in over 0.5 s after the hand-off; qp_arm_ff_ref = 1 keeps the reference arm underneath

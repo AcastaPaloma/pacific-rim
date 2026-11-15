@@ -26,7 +26,7 @@ namespace Game.Units.Mech.Qp
         double[] _jac, _jacS, _bias; int _rows, _cols; bool _havePrev; long _n;
         readonly double _heelZ, _toeZ, _ankleZ, _ankleH, _halfW; readonly bool _lat;
         readonly bool[] _rest;   // step 9.5e: link of a leg or an arm (not the trunk: pelvis, torso, head)
-        readonly double _ffAlpha, _ffMax; double _lRestPrev = double.NaN, _dlRest;
+        readonly double _ffAlpha, _ffMax; double _lRestPrev = double.NaN, _dlRest, _lArmsPrev, _dlArms;
         /// <summary>Stage 2 (qp_lateral): heading the yaw task holds (rad, same convention as the yaw argument of Apply); set by the caller each tick.</summary>
         public double DesiredYaw;
         bool[] _legOnly;
@@ -68,7 +68,7 @@ namespace Game.Units.Mech.Qp
         }
 
         /// <summary>Restart at reference node 0 (called when walking starts).</summary>
-        public void Reset(bool anchorXoff = false, int startNode = 0) { _ctl.AnchorXoff = anchorXoff; _ctl.StartNode = startNode; _ctl.Init(); _havePrev = false; _n = 0; _lRestPrev = double.NaN; _dlRest = 0; }
+        public void Reset(bool anchorXoff = false, int startNode = 0) { _ctl.AnchorXoff = anchorXoff; _ctl.StartNode = startNode; _ctl.Init(); _havePrev = false; _n = 0; _lRestPrev = double.NaN; _dlRest = 0; _dlArms = 0; }
 
         void Allocate()
         {
@@ -226,8 +226,8 @@ namespace Game.Units.Mech.Qp
             if (c.TrunkYaw)
             {
                 // step 9.5e: rate of the legs' and arms' vertical angular momentum about the CoM (finite difference, low-pass); the ground moment must carry it for the trunk to hold its heading
-                if (!double.IsNaN(_lRestPrev)) { double raw = (lyRest - _lRestPrev) / _dt; if (_ffMax > 0) { double mx = _ffMax * mt * _b.Tuning.gravity_mps2 * _ctl.Reference.LegLength; raw = Math.Max(-mx, Math.Min(mx, raw)); } _dlRest += _ffAlpha * (raw - _dlRest); }
-                _lRestPrev = lyRest; c.DLRest = _dlRest; c.LTrunk = ly - lyRest; c.ITrunk = izzTrunk; c.LLegs = lyLegs; c.LArms = lyRest - lyLegs;   // step 9.5f: legs-only and arms-only vertical angular momentum about the CoM (qp_arm_ff, log)
+                if (!double.IsNaN(_lRestPrev)) { double raw = (lyRest - _lRestPrev) / _dt; if (_ffMax > 0) { double mx = _ffMax * mt * _b.Tuning.gravity_mps2 * _ctl.Reference.LegLength; raw = Math.Max(-mx, Math.Min(mx, raw)); } _dlRest += _ffAlpha * (raw - _dlRest); _dlArms += _ffAlpha * ((lyRest - lyLegs - _lArmsPrev) / _dt - _dlArms); }
+                _lArmsPrev = lyRest - lyLegs; _lRestPrev = lyRest; c.DLArms = _dlArms; c.DLRest = _dlRest; c.LTrunk = ly - lyRest; c.ITrunk = izzTrunk; c.LLegs = lyLegs; c.LArms = lyRest - lyLegs;   // step 9.5f: legs-only and arms-only vertical angular momentum about the CoM (qp_arm_ff, log)
             }
             c.ComY = Vector3.Dot(com, rt); c.ComDY = (vx * rt.X + vz * rt.Z) / mt; c.LRoll = lx * fw.X + lz * fw.Z; c.LYaw = ly; c.Izz = izz; c.YRef = yref;
             double e = yaw - DesiredYaw; while (e > Math.PI) e -= 2 * Math.PI; while (e < -Math.PI) e += 2 * Math.PI; c.YawErr = e;

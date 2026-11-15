@@ -43,11 +43,11 @@ namespace Game.Units.Mech.Unity
         public GaitReferenceData QpReferenceFor()
         {
             if (!(Walk.imp >= 2.5 && Walk.qp_engage_speed_frac > 0)) return null;
-            var d = JsonUtility.FromJson<GaitReferenceData>(File.ReadAllText(Path.Combine(Application.dataPath, "Game/Config/Mech", GaitReferenceData.FileFor(Walk.imp)))); d.Validate();
+            var d = JsonUtility.FromJson<GaitReferenceData>(File.ReadAllText(Path.Combine(Application.dataPath, "Game/Config/Mech", Walk.qp_ref_v4 > 0.5 ? GaitReferenceData.MainFileV4 : GaitReferenceData.FileFor(Walk.imp)))); d.Validate();
             if (Walk.qp_ladder > 0.5)
             {
                 // step 9.5b speed ladder: the low-Froude @v2 rows first, the Fr 0.10 row last (rows sorted by Froude)
-                var lad = JsonUtility.FromJson<GaitReferenceData>(File.ReadAllText(Path.Combine(Application.dataPath, "Game/Config/Mech", GaitReferenceData.LadderFile))); lad.Validate();
+                var lad = JsonUtility.FromJson<GaitReferenceData>(File.ReadAllText(Path.Combine(Application.dataPath, "Game/Config/Mech", Walk.qp_ref_v4 > 0.5 ? GaitReferenceData.LadderFileV4 : GaitReferenceData.LadderFile))); lad.Validate();
                 var all = new GaitRefRow[lad.rows.Length + d.rows.Length]; lad.rows.CopyTo(all, 0); d.rows.CopyTo(all, lad.rows.Length); d.rows = all; d.Validate();
             }
             return d;

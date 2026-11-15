@@ -9,7 +9,7 @@ namespace Game.Units.Mech.Qp
     /// </summary>
     public sealed class QpReference
     {
-        public const int Cq = 0, Cqd = 9, Cqdd = 18, Cf = 27, Ccom = 35, Ccomd = 37, Ccomdd = 39, Cl = 41, Cldot = 42, Cpts = 43, Cptv = 51, Cpta = 59, Channels = 67;
+        public const int Cq = 0, Cqd = 9, Cqdd = 18, Cf = 27, Ccom = 35, Ccomd = 37, Ccomdd = 39, Cl = 41, Cldot = 42, Cpts = 43, Cptv = 51, Cpta = 59, Carm = 67, CarmD = 69, CarmDD = 71, Channels = 73;   // Carm (9.5h): shoulder flexion (rad, + hand forward) of the arm on the lateral side of leg A / B, then its rate and acceleration (2 channels each); 0 when the row has no shoulder_* fields
         static readonly int[] Sw = { 0, 1, 2, 6, 7, 8, 3, 4, 5 }, Sw4 = { 2, 3, 0, 1 };
 
         public readonly int N, N2;
@@ -51,6 +51,18 @@ namespace Game.Units.Mech.Qp
                     double qm = k == 0 ? q[i * n2 + n2 - 1] - (i == 0 ? 2 * d : 0.0) : q[i * n2 + k - 1];
                     double qk = q[i * n2 + k];
                     _node[(Cq + i) * n2 + k] = qk; _node[(Cqd + i) * n2 + k] = (qp - qm) / (2 * h); _node[(Cqdd + i) * n2 + k] = (qp - 2 * qk + qm) / (h * h);
+                }
+            // step 9.5h: reference shoulder flexion of the arm on the side of leg A / B (swing / stance leg of the first half, swapped in the second half), central differences on the periodic 2N cycle (the arm angle is anti-periodic per step)
+            for (int k = 0; k < N; k++)
+            {
+                double aS = nd[k].swing.shoulder_deg * Math.PI / 180, aT = nd[k].stance.shoulder_deg * Math.PI / 180;
+                _node[Carm * n2 + k] = aS; _node[(Carm + 1) * n2 + k] = aT; _node[Carm * n2 + N + k] = aT; _node[(Carm + 1) * n2 + N + k] = aS;
+            }
+            for (int a = 0; a < 2; a++)
+                for (int k = 0; k < n2; k++)
+                {
+                    double ap = _node[(Carm + a) * n2 + (k + 1) % n2], am = _node[(Carm + a) * n2 + (k + n2 - 1) % n2], ak = _node[(Carm + a) * n2 + k];
+                    _node[(CarmD + a) * n2 + k] = (ap - am) / (2 * h); _node[(CarmDD + a) * n2 + k] = (ap - 2 * ak + am) / (h * h);
                 }
             _drift[Cq] = 2 * d; _drift[Ccom] = 2 * d;
             _lt = row.thigh_m; _ls = row.shank_m; _heel = row.heel_x_m; _toe = row.toe_x_m; _ha = row.ankle_height_m;

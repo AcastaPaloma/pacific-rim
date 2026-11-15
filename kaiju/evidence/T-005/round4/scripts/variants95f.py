@@ -48,6 +48,19 @@ SETS['f3'] = _seeded({
   'Hbud': {"qp_yaw_budget": 1.0},
   'Hrefbud': {"qp_arm_ff": 1, "qp_arm_ff_ref_w": 1.0, "qp_arm_ff_gain": 0.7, "qp_yaw_budget": 1.0},
 }, 4)
+# 9.5h: v4 ladder (qp_ref_v4) + reference arm swing (qp_arm_ref)
+V4 = {"qp_ref_v4": 1}
+SETS['h1'] = {
+  'I0v3base': {},
+  'I1v4only': dict(V4),
+  'I2arm': dict(V4, qp_arm_ref=1),
+  'I3armyff': dict(V4, qp_arm_ref=1, qp_arm_ref_yawff=1.0),
+  'I4armg07': dict(V4, qp_arm_ref=1, qp_arm_ref_gain=0.7),
+  'I5armhz6': dict(V4, qp_arm_ref=1, qp_arm_ref_hz=6.0),
+  'I6armneg': dict(V4, qp_arm_ref=1, qp_arm_ref_gain=-1.0),
+  'I7armff': dict(V4, qp_arm_ref=1, qp_arm_ref_yawff=1.0, qp_arm_ff=1, qp_arm_ff_gain=0.7),
+  'I8armyff0': dict(V4, qp_arm_ref=1, qp_yaw_ff=0),
+}
 def load_set(name):
     return SETS[name]
 def check_line(line):
