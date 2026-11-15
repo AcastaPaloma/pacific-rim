@@ -35,3 +35,6 @@ M-002.3/.4/.5 pass in all three. M-006.7 passes (3.69e7 J vs 7.8e7 for imp=1 run
 Footfall latency: imp=0 776 contacts, same-step share 1.0; imp=1 209 contacts, 1.0.
 Notes: all FAIL values are copied from the tool stdout (metrics/*.stdout.txt, imp1/metrics/*.stdout.txt); cycle 3 values from
 evidence/T-005/metrics and EVIDENCE.md 0.3. imp1 M-001 reported "missing inputs" for the five captures not supplied.
+
+## Addendum (orchestrator, after eval-physics round 2): truth scenes re-run
+`unity run . -- -executeMethod Game.Physics.Body.Editor.TruthScenesCli.Run -out evidence/T-005/round2/final` (c1ba9af), then `m006.py evidence/T-005/round2/final --commit c1ba9af` again. M-006@v1 now measures every item: FAIL — .1 pass, .2 pass, .3 pass, .4 FAIL (4.08 BW vs [1, 2]), .5 FAIL (limp topple (KE + drive dissipation)/dPE 0.913 vs 1 ± 0.05; locked topple all pass, energy to rest 3.59 GJ), .6 FAIL (2068 MW vs ≤ 450), .7 pass, .8 pass. Same failing set as cycle 3. `M-006@v1.1` (passivity reading of .5) is not implemented in `m006.py`.

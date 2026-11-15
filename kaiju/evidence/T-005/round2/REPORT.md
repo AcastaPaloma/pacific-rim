@@ -30,10 +30,17 @@ Stiffer stance (kload 50/100, knee-only 100) made every rung worse, including 0.
 At the first failing rung the **stance knee collapses** (−9° → +18° past the reference in 0.5 s, CoM height 40.5 → 37.8 m). At the same time the swing knee is 33–45° off and the swing hip lags its reference by 3–50°. At longer steps the hand-tuned joint impedance cannot hold the reference: stiffer gains destabilise it, softer gains let the knee fold. Swing-hip torque saturation could not be checked (no per-DOF torque in the gait log). This matches R-008 §3's risk note for option (a): "still hand-tuned".
 
 ## Metrics at c1ba9af (`final/METRICS.md`)
-- Legacy (imp = 0): M-001 FAIL (6 gating: .1 Fr 0.0226 vs [0.17, 0.23]; .2 0.259; .3 0.329; .5 2.42 vs ≤ 1.148; .8 77.0 vs ≤ 4.04 deg/s²; .11 2.24 t*), M-002 FAIL (.1 slip 0.246 L_f vs < 0.005, same as cycle 3), M-006 FAIL (.4, .6; truth scenes not re-run).
+- Legacy (imp = 0): M-001 FAIL (6 gating: .1 Fr 0.0226 vs [0.17, 0.23]; .2 0.259; .3 0.329; .5 2.42 vs ≤ 1.148; .8 77.0 vs ≤ 4.04 deg/s²; .11 2.24 t*), M-002 FAIL (.1 slip 0.246 L_f vs < 0.005, same as cycle 3), M-006@v1 FAIL (.4 touchdown 4.08 BW, .5 limp topple 0.913, .6 power 2068 MW; .1/.2/.3/.7/.8 pass; truth scenes re-run, METRICS.md addendum). Same failing set as cycle 3.
 - imp = 1 (cap 0.25): all three FAIL (M-001 also fails .4, 3.27).
 - Tests: EditMode 215/222, dotnet 77/84. The 7 reds are the KnownGap tests on the legacy reference (5 × EveryJoint_HasFiveDegreesToSpare, YawMoment…AtCruiseAndAbove 0.2 and 0.3).
 - Scenarios: everything holds except `intent_over_limit` (falls 61.1 s) and `shove_060` (15.0 s), both as in cycle 3.
+
+## Evaluations
+- eval-physics round 2: **FAIL** (3 blocker, 4 major, 3 minor; `evaluations/T-005/eval-physics.round2.md`). Confirms honest physics (no assist, body data unchanged, no threshold edits) and an honest stop rule. Blockers: gate not met; M-006.4 and M-006.6 (cycle-1 DEF-1/DEF-2 still open).
+- eval-arch round 2: **FAIL** (0 blocker, 3 major, 6 minor; `evaluations/T-005/eval-arch.round2.md`). Majors: Physics.Body contract v1→v2 (three inverse-dynamics members) without MODULE.md updates or a wrapper test; stance schedule embedded in `ReferenceGait.cs` with a hard-coded `l / 42.0`; N-mech independence test still KnownFailing (cycle-1 arch-2).
+
+## Not done in round 2 (brief item 6)
+- The round-2 readings of C20 (seeded ensemble independence) and `M-006@v1.1` are not implemented or reported. They are evaluation work, not gait work, and do not change the gate verdict.
 
 ## Open items
 - Per-DOF drive torque vs limit in the gait log (needed to diagnose the swing hip).
