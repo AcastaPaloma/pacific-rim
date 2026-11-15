@@ -1,0 +1,29 @@
+{
+    "name": "Game.Units.Mech.UnityTests",
+    "rootNamespace": "Game.Units.Mech.UnityTests",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Game.Core.Contracts",
+        "Game.Core",
+        "Game.Physics.Body.Contracts",
+        "Game.Physics.Body",
+        "Game.Physics.Body.Unity",
+        "Game.Units.Mech"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

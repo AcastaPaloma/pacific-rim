@@ -160,7 +160,7 @@ namespace Game.Physics.Body.Contracts
         bool DofSpeedClamped(int dof);
 
         // ---- v3: whole-body model (the engine exposes no mass matrix; the controller builds it from Jacobians, masses and inertias) ----
-        /// <summary>Column count of the Jacobian and length of the bias vector: every joint DOF plus 6 base columns when the root is not immovable.</summary>
+        /// <summary>Column count of the Jacobian and length of the bias vector: the engine's reduced coordinates (6 base columns when the root is not immovable, then the slots of every link; a locked axis of a spherical joint keeps an inert slot, so this can exceed DofCount + 6). Valid once the articulation exists (after the first step).</summary>
         int ModelColumns { get; }
         /// <summary>Model column of a body DOF (anatomical sign, same index space as <see cref="GetBiasForce"/>).</summary>
         int ModelColumnOfDof(int dof);

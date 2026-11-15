@@ -291,7 +291,8 @@ namespace Game.Physics.Body.Unity
             if (!_idGravityFresh) { _ab[0].GetJointGravityForces(_idGravity); _idGravityFresh = true; }
             return ModelColumns - _idGravity.Count;
         }
-        public int ModelColumns => _dof.Length + (_ab[0].immovable ? 0 : 6);
+        /// <summary>Measured (step 9.4c, 6000.6.9f1): the engine's reduced-coordinate count (bias length = Jacobian columns = 6 base + the slots of every link, 3 per spherical joint even with a locked axis), not the active DOF count; the extra slots are inert.</summary>
+        public int ModelColumns { get { if (!_idGravityFresh) { _ab[0].GetJointGravityForces(_idGravity); _idGravityFresh = true; } return _idGravity.Count > 0 ? _idGravity.Count : _dof.Length + (_ab[0].immovable ? 0 : 6); } }
         public int ModelColumnOfDof(int dof) { int i = IdIndex(dof); return i < 0 ? -1 : i + BiasOffset(); }
         public int ModelBaseColumn(int k) => _ab[0].immovable ? -1 : k < 0 || k > 5 ? -1 : k;
         public bool GetBodyJacobian(double[] jac, out int rows, out int cols)
