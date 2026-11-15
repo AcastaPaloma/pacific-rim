@@ -32,6 +32,10 @@ namespace Game.AI.Harness
         public float MechRangeM = 300f;           // harness constant
         public float MechShotIntervalSeconds = 1f; // damage is applied (and logged as a hit) once per interval to the nearest kaiju in range
         public bool MeasureTiming;
+        /// <summary>Optional per-kaiju brain factory (kaiju index -> brain). Null = scripted brain per kaiju (legacy behaviour).</summary>
+        public Func<int, IKaijuBrain> BrainFactory;
+        /// <summary>Optional brain_id written to the brain_log header; null = derived from the scripted config (legacy).</summary>
+        public string BrainId;
 
         /// <summary>M-007@v1 scenario (R-024 5 rev 2): 3 kaiju vs 2 slow decoy mechs, 300 s (90 s cannot fit approach 600-900 m + assembly + flank arc).</summary>
         public static HarnessScenario M007(ulong seed, bool directCharge)
@@ -98,7 +102,7 @@ namespace Game.AI.Harness
     {
         private sealed class Kaiju
         {
-            public EntityId Id; public ScriptedKaijuBrain Brain = new ScriptedKaijuBrain();
+            public EntityId Id; public IKaijuBrain Brain;
             public float X, Y, Heading, Speed, Hp = 1f, HpAbs, Cooldown; public bool EverRetreated, EverWithdrawn;
             public BrainIntent Intent; public BrainState State; public bool Alive = true;
             public double[] LastSeen; public float[] LastX, LastY, LastHead, LastHp, LastSpeed; public bool[] EverSeen;
@@ -130,6 +134,7 @@ namespace Game.AI.Harness
                 var k = new Kaiju { Id = EntityId.FromValue((ulong)(i + 1)), HpAbs = sc.KaijuMaxHp };
                 k.X = -1000f + _rng.Range(-100f, 100f); k.Y = (i - (_k.Length - 1) * 0.5f) * 200f + _rng.Range(-50f, 50f);
                 k.Heading = _rng.Range(-0.2f, 0.2f);
+                k.Brain = sc.BrainFactory != null ? sc.BrainFactory(i) : new ScriptedKaijuBrain();
                 k.Brain.Reset(sc.Seed + (ulong)i, sc.Brain);
                 int n = _m.Length;
                 k.LastSeen = new double[n]; k.LastX = new float[n]; k.LastY = new float[n]; k.LastHead = new float[n];

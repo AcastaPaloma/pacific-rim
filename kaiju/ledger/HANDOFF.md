@@ -312,6 +312,13 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 - 2026-11-15 · T-036c: `GeoFaultData` lacks a baked `fault_id`, so production faults cannot feed M-053; T-036c's scope is widened to add it end to end (bake, Geo reader, Seismic) — decided autonomously (founder asleep).
 - 2026-11-15 · T-030c done (0b37697, eeac0b3, 8b5cc99): flags, placeholder body, slot release/rejoin, UDP, two-process co-op evidence, hangar adapter + wiring. T-036c merged (EditMode 485/0/2, M-050..054 + M-005 --pieces PASS on real Mw 7.2 input).
 
+## T-141 (M3 worker, 2026-11-15)
+- 2026-11-15 · `Game.Platform.Contracts` (`platform@v1`) references `Game.Core.Contracts` and `Game.Net.Contracts` only; the Net seam is `IPlatformServices.CreateP2PTransport(peer)` returning Net's `ITransport`, so no adapter file is needed and Net never references Platform (L4 peers, contract-to-contract) — decided autonomously (founder asleep).
+- 2026-11-15 · Lobby API is synchronous with a `LobbyResult` enum and a capacity parameter (1..256, nothing fixed at 2); one lobby per user; ownership passes to the earliest member on owner leave. Alternatives: async/callbacks (rejected, null impl must be deterministic; Steam adapter completes inside itself or returns `Unavailable`) — decided autonomously (founder asleep).
+- 2026-11-15 · `Game.Platform.Null`: `NullPlatformHub` shares lobbies and loopback links between several `NullPlatformServices` users in-process; `LoopbackTransport` is lossless, ordered, clockless — decided autonomously (founder asleep).
+- 2026-11-15 · Flag `platform.steam` = false in `Config/FeatureFlags/Platform.json`; no Steam code, no SDK. No Unity EditMode asmdef (template Hangar has none; tests are dotnet). Composition installer for `IPlatformServices` is a follow-up (Game.Composition is another track's file) — decided autonomously (founder asleep).
+- 2026-11-15 · Unity verification (new asmdefs + flag file, GameCoreConfig regeneration, EditMode) NOT run: 7 Unity batch processes were running (limit 2). Branch committed, not merged: awaiting Unity slot — decided autonomously (founder asleep).
+
 
 ## T-040 melee and cannon (2026-11-15)
 - Scope: engine-free Combat core on the placeholder body behind `combat.cannon` / `combat.melee`; feel (recoil into stance, contact from the walking body) stays staged to after T-005 and tracked in `Assets/Game/Combat/MODULE.md`.
@@ -449,3 +456,16 @@ Worker escalated to Opus 5.5 high (§14) for the design; design `research/R-028.
 - Retreat/Withdrawn members leave the allocation and fall back to their inner brain (their own R-024 retreat logic); a wounded Bait (hp < 0.6) retreats inside the wrapper first.
 - Flag `ai.pack` is in a new `Config/FeatureFlags/AI.Pack.json` (AI.json belongs to M1). Nothing registers `PackBrainFactory`; Composition wiring is the lead's/another track's.
 - Unity EditMode + GameCoreConfig run for the new asmdef: awaiting Unity slot (4 batch processes were running, rule 5).
+
+## M2/M3 lead orchestrator, session 2 (2026-11-15)
+- Did not relaunch T-101/T-107/T-118: all three session-1 workers show file activity within minutes; relaunching would duplicate writers — decided autonomously (founder asleep). Alternative: relaunch now (rejected, two writers per worktree).
+- T-113 starts in parallel with T-112 using its own minimal species-role input instead of waiting for `Units.Kaiju`; the adapter is a tracked follow-up, full species-driven packs stay in scope — decided autonomously (founder asleep). Alternative: serialize T-113 after T-112 (rejected, idles the track).
+- T-115 split: tool + spec now, Bay runs after T-113; win-rate clause kept as "pending T-041", not dropped — decided autonomously (founder asleep).
+- T-144b held until T-101 merges (both touch the bake) — decided autonomously (founder asleep).
+## T-107 (M2 worker, 2026-11-15)
+- 2026-11-15 · `World.Streaming` residency keys are `ResidencyKey` (tile + kind + chunk) instead of R-101's tile-only key, so 256 m physics chunks are addressable; `TileResident` / `TileEvicted` carry `Tile`, `Kind`, `Chunk`, `Generation` (unmanaged, IDs only). Alternative: a separate `ChunkResident` event pair, rejected (two code paths for the loader) — decided autonomously (founder asleep).
+- 2026-11-15 · Bodies drive the render pyramid only when `FocusSample.NeedsRender` is set (cameras always); bodies otherwise drive their 512 m physics ring and cluster. Reason: five foci 30+ km apart each wanting an 800 MB render ring cannot fit the 1.5 GB cap, and an AI kaiju beyond every camera needs no visual ring. Cap not lowered. Alternative: render ring for every focus, rejected (budget) — decided autonomously (founder asleep).
+- 2026-11-15 · Eviction is two-step: `TileEvicted` at decision, `Released(key)` from the host frees the budget bytes; the scheduler only requests what fits the budget on top of resident + in-flight + evicting bytes. Alternative: free at decision, rejected (could overshoot real memory) — decided autonomously (founder asleep).
+- 2026-11-15 · Per-level render rings (1.5 / 3 / 6 / 12 km, top = clamp(V, 15, 60) km) are raised to the next level's switch distance x 1.15 so no ring can leave a hole; the SSE rule (tau = TauFactor / k, TauFactor clamped to <= 1) decides levels, rings only bound and retain. Defaults to calibrate with `geo_lod@v1` stats (T-108) — decided autonomously (founder asleep).
+- 2026-11-15 · Cluster origin: tile corner nearest AABB centre; rebase only if it lowers the largest local coordinate (avoids a rebase every tick at 3584 m); link and cap as O6 (3072 / 5120 m), rebase 3072 soft (quiet step) / 3840 forced. Thresholds unchanged: 4096 m bound met with max 3563 m in the 75 km synthetic traversal — decided autonomously (founder asleep).
+- 2026-11-15 · Physics priority is the render formula with t_reach = 0 times 1000 (R-101 rule 3), not a separate time-to-touch term; ties on `ResidencyKey` order. Parent fallback with no resident ancestor requests the L4 cover first (cheapest hole-free cover). Alternative: immediate-parent chain, rejected for startup memory — decided autonomously (founder asleep).

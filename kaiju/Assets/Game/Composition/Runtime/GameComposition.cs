@@ -34,6 +34,8 @@ namespace Game.Composition
     {
         public GeoWorldService Geo;
         public DamageModel Destruction;
+        /// <summary>destruction@v1 save section owner; set when Destruction installed AND a SaveSystem was supplied.</summary>
+        public DestructionSaveParticipant DestructionSave;
         public QuakeDirector Seismic;
         public SeismicShakingBridge ShakingBridge;
         public IKaijuBrainFactory Brain;
@@ -58,6 +60,7 @@ namespace Game.Composition
             var r = new GameCompositionResult();
             r.Geo = GeoModule.Install(registry, flags);
             r.Destruction = DestructionModule.Install(registry, flags);
+            r.DestructionSave = DestructionSaveInstaller.Install(r.Destruction, saves);
 
             if (flags.IsOn(SeismicFlags.Enabled))
             {
