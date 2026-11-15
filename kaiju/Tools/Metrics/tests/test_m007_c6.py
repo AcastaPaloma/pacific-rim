@@ -90,7 +90,7 @@ def test_c6_not_run_cases(tmp_path):
 def test_edge_time_diagnostic(tmp_path):
     write_run(tmp_path / "e.jsonl", "x", 1, 0, x=1950.0)
     write_run(tmp_path / "m.jsonl", "x", 2, 0, x=0.0)
-    r = c6.edge_time([load(tmp_path / "e.jsonl"), load(tmp_path / "m.jsonl")])
+    r = c6.edge_time([load(tmp_path / "e.jsonl"), load(tmp_path / "m.jsonl")], 2000.0, 0.05)
     assert r["decisions"] == 6 and r["at_edge"] == 3 and abs(r["fraction"] - 0.5) < 1e-12
 
 

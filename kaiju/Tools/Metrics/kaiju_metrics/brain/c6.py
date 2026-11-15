@@ -25,7 +25,7 @@ def outcome(log):
     dmg = sum(r["damage"] for r in log.hits if ent_id(r["victim"]) >= MECH_MIN_ID and ent_id(r["attacker"]) < MECH_MIN_ID)
     step_s = float(log.header["step_seconds"])
     all_dead = bool(mechs) and len({ent_id(r["ent"]) for r in dead_m}) >= len(mechs)
-    t_win = max((r["step"] for r in dead_m), default=0) * step_s if all_dead else 0.0
+    t_win = max((r["step"] for r in dead_m), default=0) * step_s if all_dead else 0
     return {"all_dead": int(all_dead), "killed": len({ent_id(r["ent"]) for r in dead_m}), "damage": float(dmg),
             "kaiju_alive": len(kaiju - dead_k), "t_win_s": t_win,
             "key": (int(all_dead), len({ent_id(r["ent"]) for r in dead_m}), round(float(dmg), ROUND_DIGITS), len(kaiju - dead_k), -t_win)}
@@ -76,10 +76,10 @@ def score_pairs(pairs):
             "candidate_absolute_win_rate": (cand_win / len(pairs)) if pairs else None, "per_pair": per_pair}
 
 
-def edge_time(logs, field_half_m=2000.0, margin_frac=0.05):
+def edge_time(logs, field_half_m, margin_frac):
     """Edge-time diagnostic: share of live-kaiju decision rows with |x| or |y| within `margin_frac` of the field edge (the
     harness clamps position at +-FieldHalfM, so a policy can park against the wall). Diagnostic only; never gates."""
-    lim = field_half_m * (1.0 - margin_frac)
+    lim = field_half_m * (1 - margin_frac)
     tot = edge = 0
     for lg in logs:
         for r in lg.decisions:
