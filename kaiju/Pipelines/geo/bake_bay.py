@@ -42,8 +42,14 @@ CLASSES = ("urban", "rural", "water_only", "ocean_only")
 
 # ---------------------------------------------------------------- planning
 def plan_of(t: dict) -> dict:
+    """What the bake may use for this tile: the manifest's sources, plus anything the cache already holds (the 15 district tiles were
+    fetched before bay_manifest@v1, e.g. L0_31_36 has a 3DEP window the manifest lists no item for; ignoring it would change its bytes)."""
     s = t.get("sources", {})
-    return {"cudem": bool(s.get("cudem")), "dep3": bool(s.get("dep3_1m")), "osm": bool(s.get("osm")), "datasf": bool(s.get("datasf"))}
+    tid = t["id"]
+    return {"cudem": bool(s.get("cudem")),
+            "dep3": bool(s.get("dep3_1m")) or (CACHE / "3dep" / f"tnm_query__{tid}.json").exists(),
+            "osm": bool(s.get("osm")),
+            "datasf": bool(s.get("datasf")) or (CACHE / "datasf" / f"ynuv-fyni__{tid}.geojson").exists()}
 
 
 def load_tiles(path: Path = MANIFEST) -> list[dict]:
