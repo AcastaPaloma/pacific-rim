@@ -1,0 +1,9 @@
+M-101@v1  [streaming_frames_unity_30mps.json]  registry v1.0 sha256:d571e024536b  tool 1.0.0
+VERDICT: INCOMPLETE   headless: INCOMPLETE   exit 3   failing gating: 0
+  NOT_RUN        [G] M-101.a          - 
+  NOT_RUN        [G] M-101.b          - 
+  PASS           [G] M-101.d          0 count  <= 0  margin 0
+  NOT_RUN        [G] M-101.e          - 
+  PASS           [A] M-101.c          3.59 ms  <= 4  margin 0.41
+  missing inputs: 30 m/s control, 60 m/s control
+  inputs: 2 files hashed; report.json holds every value, threshold and hash

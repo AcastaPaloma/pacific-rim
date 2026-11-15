@@ -161,6 +161,7 @@ namespace Game.World.Streaming.Host
             for (int i = 0; i < foci.Length; i++) if (foci[i].Kind == FocusKind.Body && foci[i].NeedsPhysics) _physicsFoci.Add(foci[i].Id);
             ApplyClusters();
             ReassignChunks();
+            RemoveEndedClusters();
             for (int i = 0; i < _plan.Load.Count; i++) _pending.Add(_plan.Load[i]);
             Dispatch();
             Pump();
@@ -204,6 +205,12 @@ namespace Game.World.Streaming.Host
                 _clusterOrigins[c.ClusterId] = (c.OriginX, c.OriginZ);
                 if (known) ClusterShifts++;
             }
+        }
+
+        // after ReassignChunks: a cluster that merged into another hands its chunks over before its scene goes
+        void RemoveEndedClusters()
+        {
+            if (_clusterBuilder == null) return;
             if (_clusterOrigins.Count > _plan.Clusters.Count)
             {
                 _scratchIds.Clear();

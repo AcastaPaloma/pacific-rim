@@ -5,19 +5,22 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Game.World.Geo;
 using Game.World.Geo.Unity;
 using Game.World.Streaming.Host;
 
 namespace Game.World.Streaming.Unity
 {
-    public sealed class UnityTileBuilder : ITileBuilder
+    public sealed class UnityTileBuilder : ITileBuilder, IClusterBuilder
     {
         sealed class Node
         {
             public GameObject Root;
             public readonly List<Mesh> Meshes = new List<Mesh>();
             public GeoTileId Tile; public double X0, Z0;
+            public int Cluster = int.MinValue;   // physics nodes in cluster mode
+            public bool IsPhysics;
         }
         sealed class Baking { public ResidencyKey Key; public Node Node; public IBuildSink Sink; public volatile bool Done; public volatile string Error; public long Gpu, Cpu; }
 
@@ -25,7 +28,9 @@ namespace Game.World.Streaming.Unity
         readonly IWorkRunner _runner;
         readonly Dictionary<ResidencyKey, Node> _nodes = new Dictionary<ResidencyKey, Node>();
         readonly List<Baking> _baking = new List<Baking>();
+        readonly Dictionary<ResidencyKey, int> _assigned = new Dictionary<ResidencyKey, int>();
         Material _terrain;
+        ClusterPhysicsScenes _scenes;
 
         public double OriginX { get; private set; }
         public double OriginZ { get; private set; }
@@ -34,6 +39,10 @@ namespace Game.World.Streaming.Unity
         public int ResidentNodes => _nodes.Count;
         public int ColliderBakesPending => _baking.Count;
         public Transform Parent => _parent;
+        /// <summary>Cluster mode (T-111): physics chunks go into the PhysicsScene of the cluster that needs them, at (tile corner - cluster origin). Null = M1 behaviour, one frame.</summary>
+        public ClusterPhysicsScenes ClusterScenes { get => _scenes; set => _scenes = value; }
+        /// <summary>Milliseconds of the last ShiftClusterOrigin.</summary>
+        public double LastClusterShiftMs { get; private set; }
 
         public UnityTileBuilder(Transform parent, IWorkRunner runner, IReadOnlyDictionary<string, double> geoSettings)
         {
@@ -55,12 +64,21 @@ namespace Game.World.Streaming.Unity
         public void Build(in ResidencyKey key, TilePayload p, IBuildSink sink)
         {
             if (_nodes.ContainsKey(key)) Release(key);
-            var node = new Node { Tile = key.Tile, Root = new GameObject("Stream_" + key) };
-            node.X0 = key.Tile.OriginX; node.Z0 = key.Tile.OriginZ;   // payload meshes are tile-local, also for physics chunks
-            node.Root.transform.SetParent(_parent, false);
-            node.Root.transform.localPosition = RootOffset(key);
-            _nodes[key] = node;
             bool physics = key.Kind == ResidencyKind.Physics;
+            var node = new Node { Tile = key.Tile, Root = new GameObject("Stream_" + key), IsPhysics = physics };
+            node.X0 = key.Tile.OriginX; node.Z0 = key.Tile.OriginZ;   // payload meshes are tile-local, also for physics chunks
+            if (physics && _scenes != null)
+            {
+                _assigned.TryGetValue(key, out int cid);
+                if (!_assigned.ContainsKey(key)) cid = -1;
+                Attach(node, cid);
+            }
+            else
+            {
+                node.Root.transform.SetParent(_parent, false);
+                node.Root.transform.localPosition = RootOffset(key);
+            }
+            _nodes[key] = node;
             long gpu = 0, cpu = 0;
             foreach (var d in p.Meshes)
             {
@@ -109,8 +127,49 @@ namespace Game.World.Streaming.Unity
             }
         }
 
+        // puts a physics node into the scene of its cluster at (tile corner - cluster origin); exact in float32 because both are multiples of 2048
+        void Attach(Node node, int cluster)
+        {
+            var cs = _scenes.GetOrCreate(cluster);
+            if (node.Root.scene != cs.Scene) { node.Root.transform.SetParent(null, false); SceneManager.MoveGameObjectToScene(node.Root, cs.Scene); }
+            node.Cluster = cluster;
+            node.Root.transform.position = new Vector3((float)(node.X0 - cs.OriginX), 0f, (float)(node.Z0 - cs.OriginZ));
+        }
+
+        public void AssignCluster(in ResidencyKey key, int clusterId)
+        {
+            _assigned[key] = clusterId;
+            if (_scenes != null && _nodes.TryGetValue(key, out var n) && n.IsPhysics && n.Cluster != clusterId) { Attach(n, clusterId); Physics.SyncTransforms(); }
+        }
+
+        public void ShiftClusterOrigin(int clusterId, double originX, double originZ)
+        {
+            if (_scenes == null) return;
+            if (originX % GeoTileId.BaseSizeM != 0 || originZ % GeoTileId.BaseSizeM != 0) throw new ArgumentException("origin must be a tile corner");
+            var sw = Stopwatch.StartNew();
+            _scenes.SetOrigin(clusterId, originX, originZ);
+            bool any = false;
+            foreach (var kv in _nodes)
+            {
+                var n = kv.Value;
+                if (!n.IsPhysics || n.Cluster != clusterId) continue;
+                n.Root.transform.position = new Vector3((float)(n.X0 - originX), 0f, (float)(n.Z0 - originZ));
+                any = true;
+            }
+            if (any) Physics.SyncTransforms();
+            LastClusterShiftMs = sw.Elapsed.TotalMilliseconds;
+        }
+
+        public void RemoveCluster(int clusterId)
+        {
+            if (_scenes == null) return;
+            foreach (var n in _nodes.Values) if (n.IsPhysics && n.Cluster == clusterId) n.Cluster = int.MinValue;   // its nodes are re-attached by AssignCluster or released
+            _scenes.Remove(clusterId);
+        }
+
         public void Release(in ResidencyKey key)
         {
+            _assigned.Remove(key);
             if (!_nodes.TryGetValue(key, out var n)) return;
             _nodes.Remove(key);
             for (int i = _baking.Count - 1; i >= 0; i--) if (_baking[i].Node == n) _baking.RemoveAt(i);
@@ -123,7 +182,11 @@ namespace Game.World.Streaming.Unity
             if (originX % GeoTileId.BaseSizeM != 0 || originZ % GeoTileId.BaseSizeM != 0) throw new ArgumentException("origin must be a tile corner");
             var sw = Stopwatch.StartNew();
             OriginX = originX; OriginZ = originZ;
-            foreach (var kv in _nodes) kv.Value.Root.transform.localPosition = new Vector3((float)(kv.Value.X0 - originX), 0f, (float)(kv.Value.Z0 - originZ));
+            foreach (var kv in _nodes)
+            {
+                if (_scenes != null && kv.Value.IsPhysics) continue;   // cluster mode: physics chunks follow their cluster's origin, not the render origin
+                kv.Value.Root.transform.localPosition = new Vector3((float)(kv.Value.X0 - originX), 0f, (float)(kv.Value.Z0 - originZ));
+            }
             if (_nodes.Count > 0) Physics.SyncTransforms();
             LastShiftMs = sw.Elapsed.TotalMilliseconds;
         }

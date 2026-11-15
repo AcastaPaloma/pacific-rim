@@ -120,6 +120,22 @@ namespace Game.World.Streaming.Host
         public double MaxAbsLocalM, MaxReconstructionErrM, MaxPairChangeM, MaxRebasePairChangeM, MaxTerrainDeltaM, MaxRebaseTerrainDeltaM, RoundTripErrM, ProbeMaxErrM, PlacedVsReadMaxM;
         public int Rebases, ClusterShifts, ClustersMax, HoldEvents, FramesBelowSurface, FramesWithoutGround, TileLoads, MaxLoadsPerKey, UnclaimedChunks, WorldOriginMismatches;
         public int ProbeSteps;
+        /// <summary>Per simulated step: the longest main-thread time of its host ticks (host tick + builder attach), ms. Frame stand-in for M-101 (c).</summary>
+        public readonly List<double> StepMainMs = new List<double>();
+        public double MaxItemMs;
+
+        /// <summary>`streaming_frames@v1` for Tools/Metrics m101. No rendering here: frame_ms and draw_calls stay null, so clauses (a), (b), (e) are NOT_RUN there.</summary>
+        public string ToFramesJson(double speedMps)
+        {
+            var ic = CultureInfo.InvariantCulture;
+            var sb = new StringBuilder();
+            sb.Append("{\"format\": \"streaming_frames\", \"schema\": 1, \"label\": \"").Append(Label).Append("\", \"speed_mps\": ").Append(speedMps.ToString("R", ic));
+            sb.Append(", \"mode\": \"streaming\", \"rendering\": false, \"frame_ms\": null, \"streaming_main_ms\": [");
+            for (int i = 0; i < StepMainMs.Count; i++) { if (i > 0) sb.Append(','); sb.Append(StepMainMs[i].ToString("0.###", ic)); }
+            sb.Append("], \"max_work_item_ms\": ").Append(MaxItemMs.ToString("0.###", ic));
+            sb.Append(", \"late_tile_frames\": ").Append(HoldEvents).Append(", \"physics_holds\": ").Append(HoldEvents).Append(", \"draw_calls\": null, \"cold_start\": false}\n");
+            return sb.ToString();
+        }
 
         public string ToJson()
         {
@@ -211,8 +227,11 @@ namespace Game.World.Streaming.Host
                 Fill(t);
                 if (!anyRemaining) break;
                 if (++step > sc.MaxSteps) throw new InvalidOperationException("traversal did not finish in " + sc.MaxSteps + " steps");
+                double stepMax = 0;
+                var sw = System.Diagnostics.Stopwatch.StartNew();
                 host.Tick(sc.StepS, foci);
                 sc.AfterTick?.Invoke();
+                stepMax = sw.Elapsed.TotalMilliseconds; rep.MaxItemMs = Math.Max(rep.MaxItemMs, host.LastBuildMs);
                 rebasedClusters.Clear();
                 var plan = host.LastPlan;
                 foreach (var c in plan.Clusters) if (c.Rebased) { rep.Rebases++; rebasedClusters.Add(c.ClusterId); }
@@ -220,10 +239,13 @@ namespace Game.World.Streaming.Host
                 foreach (var r in plan.Load) { loads[r.Key] = (loads.TryGetValue(r.Key, out int n) ? n : 0) + 1; }
                 for (int dtk = 0; dtk < sc.DrainTicks; dtk++)
                 {
+                    sw.Restart();
                     host.Tick(0.0, foci); sc.AfterTick?.Invoke();
+                    stepMax = Math.Max(stepMax, sw.Elapsed.TotalMilliseconds); rep.MaxItemMs = Math.Max(rep.MaxItemMs, host.LastBuildMs);
                     foreach (var r in host.LastPlan.Load) { loads[r.Key] = (loads.TryGetValue(r.Key, out int n2) ? n2 : 0) + 1; }
                 }
                 plan = host.LastPlan;
+                rep.StepMainMs.Add(stepMax);
 
                 PlaceAll(host, world, foci, wx, wy, wz, cid, lx, ly, lz);
                 world.Step(sc.StepS);

@@ -1,0 +1,81 @@
+registry_schema: metric_registry@v1
+revision: v1.0
+metric_status: registered
+date: '2026-11-15'
+metric: M-101
+spec: M-101@v1
+title: Streaming hitch
+source: "research/R-101.md section 9 (M-101); plans/M2.md Track 2"
+note: "Reads streaming_frames@v1 (schema in kaiju_metrics/streaming/m101.py): one run per (speed, mode). Clauses (a), (b), (e) need rendered frame times from a graphics-device run; a run without frame_ms leaves them NOT_RUN (INCOMPLETE). Mac numbers are relative until a target PC exists (Q-207)."
+procedure:
+  speeds_mps:
+    value: [30.0, 60.0]
+    unit: m/s
+    status: derived
+    source: "R-101 section 9 procedure: design speed and cap"
+  warmup_frames:
+    value: 30
+    unit: frames
+    status: derived
+    source: "R-101 section 9 common: 30 warm-up frames"
+submeasures:
+  M-101.a:
+    title: No frame longer than 33.3 ms on the scripted flythrough
+    kind: gating
+    thresholds:
+      frames_over_max:
+        value: 0
+        unit: count
+        status: derived
+        source: "R-101 section 9 (a)"
+      frame_limit_ms:
+        value: 33.3
+        unit: ms
+        status: derived
+        source: "R-101 section 9 (a)"
+  M-101.b:
+    title: p99 frame time within the control run (all tiles pre-resident)
+    kind: gating
+    thresholds:
+      p99_ratio_max:
+        value: 1.25
+        unit: ratio
+        status: derived
+        source: "R-101 section 9 (b): relative on Mac, <= 1.25 x the control p99"
+  M-101.c:
+    title: Main-thread Streaming.* time per frame and per work item (diagnostic)
+    kind: advisory
+    thresholds:
+      main_ms_p99_max:
+        value: 2.0
+        unit: ms
+        status: derived
+        source: "R-101 section 9 (c)"
+      work_item_ms_max:
+        value: 4.0
+        unit: ms
+        status: derived
+        source: "R-101 section 9 (c)"
+  M-101.d:
+    title: No late tile and no physics hold
+    kind: gating
+    thresholds:
+      late_tile_frames_max:
+        value: 0
+        unit: count
+        status: derived
+        source: "R-101 section 9 (d)"
+      physics_holds_max:
+        value: 0
+        unit: count
+        status: derived
+        source: "R-101 section 9 (d)"
+  M-101.e:
+    title: Draw calls per frame at most the M-018 SoMa maximum
+    kind: gating
+    thresholds:
+      draw_calls_max:
+        value: 2446
+        unit: calls
+        status: derived
+        source: "R-101 section 9 (e); M-018 SoMa maximum"

@@ -1,0 +1,100 @@
+registry_schema: metric_registry@v1
+revision: v2.0
+metric_status: registered
+date: '2026-11-15'
+metric: M-015
+spec: M-015@v2
+title: Floating-origin precision at Bay scale
+source: "research/R-101.md section 9 (M-015@v2), section 6; plans/M2.md Track 2"
+note: "Reads m015_dump@v2 (written by the C# FlythroughHarness: engine-free 'logic' mode and the 'unity' mode on real PhysicsScenes; schema in kaiju_metrics/streaming/m015.py). All clause thresholds are the plan's and R-101's; none is lowered. The verdict is INCOMPLETE until a 'unity' mode dump over the >= 75 km route is among the inputs (the logic mode proves the cluster maths, not the engine)."
+procedure:
+  min_path_m:
+    value: 75000.0
+    unit: m
+    status: derived
+    source: "R-101 section 9 definition: path >= 75.0 km"
+  min_mechs:
+    value: 2
+    unit: count
+    status: derived
+    source: "R-101 section 9: >= 2 mechs"
+  min_kaiju:
+    value: 3
+    unit: count
+    status: derived
+    source: "R-101 section 9: >= 3 kaiju"
+  min_debris:
+    value: 100
+    unit: count
+    status: derived
+    source: "R-101 section 9: >= 100 debris bodies"
+submeasures:
+  M-015.a:
+    title: Every body within 4096 m of its cluster origin at every fixed step
+    kind: gating
+    thresholds:
+      max_abs_local_m:
+        value: 4096.0
+        unit: m
+        status: derived
+        source: "R-101 section 9 (a); plan Track 2"
+  M-015.b:
+    title: Origin plus float32 local reconstructs the float64 state within 1 mm
+    kind: gating
+    thresholds:
+      max_reconstruction_err_m:
+        value: 0.001
+        unit: m
+        status: derived
+        source: "R-101 section 9 (b)"
+  M-015.c:
+    title: Probe driven out along the route and back returns within 1 mm
+    kind: gating
+    thresholds:
+      round_trip_err_m:
+        value: 0.001
+        unit: m
+        status: derived
+        source: "R-101 section 9 (c); plan Track 2"
+  M-015.d:
+    title: Pairwise distances and terrain height unchanged across rebases
+    kind: gating
+    thresholds:
+      pair_change_max_m:
+        value: 0.001
+        unit: m
+        status: derived
+        source: "R-101 section 9 (d): 1 mm"
+      terrain_delta_max_m:
+        value: 0.1
+        unit: m
+        status: derived
+        source: "R-101 section 9 (d): 0.1 m (M1 measured 0.07 m)"
+  M-015.e:
+    title: No physics hold, no body below the data surface, a collider under every body
+    kind: gating
+    thresholds:
+      hold_events_max:
+        value: 0
+        unit: count
+        status: derived
+        source: "R-101 section 9 (e)"
+      frames_below_surface_max:
+        value: 0
+        unit: count
+        status: derived
+        source: "R-101 section 9 (e): body > 0.5 m below the data surface"
+      frames_without_ground_max:
+        value: 0
+        unit: count
+        status: derived
+        source: "R-101 section 5 invariant 1 (a body never has no collider under it)"
+  M-015.scope:
+    title: Route length and body counts reach the definition
+    kind: gating
+    thresholds:
+      rebases_min:
+        value: 1
+        unit: count
+        status: derived
+        source: "a traversal that never rebases proves nothing"

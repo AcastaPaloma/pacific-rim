@@ -1,0 +1,307 @@
+{
+ "assumed_thresholds_decisive": [],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [
+   "30 m/s control",
+   "60 m/s control"
+  ],
+  "optional_not_provided": [],
+  "provided": [
+   "30 m/s streaming",
+   "60 m/s streaming"
+  ],
+  "required": [
+   "30 m/s x streaming, control",
+   "60 m/s x streaming, control"
+  ]
+ },
+ "exit_code": 3,
+ "extra": {
+  "m101": {
+   "runs": [
+    {
+     "cold_start": false,
+     "frames": 0,
+     "label": "unity_30mps",
+     "mode": "streaming",
+     "rendering": false,
+     "speed_mps": 30
+    },
+    {
+     "cold_start": false,
+     "frames": 0,
+     "label": "unity_60mps",
+     "mode": "streaming",
+     "rendering": false,
+     "speed_mps": 60
+    }
+   ]
+  }
+ },
+ "failing_gating": [],
+ "failures_suppressed": false,
+ "flags": [],
+ "headless_verdict": "INCOMPLETE",
+ "headless_verdict_label": "INCOMPLETE",
+ "images": [],
+ "inputs": [
+  {
+   "path": "evidence/T-111/streaming_frames_unity_30mps.json",
+   "role": "streaming_frames@v1",
+   "sha256": "e1d7c5332675db115c653c5bcbe29ddd00a0d111e59a9b9cdb205ee42ff97d57"
+  },
+  {
+   "path": "evidence/T-111/streaming_frames_unity_60mps.json",
+   "role": "streaming_frames@v1",
+   "sha256": "7da9b0410c0c3f0729a8d0c80132d7dd246af6344c18b5745d21f332058a3a91"
+  }
+ ],
+ "invocation": {
+  "command": "m101",
+  "inputs": [
+   "evidence/T-111/streaming_frames_unity_30mps.json",
+   "evidence/T-111/streaming_frames_unity_60mps.json"
+  ],
+  "label": "streaming_frames_unity_30mps.json",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "streaming_frames_unity_30mps.json",
+ "metric": "M-101",
+ "metric_version": "M-101@v1",
+ "normalisers": {},
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-101@v1.yaml",
+  "revision": "v1.0",
+  "sha256": "d571e024536be5a7b00cc39c0f0e47a0a3ee17d57ddaf69620ccefce45d12055",
+  "spec": "M-101@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "revw-172-31-218-200.rn.uwaterloo.ca",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-15T10:13:30Z",
+  "wall_time_s": 0.063
+ },
+ "submeasures": [
+  {
+   "diagnostics": {
+    "runs": 2
+   },
+   "id": "M-101.a",
+   "kind": "gating",
+   "note": null,
+   "parts": [
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "unity_30mps 30 m/s",
+     "note": "no rendered frame times (rendering false)",
+     "op": "<=",
+     "status": "NOT_RUN",
+     "threshold": 0,
+     "unit": "count",
+     "value": null
+    },
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "unity_60mps 60 m/s",
+     "note": "no rendered frame times (rendering false)",
+     "op": "<=",
+     "status": "NOT_RUN",
+     "threshold": 0,
+     "unit": "count",
+     "value": null
+    }
+   ],
+   "status": "NOT_RUN",
+   "threshold_status": "derived",
+   "title": "No frame longer than 33.3 ms on the scripted flythrough",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-101.b",
+   "kind": "gating",
+   "note": null,
+   "parts": [
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "unity_30mps 30 m/s",
+     "note": "needs rendered frame times of the run and its control",
+     "op": "<=",
+     "status": "NOT_RUN",
+     "threshold": 1.25,
+     "unit": "ratio",
+     "value": null
+    },
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "unity_60mps 60 m/s",
+     "note": "needs rendered frame times of the run and its control",
+     "op": "<=",
+     "status": "NOT_RUN",
+     "threshold": 1.25,
+     "unit": "ratio",
+     "value": null
+    }
+   ],
+   "status": "NOT_RUN",
+   "threshold_status": "derived",
+   "title": "p99 frame time within the control run (all tiles pre-resident)",
+   "unit": "",
+   "value": null
+  },
+  {
+   "decisive_part": "unity_30mps 30 m/s max work item",
+   "diagnostics": {},
+   "id": "M-101.c",
+   "kind": "advisory",
+   "margin": 0.41,
+   "margin_rel": 0.1025,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 1.402,
+     "margin_rel": 0.701,
+     "name": "unity_30mps 30 m/s p99 per frame",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 2.0,
+     "unit": "ms",
+     "value": 0.598
+    },
+    {
+     "margin": 0.41,
+     "margin_rel": 0.1025,
+     "name": "unity_30mps 30 m/s max work item",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 4.0,
+     "unit": "ms",
+     "value": 3.59
+    },
+    {
+     "margin": 1.42749,
+     "margin_rel": 0.713745,
+     "name": "unity_60mps 60 m/s p99 per frame",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 2.0,
+     "unit": "ms",
+     "value": 0.57251
+    },
+    {
+     "margin": 2.3,
+     "margin_rel": 0.575,
+     "name": "unity_60mps 60 m/s max work item",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 4.0,
+     "unit": "ms",
+     "value": 1.7
+    }
+   ],
+   "status": "PASS",
+   "threshold": 4.0,
+   "threshold_status": "derived",
+   "title": "Main-thread Streaming.* time per frame and per work item (diagnostic)",
+   "unit": "ms",
+   "value": 3.59
+  },
+  {
+   "decisive_part": "late_tile_frames",
+   "diagnostics": {},
+   "id": "M-101.d",
+   "kind": "gating",
+   "margin": 0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "late_tile_frames",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "physics_holds",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "No late tile and no physics hold",
+   "unit": "count",
+   "value": 0
+  },
+  {
+   "diagnostics": {},
+   "id": "M-101.e",
+   "kind": "gating",
+   "note": null,
+   "parts": [
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "unity_30mps 30 m/s",
+     "note": "no draw-call counter",
+     "op": "<=",
+     "status": "NOT_RUN",
+     "threshold": 2446,
+     "unit": "calls",
+     "value": null
+    },
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "unity_60mps 60 m/s",
+     "note": "no draw-call counter",
+     "op": "<=",
+     "status": "NOT_RUN",
+     "threshold": 2446,
+     "unit": "calls",
+     "value": null
+    }
+   ],
+   "status": "NOT_RUN",
+   "threshold_status": "derived",
+   "title": "Draw calls per frame at most the M-018 SoMa maximum",
+   "unit": "",
+   "value": null
+  }
+ ],
+ "tool": {
+  "git_commit": "d60f8643e0f9387a0b1019b9bd40ea0e19312bcd",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "INCOMPLETE",
+ "verdict_label": "INCOMPLETE",
+ "warnings": []
+}
