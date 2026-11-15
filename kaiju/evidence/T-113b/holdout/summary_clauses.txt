@@ -1,0 +1,31 @@
+===== report_v1.json
+C1 PASS fr_commit=0.8983 [0.853,0.931]; fr_commit_minus_k_null=0.8983 compfail []
+    ctl directcharge@1 0.0 cand 0.8983
+    per-comp {'LH': [0.565, 0.98], 'LL': None, 'LLH': [0.595, 0.908], 'LLMH': [0.727, 0.952], 'LLMHH': [0.719, 0.95], 'LMH': [0.665, 0.917], 'LMHH': [0.838, 0.994], 'MH': [0.787, 0.972], 'MMH': [0.904, 1.0]}
+P1 FAIL role_coverage=0.9997 [1.000,1.000]; member_fit_time_min_over_species_x_comp=0.6538 compfail ['LL:L']
+    ctl randomrole@1 0.2812 cand 0.9997
+    fit<0.85 {'LL:L': 0.654}
+P4 FAIL bs_rate=0.5768 [0.517,0.635]; bs_rate_minus_k_nobait=-0.0774 compfail ['LH']
+    ctl nobait@1 0.2204 cand 0.3633
+P5 FAIL kx_ratio_vs_noroles=0.9008 [0.844,0.959]; kx_ratio_ci_lower=0.8441 compfail ['LH', 'LLH', 'LLMH', 'LMH', 'LMHH', 'MH', 'MMH']
+    ctl noroles@1 0.538 cand 0.4847
+    per-comp {'LH': [0.616, 0.872], 'LL': [0.406, 1.678], 'LLH': [0.796, 1.0], 'LLMH': [0.812, 1.058], 'LLMHH': [0.852, 1.322], 'LMH': [0.65, 1.032], 'LMHH': [0.552, 0.885], 'MH': [0.934, 1.19], 'MMH': [0.909, 1.0]}
+P6 FAIL participation_share=0.6909 [0.666,0.715] compfail ['LH', 'LL', 'LLH', 'LLMH', 'LLMHH', 'LMH', 'LMHH']
+    per-comp {'LH': [0.57, 0.746], 'LL': [0.443, 0.712], 'LLH': [0.567, 0.709], 'LLMH': [0.461, 0.597], 'LLMHH': [0.55, 0.672], 'LMH': [0.709, 0.84], 'LMHH': [0.649, 0.774], 'MH': [0.79, 0.922], 'MMH': [0.846, 0.942]}
+I1 PASS raid_completion_rate=1.0 [0.959,1.000] compfail []
+I3 FAIL ival_per_kaiju_hour_ratio=1.0007 [0.980,1.023]; ratio_ci_lower=0.9804 compfail []
+    ctl nearestinfra@1 1.1643 cand 1.1652
+===== report_mv2.json
+C2 FAIL fe_vs_nofocus=0.8314 [0.797,0.863]; ff_ci_separation=1.0 compfail ['LL']
+    ctl nofocus@1 0.5082 cand 0.9171
+    per-comp {'LH': [0.381, 0.604], 'LL': [-0.051, 0.162], 'LLH': [0.854, 0.974], 'LLMH': [0.943, 0.993], 'LLMHH': [0.98, 0.996], 'LMH': [0.689, 0.818], 'LMHH': [0.854, 0.935], 'MH': [1.0, 1.0], 'MMH': [0.987, 0.993]}
+    info {'mean_ff': 0.9171, 'mean_ff_nofocus': 0.5082, 'fe_vs_uniform_chance_informational': 0.7737}
+===== diag_noinfra_v1.json
+P1 PASS role_coverage=0.9989 [0.999,0.999]; member_fit_time_min_over_species_x_comp=0.8951 compfail []
+    ctl randomrole@1 0.2812 cand 0.9989
+    fit<0.85 {}
+===== diag_noinfra_mv2.json
+C2 PASS fe_vs_nofocus=0.8894 [0.864,0.913]; ff_ci_separation=1.0 compfail []
+    ctl nofocus@1 0.5082 cand 0.9456
+    per-comp {'LH': [0.381, 0.604], 'LL': [0.97, 0.999], 'LLH': [0.854, 0.974], 'LLMH': [0.943, 0.993], 'LLMHH': [0.98, 0.996], 'LMH': [0.689, 0.818], 'LMHH': [0.854, 0.935], 'MH': [1.0, 1.0], 'MMH': [0.987, 0.993]}
+    info {'mean_ff': 0.9456, 'mean_ff_nofocus': 0.5082, 'fe_vs_uniform_chance_informational': 0.8519}

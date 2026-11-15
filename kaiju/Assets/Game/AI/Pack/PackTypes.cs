@@ -215,8 +215,9 @@ namespace Game.AI.Pack
             PackConfig c = Default();
             c.BayTactics = true; c.BaitJoinDelaySeconds = 7f; c.PaceMinFrac = 0.4f; c.BaitBandFrac = 0.8f; c.TransitDistanceM = 400f; c.SlotApproachFrac = 0.8f;
             c.RoutePlanning = true;   // T-115c: a no-op while the coordinator holds the straight-line planner
-            c.BaitFirst = true;   // T-113b (iteration 1, chosen on dev seeds). Pincer, strict anchor tolerance and avoidance are implemented but off: on dev seeds they
-            c.BaitSwingSeconds = 4f;   // lowered P5 (0.955 -> 0.886) and P6 (0.656 -> 0.614) for +0.013 C1; tasks/T-113b.progress.md (BaitSwingM 30, StrictAnchorTol, AvoidOtherMechsM 450 to re-enable)
+            // T-113b: bait-first strike geometry (fixes the C1 unflanked commits) stays OFF by default: on the same hold-out seeds it raised C1 0.818 -> 0.898
+            // but turned P4 (+0.001 -> -0.077) and P1 (0.705 -> 0.654) from PASS to FAIL (evidence/T-113b/compare.txt). Kept as a flag for the R-NEW-a hunt-timing work.
+            c.BaitFirst = false; c.BaitSwingSeconds = 4f;
             return c;
         }
     }

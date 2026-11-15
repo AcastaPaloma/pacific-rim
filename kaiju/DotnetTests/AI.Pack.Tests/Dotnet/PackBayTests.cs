@@ -74,6 +74,7 @@ namespace Game.AI.Pack.Tests
         {
             // T-113b: Strider Bait, Strider + Breacher Flankers, Bastion Anchor; every striker slot is >= 90 deg from the Bait slot (P4, C1) and outside weapon range
             var sim = BaySim();
+            sim.Cfg.BaitFirst = true; sim.Coord.Reset(7, sim.Cfg);   // flag off in PackConfig.Bay() (T-113b evidence), on here
             sim.Add(1, S, -3000, 0, () => new HoldBrain()); sim.Add(2, S, -3000, 150, () => new HoldBrain());
             sim.Add(3, M, -3000, -150, () => new HoldBrain()); sim.Add(4, H, -3100, 0, () => new HoldBrain());
             sim.AddMech(100, 0, 0);
