@@ -12,6 +12,7 @@ ROW_RX = re.compile(r"^\|\s*(P[1-5]-[a-e])\b[^|]*\|(.*)\|\s*$")
 SECTION_RX = re.compile(r"^###\s+(P[1-5])\s+(.*)$")
 TAG_RX = re.compile(r"\bB-(walk|kaiju|M2|HUD|coop)\b")
 PATH_RX = re.compile(r"^p([1-5])_([a-e])_")
+TAG_OF = {"walk": "B-walk", "kaiju": "B-kaiju", "m2_streaming": "B-M2", "hud": "B-HUD", "coop": "B-coop", "logotype": "B-logotype", "mech_mesh": "B-mech_mesh"}
 
 
 def parse_plan(plan_md):
@@ -48,12 +49,12 @@ def run(plan_md, paths_dir, geo_root, out_json, extra_dirs=(), captured=None):
         for f in sorted(glob.glob(os.path.join(d, "*.json"))):
             p = json.load(open(f))
             m = PATH_RX.match(p.get("path_id", ""))
-            state = "runnable"
+            state, tags = "runnable", []
             if p.get("requires"):
-                state = "blocked: " + ",".join(p["requires"])
+                state, tags = "blocked: " + ",".join(p["requires"]), [TAG_OF.get(r, "B-" + r) for r in p["requires"]]
             elif not tile_present(geo_root, p["viewpoint"]["tile"]):
-                state = "blocked: tile " + p["viewpoint"]["tile"] + " not in StreamingAssets"
-            row = {"path_id": p["path_id"], "file": os.path.relpath(f, os.path.dirname(os.path.dirname(plan_md))).replace("\\", "/"), "state": state, "mode": p.get("mode"),
+                state, tags = "blocked: tile " + p["viewpoint"]["tile"] + " not in StreamingAssets", ["B-M2"]
+            row = {"blockers": tags, "path_id": p["path_id"], "file": os.path.relpath(f, os.path.dirname(os.path.dirname(plan_md))).replace("\\", "/"), "state": state, "mode": p.get("mode"),
                    "purpose": p.get("purpose", "M-003"), "viewpoint": p["viewpoint"]["id"], "tile": p["viewpoint"]["tile"], "profile_id": p["profile_id"],
                    "captured": bool(captured and p["path_id"] in captured)}
             if m and d == paths_dir and "%s%s" % ("P" + m.group(1), "-" + m.group(2)) in by_id:
@@ -69,7 +70,7 @@ def run(plan_md, paths_dir, geo_root, out_json, extra_dirs=(), captured=None):
             if s["plan_blockers"]:
                 s["note"] = "plan blockers %s are superseded: the path runs on real tiles through the shipping pixel pipeline (T-147)" % ",".join(s["plan_blockers"])
         elif ps:
-            s["status"], s["blockers"] = "BLOCKED", sorted({p["state"].split(": ", 1)[1] for p in ps if p["state"] != "runnable"} | set(s["plan_blockers"]))
+            s["status"], s["blockers"] = "BLOCKED", sorted({t for p in ps for t in p["blockers"]} | set(s["plan_blockers"]))
         elif s["plan_now"]:
             s["status"], s["blockers"] = "NOW_UNPATHED", []
             s["note"] = "plan: capturable now; no capture_path file defines it yet"

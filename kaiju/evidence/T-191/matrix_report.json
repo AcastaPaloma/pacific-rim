@@ -1,0 +1,2520 @@
+{
+ "check": "matrix",
+ "gate": "share <= dE00 2.0 >= 99% (never moved); selection margin 99.5%",
+ "source_frames": 60,
+ "internal_wh": [
+  480,
+  270
+ ],
+ "preset": "slow",
+ "cells": [
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 0,
+   "tune": "none",
+   "bytes": 1275886,
+   "min_share": 1.0,
+   "mean_share": 1.0,
+   "p999_worst": 0.8525378105810874,
+   "frames": 60,
+   "gate_pass": true,
+   "ok": true
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 0,
+   "tune": "animation",
+   "bytes": 1232780,
+   "min_share": 1.0,
+   "mean_share": 1.0,
+   "p999_worst": 0.8525378105810874,
+   "frames": 60,
+   "gate_pass": true,
+   "ok": true
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 4,
+   "tune": "none",
+   "bytes": 459780,
+   "min_share": 0.9993253279320987,
+   "mean_share": 0.9997374051568928,
+   "p999_worst": 1.816565763975886,
+   "frames": 60,
+   "gate_pass": true,
+   "ok": true
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 4,
+   "tune": "animation",
+   "bytes": 464932,
+   "min_share": 0.9970789930555556,
+   "mean_share": 0.9993634098508231,
+   "p999_worst": 3.515865715151015,
+   "frames": 60,
+   "gate_pass": true,
+   "ok": true
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 6,
+   "tune": "none",
+   "bytes": 433562,
+   "min_share": 0.9961250964506173,
+   "mean_share": 0.9990689621913581,
+   "p999_worst": 3.515865715151015,
+   "frames": 60,
+   "gate_pass": true,
+   "ok": true
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 6,
+   "tune": "animation",
+   "bytes": 438659,
+   "min_share": 0.9857773919753087,
+   "mean_share": 0.997791160300926,
+   "p999_worst": 4.336717737042405,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 8,
+   "tune": "none",
+   "bytes": 412154,
+   "min_share": 0.9816276041666666,
+   "mean_share": 0.9969634532536008,
+   "p999_worst": 4.7322858261520055,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 8,
+   "tune": "animation",
+   "bytes": 424491,
+   "min_share": 0.9660643325617284,
+   "mean_share": 0.9946786828060699,
+   "p999_worst": 5.134951495760564,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 10,
+   "tune": "none",
+   "bytes": 393093,
+   "min_share": 0.961685474537037,
+   "mean_share": 0.9934724874614198,
+   "p999_worst": 5.277607378043176,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 10,
+   "tune": "animation",
+   "bytes": 410346,
+   "min_share": 0.9496527777777778,
+   "mean_share": 0.9911160622427982,
+   "p999_worst": 5.679838564747417,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 14,
+   "tune": "none",
+   "bytes": 357790,
+   "min_share": 0.9242235725308642,
+   "mean_share": 0.9842665332433126,
+   "p999_worst": 6.192585344183572,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 14,
+   "tune": "animation",
+   "bytes": 374136,
+   "min_share": 0.8699295910493827,
+   "mean_share": 0.9784617091049381,
+   "p999_worst": 6.154876146215319,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 18,
+   "tune": "none",
+   "bytes": 326482,
+   "min_share": 0.762799961419753,
+   "mean_share": 0.9470730452674896,
+   "p999_worst": 8.19174230644146,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 18,
+   "tune": "animation",
+   "bytes": 347816,
+   "min_share": 0.7559476273148148,
+   "mean_share": 0.9416308915252057,
+   "p999_worst": 8.109658893516922,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 23,
+   "tune": "none",
+   "bytes": 309790,
+   "min_share": 0.6769367283950617,
+   "mean_share": 0.9022591869212965,
+   "p999_worst": 8.988120498392183,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 23,
+   "tune": "animation",
+   "bytes": 347401,
+   "min_share": 0.6673857060185185,
+   "mean_share": 0.8923370707947531,
+   "p999_worst": 9.09815005386271,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 28,
+   "tune": "none",
+   "bytes": 308551,
+   "min_share": 0.5995095486111112,
+   "mean_share": 0.8612984905478396,
+   "p999_worst": 13.597407650371567,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 28,
+   "tune": "animation",
+   "bytes": 339457,
+   "min_share": 0.5615870949074074,
+   "mean_share": 0.8227058818801439,
+   "p999_worst": 13.534519612580521,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 0,
+   "tune": "none",
+   "bytes": 1171721,
+   "min_share": 0.865907600308642,
+   "mean_share": 0.9663438464506175,
+   "p999_worst": 7.777945009542537,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 0,
+   "tune": "animation",
+   "bytes": 1134544,
+   "min_share": 0.865907600308642,
+   "mean_share": 0.9663438464506175,
+   "p999_worst": 7.777945009542537,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 4,
+   "tune": "none",
+   "bytes": 696889,
+   "min_share": 0.8656621334876543,
+   "mean_share": 0.9640461114326133,
+   "p999_worst": 7.777945009542537,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 4,
+   "tune": "animation",
+   "bytes": 690471,
+   "min_share": 0.865661651234568,
+   "mean_share": 0.9640497444058642,
+   "p999_worst": 7.777945009542537,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 6,
+   "tune": "none",
+   "bytes": 625533,
+   "min_share": 0.8652985146604938,
+   "mean_share": 0.9628679912551441,
+   "p999_worst": 7.777945009542537,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 6,
+   "tune": "animation",
+   "bytes": 612862,
+   "min_share": 0.8648577353395062,
+   "mean_share": 0.9626764403292182,
+   "p999_worst": 7.777945009542537,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 8,
+   "tune": "none",
+   "bytes": 566481,
+   "min_share": 0.8646387924382716,
+   "mean_share": 0.9610685281635802,
+   "p999_worst": 7.777945009542537,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 8,
+   "tune": "animation",
+   "bytes": 554589,
+   "min_share": 0.863764949845679,
+   "mean_share": 0.9603752089763374,
+   "p999_worst": 7.777945009542537,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 10,
+   "tune": "none",
+   "bytes": 510964,
+   "min_share": 0.8625525655864198,
+   "mean_share": 0.958311077353395,
+   "p999_worst": 7.648674566322777,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 10,
+   "tune": "animation",
+   "bytes": 502613,
+   "min_share": 0.8596113040123456,
+   "mean_share": 0.9574609455375515,
+   "p999_worst": 7.541089536885202,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 14,
+   "tune": "none",
+   "bytes": 411800,
+   "min_share": 0.8535715663580247,
+   "mean_share": 0.9495438448431072,
+   "p999_worst": 7.541089536885202,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 14,
+   "tune": "animation",
+   "bytes": 409541,
+   "min_share": 0.8471305941358025,
+   "mean_share": 0.9469525061085392,
+   "p999_worst": 7.541089536885202,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 18,
+   "tune": "none",
+   "bytes": 336497,
+   "min_share": 0.8017206790123457,
+   "mean_share": 0.9348885513117284,
+   "p999_worst": 8.577607542369726,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 18,
+   "tune": "animation",
+   "bytes": 350763,
+   "min_share": 0.7869294945987654,
+   "mean_share": 0.9303464747299384,
+   "p999_worst": 8.57080744005355,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 23,
+   "tune": "none",
+   "bytes": 300048,
+   "min_share": 0.6861882716049382,
+   "mean_share": 0.900901813271605,
+   "p999_worst": 9.557247055803183,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 23,
+   "tune": "animation",
+   "bytes": 332823,
+   "min_share": 0.673154899691358,
+   "mean_share": 0.8922897537294238,
+   "p999_worst": 9.467040561491295,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 28,
+   "tune": "none",
+   "bytes": 289857,
+   "min_share": 0.5782007137345679,
+   "mean_share": 0.8563187773276748,
+   "p999_worst": 12.592757582457397,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 28,
+   "tune": "animation",
+   "bytes": 310527,
+   "min_share": 0.554242862654321,
+   "mean_share": 0.8096250482253087,
+   "p999_worst": 12.87431551883867,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 0,
+   "tune": "none",
+   "bytes": 1585878,
+   "min_share": 1.0,
+   "mean_share": 1.0,
+   "p999_worst": 0.8525378105810874,
+   "frames": 60,
+   "gate_pass": true,
+   "ok": true
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 0,
+   "tune": "animation",
+   "bytes": 1544460,
+   "min_share": 1.0,
+   "mean_share": 1.0,
+   "p999_worst": 0.8525378105810874,
+   "frames": 60,
+   "gate_pass": true,
+   "ok": true
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 4,
+   "tune": "none",
+   "bytes": 2160112,
+   "min_share": 0.9716400891632373,
+   "mean_share": 0.9930272490855053,
+   "p999_worst": 4.749050611384248,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 4,
+   "tune": "animation",
+   "bytes": 2167980,
+   "min_share": 0.9733419067215363,
+   "mean_share": 0.993101937585734,
+   "p999_worst": 4.720479113453554,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 6,
+   "tune": "none",
+   "bytes": 1921915,
+   "min_share": 0.9545944787379973,
+   "mean_share": 0.9888899319844536,
+   "p999_worst": 5.783994025358145,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 6,
+   "tune": "animation",
+   "bytes": 1925617,
+   "min_share": 0.9536213991769548,
+   "mean_share": 0.9886719250114312,
+   "p999_worst": 5.674498775508783,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 8,
+   "tune": "none",
+   "bytes": 1697992,
+   "min_share": 0.9264583333333334,
+   "mean_share": 0.9826362740054871,
+   "p999_worst": 6.888666608929334,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 8,
+   "tune": "animation",
+   "bytes": 1699322,
+   "min_share": 0.9233924897119341,
+   "mean_share": 0.9818852737768633,
+   "p999_worst": 6.54252662721975,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 10,
+   "tune": "none",
+   "bytes": 1483665,
+   "min_share": 0.8913211591220851,
+   "mean_share": 0.9736082676040237,
+   "p999_worst": 7.626355904077144,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 10,
+   "tune": "animation",
+   "bytes": 1488165,
+   "min_share": 0.891340877914952,
+   "mean_share": 0.9734326846136259,
+   "p999_worst": 7.108951012238715,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 14,
+   "tune": "none",
+   "bytes": 1097014,
+   "min_share": 0.806096536351166,
+   "mean_share": 0.9476940157750345,
+   "p999_worst": 8.611514133090568,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 14,
+   "tune": "animation",
+   "bytes": 1100686,
+   "min_share": 0.8040989368998628,
+   "mean_share": 0.9469926554641059,
+   "p999_worst": 8.213376839340134,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 18,
+   "tune": "none",
+   "bytes": 784368,
+   "min_share": 0.7026834705075445,
+   "mean_share": 0.9120174468449931,
+   "p999_worst": 9.715912484506166,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 18,
+   "tune": "animation",
+   "bytes": 780039,
+   "min_share": 0.7052006172839507,
+   "mean_share": 0.9135016432327389,
+   "p999_worst": 9.423540198162488,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 23,
+   "tune": "none",
+   "bytes": 473014,
+   "min_share": 0.5874125514403292,
+   "mean_share": 0.8662108339048925,
+   "p999_worst": 11.621585786033563,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 23,
+   "tune": "animation",
+   "bytes": 465606,
+   "min_share": 0.5997933813443073,
+   "mean_share": 0.8665295353223593,
+   "p999_worst": 11.193686220187182,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 28,
+   "tune": "none",
+   "bytes": 257936,
+   "min_share": 0.5415183470507544,
+   "mean_share": 0.8099059785093736,
+   "p999_worst": 14.667002841441315,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 28,
+   "tune": "animation",
+   "bytes": 243267,
+   "min_share": 0.5360416666666666,
+   "mean_share": 0.8070628715134889,
+   "p999_worst": 14.21805185200098,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 0,
+   "tune": "none",
+   "bytes": 1347461,
+   "min_share": 0.8080049725651578,
+   "mean_share": 0.9407140489254687,
+   "p999_worst": 10.34366586946735,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 0,
+   "tune": "animation",
+   "bytes": 1315719,
+   "min_share": 0.8080049725651578,
+   "mean_share": 0.9407140489254687,
+   "p999_worst": 10.34366586946735,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 4,
+   "tune": "none",
+   "bytes": 1902692,
+   "min_share": 0.8018046982167353,
+   "mean_share": 0.9364352137631458,
+   "p999_worst": 10.34366586946735,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 4,
+   "tune": "animation",
+   "bytes": 1904887,
+   "min_share": 0.7999142661179698,
+   "mean_share": 0.9362395833333333,
+   "p999_worst": 10.34366586946735,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 6,
+   "tune": "none",
+   "bytes": 1722904,
+   "min_share": 0.7981687242798354,
+   "mean_share": 0.9348309613625971,
+   "p999_worst": 10.351273652286586,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 6,
+   "tune": "animation",
+   "bytes": 1720115,
+   "min_share": 0.7895490397805213,
+   "mean_share": 0.9343757430269778,
+   "p999_worst": 10.34366586946735,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 8,
+   "tune": "none",
+   "bytes": 1543931,
+   "min_share": 0.7903480795610425,
+   "mean_share": 0.9321145690443531,
+   "p999_worst": 10.572870348187854,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 8,
+   "tune": "animation",
+   "bytes": 1534134,
+   "min_share": 0.7719341563786009,
+   "mean_share": 0.9312065757887517,
+   "p999_worst": 10.391728583014585,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 10,
+   "tune": "none",
+   "bytes": 1372101,
+   "min_share": 0.7828909465020576,
+   "mean_share": 0.928330575560128,
+   "p999_worst": 10.584767625656031,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 10,
+   "tune": "animation",
+   "bytes": 1353071,
+   "min_share": 0.7593587105624142,
+   "mean_share": 0.9271263717421125,
+   "p999_worst": 10.629753045660577,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 14,
+   "tune": "none",
+   "bytes": 1041769,
+   "min_share": 0.7530658436213992,
+   "mean_share": 0.9162152777777777,
+   "p999_worst": 10.630222681132603,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 14,
+   "tune": "animation",
+   "bytes": 1029987,
+   "min_share": 0.7478472222222222,
+   "mean_share": 0.9132705189757659,
+   "p999_worst": 11.110734403007772,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 18,
+   "tune": "none",
+   "bytes": 762294,
+   "min_share": 0.6942172496570644,
+   "mean_share": 0.8954884402149063,
+   "p999_worst": 11.418858494021901,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 18,
+   "tune": "animation",
+   "bytes": 743343,
+   "min_share": 0.6883813443072703,
+   "mean_share": 0.8936400177183356,
+   "p999_worst": 11.72231814593794,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 23,
+   "tune": "none",
+   "bytes": 469070,
+   "min_share": 0.5874648491083676,
+   "mean_share": 0.8577293810013717,
+   "p999_worst": 12.891719707371417,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 23,
+   "tune": "animation",
+   "bytes": 454402,
+   "min_share": 0.586241426611797,
+   "mean_share": 0.8574143232738912,
+   "p999_worst": 12.936138954623098,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 28,
+   "tune": "none",
+   "bytes": 257599,
+   "min_share": 0.5218467078189301,
+   "mean_share": 0.8051390603566531,
+   "p999_worst": 14.557115175754758,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 3,
+   "size_wh": [
+    1440,
+    810
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 28,
+   "tune": "animation",
+   "bytes": 238826,
+   "min_share": 0.5237474279835391,
+   "mean_share": 0.8048025262917238,
+   "p999_worst": 14.66917333568288,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 0,
+   "tune": "none",
+   "bytes": 908852,
+   "min_share": 1.0,
+   "mean_share": 1.0,
+   "p999_worst": 0.8525378105810874,
+   "frames": 60,
+   "gate_pass": true,
+   "ok": true
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 0,
+   "tune": "animation",
+   "bytes": 890479,
+   "min_share": 1.0,
+   "mean_share": 1.0,
+   "p999_worst": 0.8525378105810874,
+   "frames": 60,
+   "gate_pass": true,
+   "ok": true
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 4,
+   "tune": "none",
+   "bytes": 687178,
+   "min_share": 0.9794598765432099,
+   "mean_share": 0.9952916988168725,
+   "p999_worst": 4.0931784578620265,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 4,
+   "tune": "animation",
+   "bytes": 695682,
+   "min_share": 0.9804185956790124,
+   "mean_share": 0.9951087319958849,
+   "p999_worst": 4.421270913491648,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 6,
+   "tune": "none",
+   "bytes": 617042,
+   "min_share": 0.96296875,
+   "mean_share": 0.9912033179012345,
+   "p999_worst": 5.000527202593782,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 6,
+   "tune": "animation",
+   "bytes": 621154,
+   "min_share": 0.9585532407407408,
+   "mean_share": 0.9904982317386832,
+   "p999_worst": 5.412030035021238,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 8,
+   "tune": "none",
+   "bytes": 547788,
+   "min_share": 0.9375675154320988,
+   "mean_share": 0.9858946116255143,
+   "p999_worst": 5.755929440154664,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 8,
+   "tune": "animation",
+   "bytes": 552646,
+   "min_share": 0.920727237654321,
+   "mean_share": 0.9835363618827161,
+   "p999_worst": 6.435357337644917,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 10,
+   "tune": "none",
+   "bytes": 486307,
+   "min_share": 0.8957947530864198,
+   "mean_share": 0.9746345164609055,
+   "p999_worst": 6.944979994874641,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 10,
+   "tune": "animation",
+   "bytes": 489142,
+   "min_share": 0.8828742283950617,
+   "mean_share": 0.973180234053498,
+   "p999_worst": 7.002526656781195,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 14,
+   "tune": "none",
+   "bytes": 379473,
+   "min_share": 0.7647376543209876,
+   "mean_share": 0.9444336098251029,
+   "p999_worst": 9.360882177587087,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 14,
+   "tune": "animation",
+   "bytes": 381564,
+   "min_share": 0.7420351080246913,
+   "mean_share": 0.9350804076646091,
+   "p999_worst": 8.583667998583623,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 18,
+   "tune": "none",
+   "bytes": 272340,
+   "min_share": 0.6417650462962963,
+   "mean_share": 0.8970645897633743,
+   "p999_worst": 10.275363827095589,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 18,
+   "tune": "animation",
+   "bytes": 275186,
+   "min_share": 0.6300289351851852,
+   "mean_share": 0.8961576646090534,
+   "p999_worst": 9.677408737404143,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 23,
+   "tune": "none",
+   "bytes": 168992,
+   "min_share": 0.5730979938271605,
+   "mean_share": 0.8480482253086419,
+   "p999_worst": 11.81173918592935,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 23,
+   "tune": "animation",
+   "bytes": 171710,
+   "min_share": 0.5732658179012345,
+   "mean_share": 0.8454014917695474,
+   "p999_worst": 12.183052200785422,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 28,
+   "tune": "none",
+   "bytes": 94244,
+   "min_share": 0.5197010030864198,
+   "mean_share": 0.795526009516461,
+   "p999_worst": 15.266866776927206,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 28,
+   "tune": "animation",
+   "bytes": 92856,
+   "min_share": 0.513659336419753,
+   "mean_share": 0.7770516975308641,
+   "p999_worst": 15.247663518765739,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 0,
+   "tune": "none",
+   "bytes": 690666,
+   "min_share": 0.7849247685185186,
+   "mean_share": 0.9321835455246912,
+   "p999_worst": 7.815862217243777,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 0,
+   "tune": "animation",
+   "bytes": 677950,
+   "min_share": 0.7849247685185186,
+   "mean_share": 0.9321835455246912,
+   "p999_worst": 7.815862217243777,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 4,
+   "tune": "none",
+   "bytes": 675045,
+   "min_share": 0.7808275462962962,
+   "mean_share": 0.926669302983539,
+   "p999_worst": 7.837002786412748,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 4,
+   "tune": "animation",
+   "bytes": 676994,
+   "min_share": 0.7810185185185186,
+   "mean_share": 0.9268623649691358,
+   "p999_worst": 7.899801911505951,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 6,
+   "tune": "none",
+   "bytes": 608575,
+   "min_share": 0.7829861111111112,
+   "mean_share": 0.9261336484053498,
+   "p999_worst": 7.867877911490035,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 6,
+   "tune": "animation",
+   "bytes": 607673,
+   "min_share": 0.7787943672839506,
+   "mean_share": 0.9253567065329218,
+   "p999_worst": 7.837002786412748,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 8,
+   "tune": "none",
+   "bytes": 543658,
+   "min_share": 0.7722087191358025,
+   "mean_share": 0.9216566679526749,
+   "p999_worst": 7.995860401417653,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 8,
+   "tune": "animation",
+   "bytes": 543514,
+   "min_share": 0.7731037808641975,
+   "mean_share": 0.9206573752572017,
+   "p999_worst": 7.899801911505951,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 10,
+   "tune": "none",
+   "bytes": 480776,
+   "min_share": 0.7622087191358025,
+   "mean_share": 0.9187213220164608,
+   "p999_worst": 8.24892865249755,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 10,
+   "tune": "animation",
+   "bytes": 478064,
+   "min_share": 0.7632542438271605,
+   "mean_share": 0.918048096707819,
+   "p999_worst": 8.13044522414255,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 14,
+   "tune": "none",
+   "bytes": 366281,
+   "min_share": 0.7212866512345679,
+   "mean_share": 0.9072372363683127,
+   "p999_worst": 9.026335615562443,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 14,
+   "tune": "animation",
+   "bytes": 365204,
+   "min_share": 0.7197685185185185,
+   "mean_share": 0.9077715727880659,
+   "p999_worst": 8.852574817531298,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 18,
+   "tune": "none",
+   "bytes": 271215,
+   "min_share": 0.6880478395061729,
+   "mean_share": 0.8945481288580247,
+   "p999_worst": 10.153142840607094,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 18,
+   "tune": "animation",
+   "bytes": 271828,
+   "min_share": 0.6841512345679013,
+   "mean_share": 0.8948228202160494,
+   "p999_worst": 9.88116194977508,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 23,
+   "tune": "none",
+   "bytes": 174013,
+   "min_share": 0.5945351080246913,
+   "mean_share": 0.8578665123456791,
+   "p999_worst": 12.0481420251388,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 23,
+   "tune": "animation",
+   "bytes": 172287,
+   "min_share": 0.5943479938271605,
+   "mean_share": 0.8564347672325102,
+   "p999_worst": 11.713407710179684,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 28,
+   "tune": "none",
+   "bytes": 93390,
+   "min_share": 0.5057368827160493,
+   "mean_share": 0.7904953060699589,
+   "p999_worst": 14.286985552402683,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 2,
+   "size_wh": [
+    960,
+    540
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 28,
+   "tune": "animation",
+   "bytes": 91264,
+   "min_share": 0.506460262345679,
+   "mean_share": 0.7738746784979423,
+   "p999_worst": 14.37706157195438,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 0,
+   "tune": "none",
+   "bytes": 397432,
+   "min_share": 1.0,
+   "mean_share": 1.0,
+   "p999_worst": 0.8525378105810874,
+   "frames": 60,
+   "gate_pass": true,
+   "ok": true
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 0,
+   "tune": "animation",
+   "bytes": 392691,
+   "min_share": 1.0,
+   "mean_share": 1.0,
+   "p999_worst": 0.8525378105810874,
+   "frames": 60,
+   "gate_pass": true,
+   "ok": true
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 4,
+   "tune": "none",
+   "bytes": 468716,
+   "min_share": 0.9335030864197531,
+   "mean_share": 0.9845664866255144,
+   "p999_worst": 8.501784699285782,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 4,
+   "tune": "animation",
+   "bytes": 478998,
+   "min_share": 0.9341203703703703,
+   "mean_share": 0.9853666409465021,
+   "p999_worst": 8.563653563100951,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 6,
+   "tune": "none",
+   "bytes": 411396,
+   "min_share": 0.9079861111111112,
+   "mean_share": 0.9776734825102882,
+   "p999_worst": 8.993618058837411,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 6,
+   "tune": "animation",
+   "bytes": 419206,
+   "min_share": 0.9113194444444445,
+   "mean_share": 0.9784718364197532,
+   "p999_worst": 8.951281472338325,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 8,
+   "tune": "none",
+   "bytes": 355965,
+   "min_share": 0.8819984567901235,
+   "mean_share": 0.9695873199588476,
+   "p999_worst": 9.189417289035555,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 8,
+   "tune": "animation",
+   "bytes": 364307,
+   "min_share": 0.8848996913580247,
+   "mean_share": 0.9704197530864197,
+   "p999_worst": 9.074163351854784,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 10,
+   "tune": "none",
+   "bytes": 306787,
+   "min_share": 0.8394444444444444,
+   "mean_share": 0.9561601080246915,
+   "p999_worst": 9.715591613955523,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 10,
+   "tune": "animation",
+   "bytes": 317248,
+   "min_share": 0.8437885802469136,
+   "mean_share": 0.9583731995884774,
+   "p999_worst": 9.662222149758291,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 14,
+   "tune": "none",
+   "bytes": 221375,
+   "min_share": 0.7392824074074074,
+   "mean_share": 0.9233765432098765,
+   "p999_worst": 11.334414033923164,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 14,
+   "tune": "animation",
+   "bytes": 224510,
+   "min_share": 0.7268827160493827,
+   "mean_share": 0.9263206018518518,
+   "p999_worst": 11.408119230761065,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 18,
+   "tune": "none",
+   "bytes": 142396,
+   "min_share": 0.6063734567901234,
+   "mean_share": 0.8765597993827161,
+   "p999_worst": 12.332687117889941,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 18,
+   "tune": "animation",
+   "bytes": 141482,
+   "min_share": 0.5956635802469136,
+   "mean_share": 0.8737349537037036,
+   "p999_worst": 12.313283417546957,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 23,
+   "tune": "none",
+   "bytes": 70637,
+   "min_share": 0.4701929012345679,
+   "mean_share": 0.7998369341563786,
+   "p999_worst": 14.230541816663177,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 23,
+   "tune": "animation",
+   "bytes": 69362,
+   "min_share": 0.5092129629629629,
+   "mean_share": 0.8198855452674896,
+   "p999_worst": 14.35664873981073,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 28,
+   "tune": "none",
+   "bytes": 34609,
+   "min_share": 0.47129629629629627,
+   "mean_share": 0.7581037808641976,
+   "p999_worst": 17.474130659630823,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 28,
+   "tune": "animation",
+   "bytes": 31964,
+   "min_share": 0.47825617283950617,
+   "mean_share": 0.7591010802469136,
+   "p999_worst": 17.139293050286977,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 0,
+   "tune": "none",
+   "bytes": 283668,
+   "min_share": 0.6315277777777778,
+   "mean_share": 0.8741096965020577,
+   "p999_worst": 13.950883705998832,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 0,
+   "tune": "animation",
+   "bytes": 280511,
+   "min_share": 0.6315277777777778,
+   "mean_share": 0.8741096965020577,
+   "p999_worst": 13.950883705998832,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 4,
+   "tune": "none",
+   "bytes": 392231,
+   "min_share": 0.6204938271604938,
+   "mean_share": 0.8701150977366257,
+   "p999_worst": 14.005322378494332,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 4,
+   "tune": "animation",
+   "bytes": 397990,
+   "min_share": 0.6211496913580247,
+   "mean_share": 0.8703422067901234,
+   "p999_worst": 14.003824198316009,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 6,
+   "tune": "none",
+   "bytes": 354077,
+   "min_share": 0.6142901234567901,
+   "mean_share": 0.8688227880658436,
+   "p999_worst": 14.012316908212021,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 6,
+   "tune": "animation",
+   "bytes": 358328,
+   "min_share": 0.616520061728395,
+   "mean_share": 0.8692961676954736,
+   "p999_worst": 14.100351825851101,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 8,
+   "tune": "none",
+   "bytes": 314094,
+   "min_share": 0.6077314814814815,
+   "mean_share": 0.8669098508230452,
+   "p999_worst": 14.060936259908972,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 8,
+   "tune": "animation",
+   "bytes": 319248,
+   "min_share": 0.6107716049382717,
+   "mean_share": 0.8675965792181071,
+   "p999_worst": 14.013398840665479,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 10,
+   "tune": "none",
+   "bytes": 276772,
+   "min_share": 0.604891975308642,
+   "mean_share": 0.8654790380658437,
+   "p999_worst": 14.193764917249378,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 10,
+   "tune": "animation",
+   "bytes": 282880,
+   "min_share": 0.6019058641975309,
+   "mean_share": 0.8658599537037035,
+   "p999_worst": 14.144933460930922,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 14,
+   "tune": "none",
+   "bytes": 205491,
+   "min_share": 0.584320987654321,
+   "mean_share": 0.8550790895061728,
+   "p999_worst": 14.555525060648336,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 14,
+   "tune": "animation",
+   "bytes": 207018,
+   "min_share": 0.5838117283950617,
+   "mean_share": 0.8554704218106998,
+   "p999_worst": 14.386513643833602,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 18,
+   "tune": "none",
+   "bytes": 135972,
+   "min_share": 0.5482638888888889,
+   "mean_share": 0.840324459876543,
+   "p999_worst": 15.10745888033533,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 18,
+   "tune": "animation",
+   "bytes": 135606,
+   "min_share": 0.5509490740740741,
+   "mean_share": 0.8436156121399175,
+   "p999_worst": 14.578396608392794,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 23,
+   "tune": "none",
+   "bytes": 70261,
+   "min_share": 0.4954320987654321,
+   "mean_share": 0.8018216306584361,
+   "p999_worst": 16.31962118577676,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 23,
+   "tune": "animation",
+   "bytes": 67653,
+   "min_share": 0.5015432098765432,
+   "mean_share": 0.8050124742798356,
+   "p999_worst": 15.687574499686107,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 28,
+   "tune": "none",
+   "bytes": 35045,
+   "min_share": 0.45080246913580246,
+   "mean_share": 0.7552184927983537,
+   "p999_worst": 17.424904503396476,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 1,
+   "size_wh": [
+    480,
+    270
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 28,
+   "tune": "animation",
+   "bytes": 32126,
+   "min_share": 0.4554166666666667,
+   "mean_share": 0.7581035236625514,
+   "p999_worst": 17.170487296181122,
+   "frames": 60,
+   "gate_pass": false,
+   "ok": false
+  }
+ ],
+ "selected": {
+  "scale": 4,
+  "size_wh": [
+   1920,
+   1080
+  ],
+  "pix_fmt": "yuv444p",
+  "crf": 6,
+  "tune": "none",
+  "bytes": 433562,
+  "min_share": 0.9961250964506173,
+  "mean_share": 0.9990689621913581,
+  "p999_worst": 3.515865715151015,
+  "frames": 60,
+  "gate_pass": true,
+  "ok": true
+ },
+ "unrestricted_best": {
+  "scale": 1,
+  "size_wh": [
+   480,
+   270
+  ],
+  "pix_fmt": "yuv444p",
+  "crf": 0,
+  "tune": "animation",
+  "bytes": 392691,
+  "min_share": 1.0,
+  "mean_share": 1.0,
+  "p999_worst": 0.8525378105810874,
+  "frames": 60,
+  "gate_pass": true,
+  "ok": true
+ },
+ "select_pix_fmt": "yuv444p",
+ "select_scale": 4,
+ "by_pix_fmt": {
+  "yuv444p": {
+   "cells": 72,
+   "passing_margin": 11,
+   "best_min_share": 1.0,
+   "best_min_share_cell": {
+    "scale": 1,
+    "crf": 0,
+    "tune": "animation"
+   }
+  },
+  "yuv420p": {
+   "cells": 72,
+   "passing_margin": 0,
+   "best_min_share": 0.865907600308642,
+   "best_min_share_cell": {
+    "scale": 4,
+    "crf": 0,
+    "tune": "animation"
+   }
+  }
+ },
+ "pass": true,
+ "reason": null
+}

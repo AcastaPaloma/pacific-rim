@@ -37,6 +37,10 @@
    "plan_now": false,
    "paths": [
     {
+     "blockers": [
+      "B-kaiju",
+      "B-M2"
+     ],
      "path_id": "p1_b_kaiju_wade_v4",
      "file": "store/paths/p1_b_kaiju_wade_v4.json",
      "state": "blocked: kaiju,m2_streaming",
@@ -51,8 +55,7 @@
    "status": "BLOCKED",
    "blockers": [
     "B-M2",
-    "B-kaiju",
-    "kaiju,m2_streaming"
+    "B-kaiju"
    ]
   },
   {
@@ -91,6 +94,7 @@
    "plan_now": true,
    "paths": [
     {
+     "blockers": [],
      "path_id": "p1_d_scale_proxy_v5",
      "file": "store/paths/p1_d_scale_proxy_v5.json",
      "state": "runnable",
@@ -143,6 +147,9 @@
    "plan_now": false,
    "paths": [
     {
+     "blockers": [
+      "B-walk"
+     ],
      "path_id": "p2_a_foot_strike",
      "file": "store/paths/p2_a_foot_strike.json",
      "state": "blocked: walk",
@@ -156,8 +163,7 @@
    ],
    "status": "BLOCKED",
    "blockers": [
-    "B-walk",
-    "walk"
+    "B-walk"
    ]
   },
   {
@@ -219,6 +225,7 @@
    "plan_now": false,
    "paths": [
     {
+     "blockers": [],
      "path_id": "p3_a_golden_gate_v3",
      "file": "store/paths/p3_a_golden_gate_v3.json",
      "state": "runnable",
@@ -249,6 +256,9 @@
    "plan_now": false,
    "paths": [
     {
+     "blockers": [
+      "B-M2"
+     ],
      "path_id": "p3_b_bay_bridge_v1",
      "file": "store/paths/p3_b_bay_bridge_v1.json",
      "state": "blocked: m2_streaming",
@@ -262,8 +272,7 @@
    ],
    "status": "BLOCKED",
    "blockers": [
-    "B-M2",
-    "m2_streaming"
+    "B-M2"
    ]
   },
   {
@@ -281,6 +290,9 @@
    "plan_now": false,
    "paths": [
     {
+     "blockers": [
+      "B-M2"
+     ],
      "path_id": "p3_c_twin_peaks_v2",
      "file": "store/paths/p3_c_twin_peaks_v2.json",
      "state": "blocked: m2_streaming",
@@ -294,8 +306,7 @@
    ],
    "status": "BLOCKED",
    "blockers": [
-    "B-M2",
-    "m2_streaming"
+    "B-M2"
    ]
   },
   {
@@ -353,6 +364,7 @@
    "plan_now": true,
    "paths": [
     {
+     "blockers": [],
      "path_id": "p4_a_still_v5",
      "file": "store/paths/p4_a_still_v5.json",
      "state": "runnable",
@@ -364,6 +376,7 @@
      "captured": true
     },
     {
+     "blockers": [],
      "path_id": "p4_a_sunrise_v5",
      "file": "store/paths/p4_a_sunrise_v5.json",
      "state": "runnable",
@@ -427,6 +440,7 @@
    "plan_now": true,
    "paths": [
     {
+     "blockers": [],
      "path_id": "p4_d_dolly_v4",
      "file": "store/paths/p4_d_dolly_v4.json",
      "state": "runnable",
@@ -576,6 +590,7 @@
  },
  "extra_paths": [
   {
+   "blockers": [],
    "path_id": "hud_v3_gate",
    "file": "store/paths_hud/hud_v3_gate.json",
    "state": "runnable",
@@ -587,6 +602,7 @@
    "captured": true
   },
   {
+   "blockers": [],
    "path_id": "hud_v4_street",
    "file": "store/paths_hud/hud_v4_street.json",
    "state": "runnable",
@@ -598,6 +614,7 @@
    "captured": true
   },
   {
+   "blockers": [],
    "path_id": "hud_v5_skyline",
    "file": "store/paths_hud/hud_v5_skyline.json",
    "state": "runnable",
@@ -609,6 +626,7 @@
    "captured": true
   },
   {
+   "blockers": [],
    "path_id": "m004_v4_lavender_peach",
    "file": "store/paths_motion/m004_v4_lavender_peach.json",
    "state": "runnable",
@@ -620,6 +638,7 @@
    "captured": true
   },
   {
+   "blockers": [],
    "path_id": "m004_v4_slate_teal",
    "file": "store/paths_motion/m004_v4_slate_teal.json",
    "state": "runnable",
@@ -631,6 +650,7 @@
    "captured": true
   },
   {
+   "blockers": [],
    "path_id": "m004_v4_warm_amber_haze",
    "file": "store/paths_motion/m004_v4_warm_amber_haze.json",
    "state": "runnable",
@@ -642,6 +662,7 @@
    "captured": true
   },
   {
+   "blockers": [],
    "path_id": "m004_v5_lavender_peach",
    "file": "store/paths_motion/m004_v5_lavender_peach.json",
    "state": "runnable",
@@ -653,6 +674,7 @@
    "captured": true
   },
   {
+   "blockers": [],
    "path_id": "m004_v5_slate_teal",
    "file": "store/paths_motion/m004_v5_slate_teal.json",
    "state": "runnable",
@@ -664,6 +686,7 @@
    "captured": true
   },
   {
+   "blockers": [],
    "path_id": "m004_v5_warm_amber_haze",
    "file": "store/paths_motion/m004_v5_warm_amber_haze.json",
    "state": "runnable",

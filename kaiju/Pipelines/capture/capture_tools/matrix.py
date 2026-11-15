@@ -106,6 +106,15 @@ def run(internal_dir, n_frames=8, scales=SCALES, pix_fmts=PIX_FMTS, crfs=CRFS, t
             "pass": best is not None, "reason": None if best else "no cell met the selection margin"}
 
 
+DECISION = {
+    "profile": "H.264 High 4:4:4 Predictive (yuv444p), bt709 tags, faststart; scale in RGB with flags=neighbor",
+    "why": "M-124 (>= 99 % of pixels within dE00 2.0, every sampled frame) is unchanged; yuv420p fails it at every master scale and every CRF down to 0 (chroma subsampling bleeds across the dither/block edges), see by_pix_fmt",
+    "master_scale": "4 (1920x1080 = the delivery size; smaller masters would need a player-side resample)",
+    "open_founder_row": "Steam player / browser / hardware-decode compatibility of H.264 4:4:4 playback is unverified (4:4:4 is not universally hardware-decoded); if it fails the fallback is a separately labelled 4:2:0 encode that cannot pass M-124, not a relaxed gate",
+    "bitrate_note": "estimated_bitrate_kbps_on_matrix_frames is for the 60 matrix frames (sparse motion); M-122 requires >= 5000 kbps on the trailer, which the real, busier trailer content is expected to exceed at this CRF; if it does not, lower the CRF (never raise it) or pad with a higher floor",
+}
+
+
 def settings_json(report, fps=60):
     """The docs/store/encode_settings.json body for a matrix report with a selected cell."""
     b = report["selected"]
@@ -119,4 +128,5 @@ def settings_json(report, fps=60):
     if u and (u["pix_fmt"], u["scale"]) != (b["pix_fmt"], b["scale"]):
         out["cheapest_unrestricted"] = {k: u[k] for k in ("scale", "pix_fmt", "crf", "tune", "bytes", "min_share")}
     out["by_pix_fmt"] = report.get("by_pix_fmt")
+    out["decision"] = DECISION
     return out
