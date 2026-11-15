@@ -446,3 +446,11 @@ Worker escalated to Opus 5.5 high (§14) for the design; design `research/R-028.
 - T-113 starts in parallel with T-112 using its own minimal species-role input instead of waiting for `Units.Kaiju`; the adapter is a tracked follow-up, full species-driven packs stay in scope — decided autonomously (founder asleep). Alternative: serialize T-113 after T-112 (rejected, idles the track).
 - T-115 split: tool + spec now, Bay runs after T-113; win-rate clause kept as "pending T-041", not dropped — decided autonomously (founder asleep).
 - T-144b held until T-101 merges (both touch the bake) — decided autonomously (founder asleep).
+
+## T-119 (M2 worker, 2026-11-15)
+- R-104 section 1 headline said 0.60 (shallow Bay) and 0.30 (deep channel); the section 5.1 model gives 0.866 x ... = 0.865 / 0.673 / 0.337, so the headline is corrected to 0.86 / 0.67 / 0.34 and an Erratum line added; model untouched — decided autonomously (founder asleep). Alternative (change eta to hit the old headline) rejected: it would lower a modelled value to fit a typo.
+- Salvage mass is float64 kg (saved as raw bits), money whole-USD long; `Math.Exp` fragmentation is deterministic per runtime, saved values are never recomputed — decided autonomously (founder asleep).
+- Credit cap 12% of build price applies to Mech wrecks only (needs `BuildPriceUsd`, mandatory > 0 for a Mech); Kaiju and Building credits are bounded by the throughput budget and the scrap price — decided autonomously (founder asleep).
+- Kaiju priority shares (bone 5% sourced from the 340 t figure; hide 5%, tendon 1% Assumed), hide and tendon cash value 0, rare minimum masses for hide 10 t and tendon 20 t Assumed, drive scrapped as steel Assumed; all flagged in `salvage_yields@v1` — decided autonomously (founder asleep).
+- Rare part sets = floor(total recovered class mass / minimum mass), consumed through `TryConsumeRare` by Refit; unlocks, not currency — decided autonomously (founder asleep).
+- Merge held: no Unity slot, and `Meta.Economy.Tests.Flag_FileDefaultsOff` (exactly one `meta.` key) breaks when a second Meta flag is added; the edit to that existing test was refused by the permission check and not made; lead to apply or approve — escalated to lead.
