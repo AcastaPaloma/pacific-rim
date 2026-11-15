@@ -2,8 +2,7 @@
   <!--
     T-041 headless training bridge (R-028 section 5). Compiles the UNMODIFIED 2D harness sources (Assets/Game/AI/Harness) and the
     policy codec (Assets/Game/AI/Policy) into one console process that Python drives over stdin/stdout (binary, lockstep).
-    The real scripted brain is referenced under the extern alias "scripted"; the global name Game.AI.ScriptedKaijuBrain resolves
-    to BrainShim.cs, which lets the harness host policy brains without a harness change (staging device, see R-028 5.3).
+    Policy brains are hosted through HarnessScenario.BrainFactory (O1).
   -->
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -26,6 +25,6 @@
   <ItemGroup>
     <ProjectReference Include="../../../DotnetTests/Core.Contracts/Core.Contracts.csproj" />
     <ProjectReference Include="../../../DotnetTests/AI.Contracts/AI.Contracts.csproj" />
-    <ProjectReference Include="../../../DotnetTests/AI.Scripted/AI.Scripted.csproj" Aliases="scripted" />
+    <ProjectReference Include="../../../DotnetTests/AI.Scripted/AI.Scripted.csproj" />
   </ItemGroup>
 </Project>
