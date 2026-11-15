@@ -17,6 +17,7 @@ namespace Game.AI.PackHarness
         public float HuntX, HuntY;       // hunt / churn / raid kaiju spawn and the centre of the mech patrol ring
         public float RaidX, RaidY;       // raid kaiju spawn (synthetic: the hunt spawn)
         public float MixedX, MixedY;
+        public float Mixed2X, Mixed2Y;   // T-113c: spawn of the mixed variant mx2 (0 = none), chosen so that the nearest target is not the best one
         public float CrossX, CrossY;
         public int[] GuardCluster0 = { 5, 6, 7, 8 };   // Port cranes (2 mechs)
         public int[] GuardCluster1 = { 4 };             // east power node (1 mech)
@@ -72,6 +73,7 @@ namespace Game.AI.PackHarness
                 Name = "m007_bay_real@v1",
                 HuntX = 115019f, HuntY = 61980f,                 // Livermore valley: open land, 40 km from every target (hunt / churn do not use water)
                 RaidX = 51555f, RaidY = 82974f,                  // Marin Headlands: the Golden Gate (deep) lies between it and every target
+                Mixed2X = 62000f, Mixed2Y = 62000f,              // mx2 (T-113c): Peninsula between SFO and Potrero; the first target is the same for every brain, the second is where the nearest-first control walks into the Port guards
                 MixedX = 54138f, MixedY = 55220f,                // Pacifica coast: Pacific side of the Peninsula, the Bay (San Bruno channel side) between it and the Port
                 CrossX = 51555f, CrossY = 82974f,                // Marin Headlands (unused by the clause matrix)
                 CrossInfra = new[] { new Node("bridge", 2, 56029, 75861, 1500) },

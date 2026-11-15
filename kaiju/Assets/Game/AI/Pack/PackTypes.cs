@@ -84,6 +84,8 @@ namespace Game.AI.Pack
         public bool CommitReady;         // hunt: the formation is in place (slots held, Bait drawing) or the gate timed out; Anchor/Flanker may commit
         public double GateOpenAt;        // T-113b: time the hunt commit gate opened (valid while CommitReady in a hunt)
         public bool BaitFirst;           // T-113b: bait-first strike geometry is active for this pack
+        public bool BaitGo;              // T-113c: the Bait may step into its band (timed strike: the Anchor is BaitLeadS from weapon range)
+        public float CommitDelayS;       // T-113c: with AnchorLead a striker that is faster than the Anchor waits this long after the gate opened before it commits (all arrive together, Anchor first)
         public float CommitRangeM;       // T-113b: when > 0, an Anchor/Flanker commits from within this distance of the focus (its hold slot may lie outside the default commit range)
         public bool Valid;
     }
@@ -185,6 +187,15 @@ namespace Game.AI.Pack
         public float BaitSwingM, BaitSwingSeconds;
         // T-113b: in a hunt, a member not charging steers around any seen mech other than the focus that is within this distance (0 = off)
         public float AvoidOtherMechsM;
+        // T-113c timed strike (needs BaitFirst): at the gate each striker gets a launch delay so that it reaches melee AnchorLeadLagS after the slowest striker (the Anchor,
+        // 11.6 m/s and from further out). The heavy Anchor therefore takes the mech's fire on the way in (cheap in hp fraction, which P5's kill exchange is measured in), and
+        // the Striders and the Bait close from outside weapon range just behind it. The Bait joins after the longest delay.
+        public bool AnchorLead;
+        public bool BaitTimed;               // the Bait's step-in is timed against the Anchor's run (BaitLeadS) instead of following the holders; the gate then does not wait for its draw
+        public float AnchorHoldM;            // > 0: under bait-first the Anchor holds at this distance (>= weapon range + margin) instead of its species standoff, so it arrives soon after the Strikers
+        public float AnchorLeadLagS;
+        public float BaitLeadS;              // the Bait steps into its band when the Anchor is this many seconds from the mech's weapon range (lock 3 s + turret swing + the 3 s the metric needs to count an aim)
+        public float AccelMps2;              // kaiju linear acceleration used for the arrival-time estimate (the harness and the body model: 2 m/s^2)
         public bool StrictAnchorTol;         // T-113b: under bait-first the Anchor holds the Flanker's slot tolerance (no AnchorTolMul)
 
         public static PackConfig Default()
@@ -201,6 +212,7 @@ namespace Game.AI.Pack
                 WeightCrane = 1f, WeightPower = 2f, WeightBridge = 3f, WeightAirport = 3f, TransitDistanceM = 1500f,
                 SlotApproachFrac = 0f, StageFrac = 1.0f, StageTimeoutSeconds = 120f, SlotTolFrac = 0.4f, SlotTolMinM = 80f, AnchorTolMul = 2f, PaceMinFrac = 0f, BaitJoinDelaySeconds = 0f, BaitStepInM = 100f, BaitDrawSeconds = 4f, GateTimeoutSeconds = 60f, CommitRangeFrac = 1.6f,
                 BaitOffsetRad = 0.9f, AnchorOffsetRad = 0.6f, LatchReleaseM = 700f,
+                AnchorLead = false, BaitTimed = false, AnchorHoldM = 0f, AnchorLeadLagS = 2f, BaitLeadS = 9f, AccelMps2 = 2f,
                 BaitFirst = false, BaitWideOffsetRad = 100f * deg, HoldOutsideMarginM = 40f, StrikeArcMinRad = 0f, StrikeArcMaxRad = 70f * deg,
             };
         }
@@ -217,6 +229,8 @@ namespace Game.AI.Pack
             c.RoutePlanning = true;   // T-115c: a no-op while the coordinator holds the straight-line planner
             // T-113b: bait-first strike geometry (fixes the C1 unflanked commits) stays OFF by default: on the same hold-out seeds it raised C1 0.818 -> 0.898
             // but turned P4 (+0.001 -> -0.077) and P1 (0.705 -> 0.654) from PASS to FAIL (evidence/T-113b/compare.txt). Kept as a flag for the R-NEW-a hunt-timing work.
+            // T-113c re-checked it on hold-out seeds 3001-3030 under evaluator rev 2 with the best of three timing variants (hold 340 m, Anchor hold 340 m, 1 s draw, avoid other mechs):
+            // C1 0.818 -> 0.932 and P1 0.916 -> 0.957 improve, P4 +0.001 -> -0.066, P5 0.926 -> 0.854 and P6 0.797 -> 0.661 get worse, so it stays OFF (evidence/T-113c/compare.txt).
             c.BaitFirst = false; c.BaitSwingSeconds = 4f;
             return c;
         }

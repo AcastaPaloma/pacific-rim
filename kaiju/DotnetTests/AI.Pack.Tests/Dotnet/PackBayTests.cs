@@ -104,6 +104,32 @@ namespace Game.AI.Pack.Tests
         }
 
         [Test]
+        public void Bay_AnchorLead_TheFasterStrikerWaitsAndTheAnchorGoesFirst()
+        {
+            // T-113c: with AnchorLead the Anchor (Bastion, 11.6 m/s) commits at the gate and the Strider Flanker is held back so both reach melee together
+            var sim = BaySim();
+            sim.Cfg.BaitFirst = true; sim.Cfg.AnchorLead = true; sim.Cfg.AnchorHoldM = 340f; sim.Cfg.StageTimeoutSeconds = 1f; sim.Cfg.GateTimeoutSeconds = 1f;
+            sim.Coord.Reset(7, sim.Cfg);
+            sim.Add(1, S, -330, -150, () => new HoldBrain()); sim.Add(2, S, -330, 150, () => new HoldBrain()); sim.Add(4, H, -340, 0, () => new HoldBrain());
+            sim.AddMech(100, 0, 0);
+            float flankDelay = -1f, anchorDelay = -1f, anchorR = float.NaN;
+            for (int t = 0; t < 120; t++)
+            {
+                sim.Run(1f);
+                foreach (var m in sim.Members)
+                {
+                    if (!sim.Coord.TryGetDirective(m.S.Id, out var d) || !d.CommitReady || d.Goal != PackGoal.Hunt) continue;
+                    if (d.Role == PackRole.Flanker) flankDelay = d.CommitDelayS;
+                    if (d.Role == PackRole.Anchor) { anchorDelay = d.CommitDelayS; anchorR = PackSim.Dist(new Float2(0, 0), d.SlotPos); }
+                }
+            }
+            Assert.AreEqual(0f, anchorDelay, "the slow Anchor commits at the gate");
+            Assert.Greater(flankDelay, 2f, "the Strider Flanker is held back until it can arrive with the Anchor");
+            Assert.LessOrEqual(anchorR, 341f, "the Anchor holds at AnchorHoldM");
+            Assert.GreaterOrEqual(anchorR, sim.Cfg.MechWeaponRangeM + sim.Cfg.HoldOutsideMarginM - 1f);
+        }
+
+        [Test]
         public void Bay_ABaitBelowItsRetreatHpLeavesForGoodEvenWithoutADirective()
         {
             var cfg = PackConfig.Bay();

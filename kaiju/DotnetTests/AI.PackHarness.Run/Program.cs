@@ -15,7 +15,7 @@ internal static class Program
     private static int Main(string[] args)
     {
         string map = "flat"; bool plan = true; string scenario = "hunt", brain = BayBrains.Candidate, comps = "LLH", seeds = "1-1", outDir = "m007_bay_out", speciesDir = null, costRaster = null;
-        BayLayout huntShift = null; string variant = ""; float squadDist = 1000f; float[] mv2 = null; bool defaults = false; int par = Math.Max(1, Environment.ProcessorCount - 2);
+        BayLayout huntShift = null; string variant = ""; float squadDist = 1000f; float[] mv2 = null; bool defaults = false; int par = Math.Max(1, Environment.ProcessorCount - 2); string packOver = ""; float[] mixedSpawn = null;
         for (int i = 0; i < args.Length; i++)
         {
             switch (args[i])
@@ -34,6 +34,8 @@ internal static class Program
                 case "--squad-dist": squadDist = float.Parse(args[++i]); break;
                 case "--mv2": { var q = args[++i].Split(','); mv2 = new[] { float.Parse(q[0]), float.Parse(q[1]), float.Parse(q[2]), float.Parse(q[3]) }; break; }   // kaiju spacing, picket ahead, mech spacing, patrol radius (m)
                 case "--defaults": defaults = true; break;
+                case "--mixed-spawn": { var q = args[++i].Split(','); mixedSpawn = new[] { float.Parse(q[0]), float.Parse(q[1]) }; break; }
+                case "--pack": packOver = args[++i]; break;   // T-113c: PackConfig overrides for sweeps, "BaitFirst=true,BaitDrawSeconds=2" (any public float/bool field)
                 case "--parallel": par = int.Parse(args[++i]); break;
                 default: Console.Error.WriteLine("unknown arg " + args[i]); return 2;
             }
@@ -63,6 +65,8 @@ internal static class Program
         Parallel.ForEach(jobs, new ParallelOptions { MaxDegreeOfParallelism = par }, job =>
         {
             var sc = new BayScenario { Name = scenario, Composition = job.comp, Seed = job.seed, BrainId = brain, Species = table, Map = map, PlanRoutes = plan, Field = realField, Layout = huntShift, Variant = variant, Mv1SquadDistM = squadDist };
+            sc.MixedSpawn = mixedSpawn;
+            if (packOver.Length > 0) sc.Pack = ApplyPack(sc.Pack, packOver);
             if (mv2 != null) { sc.Mv2KaijuSpacingM = mv2[0]; sc.Mv2PicketAheadM = mv2[1]; sc.Mv2MechSpacingM = mv2[2]; sc.Mv2PatrolM = mv2[3]; }
             string path = Path.Combine(dir, job.comp + "_" + job.seed + ".jsonl");
             using (var w = new StreamWriter(path, false, new System.Text.UTF8Encoding(false), 1 << 16))
@@ -73,6 +77,19 @@ internal static class Program
         });
         Console.WriteLine("{0} runs, {1} decisions, {2:F1} s -> {3}{4}", jobs.Count, decisions, (Environment.TickCount64 - ticks) / 1000.0, dir, map != "flat" ? ", blocked steps " + blocked : "");
         return 0;
+    }
+
+    private static PackConfig ApplyPack(PackConfig c, string spec)
+    {
+        object boxed = c;
+        foreach (string kv in spec.Split(',', StringSplitOptions.RemoveEmptyEntries))
+        {
+            var q = kv.Split('=');
+            var f = typeof(PackConfig).GetField(q[0].Trim());
+            if (f == null) throw new ArgumentException("unknown PackConfig field " + q[0]);
+            f.SetValue(boxed, f.FieldType == typeof(bool) ? bool.Parse(q[1]) : (object)float.Parse(q[1], System.Globalization.CultureInfo.InvariantCulture));
+        }
+        return (PackConfig)boxed;
     }
 
     private static string FindRoot()

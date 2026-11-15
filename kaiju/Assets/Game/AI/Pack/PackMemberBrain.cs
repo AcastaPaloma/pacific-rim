@@ -38,11 +38,14 @@ namespace Game.AI.Pack
             else { _inner.Decide(obs, ref intent); if (_baitRetreating && _pcfg.BayTactics) LeaveFight(obs, default, ref intent); }
         }
 
-        public void Decide(in BrainObservation obs, in PackDirective d, ref BrainIntent intent)
+        public void Decide(in BrainObservation obs, in PackDirective dIn, ref BrainIntent intent)
         {
-            if (_inner is IDirectedBrain directed) { directed.Decide(obs, d, ref intent); return; }
+            if (_inner is IDirectedBrain directed) { directed.Decide(obs, dIn, ref intent); return; }
             _inner.Decide(obs, ref intent);
-            if (!d.Valid) return;
+            if (!dIn.Valid) return;
+            PackDirective d = dIn;
+            // T-113c timed strike: a striker whose launch delay has not run out still holds its slot (the gate is closed for it)
+            if (d.CommitDelayS > 0f && d.CommitReady && d.Role != PackRole.Bait && obs.TimeSeconds < d.GateOpenAt + d.CommitDelayS) d.CommitReady = false;
             if (_baitRetreating && _pcfg.BayTactics) { LeaveFight(obs, d, ref intent); return; }
             Float2 me = obs.Self.Pos;
             switch (d.Role)
@@ -165,7 +168,17 @@ namespace Game.AI.Pack
             }
             if (obs.Self.HpFrac < _pcfg.BaitRetreatHp) _baitRetreating = true;
             if (_baitRetreating) { LeaveFight(obs, d, ref intent); return; }
-            if (_pcfg.BayTactics && d.CommitReady && d.Goal == PackGoal.Hunt && !d.BaitJoin && _pcfg.BaitJoinDelaySeconds > 0f)
+            bool timed = _pcfg.BaitTimed && d.BaitFirst && d.Goal == PackGoal.Hunt;
+            if (timed && !d.BaitGo)
+            {
+                // T-113c: wait outside weapon range (a patrolling mech drifts onto the stage ring) until the Anchor is BaitLeadS from it
+                float keep = _pcfg.MechWeaponRangeM * 1.08f;
+                if (dist < keep) { intent.DesiredHeadingRad = Wrap(toT + MathF.PI); intent.SpeedFrac = 1f; intent.State = BrainState.Flank; }
+                else if (Dist(me, d.SlotPos) > 40f) { intent.DesiredHeadingRad = Dir(me, Via(me, d)); intent.SpeedFrac = TransitSpeed(me, d, _cfg.SpeedApproach); intent.State = BrainState.Approach; }
+                else { intent.SpeedFrac = 0f; intent.DesiredHeadingRad = toT; intent.State = BrainState.Flank; }
+                return;
+            }
+            if (!timed && _pcfg.BayTactics && d.CommitReady && d.Goal == PackGoal.Hunt && !d.BaitJoin && _pcfg.BaitJoinDelaySeconds > 0f)
             {
                 // the lock is drawn and the strike is on its way: slip out of the fire until it is time to join (the mechs retarget to the nearer strikers)
                 float safe = _pcfg.MechWeaponRangeM * 1.35f;
