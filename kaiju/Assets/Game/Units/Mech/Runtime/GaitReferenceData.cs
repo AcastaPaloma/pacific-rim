@@ -43,7 +43,7 @@ namespace Game.Units.Mech
         public const string Schema = "gait_reference_opt@v1", SchemaV2 = "gait_reference_opt@v2";
         /// <summary>Reference file (under Config/Mech) for a walk tuning: the imp = 3 QP reads the @v2 file, imp 1.5 .. 2.5 the @v1 file, below 1.5 none.</summary>
         public const double QpImp = 2.5;   // imp at and above which the whole-body QP (imp = 3) is built
-        public const string LadderFile = "gait_reference_qp_ladder.json";   // step 9.5b: low-Froude @v2 rows of the imp 3 start ladder (qp_ladder)
+        public const string LadderFile = "gait_reference_qp_ladder_v3.json";   // step 9.5b: low-Froude @v2 rows of the imp 3 start ladder (qp_ladder); step 9.5f: the v3 file (Fr 0.02 .. 0.09; the old gait_reference_qp_ladder.json has 0.02 .. 0.06)
         public static string FileFor(double imp) => imp >= QpImp ? "gait_reference_qp.json" : imp >= 1.5 ? "gait_reference_opt.json" : null;
         public string schema, notes;
         public GaitRefSource source;

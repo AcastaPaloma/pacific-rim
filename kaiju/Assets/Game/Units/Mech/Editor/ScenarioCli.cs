@@ -61,6 +61,7 @@ namespace Game.Units.Mech.Editor
                         EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
                         string capture = (repeat > 1 ? name + "_run" + (k + 1) : name) + (variant.Key.Length > 0 ? "@" + variant.Key : "");
                         var cfg = variant.Value == null ? config : config.WithWalk(w => JsonUtility.FromJsonOverwrite(variant.Value, w));
+                        summary.AppendLine("EFFECTIVE " + capture + " " + Effective(cfg.Walk, variant.Value));
                         bool phys = Arg("-nophys") == null && (Arg("-physlist") == null || Array.IndexOf(Arg("-physlist").Split(','), name) >= 0);
                         try { var r = ScenarioRunner.Run(ScenarioLibrary.Find(name), cfg, dt, outDir, commit, engine, strips && k == 0, capture, phys); summary.AppendLine(r.Line()); }
                         catch (Exception e) { summary.AppendLine(capture + " EXCEPTION " + e); }
@@ -68,6 +69,21 @@ namespace Game.Units.Mech.Editor
                     }
             }
             finally { UnityEngine.Physics.simulationMode = mode; PhysicsProjectSettings.RestoreSimulationMode(); }
+        }
+
+        /// <summary>Step 9.5f: the effective values of the walk-tuning fields a variant names (qp_* and imp*), with UNKNOWN (typo, silently ignored by JsonUtility) and DUPLICATE (only the last counts) key warnings, so a variant that does not differ can be seen in the summary.</summary>
+        static string Effective(Game.Units.Mech.Contracts.WalkTuning w, string variantJson)
+        {
+            if (variantJson == null) return "(base config)";
+            string all = JsonUtility.ToJson(w); var sb = new StringBuilder(); var seen = new HashSet<string>();
+            foreach (System.Text.RegularExpressions.Match m in System.Text.RegularExpressions.Regex.Matches(variantJson, "\"([A-Za-z0-9_]+)\"\\s*:"))
+            {
+                string key = m.Groups[1].Value;
+                if (!seen.Add(key)) { sb.Append("DUPLICATE(" + key + ") "); continue; }
+                var v = System.Text.RegularExpressions.Regex.Match(all, "\"" + key + "\":([^,}]+)");
+                sb.Append(v.Success ? key + "=" + v.Groups[1].Value + " " : "UNKNOWN(" + key + ") ");
+            }
+            return sb.ToString().TrimEnd();
         }
     }
 }

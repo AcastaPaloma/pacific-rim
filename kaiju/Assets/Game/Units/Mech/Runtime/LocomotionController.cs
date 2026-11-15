@@ -227,6 +227,43 @@ namespace Game.Units.Mech
             }
         }
 
+        // step 9.5f (qp_arm_ff): the shoulders cancel the yaw momentum of the legs by feed-forward (replacing the imp 2 arm reference, which runs at the legacy phase and amplitude, not the QP row's stride)
+        readonly double[] _armFf = new double[2], _armFfRate = new double[2], _armFfQdd = new double[2]; double _lLegsF, _lLegsMean, _lLegsRefLog, _armFfBlend; bool _armFfOn;
+        double YawSens(int d)
+        {
+            var info = _b.GetDof(d); _b.GetLink(info.ChildLink, out var child); Vector3 axis = _b.DofAxisWorld(d), r0 = child.Position; double sens = 0;
+            foreach (int link in _descendants[d]) { _b.GetLink(link, out var sl); Vector3 v = Vector3.Cross(axis, sl.Com - r0), rc = sl.Com - _com; sens += _b.LinkMassKg(link) * (rc.Z * v.X - rc.X * v.Z); }
+            return sens;
+        }
+        /// <summary>Yaw momentum of the legs about the CoM predicted from the QP row's own reference joint velocities (sum over hip, knee, ankle of d(L_y)/d(rate) x reference rate), phase-locked to the row's stride with no measurement lag.</summary>
+        double LegsYawFromReference()
+        {
+            var c = _qp.Controller; double L = 0; var legs = _qpLegNow ?? _qpLegs[0];
+            for (int k = 0; k < 2; k++)
+            {
+                var leg = legs[k]; int a = 3 + 3 * k, b = a + 1, f = a + 2; double qth = c.RefQd(2);
+                L += YawSens(leg.Hip[0]) * (c.RefQd(a) + qth) + YawSens(leg.Knee) * (c.RefQd(a) - c.RefQd(b)) + YawSens(leg.Ankle[0]) * (c.RefQd(f) + c.RefQd(b));
+            }
+            return L;
+        }
+        void QpArmFf()
+        {
+            if (_t.qp_arm_ff < 0.5 || _qp == null) return;
+            double lim = _t.target_velocity_max_rps, lmeas = _qp.Controller.YawLog[5], wr = Math.Max(0, Math.Min(1.0, _t.qp_arm_ff_ref_w));
+            double lref = LegsYawFromReference(); _lLegsRefLog = lref; double lleg = wr > 0 ? (1 - wr) * lmeas + wr * lref : lmeas;
+            if (_t.qp_arm_ff_hp_s > 0) { _lLegsMean += Math.Min(1.0, _dt / _t.qp_arm_ff_hp_s) * (lleg - _lLegsMean); lleg -= _lLegsMean; }   // high-pass: the mean of the legs' yaw momentum is no cancellation target (it integrates the arms to their limit)
+            _lLegsF += Math.Max(0, Math.Min(1.0, _t.qp_yaw_ff_alpha)) * (lleg - _lLegsF);
+            for (int arm = 0; arm < 2; arm++)
+            {
+                int d = _armShoulderFlex[arm]; if (d < 0) continue;
+                double sens = YawSens(d); if (Math.Abs(sens) < 1e6) continue;
+                double rate = Math.Max(-lim, Math.Min(lim, -_t.qp_arm_ff_gain * _lLegsF / (2 * sens) - _armFf[arm] / Math.Max(_t.qp_arm_ff_leak_s, 1e-3)));
+                double qdd = (rate - _armFfRate[arm]) / _dt; _armFfQdd[arm] += 0.5 * (Math.Max(-_t.swing_ff_accel_max, Math.Min(_t.swing_ff_accel_max, qdd)) - _armFfQdd[arm]); _armFfRate[arm] = rate;
+                _armFf[arm] = Math.Max(-_t.qp_arm_ff_max, Math.Min(_t.qp_arm_ff_max, _armFf[arm] + rate * _dt));
+            }
+            _armFfOn = true; _armFfBlend = Math.Min(1.0, _armFfBlend + _dt / 0.5);
+        }
+
         // ---- step 9.5c: state-matched hand-off ----
         bool _qpMatch; double[][][] _mRef; bool[][] _mSs; int _qpTdSinceRow; int _qpMatchTds; readonly double[] _mMeas = new double[9];
         double[] _mScale;
@@ -357,7 +394,7 @@ namespace Game.Units.Mech
             var c = _qp.Controller; _dbg.QpOn = true; _dbg.QpScale = _qpScale; _dbg.QpMs = (System.Diagnostics.Stopwatch.GetTimestamp() - t0) * 1e3 / System.Diagnostics.Stopwatch.Frequency; _dbg.QpIters = c.LastIterations; _dbg.QpTau ??= new double[6]; System.Array.Copy(c.Tau, _dbg.QpTau, 6);
             _dbg.QpRow = _qpRow;
             if (_qpLat) { _dbg.QpLat ??= new double[6]; System.Array.Copy(c.LatCmd, _dbg.QpLat, 6); }
-            if (_qpLat && c.TrunkYaw) { QpArmTrim(); _dbg.QpYaw ??= new double[7]; System.Array.Copy(c.YawLog, _dbg.QpYaw, 5); _dbg.QpYaw[5] = _armTrim[0]; _dbg.QpYaw[6] = _armTrim[1]; }
+            if (_qpLat && c.TrunkYaw) { QpArmTrim(); QpArmFf(); _dbg.QpYaw ??= new double[13]; System.Array.Copy(c.YawLog, _dbg.QpYaw, 5); _dbg.QpYaw[5] = _armTrim[0]; _dbg.QpYaw[6] = _armTrim[1]; _dbg.QpYaw[7] = c.YawLog[5]; _dbg.QpYaw[8] = c.YawLog[6]; _dbg.QpYaw[9] = c.YawShareLog; _dbg.QpYaw[10] = _armFf[0]; _dbg.QpYaw[11] = _armFf[1]; _dbg.QpYaw[12] = _lLegsRefLog; }
             _dbg.QpStatus = (int)c.LastStatus; _dbg.QpFailures = c.SolveFailures; _dbg.QpMassScale = c.MassScale; _dbg.QpFrictionCmd = c.FrictionRatioCmd;
         }
 
@@ -831,6 +868,12 @@ namespace Game.Units.Mech
                     var smp = _ref.Sample(StancePhase());
                     bool imp = ImpActive;   // round 2 step 3: with imp = 1 the waist and both shoulders follow the reference fully, with their own drive gains
                     double trackUpper = imp ? 1 : _t.ref_track * _t.ref_track_upper;
+                    if (imp && _armFfOn && (d == _armShoulderFlex[0] || d == _armShoulderFlex[1]))
+                    {
+                        // step 9.5f: momentum-cancelling shoulder feed-forward, blended in over 0.5 s after the hand-off; qp_arm_ff_ref = 1 keeps the reference arm underneath
+                        bool armL = d == _armShoulderFlex[0]; int ai = armL ? 0 : 1; double refW = _t.qp_arm_ff_ref > 0.5 ? 1.0 : 1.0 - _armFfBlend, bl = _armFfBlend;
+                        Track(d, refW * (armL ? smp.ArmFlexionL : smp.ArmFlexionR) + bl * _armFf[ai], Vector3.Zero, default, true, 1, _t.qp_arm_ff_hz > 0 ? _t.qp_arm_ff_hz : _t.imp_arm_hz, _t.imp_arm_zeta, refW * RefQdd(g => armL ? g.ArmFlexionL : g.ArmFlexionR) + bl * _armFfQdd[ai]); continue;
+                    }
                     if (imp && (d == _armShoulderFlex[0] || d == _armShoulderFlex[1])) { bool armL = d == _armShoulderFlex[0]; Track(d, (armL ? smp.ArmFlexionL : smp.ArmFlexionR) + _armTrim[armL ? 0 : 1], Vector3.Zero, default, true, 1, _t.imp_arm_hz, _t.imp_arm_zeta, RefQdd(g => armL ? g.ArmFlexionL : g.ArmFlexionR)); continue; }
                     if (d == _armShoulderFlex[0]) target += (smp.ArmFlexionL - target) * trackUpper;
                     if (d == _armShoulderFlex[1]) target += (smp.ArmFlexionR - target) * trackUpper;

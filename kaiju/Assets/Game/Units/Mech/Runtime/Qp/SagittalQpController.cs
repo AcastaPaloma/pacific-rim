@@ -17,7 +17,7 @@ namespace Game.Units.Mech.Qp
         public double SolverRegularisation = 1e-12;
         /// <summary>Step 9.5b (stage 2, qp_lateral): 3D contact forces at 2 sole corners per heel / toe point (diamond pyramid |fx| + |fy| &lt;= mu' fz shared by both shears), lateral CoM, roll and yaw momentum rows. Off = the planar QP unchanged.</summary>
         public double WTau;   // step 9.5b: weight of sum (tau_j / LIM_j)^2 (0 = off, as the prototype); fixes the internal double-support force the other rows leave free
-        public bool YawTrunk; public double YawFf = 1.0, YawCap = 0.1;   // step 9.5e: trunk yaw task with the legs' and arms' yaw-momentum rate as feed-forward
+        public bool YawTrunk; public double YawFf = 1.0, YawCap = 0.1, YawBudget = 0, YawBudgetFloor = 0.1;   // step 9.5e: trunk yaw task with the legs' and arms' yaw-momentum rate as feed-forward
         public bool Lateral; public double OmY = 0.5, WCy = 1e3, WRoll = 1e3, KRoll = 2.0, WYaw = 1e6, OmYaw = 1.0;   // the prototype's solver has none; the default 1e-6 of the shared solver distorts the weak (1e-6..1e-4) weights
         /// <summary>Not ported (all off in b5): sigma smoothing, land_lead/xlead/vclip/nounder, om_land, sw_post, fmin_td, rate_bw, sg_fmin, predict.</summary>
         public static SagittalQpOptions From(WalkTuning t) => new SagittalQpOptions
@@ -27,7 +27,7 @@ namespace Game.Units.Mech.Qp
             Kvs = t.qp_kvs, OnBw = t.qp_on_bw, OffBw = t.qp_off_bw, TOut = t.qp_T_out, TIn = t.qp_T_in, TBlend = t.qp_T_blend, LoadThr = t.qp_load_thr, TdMinFrac = t.qp_td_min_frac, LateVz = t.qp_late_vz, FCap = t.qp_fcap, ZHold = t.qp_z_hold,
             HoldSched = t.qp_hold_sched > 0.5, Onset = t.qp_onset > 0.5, Land = t.qp_land > 0.5, LandAct = t.qp_land_act > 0.5, FrMeas = t.qp_fr_meas > 0.5, FrMargin = t.qp_fr_margin, LandK0 = t.qp_land_k0, VTd = t.qp_v_td, LandPost = t.qp_land_post,
             MassEst = t.qp_mass_est, MassLo = t.qp_mass_lo, MassHi = t.qp_mass_hi, SgFloor = t.qp_sg_floor, SolverRegularisation = t.qp_solver_reg,
-            WTau = t.qp_w_tau, YawTrunk = t.qp_yaw_trunk > 0.5, YawFf = t.qp_yaw_ff, YawCap = t.qp_yaw_cap, Lateral = t.qp_lateral > 0.5, OmY = t.qp_om_y, WCy = t.qp_w_cy, WRoll = t.qp_w_roll, KRoll = t.qp_k_roll, WYaw = t.qp_w_yaw, OmYaw = t.qp_om_yaw
+            WTau = t.qp_w_tau, YawTrunk = t.qp_yaw_trunk > 0.5, YawFf = t.qp_yaw_ff, YawCap = t.qp_yaw_cap, YawBudget = t.qp_yaw_budget, YawBudgetFloor = t.qp_yaw_budget_floor, Lateral = t.qp_lateral > 0.5, OmY = t.qp_om_y, WCy = t.qp_w_cy, WRoll = t.qp_w_roll, KRoll = t.qp_k_roll, WYaw = t.qp_w_yaw, OmYaw = t.qp_om_yaw
         };
     }
 
@@ -51,6 +51,8 @@ namespace Game.Units.Mech.Qp
         public double TimeScale = 1.0;   // step 9.5 hand-off: the caller's clock t runs at this fraction of real time (reference velocities x s, accelerations x s^2; measured velocities enter the planners divided by s). 1 = unchanged
         public int StartNode;          // step 9.5c state-matched hand-off: Init starts at reference node StartNode (0 = the heel strike of leg B) of the first step: contact flags, first-contact forces, torques and the Xoff anchor are those of that node
         public QpReference Reference => _ref;
+        /// <summary>Reference joint-space velocity q9 (index i) of the current tick (rad/s, real time), valid after Step.</summary>
+        public double RefQd(int i) => _r[QpReference.Cqd + i];
         public bool AnchorXoff;        // hand-off start (step 9.5): the first Step after Init sets Xoff so that the reference heel of leg B (just landed) is at its measured x
         bool _anchorPending;
         public bool HasFnMeas;         // false only on the first tick (no read-back yet)
@@ -58,8 +60,9 @@ namespace Game.Units.Mech.Qp
         public readonly double[] Corner = new double[8 * 3];
         public double ComY, ComDY, LRoll, LYaw, Izz = 1.0, YawErr, YRef;
         public bool TrunkYaw => _o.YawTrunk;
-        public double LTrunk, ITrunk = 1.0, DLRest;   // step 9.5e: yaw momentum about the CoM of the trunk (pelvis, torso, head), its yaw inertia, filtered rate of the yaw momentum of the legs and arms
-        public readonly double[] YawLog = new double[5];   // log only: [L_trunk, I_trunk, dL_rest/dt, target, L_rest]   // CoM lateral position / velocity, angular momentum about the CoM along forward and up, yaw inertia about the CoM, heading error (rad), lateral CoM target
+        public double YawShareLog;   // 9.5f: share of the cone moment budget the yaw target uses (log)
+        public double LTrunk, ITrunk = 1.0, DLRest, LLegs, LArms;   // step 9.5e: yaw momentum about the CoM of the trunk (pelvis, torso, head), its yaw inertia, filtered rate of the yaw momentum of the legs and arms
+        public readonly double[] YawLog = new double[8];   // log only: [L_trunk, I_trunk, dL_rest/dt, target, L_rest]   // CoM lateral position / velocity, angular momentum about the CoM along forward and up, yaw inertia about the CoM, heading error (rad), lateral CoM target
         /// <summary>Lateral: commanded 3D corner forces [fx forward, fy right, fz up] per corner, N (heading frame).</summary>
         public readonly double[] Force3 = new double[8 * 3];
         /// <summary>Lateral: last commanded [sum fy / W, roll moment / (W l), yaw moment / (W l)] and their targets (log only).</summary>
@@ -191,13 +194,31 @@ namespace Game.Units.Mech.Qp
         }
         void ClearRow(int nx) { for (int i = 0; i < nx; i++) _row[i] = 0; }
 
+        double _ydT;   // yaw ground-moment target of this tick (N m), set by YawMoment before the rows are built
+        /// <summary>Yaw ground-moment target: whole-body heading task, or with YawTrunk the trunk task with the legs' and arms' yaw-momentum rate feed-forward (9.5e). Logs YawLog.</summary>
+        double YawMoment(double W, double ms)
+        {
+            var o = _o; double l = _l;
+            double myd = -Izz * ms * (o.OmYaw * o.OmYaw * YawErr + 2 * o.OmYaw * (LYaw / Math.Max(Izz, 1e-9)));
+            if (o.YawTrunk) { double cap = o.YawCap * W * l; myd = Math.Max(-cap, Math.Min(cap, -(ITrunk * o.OmYaw * o.OmYaw * YawErr + 2 * o.OmYaw * LTrunk) + o.YawFf * DLRest)); YawLog[0] = LTrunk; YawLog[1] = ITrunk; YawLog[2] = DLRest; YawLog[3] = myd; YawLog[4] = LYaw - LTrunk; YawLog[5] = LLegs; YawLog[6] = LArms; }
+            return myd;
+        }
+        /// <summary>Step 9.5f yaw-aware sagittal budget: share of the yaw moment the friction cone can carry (mu' W r_eff, r_eff the mean plan distance of the contact corners from the CoM) that the yaw target uses.</summary>
+        double YawShare(double myd, double W, int nS, int gpp, double cx)
+        {
+            double rs = 0; int n = 0;
+            for (int a = 0; a < nS; a++) { int i = _sIdx[a]; for (int k = 0; k < 2; k++) { int q = 2 * i + k; double px = Corner[3 * q] - cx, py = Corner[3 * q + 1] - ComY; rs += Math.Sqrt(px * px + py * py); n++; } }
+            if (n == 0) return 0.0;
+            double b = _o.Mu * _o.FrMargin * W * rs / n;
+            return b > 1e-9 ? Math.Min(1.5, Math.Abs(myd) / b) : 0.0;
+        }
+
         /// <summary>Stage 2 rows on the generators: lateral force = m (om_y^2 (y_ref - y) - 2 om_y vy), roll moment = -k_roll L_roll, yaw moment = -Izz (om_yaw^2 e + 2 om_yaw w), plus prior (fy = 0) and smoothness on the per-point lateral force. Normalised by W, W l.</summary>
         void LateralRows(int nx, int nS, int gpp, double ms, double W, double cx, double cz)
         {
             var o = _o; double l = _l, mt = _mt * ms;
             double ay = o.OmY * o.OmY * (YRef - ComY) - 2 * o.OmY * ComDY;
-            double mrd = -o.KRoll * LRoll * ms, myd = -Izz * ms * (o.OmYaw * o.OmYaw * YawErr + 2 * o.OmYaw * (LYaw / Math.Max(Izz, 1e-9)));
-            if (o.YawTrunk) { double cap = o.YawCap * W * l; myd = Math.Max(-cap, Math.Min(cap, -(ITrunk * o.OmYaw * o.OmYaw * YawErr + 2 * o.OmYaw * LTrunk) + o.YawFf * DLRest)); YawLog[0] = LTrunk; YawLog[1] = ITrunk; YawLog[2] = DLRest; YawLog[3] = myd; YawLog[4] = LYaw - LTrunk; }
+            double mrd = -o.KRoll * LRoll * ms, myd = _ydT;
             LatCmd[3] = mt * ay / W; LatCmd[4] = mrd / (W * l); LatCmd[5] = myd / (W * l);
             int nb = gpp * nS;
             for (int k = 0; k < 3; k++)
@@ -273,6 +294,8 @@ namespace Game.Units.Mech.Qp
                     for (int j = 0; j < NQ; j++) _jb[j * MaxNb + col] = W * (Jp[i * 18 + j] * gx + Jp[i * 18 + 9 + j] * gz);
                 }
             }
+            double wcxEff = o.WCx; YawShareLog = 0;
+            if (lat) { _ydT = YawMoment(W, ms); if (o.YawTrunk && o.YawBudget > 0 && nb > 0) { YawShareLog = YawShare(_ydT, W, nS, gpp, cx); wcxEff = o.WCx * Math.Max(o.YawBudgetFloor, 1.0 - o.YawBudget * YawShareLog); } }
             // ---- quadratic cost
             Array.Clear(_hq, 0, nx * nx); Array.Clear(_gq, 0, nx);
             double cdx = r[QpReference.Ccomdd] + o.OmX * o.OmX * (r[QpReference.Ccom] + xoff - cx) + 2 * o.OmX * (r[QpReference.Ccomd] - ComD[0]);
@@ -281,7 +304,7 @@ namespace Game.Units.Mech.Qp
             _wd[0] = _mt * ms * cdx / W; _wd[1] = _mt * ms * (cdz + g0) / W; _wd[2] = ldd / (W * l);
             if (nb > 0)
             {
-                for (int k = 0; k < 3; k++) { ClearRow(nx); for (int c = 0; c < nb; c++) _row[NQ + c] = _gm[k * MaxNb + c]; AddRow(nx, k == 0 ? o.WCx : k == 1 ? o.WCz : o.WL, _wd[k]); }
+                for (int k = 0; k < 3; k++) { ClearRow(nx); for (int c = 0; c < nb; c++) _row[NQ + c] = _gm[k * MaxNb + c]; AddRow(nx, k == 0 ? wcxEff : k == 1 ? o.WCz : o.WL, _wd[k]); }
                 for (int k = 0; k < 2 * nS; k++)
                 {
                     int i = _sIdx[k / 2], d = k % 2; ClearRow(nx); for (int c = 0; c < nb; c++) _row[NQ + c] = _em[k * MaxNb + c];
