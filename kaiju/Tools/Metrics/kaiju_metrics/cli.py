@@ -62,6 +62,11 @@ def build_parser():
     p4.add_argument("--fixture", action="store_true", help="fixture mode: 60-frame sequences allowed (labelled)")
     p4.add_argument("--jobs", type=int, default=1, help="worker processes (results identical for any value)")
 
+    add("m050", "M-050@v1 persistent destruction save round trip (two Core-envelope saves: <before> <after>)",
+        "exactly two kaiju-save JSON files holding a destruction@v1 section")
+    add("m052", "M-052@v1 collapse mass and energy account (destruction_dump@v1 JSON)",
+        "destruction_dump.json files (schema: kaiju_metrics/destruction/m052.py)")
+
     pv = sub.add_parser("validate", help="validate a contract file (standalone; lists all errors)",
                         description="Validate gait_log@v1, style_capture@v1 or palette_set@v1 input. Exit 0 when "
                                     "valid, 2 when not. Errors: file:line/key: what, expected, found.",
@@ -155,7 +160,7 @@ def _dispatch(args, argv):
                 for sid, e in m["submeasures"].items():
                     print(f"    {sid:<22} {e['kind']:<9} {e['title']}")
         return 0
-    if args.cmd in ("m001", "m002", "m003", "m004"):
+    if args.cmd in ("m001", "m002", "m003", "m004", "m050", "m052"):
         from .runner import run_metric_cli
         return run_metric_cli(args.cmd, args, argv)
     if args.cmd == "calibrate":

@@ -158,6 +158,7 @@ def test_registry_flip_style(tmp_path, style_sets, sid, key):
 
 # ------------------------------------------------------------------ literal scan
 ALLOW = {
+    ("style/m003.py", "1e-6"): "M-003 distance matching tolerance in metres; coincides with the M-052 relative threshold",
     # (file, literal): why a number equal to a registry value is legitimate there
     ("baseline.py", "0.08"): "R-002 §2 grid-detection R threshold (research procedure, not an M-003 threshold)",
     ("baseline.py", "0.05"): "R-002 §2 weak-grid R threshold (research procedure)",
@@ -299,4 +300,4 @@ def test_provisional_label_counts_assumed(tmp_path):
 
 def test_list_metrics():
     info = list_metrics()
-    assert sorted({m["metric"] for m in info}) == ["M-001", "M-002", "M-003", "M-004"]
+    assert sorted({m["metric"] for m in info}) == ["M-001", "M-002", "M-003", "M-004", "M-050", "M-052"]

@@ -13,7 +13,7 @@ from .common import REGISTRY_DIR, rel_path, sha256_file
 
 STATUSES = ("derived", "assumed_pending_calibration", "calibrated")
 KINDS = ("gating", "advisory", "info")
-METRICS = ("M-001", "M-002", "M-003", "M-004")
+METRICS = ("M-001", "M-002", "M-003", "M-004", "M-050", "M-052")
 
 
 _MISSING = object()
