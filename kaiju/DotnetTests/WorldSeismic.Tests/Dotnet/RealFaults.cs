@@ -33,7 +33,14 @@ namespace Game.World.Seismic.Tests
             return l.ToArray();
         }
 
+        /// <summary>Production path (T-036c): the global layer through World.Geo's loader (GeoFaultData, baked fault_id) and FaultTraceSet.PiecesFromGeo.</summary>
         public static List<FaultPiece> Load()
+        {
+            return FaultTraceSet.PiecesFromGeo(Game.World.Geo.GeoFaultsLoader.LoadGlobal(FindFile()), 0, 0);
+        }
+
+        /// <summary>Independent reading of the same file with System.Text.Json, kept only to prove the production path loses nothing.</summary>
+        public static List<FaultPiece> LoadDirect()
         {
             var list = new List<FaultPiece>();
             using (JsonDocument doc = JsonDocument.Parse(File.ReadAllBytes(FindFile())))
@@ -45,7 +52,7 @@ namespace Game.World.Seismic.Tests
                     if (g.GetProperty("type").GetString() == "LineString") lines.Add(Flat(c));
                     else foreach (JsonElement l in c.EnumerateArray()) lines.Add(Flat(l));
                     foreach (double[] xz in lines)
-                        list.Add(new FaultPiece { FaultName = Str(p, "fault_name"), Section = Str(p, "section"), Linetype = Str(p, "linetype"), SlipSense = Str(p, "slip_sense"), Xz = xz });
+                        list.Add(new FaultPiece { BakedFaultId = Str(p, "fault_id"), FaultName = Str(p, "fault_name"), Section = Str(p, "section"), Linetype = Str(p, "linetype"), SlipSense = Str(p, "slip_sense"), Xz = xz });
                 }
             }
             return list;

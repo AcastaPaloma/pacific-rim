@@ -1,0 +1,6 @@
+# M1 EditMode after the save fix (M1-cleanup, 2026-11-15)
+Unity 6000.6.9f1 batch, worktree `.wt/M1-cleanup` = integration head efaa942 + the M1-cleanup changes (Core save: Unreadable/.bak, Geo landmark heights, baked tiles L0_30_36/26_37/26_38).
+- EditMode: **484 total, 482 passed, 0 failed, 2 skipped** (the same two as at M1-merge-6: `Net.NetSessionTests.M057_TwoSlotsAtMostEightyPercentOfFour`, `Destruction.DamageModelTests.Apply_Allocates_NothingInSteadyState`). 12 new/related save tests pass in Unity. No failures in other tracks' modules. This confirms the T-025 `SaveSystem.Restore` rollback fix (two Destruction save tests changed after the evaluator) in Unity, which had not been run before.
+- GameCoreConfig regeneration (`Game.Core.Unity.CoreConfigAsset.CreateOrUpdate`): exit 0, no asset diff.
+- Logs: `evidence/M1-cleanup/coreconfig.log`, `evidence/M1-cleanup/editmode.log`; results `evidence/regression/M1-editmode-after-save-fix.xml`.
+- Fast tests: dotnet Core.Tests 105/105, WorldDestruction.Tests 82/82, WorldGeo.Tests 70/70; pytest Pipelines/geo 128 passed (`evidence/M1-cleanup/pytest_geo.log`). One transient AllocationTests failure in the first dotnet Core run (machine busy with Unity), passed on rerun.

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- T-030c: two-process co-op run (host and client as separate processes over real UDP). Not a test project; driven by Tools/agent or evidence/T-030c/run.sh. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net11.0</TargetFramework>
+    <AssemblyName>Net.CoopRun</AssemblyName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Net/Net.csproj" />
+    <ProjectReference Include="../Net.ControlBridge/Net.ControlBridge.csproj" />
+    <ProjectReference Include="../Control/Control.csproj" />
+    <ProjectReference Include="../Units.Placeholder/Units.Placeholder.csproj" />
+  </ItemGroup>
+</Project>

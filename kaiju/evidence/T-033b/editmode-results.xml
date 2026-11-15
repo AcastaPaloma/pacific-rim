@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="23" result="Passed" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.0377783">
+  <test-suite type="TestSuite" id="1000" name="KaijuGame" fullname="KaijuGame" runstate="Runnable" testcasecount="499" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.037778" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1026" name="Game.AI.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-033b/kaiju/Library/ScriptAssemblies/Game.AI.Tests.dll" runstate="Runnable" testcasecount="23" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.023023" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="5539" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1027" name="Game" fullname="Game" runstate="Runnable" testcasecount="23" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.022645" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1028" name="AI" fullname="Game.AI" runstate="Runnable" testcasecount="23" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.022451" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1029" name="Tests" fullname="Game.AI.Tests" runstate="Runnable" testcasecount="23" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.022141" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1002" name="ScriptedKaijuBrainTests" fullname="Game.AI.Tests.ScriptedKaijuBrainTests" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" testcasecount="23" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.021249" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1009" name="Approach_Centre_ChargesAfterHoldTimeout" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.Approach_Centre_ChargesAfterHoldTimeout" methodname="Approach_Centre_ChargesAfterHoldTimeout" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="1289398903" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.005940" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1008" name="Approach_Centre_HoldsThenChargesOnAllyCharge" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.Approach_Centre_HoldsThenChargesOnAllyCharge" methodname="Approach_Centre_HoldsThenChargesOnAllyCharge" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="210616555" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000573" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1006" name="Approach_Solo_ChargesAtStandoff" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.Approach_Solo_ChargesAtStandoff" methodname="Approach_Solo_ChargesAtStandoff" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="965828966" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000125" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1007" name="Approach_Wing_GoesToFlank_AtStandoff" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.Approach_Wing_GoesToFlank_AtStandoff" methodname="Approach_Wing_GoesToFlank_AtStandoff" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="1739821861" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000178" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1012" name="Charge_MeleeInReach_NoContactReturnsToApproach" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.Charge_MeleeInReach_NoContactReturnsToApproach" methodname="Charge_MeleeInReach_NoContactReturnsToApproach" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="1261728475" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000128" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1003" name="ContractVersionIs1" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.ContractVersionIs1" methodname="ContractVersionIs1" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="887229813" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000116" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1025" name="Decide_AllocatesNothing" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.Decide_AllocatesNothing" methodname="Decide_AllocatesNothing" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="1173461323" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000684" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1024" name="Determinism_SameSeedSameStream_IdenticalIntents_1000Ticks" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.Determinism_SameSeedSameStream_IdenticalIntents_1000Ticks" methodname="Determinism_SameSeedSameStream_IdenticalIntents_1000Ticks" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="783460734" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.002561" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1011" name="Flank_HeadsToWaypoint_Timeout_AndAllyCharge" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.Flank_HeadsToWaypoint_Timeout_AndAllyCharge" methodname="Flank_HeadsToWaypoint_Timeout_AndAllyCharge" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="1267014438" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000793" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1010" name="Flank_SlotReached_Charges" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.Flank_SlotReached_Charges" methodname="Flank_SlotReached_Charges" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="1488561781" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000335" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1021" name="FocusFire_AlliesOnTargetRaiseScore" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.FocusFire_AlliesOnTargetRaiseScore" methodname="FocusFire_AlliesOnTargetRaiseScore" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="1843383178" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000077" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1022" name="Hold_BetweenDecisions_AndStagger" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.Hold_BetweenDecisions_AndStagger" methodname="Hold_BetweenDecisions_AndStagger" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="1332134361" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000278" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1023" name="HoldBetweenDecisions_IntentIdenticalUntilNextPhase" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.HoldBetweenDecisions_IntentIdenticalUntilNextPhase" methodname="HoldBetweenDecisions_IntentIdenticalUntilNextPhase" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="1229731127" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000135" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1005" name="Idle_RememberedTargetCounts_ButBeyondMemoryDoesNot" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.Idle_RememberedTargetCounts_ButBeyondMemoryDoesNot" methodname="Idle_RememberedTargetCounts_ButBeyondMemoryDoesNot" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="2073893800" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000066" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1004" name="Idle_StaysIdleWithoutTarget_ThenAcquires" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.Idle_StaysIdleWithoutTarget_ThenAcquires" methodname="Idle_StaysIdleWithoutTarget_ThenAcquires" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="882940334" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000111" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1013" name="LowHp_Retreats_FromApproachFlankAndCharge" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.LowHp_Retreats_FromApproachFlankAndCharge" methodname="LowHp_Retreats_FromApproachFlankAndCharge" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="2126599706" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000162" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1015" name="Retreat_ComingWithinSafeDistanceResetsTimer" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.Retreat_ComingWithinSafeDistanceResetsTimer" methodname="Retreat_ComingWithinSafeDistanceResetsTimer" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="521328188" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000097" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1014" name="Retreat_ThenWithdrawn_NeverReengages" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.Retreat_ThenWithdrawn_NeverReengages" methodname="Retreat_ThenWithdrawn_NeverReengages" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="1094069086" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000134" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1017" name="TargetDead_ForcedRetargetIsImmediate_AndResetsChargeToApproach" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.TargetDead_ForcedRetargetIsImmediate_AndResetsChargeToApproach" methodname="TargetDead_ForcedRetargetIsImmediate_AndResetsChargeToApproach" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="807657655" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000099" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1016" name="TargetLost_GoesIdle_WhenNoOther" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.TargetLost_GoesIdle_WhenNoOther" methodname="TargetLost_GoesIdle_WhenNoOther" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="906525210" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000099" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1018" name="TargetSelection_PrefersHigherScore" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.TargetSelection_PrefersHigherScore" methodname="TargetSelection_PrefersHigherScore" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="2076088869" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000107" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1020" name="VoluntarySwitch_BelowRatioDoesNotSwitch" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.VoluntarySwitch_BelowRatioDoesNotSwitch" methodname="VoluntarySwitch_BelowRatioDoesNotSwitch" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="1753417140" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000085" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1019" name="VoluntarySwitch_NeedsRatioAndFourSeconds" fullname="Game.AI.Tests.ScriptedKaijuBrainTests.VoluntarySwitch_NeedsRatioAndFourSeconds" methodname="VoluntarySwitch_NeedsRatioAndFourSeconds" classname="Game.AI.Tests.ScriptedKaijuBrainTests" runstate="Runnable" seed="260607529" result="Passed" start-time="2026-11-15 06:18:09Z" end-time="2026-11-15 06:18:09Z" duration="0.000130" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/kuanw/Library/Application Support/DefaultCompany/KaijuGame/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

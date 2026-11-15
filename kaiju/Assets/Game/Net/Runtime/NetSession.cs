@@ -15,7 +15,8 @@ namespace Game.Net
         {
             public NetMeter Link;
             public PlayerSlot Slot;
-            public bool Joined, Refused;
+            public bool Joined, Refused, Dead;
+            public long LastRxStep, RefusedStep;
         }
 
         private sealed class LoggingSink : IIntentSink
@@ -38,11 +39,20 @@ namespace Game.Net
         private long _second;
         private int _lastStale, _lastOther;
 
+        private readonly SortedSet<int> _used = new SortedSet<int>();
+
         public NetLog Log { get; }
+        /// <summary>A joined client silent for more than this many steps loses its slot (0 = never). Clients send every step, so 250 (5 s at 50 Hz) is generous.</summary>
+        public int SlotTimeoutSteps { get; set; }
+        /// <summary>A refused connection is closed after this many steps (the Refuse has long since drained).</summary>
+        public int RefusedLingerSteps { get; set; } = 100;
+        public event Action<PlayerSlot> SlotJoined;
+        public event Action<PlayerSlot> SlotReleased;
         public int SnapshotIntervalSteps { get; }
         public IntentHostBuffer Intents => _buffer;
         /// <summary>Slots in use, the host's own (index 0) included.</summary>
-        public int OccupiedSlots { get; private set; } = 1;
+        public int OccupiedSlots => 1 + _used.Count;
+        public bool IsOccupied(PlayerSlot slot) => _used.Contains(slot.Index);
 
         public NetHostSession(HandshakeValidator validator, Func<long, StateSnapshot> snapshotSource, NetLog log,
                               int snapshotIntervalSteps = 2, int stepsPerSecond = 50)
@@ -61,18 +71,44 @@ namespace Game.Net
             return c.Link;
         }
 
-        /// <summary>Drains every connection: handshakes are answered, intents buffered. Then logs drops and per-second bandwidth.</summary>
+        /// <summary>
+        /// Drains every connection: handshakes are answered, intents buffered. Then frees the slots of clients that left, whose link
+        /// died or that went silent past <see cref="SlotTimeoutSteps"/>, and logs drops and per-second bandwidth.
+        /// </summary>
         public void Poll(long step)
         {
+            List<Conn> gone = null;
             foreach (var c in _conns)
             {
-                if (c.Refused) continue;
+                if (c.Refused)
+                {
+                    if (c.RefusedStep == 0) c.RefusedStep = step + 1;
+                    if (!c.Link.IsConnected || step + 1 - c.RefusedStep > RefusedLingerSteps)
+                    {
+                        if (c.Link.IsConnected) c.Link.Close();
+                        (gone ?? (gone = new List<Conn>())).Add(c);
+                    }
+                    continue;
+                }
+                if (c.LastRxStep == 0) c.LastRxStep = step + 1;
+                bool left = false;
                 while (c.Link.TryReceive(out var ch, out var data))
                 {
-                    if (ch == NetChannel.Reliable) { if (!c.Joined) HandleHello(c, data, step); }
+                    c.LastRxStep = step + 1;
+                    if (ch == NetChannel.Reliable)
+                    {
+                        if (!c.Joined) HandleHello(c, data, step);
+                        else if (data.Length > 0 && data[0] == NetCodec.MsgLeave) { left = true; break; }
+                    }
                     else if (c.Joined) _buffer.Receive(data, c.Slot);
                 }
+                if (!c.Joined) continue;
+                long silent = step + 1 - c.LastRxStep;
+                if (left) { Free(c, 0, silent, step); (gone ?? (gone = new List<Conn>())).Add(c); }
+                else if (!c.Link.IsConnected) { Free(c, 2, silent, step); (gone ?? (gone = new List<Conn>())).Add(c); }
+                else if (SlotTimeoutSteps > 0 && silent > SlotTimeoutSteps) { Free(c, 1, silent, step); (gone ?? (gone = new List<Conn>())).Add(c); }
             }
+            if (gone != null) foreach (var c in gone) _conns.Remove(c);
             int stale = _buffer.DroppedStale, other = _buffer.DroppedUnknownSlot + _buffer.DroppedMalformed;
             if (stale != _lastStale) { Log.Add(step, NetLogKind.IntentDropStale, a: stale - _lastStale); _lastStale = stale; }
             if (other != _lastOther) { Log.Add(step, NetLogKind.IntentDropOther, a: other - _lastOther); _lastOther = other; }
@@ -88,11 +124,40 @@ namespace Game.Net
             }
         }
 
+        /// <summary>Host-initiated release (kick, or the game saw the player leave): frees the slot and closes the link. False if the slot is not in use.</summary>
+        public bool Release(PlayerSlot slot, long step)
+        {
+            foreach (var c in _conns)
+            {
+                if (!c.Joined || c.Slot != slot) continue;
+                Free(c, 0, 0, step); c.Link.Close(); _conns.Remove(c);
+                return true;
+            }
+            return false;
+        }
+
+        private void Free(Conn c, int reason, long silentSteps, long step)
+        {
+            c.Joined = false; c.Dead = true;
+            _used.Remove(c.Slot.Index);
+            _buffer.UnregisterSlot(c.Slot);
+            c.Link.Close();
+            Log.Add(step, NetLogKind.SlotRelease, c.Slot.Index, reason, silentSteps);
+            SlotReleased?.Invoke(c.Slot);
+        }
+
+        private int LowestFree()
+        {
+            int max = _validator.MaxSlots;
+            for (int i = 1; i < max; i++) if (!_used.Contains(i)) return i;
+            return -1;
+        }
+
         private void HandleHello(Conn c, byte[] data, long step)
         {
             HandshakeResult r;
             if (!NetCodec.TryDecode(data, out HandshakeHello hello)) r = null;
-            else r = _validator.Evaluate(hello, OccupiedSlots, step, _snapshotSource(step));
+            else r = _validator.Evaluate(hello, OccupiedSlots, step, _snapshotSource(step), LowestFree());
             if (r == null || !r.Accepted)
             {
                 var refuse = r?.Refuse ?? new HandshakeRefuse { Code = RefuseCode.Malformed, Details = new[] { "malformed hello" } };
@@ -101,10 +166,11 @@ namespace Game.Net
                 Log.Add(step, NetLogKind.HandshakeRefuse, a: (long)refuse.Code, text: string.Join(" | ", refuse.Details));
                 return; // the link is left open so the Refuse can drain; the caller closes it
             }
-            c.Slot = r.Accept.Slot; c.Joined = true; OccupiedSlots++;
+            c.Slot = r.Accept.Slot; c.Joined = true; _used.Add(c.Slot.Index);
             _buffer.RegisterSlot(c.Slot);
             c.Link.Send(NetChannel.Reliable, NetCodec.Encode(r.Accept));
             Log.Add(step, NetLogKind.HandshakeAccept, c.Slot.Index, c.Slot.Index, text: string.Join(" | ", r.Accept.Warnings));
+            SlotJoined?.Invoke(c.Slot);
         }
 
         /// <summary>One host step: hands one intent per joined slot to <paramref name="sink"/>, then sends a snapshot to every joined client on every <see cref="SnapshotIntervalSteps"/>th step.</summary>
@@ -125,7 +191,7 @@ namespace Game.Net
         }
     }
 
-    public enum ClientState { Idle, Joining, Joined, Refused }
+    public enum ClientState { Idle, Joining, Joined, Refused, /* the host link died or Leave() was called */ Lost }
 
     /// <summary>Thin client wrapper: handshake, intent sender, snapshot receive and interpolation, logging.</summary>
     public sealed class NetClientSession
@@ -163,8 +229,17 @@ namespace Game.Net
             _link.Send(NetChannel.Reliable, NetCodec.Encode(_hello));
         }
 
+        /// <summary>Tells the host this client is leaving (its slot is freed at once) and closes the link. Join again with a new session on a new transport.</summary>
+        public void Leave(long step)
+        {
+            if (State == ClientState.Joined) _link.Send(NetChannel.Reliable, NetCodec.EncodeLeave());
+            _link.Close();
+            State = ClientState.Lost;
+        }
+
         public void Poll(long step)
         {
+            if (State == ClientState.Lost) return;
             while (_link.TryReceive(out var ch, out var data))
             {
                 if (ch == NetChannel.Reliable)
@@ -189,6 +264,12 @@ namespace Game.Net
                     if (snap.HostStep > LastHostStepSeen) LastHostStepSeen = snap.HostStep;
                     _interp.Receive(step, snap);
                 }
+            }
+            if ((State == ClientState.Joined || State == ClientState.Joining) && !_link.IsConnected)
+            {
+                Log.Add(step, NetLogKind.LinkLost, Slot.IsValid ? Slot.Index : -1, step - LastHostStepSeen);
+                State = ClientState.Lost;
+                return;
             }
             if (_stepsPerSecond > 0 && step / _stepsPerSecond > _second)
             {

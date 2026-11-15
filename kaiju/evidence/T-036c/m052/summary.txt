@@ -1,0 +1,7 @@
+M-052@v1  [destruction_dump.json]  registry v1.0 sha256:7d8eb4717174  tool 1.0.0
+VERDICT: PASS (provisional: 1 assumed)   headless: PASS (provisional: 1 assumed)   exit 0   failing gating: 0
+  PASS           [G] M-052.mass       0 ids  <= 0  margin 0
+  PASS           [G] M-052.pieces     64 pieces  <= 64  margin 0
+  PASS           [G] M-052.energy     0.25 ratio  <= 0.25  margin 0 seed-threshold
+  PASS           [G] M-052.path       0 relative  <= 1e-06  margin 1e-06
+  inputs: 1 files hashed; report.json holds every value, threshold and hash

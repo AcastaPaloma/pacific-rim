@@ -36,6 +36,17 @@ namespace Game.World.Seismic
         public double PeakSlipM;
 
         /// <summary>Seconds after the origin at which the rupture front reaches the vertex (bilateral from the hypocentre vertex).</summary>
+        /// <summary>
+        /// Slip carried by segment <paramref name="segment"/> (vertex segment to segment + 1), m: 0 on a bridged gap and outside the ruptured range,
+        /// else the mean of its end vertices. Use this (or MeanSlipM), not Slip[], for anything that needs offset on the ground: Slip[] keeps the
+        /// profile value at a mapped chain end that touches a bridge (that vertex is mapped trace; the bridge beside it is not). DEF-M1ds-4.
+        /// </summary>
+        public double SegmentSlip(int segment)
+        {
+            if (segment < VertexStart || segment >= VertexEnd || System.Bridge[segment]) return 0.0;
+            return 0.5 * (Slip[segment - VertexStart] + Slip[segment - VertexStart + 1]);
+        }
+
         public double VertexTimeS(int vertex) { return Math.Abs(System.ArcM[vertex] - System.ArcM[HypoVertex]) / RuptureSpeedMs; }
     }
 

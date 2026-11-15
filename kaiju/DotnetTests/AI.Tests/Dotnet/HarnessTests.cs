@@ -102,26 +102,56 @@ namespace Game.AI.Tests
             Assert.GreaterOrEqual(fr, 2 * nul);
         }
 
+        [Test]
+        public void ThreeVsFourCombat_KaijuTakeDamage_RetreatReachable_Deterministic()
+        {
+            long hits = 0, deaths = 0, retreats = 0, withdrawn = 0; string first = null;
+            for (ulong seed = 1; seed <= 8; seed++)
+            {
+                string log = RunLog(HarnessScenario.M007ThreeVsFour(seed, false), out HarnessResult r);
+                if (first == null) first = Sha(log);
+                hits += r.KaijuHits; deaths += r.KaijuDeaths; retreats += r.KaijuRetreats; withdrawn += r.KaijuWithdrawn;
+                Assert.GreaterOrEqual(r.KaijuDeaths, 0);
+            }
+            TestContext.Out.WriteLine($"kaijuHits={hits} kaijuDeaths={deaths} retreats={retreats} withdrawn={withdrawn}");
+            Assert.Greater(hits, 0, "mechs never hit a kaiju");
+            Assert.Greater(retreats, 0, "no kaiju ever entered Retreat from its own low-HP rule");
+            Assert.AreEqual(first, Sha(RunLog(HarnessScenario.M007ThreeVsFour(1, false), out _)));
+        }
+
+        [Test]
+        public void ObservationAllies_AreRangeFiltered()
+        {
+            var sc = HarnessScenario.M007ThreeVsFour(3, false); sc.Brain.AllyAwarenessM = 1f; // nobody is within 1 m
+            string log = RunLog(sc, out _);
+            Assert.That(log.Contains("\"role\":\"wing\"") || log.Contains("\"role\":\"centre\""), Is.False, "allies beyond awareness range reached the observation");
+        }
+
         [Test, Explicit("Runs M-007 scenario over N seeds for scripted and DirectCharge; prints FR_commit; writes logs when KAIJU_M007_OUT is set")]
         public void M007_Scenario_Sweep()
         {
             string outDir = Environment.GetEnvironmentVariable("KAIJU_M007_OUT");
             int n = int.Parse(Environment.GetEnvironmentVariable("KAIJU_M007_N") ?? "20");
-            foreach (bool direct in new[] { false, true })
+            bool threeVsFour = Environment.GetEnvironmentVariable("KAIJU_M007_SCENARIO") == "3v4";
+            foreach (int mode in new[] { 0, 1, 2 }) // 0 scripted, 1 directcharge null, 2 nofocus (WeightFocus 0) control
             {
+                bool direct = mode == 1; bool nofocus = mode == 2;
+                if (nofocus && Environment.GetEnvironmentVariable("KAIJU_M007_NOFOCUS") != "1") continue;
                 int c = 0, m = 0, f = 0;
                 for (ulong seed = 1; seed <= (ulong)n; seed++)
                 {
-                    string log = RunLog(HarnessScenario.M007(seed, direct), out _);
+                    HarnessScenario scn = threeVsFour ? HarnessScenario.M007ThreeVsFour(seed, direct) : HarnessScenario.M007(seed, direct);
+                    if (nofocus) scn.Brain.WeightFocus = 0f; // second control: scripted without the focus bonus (brain_id nofocus@1)
+                    string log = RunLog(scn, out _);
                     if (outDir != null)
                     {
-                        string d = Path.Combine(outDir, direct ? "directcharge" : "scripted"); Directory.CreateDirectory(d);
+                        string d = Path.Combine(outDir, direct ? "directcharge" : (nofocus ? "nofocus" : "scripted")); Directory.CreateDirectory(d);
                         File.WriteAllText(Path.Combine(d, "brain_log_m007_" + seed + ".jsonl"), log, new UTF8Encoding(false));
                     }
                     PackReport rep = PackMetrics.Compute(log.Split('\n', StringSplitOptions.RemoveEmptyEntries));
                     c += rep.CommitEvents; m += rep.CommitEventsMulti; f += rep.CommitEventsFlanked;
                 }
-                TestContext.Out.WriteLine($"M007 direct={direct} n={n} commits={c} multi={m} flanked={f} FR={(m > 0 ? (double)f / m : double.NaN):F3}");
+                TestContext.Out.WriteLine($"M007 mode={mode} n={n} commits={c} multi={m} flanked={f} FR={(m > 0 ? (double)f / m : double.NaN):F3}");
             }
         }
 

@@ -96,3 +96,13 @@ def test_manifest_lists_bridge_sources():
     m = json.loads((T / "26_37" / "manifest.json").read_text())
     lay = [l for l in m["layers"] if l["layer"] == "landmarks"][0]
     assert lay["count"] == 5 and {s["licence"] for s in lay["sources"]} == {"LicenseRef-facts-cited", "US-Gov-PD"}
+
+
+def test_towers_share_the_sourced_top_and_cables_stay_below_it():
+    """M1-cleanup (DEF-M1geo-1, -4): both towers use the official 229.18 m; no cable point above tower top + cable radius."""
+    cfg = load_config("landmarks.json")["bridge"]
+    towers = _kind("bridge_tower")
+    assert {f["properties"]["top_navd88_m"] for f in towers} == {cfg["tower_top_navd88_m"]}
+    assert {f["properties"]["height_source"] for f in towers} == {"official"}
+    cap = cfg["tower_top_navd88_m"] + cfg["cable_diameter_m"] / 2
+    assert max(max(f["properties"]["y_navd88_m"]) for f in _kind("bridge_cable")) <= cap

@@ -1,0 +1,16 @@
+"DepotBuildConfig"
+{
+	// Rendered once per platform by render_vdf.py: DEPOT_ID = DEPOT_ID_MAC or DEPOT_ID_WIN,
+	// DEPOT_SUBDIR = "mac" or "win" (a folder under CONTENT_ROOT holding that platform's player build).
+	"DepotID" "${DEPOT_ID}"
+	"contentroot" "${CONTENT_ROOT}/${DEPOT_SUBDIR}"
+	"FileMapping"
+	{
+		"LocalPath" "*"
+		"DepotPath" "."
+		"recursive" "1"
+	}
+	"FileExclusion" "*.pdb"
+	"FileExclusion" "*DoNotShip*"
+	"FileExclusion" "*_BackUpThisFolder_ButDontShipItWithYourGame*"
+}

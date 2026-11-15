@@ -21,6 +21,8 @@ namespace Game.Net
     {
         public const string CoopFlag = "net.coop";
 
+        public int MaxSlots => _maxSlots;
+
         private readonly FeatureFlagSnapshot _flags;
         private readonly string _flagsCanonical;
         private readonly double _stepSeconds;
@@ -41,8 +43,9 @@ namespace Game.Net
             _maxSlots = maxSlots; _protocol = protocol; _contracts = contracts;
         }
 
-        /// <param name="occupiedSlots">Slots already assigned (the host's own included). The new client gets index <c>occupiedSlots</c>.</param>
-        public HandshakeResult Evaluate(HandshakeHello hello, int occupiedSlots, long hostStep, StateSnapshot firstSnapshot)
+        /// <param name="occupiedSlots">Slots already assigned (the host's own included). The new client gets index <c>occupiedSlots</c> unless <paramref name="assignIndex"/> names a freed slot.</param>
+        /// <param name="assignIndex">The slot to hand out (lowest free one after a release); -1 = <paramref name="occupiedSlots"/>.</param>
+        public HandshakeResult Evaluate(HandshakeHello hello, int occupiedSlots, long hostStep, StateSnapshot firstSnapshot, int assignIndex = -1)
         {
             var details = new List<string>();
             var code = RefuseCode.None;
@@ -93,7 +96,7 @@ namespace Game.Net
                 Accepted = true,
                 Accept = new HandshakeAccept
                 {
-                    Slot = PlayerSlot.FromIndex(occupiedSlots), HostStep = hostStep, FixedStepSeconds = _stepSeconds,
+                    Slot = PlayerSlot.FromIndex(assignIndex >= 0 ? assignIndex : occupiedSlots), HostStep = hostStep, FixedStepSeconds = _stepSeconds,
                     FirstSnapshot = firstSnapshot ?? new StateSnapshot { HostStep = hostStep }, Warnings = warnings,
                 },
             };

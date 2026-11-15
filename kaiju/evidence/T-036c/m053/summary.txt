@@ -1,0 +1,7 @@
+M-053@v1  [fault_rupture_dump.json]  registry v1.0 sha256:73928aafef45  tool 1.0.0
+VERDICT: PASS (provisional: 1 assumed)   headless: PASS (provisional: 1 assumed)   exit 0   failing gating: 0
+  PASS           [G] M-053.offset     6.1e-12 m  <= 1  margin 1 seed-threshold
+  PASS           [G] M-053.mapped     1 share  >= 1  margin 0
+  PASS           [G] M-053.slip       1.34e-06 relative  <= 0.05  margin 0.05
+  PASS           [G] M-053.hash       0 count  <= 0  margin 0
+  inputs: 3 files hashed; report.json holds every value, threshold and hash

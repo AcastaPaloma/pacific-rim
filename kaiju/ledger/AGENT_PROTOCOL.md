@@ -193,3 +193,48 @@ This section overrides §11.1 ("workers Sonnet or Haiku only") and §10's "no sp
   - an effort bound and a stop rule.
 - One escalation per stall. If Opus also fails, record what it found, route it as a founder or research item (§13), and move on. Don't loop on Opus.
 - Return to Sonnet as soon as the hard part is understood. Routine implementation, integration and evaluation stay on the §11 tiers.
+
+## 15. The orchestrator makes every decision; the ambition never shrinks (founder instruction, 2026-11-15 night)
+This section overrides every earlier rule that sends a decision to the founders, including §12's list of items that still wait for them, and `FABLE_ORCHESTRATOR_PROMPT.md` §8.
+
+**Every decision is the orchestrator's.**
+- Never wait for a founder. For each question, the orchestrator takes the recommended path and logs it in `ledger/HANDOFF.md` as "decided autonomously (founder asleep)", with its reason and the alternatives. Then work goes on.
+- Workers and track sessions escalate questions to their orchestrator, never to the founders.
+- The recommended path must not degrade the product. When the options differ in ambition, take the one that keeps the full scope:
+  - full 3D physics-based mechs and kaiju, real units, real-data San Francisco, simulated destruction and seismic, co-op, an intelligent kaiju, and the pixel-art look;
+  - choose the harder, correct approach over a shortcut.
+- Staging is allowed, cutting is not. Work may be staged to a later milestone only when the full version stays on the plan, as a tracked requirement with an owner. A placeholder must be flagged and tracked until the real system replaces it, for example the kinematic mech body that stands in until T-005 lands. Never mark a gate passed by lowering a threshold or narrowing a requirement to fit a weak result. Escalate instead (§14), then route it as a research item.
+- **The only limits are the safety rules, and they are not decisions:**
+  - never merge to or reset `main`;
+  - never rewrite pushed history;
+  - never delete assets or evidence;
+  - never spend money or accept a licence;
+  - never drive the founders' Unity editor on port 7800;
+  - never route around a refused permission.
+
+  If one of these blocks a step, log it and work on something else.
+
+**Keeping sessions alive while the founders are away**
+- The app refuses to start a new session on a turn that another session's message or an automated event began, and it caps how many sessions can run at once. So:
+  - At a hand-over, an orchestrator first tries to start its successor. If the start is refused, it leaves the successor as a proposal card and says so in `HANDOFF.md`.
+  - Rather than queue work until a session slot is free, run it as Agent-tool workers (Sonnet/medium) from the orchestrator. Those can always be spawned.
+  - Keep orchestrator context lean, so one session lasts longer:
+    - read summaries, not transcripts;
+    - delegate every file-heavy step;
+    - don't re-read big files.
+- Archive sessions that have finished or been replaced as soon as their result is checked. Never archive a session that still has work running, or whose side sessions do.
+
+## 16. Context cost and session hygiene (founder instruction, 2026-11-15)
+This section adds to §11.4, §12 and §15. Where it differs, it overrides them only where it says so.
+**Context cost**
+- Orchestrator sessions write state and hand over at ~80k tokens (overrides §11.4 for orchestrators only; workers and tracks keep the ~150k reap). If the successor's start is refused, follow §15.
+- Sessions message the orchestrator only on: a merge, a blocker, or a hand-over. No progress chatter.
+- Keep tool output small (tail/grep, `--stat`, `-q`); never dump whole logs or transcripts into context.
+- After a gap of more than ~1h (cache expiry), prefer a fresh session that reloads from the progress file over waking a long one.
+**Hygiene sweep (no timed polling)**
+- On every wake-up it already has (merge, report, blocker), the orchestrator runs one `list_sessions` (linked) and `git log --since=2.hours --oneline` on the integration branch. Do not read transcripts. Rules:
+  - running, no commit and no report for 2h → ask for a one-line status; no useful answer by the next wake → stop and archive it, and re-dispatch the work.
+  - waiting on a question → answer it under §15.
+  - duplicate or superseded → stop and archive it, unless it still has work running (§15).
+  - near its token cap → tell it to hand over.
+- While the founder is offline, one fallback wake-up every 2–3h; no shorter timers. This is the only exception to §12's "never polls". Check before starting a session as §12 already requires.
