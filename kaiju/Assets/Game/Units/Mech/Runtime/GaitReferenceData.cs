@@ -21,6 +21,9 @@ namespace Game.Units.Mech
     {
         public double phase, t_s, pelvis_x_m, pelvis_x_rel_m, pelvis_z_m, pelvis_pitch_deg;
         public GaitRefLeg stance, swing;
+        // @v2 additions (gait_reference_qp.json; absent in @v1 files, then null / 0): planar q9, qd9, forces [ft, fn] of the 4 sole points, CoM and its derivatives, angular momentum about the CoM, sole points (position, velocity, acceleration), SI
+        public double[] q9, qd9, f4x2, com, comd, comdd, pts, ptv, pta;
+        public double ang_mom, ang_mom_dot;
     }
 
     /// <summary>One optimised stride at one Froude number: nodes over one step, node N = node 0 with stance and swing swapped.</summary>
@@ -28,6 +31,7 @@ namespace Game.Units.Mech
     public sealed class GaitRefRow
     {
         public double fr, step_time_s, step_length_m, v, leg_length_m, duty_factor, max_eq_violation;
+        public double body_mass_kg, mu, thigh_m, shank_m, heel_x_m, toe_x_m, ankle_height_m;   // @v2 only: planar model data (leg segment lengths, sole point x relative to the ankle, ankle height)
         public string verdict, source_file;
         public GaitRefSchedule schedule;
         public GaitRefNode[] nodes;
@@ -36,7 +40,10 @@ namespace Game.Units.Mech
     [Serializable]
     public sealed class GaitReferenceData
     {
-        public const string Schema = "gait_reference_opt@v1";
+        public const string Schema = "gait_reference_opt@v1", SchemaV2 = "gait_reference_opt@v2";
+        /// <summary>Reference file (under Config/Mech) for a walk tuning: the imp = 3 QP reads the @v2 file, imp 1.5 .. 2.5 the @v1 file, below 1.5 none.</summary>
+        public const double QpImp = 2.5;   // imp at and above which the whole-body QP (imp = 3) is built
+        public static string FileFor(double imp) => imp >= QpImp ? "gait_reference_qp.json" : imp >= 1.5 ? "gait_reference_opt.json" : null;
         public string schema, notes;
         public GaitRefSource source;
         public GaitRefConventions conventions;
@@ -45,7 +52,7 @@ namespace Game.Units.Mech
         /// <summary>Throws when the file is not usable: schema, row order, node counts, FEASIBLE verdicts.</summary>
         public void Validate()
         {
-            if (schema != Schema) throw new InvalidOperationException("gait reference schema '" + schema + "' is not " + Schema);
+            if (schema != Schema && schema != SchemaV2) throw new InvalidOperationException("gait reference schema '" + schema + "' is not " + Schema + " or " + SchemaV2);
             if (rows == null || rows.Length == 0) throw new InvalidOperationException("gait reference has no rows");
             for (int i = 0; i < rows.Length; i++)
             {
@@ -54,6 +61,14 @@ namespace Game.Units.Mech
                 if (r.verdict != "FEASIBLE") throw new InvalidOperationException("gait reference row " + r.fr + " is not FEASIBLE");
                 if (r.nodes == null || r.nodes.Length < 4 || r.nodes.Length != rows[0].nodes.Length) throw new InvalidOperationException("gait reference row " + r.fr + " has a wrong node count");
                 if (!(r.step_time_s > 0) || !(r.step_length_m > 0) || !(r.leg_length_m > 0)) throw new InvalidOperationException("gait reference row " + r.fr + " has a non-positive step time, length or leg length");
+                if (schema == SchemaV2)
+                {
+                    if (!(r.body_mass_kg > 0) || !(r.mu > 0)) throw new InvalidOperationException("gait reference @v2 row " + r.fr + " has no body mass or friction coefficient");
+                    foreach (var n in r.nodes)
+                        if (n.q9 == null || n.q9.Length != 9 || n.qd9 == null || n.qd9.Length != 9 || n.f4x2 == null || n.f4x2.Length != 8 || n.com == null || n.com.Length != 2 || n.comd == null || n.comd.Length != 2 || n.comdd == null || n.comdd.Length != 2
+                            || n.pts == null || n.pts.Length != 8)
+                            throw new InvalidOperationException("gait reference @v2 row " + r.fr + " has a node without the planar data (q9, qd9, f4x2, com, comd, comdd, pts)");
+                }
             }
         }
     }

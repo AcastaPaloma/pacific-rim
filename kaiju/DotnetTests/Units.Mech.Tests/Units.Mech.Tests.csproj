@@ -17,6 +17,8 @@
     <Compile Include="Imp2ConfigTests.cs" />
     <Compile Include="StanceScheduleConfigTests.cs" />
     <Compile Include="QpModelTests.cs" />
+    <Compile Include="QpControllerTests.cs" />
+    <None Include="Fixtures/**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../Core/Core.csproj" />

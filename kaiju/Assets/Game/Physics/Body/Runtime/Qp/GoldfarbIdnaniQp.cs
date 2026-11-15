@@ -12,7 +12,7 @@ namespace Game.Physics.Body.Qp
     public sealed class GoldfarbIdnaniQp : IQpSolver
     {
         public readonly int MaxN, MaxEq, MaxIn, IterationCap;
-        public readonly double Regularisation;
+        public double Regularisation;          // relative Tikhonov term; settable (ill-conditioned weighted QPs set it to ~0 through IQpSolver)
         public double FeasTol = 1e-10;
 
         // results
@@ -38,6 +38,7 @@ namespace Game.Physics.Body.Qp
         QpStatus IQpSolver.Status => Status;
         int IQpSolver.Iterations => Iterations;
         long IQpSolver.FailureCount => FailureCount;
+        double IQpSolver.Regularisation { get => Regularisation; set { Regularisation = value; _cholN = -1; } }
 
         public GoldfarbIdnaniQp(int maxN, int maxEq, int maxIn, int iterationCap = 60, double regularisation = 1e-6)
         {

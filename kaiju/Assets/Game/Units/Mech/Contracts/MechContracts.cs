@@ -90,6 +90,12 @@ namespace Game.Units.Mech.Contracts
         public double imp_waist_hz = 0.8, imp_waist_zeta = 1.0, imp_arm_hz = 0.6, imp_arm_zeta = 1.0;
         public double imp_ff_gravity = 1.0, imp_ff_coriolis = 1.0, imp_ff_accel = 1.0, imp_ff_stance_gravity_share = 0.0;   // round 2 step 4: gains on the body's inverse dynamics; share of the gravity term applied on stance-leg DOFs   // round 2 step 3: waist yaw and shoulder drive of the tracked upper body
         public double imp2_ff_scale = 1.0, imp2_vf_scale = 0.0, imp2_ff_sign_hip = 1.0, imp2_ff_sign_knee = 1.0, imp2_ff_sign_ankle = 1.0, imp2_phase_sync = 0.0, imp2_swing_noclamp = 0.0, imp2_swing_gain_scale = 1.0;   // step 8.5 c2: 1 = reference phase re-anchored at measured touchdown at the data step time; 1 = no reach clamp on the imp 2 swing target; multiplier on the imp 2 swing PD gains;   // round 3 step 8.5 (imp = 2): optimised-torque feed-forward scale, virtual-force scale, per-joint torque sign
+        // round 4 step 9.4b (imp = 3, sagittal whole-body QP; Tools/GaitOpt/qp_proto/controller_fid.py b5 preset). Defaults = b5, so walk_tuning.json needs none of them; walk_tuning_qp.json lists them.
+        public double qp_mu = 0.40, qp_lim_frac = 0.98, qp_om_x = 0.8, qp_om_z = 2.0, qp_kL = 2.0, qp_om_sw = 4.0, qp_om_th = 3.0, qp_om_post = 3.0, qp_om_fp = 4.0;
+        public double qp_w_cx = 1e4, qp_w_cz = 1e4, qp_w_L = 1e3, qp_w_prior = 1e-2, qp_w_smooth = 1e-3, qp_w_st = 1e6, qp_w_swing = 1e3, qp_w_fp = 1e3, qp_w_trunk = 1e4, qp_w_post = 10.0, qp_w_reg = 1e-4, qp_w_breg = 1e-6;
+        public double qp_kvs = 5.0, qp_on_bw = 0.03, qp_off_bw = 0.01, qp_T_out = 0.3, qp_T_in = 0.08, qp_T_blend = 0.2, qp_load_thr = 0.01, qp_td_min_frac = 0.6, qp_late_vz = 2.0, qp_fcap = 4.0, qp_z_hold = 0.05;
+        public double qp_hold_sched = 1, qp_onset = 1, qp_land = 1, qp_land_act = 1, qp_fr_meas = 1, qp_fr_margin = 0.9, qp_land_k0 = 35, qp_v_td = 0.3, qp_land_post = 0.0, qp_mass_est = 0.05, qp_mass_lo = 0.7, qp_mass_hi = 1.5, qp_sg_floor = 0.3;
+        public double qp_solver_reg = 1e-12, qp_pd_scale = 0.25, qp_leg_a_left = 1;   // gain scale of the sagittal leg PD under the QP feed-forward (tune in 9.5); planar leg A is the left leg (1) or the right leg (0)
         public double yaw_budget_flat_wl, yaw_budget_edge_wl, yaw_filter;
         public double id_gravity, id_coriolis_gain, id_inertia_gain, id_accel_span;
         /// <summary>R-008 section 1 whole-stance schedule (imp = 1), one row per Froude number; required when imp &gt; 0 (ReferenceGait throws if absent).</summary>

@@ -4,7 +4,9 @@ using System.Numerics;
 using Game.Control.Contracts;
 using Game.Core;
 using Game.Physics.Body.Contracts;
+using Game.Physics.Body.Qp;
 using Game.Units.Mech.Contracts;
+using Game.Units.Mech.Qp;
 
 namespace Game.Units.Mech
 {
@@ -36,6 +38,7 @@ namespace Game.Units.Mech
             public double[] AngStRef, AngStMeas, AngSwRef, AngSwMeas; public double RefFroude;   // round 2 step 6a (imp > 0): hip flexion, knee, ankle plantar (deg), stance and swing leg; null when not available
             public double RefPhase; public double[] TauFfSt, TauFfSw;   // round 3 step 8.5 (imp = 2): optimised feed-forward torque hip, knee, ankle (N m) after scale, sign and limit; null otherwise
             public double YawMomentNm, YawBudgetNm, YawUtil, TrunkShare;   // round 2 step 3 (NaN logs as null)
+            public int QpStatus; public long QpFailures; public double QpMassScale, QpFrictionCmd;   // round 4 step 9.4b (imp = 3): last QP status (0 optimal), failed solves, mass-scale estimate, commanded shear / (mu fn); log only
         }
 
         readonly IArticulatedBody _b;
@@ -75,7 +78,7 @@ namespace Game.Units.Mech
         public Debug DebugState => _dbg;
         public MechLimits Limits => _lim;
 
-        public LocomotionController(IArticulatedBody body, WalkTuning tuning, double dt, IEventBus bus, GaitReferenceData gaitReference = null)
+        public LocomotionController(IArticulatedBody body, WalkTuning tuning, double dt, IEventBus bus, GaitReferenceData gaitReference = null, IQpSolver qpSolver = null)
         {
             if (tuning == null || tuning.schema != WalkTuning.Schema) throw new InvalidOperationException("walk tuning schema is not " + WalkTuning.Schema);
             _b = body; _t = tuning; _dt = dt; _bus = bus; _g = body.Tuning.gravity_mps2; _mass = body.TotalMassKg;
@@ -143,6 +146,27 @@ namespace Game.Units.Mech
             if (tuning.imp >= 1.5 && gaitReference == null) throw new InvalidOperationException("imp = 2 needs the optimised reference (Config/Mech/gait_reference_opt.json): none was given");
             _ref = new ReferenceGait(GaitGeometry.From(f), tuning, _g, gaitReference);
             _prevVelTarget = new double[nd]; _ffAccel = new double[nd];
+            if (QpWanted(tuning))
+            {
+                // imp = 3: the sagittal whole-body QP overwrites the feed-forward of the six sagittal leg DOFs (planar leg A = the left leg unless qp_leg_a_left = 0); imp 0 / 1 / 2 build nothing
+                if (gaitReference == null || gaitReference.schema != GaitReferenceData.SchemaV2) throw new InvalidOperationException("imp = 3 needs the QP reference (Config/Mech/gait_reference_qp.json, gait_reference_opt@v2)");
+                if (qpSolver == null) throw new InvalidOperationException("imp = 3 needs a QP solver (IBodyWorld.CreateQpSolver)");
+                int a = (_legs[0].Side < 0) == (tuning.qp_leg_a_left > 0.5) ? 0 : 1; var la = _legs[a]; var lb = _legs[1 - a];
+                var dofs = new[] { la.Hip[0], la.Knee, la.Ankle[0], lb.Hip[0], lb.Knee, lb.Ankle[0] };
+                _qpDof = new bool[nd]; foreach (int d in dofs) _qpDof[d] = true; _qpPd = tuning.qp_pd_scale;
+                _qp = new WholeBodyQpDriver(body, tuning, gaitReference.rows[0], qpSolver, dofs, new[] { la.Foot, lb.Foot }, dt);
+            }
+        }
+
+        /// <summary>True when this walk tuning asks for the imp = 3 whole-body QP (imp &gt;= 2.5); only then is a QP driver built.</summary>
+        public static bool QpWanted(WalkTuning t) => t.imp >= GaitReferenceData.QpImp;
+        public bool QpActive => _qp != null;
+        readonly WholeBodyQpDriver _qp; readonly bool[] _qpDof; readonly double _qpPd = 1.0; double _qpTime; bool _qpWalking;
+        /// <summary>Joint drive write; the sagittal leg DOFs of the imp = 3 QP run on the reduced PD gains (qp_pd_scale on stiffness, its square root on damping) around the feed-forward the QP writes after this.</summary>
+        void Drive(int dof, double target, double velocity, double stiffness, double damping)
+        {
+            if (_qpDof != null && _qpDof[dof]) { stiffness *= _qpPd; damping *= Math.Sqrt(_qpPd); }
+            _b.SetDofDrive(dof, target, velocity, stiffness, damping);
         }
 
         static double[] JointPos(MechFrameData f, string child) { foreach (var j in f.joints) if (j.child == child) return j.position; throw new InvalidOperationException("no joint for " + child); }
@@ -163,7 +187,19 @@ namespace Game.Units.Mech
             _cmd = _limiter.Update(intent, _com2, _pelvisYaw, _vel2.Length(), StepCapFrac * _l / stepTime);
             StateMachine(intent);
             WriteDrives();
+            if (_qp != null) ApplyQp();
             Report(step);
+        }
+
+        /// <summary>imp = 3: while walking (not Stand) the QP torques replace the feed-forward of the six sagittal leg DOFs (last write wins); the QP clock restarts when walking starts.</summary>
+        void ApplyQp()
+        {
+            bool walking = _phase != LocoPhase.Stand;
+            if (walking && !_qpWalking) { _qp.Reset(); _qpTime = 0; }
+            _qpWalking = walking;
+            if (!walking) return;
+            _qp.Apply(_qpTime, _pelvisYaw, _groundY); _qpTime += _dt;
+            var c = _qp.Controller; _dbg.QpStatus = (int)c.LastStatus; _dbg.QpFailures = c.SolveFailures; _dbg.QpMassScale = c.MassScale; _dbg.QpFrictionCmd = c.FrictionRatioCmd;
         }
 
         /// <summary>The step length cap (fraction of leg length): the legacy flat-foot cap for imp = 0, the reference gait's own range for imp > 0 (heel-to-toe rollover).</summary>
@@ -671,12 +707,12 @@ namespace Game.Units.Mech
                     {
                         // imp = 2: the optimised rate is the velocity target and the optimised torque the feed-forward (the virtual-force term only at imp2_vf_scale, 0 by default: the optimised torque already carries the load)
                         v = Math.Max(-_t.target_velocity_max_rps, Math.Min(_t.target_velocity_max_rps, O2Rate(leg, joint)));
-                        _b.SetDofDrive(d, refTarget, v, kImp, cImp);
+                        Drive(d, refTarget, v, kImp, cImp);
                         double lim2 = _b.GetDof(d).ForceLimitNm;
                         _b.SetDofFeedForward(d, Math.Max(-lim2, Math.Min(lim2, SupportTorque(d, force, leg.Cop, true) * _t.imp2_vf_scale + Vector3.Dot(_b.DofAxisWorld(d), extraTorque) + O2Ff(leg, joint, d))));
                         continue;
                     }
-                    _b.SetDofDrive(d, refTarget, v, kImp, cImp);
+                    Drive(d, refTarget, v, kImp, cImp);
                     _b.SetDofFeedForward(d, SupportTorque(d, force, leg.Cop, true) * _t.imp_vf_scale + Vector3.Dot(_b.DofAxisWorld(d), extraTorque) + ImpFf(d, refQdd, _t.imp_ff_stance_gravity_share));   // round 2 step 4: stance-leg gravity is only partly carried by the joints (contact carries the rest)
                     continue;
                 }
@@ -705,7 +741,7 @@ namespace Game.Units.Mech
                     _prevTarget[d] = target; _hasPrev[d] = true;
                 }
                 else _hasPrev[d] = false;
-                _b.SetDofDrive(d, target, velocity, k, damping * dampingRatio + landing);
+                Drive(d, target, velocity, k, damping * dampingRatio + landing);
                 _b.SetDofFeedForward(d, tau);
             }
         }
@@ -797,7 +833,7 @@ namespace Game.Units.Mech
             _b.GetDofGains(dof, false, out double k, out double damping);
             if (impHz > 0) StanceImpedance.PdGains(_b.DofInertia(dof, false), impHz, impZeta, out k, out damping);   // round 2 step 3: k = I w^2, c = 2 zeta I w on the distal inertia
             // critical damping is kept when the stiffness is scaled: d scales with sqrt(k)
-            _b.SetDofDrive(dof, target, vel, k * gainScale, damping * Math.Sqrt(gainScale));
+            Drive(dof, target, vel, k * gainScale, damping * Math.Sqrt(gainScale));
             // imp = 1: the body's own inverse dynamics replaces the distal-weight term and the differenced-target term (no contact on these DOFs, gravity is not counted twice)
             if (ffQdd.HasValue) _b.SetDofFeedForward(dof, ImpFf(dof, ffQdd.Value));
             else _b.SetDofFeedForward(dof, SupportTorque(dof, force, cop, false) + _t.swing_ff_gain * _b.DofInertia(dof, false) * _ffAccel[dof]);
