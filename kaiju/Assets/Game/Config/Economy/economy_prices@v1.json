@@ -1,0 +1,43 @@
+{
+  "schema": "economy_prices@v1",
+  "source": "research/R-104.md sections 2, 3, 4, 7 (T-118). Integer USD; ratios in basis points. Every row has a source and an Assumed flag; a revised index changes data, not code.",
+  "classes": [
+    { "id": "structure", "usd_per_tonne": 4000, "assumed": true, "source": "R-104 s2: steel $980/t [4] x 4 fabrication (A)" },
+    { "id": "armour", "usd_per_tonne": 10000, "assumed": true, "source": "R-104 s2: 2.5 x plate premium x 4 fabrication (A), steel [4]" },
+    { "id": "titanium", "usd_per_tonne": 120000, "assumed": true, "source": "R-104 s2: Ti-6Al-4V $80/kg [7] x 1.5 machining and qualification (A)" },
+    { "id": "composite", "usd_per_tonne": 140000, "assumed": true, "source": "R-104 s2: carbon fibre $55/kg [6] x 2.5 layup (A)" },
+    { "id": "drive", "usd_per_tonne": 50000, "assumed": true, "source": "R-104 s2: about 5 x heavy-equipment whole-machine cost, Cat 797F [8] (A)" },
+    { "id": "reactor", "usd_per_tonne": 200000, "assumed": false, "source": "R-104 s2: warship integrated cost per tonne, DDG-51 Flight III [1][2] (displacement low confidence)" },
+    { "id": "weapons", "usd_per_tonne": 300000, "assumed": true, "source": "R-104 s2: above warship average, systems-dominated (A)" }
+  ],
+  "chassis": [
+    { "id": "balanced", "tonnes": { "structure": 3200, "armour": 2300, "drive": 1500, "reactor": 900, "titanium": 300, "composite": 100, "weapons": 700 } },
+    { "id": "heavy_brawler", "tonnes": { "structure": 3700, "armour": 3500, "drive": 2300, "reactor": 1300, "titanium": 400, "weapons": 300 } },
+    { "id": "basic_balanced", "tonnes": { "structure": 3600, "armour": 2200, "drive": 1500, "reactor": 800, "weapons": 200 } }
+  ],
+  "fixed_assets": [
+    { "id": "bay_bridge_east_span", "usd": 6450000000, "assumed": false, "source": "R-104 s3 [10]: $6.4B to $6.5B rebuild, midpoint, excludes financing" },
+    { "id": "golden_gate_bridge", "usd": 1000000000, "assumed": false, "source": "R-104 s3 [11]: about $1B rebuild (engineering estimate)" },
+    { "id": "oakland_ship_to_shore_crane", "usd": 10000000, "assumed": false, "source": "R-104 s3 [9]: $30M for three cranes" },
+    { "id": "transmission_substation", "usd": 57000000, "assumed": true, "source": "R-104 s3 [12]: $56-58M (distribution plus 230 kV line); bundled, flagged" }
+  ],
+  "parameters": {
+    "fee_bps": 600,
+    "advance_bps": 1000,
+    "failure_floor_saved_bps": 2500,
+    "cap_bps_of_reference": 3500,
+    "cap_reference_chassis": "balanced",
+    "floor_chassis": "basic_balanced",
+    "sellback_bps": 4000,
+    "upkeep_bps_per_sortie": 40,
+    "repair_overhead_bps": 15000,
+    "guaranteed_min_payout_usd": 25000000,
+    "building_usd_per_m2": 6000,
+    "loss_bps": [0, 200, 1000, 5000, 10000],
+    "repair_cap_bps": [5000, 9000, 10000],
+    "intact_min_integrity_bps": 9500,
+    "light_min_integrity_bps": 6600,
+    "moderate_min_integrity_bps": 3300,
+    "notes": "fee_bps 0.06 (A, Q-NEW-a, retune in T-123 within the 8-16 sortie band); loss_bps are the Hazus structural defaults 0/2/10/50/100% (R-021 s1, cross-check pending); advance 10%; failure below 25% saved; cap 35% of the Balanced price; sell-back 40%; upkeep 0.4% of mech price per sortie."
+  }
+}
