@@ -1,3 +1,20 @@
-........................................................................ [ 67%]
-..................................                                       [100%]
-106 passed, 356 deselected in 142.92s (0:02:22)
+.....................F.................................................. [ 67%]
+...................................                                      [100%]
+=================================== FAILURES ===================================
+__________________ test_c2_uses_nofocus_control_when_present ___________________
+
+tmp_path = PosixPath('/private/var/folders/3l/m0tj5dvn07l9612h4mcydzmm0000gn/T/pytest-of-kuanw/pytest-170/test_c2_uses_nofocus_control_w0')
+
+    def test_c2_uses_nofocus_control_when_present(tmp_path):
+        scripted = make_set(tmp_path, "s", "scripted@1", lambda i: engagement_rows(FLANKED, targets=(101, 102)))
+        nofocus = make_set(tmp_path, "n", "nofocus@1", lambda i: engagement_rows(FLANKED, targets=(101, 102)))
+        rep = run(tmp_path, [scripted, nofocus])
+        c2 = sm(rep, "M-007.C2")
+>       assert any(p["name"] == "focus_excess_vs_nofocus" for p in c2["parts"])
+E       assert False
+E        +  where False = any(<generator object test_c2_uses_nofocus_control_when_present.<locals>.<genexpr> at 0x1399b71d0>)
+
+tests/test_m007.py:224: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_m007.py::test_c2_uses_nofocus_control_when_present - assert...
+1 failed, 106 passed, 356 deselected in 146.70s (0:02:26)

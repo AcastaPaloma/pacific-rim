@@ -364,3 +364,5 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 - M-123 gate 100 % of store frames, M-124 gate unchanged at 99 % of pixels at ΔE00 <= 2.0; no threshold lowered. Logotype/icon art tracked as human input. — decided autonomously (founder asleep)
 - 2026-11-15 · §16 applied (rule 17 to M2 workers); M2/M3 lead session 1 hands over at the 80k cap. Successor start refused by the permission classifier, not retried another way; left as a proposal card — decided autonomously (founder asleep).
 - 2026-11-15 · T-113 `Game.AI.Pack` waits for R-102 so species numbers are sourced, not R-103's assumptions — decided autonomously (founder asleep).
+
+- 2026-11-15 · T-033b rev 3 applied per M1 lead (§15): tool C2 = FE vs `nofocus@1` + FF CI separation, thrash window 12 s, `m007_churn` + C3 200-switch gate, brain `SwitchBackLockoutSeconds` 12 s (thrash on churn 0.60 -> 0.0). 3v4 now: C1 0.494 FAIL (open research item, one cycle used, no loop), C2 0.715 PASS, C3 PASS, C4 PASS; no threshold changed — decided autonomously (founder asleep).

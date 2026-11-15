@@ -18,6 +18,8 @@ namespace Game.AI
         private bool _withdrawn;
         private ulong _target;           // 0 = none
         private double _lastSwitch;
+        private ulong _prevTarget;       // target left by the last switch (switch-back lockout, R-024 rev 3)
+        private double _prevLeftAt;
         private double _holdStart;       // centre hold at standoff; <0 = unset
         private double _flankStart;
         private double _flankDeadline;   // absolute time
@@ -38,7 +40,7 @@ namespace Game.AI
             _started = false;
             _held = default;
             _state = BrainState.Idle; _withdrawn = false; _target = 0;
-            _lastSwitch = double.NegativeInfinity;
+            _lastSwitch = double.NegativeInfinity; _prevTarget = 0; _prevLeftAt = double.NegativeInfinity;
             _holdStart = -1; _assemblyStart = -1; _holdExtendedTo = 0; _flankDeadline = 0; _flankStart = 0; _chargeLastContact = 0; _farSince = -1;
         }
 
@@ -175,8 +177,10 @@ namespace Game.AI
                         else { _target = 0; Enter(BrainState.Idle, now); reason = ReasonCode.TargetLost; }
                         break;
                     }
-                    if (best >= 0 && best != cur && bestScore > _cfg.RetargetRatio * curScore && now - _lastSwitch >= _cfg.RetargetMinSeconds)
+                    if (best >= 0 && best != cur && bestScore > _cfg.RetargetRatio * curScore && now - _lastSwitch >= _cfg.RetargetMinSeconds
+                        && !(obs.Targets[best].Id.Value == _prevTarget && now - _prevLeftAt < _cfg.SwitchBackLockoutSeconds))
                     {
+                        _prevTarget = _target; _prevLeftAt = now;
                         _target = obs.Targets[best].Id.Value; cur = best; _lastSwitch = now;
                         if (_state != BrainState.Approach) Enter(BrainState.Approach, now);
                         reason = ReasonCode.RetargetVoluntary; break;
