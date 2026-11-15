@@ -21,7 +21,7 @@ from shapely.geometry import box, mapping
 
 from . import fetch, terrain, vector
 from .common import (BAYTM_ID, CACHE, GLOBAL_ROOT, PIPE, SAMPLES, SPEC, TILES_ROOT, Tile,
-                     baytm_compound_crs, canonical_json, git_head, load_config, sha256_bytes,
+                     baytm_compound_crs, canonical_json, git_head, load_config, read_meta, sha256_bytes,
                      sha256_file, utc_now, write_if_changed)
 
 CODE_FILES = ["kaiju_geo/common.py", "kaiju_geo/fetch.py", "kaiju_geo/terrain.py", "kaiju_geo/vector.py",
@@ -170,13 +170,19 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
         print(f"[bake] assessor attributes unavailable ({e}); building attributes year_built/stories/struct_class skipped", file=sys.stderr)
         asr = None
     tide = fetch.fetch_tides()
+    lidar_path = CACHE / "lidar" / f"rind_v11__{tile.id}.npz"  # T-020b optional input (fetch_lidar_dsm.py); never fetched here
+    lidar = vector.read_lidar_grid(lidar_path) if lidar_path.exists() else None
+    lidar_meta = (read_meta(lidar_path) or {}) if lidar is not None else {}
+    if lidar is None:
+        print(f"[bake] {tile.id}: lidar cache missing ({lidar_path.name}); default heights are not filled from 3DEP "
+              f"(run fetch_lidar_dsm.py --tile {tile.id})", file=sys.stderr)
     faults_global = GLOBAL_ROOT / "faults_bay.geojson"
     if not faults_global.exists():
         raise RuntimeError("global fault layer missing: run bake_faults.py first")
 
     # ---- fingerprint (inputs + code + config) for idempotence
     fp_parts = {"spec": SPEC, "tile": tile.id,
-                "sources": sorted([m["sha256"] for m in cud + dep] + [osm["sha256"], wat["sha256"], dsf["sha256"], tide["sha256"]] + ([asr["sha256"]] if asr else [])),
+                "sources": sorted([m["sha256"] for m in cud + dep] + [osm["sha256"], wat["sha256"], dsf["sha256"], tide["sha256"]] + ([asr["sha256"]] if asr else []) + ([lidar_meta.get("sha256", "lidar")] if lidar is not None else [])),
                 "faults_global": sha256_file(faults_global),
                 "code": {f: sha256_file(PIPE / f) for f in CODE_FILES},
                 "config": {f: sha256_file(PIPE / f) for f in CONFIG_FILES}}
@@ -311,6 +317,11 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     def build_record(b, is_part, parent=None):
         tags = b["tags"]
         hm, hsrc, extra = vector.resolve_height(tags, b["geom"], dtree, datasf, bcfg)
+        if hsrc == "default":  # T-020b: only default heights change; every other source is untouched
+            fill = vector.fill_default_height(b["geom"], asr_attrs.get(b["part_of"] if is_part and b.get("part_of") else b["oid"], {}).get("stories"),
+                                              lidar, lambda x, z: sample_h(x, z), bcfg)
+            if fill is not None:
+                hm, hsrc = fill
         mh = vector.resolve_min_height(tags, bcfg)
         lv = vector.parse_number(tags.get("building:levels"))
         if parent is not None:
@@ -441,6 +452,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
          "count_excluded": sum(1 for f in bfeats if f["properties"]["excluded"]),
          "count_height_capped_to_parent": sum(1 for f in bfeats if f["properties"]["height_capped_to_parent"]),
          "exclusion_rule": "kept as records, not extruded: location=underground, or layer<0 with building:levels:underground or level<0 (underground stations), building=ship; parts inherit their structure's exclusion",
+         "height_fill_rule": "T-020b: only a building whose R-004 chain ended at default is re-resolved: (a) lidar_3dep = median over 1 m cells inside the footprint eroded " + str(bcfg["lidar_fill"]["erode_m"]) + " m of (3DEP first-return p95 - terrain), needs >= " + str(bcfg["lidar_fill"]["min_coverage"]) + " of cells with returns, mean multi-return share <= " + str(bcfg["lidar_fill"]["max_multi_return_share"]) + " (vegetation test) and height >= " + str(bcfg["lidar_fill"]["min_height_m"]) + " m; (b) assessor_stories = stories x metres_per_level; (c) else default. height_source is lidar_3dep / assessor_stories for filled buildings",
          "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
          "base_rule": "base_navd88_m = 10th percentile of the surface along the footprint ring (1 m steps); ground_min_navd88_m = minimum under the footprint; walls reach ground_min - skirt",
          "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
@@ -479,7 +491,9 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     bake_s = round(time.time() - t_start, 2)
     write_if_changed(man_path, (canonical_json(manifest, indent=1) + "\n").encode("utf-8"))
     write_if_changed(out / "build_info.json", (canonical_json({"tile": tile.id, "bake_seconds": bake_s, "finished_utc": utc_now(),
-                                                               "manifest_sha256": sha256_file(man_path)}, indent=1) + "\n").encode("utf-8"))
+                                                               "manifest_sha256": sha256_file(man_path),
+                                                               "height_source_counts": dict(sorted(hs.items())),
+                                                               "lidar_fill": "applied" if lidar is not None else "skipped (no cache)"}, indent=1) + "\n").encode("utf-8"))
     manifest = dict(manifest, build=dict(manifest["build"], bake_seconds=bake_s))
     print(f"[bake] {tile.id}: {len(bfeats)} buildings ({len(owned_outlines)} structures, {len(owned_parts)} parts), "
           f"{len(rfeats)} roads, {len(ffeats)} fault pieces, water {water.mean() * 100:.1f} %, "
