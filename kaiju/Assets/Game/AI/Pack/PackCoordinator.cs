@@ -43,7 +43,7 @@ namespace Game.AI.Pack
         private bool _started;
         // hunt geometry latch and commit gate
         private float _baseAng; private EntityId _baseFocus; private bool _baseSet;
-        private bool _gateOpen, _baitGo, _advance; private double _stageNearSince = double.NegativeInfinity; private double _gateNearSince = double.NegativeInfinity, _baitSince = double.NegativeInfinity; private EntityId _gateFocus;
+        private bool _gateOpen, _baitGo, _advance; private double _gateOpenAt; private double _stageNearSince = double.NegativeInfinity; private double _gateNearSince = double.NegativeInfinity, _baitSince = double.NegativeInfinity; private EntityId _gateFocus;
 
         /// <summary>Ablation switches of the M-007@v2 controls (R-103 5.3). Defaults are the candidate; frozen per run.</summary>
         public PackControl Control = PackControl.None;
@@ -497,7 +497,22 @@ namespace Game.AI.Pack
             }
             EngagedSpreadRad = slotsUsed >= 2 ? maxAng - minAng : 0f;
             if (_cfg.BayTactics) UpdateGate(now, tp, haveFocus && Goal == PackGoal.Hunt);
-            for (int i = 0; i < _n; i++) _dir[i].CommitReady = !_cfg.BayTactics || Goal != PackGoal.Hunt || _gateOpen;
+            if (_cfg.BayTactics && _cfg.PaceMinFrac > 0f && Goal == PackGoal.Hunt && haveFocus && !_advance)
+            {
+                // synchronised arrival: every member walks so that it reaches its (stage) slot when the slowest member does
+                float tmax = 1f;
+                for (int i = 0; i < _n; i++) { float t = Dist(_el[i].Pos, _dir[i].SlotPos) / Math.Max(1f, _el[i].Species.CruiseMps); if (t > tmax) tmax = t; }
+                for (int i = 0; i < _n; i++)
+                {
+                    float t = Dist(_el[i].Pos, _dir[i].SlotPos) / Math.Max(1f, _el[i].Species.CruiseMps);
+                    _dir[i].PaceFrac = Math.Min(1f, Math.Max(_cfg.PaceMinFrac, t / tmax));
+                }
+            }
+            for (int i = 0; i < _n; i++)
+            {
+                _dir[i].CommitReady = !_cfg.BayTactics || Goal != PackGoal.Hunt || _gateOpen;
+                _dir[i].BaitJoin = _cfg.BayTactics && _cfg.BaitJoinDelaySeconds > 0f && Goal == PackGoal.Hunt && _gateOpen && now - _gateOpenAt >= _cfg.BaitJoinDelaySeconds;
+            }
             if (DebugSink != null && Goal == PackGoal.Hunt)
                 for (int i = 0; i < _n; i++)
                     DebugSink($"t={now:F0} id={_dirId[i].Value} {_dir[i].Role} d_tgt={Dist(_el[i].Pos, tp):F0} d_slot={Dist(_el[i].Pos, _dir[i].SlotPos):F0} gate={_gateOpen} adv={_advance} baitGo={_baitGo} near={_gateNearSince:F0} bait={_baitSince:F0}");
@@ -526,18 +541,20 @@ namespace Game.AI.Pack
                 _baitGo = false;
                 return;
             }
-            bool allHeld = true, allNear = true, haveBait = false, baitDrawing = false, haveHolder = false;
+            bool allHeld = true, holdersNear = true, allNear = true, haveBait = false, baitDrawing = false, haveHolder = false;
             float band = _cfg.BaitBandFrac * _cfg.MechWeaponRangeM;
             for (int i = 0; i < _n; i++)
             {
                 ref readonly PackMemberState m = ref _el[i];
                 float dt = Dist(m.Pos, tp);
                 PackRole r = _dir[i].Role;
-                if (r == PackRole.Anchor || r == PackRole.Flanker)
+                if (r == PackRole.Flanker)   // the Anchor (heavy centre) closes at its own pace and does not gate the strike
                 {
                     haveHolder = true;
                     float tol = Math.Max(_cfg.SlotTolMinM, _cfg.SlotTolFrac * m.Species.StandoffM);
-                    if (Dist(m.Pos, _dir[i].SlotPos) > tol) allHeld = false;
+                    float ds = Dist(m.Pos, _dir[i].SlotPos);
+                    if (ds > tol) allHeld = false;
+                    if (ds > _cfg.BaitStepInM) holdersNear = false;
                 }
                 else if (r == PackRole.Bait)
                 {
@@ -552,11 +569,11 @@ namespace Game.AI.Pack
                 if (baitDrawing) { if (double.IsNegativeInfinity(_baitSince)) _baitSince = now; }
                 else _baitSince = double.NegativeInfinity;
             }
-            _baitGo = !haveHolder || allHeld;
+            _baitGo = !haveHolder || allHeld || holdersNear;
             bool baitOk = !haveBait || (!double.IsNegativeInfinity(_baitSince) && now - _baitSince >= _cfg.BaitDrawSeconds);
             bool ready = haveHolder ? allHeld && baitOk : baitOk;
             bool timeout = !double.IsNegativeInfinity(_gateNearSince) && now - _gateNearSince >= _cfg.GateTimeoutSeconds;
-            if ((allNear && ready) || timeout) _gateOpen = true;
+            if ((allNear && ready) || timeout) { _gateOpen = true; _gateOpenAt = now; }
         }
 
         // Engagement slot radius: the species standoff, never nearer to a mech than the Bait, and always inside the metric's engagement radius

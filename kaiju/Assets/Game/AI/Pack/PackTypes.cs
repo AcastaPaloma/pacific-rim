@@ -79,6 +79,8 @@ namespace Game.AI.Pack
         public Float2 SlotPos;           // where the role wants the member (standoff slot, flank slot, bait point)
         public Float2 RoutePos;          // transit waypoint (straight line in T-113; IRoutePlanner later)
         public bool AllowMelee;          // false for Bait, Regroup, and a Raider in transit
+        public float PaceFrac;           // far transit speed fraction that makes every member arrive together (0 = full speed)
+        public bool BaitJoin;            // hunt: the strike is under way and the Bait may join it (Bait-and-strike)
         public bool CommitReady;         // hunt: the formation is in place (slots held, Bait drawing) or the gate timed out; Anchor/Flanker may commit
         public bool Valid;
     }
@@ -151,10 +153,13 @@ namespace Game.AI.Pack
         public float TransitDistanceM;       // farther than this from the slot a member walks at full speed (Bay-scale transit)
         public bool BayTactics;              // Bay-scale hunt tactics (T-115b): approach latch, ring-up stage, commit gate, Bait staging, D_eng-bounded slots; off = the T-113 unit-scale behaviour
         public float SlotApproachFrac;       // speed fraction on the last stretch to a slot (floor of the tactical speed)
-        public float StageFrac;              // before the advance the hunt slots sit on a ring this many times wider than the engagement slots
+        public float StageFrac;              // before the advance the hunt slots sit on a ring this many times wider than the engagement slots (and outside 1.15 x the member's 5 x height engagement radius)
         public float StageTimeoutSeconds;    // advance this long after every member is within twice its stage radius
         public float SlotTolFrac;            // a slot counts as held within max(SlotTolMinM, this x standoff)
         public float SlotTolMinM;
+        public float PaceMinFrac;            // lower bound of the synchronised-arrival pace (0 = pacing off)
+        public float BaitJoinDelaySeconds;   // the Bait joins the strike this long after the gate opened (0 = never)
+        public float BaitStepInM;            // the Bait steps into its band once every holder is within this of its slot
         public float BaitDrawSeconds;        // Bait inside its band this long counts as drawing fire (mech lock is 3 s)
         public float GateTimeoutSeconds;     // the commit gate opens this long after the first member is near the target, ready or not
         public float CommitRangeFrac;        // a member commits only within this x standoff of the target
@@ -174,7 +179,7 @@ namespace Game.AI.Pack
                 MechStrength = 2.5f, MechValue = 4f, HuntHandlingBaseSeconds = 120f, RaidDamageRate = 1f,
                 DefenseRadiusM = 3000f, RiskScale = 1f, AnchorMinFit = 0.3f, RegroupMinSeconds = 30f,
                 WeightCrane = 1f, WeightPower = 2f, WeightBridge = 3f, WeightAirport = 3f, TransitDistanceM = 1500f,
-                SlotApproachFrac = 0f, StageFrac = 1.6f, StageTimeoutSeconds = 45f, SlotTolFrac = 0.4f, SlotTolMinM = 80f, BaitDrawSeconds = 4f, GateTimeoutSeconds = 60f, CommitRangeFrac = 1.6f,
+                SlotApproachFrac = 0f, StageFrac = 1.0f, StageTimeoutSeconds = 120f, SlotTolFrac = 0.4f, SlotTolMinM = 80f, PaceMinFrac = 0f, BaitJoinDelaySeconds = 0f, BaitStepInM = 100f, BaitDrawSeconds = 4f, GateTimeoutSeconds = 60f, CommitRangeFrac = 1.6f,
                 BaitOffsetRad = 0.9f, AnchorOffsetRad = 0.6f, LatchReleaseM = 700f,
             };
         }
@@ -187,7 +192,7 @@ namespace Game.AI.Pack
         public static PackConfig Bay()
         {
             PackConfig c = Default();
-            c.BayTactics = true; c.BaitBandFrac = 0.8f; c.TransitDistanceM = 400f; c.SlotApproachFrac = 0.8f;
+            c.BayTactics = true; c.BaitJoinDelaySeconds = 7f; c.PaceMinFrac = 0.4f; c.BaitBandFrac = 0.8f; c.TransitDistanceM = 400f; c.SlotApproachFrac = 0.8f;
             return c;
         }
     }
