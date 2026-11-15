@@ -291,5 +291,118 @@ namespace Game.Core.Tests
             Assert.That(File.Exists(store.TempPath), Is.False);
             Assert.That(store.Load().Status, Is.EqualTo(SaveLoadStatus.Ok));
         }
+
+        // DEF-M1save-3 (M1-cleanup): a file that cannot be read is a status, never a throw
+        [Test]
+        public void Load_LockedFile_IsUnreadableNotThrown_AndFileUntouched()
+        {
+            string path = Path.Combine(_dir, "world.save.json");
+            var store = new JsonFileSaveStore(path);
+            store.Save(BuildGoldenV1());
+            byte[] before = File.ReadAllBytes(path);
+            SaveLoadResult r;
+            using (new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+                r = store.Load();
+            Assert.That(r.Status, Is.EqualTo(SaveLoadStatus.Unreadable), r.Message);
+            Assert.That(r.Ok, Is.False);
+            Assert.That(r.Document, Is.Null);
+            Assert.That(File.ReadAllBytes(path), Is.EqualTo(before));
+            Assert.That(store.Load().Ok, Is.True, "readable again once the lock is gone");
+        }
+
+        // DEF-M1save-4 (.bak): the previous generation is kept and used when the primary is corrupt
+        [Test]
+        public void Save_KeepsPreviousGeneration_AsBak()
+        {
+            string path = Path.Combine(_dir, "world.save.json");
+            var store = new JsonFileSaveStore(path);
+            var first = BuildGoldenV1();
+            store.Save(first);
+            Assert.That(File.Exists(store.BackupPath), Is.False, "no previous generation yet");
+            var second = BuildGoldenV1();
+            second.TryGetSection("sample.inventory", out var inv);
+            inv.Add("bld:landmark:99").Set("hp", SaveValue.Of(1L));
+            store.Save(second);
+            Assert.That(File.ReadAllText(store.BackupPath), Is.EqualTo(SaveCodec.Serialize(first)));
+            Assert.That(store.Load().FromBackup, Is.False);
+        }
+
+        [Test]
+        public void Load_CorruptPrimary_FallsBackToBak_Flagged()
+        {
+            string path = Path.Combine(_dir, "world.save.json");
+            var store = new JsonFileSaveStore(path);
+            var first = BuildGoldenV1();
+            store.Save(first);
+            store.Save(first);                       // primary and .bak now both hold generation 1
+            File.WriteAllText(path, "{\"half-written");
+            var r = store.Load();
+            Assert.That(r.Ok, Is.True, r.Message);
+            Assert.That(r.FromBackup, Is.True);
+            StringAssert.Contains("previous generation", r.Message);
+            Assert.That(SaveCodec.Serialize(r.Document), Is.EqualTo(SaveCodec.Serialize(first)));
+        }
+
+        [Test]
+        public void Save_CorruptPrimary_NeverOverwritesGoodBak()
+        {
+            string path = Path.Combine(_dir, "world.save.json");
+            var store = new JsonFileSaveStore(path);
+            var first = BuildGoldenV1();
+            store.Save(first); store.Save(first);
+            string bak = File.ReadAllText(store.BackupPath);
+            File.WriteAllText(path, "garbage");
+            store.Save(first);                        // a corrupt primary is replaced, but must not become the .bak
+            Assert.That(File.ReadAllText(store.BackupPath), Is.EqualTo(bak));
+            Assert.That(store.Load().Status, Is.EqualTo(SaveLoadStatus.Ok));
+        }
+
+        [Test]
+        public void Load_CorruptPrimary_BakAlsoCorrupt_IsCorrupt()
+        {
+            string path = Path.Combine(_dir, "world.save.json");
+            var store = new JsonFileSaveStore(path);
+            store.Save(BuildGoldenV1()); store.Save(BuildGoldenV1());
+            File.WriteAllText(path, "garbage"); File.WriteAllText(store.BackupPath, "also garbage");
+            var r = store.Load();
+            Assert.That(r.Status, Is.EqualTo(SaveLoadStatus.Corrupt));
+            StringAssert.Contains("previous generation also unusable", r.Message);
+        }
+
+        [Test]
+        public void Load_NewerSchemaPrimary_DoesNotFallBackToBak()
+        {
+            string path = Path.Combine(_dir, "world.save.json");
+            var store = new JsonFileSaveStore(path);
+            store.Save(BuildGoldenV1()); store.Save(BuildGoldenV1());
+            File.WriteAllText(path, File.ReadAllText(path).Replace("\"schema\":1", "\"schema\":99"));
+            Assert.That(store.Load().Status, Is.EqualTo(SaveLoadStatus.NewerSchema), "an older generation must never silently replace a save this build only cannot read");
+        }
+
+        [Test]
+        public void Load_MissingPrimary_WithBak_IsMissing()
+        {
+            string path = Path.Combine(_dir, "world.save.json");
+            var store = new JsonFileSaveStore(path);
+            store.Save(BuildGoldenV1()); store.Save(BuildGoldenV1());
+            File.Delete(path);                        // a deliberate delete is not resurrected
+            Assert.That(store.Load().Status, Is.EqualTo(SaveLoadStatus.Missing));
+        }
+
+        // DEF-M1save-4 (unknown same-version fields): policy "a section's fields only change with a version bump", so a newer build's
+        // extra fields always arrive as a newer section version and are refused, never read-and-dropped (see Core MODULE.md, Save).
+        [Test]
+        public void Restore_NewerSectionVersion_RefusedSoNoLossyResave()
+        {
+            var doc = BuildGoldenV1();
+            doc.TryGetSection("sample.inventory", out var inv);
+            inv.Version = 3;                                   // a newer minor build added a field and bumped the section version
+            foreach (var r in inv.Records) r.Set("extra", SaveValue.Of(1L));
+            var system = new SaveSystem("0.1.0-dev");
+            system.Register(new InventoryParticipant());
+            system.Register(new InventoryV1ToV2());
+            var res = system.Restore(doc);
+            Assert.That(res.Status, Is.EqualTo(SaveLoadStatus.SectionTooNew));
+        }
     }
 }
