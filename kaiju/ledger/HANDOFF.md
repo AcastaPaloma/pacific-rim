@@ -185,3 +185,11 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 
 ## Snapshot: T-005 session 5 hand-over, 2026-11-14 night
 - Round 3 closed. The offline strides are FEASIBLE at Fr 0.02–0.20 with lateral shear, τ ≤ 0.70 of limit; binding limits are the ROM margins and push-off friction. imp = 2 joint tracking falls in every Unity run, 3 cycles. Best stable walk is still legacy Fr 0.0226. Next step waits on Q-074. No agents or Unity jobs running. T-005 not merged.
+
+## Snapshot: T-005 session 5 hand-over (context threshold), 2026-11-14 night
+- The user answered Q-074 in session 5: "start Q-074 option b, the whole-body QP". T-005 round 4 started; brief `tasks/T-005.round4.md`; ledger 8c42e91.
+- 9.1 is done: design note `research/R-009.md` (task/T-005 c0c407b), a centroidal two-stage QP with a dense Goldfarb-Idnani solver.
+- Next is 9.2, then 9.3 (go/no-go before Unity), as written in `ledger/QUEUE.md` §6.
+- No agents or Unity jobs are running. T-005 is not merged.
+- Run scripts for Unity: `evidence/T-005/round3/scripts/run85.sh` (RUN, VAR and SCN env vars).
+- Diagnosis scripts: `round3/scripts/diag85.py` and `diag_run3.py`.
