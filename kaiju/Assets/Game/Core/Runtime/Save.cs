@@ -136,12 +136,34 @@ namespace Game.Core
 
         public string Path { get; }
         public string TempPath => Path + ".tmp";
+        /// <summary>The previous generation: the last primary file that loaded cleanly, copied here just before each Save replaces it.</summary>
+        public string BackupPath => Path + ".bak";
         public bool Exists => File.Exists(Path);
 
+        /// <summary>
+        /// Never throws for a bad or unreadable file. A file that cannot be read (locked, permission, I/O) gives <see cref="SaveLoadStatus.Unreadable"/>
+        /// and is left alone. A corrupt primary falls back to the <c>.bak</c> previous generation when that loads Ok (<see cref="SaveLoadResult.FromBackup"/>);
+        /// newer/unknown schemas never fall back (an older generation must not silently replace a save this build merely cannot read).
+        /// </summary>
         public SaveLoadResult Load()
         {
             if (!File.Exists(Path)) return new SaveLoadResult(SaveLoadStatus.Missing, null, "No save at " + Path);
-            return SaveCodec.Deserialize(File.ReadAllText(Path, Encoding.UTF8), Path);
+            var primary = LoadFile(Path);
+            if (primary.Status != SaveLoadStatus.Corrupt || !File.Exists(BackupPath)) return primary;
+            var backup = LoadFile(BackupPath);
+            if (!backup.Ok) return new SaveLoadResult(SaveLoadStatus.Corrupt, null, primary.Message + " (previous generation also unusable: " + backup.Message + ")");
+            return new SaveLoadResult(SaveLoadStatus.Ok, backup.Document, "Primary save corrupt, loaded previous generation: " + primary.Message, fromBackup: true);
+        }
+
+        private static SaveLoadResult LoadFile(string file)
+        {
+            string text;
+            try { text = File.ReadAllText(file, Encoding.UTF8); }
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException || ex is System.Security.SecurityException)
+            {
+                return new SaveLoadResult(SaveLoadStatus.Unreadable, null, file + ": could not be read (" + ex.GetType().Name + ": " + ex.Message + "); the file was not modified");
+            }
+            return SaveCodec.Deserialize(text, file);
         }
 
         public void Save(SaveDocument document)
@@ -156,7 +178,7 @@ namespace Game.Core
                     stream.Write(bytes, 0, bytes.Length);
                     if (stream is FileStream fs) fs.Flush(true); else stream.Flush();
                 }
-                if (File.Exists(Path)) File.Replace(TempPath, Path, null);
+                if (File.Exists(Path)) { KeepPreviousGeneration(); File.Replace(TempPath, Path, null); }
                 else File.Move(TempPath, Path);
             }
             catch (Exception ex)
@@ -164,6 +186,16 @@ namespace Game.Core
                 try { if (File.Exists(TempPath)) File.Delete(TempPath); } catch (IOException) { }
                 throw new SaveWriteException("Saving " + Path + " failed; the previous save is unchanged.", ex);
             }
+        }
+
+        // Best effort and never fatal: only a primary that loads Ok becomes the previous generation, so a corrupt file can never overwrite a good .bak.
+        private void KeepPreviousGeneration()
+        {
+            try
+            {
+                if (LoadFile(Path).Ok) File.Copy(Path, BackupPath, true);
+            }
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException) { /* no .bak this time; the save itself still proceeds */ }
         }
     }
 

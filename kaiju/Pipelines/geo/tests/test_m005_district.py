@@ -182,7 +182,9 @@ def test_real_district_run(capsys):
     assert rep["metric_version"] == "M-005@v1.2" and len(rows(rep, "terrain_seam")) == 19
     assert rows(rep, "terrain_seam_all_edges")[0]["result"] == "pass"                       # seam numbers are not a finding
     assert rows(rep, "edge_vertex_gap_all_edges")[0]["result"] == "pass"
-    assert rows(rep, "landmarks")[0]["result"] == "not_evaluated"
+    lm = rows(rep, "landmarks")[0]                                                          # M1-cleanup: evaluated, not a stale not_evaluated
+    assert lm["result"] == "pass" and {c["check"] for c in lm["checks"]} == {
+        "lid_unique_bid_owned", "height_vs_sourced", "line_continuity_at_cuts", "cable_apex_le_tower_top_plus_radius"}
     assert not [x for x in rep["rows"] if x["result"] == "error"]
 
 
@@ -227,3 +229,48 @@ def test_pieces_unknown_bid_or_empty_is_error(tmp_path):
     (tmp_path / "e.json").write_text(json.dumps({"format": "district_pieces", "schema": 1, "pieces": []}))
     rep = M.district(["L0_30_36", "L0_31_36"], tmp_path, pieces=str(tmp_path / "e.json"))
     assert rows(rep, "clipped_pieces")[0]["result"] == "error"
+
+
+# ---- landmarks row (M1-cleanup): synthetic pass / fail per check
+def _lm_tile(tmp_path, tid, feats, buildings=()):
+    t = write_tile(tmp_path, tid, None, buildings)
+    d = tmp_path / t.folder
+    (d / "landmarks.geojson").write_text(json.dumps({"type": "FeatureCollection", "features": feats}))
+    man = json.loads((d / "manifest.json").read_text())
+    man["layers"].append({"layer": "landmarks", "file": "landmarks.geojson"})
+    (d / "manifest.json").write_text(json.dumps(man))
+    return t
+
+
+def _line(tid, slug, pts, kind="bridge_cable"):
+    return {"type": "Feature", "id": f"lm:{slug}:{tid}", "geometry": {"type": "LineString", "coordinates": [[p[0], p[1]] for p in pts]},
+            "properties": {"lid": f"lm:{slug}:{tid}", "bid": f"landmark:{slug}:{tid}", "kind": kind, "y_navd88_m": [p[2] for p in pts],
+                           "top_navd88_m": max(p[2] for p in pts)}}
+
+
+def _lm_row(tmp_path, a, b):
+    t1 = _lm_tile(tmp_path, "L0_30_36", a); t2 = _lm_tile(tmp_path, "L0_31_36", b)
+    loaded = [M.v12_load(t, tmp_path) for t in (t1, t2)]
+    return M.v12_landmarks(loaded)
+
+
+def test_landmarks_row_continuity_pass_and_fail(tmp_path):
+    edge = 31 * 2048.0
+    ok = _lm_row(tmp_path, [_line("L0_30_36", "ggb_cable_a", [(edge - 10, 74000.0, 80.0), (edge, 74000.0, 90.0)])],
+                 [_line("L0_31_36", "ggb_cable_a", [(edge, 74000.0, 90.0), (edge + 10, 74000.0, 80.0)])])
+    c = {x["check"]: x for x in ok["checks"]}
+    assert c["line_continuity_at_cuts"]["result"] == "pass" and c["line_continuity_at_cuts"]["endpoints_on_edges"] == 2
+    bad = _lm_row(tmp_path, [_line("L0_30_36", "ggb_cable_a", [(edge - 10, 74000.0, 80.0), (edge, 74000.0, 90.0)])],
+                  [_line("L0_31_36", "ggb_cable_a", [(edge, 74000.0, 90.5), (edge + 10, 74000.0, 80.0)])])
+    assert bad["result"] == "fail" and {x["check"]: x for x in bad["checks"]}["line_continuity_at_cuts"]["result"] == "fail"
+
+
+def test_landmarks_row_cable_above_tower_fails(tmp_path):
+    r = _lm_row(tmp_path, [_line("L0_30_36", "ggb_cable_a", [(63000.0, 74000.0, 231.0), (63010.0, 74000.0, 200.0)])], [])
+    assert {x["check"]: x for x in r["checks"]}["cable_apex_le_tower_top_plus_radius"]["result"] == "fail"
+
+
+def test_landmarks_row_duplicate_lid_fails(tmp_path):
+    f = _line("L0_30_36", "ggb_cable_a", [(63000.0, 74000.0, 100.0), (63010.0, 74000.0, 90.0)])
+    r = _lm_row(tmp_path, [f, f], [])
+    assert {x["check"]: x for x in r["checks"]}["lid_unique_bid_owned"]["result"] == "fail"

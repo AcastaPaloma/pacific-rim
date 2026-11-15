@@ -12,10 +12,10 @@
   37.805325
  ],
  "build": {
-  "built_utc": "2026-11-15T03:53:52Z",
-  "git": "2e9635b88d0c9597adcc7cffba1a81aa84141c76",
+  "built_utc": "2026-11-15T06:17:38Z",
+  "git": "efaa94236c3be5c371700d99058ca25fa14405d9",
   "git_dirty_pipeline": true,
-  "inputs_sha256": "6c57935187859fddce367ed4fcc7c8cfb3f003912846031a232eeb47e1b6e348",
+  "inputs_sha256": "5ac92981efbf03478f0b5c9c5f605df43679f50988503c61a4337db7d68d9391",
   "script": "Pipelines/geo/bake_tile.py"
  },
  "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
@@ -640,7 +640,7 @@
    "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
    "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
    "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
-   "sha256": "4eac9e93ae88a51d312d22d67f565b555e1218768736a1c3bbfbfb54a2f8a26e",
+   "sha256": "a11e738e6f7dd7f13c074c51c38660c4fe963d1c3140d144ce17a5e8b246ec6b",
    "sources": [
     {
      "attribution": "© OpenStreetMap contributors (ODbL)",
@@ -684,11 +684,12 @@
   {
    "checked": [
     {
-     "baked_top_navd88_m": 86.191,
-     "delta_m": -11.5,
+     "baked_top_navd88_m": 74.691,
+     "delta_m": 0.0,
+     "lowered_from_m": 83.1,
      "slug": "ferry_building_clock_tower",
      "sourced_top_navd88_m": 74.691,
-     "status": "baked above sourced (not lowered; reported)",
+     "status": "lowered to sourced in buildings",
      "tol_height_m": 3.0
     },
     {

@@ -5,6 +5,7 @@ tol_height_m. Bridge items are T-023."""
 from __future__ import annotations
 
 import math
+import statistics
 
 import shapely
 from shapely.geometry import Point, Polygon, mapping, shape
@@ -20,6 +21,34 @@ GGB_SLUGS = ("ggb_tower_s", "ggb_tower_n", "ggb_deck", "ggb_cable_a", "ggb_cable
 
 def _top(p):
     return p["base_navd88_m"] + p["height_m"]
+
+
+def lower_to_sourced(tile_id: str, bfeats: list, cfg: dict | None = None) -> list:
+    """M1-cleanup (M1 report s3.4): a configured landmark with `lower_baked_to_sourced` has its baked OSM feature(s) listed in
+    `footprint_osm` lowered in place to the sourced top when they exceed it by more than tol_height_m (e.g. the Ferry Building
+    OSM tower part is 83.1 m against the sourced 71.6 m). Other features are untouched; the original height is kept in
+    `height_lowered_from_m`. Call before the buildings layer is serialised. Returns one record per lowered feature."""
+    cfg = cfg or load_config("landmarks.json")
+    by_id = {f["id"]: f for f in bfeats}
+    out = []
+    for lm in cfg["landmarks"]:
+        par = by_id.get(lm["part_of"])
+        if lm["tile"] != tile_id or not lm.get("lower_baked_to_sourced") or par is None:
+            continue
+        sourced_top = par["properties"]["base_navd88_m"] + lm["height_above_base_m"]
+        for fid in lm.get("footprint_osm", ()):
+            f = by_id.get(fid)
+            if f is None:
+                continue
+            p = f["properties"]
+            if p["base_navd88_m"] + p["height_m"] - sourced_top <= lm["tol_height_m"]:
+                continue
+            was = p["height_m"]
+            p["height_m"] = round(sourced_top - p["base_navd88_m"], 3)
+            p["height_lowered_from_m"] = was
+            p["height_lowered_to_source"] = lm["height_source"]  # height_source keeps its R-004 enum value (osm_height)
+            out.append({"slug": lm["slug"], "bid": fid, "from_m": was, "to_m": p["height_m"]})
+    return out
 
 
 def build(tile_id: str, bfeats: list, cfg: dict | None = None):
@@ -45,8 +74,11 @@ def build(tile_id: str, bfeats: list, cfg: dict | None = None):
         sourced_top = round(base + lm["height_above_base_m"], 3)
         rec = {"slug": lm["slug"], "baked_top_navd88_m": round(baked_top, 3), "sourced_top_navd88_m": sourced_top,
                "delta_m": round(sourced_top - baked_top, 3), "tol_height_m": lm["tol_height_m"]}
+        lowered = [f["properties"]["height_lowered_from_m"] for f in cands if "height_lowered_from_m" in f["properties"]]
+        if lowered:
+            rec["lowered_from_m"] = max(lowered)
         if sourced_top - baked_top <= lm["tol_height_m"]:
-            rec["status"] = "already right in buildings" if abs(sourced_top - baked_top) <= lm["tol_height_m"] else \
+            rec["status"] = "lowered to sourced in buildings" if lowered else "already right in buildings" if abs(sourced_top - baked_top) <= lm["tol_height_m"] else \
                 "baked above sourced (not lowered; reported)"
             checked.append(rec)
             continue
@@ -135,7 +167,11 @@ def _bridge(tile_id, cfg):
     for tw in ("s", "n"):
         slug = f"ggb_tower_{tw}"
         legs = [l for l in g["legs"] if l["tower"] == tw.upper()]
-        meas = max(l["top_max_m"] for l in legs)
+        if not legs:
+            continue
+        # DEF-M1geo-1: robust per-tower statistic (median of the leg tops), so one leg's lidar maximum (lights/beacons) cannot
+        # replace the sourced official top; the per-leg maxima stay in the feature properties (leg_measured_top_m)
+        meas = statistics.median(l["top_max_m"] for l in legs)
         agree = abs(meas - br["tower_top_navd88_m"]) <= br["tower_top_tol_m"]
         top, hs, conf = (br["tower_top_navd88_m"], "official", "A") if agree else (meas, "lidar_3dep", "B")
         n_here = 0
@@ -160,6 +196,8 @@ def _bridge(tile_id, cfg):
         pts = []
         for r in g["profile"]:
             y = r["deck"] if key == "deck" else r["cable"][key[1]]
+            if y is not None and key != "deck":
+                y = min(y, br["tower_top_navd88_m"])  # DEF-M1geo-4: cable samples near a tower pick up the tower top; the cable apex never exceeds it
             if y is not None:
                 u = r["u"]
                 pts.append((ox + u * dx + v * nx, oz + u * dz + v * nz, float(y)))

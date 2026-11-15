@@ -81,3 +81,71 @@ def test_bake_is_deterministic():
     f, c = landmarks.build("L0_30_36", json.loads((M0 / "buildings.geojson").read_text())["features"])
     assert c == json.loads((M0 / "manifest.json").read_text())["layers"][[x["layer"] for x in json.loads((M0 / "manifest.json").read_text())["layers"]].index("landmarks")]["checked"]
     assert sha256_file(M0 / "landmarks.geojson") == h1
+
+
+# ---- M1-cleanup: sourced heights win (Ferry Building lowered, GGB N tower top, cable <= tower)
+def _ferry_cfg():
+    lm = {"slug": "f", "kind": "clock_tower", "tile": "T", "part_of": "osm:w1", "footprint_osm": ["osm:w2", "osm:w3"],
+          "pos_baytm": [5.0, 5.0], "height_above_base_m": 71.6, "roof_shape": "flat", "height_source": "nrhp",
+          "source_ids": ["x"], "pos_source": "osm", "confidence": "B", "tol_height_m": 3.0, "tol_pos_m": 5.0,
+          "lower_baked_to_sourced": True}
+    return {"sources": {}, "landmarks": [lm]}
+
+
+def test_lower_to_sourced_caps_only_the_overshooting_part():
+    b = [_b("osm:w1", box(0, 0, 20, 20), 3.0, 15.0), _b("osm:w2", box(0, 0, 5, 5), 3.0, 70.0, "osm:w1"),
+         _b("osm:w3", box(5, 5, 10, 10), 3.0, 83.1, "osm:w1")]
+    rec = landmarks.lower_to_sourced("T", b, _ferry_cfg())
+    assert [(r["bid"], r["from_m"], r["to_m"]) for r in rec] == [("osm:w3", 83.1, 71.6)]
+    assert b[2]["properties"]["height_m"] == 71.6 and b[2]["properties"]["height_lowered_from_m"] == 83.1
+    assert b[2]["properties"]["height_lowered_to_source"] == "nrhp" and b[1]["properties"]["height_m"] == 70.0
+    f, chk = landmarks.build("T", b, _ferry_cfg())
+    assert f == [] and chk[0]["status"] == "lowered to sourced in buildings" and chk[0]["lowered_from_m"] == 83.1
+
+
+def test_lower_requires_flag_and_tile():
+    b = [_b("osm:w1", box(0, 0, 20, 20), 3.0, 15.0), _b("osm:w3", box(5, 5, 10, 10), 3.0, 83.1, "osm:w1")]
+    cfg = _ferry_cfg()
+    assert landmarks.lower_to_sourced("OTHER", b, cfg) == []
+    del cfg["landmarks"][0]["lower_baked_to_sourced"]
+    assert landmarks.lower_to_sourced("T", b, cfg) == [] and b[1]["properties"]["height_m"] == 83.1
+
+
+def test_baked_ferry_tower_at_sourced_height():
+    feats = {f["id"]: f["properties"] for f in json.loads((M0 / "buildings.geojson").read_text())["features"]}
+    p = feats["osm:w406710839"]
+    assert p["base_navd88_m"] + p["height_m"] == pytest.approx(p["base_navd88_m"] + 71.6, abs=1e-6)
+    assert p["height_lowered_from_m"] == 83.1
+    L = next(x for x in json.loads((M0 / "manifest.json").read_text())["layers"] if x["layer"] == "landmarks")
+    assert any(c["slug"] == "ferry_building_clock_tower" and c["status"] == "lowered to sourced in buildings" for c in L["checked"])
+
+
+def _tower_cfg(tops):
+    br = {"source_ids": ["x"], "tower_top_navd88_m": 229.18, "tower_top_tol_m": 3.0, "leg_base_m": [10.1, 16.5],
+          "seabed_envelope_navd88_m": -20.0, "deck_width_m": 18.9, "cable_diameter_m": 0.924, "tol_height_m": 3.0, "tol_pos_m": 3.0}
+    g = {"axis_origin_baytm": [4096.0 + 100, 4096.0 + 100], "axis_unit": [0.0, 1.0], "legs": [
+        {"tower": "N", "leg": i, "centroid_baytm": [4096.0 + 100 + 10 * i, 4096.0 + 100], "extent_along_m": 12.0, "extent_across_m": 8.0, "top_max_m": t}
+        for i, t in enumerate(tops)], "deck_v_m": 0.0, "cable_v_m": [0.0, 5.0], "profile": [
+        {"u": 0.0, "deck": 70.0, "cable": [240.0, 240.0]}, {"u": 10.0, "deck": 70.0, "cable": [100.0, 100.0]}]}
+    return br, g
+
+
+def test_tower_top_uses_median_of_leg_tops(monkeypatch):
+    br, g = _tower_cfg([233.25, 230.42])                    # the real N tower: max is 4.07 m over, median is 1.2 m over
+    real = landmarks.load_config
+    monkeypatch.setattr(landmarks, "load_config", lambda n: g if n == "ggb.json" else real(n))
+    f, chk = landmarks._bridge("L0_2_2", {"bridge": br})
+    tw = [x for x in f if x["properties"]["kind"] == "bridge_tower"]
+    assert len(tw) == 2 and {x["properties"]["top_navd88_m"] for x in tw} == {229.18}
+    assert {x["properties"]["height_source"] for x in tw} == {"official"}
+    assert [c for c in chk if c["slug"] == "ggb_tower_n"][0]["top_used"] == "sourced"
+    cab = [x for x in f if x["properties"]["kind"] == "bridge_cable"]
+    assert cab and all(max(x["properties"]["y_navd88_m"]) <= 229.18 for x in cab)   # 240 m lidar sample capped at the tower top
+
+
+def test_tower_far_from_sourced_still_uses_measured(monkeypatch):
+    br, g = _tower_cfg([240.0, 241.0])
+    real = landmarks.load_config
+    monkeypatch.setattr(landmarks, "load_config", lambda n: g if n == "ggb.json" else real(n))
+    f, chk = landmarks._bridge("L0_2_2", {"bridge": br})
+    assert [c for c in chk if c["slug"] == "ggb_tower_n"][0]["top_used"] == "measured"

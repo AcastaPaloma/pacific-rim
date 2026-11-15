@@ -1,18 +1,18 @@
 # World.Geo
 Purpose: import baked `geo_tile@v1` tiles (Pipelines/geo) into Unity at 1:1 scale in BayTM@v1 metres: one continuous
-terrain + seabed surface, individually addressable buildings with stable IDs, roads, faults and a static sea-level
+terrain + seabed surface, individually addressable buildings with stable IDs, sourced landmarks (prisms, Golden Gate Bridge), roads, faults and a static sea-level
 water surface; export as-built facts for `M-005@v1`.
 
 Breakdown IDs: F-040, F-042 (tile-local float32 + float64 tile origin, origin shift), F-043 (stable building IDs,
-removal by ID), D-010, D-014 (fault layer), D-021, M-005@v1, M-008 (budgets), MODULARITY §4.6. Task: T-003.
+removal by ID), D-010, D-014 (fault layer), D-021, M-005@v1, M-008 (budgets), MODULARITY §4.6. Tasks: T-003, T-020/T-020b (district tiles), T-021 (multi-tile, seams, floating origin), T-022/T-023 (landmarks layer, Golden Gate Bridge), M1-cleanup (this doc).
 Layer: L2. References only `Game.Core.Contracts` and its own assemblies (checked by `ModuleRules_AsmdefsReferenceOnlyCoreContractsAndOwnAssemblies`).
 
 ## Assemblies
 | Assembly | Folder | Engine | Contents |
 |---|---|---|---|
-| `Game.World.Geo.Contracts` | `Contracts/` | none | `IGeoLayer`, `IGeoTileContext`, `IGeoHeightField`, `GeoLayerOutput`, `GeoMeshData`, `GeoBuildingData`, `GeoRoadData`, `GeoFaultData`, `GeoTileId`, `IGeoWorld`, `GeoBuildingInfo`, event `GeoBuildingRemoved`, `GeoFlags`, `GeoContractVersions`, `GeoTileRejectedException` |
-| `Game.World.Geo` | `Runtime/` | none | `GeoJson`, `GeoManifestValidator`, `GeoTileContext` (+ r16 / PNG decode), `RtinMesher`, `Triangulator`, `BuildingExtruder`, layers `TerrainLayer`, `WaterLayer`, `BuildingsLayer`, `RoadsLayer`, `FaultsLayer`, `GeoTileModel` |
-| `Game.World.Geo.Unity` | `Unity/` | UnityEngine | `GeoTileBuilder`, `GeoTileInstance`, `GeoBuilding`, `GeoMaterials`, `GeoWorldService : IGeoWorld` (multi-tile: tile picked by `GeoTileId.Containing`, global building-owner dictionary), `GeoTileSetBuilder` (staged: one tile per `BuildNext()`, roots at tile origin minus floating origin, `ShiftOrigin` moves all roots; seams are step 3), `GeoModule.Install` / `CreateTileSetBuilder(keys = M0 tile)`, `GeoAttribution` (ScriptableObject) |
+| `Game.World.Geo.Contracts` | `Contracts/` | none | `IGeoLayer`, `IGeoTileContext`, `IGeoHeightField`, `GeoLayerOutput`, `GeoMeshData`, `GeoBuildingData`, `GeoRoadData`, `GeoFaultData`, `GeoTileId`, `GeoLandmarkData`, `GeoColliderData`, `IGeoWorld`, `GeoBuildingInfo`, event `GeoBuildingRemoved`, `GeoFlags`, `GeoContractVersions`, `GeoTileRejectedException` |
+| `Game.World.Geo` | `Runtime/` | none | `GeoJson`, `GeoManifestValidator`, `GeoTileContext` (+ r16 / PNG decode), `RtinMesher`, `Triangulator`, `BuildingExtruder`, layers `TerrainLayer`, `WaterLayer`, `BuildingsLayer`, `LandmarksLayer` (`GeoLandmarks.cs`), `RoadsLayer`, `FaultsLayer`, `GeoTileModel`, `GeoTileSet` / `GeoTileSetLoader` (tile sets, shared edges), `GeoSeams` + `GeoEdgePolicy` (seam checks, shared-edge heights), `GeoFloatingOrigin` (rebase rule) |
+| `Game.World.Geo.Unity` | `Unity/` | UnityEngine | `GeoTileBuilder`, `GeoTileInstance`, `GeoBuilding`, `GeoMaterials`, `GeoWorldService : IGeoWorld` (multi-tile: tile picked by `GeoTileId.Containing`, global building-owner dictionary), `GeoTileSetBuilder` (staged: one tile per `BuildNext()`, roots at tile origin minus floating origin, `ShiftOrigin` moves all roots; shared borders use the `GeoEdgePolicy` heights, see Seams), `GeoModule.Install` / `CreateTileSetBuilder(keys = M0 tile)`, `GeoAttribution` (ScriptableObject) |
 | `Game.World.Geo.Editor` | `Editor/` | Editor | `GeoBatch` (batch entry points), `GeoCaptures` |
 | `Game.World.Geo.Tests` | `Tests/EditMode/` | test | engine-free NUnit, also run by `dotnet test DotnetTests/WorldGeo.Tests` |
 | `Game.World.Geo.Unity.Tests` | `Tests/UnityOnly/` | test | scene build, colliders, removal, origin shift, flag, module rules |
@@ -21,11 +21,25 @@ Layer: L2. References only `Game.Core.Contracts` and its own assemblies (checked
 - `geo_tile@v1` (R-004 §3.3) is the only input. `GeoTileContext` refuses a tile whose manifest lacks any required
   field, carries an unaccepted licence, or whose file hashes differ (`GeoTileRejectedException` lists every problem).
   Same rules as `Pipelines/geo/kaiju_geo/manifest.py`.
-- `IGeoLayer.Build(IGeoTileContext) -> GeoLayerOutput` (LayerApi 1). Order: terrain, water, buildings, roads, faults.
+- `IGeoLayer.Build(IGeoTileContext) -> GeoLayerOutput` (LayerApi 1). Order: terrain, water, buildings, landmarks, roads, faults.
   **Add a layer:** implement `IGeoLayer`, pass it in the list given to `GeoTileModel`; nothing else changes.
 - `geo_export@v1`: as-built facts in float64 BayTM (scene position + floating origin): buildings with `bid`, Core id,
-  `part_of`, base, top, as-built height, anchor, footprint; terrain samples (physics, render, data surfaces) at given
+  `part_of`, base, top, as-built height, anchor, footprint; `landmarks` (always present, `[]` when the layer is absent; additive key, `geo_export@v1` not version-bumped); terrain samples (physics, render, data surfaces) at given
   control points; statistics; attributions.
+
+## Landmarks layer (T-022, T-023)
+- Input: optional `landmarks.geojson` of a tile (manifest layer `landmarks`; a manifest without it stays valid and builds 0 landmarks). Baked by `Pipelines/geo/kaiju_geo/landmarks.py` from `config/landmarks.json` + `config/ggb.json` (sourced facts and lidar-measured Golden Gate geometry, citations in the config `sources`). Output contracts: `GeoLandmarkData` (id `lm:<slug>:<part>`, `bid` `landmark:<slug>:<part>` mapped 1:1 to the Core `BuildingId` source `landmark`) and `GeoColliderData` (oriented boxes / capsules).
+- Prism landmarks (Salesforce spire, Transamerica, Ferry Building tower) stack on the baked OSM structure when the sourced top exceeds the baked top by more than `tol_height_m`. Where an OSM part is taller than the sourced height the bake lowers that OSM feature to the sourced top (`lower_baked_to_sourced`; the Ferry Building tower part 83.1 m -> 71.6 m, original kept in `height_lowered_from_m`); nothing is invented.
+- Golden Gate Bridge: four tower legs (both towers take the **sourced 229.18 m top** whenever the median of the measured leg tops agrees within 3 m; a single leg's lidar maximum, e.g. beacons, never replaces it), a deck polyline (18.9 m wide) and two main cables (0.924 m diameter), all in BayTM with NAVD88 heights. Cable heights are capped at the tower top (samples at the saddles pick up the tower). Deck and cables are cut at tile edges at a shared float64 node (continuity <= 0.05 m in Unity, 0 in the engine-free test).
+- Runtime: lines are cut into equal segments of at most `GeoLandmarks.SegmentM` (40 m); the deck is a box of `DeckDepthM` (3 m, assumed, unsourced) whose top follows the baked road surface, cables are capsules, tower legs are boxes. Colliders sit on physics layer `LandmarkStatic` (in `TagManager`) and are static; render uses the same data. Landmarks ride the `world.geo.enabled` flag.
+- Open: `SegmentM`, `DeckDepthM` and the rebase distance are code constants, not yet in `WorldGeo.json` (DEF-M1geo-3, tracked).
+
+## Floating origin (T-021 step 4, F-042)
+- Tile roots sit at (tile origin - floating origin) in float32; the origin is always a tile corner (multiple of 2048 m), so rebases are exact. `GeoFloatingOrigin.NeedsRebase/Update` rebase when a body is further than 3072 m (`DefaultRebaseDistanceM`, `>` comparison) from the origin on either axis; `GeoTileSetBuilder.ShiftOrigin` moves every root and keeps neighbouring geometry within about 5120 m of the origin (float32 ulp about 1 mm there).
+- Evidence for M-015 is a scripted proxy (340-sample 8.4 km route, max |pos| 3072 m, float32 ulp 0.244 mm at 2048-4096 m, round trip 0.121 mm, raycast vs sample 0.07 m; `evidence/T-021/m015_floating_origin.json`), not yet the 10-minute simulated-body traversal of the metric definition; it is re-measured when a simulated body exists (M2). The render-geometry ulp (about 1 mm at 4096-8192 m) is stated separately and is not covered by M-015.
+
+## Seams (T-021 steps 1-3)
+- A `GeoTileSet` finds the shared edges of its tiles. `GeoEdgePolicy`: on every border shared with another tile of the set, both tiles use the mean of the two tiles' data heights snapped to the `GeoHeightLattice` (0.005 m), and the RTIN keeps every lattice node of that border as a vertex, so render meshes and `TerrainCollider`s have identical edge vertices (gap 0 at the lattice). Borders without a neighbour are untouched. `GeoSeams` reports |dE| per edge sample and building ownership across borders (a building belongs to exactly one tile; no duplicate `bid`). The gate is `M-005@v1.2` (`Pipelines/geo/m005_check.py district`: seam p99 0.0033 m, max 0.0045 m, 0 gaps, 0 duplicate bids, landmarks row evaluated).
 
 ## Geometry rules
 - Axes: x = BayTM easting, y = NAVD88, z = BayTM northing; 1 unit = 1 m; no vertical exaggeration.
@@ -68,7 +82,7 @@ records not extruded, fallback part heights never above their structure, no buil
 
 
 ## Known limits / TODO (with Q links)
-- Streaming, LOD tiers beyond L0 and multi-tile seams in Unity are not built (F-042 later). r16 rows of neighbouring tiles differ by up to one quantisation step (per-tile range); float32 master rows are identical.
+- Streaming and LOD tiers beyond L0 are not built (F-042 later); multi-tile seams are built (see Seams). r16 rows of neighbouring tiles differ by up to one quantisation step (per-tile range); float32 master rows are identical.
 - Bridge decks (Bay Bridge) and tunnels are flagged, not drawn (F-041; proposed Q-NEW-b of T-003).
 - Non-surface features (`location=underground` stations, `layer<0` without above-ground levels, ships) are records with `excluded`, never extruded.
 - Pier edges are stair-stepped at 1 m (heightfield). Roof shapes other than apex roofs are flat.

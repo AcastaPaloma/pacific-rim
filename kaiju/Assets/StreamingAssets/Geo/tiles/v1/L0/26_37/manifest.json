@@ -12,10 +12,10 @@
   37.823673
  ],
  "build": {
-  "built_utc": "2026-11-15T03:51:25Z",
-  "git": "2e9635b88d0c9597adcc7cffba1a81aa84141c76",
+  "built_utc": "2026-11-15T06:13:57Z",
+  "git": "efaa94236c3be5c371700d99058ca25fa14405d9",
   "git_dirty_pipeline": true,
-  "inputs_sha256": "82e78e0e28fb4e292d265895c4ccae1c49ea5c87117c7f0b4b98b66637d6767b",
+  "inputs_sha256": "af115d0af80d3a46abb6264d1fc08fb567aadf27f2bfb25ffd20d29d78493ab4",
   "script": "Pipelines/geo/bake_tile.py"
  },
  "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
@@ -321,9 +321,9 @@
     },
     {
      "base_navd88_m": -20.0,
-     "delta_m": 2.48,
+     "delta_m": 1.735,
      "legs_in_tile": 2,
-     "measured_top_navd88_m": 231.66,
+     "measured_top_navd88_m": 230.915,
      "slug": "ggb_tower_s",
      "sourced_top_navd88_m": 229.18,
      "status": "emitted",
@@ -334,7 +334,7 @@
    "emit_rule": "R-020 §2: a part is emitted only when the sourced top (sourced height above the structure's baked base + that base) exceeds the baked building top at the landmark position by more than tol_height_m; it stacks on the baked top (part_of = owning OSM bid); otherwise recorded here as already right",
    "file": "landmarks.geojson",
    "layer": "landmarks",
-   "sha256": "349a6270a998b32473bee712824c920c05aa5d6ad5ff03abee7f6a4c2fb875bc",
+   "sha256": "7d53c80ccf29590e75a281b13ee2012be70ce3e06911a8aa13e2ec21e276cce9",
    "sources": [
     {
      "attribution": "Facts cited from the Golden Gate Bridge, Highway and Transportation District (GGBHTD) fact sheets; no GGBHTD data or images redistributed",
