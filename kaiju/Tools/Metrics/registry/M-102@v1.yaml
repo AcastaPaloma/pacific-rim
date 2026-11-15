@@ -1,0 +1,107 @@
+registry_schema: metric_registry@v1
+revision: v1.0
+metric_status: registered
+date: '2026-11-15'
+metric: M-102
+spec: M-102@v1
+title: LOD pixel error and no popping
+source: "research/R-101.md section 9 (M-102); M-003 colour metric; M-004 pixel stability"
+note: "Reads a lod_capture@v1 set (schema in kaiju_metrics/streaming/m102.py): L0 reference and level-n captures at d_n x 0.98 and x 1.02, per-pixel label images for the silhouette, sweeps for popping, optional M-004 reports (LOD vs pinned L0)."
+procedure:
+  min_viewpoints:
+    value: 12
+    unit: count
+    status: derived
+    source: "R-101 section 9 procedure: >= 12 viewpoints"
+  yaws_per_viewpoint:
+    value: 3
+    unit: count
+    status: derived
+    source: "R-101 section 9 procedure: x 3 yaws"
+  integer_scales:
+    value: [4, 6]
+    unit: k
+    status: derived
+    source: "R-101 section 9 procedure: k = 4 and k = 6"
+  switches:
+    value: [T1, T2, T3, T4, B1, B2]
+    unit: level
+    status: derived
+    source: "R-101 section 9 definition: T1..T4, B1, B2"
+  inside_factor:
+    value: 0.98
+    unit: factor
+    status: derived
+    source: "R-101 section 9 procedure: d_n x 0.98"
+  outside_factor:
+    value: 1.02
+    unit: factor
+    status: derived
+    source: "R-101 section 9 procedure: d_n x 1.02"
+  pop_floor_share:
+    value: 0.0025
+    unit: share
+    status: derived
+    source: "R-101 section 9 (c): 0.25 %"
+  pop_median_factor:
+    value: 3.0
+    unit: factor
+    status: derived
+    source: "R-101 section 9 (c): 3 x median of the previous 10 frames"
+  pop_median_window:
+    value: 10
+    unit: frames
+    status: derived
+    source: "R-101 section 9 (c)"
+  sweep_speeds_mps:
+    value: [2.0, 10.0, 30.0]
+    unit: m/s
+    status: derived
+    source: "R-101 section 9 (c)"
+  sweep_frames:
+    value: 240
+    unit: frames
+    status: derived
+    source: "R-101 section 9 (c)"
+submeasures:
+  M-102.a:
+    title: RMS silhouette contour displacement against L0 at every switch
+    kind: gating
+    thresholds:
+      contour_rms_px_max:
+        value: 1.0
+        unit: output px
+        status: derived
+        source: "R-101 section 9 (a); plan Track 2"
+  M-102.b:
+    title: CIEDE2000 <= 2.0 on at least 99 % of output pixels
+    kind: gating
+    thresholds:
+      delta_e_max:
+        value: 2.0
+        unit: dE00
+        status: derived
+        source: "R-101 section 9 (b); plan Track 2"
+      share_min:
+        value: 0.99
+        unit: share
+        status: derived
+        source: "R-101 section 9 (b); plan Track 2"
+  M-102.c:
+    title: Zero pop events on the 240-frame sweeps
+    kind: gating
+    thresholds:
+      pop_events_max:
+        value: 0
+        unit: count
+        status: derived
+        source: "R-101 section 9 (c)"
+  M-102.d:
+    title: M-004 S_px and C_px of the LOD sequence at most the pinned-L0 run + 0.01
+    kind: gating
+    thresholds:
+      margin_over_pinned:
+        value: 0.01
+        unit: share
+        status: derived
+        source: "R-101 section 9 (c)"

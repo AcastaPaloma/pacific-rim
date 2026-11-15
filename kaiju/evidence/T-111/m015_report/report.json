@@ -1,0 +1,360 @@
+{
+ "assumed_thresholds_decisive": [],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [],
+  "optional_not_provided": [],
+  "provided": [
+   "logic_30mps:logic",
+   "logic_60mps:logic",
+   "unity_30mps:unity",
+   "unity_60mps:unity"
+  ],
+  "required": [
+   "m015_dump (mode unity)"
+  ]
+ },
+ "exit_code": 0,
+ "extra": {
+  "m015": {
+   "dumps": [
+    {
+     "label": "unity_30mps",
+     "mech_speed_mps": 30,
+     "mode": "unity",
+     "path_length_m": 92562.2551833,
+     "rebases": 91,
+     "steps": 10150
+    },
+    {
+     "label": "unity_60mps",
+     "mech_speed_mps": 60,
+     "mode": "unity",
+     "path_length_m": 92562.2551833,
+     "rebases": 94,
+     "steps": 10150
+    },
+    {
+     "label": "logic_30mps",
+     "mech_speed_mps": 30,
+     "mode": "logic",
+     "path_length_m": 92562.2551833,
+     "rebases": 91,
+     "steps": 10150
+    },
+    {
+     "label": "logic_60mps",
+     "mech_speed_mps": 60,
+     "mode": "logic",
+     "path_length_m": 92562.2551833,
+     "rebases": 94,
+     "steps": 10150
+    }
+   ]
+  }
+ },
+ "failing_gating": [],
+ "failures_suppressed": false,
+ "flags": [],
+ "headless_verdict": "PASS",
+ "headless_verdict_label": "PASS",
+ "images": [],
+ "inputs": [
+  {
+   "path": "evidence/T-111/m015_logic_30mps.json",
+   "role": "m015_dump@v2",
+   "sha256": "173c1184d42f287934ff4141d16b952134ed3d2e83525fb808e11bfdac2468ef"
+  },
+  {
+   "path": "evidence/T-111/m015_logic_60mps.json",
+   "role": "m015_dump@v2",
+   "sha256": "4384bea1145fe4d298008805b06c7d45ffa05a7d14b7467841be099c4c317b65"
+  },
+  {
+   "path": "evidence/T-111/m015_unity_30mps.json",
+   "role": "m015_dump@v2",
+   "sha256": "8f68680814d83875ce22bc752c111d63429c1563e9c1e94a9fa1650c683b8629"
+  },
+  {
+   "path": "evidence/T-111/m015_unity_60mps.json",
+   "role": "m015_dump@v2",
+   "sha256": "31e7edf702fb7fe324d8d59b65082717c03cee1c96db2c9c5be1b4f1615e3d13"
+  }
+ ],
+ "invocation": {
+  "command": "m015",
+  "inputs": [
+   "evidence/T-111/m015_unity_30mps.json",
+   "evidence/T-111/m015_unity_60mps.json",
+   "evidence/T-111/m015_logic_30mps.json",
+   "evidence/T-111/m015_logic_60mps.json"
+  ],
+  "label": "m015_unity_30mps.json",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "m015_unity_30mps.json",
+ "metric": "M-015",
+ "metric_version": "M-015@v2",
+ "normalisers": {},
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-015@v2.yaml",
+  "revision": "v2.0",
+  "sha256": "8595e1e39abc6f1a5caa52d2d28d2fc27348dd26bf5737cfc7041c27276e1ff7",
+  "spec": "M-015@v2"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "revw-172-31-218-200.rn.uwaterloo.ca",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-15T10:11:04Z",
+  "wall_time_s": 0.011
+ },
+ "submeasures": [
+  {
+   "decisive_part": "max_abs_local_m",
+   "diagnostics": {
+    "where": "unity_30mps"
+   },
+   "id": "M-015.a",
+   "kind": "gating",
+   "margin": 535.356689453,
+   "margin_rel": 0.130702316761,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 535.356689453,
+     "margin_rel": 0.130702316761,
+     "name": "max_abs_local_m",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 4096.0,
+     "unit": "m",
+     "value": 3560.64331055
+    }
+   ],
+   "status": "PASS",
+   "threshold": 4096.0,
+   "threshold_status": "derived",
+   "title": "Every body within 4096 m of its cluster origin at every fixed step",
+   "unit": "m",
+   "value": 3560.64331055
+  },
+  {
+   "decisive_part": "max_reconstruction_err_m",
+   "diagnostics": {
+    "where": "unity_30mps"
+   },
+   "id": "M-015.b",
+   "kind": "gating",
+   "margin": 0.000877930185903,
+   "margin_rel": 0.877930185903,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.000877930185903,
+     "margin_rel": 0.877930185903,
+     "name": "max_reconstruction_err_m",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.001,
+     "unit": "m",
+     "value": 0.000122069814097
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.001,
+   "threshold_status": "derived",
+   "title": "Origin plus float32 local reconstructs the float64 state within 1 mm",
+   "unit": "m",
+   "value": 0.000122069814097
+  },
+  {
+   "decisive_part": "round_trip_err_m",
+   "diagnostics": {
+    "where": "unity_30mps"
+   },
+   "id": "M-015.c",
+   "kind": "gating",
+   "margin": 0.000877936948906,
+   "margin_rel": 0.877936948906,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.000877936948906,
+     "margin_rel": 0.877936948906,
+     "name": "round_trip_err_m",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.001,
+     "unit": "m",
+     "value": 0.000122063051094
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.001,
+   "threshold_status": "derived",
+   "title": "Probe driven out along the route and back returns within 1 mm",
+   "unit": "m",
+   "value": 0.000122063051094
+  },
+  {
+   "decisive_part": "pair_change_max_m",
+   "diagnostics": {
+    "where": "unity_30mps"
+   },
+   "id": "M-015.d",
+   "kind": "gating",
+   "margin": 0.000713591921847,
+   "margin_rel": 0.713591921847,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.000713591921847,
+     "margin_rel": 0.713591921847,
+     "name": "pair_change_max_m",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.001,
+     "unit": "m",
+     "value": 0.000286408078153
+    },
+    {
+     "margin": 0.0966544349625,
+     "margin_rel": 0.966544349625,
+     "name": "terrain_delta_max_m",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.1,
+     "unit": "m",
+     "value": 0.00334556503752
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.001,
+   "threshold_status": "derived",
+   "title": "Pairwise distances and terrain height unchanged across rebases",
+   "unit": "m",
+   "value": 0.000286408078153
+  },
+  {
+   "decisive_part": "hold_events",
+   "diagnostics": {
+    "where": "unity_30mps"
+   },
+   "id": "M-015.e",
+   "kind": "gating",
+   "margin": 0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "hold_events",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "frames_below_surface",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "frames_without_ground",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "world_origin_mismatches",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "No physics hold, no body below the data surface, a collider under every body",
+   "unit": "count",
+   "value": 0
+  },
+  {
+   "decisive_part": "dumps_below_definition",
+   "diagnostics": {
+    "where": null
+   },
+   "id": "M-015.scope",
+   "kind": "gating",
+   "margin": 0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "dumps_below_definition",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "margin": 90,
+     "margin_rel": 90.0,
+     "name": "rebases_min",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 1,
+     "unit": "count",
+     "value": 91
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "Route length and body counts reach the definition",
+   "unit": "count",
+   "value": 0
+  }
+ ],
+ "tool": {
+  "git_commit": "d60f8643e0f9387a0b1019b9bd40ea0e19312bcd",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "PASS",
+ "verdict_label": "PASS",
+ "warnings": []
+}
