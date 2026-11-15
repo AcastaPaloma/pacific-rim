@@ -1,0 +1,670 @@
+{
+ "_doc": "T-104 F-041 Bay-wide landmark registry (spec landmarks_bay_registry@v1). Hand-curated official figures, each with a source id; OSM geometry is resolved and lidar measured by bake_landmarks_bay.py into config/landmarks_bay.json. No number here is invented; Assumed values carry an explicit note.",
+ "spec": "landmarks_bay_registry@v1",
+ "sources": {
+  "osm": {
+   "licence": "ODbL-1.0",
+   "attribution": "OpenStreetMap contributors",
+   "url": "https://www.openstreetmap.org/",
+   "item": "geometry and positions (Geofabrik norcal extract, tile pbf cache)",
+   "fetched_utc": "2026-11-14T00:00:00Z",
+   "derivative_database_candidate": true
+  },
+  "lidar_3dep": {
+   "licence": "US-Gov-PD",
+   "attribution": "USGS 3D Elevation Program lidar (first returns); heights NAVD88 m measured by bake_landmarks_bay.py",
+   "url": "https://www.usgs.gov/3d-elevation-program",
+   "item": "EPT projects listed per landmark in config/landmarks_bay.json",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "wp_bay_bridge": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "Facts cited from Wikipedia (CC BY-SA); no text redistributed",
+   "url": "https://en.wikipedia.org/wiki/San_Francisco%E2%80%93Oakland_Bay_Bridge",
+   "item": "western 3,141 m, eastern 3,102 m, longest spans 704 m / 430 m, height 160 m, clearance 67 m W / 58 m E",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "wp_sm_hayward": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "Facts cited from Wikipedia (CC BY-SA)",
+   "url": "https://en.wikipedia.org/wiki/San_Mateo%E2%80%93Hayward_Bridge",
+   "item": "11,270 m, main span 230.8 m (infobox) / 229 m (text), clearance 41 m",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "wp_rsr": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "Facts cited from Wikipedia (CC BY-SA)",
+   "url": "https://en.wikipedia.org/wiki/Richmond%E2%80%93San_Rafael_Bridge",
+   "item": "8.85 km, longest span 326 m (text says 330 m), clearance 56 m main / 41 m secondary",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "wp_dumbarton": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "Facts cited from Wikipedia (CC BY-SA)",
+   "url": "https://en.wikipedia.org/wiki/Dumbarton_Bridge_(California)",
+   "item": "2,621.28 m, main span 103.63 m, clearance 25.91 m; rail bridge 1910, open, unused since 1982",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "wp_carquinez": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "Facts cited from Wikipedia (CC BY-SA)",
+   "url": "https://en.wikipedia.org/wiki/Carquinez_Bridge",
+   "item": "Zampa 3,465 ft (1,056 m), main 728 m, height 120 m, clearance 45 m; 1958 span 3,300 ft, clearance 43 m",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "wp_benicia_martinez": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "Facts cited from Wikipedia (CC BY-SA)",
+   "url": "https://en.wikipedia.org/wiki/Benicia%E2%80%93Martinez_Bridge",
+   "item": "2007 span 1.7 mi (2.7 km); 1962 truss 1.2 mi, longest 161 m, clearance 42.1 m; rail lift bridge 1,707.95 m, clearance 41 m open / 21 m closed",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "wp_antioch": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "Facts cited from Wikipedia (CC BY-SA)",
+   "url": "https://en.wikipedia.org/wiki/Antioch_Bridge",
+   "item": "9,504 ft (2,897 m), main span 140 m, clearance 41 m, plate girder, 1978",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "wp_oakland_tallest": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "Facts cited from Wikipedia list of tallest buildings in Oakland (CC BY-SA); heights as listed there",
+   "url": "https://en.wikipedia.org/wiki/List_of_tallest_buildings_in_Oakland,_California",
+   "item": "Ordway 123.1 m, Kaiser Center 118.7 m, Lake Merritt Plaza 113.1 m, 1111 Broadway 109.7 m, Clorox Building 100.6 m",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "faa_ksfo": {
+   "licence": "US-Gov-PD",
+   "attribution": "FAA airport data as published by AirNav (effective 2026-10-29); facts cited",
+   "url": "https://www.airnav.com/airport/KSFO",
+   "item": "runways 10L/28R 11,870 ft, 10R/28L 11,381 ft, 1R/19L 8,650 ft, 1L/19R 7,650 ft; elevation 13.1 ft",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "faa_koak": {
+   "licence": "US-Gov-PD",
+   "attribution": "FAA airport data as published by AirNav (effective 2026-10-29); facts cited",
+   "url": "https://www.airnav.com/airport/KOAK",
+   "item": "runways 12/30 10,520 ft, 10R/28L 6,213 ft, 10L/28R 5,457 ft, 15/33 3,376 ft; elevation 9 ft",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  },
+  "r004": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "research/R-004.md section 5 (Wikidata / OSM / Port of Oakland 2021 crane release)",
+   "url": "research/R-004.md",
+   "item": "Alcatraz lighthouse 26 m, island 41 m, Port of Oakland STS cranes lift 53 m boom up 134.7 m",
+   "fetched_utc": "2026-11-14T00:00:00Z"
+  },
+  "r100": {
+   "licence": "LicenseRef-facts-cited",
+   "attribution": "research/R-100.md section 4 (about 37 container cranes, 5 terminals; search-result strength)",
+   "url": "research/R-100.md",
+   "item": "crane counts approximate",
+   "fetched_utc": "2026-11-15T00:00:00Z"
+  }
+ },
+ "bridges": [
+  {
+   "slug": "bay_bridge_w",
+   "name": "Bay Bridge west span (SF-YBI)",
+   "kind": "suspension",
+   "osm": {
+    "ways": [
+     8921938,
+     661905446
+    ]
+   },
+   "lidar": [
+    "CA_SanFrancisco_1_B23"
+   ],
+   "official": {
+    "section_length_m": {
+     "v": 3141,
+     "unit": "m",
+     "src": "wp_bay_bridge"
+    },
+    "longest_main_span_m": {
+     "v": 704,
+     "unit": "m",
+     "src": "wp_bay_bridge"
+    },
+    "overall_height_m": {
+     "v": 160,
+     "unit": "m",
+     "src": "wp_bay_bridge",
+     "note": "R-004 conflict W2 143 vs 160 m; lidar decides (Q-NEW-i)"
+    },
+    "clearance_m": {
+     "v": 67,
+     "unit": "m",
+     "src": "wp_bay_bridge"
+    }
+   },
+   "expect_towers": 4,
+   "tower_tol_rule": "max(2 m, 1 %)",
+   "tower_keep_within_m": 45.0
+  },
+  {
+   "slug": "bay_bridge_e",
+   "name": "Bay Bridge east span (YBI-Oakland, SAS 2013)",
+   "kind": "self_anchored_suspension",
+   "osm": {
+    "ways": [
+     237731428,
+     236348361
+    ]
+   },
+   "lidar": [
+    "CA_SanFrancisco_1_B23",
+    "CA_AlamedaCo_2_2021"
+   ],
+   "official": {
+    "section_length_m": {
+     "v": 3102,
+     "unit": "m",
+     "src": "wp_bay_bridge"
+    },
+    "longest_main_span_m": {
+     "v": 430,
+     "unit": "m",
+     "src": "wp_bay_bridge"
+    },
+    "overall_height_m": {
+     "v": 160,
+     "unit": "m",
+     "src": "wp_bay_bridge"
+    },
+    "clearance_m": {
+     "v": 58,
+     "unit": "m",
+     "src": "wp_bay_bridge"
+    }
+   },
+   "expect_towers": 1,
+   "tower_tol_rule": "max(2 m, 1 %)"
+  },
+  {
+   "slug": "san_mateo_hayward",
+   "name": "San Mateo-Hayward Bridge",
+   "kind": "orthotropic_box_girder",
+   "osm": {
+    "ways": [
+     156047241,
+     42248740
+    ]
+   },
+   "lidar": [
+    "CA_AlamedaCo_2_2021",
+    "ARRA-CA_SanFranCoast_2010"
+   ],
+   "official": {
+    "total_length_m": {
+     "v": 11270,
+     "unit": "m",
+     "src": "wp_sm_hayward"
+    },
+    "main_span_m": {
+     "v": 230.8,
+     "unit": "m",
+     "src": "wp_sm_hayward",
+     "note": "body text 229 m"
+    },
+    "clearance_m": {
+     "v": 41.0,
+     "unit": "m",
+     "src": "wp_sm_hayward"
+    }
+   },
+   "expect_towers": 0
+  },
+  {
+   "slug": "richmond_san_rafael",
+   "name": "Richmond-San Rafael Bridge",
+   "kind": "double_deck_cantilever_truss",
+   "osm": {
+    "ways": [
+     24315544,
+     12181069,
+     1142383760
+    ]
+   },
+   "lidar": [
+    "USGS_LPC_CA_NoCal_Wildfires_B5b_QL1_2018",
+    "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018",
+    "ARRA-CA_GoldenGate_2010"
+   ],
+   "official": {
+    "total_length_m": {
+     "v": 8850,
+     "unit": "m",
+     "src": "wp_rsr"
+    },
+    "longest_span_m": {
+     "v": 326,
+     "unit": "m",
+     "src": "wp_rsr",
+     "note": "text says 330 m"
+    },
+    "clearance_m": {
+     "v": 56,
+     "unit": "m",
+     "src": "wp_rsr"
+    }
+   },
+   "expect_towers": 0
+  },
+  {
+   "slug": "dumbarton",
+   "name": "Dumbarton Bridge",
+   "kind": "concrete_twin_girder",
+   "osm": {
+    "ways": [
+     184877572,
+     42127704,
+     184877571,
+     26972072
+    ]
+   },
+   "lidar": [
+    "CA_SantaClaraCounty_2020",
+    "CA_AlamedaCo_2_2021",
+    "ARRA-CA_SanFranCoast_2010"
+   ],
+   "official": {
+    "total_length_m": {
+     "v": 2621.28,
+     "unit": "m",
+     "src": "wp_dumbarton"
+    },
+    "main_span_m": {
+     "v": 103.63,
+     "unit": "m",
+     "src": "wp_dumbarton"
+    },
+    "clearance_m": {
+     "v": 25.91,
+     "unit": "m",
+     "src": "wp_dumbarton"
+    }
+   },
+   "expect_towers": 0
+  },
+  {
+   "slug": "dumbarton_rail",
+   "name": "Dumbarton Rail Bridge (1910, left open)",
+   "kind": "swing_rail",
+   "osm": {
+    "ways": [
+     1253571343,
+     154042093
+    ]
+   },
+   "lidar": [
+    "CA_SantaClaraCounty_2020",
+    "CA_AlamedaCo_2_2021",
+    "ARRA-CA_SanFranCoast_2010"
+   ],
+   "official": {
+    "year": {
+     "v": 1910,
+     "unit": "year",
+     "src": "wp_dumbarton",
+     "note": "unused since 1982, kept open"
+    }
+   },
+   "expect_towers": 0
+  },
+  {
+   "slug": "carquinez",
+   "name": "Carquinez Bridges (Zampa 2003 suspension, 1958 cantilever)",
+   "kind": "suspension+cantilever",
+   "osm": {
+    "ways": [
+     23994277,
+     123741232,
+     157618391,
+     1016085442,
+     1208632372
+    ]
+   },
+   "lidar": [
+    "CA_SolanoCounty_1_A23",
+    "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018"
+   ],
+   "official": {
+    "zampa_total_length_m": {
+     "v": 1056,
+     "unit": "m",
+     "src": "wp_carquinez"
+    },
+    "zampa_main_span_m": {
+     "v": 728,
+     "unit": "m",
+     "src": "wp_carquinez"
+    },
+    "zampa_tower_height_m": {
+     "v": 120,
+     "unit": "m",
+     "src": "wp_carquinez"
+    },
+    "zampa_clearance_m": {
+     "v": 45,
+     "unit": "m",
+     "src": "wp_carquinez"
+    },
+    "b1958_clearance_m": {
+     "v": 43,
+     "unit": "m",
+     "src": "wp_carquinez"
+    }
+   },
+   "expect_towers": 2,
+   "tower_tol_rule": "max(2 m, 1 %)",
+   "note": "1927 span dismantled 2007: not modelled (R-100)",
+   "tower_keep_within_m": 45.0
+  },
+  {
+   "slug": "benicia_martinez",
+   "name": "Benicia-Martinez Bridges (1962 truss, 2007 segmental, rail lift)",
+   "kind": "truss+segmental",
+   "osm": {
+    "ways": [
+     52000448,
+     4968908,
+     8703049,
+     123867334,
+     439915393,
+     1517469365,
+     969662680,
+     51999978,
+     1011569354,
+     1011569355,
+     1011569356,
+     1011569357
+    ]
+   },
+   "lidar": [
+    "CA_SolanoCounty_1_A23",
+    "USGS_LPC_CA_NoCAL_Wildfires_B5b_2018",
+    "ARRA-CA_SanFranCoast_2010"
+   ],
+   "official": {
+    "b2007_length_m": {
+     "v": 2700,
+     "unit": "m",
+     "src": "wp_benicia_martinez",
+     "note": "1.7 mi stated as 2.7 km"
+    },
+    "b1962_longest_span_m": {
+     "v": 161,
+     "unit": "m",
+     "src": "wp_benicia_martinez"
+    },
+    "b1962_clearance_m": {
+     "v": 42.1,
+     "unit": "m",
+     "src": "wp_benicia_martinez"
+    },
+    "rail_lift_length_m": {
+     "v": 1707.95,
+     "unit": "m",
+     "src": "wp_benicia_martinez"
+    }
+   },
+   "expect_towers": 0
+  },
+  {
+   "slug": "antioch",
+   "name": "Antioch Bridge (CA 160)",
+   "kind": "steel_plate_girder",
+   "osm": {
+    "ways": [
+     10514431,
+     212238611
+    ]
+   },
+   "lidar": [
+    "CA_SolanoCounty_1_A23",
+    "CA_ContraCostaCo_2007",
+    "CA_NoCAL_Wildfires_TL_QL2_2018"
+   ],
+   "official": {
+    "total_length_m": {
+     "v": 2897,
+     "unit": "m",
+     "src": "wp_antioch",
+     "note": "9,504 ft"
+    },
+    "main_span_m": {
+     "v": 140,
+     "unit": "m",
+     "src": "wp_antioch"
+    },
+    "clearance_m": {
+     "v": 41,
+     "unit": "m",
+     "src": "wp_antioch"
+    }
+   },
+   "expect_towers": 0
+  }
+ ],
+ "buildings": [
+  {
+   "slug": "ordway_building",
+   "name": "Ordway Building",
+   "osm_id": "w27808521",
+   "height_m": {
+    "v": 123.1,
+    "unit": "m",
+    "src": "wp_oakland_tallest"
+   },
+   "floors": 28,
+   "lidar": [
+    "CA_AlamedaCo_2_2021"
+   ]
+  },
+  {
+   "slug": "kaiser_center_tower",
+   "name": "Kaiser Center (300 Lakeside)",
+   "osm_id": "w27808517",
+   "height_m": {
+    "v": 118.7,
+    "unit": "m",
+    "src": "wp_oakland_tallest",
+    "note": "list timeline says 390 ft"
+   },
+   "floors": 28,
+   "lidar": [
+    "CA_AlamedaCo_2_2021"
+   ]
+  },
+  {
+   "slug": "oakland_1111_broadway",
+   "name": "1111 Broadway",
+   "height_m": {
+    "v": 109.7,
+    "unit": "m",
+    "src": "wp_oakland_tallest"
+   },
+   "floors": 24,
+   "lidar": [
+    "CA_AlamedaCo_2_2021"
+   ],
+   "osm_id": "w36977642"
+  },
+  {
+   "slug": "lake_merritt_plaza",
+   "name": "Lake Merritt Plaza",
+   "height_m": {
+    "v": 113.1,
+    "unit": "m",
+    "src": "wp_oakland_tallest"
+   },
+   "floors": 27,
+   "lidar": [
+    "CA_AlamedaCo_2_2021"
+   ],
+   "osm_id": "w430222989"
+  },
+  {
+   "slug": "clorox_building",
+   "name": "Clorox Building (1221 Broadway)",
+   "height_m": {
+    "v": 100.6,
+    "unit": "m",
+    "src": "wp_oakland_tallest"
+   },
+   "floors": 24,
+   "lidar": [
+    "CA_AlamedaCo_2_2021"
+   ],
+   "osm_id": "w437699929"
+  },
+  {
+   "slug": "atlas_oakland",
+   "name": "Atlas (1314 Franklin St)",
+   "osm_id": "w25169852",
+   "height_m": {
+    "v": 122.9,
+    "unit": "m",
+    "src": "wp_oakland_tallest"
+   },
+   "floors": 40,
+   "lidar": [
+    "CA_AlamedaCo_2_2021"
+   ]
+  },
+  {
+   "slug": "oakland_601_city_center",
+   "name": "601 City Center (Oakland City Center)",
+   "osm_id": "w660804016",
+   "height_m": {
+    "v": 112,
+    "unit": "m",
+    "src": "osm",
+    "note": "OSM height tag only; lidar decides"
+   },
+   "floors": 24,
+   "lidar": [
+    "CA_AlamedaCo_2_2021"
+   ]
+  }
+ ],
+ "alcatraz": {
+  "slug": "alcatraz",
+  "osm_lighthouse": "w99202294",
+  "official": {
+   "lighthouse_height_m": {
+    "v": 26,
+    "unit": "m",
+    "src": "r004"
+   },
+   "island_height_m": {
+    "v": 41,
+    "unit": "m",
+    "src": "r004"
+   }
+  },
+  "lidar": [
+   "CA_SanFrancisco_1_B23"
+  ],
+  "island_osm": {
+   "name": "Alcatraz Island"
+  }
+ },
+ "airports": [
+  {
+   "slug": "sfo",
+   "name": "San Francisco International",
+   "icao": "KSFO",
+   "faa_src": "faa_ksfo",
+   "tower_osm": "w554547693",
+   "tower_height_m": {
+    "v": 67.36,
+    "unit": "m",
+    "src": "osm",
+    "note": "R-004 row 15"
+   },
+   "lidar": [
+    "CA_CaliforniaGaps_3_B23",
+    "ARRA-CA_SanFranCoast_2010"
+   ],
+   "bbox_lonlat": [
+    -122.41,
+    37.58,
+    -122.34,
+    37.65
+   ],
+   "elevation_m": 4.0,
+   "runways_ft": {
+    "10L/28R": 11870,
+    "10R/28L": 11381,
+    "1R/19L": 8650,
+    "1L/19R": 7650
+   }
+  },
+  {
+   "slug": "oak",
+   "name": "Oakland International",
+   "icao": "KOAK",
+   "faa_src": "faa_koak",
+   "lidar": [
+    "CA_AlamedaCo_2_2021"
+   ],
+   "bbox_lonlat": [
+    -122.25,
+    37.69,
+    -122.18,
+    37.75
+   ],
+   "elevation_m": 2.7,
+   "runways_ft": {
+    "12/30": 10520,
+    "10R/28L": 6213,
+    "10L/28R": 5457,
+    "15/33": 3376
+   },
+   "tower_osm": "w614131973",
+   "tower_height_m": {
+    "v": 72,
+    "unit": "m",
+    "src": "osm",
+    "note": "OSM height tag; lidar cross-check"
+   }
+  }
+ ],
+ "cranes": {
+  "slug": "port_of_oakland",
+  "bbox_lonlat": [
+   -122.34,
+   37.77,
+   -122.27,
+   37.83
+  ],
+  "lidar": [
+   "CA_AlamedaCo_2_2021",
+   "CA_SanFrancisco_1_B23"
+  ],
+  "official": {
+   "lift_height_m": {
+    "v": 53,
+    "unit": "m",
+    "src": "r004"
+   },
+   "boom_up_height_m": {
+    "v": 134.7,
+    "unit": "m",
+    "src": "r004",
+    "note": "2021 STS cranes"
+   },
+   "count_about": {
+    "v": 37,
+    "unit": "count",
+    "src": "r100",
+    "note": "approximate, 5 terminals"
+   }
+  },
+  "pos_tol_m": 50
+ },
+ "_excluded_note": "1900 Broadway (Wikipedia list 120.4 m) excluded: the OSM footprint w1094359529 is the podium (lidar 15 m), no tower footprint resolved; revisit with the building-part relation."
+}
