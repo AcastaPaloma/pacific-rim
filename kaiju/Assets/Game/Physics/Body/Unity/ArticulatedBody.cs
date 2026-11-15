@@ -283,6 +283,42 @@ namespace Game.Physics.Body.Unity
             var force = ab.GetJointForcesForAcceleration(acc);
             return force.dofCount > k ? info.Sign * force[k] * _unit : 0;
         }
+        // ---- whole-body model (contract v3). Verified against the 6000.6.9f1 scripting API: ArticulationBody.GetDenseJacobian(ref ArticulationJacobian) returns the element count, rows = 6 x articulation bodies (3 linear, 3 angular), columns = all joint DOFs (+6 when not immovable); ArticulationJacobian(int nRows, int nCols), indexer [row, col]; GetJointGravityForces / GetJointCoriolisCentrifugalForces(List<float>) return the total DOF count. Column order of the base block and frame are probed in step 9.5. ----
+        ArticulationJacobian _jacobian; int _jacRows, _jacCols;
+        int BiasOffset()
+        {
+            // bias vectors and Jacobian columns share one index space when the bias list carries the 6 base coordinates; otherwise the base block comes first
+            if (!_idGravityFresh) { _ab[0].GetJointGravityForces(_idGravity); _idGravityFresh = true; }
+            return ModelColumns - _idGravity.Count;
+        }
+        public int ModelColumns => _dof.Length + (_ab[0].immovable ? 0 : 6);
+        public int ModelColumnOfDof(int dof) { int i = IdIndex(dof); return i < 0 ? -1 : i + BiasOffset(); }
+        public int ModelBaseColumn(int k) => _ab[0].immovable ? -1 : k < 0 || k > 5 ? -1 : k;
+        public bool GetBodyJacobian(double[] jac, out int rows, out int cols)
+        {
+            rows = _ab.Length * 6; cols = ModelColumns;
+            if (jac == null || jac.Length < rows * cols) return false;
+            if (_jacobian.elements == null || _jacRows != rows || _jacCols != cols) { _jacobian = new ArticulationJacobian(rows, cols); _jacRows = rows; _jacCols = cols; }
+            if (_ab[0].GetDenseJacobian(ref _jacobian) <= 0) return false;
+            rows = _jacobian.rows; cols = _jacobian.columns;
+            if (jac.Length < rows * cols) return false;
+            for (int r = 0; r < rows; r++) for (int c = 0; c < cols; c++) jac[r * cols + c] = _jacobian[r, c];
+            for (int d = 0; d < _dof.Length; d++)
+            {
+                int c = ModelColumnOfDof(d);
+                if (c < 0 || c >= cols || _dof[d].Sign >= 0) continue;
+                for (int r = 0; r < rows; r++) jac[r * cols + c] = -jac[r * cols + c];
+            }
+            return true;
+        }
+        public void GetBiasForce(double[] h)
+        {
+            if (!_idGravityFresh) { _ab[0].GetJointGravityForces(_idGravity); _idGravityFresh = true; }
+            if (!_idCoriolisFresh) { _ab[0].GetJointCoriolisCentrifugalForces(_idCoriolis); _idCoriolisFresh = true; }
+            int n = Math.Min(h.Length, Math.Min(_idGravity.Count, _idCoriolis.Count));
+            for (int i = 0; i < n; i++) h[i] = (_idGravity[i] + _idCoriolis[i]) * _unit;
+            for (int d = 0; d < _dof.Length; d++) { int c = ModelColumnOfDof(d); if (c >= 0 && c < n && _dof[d].Sign < 0) h[c] = -h[c]; }
+        }
         public string FootId(int foot) => _frame.segments[_footLink[foot]].side ?? _frame.segments[_footLink[foot]].id;
         public void GetFoot(int foot, out FootState state) => state = _foot[foot];
         public Transform PartTransform(string segmentId) { int i = FindLink(segmentId); return i < 0 ? null : _tf[i]; }

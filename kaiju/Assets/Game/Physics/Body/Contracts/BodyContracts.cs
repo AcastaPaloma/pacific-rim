@@ -1,11 +1,12 @@
 using System.Numerics;
 using Game.Core;
+using Game.Physics.Body.Qp;
 
 namespace Game.Physics.Body.Contracts
 {
     public static class BodyContractVersions
     {
-        public const int ArticulatedBody = 2;   // 2: inverse-dynamics queries (round 2 of T-005)
+        public const int ArticulatedBody = 3;   // 3: whole-body model queries (Jacobian, bias force; step 9.4 of T-005); 2: inverse-dynamics queries
         public const int FootContactEvent = 1;
         public const string PhysicsLog = "physics_log@v1";
         public const string FlagEnabled = "physics.body.enabled", FlagPhysicsLog = "physics.body.physicsLog";
@@ -157,6 +158,18 @@ namespace Game.Physics.Body.Contracts
         /// <summary>Running count of (step, DOF) pairs at which a joint moved at the engine's speed guard (max joint velocity, R-005 R11). The guard is an explosion stop, not a motion limit: it should stay 0 outside falls.</summary>
         int JointSpeedClampCount { get; }
         bool DofSpeedClamped(int dof);
+
+        // ---- v3: whole-body model (the engine exposes no mass matrix; the controller builds it from Jacobians, masses and inertias) ----
+        /// <summary>Column count of the Jacobian and length of the bias vector: every joint DOF plus 6 base columns when the root is not immovable.</summary>
+        int ModelColumns { get; }
+        /// <summary>Model column of a body DOF (anatomical sign, same index space as <see cref="GetBiasForce"/>).</summary>
+        int ModelColumnOfDof(int dof);
+        /// <summary>Model column of base coordinate k (0..5, engine order; engine frame and sign, unprobed until step 9.5).</summary>
+        int ModelBaseColumn(int k);
+        /// <summary>Dense Jacobian, row-major, rows x cols, written into <paramref name="jac"/> (length >= rows*cols). Rows are 6 per link: row of link i = (engine articulation index of i) * 6, 3 linear then 3 angular. DOF columns use anatomical signs; base columns are raw. False when the buffer is too small or the engine returns nothing.</summary>
+        bool GetBodyJacobian(double[] jac, out int rows, out int cols);
+        /// <summary>Bias force h = gravity + Coriolis/centrifugal joint forces (counteracting forces as the engine reports them), SI (N, N m), model-column order, DOF entries in anatomical sign.</summary>
+        void GetBiasForce(double[] h);
     }
 
     /// <summary>Where and how a body is created. Rotation is a world rotation of the whole frame (identity = facing +z).</summary>
@@ -183,5 +196,7 @@ namespace Game.Physics.Body.Contracts
         void StartPhysicsLog(IArticulatedBody body, string path, string scene, string commit);
         void LogEvent(IArticulatedBody body, long step, string type, string extraJsonBody);
         void StopPhysicsLog(IArticulatedBody body);
+        /// <summary>A preallocated dense QP solver (no allocation per solve), so unit modules need not reference the solver implementation.</summary>
+        IQpSolver CreateQpSolver(int maxN, int maxEq, int maxIn);
     }
 }

@@ -2,8 +2,6 @@ using System;
 
 namespace Game.Physics.Body.Qp
 {
-    public enum QpStatus { Optimal = 0, Infeasible = 1, IterationLimit = 2, NotPositiveDefinite = 3 }
-
     /// <summary>
     /// Dense dual active-set QP solver (Goldfarb-Idnani, Powell's J/R formulation):
     /// minimise 0.5 x'Hx + g'x  s.t.  Aeq x = beq,  Ain x >= bin.
@@ -11,7 +9,7 @@ namespace Game.Physics.Body.Qp
     /// H gets a Tikhonov term regularisation * mean(diag H) (default 1e-6, relative).
     /// Constraint numbering for active sets and multipliers: equalities 0..meq-1, inequalities meq..meq+min-1.
     /// </summary>
-    public sealed class GoldfarbIdnaniQp
+    public sealed class GoldfarbIdnaniQp : IQpSolver
     {
         public readonly int MaxN, MaxEq, MaxIn, IterationCap;
         public readonly double Regularisation;
@@ -34,6 +32,12 @@ namespace Game.Physics.Body.Qp
         int _n, _meq, _min, _q;
         double[] _aeq, _beq, _ain, _bin;
         int _cholN = -1;
+
+        double[] IQpSolver.X => X;
+        double[] IQpSolver.Lambda => Lambda;
+        QpStatus IQpSolver.Status => Status;
+        int IQpSolver.Iterations => Iterations;
+        long IQpSolver.FailureCount => FailureCount;
 
         public GoldfarbIdnaniQp(int maxN, int maxEq, int maxIn, int iterationCap = 60, double regularisation = 1e-6)
         {
