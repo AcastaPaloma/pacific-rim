@@ -1,0 +1,42 @@
+T-111b M-102 terrain/B1 measurements (no cap, threshold or gate changed; measurements only)
+Source: Pipelines/geo/scripts/measure_lod_error.py over a pyramid baked with bake_lod.py@4 from the committed L0 tiles; raw rows in terrain_error_vs_threshold.csv and b1_error_vs_footprint_tolerance.csv, log measure.log.
+Columns: node err = RTIN mesh vs the pyramid node field (exact, every node); total = mesh vs L0 truth (bilinear of mesh node heights on every L0 node, same definition as manifest errors.terrain); px = total error x 1158 / d_in (1080p, 50 deg fov), d_in = inner ring edge of the level (L1 1536 m, L2 3072, L3 6144, L4 12288).
+
+tile      which      thr_m     tris |  nodeMax  nodeRms |    fldRms    fldP99    fldMax |    totRms    totP99    totMax | px_rms px_p99
+L1_14_18  nominal      0.2   284793 |   0.3867   0.0283 |    1.3502      5.73   30.6071 |    1.3535     5.735   30.6071 | 1.0204 4.3237
+L1_14_18  cap-fit      0.5   149213 |   1.1522   0.0664 |    1.3502      5.73   30.6071 |    1.3623     5.725   30.6071 | 1.027 4.3161
+L1_15_18  nominal      0.2   159513 |   0.4227   0.0465 |      0.79      2.99    38.947 |    0.7936     2.995    38.947 | 0.5983 2.2579
+L1_15_18  cap-fit     0.25   139773 |    0.489    0.057 |      0.79      2.99    38.947 |    0.7951     2.995    38.947 | 0.5994 2.2579
+L1_12_19  nominal      0.2   304920 |   0.3868   0.0352 |    2.4622      0.19  186.9244 |    2.4634     0.265  186.9244 | 1.8572 0.1998
+L1_12_19  cap-fit      0.4   147197 |   0.8146   0.0691 |    2.4622      0.19  186.9244 |    2.4664      0.43  186.9244 | 1.8594 0.3242
+L1_13_18  nominal      0.2   659256 |   0.3922   0.0684 |    0.4639      0.66   18.8767 |    0.4703      0.67   18.8674 | 0.3546 0.5051
+L1_13_18  cap-fit      1.0   111569 |   1.8656   0.3301 |    0.4639      0.66   18.8767 |    0.5746      1.08   18.8871 | 0.4332 0.8142
+L1_13_19  nominal      0.2   501778 |   0.3483   0.0493 |    2.4207     0.195  232.3301 |    2.4219     0.255  232.3301 | 1.8259 0.1922
+L1_13_19  cap-fit      0.8   125589 |   1.4651   0.1915 |    2.4207     0.195  232.3301 |    2.4362     0.775  232.3301 | 1.8367 0.5843
+L2_06_09  nominal      0.4   511781 |   0.9019   0.1018 |    1.7584     0.665  232.3286 |    1.7652     0.705  232.3286 | 0.6654 0.2658
+L2_06_09  cap-fit      1.6   135814 |   2.9404   0.3928 |    1.7584     0.665  232.3286 |    1.8399      1.63  232.3286 | 0.6936 0.6144
+L3_03_04  nominal      0.8   243067 |   1.5299   0.1187 |    1.9765     2.505  232.3328 |    1.9983     2.525  232.3328 | 0.3766 0.4759
+L3_03_04  cap-fit      1.6   142160 |    3.187   0.2276 |    1.9765     2.505  232.3328 |    2.0437      2.63  232.3328 | 0.3852 0.4957
+
+B1 (independent of the terrain threshold; the lever is the footprint simplification tolerance, nominal L1 1 m, L2 2 m):
+  L1_14_18 tol  1.00 m:  144589 tris (cap 100000, over)  footprint max 1.811 m rms 0.638 m
+  L1_14_18 tol  1.50 m:  113116 tris (cap 100000, over)  footprint max 2.615 m rms 0.958 m
+  L1_14_18 tol  2.00 m:   97315 tris (cap 100000, fits)  footprint max 3.31 m rms 1.228 m
+  L1_14_18 tol  3.00 m:   84367 tris (cap 100000, fits)  footprint max 5.731 m rms 1.701 m
+  L1_14_18 tol  4.00 m:   78814 tris (cap 100000, fits)  footprint max 7.636 m rms 2.341 m
+  L1_14_18 tol  6.00 m:   70201 tris (cap 100000, fits)  footprint max 11.067 m rms 4.003 m
+  L2_07_09 tol  2.00 m:  130157 tris (cap 100000, over)  footprint max 3.31 m rms 1.16 m
+  L2_07_09 tol  3.00 m:  113552 tris (cap 100000, over)  footprint max 5.85 m rms 1.647 m
+  L2_07_09 tol  4.00 m:  105755 tris (cap 100000, over)  footprint max 7.636 m rms 2.294 m
+  L2_07_09 tol  6.00 m:   94193 tris (cap 100000, fits)  footprint max 11.067 m rms 3.917 m
+  L2_07_09 tol  8.00 m:   83438 tris (cap 100000, fits)  footprint max 14.843 m rms 5.705 m
+  L2_07_09 tol 12.00 m:   76001 tris (cap 100000, fits)  footprint max 19.946 m rms 7.448 m
+
+Reading:
+1. The cap-fitting thresholds add little error: total rms vs L0 grows by <= 0.01 m on the urban tiles (L1_14_18 1.354 -> 1.362, L1_15_18 0.794 -> 0.795) and 0.003-0.10 m on the seabed tiles (L1_13_18 0.470 -> 0.575 at 1.0 m, the largest step); p99 moves by the threshold itself. The dominant error everywhere is the node subsample of the L0 field (fld columns), which no threshold changes.
+2. The hierarchical RTIN bound is not a hard bound on the final mesh: node max error is 1.8-2.3 x the threshold (L1_14_18 0.5 m -> 1.15 m; L1_13_18 1.0 m -> 1.87 m; L3_03_04 1.6 m -> 3.19 m). Budget on the node max, not the threshold.
+3. Seabed tiles: field max error is 187-232 m at a few nodes (p99 only 0.19-2.5 m) and the rms of 1.8-2.5 m is that tail (not diagnosed further here). Pixel error of the field alone at the inner ring edge: rms 1.8-1.9 px on L1_12_19 / L1_13_19, 0.67 px L2_06_09, 0.38 px L3_03_04; the cap-fitting threshold changes px rms by <= 0.03 px except L1_13_18 (0.35 -> 0.43 px rms, p99 0.51 -> 0.81 px).
+4. Urban L1_14_18 / L1_15_18: rms 1.0 / 0.6 px and p99 4.3 / 2.3 px at 1536 m already at the NOMINAL threshold (error is the node subsample of real hillside roughness + the T-108c footprint fill, not RTIN); cap-fit 0.5 m / 0.25 m changes px rms by +0.007 / +0.001.
+5. B1 over the 100 k cap: L1_14_18 144,589 tris at 1 m; fits at 2 m tolerance (97,315 tris, footprint max 3.31 m rms 1.23 m); 1.5 m gives 113,116. L2_07_09 130,157 at 2 m; fits at 6 m (94,193; max 11.1 m, rms 3.9 m); 4 m gives 105,755. Footprint max error scales ~1.7-1.9 x the tolerance.
+6. Triangle counts at cap-fit are the baker's unchunked RTIN counts; the C# reader (256-cell chunks, forced shared borders) adds a few hundred to a few thousand triangles (GeoLodReaderTests asserts the reader's count within 3% + 600 triangles of the manifest on the first two tiles per level).
+Decision left to the lead: terrain threshold ladder step per tile (rows above carry every step, not only nominal and cap-fit) and the B1 footprint tolerance of the two tiles; nothing was relaxed in the baker, the reader default or any gate.
