@@ -24,6 +24,20 @@ namespace Game.Rendering.Pixel
         }
 
         /// <summary>
+        /// T-190 far lift: the level of <see cref="Level"/> pushed toward the last band beyond a far start distance:
+        /// level + (bands - 1 - level) * w^power, w = clamp(ln(d / farStart) / ln(farFull / farStart), 0, 1). Equal to <paramref name="level"/> at and below farStart
+        /// (continuous), the last band from farFull on. farStart &lt;= 0 or farFull &lt;= farStart means no lift.
+        /// </summary>
+        public static double FarLift(double level, double distanceMetres, int bands, double farStartMetres, double farFullMetres, double power = 1.0)
+        {
+            if (!(farStartMetres > 0) || !(farFullMetres > farStartMetres) || bands <= 1 || distanceMetres <= farStartMetres) return level;
+            double w = Math.Log(distanceMetres / farStartMetres) / Math.Log(farFullMetres / farStartMetres);
+            w = w > 1 ? 1 : w;
+            if (power != 1.0) w = Math.Pow(w, power);
+            return level + (bands - 1 - level) * w;
+        }
+
+        /// <summary>
         /// Band index in [0, bands - 1] with a dithered seam. The seam reaches <paramref name="seamTexels"/> texels to
         /// each side of a band boundary, measured along the surface: its half width in bands is
         /// min(seamTexels * levelGradient, seamWidthMax / 2), where levelGradient is the change of level to the next

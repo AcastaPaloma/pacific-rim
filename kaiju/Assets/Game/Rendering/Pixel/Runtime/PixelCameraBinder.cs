@@ -181,6 +181,7 @@ namespace Game.Rendering.Pixel
             string reason;
             if (!PixelLayerHints.TryValidate(m_Hints, tanV, m_Layout.Height, out reason)) { if (reason != null) Reject(reason); return; }
             bool haze = StageEnabled(PixelStageId.Haze);
+            if (haze && Flags.IsOn(PixelFlags.HazeFarLift) && profile != null && profile.hazeFarStartM > 0f) PixelLog.WarnOnce("hazeFarLift: slab boundaries follow the unlifted haze bands");
             if (haze) { var p = profile; m_PlanHaze.HazeStartM = p.hazeStartM; m_PlanHaze.HazeFullM = p.hazeFullM; m_PlanHaze.HazeBands = p.HazeBandCount; m_PlanHaze.HazeCurveGamma = p.hazeCurveGamma; }
             var plan = new PixelLayerPlanSettings { CameraNearM = cam.nearClipPlane, CameraFarM = cam.farClipPlane };
             if (!PixelLayerPlan.TryBuild(PixelLayerHints.ReferenceDepths(m_Hints), haze ? m_PlanHaze : null, tanH, tanV, plan, m_BoundaryBands, out var slabs, out var bands, out reason)) { Reject(reason); return; }

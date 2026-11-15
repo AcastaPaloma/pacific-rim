@@ -48,8 +48,10 @@ namespace Game.Rendering.Pixel
         public const string LayerSnap = "rendering.pixel.layerSnap";
         /// <summary>T-180: present shift per surface depth (round(k * zRef / z * remainder)) instead of one uniform shift. Needs subPixelPresent; ignored when layerSnap is on.</summary>
         public const string DepthShift = "rendering.pixel.depthShift";
+        /// <summary>T-190: beyond the profile's hazeFarStartM the haze level rises to pure airlight by hazeFarFullM (far lift), so far geometry fades toward the sky and the depth value ladder keeps rising across a real skyline. Ships false; slab boundaries (layerSnap) do not follow it.</summary>
+        public const string HazeFarLift = "rendering.pixel.hazeFarLift";
 
-        public static readonly string[] All = { Enabled, LowRes, Supersample, Dither, Haze, Outline, Quantise, SubPixelPresent, LayerSnap, DepthShift };
+        public static readonly string[] All = { Enabled, LowRes, Supersample, Dither, Haze, Outline, Quantise, SubPixelPresent, LayerSnap, DepthShift, HazeFarLift };
 
         /// <summary>The flag that gates a stage, or null for stages that always run when the pipeline is enabled.</summary>
         public static string ForStage(PixelStageId stage)

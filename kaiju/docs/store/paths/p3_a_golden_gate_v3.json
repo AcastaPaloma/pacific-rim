@@ -9,7 +9,7 @@
    55004.615,
    78793.17
   ],
-  "heading_deg": 160
+  "heading_deg": 180
  },
  "profile_id": "warm_amber_haze",
  "district_id": "SF-GoldenGate",
@@ -26,19 +26,19 @@
     78793.17
    ],
    "alt_m": 1.7,
-   "yaw_deg": 160,
-   "pitch_deg": -2,
+   "yaw_deg": 180,
+   "pitch_deg": 2.2,
    "hfov_deg": 60
   },
   {
    "t_s": 6,
    "pos_baytm": [
-    55066.179,
-    78624.025
+    55004.615,
+    78793.17
    ],
    "alt_m": 1.7,
-   "yaw_deg": 160,
-   "pitch_deg": -2,
+   "yaw_deg": 180,
+   "pitch_deg": 2.2,
    "hfov_deg": 60
   }
  ],
@@ -64,5 +64,5 @@
  "actors": null,
  "requires": [],
  "reference_depth_m": 600,
- "notes": "P3-a on the real Marin tile (L0_26_38) as streamed today; the plan's full frame waits for M2 streaming of the bridge approach."
+ "notes": "P3-a on the real Marin tile (L0_26_38) as streamed today; the plan's full frame waits for M2 streaming of the bridge approach. T-190: framing changed for M-003.e (horizon <= 0.45 needs pitch up >= 2 deg; sky share <= 0.5 needs skyline above the horizon): pitch 2.2, alt 1.7, yaw [180]. T-190: the camera is static (the 180 m walk is removed): a walk of even 5 m moves sunlit near terrain into the near depth bands (band 0 empties, frame 5 of the clip) (M-003.c1 is content dependent on real geometry, see HANDOFF T-190)."
 }

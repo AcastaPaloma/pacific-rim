@@ -33,7 +33,7 @@ namespace Game.Rendering.Pixel
         public Material material;
         public MaterialPropertyBlock block;
         public Vector4 targetSize, thresholdInfo, camPos, camRight, camUp, camForward, tanHalf;
-        public int id0, id1, id2; public Vector4 v0, v1, v2;
+        public int id0, id1, id2, idHaze3; public Vector4 v0, v1, v2, vHaze3;
         public int texId0, texId1; public Texture tex0, tex1;
         /// <summary>Layered present (T-181d): slab colour 0..2 then slab depth 0..2, and the per-slab shift / boundary vectors. Null when the pass is not layered.</summary>
         public TextureHandle[] slabTex; public Vector4 v3, v4;
@@ -58,6 +58,7 @@ namespace Game.Rendering.Pixel
         public static readonly int DitherGradient = Shader.PropertyToID("_PixelDitherGradient");
         public static readonly int Haze = Shader.PropertyToID("_PixelHaze");
         public static readonly int Haze2 = Shader.PropertyToID("_PixelHaze2");
+        public static readonly int Haze3 = Shader.PropertyToID("_PixelHaze3");
         public static readonly int Sky = Shader.PropertyToID("_PixelSky");
         public static readonly int Outline = Shader.PropertyToID("_PixelOutline");
         public static readonly int Lut = Shader.PropertyToID("_PixelLut");
@@ -201,7 +202,7 @@ namespace Game.Rendering.Pixel
             var t = binder.Camera.transform;
             data.camPos = t.position; data.camRight = t.right; data.camUp = t.up; data.camForward = t.forward;
             data.tanHalf = binder.TargetTanHalfFov();
-            data.id0 = data.id1 = data.id2 = 0; data.texId0 = data.texId1 = 0; data.tex0 = data.tex1 = null;
+            data.id0 = data.id1 = data.id2 = data.idHaze3 = 0; data.texId0 = data.texId1 = 0; data.tex0 = data.tex1 = null;
             if (source.IsValid()) builder.UseTexture(source, AccessFlags.Read);
             if (useDepth) builder.UseTexture(data.depth, AccessFlags.Read);
             if (data.hasThreshold) builder.UseTexture(data.threshold, AccessFlags.Read);
@@ -231,6 +232,7 @@ namespace Game.Rendering.Pixel
             if (d.id0 != 0) b.SetVector(d.id0, d.v0);
             if (d.id1 != 0) b.SetVector(d.id1, d.v1);
             if (d.id2 != 0) b.SetVector(d.id2, d.v2);
+            if (d.idHaze3 != 0) b.SetVector(d.idHaze3, d.vHaze3);
             if (d.tex0 != null) b.SetTexture(d.texId0, d.tex0);
             if (d.tex1 != null) b.SetTexture(d.texId1, d.tex1);
             ctx.cmd.DrawProcedural(Matrix4x4.identity, d.material, 0, MeshTopology.Triangles, 3, 1, b);
