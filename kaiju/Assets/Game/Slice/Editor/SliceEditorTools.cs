@@ -47,9 +47,10 @@ namespace Game.Slice.Editor
             b.sliceFlags = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Slice/Config/slice_m1.flags.json");
             b.cameraSettings = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Config/Camera/ThirdPersonRig.json");
             b.geoSettings = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Config/WorldGeo.json");
+            b.controlTuning = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Config/Control/control_tuning.json");
             b.pixelCatalog = AssetDatabase.LoadAssetAtPath<PixelPipelineCatalog>(CatalogPath);
             b.kaijuMaterial = kaiju; b.mechMaterial = mech; b.impactorMaterial = imp;
-            if (b.sliceFlags == null || b.cameraSettings == null || b.pixelCatalog == null || b.geoSettings == null) throw new System.InvalidOperationException("[Slice] missing flag file, camera settings or pixel catalog");
+            if (b.sliceFlags == null || b.cameraSettings == null || b.pixelCatalog == null || b.geoSettings == null || b.controlTuning == null) throw new System.InvalidOperationException("[Slice] missing flag file, camera settings or pixel catalog");
             EditorSceneManager.SaveScene(scene, ScenePath);
             Debug.Log("[Slice] wrote " + ScenePath);
         }

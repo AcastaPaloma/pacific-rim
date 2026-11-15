@@ -11,7 +11,11 @@ using Game.AI;
 using Game.Cameras;
 using Game.Composition;
 using Game.Core;
+using Game.Control;
+using Game.Control.Contracts;
+using Game.Control.Unity;
 using Game.Core.Unity;
+using Game.Units.Placeholder.Unity;
 using Game.Rendering.Pixel;
 using Game.World.Destruction;
 using Game.World.Geo;
@@ -31,6 +35,8 @@ namespace Game.Slice
         [Tooltip("Slice flag set (Assets/Game/Slice/Config/slice_m1.flags.json): the only flags this scene turns on.")]
         public TextAsset sliceFlags;
         public TextAsset cameraSettings;
+        [Tooltip("Assets/Game/Config/Control/control_tuning.json")]
+        public TextAsset controlTuning;
         [Tooltip("Assets/Game/Config/WorldGeo.json: Geo reads it from Application.dataPath, which a player does not have, so the scene carries it.")]
         public TextAsset geoSettings;
         public PixelPipelineCatalog pixelCatalog;
@@ -60,7 +66,7 @@ namespace Game.Slice
         readonly int[] _stateCounts = new int[5];
         int _removedCount, _damagedEvents, _quakes, _impacts, _nextEventId = 1;
         Camera _cam; ThirdPersonRig _rig; PixelCameraBinder _binder;
-        Transform _kaijuT, _mechT; SliceKaijuAgent _kaiju; SliceTarget _mech;
+        Transform _kaijuT, _mechT; PlaceholderBodyBehaviour _body; PilotSeat _seat; Func<Vector2> _autoStick; SliceKaijuAgent _kaiju; SliceTarget _mech;
         Transform _impactor; Vector3 _impactVel; BuildingId _impactTarget; Vector3 _impactAim;
         readonly StringBuilder _log = new StringBuilder();
         string _lastMsg = "";
@@ -211,7 +217,7 @@ namespace Game.Slice
             _rig.Configure(_rig.Settings, _flags.IsOn(CameraFlags.SnapPosition), _flags.IsOn(CameraFlags.QuantiseRotation), _flags.IsOn(CameraFlags.FootfallImpulse));
             _rig.Subscribe(_bus);
             if (_binder != null) _binder.SetStabilisationSource(_rig);
-            _rig.SetTarget(new TransformCameraTarget(_mechT, 12f));
+            if (_body != null) _rig.SetTarget(_body); else _rig.SetTarget(new TransformCameraTarget(_mechT, 12f));
             _rig.Cut();
             if (pixel)
             {
@@ -244,6 +250,18 @@ namespace Game.Slice
             var mech = Prim(PrimitiveType.Capsule, "SliceTempMech", mechMaterial, new Vector3(6f, 6f, 6f));
             _mechT = mech.transform; _mechT.position = new Vector3(mx, Ground(mx, mz) + 6f, mz);
             _mech = new SliceTarget { Id = EntityId.FromValue(101), X = mx, Y = mz };
+            if (_comp.Placeholder != null)
+            {
+                // The M1 placeholder body (Units.Placeholder, TEMPORARY too) driven through a pilot seat: device pilot -> single arbiter -> IntentFrame -> body.
+                mech.transform.localScale = new Vector3(8f, 8f, 8f);
+                _mechT.position = new Vector3(mx, Ground(mx, mz) + 8f, mz);
+                _body = _comp.Placeholder.Create(mech, _mech.Id);
+                var tuning = DevicePilotSource.LoadTuning(controlTuning);
+                var pilot = new DevicePilotSource(_flags, tuning, () => new System.Numerics.Vector3(_body.Body.X, _body.Body.Y, _body.Body.Z), () => _cam != null ? _cam.transform.eulerAngles.y * Mathf.Deg2Rad : 0f,
+                    stick: () => AutoPilot ? _autoStick() : ReadKeys());
+                _autoStick = () => { float t = (float)_root.Services.Clock.TimeSeconds; return new Vector2(Mathf.Sin(t * 0.2f), Mathf.Cos(t * 0.2f) * 0.5f); };
+                _seat = new PilotSeat(new SinglePilotArbiter(), pilot);
+            }
             _targets.Add(_mech);
             var brain = _root.Registry.Resolve<IKaijuBrainFactory>().Create();
             float kx = mx - 450f, kz = mz + 150f;
@@ -255,13 +273,26 @@ namespace Game.Slice
 
         void PlaceKaiju() { _kaijuT.SetPositionAndRotation(new Vector3(_kaiju.X, Ground(_kaiju.X, _kaiju.Y) + 30f, _kaiju.Y), Quaternion.Euler(0f, 90f - _kaiju.HeadingRad * Mathf.Rad2Deg, 0f)); }
 
+        static Vector2 ReadKeys()
+        {
+            var kb = Keyboard.current; if (kb == null) return Vector2.zero;
+            return Vector2.ClampMagnitude(new Vector2((kb.dKey.isPressed ? 1f : 0f) - (kb.aKey.isPressed ? 1f : 0f), (kb.wKey.isPressed ? 1f : 0f) - (kb.sKey.isPressed ? 1f : 0f)), 1f);
+        }
+
         void FixedUpdate()
         {
             if (!Ready) return;
+            if (_body != null)
+            {
+                _body.SetIntent(_seat.Read());
+                var b = _body.Body;
+                _mech.X = b.X; _mech.Y = b.Z; _mech.Speed = b.Speed; _mech.HeadingRad = Mathf.PI * 0.5f - b.Heading;
+            }
             var clock = _root.Services.Clock;
             // kaiju step
             var hit = _kaiju.Step(clock.Step, clock.TimeSeconds, (float)clock.StepSeconds, _targets);
-            if (hit != null) { Log("kaiju melee hit; mech hp " + hit.Hp.ToString("F2", CultureInfo.InvariantCulture)); if (!hit.Alive) { hit.Hp = 1f; hit.Alive = true; Log("mech respawned"); } }
+            if (hit != null && _body != null) { _body.Body.Damage.ApplyDamage(100f); hit.Hp = _body.Body.Damage.Fraction; hit.Alive = true; Log("kaiju melee hit; body hp " + hit.Hp.ToString("F2", CultureInfo.InvariantCulture)); if (_body.Body.Damage.HitPoints <= 0f) { _body.Body.Damage.RepairFully(); Log("mech repaired (stand-in respawn)"); } }
+            else if (hit != null) { Log("kaiju melee hit; mech hp " + hit.Hp.ToString("F2", CultureInfo.InvariantCulture)); if (!hit.Alive) { hit.Hp = 1f; hit.Alive = true; Log("mech respawned"); } }
             PlaceKaiju();
         }
 
@@ -284,6 +315,7 @@ namespace Game.Slice
 
         void MoveMech(float dt)
         {
+            if (_body != null) return;   // the placeholder body moves itself in its FixedUpdate
             Vector2 mv = Vector2.zero;
             if (AutoPilot)
             {
