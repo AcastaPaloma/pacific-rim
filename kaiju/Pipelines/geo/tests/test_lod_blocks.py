@@ -160,3 +160,23 @@ def test_b2_surface_may_grow_past_the_chunk_cell_and_says_so(tmp_path, monkeypat
     rep = lod.bake_level_tile(3, 0, 0, src, tmp_path / "out", rtin=False)
     f = rep["forms"]["b2"]
     assert f["within_cap"] and f["surface_cell_m"] > lod.CHUNK_M and f["surface_cell_over_chunk"] is True
+
+
+def test_l1_b1_extended_blocks_then_skyline_flagged_t108e(tmp_path, monkeypatch):
+    """T-108e bake_lod.py@8: an L1 B1 whose envelope blocks cannot fit climbs the extended ladder (measured errors, flagged), then the skyline form."""
+    src = row_fixture(tmp_path, n=40, gap=3.5, jitter=0.0)                       # 3.5 m gaps: closing needs 1.75 m > the L1 envelope part, fits at 2 x
+    monkeypatch.setitem(lod.BUDGET, "b1_tris_cap", 300)
+    out = tmp_path / "out"
+    f = lod.bake_level_tile(1, 0, 0, src, out, rtin=False)["forms"]["b1"]
+    assert f["within_cap"] and f["triangles"] <= 300
+    assert f["footprint_fit"] in ("merged_blocks_extended", "merged_blocks", "skyline_fallback")
+    if f["footprint_fit"] == "merged_blocks_extended":
+        assert f["error_budget_met"] is False and f["error_scale"] > 1.0 and f["switch_m102"]["rms_d_m"] > 0
+    root = tmp_path / "src2"
+    feats = [feat(f"osm:w{a:02d}{b:02d}", box(40 + a * 60.0, 40 + b * 60.0, 52 + a * 60.0, 52 + b * 60.0), 10.0 + (a * b) % 40)
+             for a in range(30) for b in range(30)]
+    write_l0(root, 0, 0, feats=feats)
+    monkeypatch.setitem(lod.BUDGET, "b1_tris_cap", 2000)
+    f = lod.bake_level_tile(1, 0, 0, lod.L0Source(root), tmp_path / "out2", rtin=False)["forms"]["b1"]
+    assert f["footprint_fit"] == "skyline_fallback" and f["within_cap"] and f["error_budget_met"] is False
+    assert f["switch_m102"]["max_d_m"] > 0 and [e["scale"] for e in f["extended_ladder"]]
