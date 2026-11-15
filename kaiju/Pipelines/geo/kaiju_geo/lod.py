@@ -7,7 +7,9 @@ indexing as `Game.World.Streaming` (`GeoTileId`: level, i, j; children of (n,I,J
 Forms (R-101 section 4):
   T1..T4  terrain r16 = node subsample of the L0 field (pixel-is-point: level-n node (r,c) is the L0 node at
           global index (r,c) x 2^n, so shared edges and parent/child nodes are identical, shorelines and
-          ridge tops keep their height); slope.u8; RTIN triangle count measured at 0.1 x 2^n m.
+          ridge tops keep their height) after an edge-preserving, error-bounded noise pre-filter (T-108b,
+          `prefiltered_terrain`: bilateral, change clamped to 0.5 x the RTIN threshold); slope.u8; RTIN triangle
+          count measured at 0.1 x 2^n m on the filtered nodes.
   B1      merged building blocks per 256 m chunk, per-building index ranges (L1, L2).
   B2      skyline: exact-height prisms for buildings >= 60 m plus a max-pooled rooftop surface (L2, L3, L4).
   W       water.png: majority vote of the 2^n x 2^n L0 cells.
@@ -46,7 +48,7 @@ from .common import SAMPLES, TILE_SIZE_M, Tile, canonical_json, sha256_bytes, sh
 from .terrain import decode_r16, quantise_r16
 
 SPEC = "geo_lod@v1"
-GENERATOR = "bake_lod.py@1"
+GENERATOR = "bake_lod.py@2"
 MAX_LEVEL = 4
 CHUNK_M = 256.0
 N = SAMPLES - 1                       # 2048 cells per tile edge
@@ -192,8 +194,10 @@ class ErrAccumulator:
         self.n = 0
         self.hist = np.zeros(self.NB + 1, dtype=np.int64)
 
-    def add(self, H: np.ndarray, s: int):
-        C = H[::s, ::s]
+    def add(self, H: np.ndarray, s: int, C: np.ndarray | None = None):
+        """`C` = the coarse nodes of this L0 tile's footprint (default: plain subsample H[::s, ::s])."""
+        if C is None:
+            C = H[::s, ::s]
         m = C.shape[0]
         idx = np.arange(SAMPLES)
         i0 = np.minimum(idx // s, m - 2)
@@ -289,6 +293,82 @@ def rtin_for_cap(h: np.ndarray, thr: float, cap: int):
         if n <= cap:
             break
     return nominal, t, n
+
+
+# ---------------------------------------------------------------- noise pre-filter (T-108b)
+# Edge-preserving, error-bounded pre-filter of the 1 m lidar noise, applied to the pyramid terrain nodes before
+# quantisation, slope and RTIN. Spatial radius PREFILTER_RADIUS nodes, range kernel sigma = PREFILTER_SIGMA x the
+# nominal RTIN threshold (steps taller than that are edges and stay), and a hard clamp |filtered - node| <=
+# PREFILTER_EPS x threshold, so the vertical error added at level n is <= 0.5 x 0.1 x 2^n m and the RTIN
+# threshold itself is never raised. A pointwise function of a (2r+1)^2 window, so neighbouring tiles agree on
+# shared edges once each tile is given an r-node halo from its neighbours.
+PREFILTER_RADIUS = 2
+PREFILTER_SIGMA = 4.0
+PREFILTER_EPS = 0.5
+
+
+def bilateral_bounded(h: np.ndarray, eps: float, sigma_r: float, radius: int = PREFILTER_RADIUS) -> np.ndarray:
+    """Bilateral smooth of `h` (float64, any 2-D shape) with the change clamped to +-eps; the output has the
+    same shape (the caller pads with a halo and crops, so no border handling is needed inside)."""
+    r = radius
+    ny, nx = h.shape
+    p = np.pad(h, r, mode="edge")
+    num = np.zeros_like(h)
+    den = np.zeros_like(h)
+    sp = 2.0 * (r / 1.5) ** 2
+    for dy in range(-r, r + 1):
+        for dx in range(-r, r + 1):
+            q = p[r + dy:r + dy + ny, r + dx:r + dx + nx]
+            w = np.exp(-0.5 * ((q - h) / sigma_r) ** 2 - (dx * dx + dy * dy) / sp)
+            num += w * q
+            den += w
+    return h + np.clip(num / den - h, -eps, eps)
+
+
+def prefiltered_terrain(level: int, I: int, J: int, src: L0Source, threshold: float | None = None):
+    """(filtered h [2049,2049], raw h, covered, stats). The halo (radius nodes) comes from the 8 neighbouring
+    pyramid tiles' node subsamples, so shared edges filter identically in both tiles."""
+    thr = 0.1 * (1 << level) if threshold is None else threshold
+    r = PREFILTER_RADIUS
+    big = np.full((SAMPLES + 2 * r, SAMPLES + 2 * r), WATER_NAVD88_M, dtype=np.float64)
+    h0 = cov0 = None
+    for dj in (-1, 0, 1):
+        for di in (-1, 0, 1):
+            ni, nj = I + di, J + dj
+            if ni < 0 or nj < 0:
+                continue
+            if di == 0 and dj == 0:
+                h, cov = subsample_terrain(level, I, J, src)
+                h0, cov0 = h, cov
+            elif contributing(level, ni, nj, src):
+                h, _ = subsample_terrain(level, ni, nj, src)
+            else:
+                continue
+            # neighbour node (r, c) sits at big[r + R0, c + C0], tile origin = (r, r) in big
+            R0 = r + dj * N
+            C0 = r + di * N
+            r_lo, r_hi = max(0, -R0), min(SAMPLES, big.shape[0] - R0)
+            c_lo, c_hi = max(0, -C0), min(SAMPLES, big.shape[1] - C0)
+            if r_lo >= r_hi or c_lo >= c_hi:
+                continue
+            blk = big[R0 + r_lo:R0 + r_hi, C0 + c_lo:C0 + c_hi]
+            if di == 0 and dj == 0:
+                blk[...] = h[r_lo:r_hi, c_lo:c_hi]
+            else:
+                # only nodes the centre tile does not already hold (the shared edge line is the centre's own)
+                ok = np.ones(blk.shape, dtype=bool)
+                rr = np.arange(R0 + r_lo, R0 + r_hi)
+                cc = np.arange(C0 + c_lo, C0 + c_hi)
+                ok &= ~(((rr >= r) & (rr < r + SAMPLES))[:, None] & ((cc >= r) & (cc < r + SAMPLES))[None, :])
+                blk[ok] = h[r_lo:r_hi, c_lo:c_hi][ok]
+    eps = PREFILTER_EPS * thr
+    f = bilateral_bounded(big, eps, PREFILTER_SIGMA * thr)[r:r + SAMPLES, r:r + SAMPLES]
+    f = np.where(cov0, f, h0)
+    d = np.abs(f - h0)
+    stats = {"method": "bilateral_clamped", "radius_nodes": r, "sigma_m": round(PREFILTER_SIGMA * thr, 6),
+             "eps_m": round(eps, 6), "max_abs_change_m": round(float(d.max()), 6),
+             "mean_abs_change_m": round(float(d.mean()), 6)}
+    return f, h0, cov0, stats
 
 
 # ---------------------------------------------------------------- water
@@ -724,7 +804,8 @@ def _attribution(src: L0Source, tiles) -> tuple[list[str], bool]:
     return sorted(att), ok
 
 
-def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, rtin: bool = True) -> dict:
+def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, rtin: bool = True,
+                    prefilter: bool = True) -> dict:
     """Bake one pyramid tile into `<out_root>/L{level}/{I:02d}_{J:02d}/`; returns a report with sizes and timings."""
     assert 1 <= level <= MAX_LEVEL
     tile = Tile(level, I, J)
@@ -742,19 +823,39 @@ def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, r
 
     # terrain
     t = time.perf_counter()
-    h, cov = subsample_terrain(level, I, J, src)
+    thr = 0.1 * (1 << level)
+    if prefilter:
+        h, h_raw, cov, pf = prefiltered_terrain(level, I, J, src, thr)
+    else:
+        h, cov = subsample_terrain(level, I, J, src)
+        h_raw, pf = h, None
     v, hmin, hmax = quantise_r16(h)
     files["terrain.r16"] = v.astype("<u2").tobytes()
     hq = decode_r16(v, hmin, hmax)
     files["slope.u8"] = slope_u8(hq, tile.spacing).tobytes()
     acc = ErrAccumulator()
+    s_ = 1 << level
+    per = N // s_
     for (a, b) in tiles:
-        acc.add(src.heights(a, b), 1 << level)
+        r0 = (b - J * s_) * per
+        c0 = (a - I * s_) * per
+        # coarse nodes of this L0 tile's footprint incl. the shared far edge (filtered field, so the error is real)
+        H = src.heights(a, b)
+        C = None
+        if prefilter:
+            Cr = H[::s_, ::s_]
+            # far-edge nodes owned by a neighbour (or a placeholder) keep this tile's own L0 value, as before
+            same = h_raw[r0:r0 + per + 1, c0:c0 + per + 1] == Cr
+            C = np.where(same, h[r0:r0 + per + 1, c0:c0 + per + 1], Cr)
+        acc.add(H, s_, C)
     terr = acc.result()
     lap("terrain", t)
     t = time.perf_counter()
-    thr = 0.1 * (1 << level)
     tri_t, thr_cap, tri_cap = rtin_for_cap(hq, thr, BUDGET["terrain_tris_cap"]) if rtin else (None, None, None)
+    tri_raw = tri_t
+    if rtin and prefilter:
+        vr, hr0, hr1 = quantise_r16(h_raw)
+        tri_raw = rtin_triangles(decode_r16(vr, hr0, hr1), thr)
     lap("rtin", t)
 
     # water
@@ -828,7 +929,8 @@ def bake_level_tile(level: int, I: int, J: int, src: L0Source, out_root: Path, r
                     "h_min": hmin, "h_max": hmax, "method": "node_subsample", "slope_q": "slope.u8",
                     "format": "uint16 LE RAW 2049x2049, row 0 = south, col 0 = west, h = h_min + v*(h_max-h_min)/65535",
                     "rtin_threshold_m": thr, "rtin_triangles": ttri,
-                    "rtin_threshold_for_cap_m": thr_cap, "rtin_triangles_at_cap_threshold": tri_cap},
+                    "rtin_threshold_for_cap_m": thr_cap, "rtin_triangles_at_cap_threshold": tri_cap,
+                    "prefilter": pf, "rtin_triangles_unfiltered": tri_raw},
         "buildings": forms_meta,
         "water": {"file": "water.png", "format": "PNG 8-bit 2048x2048 cell-centred, row 0 = north, 255 = water",
                   "method": "majority"},
