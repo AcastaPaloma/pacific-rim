@@ -165,3 +165,4 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 
 ## Snapshot: M1 lead session 2 hand-over (context threshold), 2026-11-15 ~04:00
 - Merged and pushed: T-020, T-020b, T-021 (1–3), T-024, T-024b, T-025, T-027 (1–4), T-029 (1–4), T-035 (1), T-036 (2). Regressions `evidence/regression/M1-merge-{1,2,3}.md`; last Unity EditMode 436/0/2. Next steps in `plans/M1_PROGRESS.md`. No agents or Unity jobs running.
+- 2026-11-14 · Round 3 bound for 8.5 (the brief has no stop rule before 8.6): at most 3 diagnose → fix → Unity-run cycles to reach one stable imp = 2 walk at Fr 0.10. If none is stable after the third, round 3 stops with evidence and a report. The recommendation is then option (b), the whole-body QP, as Q-073 foresaw. Run 1 (0934756): every imp = 2 walk falls at 17.8–28.3 s — decided autonomously (user offline).
