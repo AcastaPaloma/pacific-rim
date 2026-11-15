@@ -102,7 +102,7 @@ def test_refuses_streamingassets_output(tmp_path):
 
 # ---------------------------------------------------------------- LOD decisions (build lead, after T-111b)
 def test_adaptive_footprint_tolerance_fits_cap_within_budget_or_flags(tmp_path, monkeypatch):
-    assert lod.GENERATOR == "bake_lod.py@7" and not hasattr(lod, "FOOTPRINT_TOL_OVERRIDE_M")
+    assert lod.GENERATOR == "bake_lod.py@8" and not hasattr(lod, "FOOTPRINT_TOL_OVERRIDE_M")
     bud = lod.footprint_error_budget_m(1)
     assert bud["max_m"] == 2.0 and bud["rms_m"] == 0.6 and bud["ring_d_min_m"] == 2048.0 and bud["m102_d_max_m"] == 2316
     assert lod.footprint_error_budget_m(4)["max_m"] == 16.0 and lod.footprint_error_budget_m(3)["rms_m"] == 2.4
