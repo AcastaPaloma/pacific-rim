@@ -223,10 +223,12 @@ def run(rep, inputs, reg, ratings=None, out_dir=None, images=False, options=None
         raise InvalidInput(errs)
     ids = reg.p("scripted_brain_id"), reg.p("control_brain_id")
     nofocus_id = reg.p("nofocus_brain_id")
+    cand_id = (options or {}).get("candidate")  # R-028 O4: measured set = the candidate policy, C6 pairs it with scripted@1
+    measured_id = cand_id or ids[0]
     for lg in logs:
-        if lg.brain_id not in ids and lg.brain_id != nofocus_id:
+        if lg.brain_id not in ids and lg.brain_id != nofocus_id and lg.brain_id != cand_id:
             raise InvalidInput([ContractError(lg.path, "header.brain_id", "unknown brain", " or ".join(ids + (nofocus_id,)), lg.brain_id)])
-    scripted = [compute_run(lg, reg) for lg in logs if lg.brain_id == ids[0]]
+    scripted = [compute_run(lg, reg) for lg in logs if lg.brain_id == measured_id]
     control = [compute_run(lg, reg) for lg in logs if lg.brain_id == ids[1]]
     nofocus = [compute_run(lg, reg) for lg in logs if lg.brain_id == nofocus_id]
     rep.coverage["required"] = ["scripted runs", "control runs"]
@@ -305,7 +307,7 @@ def run(rep, inputs, reg, ratings=None, out_dir=None, images=False, options=None
     else:
         rep.add("M-007.C2", status="NOT_RUN", note="no tick with >= 2 kaiju with a target and >= 2 live targets")
     # C3
-    churn = bool(scripted) and all(lg.header.get("scenario") == "m007_churn" for lg in logs if lg.brain_id == ids[0])
+    churn = bool(scripted) and all(lg.header.get("scenario") == "m007_churn" for lg in logs if lg.brain_id == measured_id)
     min_sw = reg.t("M-007.C3", "min_voluntary_switches")
     if ps and churn and (ps["voluntary"] < min_sw * 1 or (nofocus and pool(nofocus)["voluntary"] < min_sw)):
         rep.add("M-007.C3", status="NOT_RUN", note=f"churn scenario: fewer than {int(min_sw)} voluntary switches (scripted {ps['voluntary']})")
@@ -333,13 +335,39 @@ def run(rep, inputs, reg, ratings=None, out_dir=None, images=False, options=None
         rep.add("M-007.C3", status="NOT_RUN", note="no scripted runs")
         rep.add("M-007.C4", status="NOT_RUN", note="no scripted runs")
     rep.add("M-007.C5", status="PENDING", note="panel: >= 12 raters x 6 blinded clips (human step; no ratings file format yet)")
-    rep.add("M-007.C6", status="NOT_APPLICABLE", spec_clause="R-024 section 5 C6: deferred, waits for a trained policy",
-            note="win rate vs scripted baseline needs a policy (R-024 section 5)")
+    if cand_id:
+        _c6(rep, reg, [lg for lg in logs if lg.brain_id == ids[0]], [lg for lg in logs if lg.brain_id == cand_id], cand_id)
+    else:
+        rep.add("M-007.C6", status="NOT_APPLICABLE", spec_clause="R-024 section 5 C6: deferred, waits for a trained policy",
+                note="win rate vs scripted baseline needs a policy (R-024 section 5); pass --candidate <brain_id> to evaluate one")
     rep.extra["m007"] = {"scripted": _strip(ps), "control": _strip(pc), "runs": {"scripted": n_s, "control": n_c, "nofocus": len(nofocus)},
                          "scripted_run_fr": [round(r["commits_flanked"] / r["commits_multi"], 6) if r["commits_multi"] else None
                                              for r in scripted]}
     for r in scripted + control:
         r.pop("diag", None)
+
+
+def _c6(rep, reg, baseline, candidate, cand_id):
+    """R-028 section 11 gate 1: duplicate-format pairs, pair-win rate >= win_rate_min and Wilson 95 % LB > wilson_lb_min."""
+    from . import c6
+    pairs, only_b, only_c = c6.pair_runs(baseline, candidate)
+    res = c6.score_pairs(pairs)
+    min_pairs, max_tie = reg.t("M-007.C6", "min_pairs"), reg.t("M-007.C6", "max_tie_fraction")
+    edge = {"candidate": c6.edge_time(candidate, reg.p("edge_field_half_m"), reg.p("edge_margin_frac")),
+            "baseline": c6.edge_time(baseline, reg.p("edge_field_half_m"), reg.p("edge_margin_frac"))}
+    rep.extra["m007_edge_time"] = edge
+    diag = {k: v for k, v in res.items() if k != "per_pair"}
+    diag.update({"candidate_brain_id": cand_id, "unpaired_baseline": [list(map(str, k)) for k in only_b][:20],
+                 "unpaired_candidate": [list(map(str, k)) for k in only_c][:20], "edge_time": edge})
+    rep.extra["m007_c6_pairs"] = res["per_pair"]
+    if res["pairs"] < min_pairs or only_b or only_c or (res["tie_fraction"] or 0.0) > max_tie or res["non_tied"] == 0:
+        why = (f"{res['pairs']} pairs (< {int(min_pairs)})" if res["pairs"] < min_pairs else
+               "unpaired seeds" if only_b or only_c else f"tie fraction {res['tie_fraction']:.2f} > {max_tie}" if res["non_tied"] else "all pairs tied")
+        rep.add("M-007.C6", status="NOT_RUN", note="C6 not evaluable: " + why, diagnostics=diag)
+        return
+    rep.add("M-007.C6", parts=[
+        part("pair_win_rate", res["pair_win_rate"], ">=", reg.t("M-007.C6", "win_rate_min"), unit="ratio"),
+        part("wilson_lower_95", res["wilson_lower_95"], ">", reg.t("M-007.C6", "wilson_lb_min"), unit="ratio")], diagnostics=diag)
 
 
 def _strip(p):

@@ -116,6 +116,6 @@ namespace Game.AI.Policy
 
         public static float Dist(Float2 a, Float2 b) { float dx = b.X - a.X, dy = b.Y - a.Y; return MathF.Sqrt(dx * dx + dy * dy); }
         public static float Dir(Float2 from, Float2 to) => MathF.Atan2(to.Y - from.Y, to.X - from.X);
-        public static float Clamp(float v, float lo, float hi) => v < lo ? lo : (v > hi ? hi : v);
+        public static float Clamp(float v, float lo, float hi) => float.IsNaN(v) ? (lo > 0f ? lo : (hi < 0f ? hi : 0f)) : v < lo ? lo : (v > hi ? hi : v);
     }
 }

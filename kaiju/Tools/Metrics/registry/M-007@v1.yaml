@@ -11,6 +11,8 @@ procedure:
   scripted_brain_id: {value: scripted@1, unit: id, status: derived, source: "R-024 section 4 header brain_id"}
   control_brain_id: {value: directcharge@1, unit: id, status: derived, source: "R-024 section 3.1 null control"}
   nofocus_brain_id: {value: nofocus@1, unit: id, status: derived, source: "T-033b: scripted brain with WeightFocus = 0 (uncoordinated targeting); second control for C2/C3 discrimination, diagnostic only"}
+  edge_margin_frac: {value: 0.05, unit: ratio, status: assumed_pending_calibration, source: "R-028 O4 edge-time diagnostic (diagnostic only, never gates)"}
+  edge_field_half_m: {value: 2000.0, unit: m, status: derived, source: "Game.AI.Harness HarnessScenario.FieldHalfM"}
   bootstrap_resamples: {value: 2000, unit: resamples, status: derived, source: "R-024 section 5: 95 % bootstrap interval across runs"}
   flank_spread_deg: {value: 90.0, unit: deg, status: assumed_pending_calibration, source: "R-024 section 3.1 Flanked: spread >= 90 deg"}
   commit_fresh_s: {value: 8.0, unit: s, status: assumed_pending_calibration, source: "R-024 section 3.1 commit event: no pack Charge toward T in the previous 8 s"}
@@ -55,7 +57,10 @@ submeasures:
       cheap_median_max: {value: 3, unit: score, status: assumed_pending_calibration, source: "R-024 section 5 C5"}
       min_raters: {value: 12.0, unit: raters, status: derived, source: "R-024 section 5 C5"}
   M-007.C6:
-    title: C6 Win rate vs scripted baseline (deferred)
+    title: C6 Win rate vs scripted baseline (needs --candidate)
     kind: gating
     thresholds:
       win_rate_min: {value: 0.55, unit: ratio, status: assumed_pending_calibration, source: "R-024 section 5 C6"}
+      wilson_lb_min: {value: 0.50, unit: ratio, status: derived, source: "R-028 section 11 D11: Wilson 95 % lower bound of the pair-win rate must exceed 0.50"}
+      min_pairs: {value: 200.0, unit: pairs, status: derived, source: "R-028 section 11: 200 held-out paired seeds"}
+      max_tie_fraction: {value: 0.5, unit: ratio, status: derived, source: "R-028 section 11: more than 50 % tied pairs = NOT_RUN"}

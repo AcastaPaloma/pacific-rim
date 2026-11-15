@@ -33,7 +33,17 @@ namespace Game.AI.Policy
             return -1;
         }
 
+        /// <summary>Count of non-finite observation floats replaced by 0 (DEF-M1ai-f6): a NaN/Inf input never reaches the network.</summary>
+        public long NonFiniteSanitised { get; private set; }
+
         public void Encode(in BrainObservation obs, in BrainConfig cfg, in PolicyConfig pcfg, in PolicyMemory mem, float[] dst, byte[] mask)
+        {
+            EncodeRaw(obs, cfg, pcfg, mem, dst, mask);
+            for (int i = 0; i < PolicyLayout.ObsDim; i++)
+                if (float.IsNaN(dst[i]) || float.IsInfinity(dst[i])) { dst[i] = 0f; NonFiniteSanitised++; }
+        }
+
+        private void EncodeRaw(in BrainObservation obs, in BrainConfig cfg, in PolicyConfig pcfg, in PolicyMemory mem, float[] dst, byte[] mask)
         {
             if (dst == null || dst.Length < PolicyLayout.ObsDim) throw new ArgumentException("dst too small");
             if (mask == null || mask.Length < PolicyLayout.MaskDim) throw new ArgumentException("mask too small");

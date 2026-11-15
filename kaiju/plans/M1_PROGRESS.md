@@ -63,3 +63,7 @@ Batched Unity on f516412: CoreConfig + EditMode → `evidence/regression/M1-lead
 Archived: T-030c, T-036c sessions. Archive of T-033b and T-039b sessions refused by the permission classifier: waiting for the founders (not retried).
 Two-process co-op: done in T-030c (not open).
 DEF-M1save-6 merged f8f4dde (DestructionSaveInstaller in GameComposition.Install; Composition 7/7, Core Save 105/105; Unity-only CompositionTests change not yet compiled → end batch).
+Evaluators: M1-destruction-seismic (T-036c) PASS 0 blocking / 4 minor (DEF-M1ds-f1: M-053 assumed thresholds lack a calibration owner); M1-slice (T-039b) FAIL 1 blocking (DEF-M1slice-f1: player captures blank and frozen t=2–19 s, smoke passes on counters only) + 4 minor. Fix cycle T-039c runs as an Agent worker (session start refused on an event turn, §15).
+Evaluators: M1-net (T-030c) PASS 0 blocking / 7 minor (incl. TEMPORARY placeholder lacks a LEDGER removal row, M-057 egress test passes by construction); M1-hangar (T-034) PASS 0 blocking / 4 minor (M-059 byte-identical on re-run). Minors → LEDGER in one scribe pass at the end.
+Evaluators: M1-ai T-033b 0 blocking / 3 minor (C3 structurally 0: 12 s lockout = 12 s window → forwarded to T-042), T-041 0 / 5 (NaN obs pass-through → forwarded to T-041b); M1-combat T-040 0 / 5 (no Unity EditMode, no installer test). All 7 tracks evaluated; only blocking: DEF-M1slice-f1.
+- T-041 Unity EditMode watcher gave up (3 Unity batch processes after 25 min): Game.AI.Policy still needs the batched EditMode run (open item 2). Session 5 stopped on the usage limit.

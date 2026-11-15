@@ -1,0 +1,13 @@
+........................................................................ [ 43%]
+........................................................................ [ 87%]
+.....................                                                    [100%]
+=============================== warnings summary ===============================
+tests/test_fix_cycle2.py::test_synthetic_neighbour_shares_edge_rows_byte_for_byte
+tests/test_fix_cycle2.py::test_synthetic_neighbour_shares_edge_rows_byte_for_byte
+tests/test_fix_cycle2.py::test_synthetic_neighbour_shares_edge_rows_byte_for_byte
+tests/test_fix_cycle2.py::test_synthetic_neighbour_shares_edge_rows_byte_for_byte
+  /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-108/kaiju/Pipelines/geo/kaiju_geo/terrain.py:36: PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication
+    col, row = inv * (np.asarray(ex), np.asarray(ny))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+165 passed, 2 deselected, 4 warnings in 182.85s (0:03:02)

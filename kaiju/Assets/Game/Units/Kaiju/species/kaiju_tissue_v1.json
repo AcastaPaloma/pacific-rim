@@ -1,0 +1,31 @@
+{
+ "schema": "kaiju_tissue@v1",
+ "bone_yield_Pa": {
+  "value": 600000000.0,
+  "unit": "Pa",
+  "source": "R-102 \u00a74.3 (3x cortical bone [2])",
+  "status": "Assumed"
+ },
+ "muscle_isometric_Pa": {
+  "value": 6000000.0,
+  "unit": "Pa",
+  "source": "R-102 \u00a74.3 (20x vertebrate [9])",
+  "status": "Assumed"
+ },
+ "real_bone_yield_Pa": {
+  "value": 200000000.0,
+  "unit": "Pa",
+  "source": "Biewener 1982 [2]",
+  "status": "Sourced"
+ },
+ "real_muscle_isometric_Pa": {
+  "value": 300000.0,
+  "unit": "Pa",
+  "source": "Alexander 1985 [9], Biewener 2016 [10]",
+  "status": "Sourced"
+ },
+ "assumed_fields": [
+  "bone_yield_Pa",
+  "muscle_isometric_Pa"
+ ]
+}
