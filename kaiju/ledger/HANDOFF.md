@@ -414,3 +414,9 @@ Worker escalated to Opus 5.5 high (§14) for the design; design `research/R-028.
 - Baked Bay tiles estimated at 86 GB in the git-ignored cache (about 20 MB per tile, above the plan's 5-15 MB); Q-200 kept — decided autonomously (founder asleep)
 - Placeholder IDs used: Q-NEW-a..g listed in research/R-100.md section 8 (not added to IDS.md); M-100 drafted in R-100 section 7 — decided autonomously (founder asleep)
 - Successor: start was a proposal card (task_d0d8db82, "T-005 orchestrator 7: round 4 from 9.3b-4"); the app refuses direct starts on event-started turns (§15). Start it from the card, or start any fresh session with the brief in this snapshot.
+## R-102 (M2 worker, 2026-11-15)
+- 2026-11-15 · Three species (codenames STRIDER 60 m light bait/flank 4,190 t; BREACHER 100 m reared mid flank/breaker 35,000 t; BASTION 160 m heavy anchor 163,900 t), all quadrupeds; bipeds rejected because one limb would need 0.8–1.9 GPa and 6.6–15 MPa muscle (research/R-102.md §4.4) — decided autonomously (founder asleep).
+- 2026-11-15 · Fiction tissue shared by all species: bone 600 MPa yield, muscle 6.0 MPa isometric (real extrapolation fails at SF 0.19–0.29); keeps full-ambition 3D physics kaiju; alternative per-species tissue rejected — decided autonomously (founder asleep).
+- 2026-11-15 · Charge Froude caps 0.80/0.35/0.15 (15.3/12.4/11.6 m/s) set by bone SF and muscle utilisation, giving light > mid > heavy speed order — decided autonomously (founder asleep).
+- 2026-11-15 · BASTION density 1,050 sinks (walks Golden Gate floor); STRIDER/BREACHER float and swim; deep-water swim mode and soil sinkage deferred to T-117 as tracked items (Q-NEW-4, Q-NEW-5) — decided autonomously (founder asleep).
+- 2026-11-15 · M-103 drafted (10 sub-measures) and `KaijuSpeciesSpec@v1` field list proposed; thresholds Assumed pending calibration; placeholder IDs Q-NEW-1..9, M-NEW-1 for the lead to assign — decided autonomously (founder asleep).
