@@ -169,3 +169,27 @@ The same approach as before (tests, metrics, evaluators, regressions) at a lower
 **Lead orchestrator**
 - Trust session reports. Verify only what lands on the integration branch, with a cheap `git log`. Read a session's transcript only when its report is unclear or contradicts the branch.
 - Metric suites run once per milestone checkpoint and when a track closes, not after every merge.
+
+## 14. Escalate to Opus 5.5 at high effort when it is warranted (founder instruction, 2026-11-15)
+This section overrides §11.1 ("workers Sonnet or Haiku only") and §10's "no speculative work on the strongest model" in the two cases below. The orchestrator decides for itself and does not need a founder's approval. It logs each escalation in `ledger/HANDOFF.md` with the reason, marked "escalated to Opus 5.5 high (§14)".
+
+**When to escalate**
+1. **A stalled experiment that has substantial evidence it can work.** The stop rule has ended the loop, but the evidence says the goal is reachable: feasibility has been shown offline, there are near misses, or one parameter is binding. Do not give up or route the experiment away in this case. Send Opus 5.5 at high effort.
+   - Example: T-005 round 3, where offline strides were feasible at Froude 0.02–0.20 but every Unity run fell.
+2. **Reason to think Sonnet at medium effort is out of its depth.** Signs:
+   - the same failure repeats across cycles;
+   - diagnoses contradict each other or don't hold up against the evidence;
+   - fixes make no progress;
+   - the work is subtle: numerics, control, solvers, concurrency, shader maths.
+
+   In that case, Opus 5.5 at high effort retries the step or pinpoints what went wrong. Often the cheapest move is a diagnosis only: Opus reads the evidence, names the cause and writes the fix plan, and Sonnet carries out the plan.
+
+**How**
+- Use the model `claude-opus-5-5` at effort `high`. This applies to a worker (Agent tool), or to a session (`start_session` with `model`/`effort`) when the work spans several steps.
+- The brief stays narrow (§11.2). It includes:
+  - the evidence files and the earlier attempts' reports;
+  - what has been ruled out;
+  - the exact question, for example "why does imp = 2 tracking fall when the offline stride is feasible?";
+  - an effort bound and a stop rule.
+- One escalation per stall. If Opus also fails, record what it found, route it as a founder or research item (§13), and move on. Don't loop on Opus.
+- Return to Sonnet as soon as the hard part is understood. Routine implementation, integration and evaluation stay on the §11 tiers.
