@@ -18,3 +18,4 @@ M1 overflow (M1 lead session 5 allocated T-040, T-041 outside its block): T-040�
 Reserved for M2 (plans/M2.md, 2026-11-15, M2/M3 lead): T-100–T-139, R-100–R-119, Q-200–Q-229, M-100–M-119, F-065–F-069.
 Reserved for M3 (plans/M3.md, 2026-11-15, M2/M3 lead): T-140–T-159, R-120–R-129, Q-230–Q-249, M-120–M-129.
 Allocate inside these blocks only for the matching milestone; the M2/M3 lead owns both.
+Reserved for the gap-research lead (2026-11-15; kaiju locomotion, T-004 look research C7/C11, audio, deferred seismic/bridge scope): T-160–T-199, R-130–R-149, Q-250–Q-269, M-130–M-139, F-070–F-074. Allocate in these blocks only for those four gaps.
