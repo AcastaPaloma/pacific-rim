@@ -372,3 +372,28 @@ def test_real_tiles_l1_and_rtin_matches_m1_count(tmp_path):
     assert abs(n - 589_000) / 589_000 < 0.05, n
     assert rep["bytes"]["terrain.r16"] == SAMPLES * SAMPLES * 2
     assert lod.validate_level_tile(tmp_path / "L1" / "15_18", src) == []
+
+
+# ---------------------------------------------------------------- T-108b noise pre-filter
+def test_prefilter_is_bounded_edge_preserving_and_noise_reducing():
+    rng = np.random.default_rng(7)
+    h = np.zeros((200, 200))
+    h[:, 100:] = 5.0                                     # a 5 m step (an edge) between two flat halves
+    noisy = h + rng.normal(0, 0.03, h.shape)
+    eps, sig = 0.1, 0.4
+    f = lod.bilateral_bounded(noisy, eps, sig)
+    assert np.abs(f - noisy).max() <= eps + 1e-12        # hard error bound
+    assert np.abs(f[:, :90] - 0).std() < 0.6 * np.abs(noisy[:, :90]).std()   # noise reduced
+    assert abs(f[:, 105:].mean() - 5.0) < 0.01 and abs(f[:, 95].mean()) < 0.05
+    assert (f[:, 100:].min() - f[:, :100].max()) > 4.7   # the step survives (no smearing across the edge)
+
+
+def test_prefilter_neighbours_agree_on_shared_edge_and_bound_holds(strip):
+    root, _ = strip
+    src = lod.L0Source(root)
+    thr = 0.2
+    a, ha, _, st = lod.prefiltered_terrain(1, 0, 0, src, thr)
+    b, hb, _, _ = lod.prefiltered_terrain(1, 1, 0, src, thr)
+    assert np.array_equal(a[:, -1], b[:, 0])
+    assert st["max_abs_change_m"] <= lod.PREFILTER_EPS * thr + 1e-9
+    assert np.abs(a - ha).max() <= lod.PREFILTER_EPS * thr + 1e-9
