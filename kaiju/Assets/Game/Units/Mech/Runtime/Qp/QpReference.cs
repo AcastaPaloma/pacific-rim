@@ -148,6 +148,8 @@ namespace Game.Units.Mech.Qp
         public double NodePointX(int parity, int point) => _node[(Cpts + 2 * point) * N2 + parity * N];
         /// <summary>Round 7: DCM of the reference minus the x of a sole point at node <c>parity * N</c> (DCM = CoM x + CoM x-velocity / omega), drift included on both.</summary>
         public double NodeDcmOffset(int parity, int point, double omega) => _node[Ccom * N2 + parity * N] + _node[Ccomd * N2 + parity * N] / omega - _node[(Cpts + 2 * point) * N2 + parity * N];
+        /// <summary>Round 9: as <see cref="NodeDcmOffset"/> at an arbitrary node k (0 .. 2N-1), for the lift-off node of the step.</summary>
+        public double NodeDcmOffsetAt(int k, int point, double omega) => _node[Ccom * N2 + k] + _node[Ccomd * N2 + k] / omega - _node[(Cpts + 2 * point) * N2 + k];
         /// <summary>Raw node value of a channel.</summary>
         public double Node(int channel, int k) => _node[channel * N2 + k];
     }

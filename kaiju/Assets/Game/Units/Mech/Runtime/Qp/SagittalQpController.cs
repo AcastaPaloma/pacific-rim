@@ -19,7 +19,7 @@ namespace Game.Units.Mech.Qp
         public double WTau;   // step 9.5b: weight of sum (tau_j / LIM_j)^2 (0 = off, as the prototype); fixes the internal double-support force the other rows leave free
         public double SwJ, SwJOm = 2.0, SwJAmax = 6.0, SwJTd = 0.2; public bool SwJAnkle; public double SwFollow, SwAmax, TdAir, TdXoffMax; public bool Diag, TdHeel; public bool Rom, FpRom; public double RomMargin = 3 * Math.PI / 180, RomHorizon = 0.1, RomAmax = 30.0, FpRomBand = 3 * Math.PI / 180;   // step 9.5j (qp_rom, qp_fp_rom)
         public double CdxMax, SwCp;   // step 9.5m (qp_cdx_max, qp_sw_cp; 0 = off)
-        public double FootUnload, FootUnloadAt = 1.5, FootZdip, FootZdipMax = 4.0, FootZdipMargin = 0.5, FootZdipUp = 1.0, FootZdipDn = 0.5; public bool Foot, FootStance = true, FootDrive = true, FootMeas; public double FootPre = 0.5, FootHeelDeg = 2.0, FootW = 1.0, FootRate = 0.5, FootCopM = 0.08, FootFricFloor = 0.02; public bool R7NoForce, R7Clock; public double R7Fp; public bool R8Retime, R8RefClock, R8Trem; public double R8Gmin = 0.3, R8Gk = 3.0, R8Gmax = 1.0, R8SatK, R8SatFrac = 0.9, R8SwLim; public double FootCopHeelM, FootCopToeM;   // round 7   // round 6 (qp_foot*; Foot false = off)
+        public double FootUnload, FootUnloadAt = 1.5, FootZdip, FootZdipMax = 4.0, FootZdipMargin = 0.5, FootZdipUp = 1.0, FootZdipDn = 0.5; public bool Foot, FootStance = true, FootDrive = true, FootMeas; public double FootPre = 0.5, FootHeelDeg = 2.0, FootW = 1.0, FootRate = 0.5, FootCopM = 0.08, FootFricFloor = 0.02; public bool R7NoForce, R7Clock; public double R7Fp; public bool R8Retime, R8RefClock, R8Trem; public double R8Gmin = 0.3, R8Gk = 3.0, R8Gmax = 1.0, R8SatK, R8SatFrac = 0.9, R8SwLim; public double R9Gate, R9GateTmax = 1.0, R9Launch, R9Ramp = 0.3, R9Vfrac = 1.0, R9Tau = 2.0; public double FootCopHeelM, FootCopToeM;   // round 7   // round 6 (qp_foot*; Foot false = off)
         public bool Plan; public double PlanKxi = 1.0, PlanLmin = 0.5, PlanLmax = 1.3, PlanTdFrac = 0.8, PlanTdTol = 0.2, PlanZkp = 4.0, PlanZkd = 4.0, PlanWz = 1e5, PlanWx, PlanReplanM = 1.0, PlanFp = 1.0, PlanSw = 1, PlanApex = 1.0, PlanVd = 1.0, PlanFpTau = 0.5, PlanHeelW = 1.0, PlanDownFrac = 0.9, PlanForceFrac = 1.15, PlanForceZ = 0.3, PlanMaxFrac = 1.3, PlanDs = 1, PlanReach = 0.7;   // step 6a (qp_plan*; Plan false = off)
         public double LateCx, CxEmax;   // CxEmax (qp_cx_emax, 9.5i): clamp of the CoM-x position error in the CoM row (0 = off)   // step 9.5i (qp_late_cx k): while the touchdown is late the CoM-x reference advances at k x the reference CoM speed (0 = frozen at the step end, as the prototype)
         public double ArmRefYawFf;   // step 9.5h (qp_arm_ref_yawff w): the filtered measured yaw-momentum rate of the arms in the feed-forward is replaced by (1 - w) measured + w predicted from the reference shoulder acceleration (DLArmRefPred)
@@ -36,7 +36,7 @@ namespace Game.Units.Mech.Qp
             FootZdip = t.qp_foot > 0.5 && t.qp_plan > 0.5 ? t.qp_foot_zdip : 0.0, FootZdipMax = t.qp_foot_zdip_max, FootZdipMargin = t.qp_foot_zdip_margin, FootZdipUp = t.qp_foot_zdip_up, FootZdipDn = t.qp_foot_zdip_dn,
             FootUnload = t.qp_foot > 0.5 && t.qp_plan > 0.5 ? t.qp_foot_unload : 0.0, FootUnloadAt = t.qp_foot_unload_at,
             Foot = t.qp_foot > 0.5 && t.qp_plan > 0.5, FootPre = t.qp_foot_pre, FootHeelDeg = t.qp_foot_heel_deg, FootStance = t.qp_foot_stance > 0.5, FootW = t.qp_foot_w, FootRate = t.qp_foot_rate, FootDrive = t.qp_foot_drive > 0.5,
-            FootMeas = t.qp_foot > 0.5 && t.qp_plan > 0.5 && t.qp_foot_meas > 0.5, FootCopM = t.qp_foot_cop_m, FootFricFloor = t.qp_foot_fric_floor, R7NoForce = t.qp_plan > 0.5 && t.qp_r7_noforce > 0.5, R7Fp = t.qp_plan > 0.5 ? t.qp_r7_fp : 0.0, R8Retime = t.qp_plan > 0.5 && t.qp_r8_retime > 0.5, R8RefClock = t.qp_r8_refclock > 0.5, R8Trem = t.qp_r8_trem > 0.5, R8Gmin = t.qp_r8_gmin, R8Gk = t.qp_r8_gk, R8Gmax = t.qp_r8_gmax, R8SatK = t.qp_r8_satk, R8SatFrac = t.qp_r8_satfrac, R8SwLim = t.qp_plan > 0.5 ? t.qp_r8_swlim : 0.0, R7Clock = t.qp_plan > 0.5 && t.qp_r7_clock > 0.5, FootCopHeelM = t.qp_foot_cop_heel_m, FootCopToeM = t.qp_foot_cop_toe_m,
+            FootMeas = t.qp_foot > 0.5 && t.qp_plan > 0.5 && t.qp_foot_meas > 0.5, FootCopM = t.qp_foot_cop_m, FootFricFloor = t.qp_foot_fric_floor, R7NoForce = t.qp_plan > 0.5 && t.qp_r7_noforce > 0.5, R7Fp = t.qp_plan > 0.5 ? t.qp_r7_fp : 0.0, R8Retime = t.qp_plan > 0.5 && t.qp_r8_retime > 0.5, R8RefClock = t.qp_r8_refclock > 0.5, R8Trem = t.qp_r8_trem > 0.5, R8Gmin = t.qp_r8_gmin, R8Gk = t.qp_r8_gk, R8Gmax = t.qp_r8_gmax, R8SatK = t.qp_r8_satk, R8SatFrac = t.qp_r8_satfrac, R8SwLim = t.qp_plan > 0.5 ? t.qp_r8_swlim : 0.0, R9Gate = t.qp_plan > 0.5 ? t.qp_r9_gate : 0.0, R9GateTmax = t.qp_r9_gate_tmax, R9Launch = t.qp_plan > 0.5 ? t.qp_r9_launch : 0.0, R9Ramp = t.qp_r9_ramp, R9Vfrac = t.qp_r9_vfrac, R9Tau = t.qp_r9_tau, R7Clock = t.qp_plan > 0.5 && t.qp_r7_clock > 0.5, FootCopHeelM = t.qp_foot_cop_heel_m, FootCopToeM = t.qp_foot_cop_toe_m,
             WTau = t.qp_w_tau, YawTrunk = t.qp_yaw_trunk > 0.5, YawFf = t.qp_yaw_ff, YawCap = t.qp_yaw_cap, YawBudget = t.qp_yaw_budget, YawBudgetFloor = t.qp_yaw_budget_floor, ArmRefYawFf = t.qp_arm_ref_yawff, LateCx = t.qp_late_cx, CxEmax = t.qp_cx_emax, Rom = t.qp_rom > 0.5, FpRom = t.qp_rom > 0.5 && t.qp_fp_rom > 0.5, RomMargin = t.qp_rom_margin_deg * Math.PI / 180, RomHorizon = t.qp_rom_horizon_s, RomAmax = t.qp_rom_amax, FpRomBand = t.qp_fp_rom_band_deg * Math.PI / 180, SwJ = t.qp_swj, SwJOm = t.qp_swj_om, SwJAmax = t.qp_swj_amax, SwJTd = t.qp_swj_td_frac, SwJAnkle = t.qp_swj_ankle > 0.5, CdxMax = t.qp_cdx_max, SwCp = t.qp_sw_cp, Plan = t.qp_plan > 0.5, PlanKxi = t.qp_plan_kxi, PlanLmin = t.qp_plan_lmin, PlanLmax = t.qp_plan_lmax, PlanTdFrac = t.qp_plan_td_frac, PlanTdTol = t.qp_plan_td_tol, PlanZkp = t.qp_plan_zkp, PlanZkd = t.qp_plan_zkd, PlanWz = t.qp_plan_wz, PlanWx = t.qp_plan_wx, PlanReplanM = t.qp_plan_replan_m, PlanFp = t.qp_plan_fp, PlanSw = t.qp_plan_sw, PlanApex = t.qp_plan_apex, PlanVd = t.qp_plan_vd, PlanFpTau = t.qp_plan_fp_tau, PlanHeelW = t.qp_plan_heelw, PlanDownFrac = t.qp_plan_down_frac, PlanForceFrac = t.qp_plan_force_frac, PlanForceZ = t.qp_plan_force_z, PlanMaxFrac = t.qp_plan_max_frac, PlanDs = t.qp_plan_ds, PlanReach = t.qp_plan_reach, SwFollow = t.qp_sw_follow, SwAmax = t.qp_sw_amax, TdAir = t.qp_td_air_frac, TdXoffMax = t.qp_td_xoff_max, Diag = t.qp_diag > 0.5, TdHeel = t.qp_td_heel > 0.5, Lateral = t.qp_lateral > 0.5, OmY = t.qp_om_y, WCy = t.qp_w_cy, WRoll = t.qp_w_roll, KRoll = t.qp_k_roll, WYaw = t.qp_w_yaw, OmYaw = t.qp_om_yaw
         };
     }
@@ -117,7 +117,9 @@ namespace Game.Units.Mech.Qp
         public double FtMeas;   // summed forward shear force of both feet (N), set by the driver
         public double SwingInertia;   // step 6c: inertia of one leg about its hip (kg m2), set by the driver; 0 = no reach clamp
         double _lastXfer, _apexCmd, _lastApexCmd, _lastReach;
-        double _swS = double.NaN, _tSwPrev = double.NaN, _r8g = 1.0; public readonly double[] PlanDiag = new double[16];   // [8..11]: swing apex, landing error vs x_fp, duration of the last step (held until the next touchdown), IK failures
+        double _swS = double.NaN, _tSwPrev = double.NaN, _r8g = 1.0;
+        double _r9dx, _r9v, _r9tPrev = double.NaN, _r9Held; public double R9GateHeld => _r9Held;      // round 9: CoM launch offset / velocity added to the reference; seconds the lift-off was held by the DCM gate (this step)
+        public readonly double[] PlanDiag = new double[18];   // [8..11]: swing apex, landing error vs x_fp, duration of the last step (held until the next touchdown), IK failures
         double _swT0 = double.NaN; readonly double[] _rs = new double[QpReference.Channels], _tl0 = new double[2]; double _tFp, _swX0 = double.NaN, _apex, _lastApex, _lastLand, _lastDur, _ikTPrev = double.NaN; bool _fpReset = true; long _ikFail, _ikClamp; readonly double[] _ikQ = new double[3], _ikQd = new double[3], _ikPrev = new double[3];
         static double MinJerk(double s) { s = Math.Max(0.0, Math.Min(1.0, s)); return s * s * s * (10 + s * (-15 + 6 * s)); }
         static double MinJerkD(double s) { s = Math.Max(0.0, Math.Min(1.0, s)); return 30 * s * s * (1 - s) * (1 - s); }
@@ -329,17 +331,28 @@ namespace Game.Units.Mech.Qp
             }
         }
 
+        /// <summary>Round 9 lift-off gate (qp_r9_gate = f > 0): the swing does not start (the reference clock stays at the lift-off node) until the measured DCM offset of the CoM over the stance heel reaches f x the reference's at that node, or qp_r9_gate_tmax s after the reference lift-off time.</summary>
+        bool R9Hold(double tau0, double tds, int sw)
+        {
+            if (_o.R9Gate <= 0 || !double.IsNaN(_swT0) || tau0 < 0.5 * tds) { if (_o.R9Gate > 0 && !double.IsNaN(_swT0)) { } else _r9Held = 0.0; return false; }
+            int st = 1 - sw, kd = Math.Min(_ref.N - 1, Math.Max(0, (int)Math.Round(tds / _h))); double om = _pOm;
+            double bref = _ref.NodeDcmOffsetAt(sw * _ref.N + kd, 2 * st, om), bm = Com[0] + ComD[0] / om - _px[2 * st];
+            bool hold = tau0 < tds + _o.R9GateTmax && bm < _o.R9Gate * bref; _r9Held = hold ? Math.Max(0.0, tau0 - tds) : _r9Held; PlanDiag[17] = bm / Math.Max(bref, 1e-6);
+            return hold;
+        }
+
         /// <summary>Step 6c: swing clock from the measured lift-off (rear-leg load under 10 % of the weight); the reference clock holds at the lift-off node until then and runs 1:1 after it.</summary>
         void PlanClock(double t, double W)
         {
             int sw = _sch.Parity; double tau0 = t - _sch.TAnchor, tds = _tl0[sw], tsw = _ts - tds, rear = _fn[2 * sw] + _fn[2 * sw + 1];
-            if (double.IsNaN(_swT0) && tau0 >= 0.5 * tds && rear < 0.1 * W)
+            bool r9hold = R9Hold(tau0, tds, sw);
+            if (double.IsNaN(_swT0) && !r9hold && tau0 >= 0.5 * tds && rear < 0.1 * W)
             {
                 _lastXfer = tau0;
                 if (tau0 > tds) { double m0 = MinJerk((tau0 - tds) / tsw); _swT0 = tds; _swX0 = m0 < 0.9 && !double.IsNaN(_pXfp) ? (_px[2 * sw] - _pXfp * m0) / (1.0 - m0) : _px[2 * sw]; }
                 else { _swT0 = tau0; _swX0 = _px[2 * sw]; }
             }
-            if (double.IsNaN(_swT0) && _o.R7Clock && tau0 >= tds) { _lastXfer = tau0; _swT0 = tds; _swX0 = _px[2 * sw]; }   // round 7: the swing starts at the reference end of the double support
+            if (double.IsNaN(_swT0) && !r9hold && _o.R7Clock && tau0 >= tds) { _lastXfer = tau0; _swT0 = tds; _swX0 = _px[2 * sw]; }   // round 7: the swing starts at the reference end of the double support
             if (_o.R8Retime && !double.IsNaN(_swT0))
             {
                 // round 8: the plan phase of the swing (s since the lift-off, advances at g <= 1 while the foot lags the min-jerk curve or the swing hip is saturated)
@@ -435,6 +448,20 @@ namespace Game.Units.Mech.Qp
                 for (int i = 0; i < 2; i++) { r[QpReference.Ccomd + i] *= tsc; r[QpReference.Ccomdd + i] *= s2; }
                 r[QpReference.Cl] *= tsc; r[QpReference.Cldot] *= s2;
                 for (int i = 0; i < 8; i++) { r[QpReference.Cptv + i] *= tsc; r[QpReference.Cpta + i] *= s2; }
+            }
+            if (o.R9Launch > 0 && o.Plan)
+            {
+                // round 9 launch: until the swing lifts off, the reference CoM gets a forward velocity bias (and its integral) in proportion to the speed deficit against the reference at the lift-off node
+                double dt9 = double.IsNaN(_r9tPrev) ? 0.0 : Math.Max(0.0, Math.Min(0.1, t - _r9tPrev)); _r9tPrev = t;
+                if (_sch.LastCallReanchored) { _r9dx = 0.0; _r9v = 0.0; }
+                if (double.IsNaN(_swT0))
+                {
+                    int kd9 = Math.Min(_ref.N - 1, Math.Max(0, (int)Math.Round(_tl0[swLeg] / _h))); double vt = Math.Max(_ref.Node(QpReference.Ccomd, swLeg * _ref.N + kd9) * tsc, 1e-6) * o.R9Vfrac;
+                    double def = Math.Max(0.0, Math.Min(1.0, (vt - ComD[0]) / vt)), ramp = o.R9Ramp > 1e-6 ? Math.Min(1.0, tau / o.R9Ramp) : 1.0;
+                    _r9v = o.R9Launch * def * ramp; _r9dx += _r9v * dt9;
+                }
+                else { _r9v = 0.0; _r9dx *= Math.Exp(-dt9 / Math.Max(o.R9Tau, 1e-3)); }
+                r[QpReference.Ccom] += _r9dx; r[QpReference.Ccomd] += _r9v; PlanDiag[16] = _r9dx;
             }
             // contact set and force caps
             int nS = 0; for (int i = 0; i < 4; i++) if (_sch.Inc[i]) _sIdx[nS++] = i;
