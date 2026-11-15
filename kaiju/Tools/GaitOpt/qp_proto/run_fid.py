@@ -68,6 +68,10 @@ PRESETS = {"b3": dict(kvs=5.0),                                                 
                       mass_est=0.05, sg_floor=0.3, sh_unl=0.5, sh_land=0.4, land_xlead=0.1, late_vz=8.0),      #   landed points start without shear 0.4 s), heel x/pitch reach the landing state 0.1 s before z (vertical strike, 8 m/s late descent), cone 0.6 mu
            "b6b": dict(kvs=5.0, onset=1.0, land=1.0, land_act=1.0, land_k0=35.0, fr_meas=1.0, fr_margin=0.9, mass_est=0.05, sg_floor=0.3,   # 9.3b-6 mild: b5 + shear authority + x lead 0.03 s, late descent 8 m/s (cone 0.9 mu as b5)
                        sh_unl=0.5, sh_land=0.4, land_xlead=0.03, late_vz=8.0),
+           "b7": dict(kvs=5.0, onset=1.0, land=1.0, land_act=1.0, land_k0=35.0, fr_meas=1.0, fr_margin=0.9, mass_est=0.05, sg_floor=0.3,   # 9.3b-7: b5 + per-foot realised-shear observer and predicted-realised-shear row
+                      anc=1.0, anc_lag=1.0, anc_g=0.5, anc_pos=1.0),                                                                  #   (offset of the measured tick-mean shear/load from the command applied in that tick)
+           "b7b": dict(kvs=5.0, onset=1.0, land=1.0, land_act=1.0, land_k0=35.0, fr_meas=1.0, fr_margin=0.9, mass_est=0.05, sg_floor=0.3,   # 9.3b-7 cycle 2: b6c (b5 + sh_unl/sh_land) with the measured-contact thresholds lowered, observer OFF
+                       sh_unl=0.5, sh_land=0.4, on_bw=0.01, off_bw=0.003),
            "b6c": dict(kvs=5.0, onset=1.0, land=1.0, land_act=1.0, land_k0=35.0, fr_meas=1.0, fr_margin=0.9, mass_est=0.05, sg_floor=0.3,   # 9.3b-6 mildest: b5 + shear authority only
                        sh_unl=0.5, sh_land=0.4)}
 
