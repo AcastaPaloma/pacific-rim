@@ -1,0 +1,9 @@
+{
+  "schema": "economy_tuning@v1",
+  "source": "T-123 campaign simulation (Tools/economy/econ_sim.py, M-104@v1). Overlay on economy_prices@v1: a tuned value replaces the base value of the same name; the base file keeps the R-104 draft numbers. Every value stays Assumed until a source or a measured play session replaces it.",
+  "parameters": {
+    "fee_bps": { "value": 860, "assumed": true, "base": 600, "source": "R-104 s3 f_fee 0.06 (A), retuned: with the real part prices, repair costs (R-104 s4) and upkeep the 6% fee gives a median of 26 sorties to replace a lost mech (p90 76), outside the 8-16 band; 8.6% gives median 9 and p90 20 on two sets of 300 held-out seeds (evidence/T-123/fee_sweep.json). The sortie model behind it is assumed (econ_sim.SORTIE_MODEL)." },
+    "advance_bps": { "value": 1000, "assumed": true, "base": 1000, "source": "R-104 s3 advance 10% (A), kept: the advance is repaid from the payout, so it moves liquidity, not pacing (advance 0 / 10 / 20 / 30% leave the median at 9 sorties and move p90 by at most 1, evidence/T-123/advance_sweep.json)." },
+    "floor_loss_levy_bps": { "value": 600, "assumed": true, "base": 0, "source": "T-123 new rule: a lost city reserve hull is billed to the treasury at this share of its price (PayUpkeep: paid from funds, the unpaid rest becomes Arrears; the grant itself stays free and unconditional), and a floor wreck pays no wreck credit (city property; without that the free hull earned 39.8M per sortie when thrown away). With credit removed but no levy, flying the free floor chassis to destruction every sortie earns 41.9M per sortie against 44.6M for honest play (ratio 0.94, 197 of 300 seeds below honest); at 6% (about the repair a surviving hull would have cost, R-104 s4 10-30M) 22.3M against 43.9M (ratio 0.51, 297 of 300 seeds below honest), evidence/T-123/levy_sweep.json." }
+  }
+}

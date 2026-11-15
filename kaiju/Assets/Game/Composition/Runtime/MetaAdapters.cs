@@ -119,10 +119,14 @@ namespace Game.Composition
         private readonly PriceTable _prices;
         private readonly ICoreErrorSink _errors;
         private readonly IEventBus _bus;
+        private readonly IEconomyService _economy;
+        private readonly EconomyTuning _tuning;
 
+        /// <param name="economy">With <paramref name="tuning"/>: a lost floor hull is billed the floor loss levy (PayUpkeep). Both null = no levy.</param>
         public MetaFightEndBridge(IRosterService roster, PriceTable prices, IHangarService hangar = null, ISalvageService salvage = null, IRefitService refit = null,
-                                  IEventBus bus = null, ICoreErrorSink errors = null)
+                                  IEventBus bus = null, ICoreErrorSink errors = null, IEconomyService economy = null, EconomyTuning tuning = null)
         {
+            _economy = economy; _tuning = tuning;
             _roster = roster ?? throw new ArgumentNullException(nameof(roster));
             _prices = prices ?? throw new ArgumentNullException(nameof(prices));
             _hangar = hangar; _salvage = salvage; _refit = refit; _errors = errors; _bus = bus;
@@ -170,10 +174,27 @@ namespace Game.Composition
                 return res;
             }
 
-            if (_salvage != null && mech != null && !fe.Replay)
+            AfterLoss(mech, fe, record, step, location, res);
+            return res;
+        }
+
+        /// <summary>
+        /// Loss handling shared by a fight-end loss and a scrap. A floor hull is city property: its wreck pays no credit (without that the free hull is an income
+        /// source, M-104) and the treasury is billed the floor loss levy once. Other wrecks are claimed by Salvage; a floor hull granted by the Roster is registered with Refit.
+        /// </summary>
+        private void AfterLoss(MechInstance mech, FightEndResult fe, IBodyDamageRecord record, long step, SalvageLocation location, MetaFightEndResult res, double? fallJPerKg = null)
+        {
+            if (mech != null && !fe.Replay)
             {
-                var input = BuildWreck(mech, record, fe.WreckId, location);
-                if (input != null) res.Salvage = _salvage.Claim(input, step);
+                if (mech.IsFloor)
+                {
+                    if (_economy != null && _tuning != null) _economy.PayUpkeep(_tuning.FloorLossLevyUsd(_prices), step);
+                }
+                else if (_salvage != null)
+                {
+                    var input = BuildWreck(mech, record, fe.WreckId, location, fallJPerKg);
+                    if (input != null) res.Salvage = _salvage.Claim(input, step);
+                }
             }
             if (fe.FloorGranted && _refit != null)
             {
@@ -184,6 +205,27 @@ namespace Game.Composition
                     _roster.SetSpecHash(floor.MechId, res.FloorSpec.Hash);
                 }
             }
+        }
+
+        /// <summary>
+        /// The player scraps a flyable mech in the hangar (R-104 section 6 rule 1). The wreck is assessed like any other, with no fall (zero fall energy: dismantled, not
+        /// toppled) and the same wreck-credit cap of 12% of the build price, so scrapping never earns back more than 12% (M-104 repair-then-scrap loop). The floor hull
+        /// cannot be scrapped (Roster throws InvalidOperationException). A mech that is already Lost is a replay: nothing changes.
+        /// </summary>
+        public MetaFightEndResult ScrapMech(EntityId mechId, IBodyDamageRecord record, long step, SalvageLocation location = SalvageLocation.Land)
+        {
+            if (record == null) throw new ArgumentNullException(nameof(record));
+            var before = _roster.Get(mechId) ?? throw new ArgumentException(mechId + " is not in the roster");
+            bool replay = before.State == MechState.Lost;
+            long floorsBefore = _roster.FloorGrants(before.Slot);
+            var after = _roster.Retire(mechId, step);
+            var fe = new FightEndResult
+            {
+                MechId = mechId, Lost = true, Replay = replay, WreckId = after.WreckId, Cause = after.Cause,
+                FloorGranted = _roster.FloorGrants(before.Slot) > floorsBefore, FloorMechId = _roster.ActiveMech(before.Slot),
+            };
+            var res = new MetaFightEndResult { Roster = fe };
+            AfterLoss(before, fe, record, step, location, res, 0.0);
             return res;
         }
 
@@ -192,7 +234,7 @@ namespace Game.Composition
         /// a slot without a record part takes the mean integrity of the record); otherwise the chassis composition of the economy table. Absorbed energy per part is
         /// 0 until the body damage record carries it (PartDamage has no energy field); the fall energy is g x CoM height of the build, or the 40 m reference.
         /// </summary>
-        public SalvageInput BuildWreck(MechInstance mech, IBodyDamageRecord record, long wreckId, SalvageLocation location)
+        public SalvageInput BuildWreck(MechInstance mech, IBodyDamageRecord record, long wreckId, SalvageLocation location, double? fallJPerKg = null)
         {
             var recs = new List<PartDamage>();
             record.CopyParts(recs);
@@ -228,6 +270,7 @@ namespace Game.Composition
                 _errors?.Report(new CoreError(CoreErrorKind.ConfigMissing, "[Meta] no parts known for lost mech " + mech.MechId + " (chassis '" + mech.Chassis + "'); wreck " + wreckId + " not salvaged."));
                 return null;
             }
+            if (fallJPerKg.HasValue) fall = fallJPerKg.Value;
             long totalPrice = 0;
             foreach (var p in parts) totalPrice = checked(totalPrice + p.PriceUsd);
             return new SalvageInput

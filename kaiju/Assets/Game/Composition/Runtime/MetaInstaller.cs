@@ -16,6 +16,8 @@ namespace Game.Composition
     public sealed class MetaInputs
     {
         public const string PricesPath = "Economy/economy_prices@v1.json";
+        /// <summary>Optional: campaign-simulation overlay (fee, advance, floor loss levy). A missing file leaves the base prices untouched and is not an error.</summary>
+        public const string TuningPath = "Economy/economy_tuning@v1.json";
         public const string YieldsPath = "Salvage/salvage_yields@v1.json";
         public const string PartsPath = "Refit/parts@v1.json";
         public const string ChassisPath = "Refit/chassis@v1.json";
@@ -42,6 +44,8 @@ namespace Game.Composition
         public RosterService Roster { get; internal set; }
         public RefitService Refit { get; internal set; }
         public PriceTable Prices { get; internal set; }
+        /// <summary>economy_tuning@v1 when the file was present (already applied to <see cref="Prices"/>), else null.</summary>
+        public EconomyTuning Tuning { get; internal set; }
         public IAssetValueProvider Assets { get; internal set; }
         public MetaFightEndBridge Bridge { get; internal set; }
         public EntityIdAllocator Allocator { get; internal set; }
@@ -84,6 +88,7 @@ namespace Game.Composition
             var prices = Load(errors, inputs, MetaInputs.PricesPath, PriceTable.Parse);
             if (prices == null) return h;
             h.Prices = prices;
+            h.Tuning = LoadTuning(errors, inputs, prices);
             h.Economy = EconomyModule.Install(registry, flags, prices, bus, inputs.StartingFunds);
             saves?.Register(h.Economy);
             h.Assets = new PriceTableAssetValues(prices, inputs.Buildings);
@@ -124,11 +129,21 @@ namespace Game.Composition
 
             if (h.Roster != null)
             {
-                h.Bridge = new MetaFightEndBridge(h.Roster, prices, hangar, h.Salvage, h.Refit, bus, errors);
+                h.Bridge = new MetaFightEndBridge(h.Roster, prices, hangar, h.Salvage, h.Refit, bus, errors, h.Economy, h.Tuning);
                 registry.Register<MetaFightEndBridge>(h.Bridge);
             }
             registry.Register<MetaHandle>(h);
             return h;
+        }
+
+        private static EconomyTuning LoadTuning(ICoreErrorSink errors, MetaInputs inputs, PriceTable prices)
+        {
+            string text = null;
+            try { text = inputs.ReadConfig(MetaInputs.TuningPath); } catch (Exception) { return null; }   // optional overlay: absent is fine
+            if (string.IsNullOrEmpty(text)) return null;
+            var t = Try(errors, MetaInputs.TuningPath, () => EconomyTuning.Parse(text));
+            t?.ApplyTo(prices);
+            return t;
         }
 
         private static string ReadText(ICoreErrorSink errors, MetaInputs inputs, string rel)

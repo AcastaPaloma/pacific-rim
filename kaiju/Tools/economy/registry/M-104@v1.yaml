@@ -1,0 +1,79 @@
+registry_schema: metric_registry@v1
+revision: v1.0
+metric_status: registered
+date: '2026-11-15'
+metric: M-104
+spec: M-104@v1
+title: Economy pacing, no unrecoverable state, no exploitable loop (R-104 section 11)
+source: research/R-104.md sections 6, 7, 8, 11
+note: "Producer is Tools/economy/econ_sim.py (python econ_sim.py m104). It ports the rules of Meta.Economy, Meta.Salvage, Meta.Roster and Meta.Refit and reads their committed
+  data (economy_prices@v1 + economy_tuning@v1, salvage_yields@v1, parts@v1, chassis@v1); only the sortie model (contract values, damage, loss probability) is invented, every
+  constant of it is listed with its source or an Assumed flag in the report. Thresholds are constants of the tool and this file; a test asserts they agree. The fee and the
+  floor loss levy are Assumed design knobs tuned on held-out seeds 1000-1299 and 2000-2299, never on the gate seeds alone (evidence/T-123). Interpretation of sub-gate (c) for the
+  loops that are not an item cycle is in the thresholds' source lines."
+submeasures:
+  M-104.pacing:
+    title: Sorties until a lost mech is replaced by a full-price purchase from net income (30 seeded campaigns x 80 sorties, the open replacement is followed to its end)
+    kind: gating
+    thresholds:
+      median_sorties_min:
+        value: 8
+        unit: sorties
+        status: derived
+        source: "R-104 section 8 and 11 (a): median within 8-16"
+      median_sorties_max:
+        value: 16
+        unit: sorties
+        status: derived
+        source: "R-104 section 8 and 11 (a): median within 8-16"
+      p90_sorties_max:
+        value: 25
+        unit: sorties
+        status: derived
+        source: "R-104 section 11 (a): p90 <= 25"
+      unresolved_replacements_max:
+        value: 0
+        unit: losses
+        status: derived
+        source: "R-104 section 7: no unrecoverable state; a replacement still open after the 120-sortie tail counts as a failure"
+  M-104.invariants:
+    title: No state without a flyable mech, no negative funds, no broken conservation, an offer with expected payout >= 25M at every sortie
+    kind: gating
+    thresholds:
+      violations_max:
+        value: 0
+        unit: states
+        status: derived
+        source: "R-104 section 11 (b): 0 states with no flyable mech, 0 negative funds, 0 unreachable contracts over all steps"
+  M-104.item_loops:
+    title: A loop that cycles a priced item (lose a purchased mech for the wreck credit, buy and sell back, repair then scrap) loses at least this share of the item price per iteration
+    kind: gating
+    thresholds:
+      loss_share_bps_min:
+        value: 6000
+        unit: bps of item price
+        status: derived
+        source: "R-104 section 11 (c): at least 60% of price per iteration"
+  M-104.earn_loops:
+    title: A loop that could earn (the free floor hull thrown away, a trivial contract farmed, debris of a protected building, a failed contract kept for its advance) has net per iteration <= 0
+    kind: gating
+    thresholds:
+      net_per_iteration_max_usd:
+        value: 0
+        unit: usd
+        status: derived
+        source: "R-104 section 7 table: every loop must lose money; the interpretation of a '60% of price' margin for loops without an item is net <= 0 (T-123, decided autonomously)"
+  M-104.loss_farming_campaign:
+    title: Lose the mech on purpose every sortie for 80 sorties on the same seeds as honest play
+    kind: gating
+    thresholds:
+      seeds_below_honest_share_min:
+        value: 0.9
+        unit: share of seeds
+        status: assumed_pending_calibration
+        source: "R-104 section 8 control (lose every sortie ends far below honest play); the 90% seed share and the 0.6 income ratio are T-123 choices, noise margins for a 30-seed gate"
+      income_ratio_max:
+        value: 0.6
+        unit: ratio of mean operating income per sortie to honest play
+        status: assumed_pending_calibration
+        source: "T-123: the 60% of R-104 section 11 (c) applied to income; honest play 44M per sortie, control 23M"
