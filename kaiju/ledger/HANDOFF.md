@@ -78,6 +78,21 @@ Snapshot (2026-11-14 11:20, after a second usage-limit interruption; all agents 
 - 2026-11-14 · T-005 cycle 1: the implementer's own stored metrics show the walk gate failing (steady Froude 0.020 against 0.20), and the spec says the feel panel can never rescue a failed numeric sub-measure (C7). `eval-feel` on captures is therefore deferred until a cycle reaches the Froude band; `eval-physics` and `eval-arch` ran on a frozen copy (`.wt/T-005-eval`, commit 17d2e9a) while the implementer started cycle 2. Research R-007 was commissioned in parallel on why the target pace is missed (orchestrator prompt §5.5 allows research when a metric cannot be hit).
 - 2026-11-14 · T-003: metric-definition problems found by `eval-bay` (shoreline seam, default-height share, independent skyline reference) went to research R-006 (`M-005@v1.1` proposal) instead of fix cycles; build defects went back to the implementer (cycle 2).
 - 2026-11-14 · T-007: rulings on C6, C11 and C27 readings appended to `expectations/T-007.md`; cycle 3 (the last) is with the implementer.
+- 2026-11-14 · M1 W1/W2 research (R-020..R-026, summary `research/M1_W1_SUMMARY.md`, 9d16027): founder items **decided autonomously (user offline)**, all reviewable:
+  - Q-100: yes, option A, on the integration branch only (never `main`).
+  - Q-101: a custom engine-free `Net` layer with a Facepunch.Steamworks adapter on Steam Networking Sockets (R-023); STACK.md's NGO row is to change when T-029 starts.
+  - Q-102: GGB static only, with envelope colliders until the HAER CA-31 sheets are read.
+  - Q-103: 5 Hazus states, monotone.
+  - Q-104: Crissy Field open-air pad (L0_27_36/37).
+  - Q-105: yes.
+  - Q-106: 80 m, 10,000 t.
+  - C-1 (landmark id): `destruction@v1` keys on Core `BuildingId` (source `landmark`). The T-022 bake maps each `landmark:<slug>[:part]` string 1:1 to that id.
+  - C-2 (step length): Core stays at 0.02 s. Every metric reads `step_seconds` from the log header, and thresholds are stated in steps (M-055 becomes RTT/2 + 2 steps), so Core and T-005 are not touched.
+  - C-3: the M-051 tool compares through the PGA → Sd → drift chain.
+  - Assessor fields: T-020 adds `year_built`, `stories` and `struct_class` as optional additive fields if the DataSF `wv5m-vpq2` columns are confirmed. Otherwise it falls back to the rise class.
+  - M-006@v2 (R-026 §2) is accepted as advisory until W7 calibration.
+  - M-060 becomes a fourth T-035 step.
+  - Q-NEW items in the R notes are left unnumbered for the ledger pass. No implementation was started (outside this research task's scope).
 
 ## Snapshot at the third usage-limit stop (2026-11-14, afternoon): resume from here
 Merged and green on the integration branch: T-001 Core (with fix cycle 1) and T-007 mech asset (cycle 3, all evaluators PASS; merge 93ad0b5). Research R-001 to R-007 written; `M-005@v1.1` proposed by R-006.
