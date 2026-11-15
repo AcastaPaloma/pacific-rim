@@ -24,7 +24,11 @@ namespace Game.Units.Mech.Qp
         readonly double[] _p = new double[NS * NS], _tmp = new double[NS * NS], _qdS = new double[NS], _hS = new double[NS], _j2 = new double[4 * 2 * NS], _j2prev = new double[4 * 2 * NS], _sole = new double[6];
         readonly int[] _col = new int[NS], _bc = new int[6];
         double[] _jac, _jacS, _bias; int _rows, _cols; bool _havePrev; long _n;
-        readonly double _heelZ, _toeZ, _ankleZ, _ankleH;
+        readonly double _heelZ, _toeZ, _ankleZ, _ankleH, _halfW; readonly bool _lat;
+        /// <summary>Stage 2 (qp_lateral): heading the yaw task holds (rad, same convention as the yaw argument of Apply); set by the caller each tick.</summary>
+        public double DesiredYaw;
+        /// <summary>Stage 2: world positions of the 8 sole corners (corner c = 2 * point + k) and the commanded world corner forces of the last Apply (ground on foot, N).</summary>
+        public readonly Vector3[] CornerWorld = new Vector3[8], ForceWorld = new Vector3[8];
         public SagittalQpController Controller => _ctl;
         /// <summary>The whole-body model of the last Apply (M_ss, point Jacobians, A_G); read-only access for tests and logs.</summary>
         public WholeBodyModel Model => _wb;
@@ -46,7 +50,7 @@ namespace Game.Units.Mech.Qp
             for (int s = 0; s < NS; s++) _wb.SagCols[s] = s;
             int root = 0; for (int i = 0; i < _links; i++) if (body.LinkParent(i) < 0) { root = i; break; }
             _root = root;
-            var sole = f.foot_sole; _heelZ = sole.heel_z_m; _toeZ = sole.toe_z_m; _ankleZ = sole.ankle_z_m; _ankleH = sole.ankle_height_m;
+            var sole = f.foot_sole; _heelZ = sole.heel_z_m; _toeZ = sole.toe_z_m; _ankleZ = sole.ankle_z_m; _ankleH = sole.ankle_height_m; _halfW = 0.5 * sole.width_m; _lat = opt.Lateral;
             for (int leg = 0; leg < 2; leg++) { body.GetFoot(_foot[leg], out var fs); _wb.PointLink[2 * leg] = _wb.PointLink[2 * leg + 1] = fs.Link; }
             // S = P q9
             for (int i = 0; i < 3; i++) _p[i * NS + i] = 1;
@@ -154,6 +158,7 @@ namespace Game.Units.Mech.Qp
                 c.Pts[2 * pnt] = sy * _wb.PointPos[3 * pnt] + cy * _wb.PointPos[3 * pnt + 2]; c.Pts[2 * pnt + 1] = _wb.PointPos[3 * pnt + 1] - groundY;
             }
             Array.Copy(_j2, _j2prev, _j2.Length); _havePrev = true;
+            if (_lat) LateralInputs(sy, cy, groundY, yaw);
             c.Com[0] = sy * _wb.ComTotal[0] + cy * _wb.ComTotal[2]; c.Com[1] = _wb.ComTotal[1] - groundY;
             double p0 = 0, p1 = 0, p2 = 0, l3 = 0, l5 = 0; for (int s = 0; s < NS; s++) { double v = _qdS[s]; p0 += _wb.AG[s] * v; p1 += _wb.AG[NS + s] * v; p2 += _wb.AG[2 * NS + s] * v; l3 += _wb.AG[3 * NS + s] * v; l5 += _wb.AG[5 * NS + s] * v; }
             double mt = _wb.TotalMass; c.ComD[0] = (sy * p0 + cy * p2) / mt; c.ComD[1] = p1 / mt; c.AngMom = -(cy * l3 - sy * l5);
@@ -171,7 +176,45 @@ namespace Game.Units.Mech.Qp
             c.HasFnMeas = _n > 0;
             c.Step(t); _n++;
             for (int j = 0; j < 6; j++) _b.SetDofFeedForward(_dof[j], c.Tau[j]);
+            if (_lat)
+            {
+                var fw = new Vector3((float)sy, 0f, (float)cy); var rt = new Vector3((float)cy, 0f, (float)-sy);
+                for (int k = 0; k < 8; k++) ForceWorld[k] = fw * (float)c.Force3[3 * k] + rt * (float)c.Force3[3 * k + 1] + Vector3.UnitY * (float)c.Force3[3 * k + 2];
+            }
             return c.LastStatus == QpStatus.Optimal;
+        }
+
+        /// <summary>Stage 2 inputs: sole corners (heel / toe point +- half the sole width along the foot's local x), lateral CoM state, angular momentum about the CoM (link states: sum m (c_i - c) x v_i + R I R' w) and yaw inertia, heading error.</summary>
+        void LateralInputs(double sy, double cy, double groundY, double yaw)
+        {
+            var c = _ctl; var fw = new Vector3((float)sy, 0f, (float)cy); var rt = new Vector3((float)cy, 0f, (float)-sy);
+            double yref = 0;
+            for (int leg = 0; leg < 2; leg++)
+            {
+                _b.GetFoot(_foot[leg], out var fs); _b.GetLink(fs.Link, out var ls);
+                for (int k = 0; k < 4; k++)
+                {
+                    int corner = 4 * leg + k; double z = ((k >> 1) == 0 ? _heelZ : _toeZ) - _ankleZ, x = (k & 1) == 0 ? -_halfW : _halfW;
+                    var pw = ls.Position + Vector3.Transform(new Vector3((float)x, (float)-_ankleH, (float)z), ls.Rotation); CornerWorld[corner] = pw;
+                    c.Corner[3 * corner] = Vector3.Dot(pw, fw); c.Corner[3 * corner + 1] = Vector3.Dot(pw, rt); c.Corner[3 * corner + 2] = pw.Y - groundY; yref += c.Corner[3 * corner + 1] / 8.0;
+                }
+            }
+            double mt = _wb.TotalMass; var com = new Vector3((float)_wb.ComTotal[0], (float)_wb.ComTotal[1], (float)_wb.ComTotal[2]);
+            double vx = 0, vy = 0, vz = 0, lx = 0, ly = 0, lz = 0, izz = 0;
+            for (int i = 0; i < _links; i++)
+            {
+                _b.GetLink(i, out var ls); double m = _wb.Mass[i]; double dx = ls.Com.X - com.X, dy = ls.Com.Y - com.Y, dz = ls.Com.Z - com.Z, ux = ls.Velocity.X, uy = ls.Velocity.Y, uz = ls.Velocity.Z;
+                vx += m * ux; vy += m * uy; vz += m * uz;
+                lx += m * (dy * uz - dz * uy); ly += m * (dz * ux - dx * uz); lz += m * (dx * uy - dy * ux); izz += m * (dx * dx + dz * dz);
+                int o9 = 9 * i;
+                for (int k = 0; k < 3; k++)
+                {
+                    double ex = _wb.Rot[o9 + k], ey = _wb.Rot[o9 + 3 + k], ez = _wb.Rot[o9 + 6 + k], ik = _wb.InertiaDiag[3 * i + k], wk = ex * ls.AngularVelocity.X + ey * ls.AngularVelocity.Y + ez * ls.AngularVelocity.Z;
+                    lx += ik * wk * ex; ly += ik * wk * ey; lz += ik * wk * ez; izz += ik * ey * ey;
+                }
+            }
+            c.ComY = Vector3.Dot(com, rt); c.ComDY = (vx * rt.X + vz * rt.Z) / mt; c.LRoll = lx * fw.X + lz * fw.Z; c.LYaw = ly; c.Izz = izz; c.YRef = yref;
+            double e = yaw - DesiredYaw; while (e > Math.PI) e -= 2 * Math.PI; while (e < -Math.PI) e += 2 * Math.PI; c.YawErr = e;
         }
     }
 }

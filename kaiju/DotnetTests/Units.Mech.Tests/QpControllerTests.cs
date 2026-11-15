@@ -76,6 +76,50 @@ namespace Game.Units.Mech.Tests
             Assert.That(worst, Is.LessThan(1e-3), "max torque difference as a fraction of the joint limit"); Assert.That(c.Touchdowns, Is.EqualTo(1));
         }
 
+        /// <summary>Step 9.5b (stage 2, qp_lateral): golden replay with 3D corners (feet at +-6.5 m, sole 10 m wide). Neutral lateral state: the sagittal torques stay close to the planar QP; the 3D forces stay inside the diamond pyramid;
+        /// the yaw moment the sagittal shear makes at the lateral foot offset is cancelled (heel / toe lateral forces); a heading error and a lateral CoM offset produce a restoring yaw moment and lateral force.</summary>
+        [Test]
+        public void Lateral_GoldenReplay_SharesTheConeAndHoldsYaw()
+        {
+            var a = Golden(out int n); var d = Ref(); var c0 = Make(d); var o = new SagittalQpOptions { Lateral = true }; var c = Make(d, o);
+            double w = new QpReference(d.rows[0], 0.01, true).BodyMassKg * 9.81, worst = 0, worstCone = 0, worstYaw = 0, maxYawRef = 0; int failed = 0;
+            void Corners(SagittalQpController q, double yOff)
+            {
+                for (int i = 0; i < 4; i++) for (int k = 0; k < 2; k++) { int cc = 2 * i + k; q.Corner[3 * cc] = q.Pts[2 * i]; q.Corner[3 * cc + 1] = (i < 2 ? -6.5 : 6.5) + (k == 0 ? -5 : 5) + yOff; q.Corner[3 * cc + 2] = q.Pts[2 * i + 1]; }
+                q.ComY = 0; q.ComDY = 0; q.LRoll = 0; q.LYaw = 0; q.Izz = 25 * w / 9.81; q.YawErr = 0; q.YRef = yOff;
+            }
+            for (int k = 0; k < n; k++)
+            {
+                Feed(c0, a, k); c0.Step(a[k * Row]); Feed(c, a, k); Corners(c, 0); if (!c.Step(a[k * Row])) failed++;
+                for (int j = 0; j < 6; j++) worst = Math.Max(worst, Math.Abs(c.Tau[j] - c0.Tau[j]) / Lim[j]);
+                for (int q = 0; q < 8; q++) { double fz = c.Force3[3 * q + 2]; if (fz > 1e-6 * w) worstCone = Math.Max(worstCone, (Math.Abs(c.Force3[3 * q]) + Math.Abs(c.Force3[3 * q + 1])) / (o.Mu * o.FrMargin * fz)); }
+                double my0 = 0; for (int q = 0; q < 8; q++) my0 -= (c.Corner[3 * q + 1] - c.ComY) * c.Force3[3 * q]; worstYaw += Math.Abs(c.LatCmd[2]); maxYawRef += Math.Abs(my0) / (w * 42.4);
+            }
+            TestContext.WriteLine($"lateral golden: max |dtau|/LIM vs planar {worst:G3}, cone use max {worstCone:G4}, mean |yaw moment| {worstYaw / n:G3} (W l) vs the sagittal shear's own {maxYawRef / n:G3}, infeasible {failed}");
+            Assert.That(failed, Is.EqualTo(0)); Assert.That(worstCone, Is.LessThanOrEqualTo(1 + 1e-6)); Assert.That(worstYaw, Is.LessThan(0.2 * maxYawRef), "the yaw moment of the sagittal shear is (mostly) cancelled");
+            Assert.That(worst, Is.LessThan(0.15), "the sagittal torques stay close to the planar QP");
+            // restoring actions from one mid-stance tick
+            int t0 = n / 2; Feed(c, a, t0); Corners(c, 0); c.YawErr = 0.2; c.Step(a[t0 * Row]); double yawM = c.LatCmd[2];
+            Feed(c, a, t0); Corners(c, 0); c.ComY = 3.0; c.Step(a[t0 * Row]); double fy = c.LatCmd[0];
+            TestContext.WriteLine($"heading error +0.2 rad -> yaw moment {yawM:G3} (W l); CoM 3 m right of the target -> lateral force {fy:G3} W");
+            Assert.That(yawM, Is.LessThan(0)); Assert.That(fy, Is.LessThan(0));
+        }
+
+        /// <summary>Step 9.5b: the torque regulariser (qp_w_tau) on the golden replay: feasible every tick, torques stay near the planar QP (the reference walk needs no internal double-support force), the peak |tau| / LIM does not grow.</summary>
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        public void TorqueRegulariser_GoldenReplay_StaysCloseAndFeasible(double wTau)
+        {
+            var a = Golden(out int n); var d = Ref(); var c0 = Make(d); var c = Make(d, new SagittalQpOptions { WTau = wTau }); double worst = 0, peak0 = 0, peak = 0; int failed = 0;
+            for (int k = 0; k < n; k++)
+            {
+                Feed(c0, a, k); c0.Step(a[k * Row]); Feed(c, a, k); if (!c.Step(a[k * Row])) failed++;
+                for (int j = 0; j < 6; j++) { worst = Math.Max(worst, Math.Abs(c.Tau[j] - c0.Tau[j]) / Lim[j]); peak0 = Math.Max(peak0, Math.Abs(c0.Tau[j]) / Lim[j]); peak = Math.Max(peak, Math.Abs(c.Tau[j]) / Lim[j]); }
+            }
+            TestContext.WriteLine($"w_tau {wTau}: max |dtau|/LIM vs planar {worst:G3}, peak |tau|/LIM {peak:G3} (planar {peak0:G3}), infeasible {failed}");
+            Assert.That(failed, Is.EqualTo(0)); Assert.That(worst, Is.LessThan(0.2)); Assert.That(peak, Is.LessThanOrEqualTo(peak0 + 1e-6));
+        }
+
         [Test]
         public void ExactReferenceStates_ReproduceThePrototypeAndTheReferenceTorques()
         {

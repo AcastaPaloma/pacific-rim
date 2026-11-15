@@ -14,7 +14,10 @@ namespace Game.Units.Mech.Qp
         public bool HoldSched = true, Onset = true, Land = true, LandAct = true, FrMeas = true;
         public double FrMargin = 0.9, LandK0 = 35, VTd = 0.3, LandPost = 0.0;
         public double MassEst = 0.05, MassLo = 0.7, MassHi = 1.5, SgFloor = 0.3;
-        public double SolverRegularisation = 1e-12;   // the prototype's solver has none; the default 1e-6 of the shared solver distorts the weak (1e-6..1e-4) weights
+        public double SolverRegularisation = 1e-12;
+        /// <summary>Step 9.5b (stage 2, qp_lateral): 3D contact forces at 2 sole corners per heel / toe point (diamond pyramid |fx| + |fy| &lt;= mu' fz shared by both shears), lateral CoM, roll and yaw momentum rows. Off = the planar QP unchanged.</summary>
+        public double WTau;   // step 9.5b: weight of sum (tau_j / LIM_j)^2 (0 = off, as the prototype); fixes the internal double-support force the other rows leave free
+        public bool Lateral; public double OmY = 0.5, WCy = 1e3, WRoll = 1e3, KRoll = 2.0, WYaw = 1e6, OmYaw = 1.0;   // the prototype's solver has none; the default 1e-6 of the shared solver distorts the weak (1e-6..1e-4) weights
         /// <summary>Not ported (all off in b5): sigma smoothing, land_lead/xlead/vclip/nounder, om_land, sw_post, fmin_td, rate_bw, sg_fmin, predict.</summary>
         public static SagittalQpOptions From(WalkTuning t) => new SagittalQpOptions
         {
@@ -22,7 +25,8 @@ namespace Game.Units.Mech.Qp
             WCx = t.qp_w_cx, WCz = t.qp_w_cz, WL = t.qp_w_L, WPrior = t.qp_w_prior, WSmooth = t.qp_w_smooth, WSt = t.qp_w_st, WSwing = t.qp_w_swing, WFp = t.qp_w_fp, WTrunk = t.qp_w_trunk, WPost = t.qp_w_post, WReg = t.qp_w_reg, WBreg = t.qp_w_breg,
             Kvs = t.qp_kvs, OnBw = t.qp_on_bw, OffBw = t.qp_off_bw, TOut = t.qp_T_out, TIn = t.qp_T_in, TBlend = t.qp_T_blend, LoadThr = t.qp_load_thr, TdMinFrac = t.qp_td_min_frac, LateVz = t.qp_late_vz, FCap = t.qp_fcap, ZHold = t.qp_z_hold,
             HoldSched = t.qp_hold_sched > 0.5, Onset = t.qp_onset > 0.5, Land = t.qp_land > 0.5, LandAct = t.qp_land_act > 0.5, FrMeas = t.qp_fr_meas > 0.5, FrMargin = t.qp_fr_margin, LandK0 = t.qp_land_k0, VTd = t.qp_v_td, LandPost = t.qp_land_post,
-            MassEst = t.qp_mass_est, MassLo = t.qp_mass_lo, MassHi = t.qp_mass_hi, SgFloor = t.qp_sg_floor, SolverRegularisation = t.qp_solver_reg
+            MassEst = t.qp_mass_est, MassLo = t.qp_mass_lo, MassHi = t.qp_mass_hi, SgFloor = t.qp_sg_floor, SolverRegularisation = t.qp_solver_reg,
+            WTau = t.qp_w_tau, Lateral = t.qp_lateral > 0.5, OmY = t.qp_om_y, WCy = t.qp_w_cy, WRoll = t.qp_w_roll, KRoll = t.qp_k_roll, WYaw = t.qp_w_yaw, OmYaw = t.qp_om_yaw
         };
     }
 
@@ -34,7 +38,7 @@ namespace Game.Units.Mech.Qp
     /// </summary>
     public sealed class SagittalQpController
     {
-        public const int NQ = 9, NJ = 6, MaxNb = 8, MaxNx = NQ + MaxNb, MaxIn = 40;
+        public const int NQ = 9, NJ = 6, MaxNb = 32, MaxNx = NQ + MaxNb, MaxIn = 64;   // MaxNb: 8 generators x 4 points with Lateral (2 without)
         static readonly int[] CjIdx = { 2, 3, 3, 4, 4, 5 };
 
         readonly QpReference _ref; readonly SagittalQpOptions _o; readonly IQpSolver _solver; readonly ContactSchedule _sch;
@@ -47,6 +51,13 @@ namespace Game.Units.Mech.Qp
         public bool AnchorXoff;        // hand-off start (step 9.5): the first Step after Init sets Xoff so that the reference heel of leg B (just landed) is at its measured x
         bool _anchorPending;
         public bool HasFnMeas;         // false only on the first tick (no read-back yet)
+        // Lateral (stage 2) inputs, heading frame (x forward, y right, z up: algebraically right-handed in Unity world coordinates): corner c = 2 * point + k (k 0 = -x side, 1 = +x side of the sole), [x, y, z above ground]
+        public readonly double[] Corner = new double[8 * 3];
+        public double ComY, ComDY, LRoll, LYaw, Izz = 1.0, YawErr, YRef;   // CoM lateral position / velocity, angular momentum about the CoM along forward and up, yaw inertia about the CoM, heading error (rad), lateral CoM target
+        /// <summary>Lateral: commanded 3D corner forces [fx forward, fy right, fz up] per corner, N (heading frame).</summary>
+        public readonly double[] Force3 = new double[8 * 3];
+        /// <summary>Lateral: last commanded [sum fy / W, roll moment / (W l), yaw moment / (W l)] and their targets (log only).</summary>
+        public readonly double[] LatCmd = new double[6];
         // outputs
         public readonly double[] Tau = new double[NJ];   // joint torques [hipA kneeA ankleA hipB kneeB ankleB], N m, clipped to the limits
         public readonly double[] Force = new double[8];  // commanded contact forces [ft, fn] per point, N
@@ -68,6 +79,7 @@ namespace Game.Units.Mech.Qp
         readonly double[] _hq = new double[MaxNx * MaxNx], _gq = new double[MaxNx], _row = new double[MaxNx], _aeq = new double[3 * MaxNx], _beq = new double[3], _ain = new double[MaxIn * MaxNx], _bin = new double[MaxIn], _ain2 = new double[MaxIn * MaxNx], _bin2 = new double[MaxIn];
         readonly double[] _gm = new double[3 * MaxNb], _em = new double[8 * MaxNb], _jb = new double[NQ * MaxNb], _qx = new double[NQ * MaxNx], _ms = new double[NQ * NQ], _hs = new double[NQ], _qdd = new double[NQ], _qq = new double[NQ], _uu = new double[NJ];
         readonly double[] _wd = new double[3], _vp = new double[8];
+        readonly double[] _gxc = new double[MaxNb], _gyc = new double[MaxNb], _fprevY = new double[4]; readonly int[] _cc = new int[MaxNb];
 
         public SagittalQpController(QpReference reference, SagittalQpOptions options, double[] torqueLimitsNm, IQpSolver solver)
         {
@@ -103,7 +115,7 @@ namespace Game.Units.Mech.Qp
         {
             _sch.Reset(0);
             for (int i = 0; i < 4; i++) { _sch.Inc[i] = _ref.Flags[i]; _sch.FIn[i] = _ref.Node(QpReference.Cf + 2 * i + 1, 0); _sch.TIn[i] = -1.0; }
-            _anchorPending = AnchorXoff; Array.Clear(_fprev, 0, 8); MassScale = 1.0; _hasComd = false; _planAnchor = double.NaN; _planPar = -1;
+            _anchorPending = AnchorXoff; Array.Clear(_fprev, 0, 8); Array.Clear(_fprevY, 0, 4); MassScale = 1.0; _hasComd = false; _planAnchor = double.NaN; _planPar = -1;
             Array.Copy(_ref.Tau0, Tau, NJ);
         }
 
@@ -173,6 +185,31 @@ namespace Game.Units.Mech.Qp
         }
         void ClearRow(int nx) { for (int i = 0; i < nx; i++) _row[i] = 0; }
 
+        /// <summary>Stage 2 rows on the generators: lateral force = m (om_y^2 (y_ref - y) - 2 om_y vy), roll moment = -k_roll L_roll, yaw moment = -Izz (om_yaw^2 e + 2 om_yaw w), plus prior (fy = 0) and smoothness on the per-point lateral force. Normalised by W, W l.</summary>
+        void LateralRows(int nx, int nS, int gpp, double ms, double W, double cx, double cz)
+        {
+            var o = _o; double l = _l, mt = _mt * ms;
+            double ay = o.OmY * o.OmY * (YRef - ComY) - 2 * o.OmY * ComDY;
+            double mrd = -o.KRoll * LRoll * ms, myd = -Izz * ms * (o.OmYaw * o.OmYaw * YawErr + 2 * o.OmYaw * (LYaw / Math.Max(Izz, 1e-9)));
+            LatCmd[3] = mt * ay / W; LatCmd[4] = mrd / (W * l); LatCmd[5] = myd / (W * l);
+            int nb = gpp * nS;
+            for (int k = 0; k < 3; k++)
+            {
+                ClearRow(nx);
+                for (int c = 0; c < nb; c++)
+                {
+                    int q = _cc[c]; double gx = _gxc[c], gy = _gyc[c], px = Corner[3 * q] - cx, py = Corner[3 * q + 1] - ComY, pz = Corner[3 * q + 2] - cz;
+                    _row[NQ + c] = k == 0 ? gy : k == 1 ? (py - pz * gy) / l : (px * gy - py * gx) / l;   // gz = 1
+                }
+                AddRow(nx, k == 0 ? o.WCy : k == 1 ? o.WRoll : o.WYaw, LatCmd[3 + k]);
+            }
+            for (int a = 0; a < nS; a++)
+            {
+                int i = _sIdx[a]; ClearRow(nx); for (int b = 0; b < gpp; b++) _row[NQ + gpp * a + b] = _gyc[gpp * a + b];
+                AddRow(nx, o.WPrior, 0.0); AddRow(nx, o.WSmooth, _fprevY[i] / W);
+            }
+        }
+
         /// <summary>One control tick at clock time <paramref name="t"/> (s): fills <see cref="Tau"/> and returns true; on an infeasible QP the previous torques stay and false is returned.</summary>
         public bool Step(double t)
         {
@@ -208,7 +245,8 @@ namespace Game.Units.Mech.Qp
             }
             // contact set and force caps
             int nS = 0; for (int i = 0; i < 4; i++) if (_sch.Inc[i]) _sIdx[nS++] = i;
-            int nb = 2 * nS, nx = NQ + nb;
+            bool lat = o.Lateral; int gpp = lat ? 8 : 2;   // generators per point
+            int nb = gpp * nS, nx = NQ + nb;
             for (int i = 0; i < 4; i++) _fmax[i] = 0;
             for (int a = 0; a < nS; a++) { int i = _sIdx[a]; _fmax[i] = _sch.Fmax(i, t, tref, W); }
             bool sgOn = o.SgFloor > 0 && !(_sch.Inc[2 * swLeg] || _sch.Inc[2 * swLeg + 1]);
@@ -219,9 +257,10 @@ namespace Game.Units.Mech.Qp
             for (int a = 0; a < nS; a++)
             {
                 int i = _sIdx[a];
-                for (int b = 0; b < 2; b++)
+                for (int b = 0; b < gpp; b++)
                 {
-                    int col = 2 * a + b; double gx = (b == 0 ? 1.0 : -1.0) * o.Mu * o.FrMargin, gz = 1.0;
+                    int col = gpp * a + b, m = b & 3; double mu1 = o.Mu * o.FrMargin, gx = lat ? (m == 0 ? mu1 : m == 1 ? -mu1 : 0.0) : (b == 0 ? 1.0 : -1.0) * mu1, gz = 1.0;
+                    _gxc[col] = gx; _gyc[col] = lat ? (m == 2 ? mu1 : m == 3 ? -mu1 : 0.0) : 0.0; _cc[col] = 2 * i + (b >> 2);
                     _gm[col] = gx; _gm[MaxNb + col] = gz; _gm[2 * MaxNb + col] = ((Pts[2 * i] - cx) * gz - (Pts[2 * i + 1] - cz) * gx) / l;
                     _em[(2 * a) * MaxNb + col] = gx; _em[(2 * a + 1) * MaxNb + col] = gz;
                     for (int j = 0; j < NQ; j++) _jb[j * MaxNb + col] = W * (Jp[i * 18 + j] * gx + Jp[i * 18 + 9 + j] * gz);
@@ -243,6 +282,7 @@ namespace Game.Units.Mech.Qp
                     AddRow(nx, o.WSmooth, _fprev[2 * i + d] / W);
                 }
                 for (int c = 0; c < nb; c++) _hq[(NQ + c) * nx + NQ + c] += o.WBreg;
+                if (lat) LateralRows(nx, nS, gpp, ms, W, cx, cz);
             }
             // stance points: acceleration -kvs v
             for (int a = 0; a < nS; a++)
@@ -324,9 +364,22 @@ namespace Game.Units.Mech.Qp
                 _bin[j] = cu - o.LimFrac; _bin[NJ + j] = -o.LimFrac - cu;
             }
             mi = 2 * NJ;
+            if (o.WTau > 0) for (int j = 0; j < NJ; j++) { for (int c = 0; c < nx; c++) _row[c] = _ain[(NJ + j) * nx + c]; AddRow(nx, o.WTau, o.LimFrac + _bin[NJ + j]); }   // tau_j / LIM = row . x + cu with cu = -LimFrac - bin
             for (int c = 0; c < nb; c++) { Array.Clear(_ain, mi * nx, nx); _ain[mi * nx + NQ + c] = 1.0; _bin[mi] = 0.0; mi++; }
             for (int a = 0; a < nS; a++) { Array.Clear(_ain, mi * nx, nx); for (int c = 0; c < nb; c++) _ain[mi * nx + NQ + c] = -_em[(2 * a + 1) * MaxNb + c]; _bin[mi] = -_fmax[_sIdx[a]]; mi++; }
-            if (o.FrMeas)
+            if (o.FrMeas && lat)
+                for (int f = 0; f < 2; f++)
+                {
+                    bool any = false; for (int a = 0; a < nS; a++) if (_sIdx[a] / 2 == f) any = true; if (!any) continue;
+                    double cap = Math.Max(o.Mu * o.FrMargin * (_fn[2 * f] + _fn[2 * f + 1]) / W, 1e-3);
+                    for (int q = 0; q < 4; q++)
+                    {
+                        double sx = (q & 1) == 0 ? 1.0 : -1.0, sy = (q & 2) == 0 ? 1.0 : -1.0; Array.Clear(_ain, mi * nx, nx);
+                        for (int a = 0; a < nS; a++) if (_sIdx[a] / 2 == f) for (int b = 0; b < gpp; b++) { int c = gpp * a + b; _ain[mi * nx + NQ + c] = -(sx * _gxc[c] + sy * _gyc[c]); }
+                        _bin[mi] = -cap; mi++;
+                    }
+                }
+            else if (o.FrMeas)
                 for (int f = 0; f < 2; f++)
                 {
                     bool any = false; for (int a = 0; a < nS; a++) if (_sIdx[a] / 2 == f) any = true; if (!any) continue;
@@ -368,6 +421,14 @@ namespace Game.Units.Mech.Qp
             if (!ok) { SolveFailures++; Held++; return false; }
             Array.Copy(_uu, Tau, NJ); Array.Copy(Force, _fprev, 8);
             double fr = 0; for (int i = 0; i < 4; i++) if (Force[2 * i + 1] > 1e-6 * W) fr = Math.Max(fr, Math.Abs(Force[2 * i]) / (o.Mu * Force[2 * i + 1]));
+            if (lat)
+            {
+                Array.Clear(Force3, 0, 24); Array.Clear(_fprevY, 0, 4);
+                for (int c = 0; c < nb; c++) { double bx = x[NQ + c] * W; int k = _cc[c]; Force3[3 * k] += _gxc[c] * bx; Force3[3 * k + 1] += _gyc[c] * bx; Force3[3 * k + 2] += bx; _fprevY[k / 2] += _gyc[c] * bx; }
+                fr = 0; for (int i = 0; i < 4; i++) { double fx = Force3[6 * i] + Force3[6 * i + 3], fy = Force3[6 * i + 1] + Force3[6 * i + 4], fz = Force3[6 * i + 2] + Force3[6 * i + 5]; if (fz > 1e-6 * W) fr = Math.Max(fr, Math.Sqrt(fx * fx + fy * fy) / (o.Mu * fz)); }
+                double sy = 0, mr = 0, my = 0; for (int k = 0; k < 8; k++) { double fx = Force3[3 * k], fy = Force3[3 * k + 1], fz = Force3[3 * k + 2], px = Corner[3 * k] - cx, py = Corner[3 * k + 1] - ComY, pz = Corner[3 * k + 2] - cz; sy += fy; mr += py * fz - pz * fy; my += px * fy - py * fx; }
+                LatCmd[0] = sy / W; LatCmd[1] = mr / (W * l); LatCmd[2] = my / (W * l);
+            }
             FrictionRatioCmd = fr;
             return true;
         }

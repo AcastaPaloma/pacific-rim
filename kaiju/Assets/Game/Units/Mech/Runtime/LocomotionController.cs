@@ -28,6 +28,7 @@ namespace Game.Units.Mech
             public double StanceTime;          // time since this leg last began to carry load
             public float Weight;               // share of the total ground force this step (0 = swing)
             public Vector3 Force, Cop;         // commanded ground reaction and its point of application
+            public Vector3 HipExtra;           // step 9.5b: the trunk-attitude hip torque of this tick (zero while swinging); read only by the imp 3 qp_lateral path
             public FootState State; public LinkState FootLinkState;
             public float Yaw; public Vector2 Ankle2, Sole2;
         }
@@ -38,7 +39,7 @@ namespace Game.Units.Mech
             public double[] AngStRef, AngStMeas, AngSwRef, AngSwMeas; public double RefFroude;   // round 2 step 6a (imp > 0): hip flexion, knee, ankle plantar (deg), stance and swing leg; null when not available
             public double RefPhase; public double[] TauFfSt, TauFfSw;   // round 3 step 8.5 (imp = 2): optimised feed-forward torque hip, knee, ankle (N m) after scale, sign and limit; null otherwise
             public double YawMomentNm, YawBudgetNm, YawUtil, TrunkShare;   // round 2 step 3 (NaN logs as null)
-            public int QpStatus; public long QpFailures; public double QpMassScale, QpFrictionCmd; public bool QpOn; public double QpScale; public int QpIters; public double QpMs; public double[] QpTau;   // round 4 step 9.4b (imp = 3): last QP status (0 optimal), failed solves, mass-scale estimate, commanded shear / (mu fn); log only
+            public int QpStatus; public long QpFailures; public double QpMassScale, QpFrictionCmd; public bool QpOn; public double QpScale; public int QpIters; public double QpMs; public double[] QpTau; public double[] QpLat; public int QpRow;   // QpLat (step 9.5b, qp_lateral): [sum fy / W, roll, yaw moment / (W l)] commanded and their targets; round 4 step 9.4b (imp = 3): last QP status (0 optimal), failed solves, mass-scale estimate, commanded shear / (mu fn); log only
         }
 
         readonly IArticulatedBody _b;
@@ -155,13 +156,20 @@ namespace Game.Units.Mech
                 int a0 = (_legs[0].Side < 0) == (tuning.qp_leg_a_left > 0.5) ? 0 : 1;
                 _qpDof = new bool[nd]; _qpPd = tuning.qp_pd_scale; _qpEngageFrac = tuning.qp_engage_speed_frac; _qpVRef = qpReference.rows[0].v;
                 // a hand-off start can begin at either foot's touchdown: one driver per assignment of planar leg A / B (the second one only then); the walking-start mode builds just the configured one
-                _qpDrv = new WholeBodyQpDriver[2]; _qpFoots = new int[2];
+                _qpDrv = new WholeBodyQpDriver[2]; _qpFoots = new int[2]; _qpLegs = new Leg[2][]; _qpLat = tuning.qp_lateral > 0.5;
+                // step 9.5b ladder (qp_ladder): one pair of drivers per @v2 row (rows sorted by Froude, the walk climbs them); otherwise the single row 0
+                int nRows = tuning.qp_ladder > 0.5 && _qpEngageFrac > 0 ? qpReference.rows.Length : 1; _qpRowDrv = new WholeBodyQpDriver[nRows][]; _qpRowV = new double[nRows];
+                for (int row = nRows - 1; row >= 0; row--)
+                {
+                _qpRowV[row] = qpReference.rows[row].v;
                 for (int k = 0; k < (_qpEngageFrac > 0 ? 2 : 1); k++)
                 {
                     int a = k == 0 ? a0 : 1 - a0; var la = _legs[a]; var lb = _legs[1 - a];
                     var dofs = new[] { la.Hip[0], la.Knee, la.Ankle[0], lb.Hip[0], lb.Knee, lb.Ankle[0] };
                     foreach (int d in dofs) _qpDof[d] = true;
-                    _qpDrv[k] = new WholeBodyQpDriver(body, tuning, qpReference.rows[0], qpSolver, dofs, new[] { la.Foot, lb.Foot }, dt); _qpFoots[k] = lb.Foot;
+                    _qpDrv[k] = new WholeBodyQpDriver(body, tuning, qpReference.rows[row], qpSolver, dofs, new[] { la.Foot, lb.Foot }, dt); _qpFoots[k] = lb.Foot; _qpLegs[k] = new[] { la, lb };
+                }
+                _qpRowDrv[row] = new[] { _qpDrv[0], _qpDrv[1] };
                 }
                 _qp = _qpDrv[0]; _qpFootB = _qpFoots[0];
             }
@@ -170,7 +178,7 @@ namespace Game.Units.Mech
         /// <summary>True when this walk tuning asks for the imp = 3 whole-body QP (imp &gt;= 2.5); only then is a QP driver built.</summary>
         public static bool QpWanted(WalkTuning t) => t.imp >= GaitReferenceData.QpImp;
         public bool QpActive => _qp != null;
-        WholeBodyQpDriver _qp; WholeBodyQpDriver[] _qpDrv; int[] _qpFoots; readonly bool[] _qpDof; readonly double _qpPd = 1.0; double _qpTime; double _qpScale = 1.0; bool _qpEngaged; readonly bool[] _qpPrevContact = new bool[2]; int _qpFootB; double _qpVRef, _qpEngageFrac;
+        Leg[][] _qpLegs; Leg[] _qpLegNow; bool _qpLat; WholeBodyQpDriver[][] _qpRowDrv; double[] _qpRowV; int _qpRow; WholeBodyQpDriver _qp; WholeBodyQpDriver[] _qpDrv; int[] _qpFoots; readonly bool[] _qpDof; readonly double _qpPd = 1.0; double _qpTime; double _qpScale = 1.0; bool _qpEngaged; readonly bool[] _qpPrevContact = new bool[2]; int _qpFootB; double _qpVRef, _qpEngageFrac;
         /// <summary>Joint drive write; the sagittal leg DOFs of the imp = 3 QP run on the reduced PD gains (qp_pd_scale on stiffness, its square root on damping) around the feed-forward the QP writes after this.</summary>
         void Drive(int dof, double target, double velocity, double stiffness, double damping)
         {
@@ -210,9 +218,25 @@ namespace Game.Units.Mech
                 bool td = false; int tdk = 0;
                 if (_qpEngageFrac > 0) for (int k = 0; k < 2; k++) { _b.GetFoot(_qpFoots[k], out var fk); if (fk.Contact && !_qpPrevContact[k]) { td = true; tdk = k; } _qpPrevContact[k] = fk.Contact; }
                 bool go = _qpEngageFrac <= 0 || (td && (_phase == LocoPhase.SingleSupport || _phase == LocoPhase.DoubleSupport) && Vector2.Dot(_vel2, Fwd(_pelvisYaw)) >= _qpEngageFrac * _qpVRef);
-                if (go) _qp = _qpDrv[tdk];
+                if (go)
+                {
+                    _qpRow = 0; double vf = Vector2.Dot(_vel2, Fwd(_pelvisYaw));
+                    while (_qpRow + 1 < _qpRowDrv.Length && vf >= _t.qp_ladder_up * _qpRowV[_qpRow + 1]) _qpRow++;   // ladder: the fastest row the speed already reaches
+                    _qp = _qpRowDrv[_qpRow][tdk]; _qpLegNow = _qpLegs[tdk]; _qpVRef = _qpRowV[_qpRow];
+                }
                 if (!go) return;
                 _qp.Reset(_qpEngageFrac > 0); _qpTime = 0; _qpEngaged = true; _qpScale = Math.Min(1.0, Math.Max(_t.qp_scale_min, Vector2.Dot(_vel2, Fwd(_pelvisYaw)) / _qpVRef));
+            }
+            else if (_qpRowDrv.Length > 1)
+            {
+                // ladder: at a touchdown, one row up once the forward speed reaches qp_ladder_up x the next row's speed; the new row's QP starts at its node 0 anchored on the landed heel
+                bool td = false; int tdk = 0;
+                for (int k = 0; k < 2; k++) { _b.GetFoot(_qpFoots[k], out var fk); if (fk.Contact && !_qpPrevContact[k]) { td = true; tdk = k; } _qpPrevContact[k] = fk.Contact; }
+                if (td && _qpRow + 1 < _qpRowDrv.Length && Vector2.Dot(_vel2, Fwd(_pelvisYaw)) >= _t.qp_ladder_up * _qpRowV[_qpRow + 1])
+                {
+                    _qpRow++; _qp = _qpRowDrv[_qpRow][tdk]; _qpLegNow = _qpLegs[tdk]; _qpVRef = _qpRowV[_qpRow];
+                    _qp.Reset(true); _qpTime = 0; _qpScale = Math.Min(1.0, Math.Max(_t.qp_scale_min, Vector2.Dot(_vel2, Fwd(_pelvisYaw)) / _qpVRef));
+                }
             }
             long t0 = System.Diagnostics.Stopwatch.GetTimestamp();
             if (_t.qp_scale_min < 1.0)
@@ -220,10 +244,35 @@ namespace Game.Units.Mech
                 double st = Math.Min(1.0, Math.Max(_t.qp_scale_min, Vector2.Dot(_vel2, Fwd(_pelvisYaw)) / _qpVRef));
                 _qpScale += (st - _qpScale) * Math.Min(1.0, _dt / _t.qp_scale_tau);
             }
-            _qp.TimeScale = _qpScale;
+            _qp.TimeScale = _qpScale; _qp.DesiredYaw = _cmd.Heading;
             _qp.Apply(_qpTime, _pelvisYaw, _groundY); _qpTime += _dt * _qpScale;
+            if (_qpLat) QpLateralDrives();
             var c = _qp.Controller; _dbg.QpOn = true; _dbg.QpScale = _qpScale; _dbg.QpMs = (System.Diagnostics.Stopwatch.GetTimestamp() - t0) * 1e3 / System.Diagnostics.Stopwatch.Frequency; _dbg.QpIters = c.LastIterations; _dbg.QpTau ??= new double[6]; System.Array.Copy(c.Tau, _dbg.QpTau, 6);
+            _dbg.QpRow = _qpRow;
+            if (_qpLat) { _dbg.QpLat ??= new double[6]; System.Array.Copy(c.LatCmd, _dbg.QpLat, 6); }
             _dbg.QpStatus = (int)c.LastStatus; _dbg.QpFailures = c.SolveFailures; _dbg.QpMassScale = c.MassScale; _dbg.QpFrictionCmd = c.FrictionRatioCmd;
+        }
+
+        /// <summary>Step 9.5b (stage 2): the stance hip yaw / roll and ankle roll / yaw DOFs of a leg the QP loads take the torque that carries the QP's 3D corner forces (tau = -axis . sum (p_c - r0) x f_c, plus the weight of the distal links), plus the trunk-attitude hip torque; replaces the legacy virtual-force term for those DOFs.</summary>
+        void QpLateralDrives()
+        {
+            var drv = _qp; if (_qpLegNow == null) _qpLegNow = _qpLegs[0];
+            for (int pl = 0; pl < 2; pl++)
+            {
+                var leg = _qpLegNow[pl]; double fz = 0; for (int k = 0; k < 4; k++) fz += drv.ForceWorld[4 * pl + k].Y;
+                if (fz <= 1e-3 * _mass * _g) continue;
+                for (int j = 0; j < 4; j++)
+                {
+                    int d = j == 0 ? leg.Hip[1] : j == 1 ? leg.Hip[2] : j == 2 ? leg.Ankle[1] : leg.Ankle[2];
+                    if (d < 0 || _qpDof[d]) continue;
+                    var info = _b.GetDof(d); _b.GetLink(info.ChildLink, out var child);
+                    Vector3 r0 = child.Position, moment = Vector3.Zero;
+                    foreach (int link in _descendants[d]) { _b.GetLink(link, out var sl); moment += Vector3.Cross(sl.Com - r0, new Vector3(0, -(float)(_b.LinkMassKg(link) * _g), 0)); }
+                    for (int k = 0; k < 4; k++) moment += Vector3.Cross(drv.CornerWorld[4 * pl + k] - r0, drv.ForceWorld[4 * pl + k]);
+                    double tau = -Vector3.Dot(_b.DofAxisWorld(d), moment) + (j < 2 ? Vector3.Dot(_b.DofAxisWorld(d), new Vector3(leg.HipExtra.X, 0, leg.HipExtra.Z)) : 0), lim = info.ForceLimitNm;   // the QP's yaw row owns the whole-body yaw: the vertical part of the trunk-attitude torque (and its grip clamp) is left out
+                    _b.SetDofFeedForward(d, Math.Max(-lim, Math.Min(lim, tau)));
+                }
+            }
         }
 
         /// <summary>The step length cap (fraction of leg length): the legacy flat-foot cap for imp = 0, the reference gait's own range for imp > 0 (heel-to-toe rollover).</summary>
@@ -638,7 +687,7 @@ namespace Game.Units.Mech
                     Vector3 hipExtra = wsum > 0 ? -(trunkTorque + swingReaction) * (leg.Weight / wsum) : Vector3.Zero;
                     // a planted foot must not be twisted on the ground: yaw torque stays inside what its load can hold by friction (R-005 5.2 step 7)
                     float yawGrip = (float)(_b.Tuning.friction_dynamic / _t.friction_safety * leg.Load * _t.yaw_grip_radius_frac * _l);
-                    hipExtra.Y = Clamp(hipExtra.Y, -yawGrip, yawGrip);
+                    hipExtra.Y = Clamp(hipExtra.Y, -yawGrip, yawGrip); leg.HipExtra = hipExtra;
                     if (ImpActive)
                     {
                         // round 2 (R-008 section 3): joint-space impedance toward the reference's stance joint angles, per joint and stance sub-phase; the force loop stays as a scaled correction
@@ -655,7 +704,7 @@ namespace Game.Units.Mech
                     StanceDof(leg, leg.Ankle, Vector3.Zero, _t.stance_ankle_damping_ratio);
                     }
                 }
-                else SwingLeg(leg);
+                else { leg.HipExtra = Vector3.Zero; SwingLeg(leg); }
             }
             // upper body: hold posture, arms counter-swing the opposite leg (R-005: PD toward targets with gravity feed-forward)
             for (int d = 0; d < _b.DofCount; d++)
