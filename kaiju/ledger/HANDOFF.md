@@ -304,3 +304,12 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 - 2026-11-15 · T-033b: C2/C3 do not separate scripted from `directcharge@1` (the null shares target scoring) but do against the new `nofocus@1` control; C1 fell 0.915 → 0.494 under 3v4 with damage (below 0.60). Thresholds untouched. Lead applies the Opus R-024 rev 3 proposal to the brain (one cycle), else routes C1 to R-024 research — decided autonomously (founder asleep).
 - 2026-11-15 · T-036c: `GeoFaultData` lacks a baked `fault_id`, so production faults cannot feed M-053; T-036c's scope is widened to add it end to end (bake, Geo reader, Seismic) — decided autonomously (founder asleep).
 - 2026-11-15 · T-030c done (0b37697, eeac0b3, 8b5cc99): flags, placeholder body, slot release/rejoin, UDP, two-process co-op evidence, hangar adapter + wiring. T-036c merged (EditMode 485/0/2, M-050..054 + M-005 --pieces PASS on real Mw 7.2 input).
+
+
+## T-040 melee and cannon (2026-11-15)
+- Scope: engine-free Combat core on the placeholder body behind `combat.cannon` / `combat.melee`; feel (recoil into stance, contact from the walking body) stays staged to after T-005 and tracked in `Assets/Game/Combat/MODULE.md`.
+- Cannon scale = 406 mm naval-gun class (Froude/geometric scaling of a carried HMG to ~80 m gives ~560 mm; nearest real gun is the Mk 7), light preset 155 mm. Alternatives: pure 155 mm (too weak against 1e9 J building thresholds). R-027 — decided autonomously (founder asleep).
+- Destruction is fed joules only through `IDamageModel.Apply` (no Destruction edit); impulse goes out as the `ImpactImpulse` bus event; recoil is the `RecoilImpulse` output event, ignored by the kinematic placeholder. Alternative (extend Destruction with an impulse contract) rejected: owner is another track — decided autonomously (founder asleep).
+- Melee hits use effective mass I/lambda^2 on a rigid arm about the shoulder axis, one contact per swing, tip speed capped by lengthening the swing, never by lowering damage — decided autonomously (founder asleep).
+- Cd table, gas momentum factor 1.25, restitution values, arm masses and 0.15 HP/MJ are Assumed and flagged in R-027; measured Heavy range is 0.54 of vacuum vs 0.65 real, accepted inside a wide Assumed band, retune when a G7 table is sourced — decided autonomously (founder asleep).
+- Composition change beyond the one new file: result field, one registration line, two asmdef refs, one MODULE.md line. Unity EditMode run is queued behind a watcher because 5 Unity batch processes were running (rule 5).

@@ -41,6 +41,7 @@ namespace Game.Composition
         public PlaceholderBodyFactory Placeholder;
         /// <summary>Hangar stub (hangar.stub AND units.placeholderBody on); registered with the SaveSystem when one was supplied.</summary>
         public HangarService Hangar;
+        public CombatHandle Combat;
     }
 
     public static class GameComposition
@@ -82,6 +83,7 @@ namespace Game.Composition
                 r.Hangar = HangarModule.Install(registry, flags, r.Geo);
                 if (r.Hangar != null) saves?.Register(r.Hangar);
             }
+            r.Combat = CombatInstaller.Install(registry, flags, errors);
             return r;
         }
     }
