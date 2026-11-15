@@ -89,20 +89,25 @@ namespace Game.World.Geo.Unity
             return go;
         }
 
+        /// <summary>Collider height lattice step (GeoHeightLattice). Unity stores 15-bit levels (0..32766 over size.y), so levels are integer multiples of the step and edge heights snapped by GeoEdgePolicy are represented exactly.</summary>
+        public const double ColliderStepM = GeoHeightLattice.StepM;
+
         TerrainCollider BuildTerrainCollider(GeoTileModel model)
         {
             var hf = model.Heights;
             int n = hf.Samples;
+            GeoHeightLattice.Plan(hf.Data, out double step, out long kMin);
+            double baseY = kMin * step, range = GeoHeightLattice.MaxLevel * step;
             var td = new TerrainData { heightmapResolution = n };
-            double range = Math.Max(hf.HMax - hf.HMin, 1.0);
             td.size = new Vector3((float)((n - 1) * hf.Spacing), (float)range, (float)((n - 1) * hf.Spacing));
             var h = new float[n, n];
             for (int r = 0; r < n; r++)
-                for (int c = 0; c < n; c++) h[r, c] = (float)((hf.Data[r * n + c] - hf.HMin) / range);
+                for (int c = 0; c < n; c++)
+                    h[r, c] = (float)(GeoHeightLattice.Level(hf.Data[r * n + c], step, kMin) / (double)GeoHeightLattice.MaxLevel);
             td.SetHeights(0, 0, h);
             var go = new GameObject("PhysicsSurface");
             go.transform.SetParent(transform, false);
-            go.transform.localPosition = new Vector3(0, (float)hf.HMin, 0);
+            go.transform.localPosition = new Vector3(0, (float)baseY, 0);
             var tc = go.AddComponent<TerrainCollider>();
             tc.terrainData = td;
             return tc;

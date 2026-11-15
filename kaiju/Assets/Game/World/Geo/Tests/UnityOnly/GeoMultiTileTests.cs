@@ -1,4 +1,6 @@
-// Multi-tile Unity adapter (T-021 step 2): staged build of a 2x1 set, placement, cross-tile terrain sampling, building lookup.
+// Multi-tile Unity adapter (T-021 steps 2-3): staged build of a 2x1 set, placement, cross-tile terrain sampling, building lookup,
+// shared edge vertices, seamless colliders.
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Game.Core;
@@ -23,7 +25,7 @@ namespace Game.World.Geo.Unity.Tests
             var absent = GeoTileSetLoader.Absent(TilesRoot, ids);
             if (absent.Count > 0) Assert.Ignore("tile folders absent: " + string.Join(", ", absent));
             var set = GeoTileSetLoader.Load(TilesRoot, ids, verifyHashes: false);
-            _b = new GeoTileSetBuilder(set, A, GeoTestData.Settings()) { BuildingColliders = false, TerrainCollider = false };
+            _b = new GeoTileSetBuilder(set, A, GeoTestData.Settings()) { BuildingColliders = false, TerrainCollider = true };
             Assert.AreEqual(2, _b.Pending);
             Assert.IsNotNull(_b.BuildNext(), "first call builds one tile");
             Assert.AreEqual(1, _b.Instances.Count);
@@ -101,6 +103,120 @@ namespace Game.World.Geo.Unity.Tests
             Assert.IsTrue(w.IsRemoved(bd.Id));
             Assert.IsTrue(inst.Model.Removed.Contains(bd.Id));
             Assert.IsFalse(_b.Instances[0].Model.Removed.Contains(bd.Id));
+        }
+
+        // ---------------------------------------------------------------- step 3: seams
+        // A (L0_30_36) is north of B (L0_30_35); the shared edge is A's row 0 (local z = 0) and B's last row (local z = 2048).
+        // Scene z of the edge is 0 (floating origin = A's origin).
+        const float EdgeTol = 0.001f;
+
+        static SortedDictionary<float, float> EdgeVertices(GeoTileInstance inst, float localZ)
+        {
+            var res = new SortedDictionary<float, float>();
+            foreach (var mf in inst.transform.Find("Terrain").GetComponentsInChildren<MeshFilter>())
+                foreach (var v in mf.sharedMesh.vertices)
+                {
+                    if (v.z != localZ) continue;
+                    if (res.TryGetValue(v.x, out var y)) Assert.AreEqual(y, v.y, 0f, "vertex duplicated across chunks must agree, x=" + v.x);
+                    else res[v.x] = v.y;
+                }
+            return res;
+        }
+
+        [Test]
+        public void SharedEdge_RenderVertices_IdenticalInBothMeshes()
+        {
+            var ea = EdgeVertices(_b.Instances[0], 0f);
+            var eb = EdgeVertices(_b.Instances[1], 2048f);
+            Assert.AreEqual(2049, ea.Count, "A keeps every edge node");
+            Assert.AreEqual(ea.Count, eb.Count, "B keeps every edge node");
+            double maxGap = 0;
+            foreach (var kv in ea)
+            {
+                Assert.IsTrue(eb.TryGetValue(kv.Key, out var yb), "B has no vertex at x=" + kv.Key);
+                maxGap = System.Math.Max(maxGap, System.Math.Abs(kv.Value - yb));
+            }
+            Assert.LessOrEqual(maxGap, EdgeTol, "edge vertex gap (m)");
+        }
+
+        [Test]
+        public void SharedEdge_NoCrack_BetweenVertices()
+        {
+            var ea = EdgeVertices(_b.Instances[0], 0f);
+            var eb = EdgeVertices(_b.Instances[1], 2048f);
+            var xs = new List<float>(ea.Keys);
+            for (int k = 0; k + 1 < xs.Count; k += 16)
+            {
+                float x = xs[k] + 0.5f * (xs[k + 1] - xs[k]);
+                float ya = Mid(ea, xs[k], xs[k + 1]), yb = Mid(eb, xs[k], xs[k + 1]);
+                Assert.AreEqual(ya, yb, EdgeTol, "render surfaces differ at the edge midpoint x=" + x);
+                // the physics surfaces: a straight-down ray through the midpoint hits, from the scene as a whole
+                Assert.IsTrue(Physics.Raycast(new Vector3(x, 2000f, 0f), Vector3.down, out var hit, 5000f), "ray through edge midpoint x=" + x + " missed");
+                Assert.AreEqual(ya, hit.point.y, EdgeTol + 0.01f, "physics vs render at the midpoint, x=" + x);
+            }
+        }
+
+        static float Mid(SortedDictionary<float, float> e, float x0, float x1) => 0.5f * (e[x0] + e[x1]);
+
+        /// <summary>Straight-down hit on one tile's collider at scene (x, z=0). Exactly on the border first; if the collider rejects a border ray, a hair inward (tolerance grows by slope * offset).</summary>
+        static float Hit(GeoTileInstance inst, float x, float inward, out float usedOffset)
+        {
+            foreach (float off in new[] { 0f, 1e-3f, 1e-2f })
+            {
+                // x = 2048 is the tiles' own east border (half-open collider extent): sample 1 mm inside along the edge.
+                var o = new Vector3(Mathf.Min(x, 2048f - 1e-3f), 2000f, inward * off);
+                if (inst.PhysicsSurface.Raycast(new Ray(o, Vector3.down), out var hit, 5000f)) { usedOffset = off; return hit.point.y; }
+            }
+            Assert.Fail("collider of " + inst.TileName + " missed a straight-down ray at x=" + x);
+            usedOffset = 0; return float.NaN;
+        }
+
+        [Test]
+        public void SharedEdge_Colliders_MeetWithoutGap()
+        {
+            Physics.SyncTransforms();
+            var a = _b.Instances[0]; var b = _b.Instances[1];
+            Assert.IsNotNull(a.PhysicsSurface); Assert.IsNotNull(b.PhysicsSurface);
+            var ea = EdgeVertices(a, 0f);
+            double worst = 0; int n = 0;
+            foreach (var kv in ea)
+            {
+                if (n++ % 8 != 0 && kv.Key != 2048f) continue;
+                float x = kv.Key;
+                float ya = Hit(a, x, +1f, out var offA), yb = Hit(b, x, -1f, out var offB);
+                if (offA == 0f && offB == 0f)
+                {
+                    Assert.AreEqual(ya, yb, EdgeTol, "colliders differ on the border, x=" + x);
+                    Assert.AreEqual(kv.Value, ya, 0.0025 + 1e-3, "collider vs render edge vertex, x=" + x);
+                }
+                else
+                {
+                    // Unity rejected a ray exactly on one border: the hit is a hair inside, where 1 m stair-stepped data (piers) changes
+                    // by slope * offset. Compare each hit with the data surface at its own offset point instead of with the other tile.
+                    // Each border hit must sit on the shared (averaged) edge vertex; an inset hit may move by at most a 10 m/m slope
+                    // times its offset (Unity rejects some rays exactly on a TerrainCollider border). Gaps are covered by the
+                    // scene-wide midpoint rays in SharedEdge_NoCrack_BetweenVertices.
+                    Assert.AreEqual(kv.Value, ya, 0.0035 + 10.0 * offA, "collider A vs shared edge vertex, x=" + x + " off " + offA);
+                    Assert.AreEqual(kv.Value, yb, 0.0035 + 10.0 * offB, "collider B vs shared edge vertex, x=" + x + " off " + offB);
+                }
+                worst = System.Math.Max(worst, System.Math.Abs(ya - yb));
+            }
+            
+            // midpoints between vertices: a hit on at least one collider (no crack)
+            for (float x = 0.5f; x < 2048f; x += 64f)
+                Assert.IsTrue(Physics.Raycast(new Vector3(x, 2000f, 0f), Vector3.down, 5000f), "no collider under the edge midpoint x=" + x);
+        }
+
+        [Test]
+        public void ColliderBounds_Touch_WithoutOverlapBeyond005m2()
+        {
+            Physics.SyncTransforms();
+            var ba = _b.Instances[0].PhysicsSurface.bounds; var bb = _b.Instances[1].PhysicsSurface.bounds;
+            // overlap area in plan (x, z) of the two collider bounds
+            double ox = System.Math.Max(0, System.Math.Min(ba.max.x, bb.max.x) - System.Math.Max(ba.min.x, bb.min.x));
+            double oz = System.Math.Max(0, System.Math.Min(ba.max.z, bb.max.z) - System.Math.Max(ba.min.z, bb.min.z));
+            Assert.LessOrEqual(ox * oz, 0.05, "collider overlap area (m2)");
+            Assert.AreEqual(ba.min.z, bb.max.z, 1e-3, "colliders meet at the shared edge");
         }
     }
 }
