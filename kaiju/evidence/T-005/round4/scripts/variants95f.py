@@ -191,6 +191,40 @@ SETS['l3'] = _seeded({
   'Ww3fol05': dict(DA, qp_swj=3e3, qp_sw_follow=0.5),
   'Ww3f1': dict(DA, qp_swj=3e3, qp_swj_td_frac=0.1),
 }, 4)
+# 9.5m: stance-side speed regulation on the best 9.5l config (D = swj 1e3 om 3): CoM-x acceleration clamp (qp_cdx_max), capture-point cap of the swing heel target (qp_sw_cp), and existing weights / gains
+SETS['m1'] = _seeded({
+  'Xbase': dict(D),
+  'Xcdx3': dict(D, qp_cdx_max=3.0),
+  'Xcdx5': dict(D, qp_cdx_max=5.0),
+  'Xcp08': dict(D, qp_sw_cp=0.8),
+  'Xcp10': dict(D, qp_sw_cp=1.0),
+  'Xcp12': dict(D, qp_sw_cp=1.2),
+  'Xwcz': dict(D, qp_w_cz=1e5),
+  'Xomx05': dict(D, qp_om_x=0.5),
+}, 4)
+# 9.5m cycle 2: the ladder climbs through contact chatter (rows 4 -> 6 within 0.2 s at 5.5 m/s) and the speed then falls; climb rule (hold, touchdown source, threshold), reference clock tied to the speed (qp_scale_min), row cap as a diagnostic only
+SETS['m2'] = _seeded({
+  'Ybase': dict(D),
+  'Yhold4': dict(D, qp_match_hold=4),
+  'Yhold8': dict(D, qp_match_hold=8),
+  'Yclimb0': dict(D, qp_match_climb_td=0),
+  'Yscale06': dict(D, qp_scale_min=0.6),
+  'Yscale08': dict(D, qp_scale_min=0.8),
+  'Ymax5': dict(D, qp_match_max_row=5),
+  'Yupthr08': dict(D, qp_match_up_thr=0.8),
+}, 4)
+# 9.5m cycle 3: CoM-z weight x10 gave the narrowest spread (24.8-30.5) in cycle 1; combine (z weight / gain, CoM-x weight, clamp, capture cap, ankle joint task)
+Z = dict(D, qp_w_cz=1e5)
+SETS['m3'] = _seeded({
+  'Zbase': dict(D),
+  'Zwcz1': dict(Z),
+  'Zwcz3': dict(D, qp_w_cz=3e5),
+  'Zwcz1omz3': dict(Z, qp_om_z=3.0),
+  'Zwcz1cx3': dict(Z, qp_w_cx=3e3),
+  'Zwcz1cdx5': dict(Z, qp_cdx_max=5.0),
+  'Zwcz1cp10': dict(Z, qp_sw_cp=1.0),
+  'Zwcz1ank': dict(Z, qp_swj_ankle=1),
+}, 4)
 def load_set(name):
     return SETS[name]
 def check_line(line):
