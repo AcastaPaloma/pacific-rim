@@ -179,6 +179,29 @@ def fetch_datasf(tile: Tile) -> dict:
     return m
 
 
+# ---------------------------------------------------------------- Assessor roll (optional building attributes)
+def assessor_url(tile: Tile) -> str:
+    w, s, e, n = tile.bounds_lonlat(FETCH_MARGIN_M)
+    a = SRC["assessor"]
+    return a["url_template"].format(roll_year=a["roll_year"], limit=a["row_limit"],
+                                    n=f"{n:.6f}", w=f"{w:.6f}", s=f"{s:.6f}", e=f"{e:.6f}")
+
+
+def fetch_assessor(tile: Tile) -> dict:
+    """Newest-roll parcel centroids with year built, stories and construction type for a tile (cached, idempotent)."""
+    dest = CACHE / "assessor" / f"wv5m-vpq2__{tile.id}.json"
+    m = http_get(assessor_url(tile), dest, "assessor", expect="[")
+    rows = json.loads(dest.read_text(encoding="utf-8"))
+    if not isinstance(rows, list):
+        raise RuntimeError(f"assessor: unexpected payload for {tile.id}: {str(rows)[:200]}")
+    if len(rows) >= SRC["assessor"]["row_limit"]:
+        for p in (dest, meta_path(dest)):
+            p.unlink(missing_ok=True)
+        raise RuntimeError(f"assessor: {tile.id} hit the row limit ({len(rows)}); the result may be truncated")
+    http_get(SRC["assessor"]["meta_url"], CACHE / "assessor" / "wv5m-vpq2.meta.json", "assessor-licence")
+    return m
+
+
 # ---------------------------------------------------------------- Qfaults (global layer)
 WORLD_BOX_WGS84 = (-123.05, 37.15, -121.55, 38.35)  # R-004 §2.1 world box
 
@@ -268,6 +291,6 @@ def fetch_lidar_dsm(tile: Tile) -> dict:
 
 
 LAYERS = {
-    "cudem": fetch_cudem, "3dep": fetch_3dep, "osm": fetch_osm_tile, "datasf": fetch_datasf,
+    "cudem": fetch_cudem, "3dep": fetch_3dep, "osm": fetch_osm_tile, "datasf": fetch_datasf, "assessor": fetch_assessor,
     "ngs": fetch_ngs, "lidar": fetch_lidar_dsm,
 }

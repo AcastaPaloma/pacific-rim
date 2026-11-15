@@ -45,6 +45,28 @@
     "attribution": "City and County of San Francisco",
     "commercial_use": "yes"
   },
+  "assessor": {
+    "product": "DataSF Assessor Historical Secured Property Tax Rolls wv5m-vpq2",
+    "url_template": "https://data.sfgov.org/resource/wv5m-vpq2.json?$select=closed_roll_year,parcel_number,year_property_built,number_of_stories,construction_type,the_geom&$where=closed_roll_year={roll_year}%20AND%20within_box(the_geom,{n},{w},{s},{e})&$order=row_id&$limit={limit}",
+    "meta_url": "https://data.sfgov.org/api/views/wv5m-vpq2.json",
+    "columns_confirmed_from": "https://data.sfgov.org/api/views/wv5m-vpq2.json (fieldName list, confirmed 2026-11-14; T-020 add-on, R-021 Q-NEW-b)",
+    "columns": {
+      "roll_year": "closed_roll_year",
+      "year_built": "year_property_built",
+      "stories": "number_of_stories",
+      "struct_class": "construction_type",
+      "parcel": "parcel_number",
+      "point": "the_geom"
+    },
+    "roll_year": 2025,
+    "roll_year_note": "Newest closed_roll_year in the dataset at 2026-11-14 (max(closed_roll_year) = 2025, 211547 rows). Pinned so the bake is deterministic; bump deliberately.",
+    "row_limit": 50000,
+    "struct_class_note": "construction_type is the Assessor construction-type code passed through raw; no mapping to Hazus classes is made here.",
+    "licence": "PDDL-1.0",
+    "licence_note": "Open Data Commons Public Domain Dedication and License 1.0 (api/views/wv5m-vpq2.json licenseId PDDL).",
+    "attribution": "City and County of San Francisco, Office of the Assessor-Recorder",
+    "commercial_use": "yes"
+  },
   "qfaults": {
     "product": "USGS Quaternary Fault and Fold Database (2020 release), ArcGIS REST haz/Qfaults layers 4 (CA) and 5 (CA offshore)",
     "url_template": "https://earthquake.usgs.gov/arcgis/rest/services/haz/Qfaults/MapServer/{layer}/query?where=1%3D1&geometry={w},{s},{e},{n}&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=*&outSR=4326&orderByFields=OBJECTID&resultOffset={offset}&resultRecordCount=2000&f=geojson",

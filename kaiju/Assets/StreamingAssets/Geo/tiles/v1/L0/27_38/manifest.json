@@ -1,0 +1,1130 @@
+{
+ "bounds_baytm": [
+  55296.0,
+  77824.0,
+  57344.0,
+  79872.0
+ ],
+ "bounds_wgs84": [
+  -122.477413,
+  37.823673,
+  -122.454108,
+  37.842158
+ ],
+ "build": {
+  "built_utc": "2026-11-15T00:53:37Z",
+  "git": "55ca01eb72e87e57ecbb1874c13cac04643fe257",
+  "git_dirty_pipeline": false,
+  "inputs_sha256": "48533f74ee5ad025dbead5f6bd85e7d9914962d0bd9dfdd7e23c84438b5d7e44",
+  "script": "Pipelines/geo/bake_tile.py"
+ },
+ "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
+ "i": 27,
+ "j": 38,
+ "layers": [
+  {
+   "file": "terrain.tif",
+   "format": "COG float32 2049x2049, pixel-is-point, row 0 = north, deflate + predictor 3",
+   "h_max_m": 94.259,
+   "h_min_m": -90.9297,
+   "layer": "terrain",
+   "merge_rule": "3DEP 1 m where valid and CUDEM > +1.798 m NAVD88, CUDEM elsewhere, centred linear feather over terrain.feather_m (50.0 m); piers raised to deck",
+   "samples": 2049,
+   "sha256": "432660804388be9d3c102e7858fa09831082522cf46f2c7a6e5e2de6a59f2f1c",
+   "sources": [
+    {
+     "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
+     "doi": "10.25921/ds9v-ky35",
+     "fetched_utc": "2026-11-15T00:42:32Z",
+     "item": "ncei19_n38x00_w122x50_2022v1",
+     "licence": "US-Gov-PD",
+     "product": "NOAA NCEI CUDEM 1/9 arc-second topobathy (2022v1)",
+     "source_sha256": "798760ebe6b6d3331d97d5e660af9a9e8ba492f9c490d006735547d2142f47f3",
+     "url": "https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/CA/ncei19_n38x00_w122x50_2022v1.tif",
+     "window": [
+      619,
+      5026,
+      992,
+      787
+     ]
+    },
+    {
+     "attribution": "U.S. Geological Survey 3D Elevation Program",
+     "fetched_utc": "2026-11-15T00:42:33Z",
+     "item": "USGS_1M_10_x54y419_CA_SanFrancisco_B23",
+     "licence": "US-Gov-PD",
+     "product": "USGS 3DEP 1 m DEM",
+     "published": "2024-08-26",
+     "source_sha256": "c2b42057d9227205e747add0a466bac2abb2d5fc8cd3bc628dee546b7582b4a4",
+     "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SanFrancisco_B23/TIFF/USGS_1M_10_x54y419_CA_SanFrancisco_B23.tif",
+     "window": [
+      5663,
+      1241,
+      2708,
+      2708
+     ]
+    }
+   ],
+   "spacing_m": 1.0
+  },
+  {
+   "file": "terrain.r16",
+   "format": "uint16 LE RAW 2049x2049, row 0 = south, col 0 = west, h = h_min + v*(h_max-h_min)/65535",
+   "h_max_m": 94.25900268554688,
+   "h_min_m": -90.92970275878906,
+   "layer": "terrain_r16",
+   "sha256": "7d0e4e05fa66bb4a0c8d7450fbb3295eb0608c5c54994d27d54cfc69fbdc11d6",
+   "sources": [
+    {
+     "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
+     "doi": "10.25921/ds9v-ky35",
+     "fetched_utc": "2026-11-15T00:42:32Z",
+     "item": "ncei19_n38x00_w122x50_2022v1",
+     "licence": "US-Gov-PD",
+     "product": "NOAA NCEI CUDEM 1/9 arc-second topobathy (2022v1)",
+     "source_sha256": "798760ebe6b6d3331d97d5e660af9a9e8ba492f9c490d006735547d2142f47f3",
+     "url": "https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/CA/ncei19_n38x00_w122x50_2022v1.tif",
+     "window": [
+      619,
+      5026,
+      992,
+      787
+     ]
+    },
+    {
+     "attribution": "U.S. Geological Survey 3D Elevation Program",
+     "fetched_utc": "2026-11-15T00:42:33Z",
+     "item": "USGS_1M_10_x54y419_CA_SanFrancisco_B23",
+     "licence": "US-Gov-PD",
+     "product": "USGS 3DEP 1 m DEM",
+     "published": "2024-08-26",
+     "source_sha256": "c2b42057d9227205e747add0a466bac2abb2d5fc8cd3bc628dee546b7582b4a4",
+     "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SanFrancisco_B23/TIFF/USGS_1M_10_x54y419_CA_SanFrancisco_B23.tif",
+     "window": [
+      5663,
+      1241,
+      2708,
+      2708
+     ]
+    }
+   ],
+   "step_m": 0.002825798511395986
+  },
+  {
+   "file": "water.png",
+   "format": "PNG 8-bit 2048x2048 cell-centred, row 0 = north, 255 = water surface at MSL, 0 = land/pier",
+   "layer": "water",
+   "piers": [
+    {
+     "bounds": [
+      55250.0,
+      78783.9,
+      55282.3,
+      78802.8
+     ],
+     "deck_m": 23.842,
+     "nodes_raised": 187,
+     "rule": "root-land percentile"
+    },
+    {
+     "bounds": [
+      55252.6,
+      78655.6,
+      55357.9,
+      78757.9
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55270.4,
+      78820.4,
+      55279.2,
+      78839.5
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55272.9,
+      78836.1,
+      55292.3,
+      78844.8
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55275.7,
+      78817.9,
+      55294.9,
+      78826.8
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55488.5,
+      78738.7,
+      55495.2,
+      78753.5
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55492.0,
+      78735.9,
+      55574.7,
+      78747.0
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55495.8,
+      78739.3,
+      55502.4,
+      78755.2
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55501.2,
+      78739.5,
+      55508.9,
+      78755.3
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55506.6,
+      78739.9,
+      55513.6,
+      78752.8
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55514.7,
+      78929.8,
+      55527.4,
+      78950.8
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55515.6,
+      78740.5,
+      55522.4,
+      78751.9
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55522.6,
+      78740.9,
+      55529.5,
+      78751.7
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55528.9,
+      78870.0,
+      55541.0,
+      78881.6
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55529.9,
+      78741.1,
+      55537.2,
+      78752.2
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55532.8,
+      78865.7,
+      55544.8,
+      78877.5
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55535.6,
+      78861.4,
+      55548.3,
+      78873.8
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55536.8,
+      78819.8,
+      55585.9,
+      78881.3
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55537.2,
+      78901.8,
+      55542.5,
+      78924.9
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55537.4,
+      78876.7,
+      55549.8,
+      78888.4
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55537.6,
+      78923.5,
+      55543.9,
+      78929.8
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55537.9,
+      78741.7,
+      55544.6,
+      78752.4
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55537.9,
+      78929.6,
+      55545.9,
+      78951.3
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55539.3,
+      78857.7,
+      55551.8,
+      78870.1
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55540.5,
+      78873.4,
+      55552.4,
+      78884.9
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55540.5,
+      78911.3,
+      55548.3,
+      78935.5
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55542.3,
+      78935.0,
+      55550.4,
+      78964.8
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55542.4,
+      78935.2,
+      55550.7,
+      78962.9
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55543.2,
+      78855.9,
+      55554.5,
+      78867.1
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55543.8,
+      78739.6,
+      55549.9,
+      78742.3
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55543.8,
+      78869.8,
+      55556.1,
+      78881.7
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55545.4,
+      78742.3,
+      55552.0,
+      78753.0
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55546.6,
+      78852.6,
+      55557.8,
+      78863.6
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55546.7,
+      78736.7,
+      55554.9,
+      78743.1
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55548.7,
+      78864.6,
+      55559.2,
+      78874.9
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55549.3,
+      78847.4,
+      55561.6,
+      78859.5
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55551.7,
+      78729.7,
+      55558.1,
+      78740.2
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55552.1,
+      78743.1,
+      55558.8,
+      78753.6
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55553.4,
+      78845.0,
+      55564.6,
+      78856.3
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55554.0,
+      78858.9,
+      55563.9,
+      78868.6
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55555.5,
+      78841.0,
+      55567.8,
+      78852.8
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55558.8,
+      78853.7,
+      55568.9,
+      78863.9
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55559.2,
+      78837.4,
+      55571.3,
+      78849.0
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55560.0,
+      78743.3,
+      55567.0,
+      78754.2
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55562.3,
+      78833.6,
+      55574.3,
+      78845.9
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55563.8,
+      78848.4,
+      55574.2,
+      78858.7
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55565.5,
+      78830.5,
+      55577.5,
+      78842.4
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55566.6,
+      78743.6,
+      55573.3,
+      78754.9
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55568.6,
+      78843.2,
+      55579.1,
+      78853.6
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55570.5,
+      78809.3,
+      55584.3,
+      78816.7
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55570.9,
+      78804.1,
+      55584.9,
+      78811.2
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55571.1,
+      78743.8,
+      55577.6,
+      78753.6
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55571.5,
+      78798.3,
+      55585.6,
+      78805.7
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55572.3,
+      78792.7,
+      55586.3,
+      78800.1
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55573.0,
+      78787.2,
+      55586.9,
+      78794.6
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55573.5,
+      78838.0,
+      55584.0,
+      78848.5
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55573.8,
+      78776.2,
+      55588.2,
+      78783.9
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55574.0,
+      78782.0,
+      55587.5,
+      78789.6
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55574.9,
+      78771.1,
+      55588.8,
+      78778.5
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55576.7,
+      78766.7,
+      55589.3,
+      78773.8
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55576.8,
+      78831.0,
+      55587.6,
+      78840.3
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55577.8,
+      78761.9,
+      55601.4,
+      78770.6
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55579.4,
+      78824.8,
+      55590.4,
+      78833.9
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55580.2,
+      78765.2,
+      55592.6,
+      78821.3
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55581.5,
+      78820.2,
+      55591.9,
+      78828.3
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55583.0,
+      78817.4,
+      55596.2,
+      78823.9
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55583.4,
+      78812.5,
+      55593.5,
+      78819.5
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55584.3,
+      78805.0,
+      55596.6,
+      78812.3
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55584.8,
+      78800.5,
+      55596.6,
+      78807.7
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55585.5,
+      78795.5,
+      55596.8,
+      78802.6
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55586.0,
+      78790.6,
+      55597.7,
+      78797.8
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55586.5,
+      78786.3,
+      55598.4,
+      78793.5
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55587.0,
+      78781.7,
+      55598.9,
+      78788.9
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55587.7,
+      78777.0,
+      55599.6,
+      78783.8
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55588.1,
+      78772.0,
+      55600.6,
+      78779.6
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55588.8,
+      78767.4,
+      55600.7,
+      78774.4
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55596.0,
+      78817.2,
+      55603.6,
+      78823.4
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    },
+    {
+     "bounds": [
+      55603.4,
+      78816.8,
+      55619.2,
+      78823.2
+     ],
+     "deck_m": null,
+     "reason": "no dry land samples near root"
+    }
+   ],
+   "sha256": "73017c91ac2e404d17a5ec7aab3db3afe108bc00fbfca527151d48d61ac955b6",
+   "sources": [
+    {
+     "attribution": "© OpenStreetMap contributors (ODbL)",
+     "derivative_database_candidate": true,
+     "fetched_utc": "2026-11-14T12:14:47Z",
+     "item": "water-polygons-split-4326.zip",
+     "licence": "ODbL-1.0",
+     "product": "OSM water polygons (osmdata.openstreetmap.de, split, EPSG:4326)",
+     "source_sha256": "22d97b206fd5ce4b9fc991e561513b5f3468ed1cfea8ae4410982336991623ed",
+     "upstream_etag": "\"6af7c099-361f86d1\"",
+     "upstream_last_modified": "Sat, 14 Nov 2026 01:59:53 GMT",
+     "url": "https://osmdata.openstreetmap.de/download/water-polygons-split-4326.zip"
+    },
+    {
+     "attribution": "NOAA CO-OPS",
+     "fetched_utc": "2026-11-14T12:14:48Z",
+     "item": "9414290 datums",
+     "licence": "US-Gov-PD",
+     "product": "NOAA CO-OPS station 9414290 San Francisco datums (NTDE 1983-2001)",
+     "source_sha256": "7b5d1b79efb7656499fd91508fec05bce539f1eec177f42456ac6aa4b1b4c79f",
+     "url": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/9414290/datums.json?units=metric"
+    },
+    {
+     "attribution": "NOAA National Centers for Environmental Information (NCEI) CUDEM",
+     "doi": "10.25921/ds9v-ky35",
+     "fetched_utc": "2026-11-15T00:42:32Z",
+     "item": "ncei19_n38x00_w122x50_2022v1",
+     "licence": "US-Gov-PD",
+     "product": "NOAA NCEI CUDEM 1/9 arc-second topobathy (2022v1)",
+     "source_sha256": "798760ebe6b6d3331d97d5e660af9a9e8ba492f9c490d006735547d2142f47f3",
+     "url": "https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/NCEI_ninth_Topobathy_2014_8483/CA/ncei19_n38x00_w122x50_2022v1.tif",
+     "window": [
+      619,
+      5026,
+      992,
+      787
+     ]
+    },
+    {
+     "attribution": "U.S. Geological Survey 3D Elevation Program",
+     "fetched_utc": "2026-11-15T00:42:33Z",
+     "item": "USGS_1M_10_x54y419_CA_SanFrancisco_B23",
+     "licence": "US-Gov-PD",
+     "product": "USGS 3DEP 1 m DEM",
+     "published": "2024-08-26",
+     "source_sha256": "c2b42057d9227205e747add0a466bac2abb2d5fc8cd3bc628dee546b7582b4a4",
+     "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/CA_SanFrancisco_B23/TIFF/USGS_1M_10_x54y419_CA_SanFrancisco_B23.tif",
+     "window": [
+      5663,
+      1241,
+      2708,
+      2708
+     ]
+    }
+   ],
+   "water_fraction": 0.91466,
+   "water_level_navd88_m": 0.969
+  },
+  {
+   "assessor_roll_year": 2025,
+   "assessor_rule": "optional additive properties year_built, stories, struct_class (Assessor construction_type code, raw) from the pinned roll year; a parcel centroid is joined to the smallest footprint containing it; most common value per footprint; parts inherit their structure's; absent when unknown",
+   "base_rule": "base_navd88_m = 10th percentile of the surface along the footprint ring (1 m steps); ground_min_navd88_m = minimum under the footprint; walls reach ground_min - skirt",
+   "count": 28,
+   "count_excluded": 0,
+   "count_height_capped_to_parent": 0,
+   "count_parts": 0,
+   "count_rendered": 28,
+   "count_structures": 28,
+   "count_with_stories": 0,
+   "count_with_struct_class": 0,
+   "count_with_year_built": 0,
+   "exclusion_rule": "kept as records, not extruded: location=underground, or layer<0 with building:levels:underground or level<0 (underground stations), building=ship; parts inherit their structure's exclusion",
+   "extra_fields": [
+    "has_parts",
+    "roof_height_m",
+    "remainder_geometry",
+    "datasf_id",
+    "datasf_iou",
+    "ground_min_navd88_m",
+    "excluded",
+    "height_capped_to_parent",
+    "year_built",
+    "stories",
+    "struct_class"
+   ],
+   "file": "buildings.geojson",
+   "height_source_counts": {
+    "default": 24,
+    "osm_levels": 4
+   },
+   "layer": "buildings",
+   "owner_rule": "a structure is owned by the tile containing its shapely point_on_surface; its parts follow it; geometry is not clipped",
+   "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
+   "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
+   "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
+   "sha256": "6b82cdeae7ca10b0871c1451c989d2e5d774919fdecc84d6efa083e20aaf479c",
+   "sources": [
+    {
+     "attribution": "© OpenStreetMap contributors (ODbL)",
+     "attribution_notice": "Map data © OpenStreetMap contributors, available under the Open Database License (ODbL) 1.0: https://www.openstreetmap.org/copyright",
+     "derivative_database_candidate": true,
+     "extract_sha256": "510787315dc59af9ef1e4f0a111ba7121de80742eeb57aa9f6124baa1d866790",
+     "fetched_utc": "2026-11-14T12:11:47Z",
+     "item": "norcal-latest.osm.pbf",
+     "licence": "ODbL-1.0",
+     "osm_base_utc": "2026-11-13T21:22:20Z",
+     "product": "OpenStreetMap (Geofabrik Northern California extract)",
+     "source_sha256": "83538f21b060afacd13aab83a2c55ecf2c703025bbfa26fadddadb3cc77b08de",
+     "upstream_etag": "\"271889a3-660330da5f532\"",
+     "upstream_last_modified": "Sat, 14 Nov 2026 02:10:48 GMT",
+     "url": "https://download.geofabrik.de/north-america/us/california/norcal-latest.osm.pbf"
+    },
+    {
+     "attribution": "City and County of San Francisco",
+     "fetched_utc": "2026-11-15T00:42:36Z",
+     "item": "ynuv-fyni",
+     "licence": "PDDL-1.0",
+     "product": "DataSF Building Footprints ynuv-fyni",
+     "source_sha256": "5083a7843bc5f875e08164cc4352962a5784d2e66efac9afb6e9819650a2a646",
+     "upstream_etag": "W/\"Z29sZi4yNTI1Nl8zXzExMDlleHlzM2ZiZjlOdU5wU1N5d2JmQll4QnBxaG8---gzioOtfhEoJLdacz141wlvESBZQfb4Q--gzip--gzip\"",
+     "upstream_last_modified": "Sat, 14 Nov 2026 18:23:32 GMT",
+     "url": "https://data.sfgov.org/resource/ynuv-fyni.geojson?$where=within_box(shape,37.845045,-122.481056,37.820785,-122.450467)&$order=sf16_bldgid&$limit=50000"
+    },
+    {
+     "attribution": "City and County of San Francisco, Office of the Assessor-Recorder",
+     "fetched_utc": "2026-11-15T00:53:21Z",
+     "item": "wv5m-vpq2",
+     "licence": "PDDL-1.0",
+     "product": "DataSF Assessor Historical Secured Property Tax Rolls wv5m-vpq2",
+     "source_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+     "upstream_etag": "W/\"Zm94dHJvdC40NTg5OF8xNV8xMDcxNkFtaU9rVzNoZVBlRzNhM2EyX3JjdXJISUtmWQ---gzit5UuMfS5hzIyXxXCLkZfUE-Mstf--gzip--gzip\"",
+     "upstream_last_modified": "Fri, 26 Jun 2026 22:25:22 GMT",
+     "url": "https://data.sfgov.org/resource/wv5m-vpq2.json?$select=closed_roll_year,parcel_number,year_property_built,number_of_stories,construction_type,the_geom&$where=closed_roll_year=2025%20AND%20within_box(the_geom,37.845045,-122.481056,37.820785,-122.450467)&$order=row_id&$limit=50000"
+    }
+   ]
+  },
+  {
+   "clip_rule": "clipped to the tile square; wid is the global OSM way id",
+   "count": 72,
+   "file": "roads.geojson",
+   "layer": "roads",
+   "sha256": "72b123c2be2e3cded4e7b5524188a3647bb5a86bb47fcc0b6310a0ccd92b4103",
+   "sources": [
+    {
+     "attribution": "© OpenStreetMap contributors (ODbL)",
+     "attribution_notice": "Map data © OpenStreetMap contributors, available under the Open Database License (ODbL) 1.0: https://www.openstreetmap.org/copyright",
+     "derivative_database_candidate": true,
+     "extract_sha256": "510787315dc59af9ef1e4f0a111ba7121de80742eeb57aa9f6124baa1d866790",
+     "fetched_utc": "2026-11-14T12:11:47Z",
+     "item": "norcal-latest.osm.pbf",
+     "licence": "ODbL-1.0",
+     "osm_base_utc": "2026-11-13T21:22:20Z",
+     "product": "OpenStreetMap (Geofabrik Northern California extract)",
+     "source_sha256": "83538f21b060afacd13aab83a2c55ecf2c703025bbfa26fadddadb3cc77b08de",
+     "upstream_etag": "\"271889a3-660330da5f532\"",
+     "upstream_last_modified": "Sat, 14 Nov 2026 02:10:48 GMT",
+     "url": "https://download.geofabrik.de/north-america/us/california/norcal-latest.osm.pbf"
+    }
+   ]
+  },
+  {
+   "count": 0,
+   "empty_by_design": true,
+   "file": "faults.geojson",
+   "global_file": "global/v1/faults_bay.geojson",
+   "global_sha256": "0dbc51ca628f8859e8c81a20450cd320c7910bd58328c6a047c50a8e7eb16f4a",
+   "layer": "faults",
+   "nearest_faults": [
+    {
+     "distance_m": 7896.8,
+     "fault_name": "Golden Gate fault",
+     "nearest_feature": "qf:5:303",
+     "section": ""
+    },
+    {
+     "distance_m": 10720.7,
+     "fault_name": "San Andreas fault zone",
+     "nearest_feature": "qf:5:306",
+     "section": "San Francisco section"
+    },
+    {
+     "distance_m": 12025.1,
+     "fault_name": "Potato Patch fault",
+     "nearest_feature": "qf:5:309",
+     "section": ""
+    },
+    {
+     "distance_m": 12166.6,
+     "fault_name": "unspecified",
+     "nearest_feature": "qf:5:308",
+     "section": ""
+    }
+   ],
+   "sha256": "5641f276b04b31cd280dae96d36856319c0229a65fcf32f9b31359ab615909f3",
+   "sources": [
+    {
+     "attribution": "U.S. Geological Survey Quaternary Fault and Fold Database",
+     "features": 3125,
+     "fetched_utc": "2026-11-14T12:05:53Z",
+     "item": "layer 4",
+     "licence": "US-Gov-PD",
+     "product": "USGS Quaternary Fault and Fold Database (2020 release), ArcGIS REST haz/Qfaults layers 4 (CA) and 5 (CA offshore)",
+     "source_sha256": "1bde71616d316e104f2cf82a6594abec2ae0f83540f6ce65b52efd2e407b0687",
+     "url": "https://earthquake.usgs.gov/arcgis/rest/services/haz/Qfaults/MapServer/4"
+    },
+    {
+     "attribution": "U.S. Geological Survey Quaternary Fault and Fold Database",
+     "features": 107,
+     "fetched_utc": "2026-11-14T12:05:54Z",
+     "item": "layer 5",
+     "licence": "US-Gov-PD",
+     "product": "USGS Quaternary Fault and Fold Database (2020 release), ArcGIS REST haz/Qfaults layers 4 (CA) and 5 (CA offshore)",
+     "source_sha256": "af059cffe6d840bdccdabb84b072b359ea021c7002b1e6d3da77012fb0ed7bb7",
+     "url": "https://earthquake.usgs.gov/arcgis/rest/services/haz/Qfaults/MapServer/5"
+    }
+   ]
+  }
+ ],
+ "level": 0,
+ "origin_baytm_m": [
+  55296.0,
+  77824.0
+ ],
+ "spec": "geo_tile@v1",
+ "tile": "L0_27_38",
+ "tile_size_m": 2048.0,
+ "unity_axes": "x = BayTM easting, y = NAVD88 height, z = BayTM northing; 1 unit = 1 m; tile-local = world - origin",
+ "vertical": "NAVD88 (EPSG:5703), GEOID18",
+ "water_level_navd88_m": 0.969
+}

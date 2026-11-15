@@ -10,6 +10,7 @@ import concurrent.futures as cf
 import io
 import json
 import math
+import sys
 import time
 import zipfile
 from pathlib import Path
@@ -163,6 +164,11 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     osm_pbf = fetch.fetch_osm_pbf()
     wat = fetch.fetch_osm_water()
     dsf = fetch.fetch_datasf(tile)
+    try:  # optional layer (T-020 add-on): without it the bake writes nothing new
+        asr = fetch.fetch_assessor(tile)
+    except (RuntimeError, OSError) as e:  # NetworkForbidden is a RuntimeError
+        print(f"[bake] assessor attributes unavailable ({e}); building attributes year_built/stories/struct_class skipped", file=sys.stderr)
+        asr = None
     tide = fetch.fetch_tides()
     faults_global = GLOBAL_ROOT / "faults_bay.geojson"
     if not faults_global.exists():
@@ -170,7 +176,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
 
     # ---- fingerprint (inputs + code + config) for idempotence
     fp_parts = {"spec": SPEC, "tile": tile.id,
-                "sources": sorted([m["sha256"] for m in cud + dep] + [osm["sha256"], wat["sha256"], dsf["sha256"], tide["sha256"]]),
+                "sources": sorted([m["sha256"] for m in cud + dep] + [osm["sha256"], wat["sha256"], dsf["sha256"], tide["sha256"]] + ([asr["sha256"]] if asr else [])),
                 "faults_global": sha256_file(faults_global),
                 "code": {f: sha256_file(PIPE / f) for f in CODE_FILES},
                 "config": {f: sha256_file(PIPE / f) for f in CONFIG_FILES}}
@@ -243,6 +249,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     bcfg = cfg["buildings"]
     datasf = vector.read_datasf(CACHE / "datasf" / f"ynuv-fyni__{tile.id}.geojson")
     dtree = shapely.STRtree([d["geom"] for d in datasf]) if datasf else None
+    asr_pts = vector.read_assessor(CACHE / "assessor" / f"wv5m-vpq2__{tile.id}.json", bcfg) if asr else []
     outlines = []
     for r in o["buildings"]:
         g = vector.clean_polygonal(r["geom"])
@@ -298,6 +305,9 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     owned_ids = {b["oid"] for b in owned_outlines}
     owned_parts = [p for p in parts if (p["part_of"] in owned_ids) or (p["part_of"] is None and owns(tile, p["geom"]))]
 
+    asr_attrs = vector.join_assessor([(b["oid"], b["geom"]) for b in owned_outlines] +
+                                     [(p["oid"], p["geom"]) for p in owned_parts if p["part_of"] is None], asr_pts)
+
     def build_record(b, is_part, parent=None):
         tags = b["tags"]
         hm, hsrc, extra = vector.resolve_height(tags, b["geom"], dtree, datasf, bcfg)
@@ -322,6 +332,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
                  "roof_height_m": round(rh, 3) if rh is not None else None, "excluded": excluded,
                  "height_capped_to_parent": capped}
         props.update(extra)
+        props.update(asr_attrs.get(b["part_of"] if is_part and b.get("part_of") else b["oid"], {}))
         if not is_part and b["oid"] in parent_ids:
             props["remainder_geometry"] = remainder(b) if not excluded else None
         return {"type": "Feature", "id": b["oid"], "properties": props, "geometry": mapping(b["geom"])}
@@ -433,8 +444,14 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
          "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
          "base_rule": "base_navd88_m = 10th percentile of the surface along the footprint ring (1 m steps); ground_min_navd88_m = minimum under the footprint; walls reach ground_min - skirt",
          "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
-         "extra_fields": ["has_parts", "roof_height_m", "remainder_geometry", "datasf_id", "datasf_iou", "ground_min_navd88_m", "excluded", "height_capped_to_parent"],
-         "sources": [osm_src, source_entry("datasf", "ynuv-fyni", dsf)]},
+         "extra_fields": ["has_parts", "roof_height_m", "remainder_geometry", "datasf_id", "datasf_iou", "ground_min_navd88_m", "excluded", "height_capped_to_parent"]
+                         + (["year_built", "stories", "struct_class"] if asr else []),
+         "sources": [osm_src, source_entry("datasf", "ynuv-fyni", dsf)] + ([source_entry("assessor", "wv5m-vpq2", asr)] if asr else []),
+         **({"assessor_rule": "optional additive properties year_built, stories, struct_class (Assessor construction_type code, raw) from the pinned roll year; a parcel centroid is joined to the smallest footprint containing it; most common value per footprint; parts inherit their structure's; absent when unknown",
+             "assessor_roll_year": load_config("sources.json")["assessor"]["roll_year"],
+             "count_with_year_built": sum(1 for f in bfeats if "year_built" in f["properties"]),
+             "count_with_stories": sum(1 for f in bfeats if "stories" in f["properties"]),
+             "count_with_struct_class": sum(1 for f in bfeats if "struct_class" in f["properties"])} if asr else {})},
         {"layer": "roads", "file": "roads.geojson", "sha256": sha256_bytes(files["roads.geojson"]), "count": len(rfeats),
          "clip_rule": "clipped to the tile square; wid is the global OSM way id", "sources": [osm_src]},
         {"layer": "faults", "file": "faults.geojson", "sha256": sha256_bytes(files["faults.geojson"]), "count": len(ffeats),
