@@ -57,3 +57,17 @@ cache, the reconciled spec moved them to a committed folder (expectations/T-003.
 ## Tests
 `/opt/miniconda3/envs/kaiju/bin/python -I -m pytest Pipelines/geo/tests` (projection maths, tile indexing, ID
 determinism, manifest completeness and doctored manifests, seams, re-bake identity, offline behaviour).
+
+## LOD pyramid `geo_lod@v1` (T-108, R-101 sections 4 and 8.2)
+`bake_lod.py` builds L1..L4 pyramid tiles from the baked L0 tiles under `Assets/StreamingAssets/Geo/tiles/v1/L0/` and
+writes them to the git-ignored `cache/tiles/v1/L{n}/{ii}_{jj}/` (it refuses to write under StreamingAssets). Code in
+`kaiju_geo/lod.py`, tests in `tests/test_lod.py`. `python -I bake_lod.py [--levels 1 2 3 4] [--tile L2_07_09] [--no-rtin]
+[--report FILE]`; a re-run rewrites nothing (byte-identical per L0 input, no clocks in the files).
+Per tile: `terrain.r16` (node subsample of the L0 field, spacing 2^n m, same 2049^2 layout), `slope.u8`, `water.png`
+(majority of the 2^n x 2^n L0 cells), `b1.lodmesh`/`b1.index.json` (merged blocks per 256 m chunk, per-building index
+ranges; L1, L2), `b2.lodmesh`/`b2.index.json` (prisms for >= 60 m buildings + max-pooled rooftop surface; L2..L4) and
+`manifest.json` (errors, stats, budget, file hashes, source fingerprint, attribution). `.lodmesh` layout: module docstring.
+The manifest records the RTIN triangle count at the nominal threshold 0.1 x 2^n m and the smallest threshold of a
+fixed ladder that fits the 150 k cap (`terrain.rtin_threshold_for_cap_m`); the loader picks, the baker does not relax.
+Missing L0 tiles are an open-ocean placeholder (`coverage` < 1 in the manifest). `lod.validate_level_tile` and
+`lod.check_edge_agreement` are the validators.
