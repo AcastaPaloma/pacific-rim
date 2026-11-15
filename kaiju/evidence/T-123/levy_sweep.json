@@ -1,0 +1,78 @@
+{
+ "param": "floor_loss_levy_bps",
+ "seed0": 1000,
+ "seeds": 300,
+ "sorties": 80,
+ "rows": [
+  {
+   "floor_loss_levy_bps": 0,
+   "median": 9,
+   "p10": 4.0,
+   "p90": 20.0,
+   "replacements": 603,
+   "unresolved": 0,
+   "sorties_per_loss": 39.80099502487562,
+   "gate_a": true
+  },
+  {
+   "floor_loss_levy_bps": 300,
+   "median": 9,
+   "p10": 4.0,
+   "p90": 20.0,
+   "replacements": 607,
+   "unresolved": 0,
+   "sorties_per_loss": 39.53871499176277,
+   "gate_a": true
+  },
+  {
+   "floor_loss_levy_bps": 600,
+   "median": 9.0,
+   "p10": 4.0,
+   "p90": 21.0,
+   "replacements": 614,
+   "unresolved": 0,
+   "sorties_per_loss": 39.08794788273616,
+   "gate_a": true
+  },
+  {
+   "floor_loss_levy_bps": 800,
+   "median": 9,
+   "p10": 4.0,
+   "p90": 22.0,
+   "replacements": 611,
+   "unresolved": 0,
+   "sorties_per_loss": 39.27986906710311,
+   "gate_a": true
+  }
+ ],
+ "loss_farming_control": {
+  "0": {
+   "seeds_below_honest": 197,
+   "seeds": 300,
+   "income_ratio": 0.9397830133812147,
+   "control_op_income_per_sortie_mean": 41925647.525625,
+   "honest_op_income_per_sortie_mean": 44612050.79115239
+  },
+  "300": {
+   "seeds_below_honest": 264,
+   "seeds": 300,
+   "income_ratio": 0.7241479992501477,
+   "control_op_income_per_sortie_mean": 32107922.525625,
+   "honest_op_income_per_sortie_mean": 44338895.583323605
+  },
+  "600": {
+   "seeds_below_honest": 297,
+   "seeds": 300,
+   "income_ratio": 0.5076382084269481,
+   "control_op_income_per_sortie_mean": 22290197.525625,
+   "honest_op_income_per_sortie_mean": 43909613.49165797
+  },
+  "800": {
+   "seeds_below_honest": 299,
+   "seeds": 300,
+   "income_ratio": 0.3610539632453934,
+   "control_op_income_per_sortie_mean": 15745047.525625,
+   "honest_op_income_per_sortie_mean": 43608571.37281649
+  }
+ }
+}

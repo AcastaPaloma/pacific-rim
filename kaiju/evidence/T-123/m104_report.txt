@@ -1,0 +1,13 @@
+M-104@v1 fee 860 bps advance 1000 bps  seeds 30 x 80 sorties
+(a) pacing: median 9.0 (band [8.0, 16.0]) p10 3.9 p90 20.0 (max 25) replacements 70 unresolved 0, 34.3 sorties per loss -> PASS
+(b) invariants: {'no_flyable': 0, 'negative_funds': 0, 'conservation': 0, 'no_reachable_contract': 0} -> PASS
+(c) lose_purchased_mech_for_wreck_credit                 PASS {'net_per_iteration': -484704000, 'loss_share_bps': 8800}
+(c) lose_free_floor_chassis_for_wreck_credit             PASS {'net_per_iteration': -19884000}
+(c) buy_part_then_sell_back                              PASS {'net_per_iteration': -120096000, 'loss_share_bps': 6000}
+(c) repair_then_scrap                                    PASS {'net_per_iteration': -980424000, 'loss_share_bps': 17800}
+(c) farm_trivial_asset                                   PASS {'net_per_iteration': -483200}
+(c) destroy_building_for_debris_assumed_share            PASS {'net_per_iteration': -79385000}
+(c) destroy_building_for_debris_all_steel_upper_bound    PASS {'net_per_iteration': -41900000}
+(c) fail_contract_keep_advance                           PASS {'net_per_iteration': 0}
+(c) lose_every_sortie_80_sorties                         PASS {'control_op_income_per_sortie_mean': 23496601.030416667, 'honest_op_income_per_sortie_mean': 45277457.62457244, 'control_net_worth_mean': 1979728082.4333334, 'honest_net_worth_mean': 387952232.93333334, 'seeds_below_honest': 30}
+M-104@v1 PASS
