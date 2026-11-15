@@ -33,11 +33,33 @@ def _write_frames(frames, scale, dst):
     return out
 
 
+def _cell(args):
+    """One matrix cell (module level so a process pool can run it): encode the scale's master frames, decode, score with the M-124 rule."""
+    fdir, tmp, scale, pix, crf, tune, preset, fps, n = args
+    from ._metrics import read_png as _read
+    masters = [_read(os.path.join(fdir, f"{i + 1:05d}.png")) for i in range(n)]
+    h, w = masters[0].shape[:2]
+    mp4 = os.path.join(tmp, f"s{scale}_{pix}_crf{crf}_{tune}.mp4")
+    cmd = ffmpeg_command(fdir, mp4, fps=fps, crf=crf, pix_fmt=pix, tune=tune, preset=preset)
+    p = subprocess.run(cmd, capture_output=True, text=True)
+    cell = {"scale": scale, "size_wh": [w, h], "pix_fmt": pix, "crf": crf, "tune": tune}
+    if p.returncode != 0:
+        cell.update(ok=False, error=p.stderr[-200:])
+    else:
+        dec = decode_frames(mp4, list(range(len(masters))), w, h)
+        ev = evaluate(((i, masters[i], dec[i]) for i in range(min(len(dec), len(masters)))), min_frames=1)
+        cell.update(bytes=os.path.getsize(mp4), min_share=ev["summary"]["min_share"], mean_share=ev["summary"]["mean_share"],
+                    p999_worst=ev["summary"]["p999_worst"], frames=ev["summary"]["frames"], gate_pass=ev["pass"], ok=ev["summary"]["min_share"] >= MARGIN)
+    if os.path.exists(mp4):
+        os.remove(mp4)
+    return cell
+
+
 def run(internal_dir, n_frames=8, scales=SCALES, pix_fmts=PIX_FMTS, crfs=CRFS, tunes=TUNES, preset="medium", fps=60, work=None, pattern="*_color_internal.png",
-        select_pix_fmt=None, select_scale=None, progress=None):
+        select_pix_fmt=None, select_scale=None, progress=None, jobs=1):
     """internal_dir: frames at internal resolution (searched recursively). Returns the matrix report; `pass` = a cell was found.
     select_pix_fmt / select_scale restrict the cell that is *selected* (the whole grid is still measured and reported): the encode profile (4:4:4) and the
-    delivery master scale (4 = 1920x1080) are decisions taken outside the matrix; the gate and the margin are never moved."""
+    delivery master scale (4 = 1920x1080) are decisions taken outside the matrix; the gate and the margin are never moved. jobs > 1 measures cells in parallel."""
     if not shutil.which("ffmpeg"):
         return {"check": "matrix", "pass": False, "reason": "ffmpeg not installed"}
     files = sorted(glob.glob(os.path.join(internal_dir, "**", pattern), recursive=True))[:n_frames]
@@ -48,24 +70,20 @@ def run(internal_dir, n_frames=8, scales=SCALES, pix_fmts=PIX_FMTS, crfs=CRFS, t
     try:
         for scale in scales:
             fdir = os.path.join(tmp, f"s{scale}")
-            masters = _write_frames(frames, scale, fdir)
-            h, w = masters[0].shape[:2]
-            for pix, crf, tune in itertools.product(pix_fmts, crfs, tunes):
-                mp4 = os.path.join(tmp, f"s{scale}_{pix}_crf{crf}_{tune}.mp4")
-                cmd = ffmpeg_command(fdir, mp4, fps=fps, crf=crf, pix_fmt=pix, tune=tune, preset=preset)
-                p = subprocess.run(cmd, capture_output=True, text=True)
-                cell = {"scale": scale, "size_wh": [w, h], "pix_fmt": pix, "crf": crf, "tune": tune}
-                if p.returncode != 0:
-                    cell.update(ok=False, error=p.stderr[-200:])
-                else:
-                    dec = decode_frames(mp4, list(range(len(masters))), w, h)
-                    ev = evaluate(((i, masters[i], dec[i]) for i in range(min(len(dec), len(masters)))), min_frames=1)
-                    cell.update(bytes=os.path.getsize(mp4), min_share=ev["summary"]["min_share"], mean_share=ev["summary"]["mean_share"],
-                                p999_worst=ev["summary"]["p999_worst"], frames=ev["summary"]["frames"], gate_pass=ev["pass"], ok=ev["summary"]["min_share"] >= MARGIN)
-                cells.append(cell)
-                if progress:
-                    progress(cell)
-                os.remove(mp4) if os.path.exists(mp4) else None
+            _write_frames(frames, scale, fdir)
+            tasks = [(fdir, tmp, scale, pix, crf, tune, preset, fps, len(frames)) for pix, crf, tune in itertools.product(pix_fmts, crfs, tunes)]
+            if jobs > 1:
+                from concurrent.futures import ProcessPoolExecutor
+                with ProcessPoolExecutor(max_workers=jobs) as ex:
+                    for cell in ex.map(_cell, tasks):
+                        cells.append(cell)
+                        if progress:
+                            progress(cell)
+            else:
+                for t in tasks:
+                    cells.append(_cell(t))
+                    if progress:
+                        progress(cells[-1])
             shutil.rmtree(fdir, ignore_errors=True)
     finally:
         if work is None:

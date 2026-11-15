@@ -31,6 +31,7 @@ def main(argv=None):
     p.add_argument("--settings-out", help="write the selected cell as encode_settings JSON here")
     p.add_argument("--select-pix-fmt", help="restrict the selected cell to this pixel format (the whole grid is still measured)")
     p.add_argument("--select-scale", type=int, help="restrict the selected cell to this master scale (the whole grid is still measured)")
+    p.add_argument("--jobs", type=int, default=1, help="measure matrix cells in parallel")
     p.add_argument("--progress", action="store_true", help="print one line per measured cell to stderr")
     p = sub.add_parser("sheets"); p.add_argument("--frames", required=True); p.add_argument("--out", required=True)
     p.add_argument("--cols", type=int, default=4); p.add_argument("--every", type=int, default=1)
@@ -48,7 +49,7 @@ def main(argv=None):
     elif a.cmd == "matrix":
         r = matrix.run(a.frames, a.n, tuple(int(x) for x in a.scales.split(",")), tuple(a.pix_fmts.split(",")), tuple(int(x) for x in a.crf.split(",")),
                        tuple(a.tunes.split(",")), a.preset,
-                       select_pix_fmt=a.select_pix_fmt, select_scale=a.select_scale,
+                       select_pix_fmt=a.select_pix_fmt, select_scale=a.select_scale, jobs=a.jobs,
                        progress=(lambda c: print("cell", {k: c.get(k) for k in ("scale", "pix_fmt", "crf", "tune", "bytes", "min_share")}, file=sys.stderr, flush=True)) if a.progress else None)
         if r.get("selected") and a.settings_out:
             json.dump(matrix.settings_json(r), open(a.settings_out, "w"), indent=1)

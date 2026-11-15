@@ -78,7 +78,7 @@ namespace Game.Tools.Capture
         /// M-004 motion sets (T-191): from the first keyframe pose, each requested class (S0 static, T1-T3 translation along the camera's right axis,
         /// Y1-Y2 yaw) is written as its own sequence "&lt;viewpoint&gt;_&lt;class&gt;" with purpose M-004 and the class's nominal speed, exactly as the
         /// StyleCapture M-004 job does (same formulas, grid at the path's reference depth, snap depth = reference depth). Frame limits do not apply: the metric needs
-        /// 60 (S0) and 180 frames. Internal-resolution files only (no present-stage output): M-004 reads index, depth and colour_internal.
+        /// 60 (S0) and 180 frames. The full file set is written: the M-004 input contract requires color_output as well.
         /// </summary>
         static List<SequenceResult> RenderMotionSet(StyleCaptureSession s, CaptureTile tile, CapturePath p, string outRoot)
         {
@@ -102,7 +102,7 @@ namespace Game.Tools.Capture
                     if (m.Type == "yaw") { spec.SpeedSiKey = "deg_per_s"; spec.SpeedSi = (float)m.SpeedPxPerFrame * degreesPerTexel / StyleCaptureSession.Dt; }
                     // warm-up (C10), then start every class from a cut at the same pose
                     for (int i = 0; i < Warmup; i++) { s.Rig.Cut(); s.Rig.SetScriptedPose(basePose, refDepth); s.Rig.Tick(StyleCaptureSession.Dt); s.Capture.Render(true); s.Capture.Read(true); }
-                    var w = s.Begin(p.PathId, p.ViewpointId + "_" + id, "M-004", spec, m.Frames, p.ViewpointId, false);
+                    var w = s.Begin(p.PathId, p.ViewpointId + "_" + id, "M-004", spec, m.Frames, p.ViewpointId, true);   // the metric's input contract requires color_output too
                     s.Rig.Cut();
                     for (int i = 0; i < m.Frames; i++)
                     {

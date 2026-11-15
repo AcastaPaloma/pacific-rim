@@ -98,7 +98,7 @@ def test_matrix_selection_filters(tmp_path):
     for i in range(4):
         a = (rng.integers(0, 2, (16, 32, 1)) * np.array([[[200, 40, 40]]])).astype(np.uint8) + 20
         cv2.imwrite(str(tmp_path / f"f{i}_color_internal.png"), np.ascontiguousarray(a[..., ::-1]))
-    r = matrix.run(str(tmp_path), 4, scales=(1, 2), pix_fmts=("yuv420p", "yuv444p"), crfs=(10, 23), tunes=("none",), preset="ultrafast", select_pix_fmt="yuv444p", select_scale=2)
+    r = matrix.run(str(tmp_path), 4, scales=(1, 2), pix_fmts=("yuv420p", "yuv444p"), crfs=(10, 23), tunes=("none",), preset="ultrafast", select_pix_fmt="yuv444p", select_scale=2, jobs=2)
     assert r["select_pix_fmt"] == "yuv444p" and set(r["by_pix_fmt"]) == {"yuv420p", "yuv444p"} and len(r["cells"]) == 8
     if r["selected"]:
         assert r["selected"]["pix_fmt"] == "yuv444p" and r["selected"]["scale"] == 2
