@@ -13,7 +13,7 @@ namespace Game.Rendering.Pixel
         /// <summary>Keys the shipped "defaults" object is expected to carry; the PaletteProfile code defaults duplicate them (DEF-T004-arch-5).</summary>
         static readonly string[] ExpectedDefaults =
         {
-            "hazeStartM", "hazeFullM", "hazeCurveGamma", "hazeBands", "hazeSeamTexels", "hazeSeamWidth", "airlightValue", "skyHorizonValue", "skyZenithValue",
+            "hazeStartM", "hazeFullM", "hazeCurveGamma", "hazeBands", "hazeSeamTexels", "hazeSeamWidth", "hazeFarStartM", "hazeFarFullM", "hazeFarPower", "airlightValue", "skyHorizonValue", "skyZenithValue",
             "skyZenithElevationDeg", "valueScale", "valueBias", "valueGamma", "accentChromaStart", "accentChromaFull", "ditherSpread",
             "ditherGradientMin", "lutChromaWeight", "ladderMinStepL", "ladderHueTolerance", "ladderTopL", "pairPenalty", "lutCandidates", "lutSize",
         };

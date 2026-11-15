@@ -91,7 +91,7 @@ namespace Game.Tools.Capture
                 if (frame != prev + 1) s.Rig.Cut();   // a still or a thinned frame is its own cut: no smoothing state carried over
                 var pose = PoseAt(p, tile, frame, dpt, out var smp);
                 w.ExtraJson = SidecarBlock(p, tile, output, frame, smp);
-                var f = w.FrameScripted(frame, pose, refDepth);
+                var f = w.FrameScripted(res.Frames.Count, pose, refDepth);   // T-190: sequence index runs 0..n-1 even when the plan is thinned (style_capture@v1 forbids gaps); the path frame is in the capture_path block
                 if (res.Frames.Count == 0) { res.InternalW = f.Width; res.InternalH = f.Height; res.OutputW = f.OutputWidth; res.OutputH = f.OutputHeight; CheckSize(p, output, f); }
                 if (res.Frames.Count < DeterminismFrames) hashes.Add(Hash(f.OutputRgb));
                 res.Frames.Add(frame);

@@ -1,0 +1,1576 @@
+Unity Editor version:    6000.6.9f1 (8c45277fb9c5)
+Branch:                  6000.6/staging
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 26.6.2 (Build 25G83)
+Darwin version:          25.6.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        24576 MB
+Date:                    2026-11-15T20:29:23Z
+VBCSCompilerPreWarmer: watching VBCSCompiler (PID 6471)
+VBCSCompilerPreWarmer: pre-warm launched (dotnet PID 6473)
+VBCSCompiler prewarm took 6.47 ms
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kuanw" at "2026-11-15T20:29:23.325754Z"
+Launching external process: /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Helpers/PackageManager/Server/UnityPackageManager
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/MacOS/Unity
+-batchmode
+-quit
+-projectPath
+/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju
+-logFile
+/tmp/t190_c.log
+-executeMethod
+Game.Tools.StyleCapture.StyleCaptureCli.Run
+-captureOut
+/tmp/t190_c7
+-captureJobs
+c11slab,c7layers
+-captureC11Configs
+rigedge
+-captureConfig
+Assets/Game/Config/Rendering/Configurations/M3HazeFarLift.json
+-hubSessionId
+3cbd6978-999c-4a33-a108-9d32bc86c17b
+-accessToken
+tUDZMK2yREutkD3TQ5kFE0FSMgOHyQaPIgKrC-Y5Xtc003f
+Successfully changed project path to: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju
+/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-remapper-allocator-initial-capacity=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=1"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Logging is directed to a specific file, skipping project log.
+Player connection [8319410560]  Target information:
+
+Player connection [8319410560]  * "[IP] 10.39.69.198 [Port] 55505 [Flags] 2 [Guid] 1620403324 [EditorId] 1620403324 [Version] 1048832 [Id] OSXEditor(0,revw-172-31-218-200.rn.uwaterloo.ca) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8319410560]  * "[IP] 172.31.218.200 [Port] 55505 [Flags] 2 [Guid] 1620403324 [EditorId] 1620403324 [Version] 1048832 [Id] OSXEditor(0,revw-172-31-218-200.rn.uwaterloo.ca) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8319410560] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [8319410560] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.19.0+4cc3dda
+  Session Id:              7fd6c4d490fe490999b12fb22cdb432f
+  Correlation Id:          b081f4decbdb0f021f9123b7bc614413
+  External correlation Id: 8934750092213399547
+  Machine Id:              Jtoxy/laSQwJh0RLupJMEeaAObc=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-kuanw" (connect: 0.00s, validation: 0.00s, handshake: 0.26s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kuanw-notifications" at "2026-11-15T20:29:23.590073Z"
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated the access token tUDZMK2yRE...
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 3574486243256-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 0.27s
+Initialising UDS system complete:
+  - System type: Client
+  - Resource namespace: 15d90a000ec35deac5566f230a1ceb08
+  - Shared memory size: 1073741824
+  - Command buffer id: 1052672
+  - Command buffer size: 8192
+  - Hashmap size: 4194304
+  - Service connected: false
+[Package Manager] Connected to IPC stream "Upm-6462" after 0.3 seconds.
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+Launching Unity Data Store - /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Helpers/Unity.DataStore 
+Unity Data Store artifact dir = Library/DataStore, working dir = /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaijuUnity Data Store running and initialised
+[Physics::Module] Selected backend (deferred post-plugins).
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Initialize engine version: 6000.6.9f1 (8c45277fb9c5)
+[EntityIdStore] init: VM path (explicit commit), pageSize=16384, blockCount=262144, entitiesPerBlock=1024, blocksPerSlotPage=0, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+ preferred device: Apple M5 Pro (high power)
+Metal devices available: 1
+0: Apple M5 Pro (high power)
+Using device Apple M5 Pro (high power)
+Initializing Metal device caps: Apple M5 Pro
+Mac GPU Family: 2
+Apple GPU Family: 9
+MSL Version: 3.0
+Has Float MSAA: 1
+Has Float Filtering: 1
+ReadWrite Texture Tier: 2
+Initialize mono
+Mono path[0] = '/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/Managed'
+Mono path[1] = '/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = '/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/lib/mono/unityjit-macos'
+Mono config path = '/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56462
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/Hub/Editor/6000.6.9f1/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.6.9f1/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.6.9f1/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.002017 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:False
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  1.178 seconds
+Domain Reload Profiling: 1759ms
+	BeginReloadAssembly (147ms)
+		CreateAndSetChildDomain (9ms)
+	RebuildCommonClasses (5ms)
+	RebuildNativeTypeToScriptingClass (14ms)
+	initialDomainReloadingComplete (69ms)
+	LoadAllAssembliesAndSetupDomain (344ms)
+		LoadAssemblies (139ms)
+		TypeCache.Refresh (207ms)
+			TypeCache.ScanAssembly (191ms)
+		AnalyzeDomain (1ms)
+	FinalizeReload (1180ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (4ms)
+			BeforeProcessingInitializeOnLoad (105ms)
+			ProcessInitializeOnLoadAttributes (222ms)
+			ProcessInitializeOnLoadMethodAttributes (521ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 64 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.collab-proxy@2.14.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.collab-proxy@ac5a9def1e96)
+    com.unity.ide.rider@3.1.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.ide.rider@570989d4a882)
+    com.unity.ide.visualstudio@2.0.28 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.ide.visualstudio@b5edea5f33f4)
+    com.unity.inputsystem@1.20.1 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.inputsystem@2436e68c60c4)
+    com.unity.pipeline@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.pipeline@178b93997022)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.splines@2.9.2 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.splines@c3dd4719f1ee)
+    com.unity.nuget.mono-cecil@1.11.6 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.settings-manager@2.1.1 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.settings-manager@0b8638c5ce86)
+    com.unity.searcher@4.9.5 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.searcher@a463122f2c00)
+    com.unity.profiling.core@1.0.3 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.profiling.core@8a49f7027d06)
+  Built-in packages:
+    com.unity.render-pipelines.universal@17.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.render-pipelines.universal@2a6014b851d8)
+    com.unity.ugui@2.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.ugui@ff4f88904a57)
+    com.unity.modules.accessibility@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.physics2d)
+    com.unity.modules.physicscore2d@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.physicscore2d)
+    com.unity.modules.screencapture@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.terrainphysics)
+    com.unity.modules.tetgen@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.tetgen)
+    com.unity.modules.tilemap@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.tilemap)
+    com.unity.modules.timelinefoundation@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.timelinefoundation)
+    com.unity.modules.ui@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.video)
+    com.unity.modules.wind@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.xr)
+    com.unity.cinemachine@6.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.cinemachine@39083c3c55f9)
+    com.unity.test-framework@1.8.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.test-framework@01a8b42f9cf6)
+    com.unity.modules.subsystems@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.modules.hierarchycore)
+    com.unity.render-pipelines.core@17.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.render-pipelines.core@77e675a23c5f)
+    com.unity.shadergraph@17.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.shadergraph@807b608040c3)
+    com.unity.render-pipelines.universal-config@17.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.render-pipelines.universal-config@561422b74439)
+    com.unity.ext.nunit@2.1.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.ext.nunit@0198eae3b53e)
+    com.unity.mathematics@1.4.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.mathematics@8306a64d0cd6)
+    com.unity.graph-authoring@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.graph-authoring@cfd2588851ee)
+    com.unity.burst@2.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.burst@626e66ab421b)
+    com.unity.collections@6.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.collections@c70d71c1212e)
+    com.unity.test-framework.performance@6.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.unity.test-framework.performance@816c370aad5b)
+  Git packages:
+    com.coplaydev.unity-mcp@https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#v10.3.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.coplaydev.unity-mcp@da7b9ae4aeeb)
+    com.gamebooom.unity.mcp@https://github.com/FunplayAI/funplay-unity-mcp.git#v0.7.6 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/PackageCache/com.gamebooom.unity.mcp@c96c612ed183)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.01 seconds
+Assembly reference Packages/com.unity.cinemachine/Editor/Samples/ExposeHDRPInternals/HDRP-Editor-ref.asmref has no target assembly definition
+Assembly reference Packages/com.unity.cinemachine/Editor/Samples/ExposeHDRPInternals/HDRP-Editor-ref.asmref has no target assembly definition
+Starting: /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/200b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju
+DisplayProgressbar: Compiling Scripts
+warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.runtime.interopservices.windowsruntime has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll" in favor of "/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.WindowsRuntime.dll"
+warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.componentmodel.composition has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/NetStandard/compat/2.1.0/shims/netfx/System.ComponentModel.Composition.dll" in favor of "/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/System.ComponentModel.Composition.dll"
+ExitCode: 0 Duration: 0s929ms
+[1321/1850  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra build success (0.89 seconds), 1 items updated, 1850 evaluated
+AssetDatabase: script compilation time: 2.085018s
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory is not a mono symbol file
+Assembly reference Packages/com.unity.cinemachine/Editor/Samples/ExposeHDRPInternals/HDRP-Editor-ref.asmref has no target assembly definition
+'Packages/com.unity.render-pipelines.core/Editor/Deprecated.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
+'Packages/com.unity.render-pipelines.core/Editor/Deprecated.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
+'Packages/com.unity.cinemachine/Editor/Editors/CinemachineVirtualCameraBaseEditor.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
+'Packages/com.unity.cinemachine/Editor/Obsolete/CinemachineVirtualCameraBaseEditor.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
+Refreshing native plugins compatible for Editor in 3.52 ms, found 2 plugins.
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Start HTTP server: port:7801
+Pipeline: Descriptor written to /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Library/Pipeline/.unity-pipeline-port
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  1.126 seconds
+Domain Reload Profiling: 2466ms
+	BeginReloadAssembly (459ms)
+		DisableScriptedObjects (70ms)
+		CreateAndSetChildDomain (239ms)
+	RebuildCommonClasses (9ms)
+	RebuildNativeTypeToScriptingClass (13ms)
+	initialDomainReloadingComplete (70ms)
+	LoadAllAssembliesAndSetupDomain (788ms)
+		LoadAssemblies (398ms)
+		TypeCache.Refresh (231ms)
+			TypeCache.ScanAssembly (209ms)
+		AnalyzeDomain (86ms)
+			BuildScriptInfoCaches (79ms)
+			ResolveRequiredComponents (5ms)
+	FinalizeReload (1128ms)
+		SetupLoadedEditorAssemblies (0ms)
+			LogAssemblyErrors (3ms)
+			BeforeProcessingInitializeOnLoad (97ms)
+			ProcessInitializeOnLoadAttributes (395ms)
+			ProcessInitializeOnLoadMethodAttributes (69ms)
+		AwakeInstancesAfterBackupRestoration (17ms)
+Starting new worker id: 0 with log in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-190/kaiju/Logs/AssetImportWorkerHW0.log
+
+Asset Pipeline Refresh (id=a7a6da8997e5841feb133894fa9f849a): Total: 5.992 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=2368 ms
+		Asset DB Callback time: managed=38 ms, native=14 ms
+		Scripting: domain reloads=1, domain reload time=1415 ms, compile time=2087 ms, other=69 ms
+		Project Asset Count: scripts=1641, non-scripts=2513
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 1
+	InvokePackagesCallback: 15.779ms
+	ApplyChangesToAssetFolders: 0.420ms
+	Scan: 757.008ms
+	Collect global state as custom dependencies: 23.289ms
+	CategorizeScriptCompilationAssets: 59.025ms
+	ProcessAssetsWithTransientArtifactChanges: 60.746ms
+	CategorizeAssets: 76.229ms
+	CompileScripts: 2086.719ms
+	ImportOutOfDateAssets: 1153.088ms (1140.185ms without children)
+		ReloadNativeAssets: 0.053ms
+		UnloadImportedAssets: 6.878ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.692ms
+		ImportSchedulerStart: 5.277ms
+	PostProcessAllAssets: 38.038ms
+		MonoPostProcessAllAssets: 38.001ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 12.522ms
+			SyncVS.PostprocessSyncProject 8.687ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.781ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 1.458ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.757ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.511ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.376ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.274ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.224ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.207ms
+			CinemachineSettings.OnPostprocessAllAssets 0.197ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.152ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.145ms
+			DomainReloadProcessor.OnPostprocessAllAssets 0.128ms
+	UnloadStreamsBegin: 9.384ms
+	PersistCurrentRevisions: 0.101ms
+	GenerateScriptTypeHashes: 2.374ms
+	GenerateScriptTypeSerializationHashes: 4.504ms
+	Untracked: 1708.941ms
+
+Application.AssetDatabase Initial Refresh End
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Launching external process: /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Helpers/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.01 seconds
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Scanning for USB devices : 0.324ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-KaijuGame
+2026-11-15 15:29:33.235 Unity[6462:8164572] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x9d3eb50e0 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Unloading 69 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6335 unused Assets / (6.9 MB). Loaded Objects now: 7286.
+Memory consumption went from 0.54 GB to 0.53 GB.
+Total: 12.664458 ms (FindLiveObjects: 0.490792 ms CreateObjectMapping: 0.332625 ms MarkObjects: 8.031917 ms  DeleteObjects: 3.703542 ms)
+
+Opening scene 'Assets/Game/Tools/StyleCapture/Scenes/StyleTest.unity'
+Unloading 12 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/Game/Tools/StyleCapture/Scenes/StyleTest.unity'
+	Deserialize:            5.868 ms
+	Integration:            9.879 ms
+	Integration of assets:  0.363 ms
+	Thread Wait Time:       0.006 ms
+	Total Operation Time:   16.116 ms
+Unloading 1 unused Assets / (18.5 KB). Loaded Objects now: 7417.
+Memory consumption went from 0.53 GB to 0.53 GB.
+Total: 7.686500 ms (FindLiveObjects: 0.370834 ms CreateObjectMapping: 0.075333 ms MarkObjects: 7.116458 ms  DeleteObjects: 0.017625 ms)
+
+Worker ready: AssetImportWorkerHW0 0
+[C7Layers] layerSnap False warm_rust_sepia: layered 0/12 eye70 frames, scale view 0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:C7Layers (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:115)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:96)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 115)
+
+[C7Layers] layerSnap False warm_amber_haze: layered 0/12 eye70 frames, scale view 0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:C7Layers (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:115)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:96)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 115)
+
+[C7Layers] layerSnap False slate_teal: layered 0/12 eye70 frames, scale view 0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:C7Layers (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:115)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:96)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 115)
+
+[C7Layers] layerSnap False lavender_peach: layered 0/12 eye70 frames, scale view 0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:C7Layers (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:115)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:96)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 115)
+
+[C7Layers] layerSnap False slate_crimson: layered 0/12 eye70 frames, scale view 0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:C7Layers (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:115)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:96)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 115)
+
+[C7Layers] layerSnap True warm_rust_sepia: layered 12/12 eye70 frames, scale view 1
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:C7Layers (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:115)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:96)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 115)
+
+[Pixel] hazeFarLift: slab boundaries follow the unlifted haze bands
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+Game.Rendering.Pixel.PixelLog:WarnOnce (string) (at Assets/Game/Rendering/Pixel/Runtime/PixelStageFeature.cs:100)
+Game.Rendering.Pixel.PixelCameraBinder:PrepareLayers () (at Assets/Game/Rendering/Pixel/Runtime/PixelCameraBinder.cs:184)
+Game.Rendering.Pixel.PixelCameraBinder:PrepareFrame () (at Assets/Game/Rendering/Pixel/Runtime/PixelCameraBinder.cs:168)
+Game.Tools.StyleCapture.PixelCaptureRig:Render (bool) (at Assets/Game/Tools/StyleCapture/Editor/PixelCaptureRig.cs:72)
+Game.Tools.StyleCapture.StyleCaptureSession/SequenceWriter:Write (int,Game.Tools.StyleCapture.HazeTarget[]) (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureSession.cs:150)
+Game.Tools.StyleCapture.StyleCaptureSession/SequenceWriter:FrameScripted (int,Game.Cameras.CameraPose,single,Game.Tools.StyleCapture.HazeTarget[]) (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureSession.cs:136)
+Game.Tools.StyleCapture.C11SlabJobs:C7Layers (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:109)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:96)
+
+(Filename: Assets/Game/Rendering/Pixel/Runtime/PixelStageFeature.cs Line: 100)
+
+[C7Layers] layerSnap True warm_amber_haze: layered 12/12 eye70 frames, scale view 1
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:C7Layers (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:115)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:96)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 115)
+
+[C7Layers] layerSnap True slate_teal: layered 12/12 eye70 frames, scale view 1
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:C7Layers (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:115)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:96)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 115)
+
+[C7Layers] layerSnap True lavender_peach: layered 12/12 eye70 frames, scale view 1
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:C7Layers (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:115)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:96)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 115)
+
+[C7Layers] layerSnap True slate_crimson: layered 12/12 eye70 frames, scale view 1
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:C7Layers (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:115)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:96)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 115)
+
+[C11Slab] geometric class depths (m): near 123.493088, reference 664.874451, far 10371.81543
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:62)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 62)
+
+[C11Slab] c11slab_rigedge_layersnap/A00 start -15.13 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A01 start -14.39 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A02 start -14.85 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A03 start -15.30 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A04 start -14.56 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A05 start -15.02 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A06 start -15.48 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A07 start -14.74 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A08 start -15.20 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A09 start -14.45 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A10 start -14.91 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A11 start -15.37 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A12 start -14.63 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A13 start -15.09 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A14 start -14.35 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A15 start -14.80 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A16 start -15.26 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A17 start -14.52 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A18 start -14.98 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A19 start -15.44 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A20 start -14.70 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A21 start -15.15 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A22 start -14.41 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/A23 start -14.87 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B00 start -33.27 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B01 start -17.82 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B02 start -27.37 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B03 start -36.92 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B04 start -21.47 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B05 start -31.02 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B06 start -40.57 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B07 start -25.12 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B08 start -34.67 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B09 start -19.22 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B10 start -28.77 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B11 start -38.32 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B12 start -22.86 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B13 start -32.41 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B14 start -16.96 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B15 start -26.51 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B16 start -36.06 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B17 start -20.61 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B18 start -30.16 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B19 start -39.71 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B20 start -24.26 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B21 start -33.81 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B22 start -18.36 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B23 start -27.91 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B24 start -37.45 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B25 start -22.00 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B26 start -31.55 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B27 start -16.10 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B28 start -25.65 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B29 start -35.20 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B30 start -19.75 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B31 start -29.30 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B32 start -38.85 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B33 start -23.40 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B34 start -32.95 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B35 start -17.49 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B36 start -27.04 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B37 start -36.59 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B38 start -21.14 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B39 start -30.69 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B40 start -40.24 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B41 start -24.79 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B42 start -34.34 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B43 start -18.89 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B44 start -28.44 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B45 start -37.99 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B46 start -22.54 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[C11Slab] c11slab_rigedge_layersnap/B47 start -32.08 m, layered frames 180/180
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.C11SlabJobs:Sequence (Game.Tools.StyleCapture.StyleCaptureSession,string,string,string,string,single,single,single,single[],Game.Tools.StyleCapture.C11SlabJobs/Group,int,single,int,single) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:275)
+Game.Tools.StyleCapture.C11SlabJobs:Run (Game.Tools.StyleCapture.StyleCaptureSession) (at Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs:78)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:97)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/C11SlabJobs.cs Line: 275)
+
+[Licensing::Client] Successfully resolved entitlement details
+Unloading 7 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2 unused Assets / (Unknown). Loaded Objects now: 7383.
+Memory consumption went from 507.2 MB to 508.8 MB.
+Total: 38.593750 ms (FindLiveObjects: 1.036000 ms CreateObjectMapping: 1.321125 ms MarkObjects: 34.828708 ms  DeleteObjects: 0.977791 ms)
+
+[StyleCapture] jobs c11slab,c7layers written to /tmp/t190_c7 in 110.0 s; log: 0 errors, 1 warnings
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.StyleCapture.StyleCaptureCli:Run () (at Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs:104)
+
+(Filename: Assets/Game/Tools/StyleCapture/Editor/StyleCaptureCli.cs Line: 104)
+
+Thread 0x421f73000 may have been prematurely finalized
+Batchmode quit successfully invoked - shutting down!
+Pipeline Server stopped
+Importing 'GUID: 00000000000000009000000000000000 - Path: ProjectSettings/QualitySettings.asset' with importer (LibraryAssetImporter)
+Imported 'GUID: 00000000000000009000000000000000' -> (Import Result ID: '4c4863529adc9ac14970731e8a5da60e') in 0.006 seconds [static dependencies only]. Details - ImportResultOutputID=2a108b3da874f726c62fbe5f12be4a8a DependenciesID=e27b047e3559935d81d11e8d5dd7411e StaticDependenciesID=a4661aca7a2be7b6d5e28438e344ffeb 
+
+Asset Pipeline Refresh (id=51f683a16385348f0b5beb770ef52a00): Total: 0.335 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=2 ms, native=143 ms
+		Asset DB Callback time: managed=183 ms, native=5 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=1641, non-scripts=2513
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 1
+	ApplyChangesToAssetFolders: 0.162ms
+	Scan: 10.295ms
+	Collect global state as custom dependencies: 0.271ms
+	CategorizeScriptCompilationAssets: 0.206ms
+	ProcessAssetsWithTransientArtifactChanges: 0.558ms
+	CategorizeAssets: 113.061ms
+	ImportOutOfDateAssets: 11.352ms (0.187ms without children)
+		ImportManagerImport: 8.282ms (0.922ms without children)
+		ReloadNativeAssets: 0.080ms
+		UnloadImportedAssets: 0.090ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.503ms
+		ImportSchedulerStart: 2.210ms
+	PostProcessAllAssets: 187.195ms
+		XRBuildSystem.XRAssetImported 3.414ms
+		MonoPostProcessAllAssets: 183.290ms
+			AssetPostprocessor.OnPostprocessAllAssets 129.851ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 12.665ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 8.051ms
+			AssetChangedListener.OnPostprocessAllAssets 6.302ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 6.047ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 2.705ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 2.681ms
+			MaterialPostprocessor.OnPostprocessAllAssets 2.415ms
+			SamplePostprocessor.OnPostprocessAllAssets 2.388ms
+			SyncVS.PostprocessSyncProject 1.722ms
+			PostProcessor.OnPostprocessAllAssets 1.285ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.900ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.644ms
+			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 0.586ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.545ms
+			ThemePostprocessor.OnPostprocessAllAssets 0.461ms
+			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.316ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.298ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.263ms
+			AssetEvents.OnPostprocessAllAssets 0.241ms
+			CinemachineSettings.OnPostprocessAllAssets 0.212ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.170ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.169ms
+			AssetReloadNotifier.OnPostprocessAllAssets 0.111ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.081ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.051ms
+	PostAssetChangesProfiler: 1.419ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.653ms
+	PersistCurrentRevisions: 0.112ms
+	Untracked: 9.428ms
+
+Thread 0x422287000 may have been prematurely finalized
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+Thread 0x16e807000 may have been prematurely finalized
+Thread 0x16e663000 may have been prematurely finalized
+Thread 0x16e893000 may have been prematurely finalized
+Thread 0x16e9ab000 may have been prematurely finalized
+Thread 0x16eac3000 may have been prematurely finalized
+Thread 0x16e6ef000 may have been prematurely finalized
+Thread 0x16e91f000 may have been prematurely finalized
+Thread 0x16ea37000 may have been prematurely finalized
+Thread 0x16e77b000 may have been prematurely finalized
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+[Licensing::IpcConnector] LicenseClient-kuanw-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-kuanw channel disconnected successfully.
+Lingering sessions upon destruction of worker manager
+Unity Data Store service was successfully shut down
+UDS shutting down local client system
+Shut down UDS service system complete
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+CodeReloadManager destroyed
+debugger-agent: Unable to listen on 46
+Exiting batchmode successfully now!
+[ExitDontLaunchBugReporter] Exiting without the bug reporter. Application will exit with return code 0
+[Package Manager] Server process was shutdown

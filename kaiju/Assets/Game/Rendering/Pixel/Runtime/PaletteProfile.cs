@@ -38,6 +38,12 @@ namespace Game.Rendering.Pixel
 
         /// <summary>The number of haze bands in use: hazeBands, or one per ladder rung when hazeBands is 0.</summary>
         public int HazeBandCount => hazeBands > 0 ? hazeBands : Mathf.Max(2, ladder != null && ladder.Length >= 2 ? ladder.Length : 8);
+        [Tooltip("T-190 far lift (flag rendering.pixel.hazeFarLift): distance (m) beyond which the haze level is pushed up toward pure airlight; 0 = no lift.")]
+        public float hazeFarStartM = 0f;
+        [Tooltip("T-190 far lift: distance (m) at which the lifted level reaches the last band (pure airlight).")]
+        public float hazeFarFullM = 0f;
+        [Tooltip("T-190 far lift: exponent of the lift fraction w = (ln(d / start) / ln(full / start))^power; below 1 lifts faster.")]
+        public float hazeFarPower = 1f;
         [Tooltip("Half width of the dithered seam at a band boundary, in texels measured along the surface. A face at one distance gets no seam.")]
         public float hazeSeamTexels = 3f;
         [Tooltip("Largest width of a seam in bands (keeps a seam inside its two bands where distance changes fast).")]

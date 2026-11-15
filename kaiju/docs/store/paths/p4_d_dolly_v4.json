@@ -27,18 +27,18 @@
    ],
    "alt_navd88": 10,
    "yaw_deg": 270,
-   "pitch_deg": 0,
+   "pitch_deg": 3.0,
    "hfov_deg": 60
   },
   {
    "t_s": 3,
    "pos_baytm": [
-    62220.0,
+    62940.0,
     74900.0
    ],
    "alt_navd88": 10,
    "yaw_deg": 270,
-   "pitch_deg": 0,
+   "pitch_deg": 3.0,
    "hfov_deg": 60
   }
  ],
@@ -64,5 +64,5 @@
  "actors": null,
  "requires": [],
  "reference_depth_m": 600,
- "notes": "P4-d: M-004 dolly geometry (6 m per frame) over the water toward the city."
+ "notes": "P4-d: M-004 dolly geometry (6 m per frame) over the water toward the city. T-190: framing changed for M-003.e (horizon <= 0.45 needs pitch up >= 2 deg; sky share <= 0.5 needs skyline above the horizon): pitch 3.0, alt None, yaw None. T-190: dolly shortened to 360 m (x 63300 to 62940): closer than 62940 the skyline fills bands 2-3 and no band beyond 1 km is left for the M-003.c1 span; further than 63300 the sky share exceeds 0.5."
 }

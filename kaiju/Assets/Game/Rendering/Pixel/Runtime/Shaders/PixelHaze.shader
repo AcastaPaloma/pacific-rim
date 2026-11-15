@@ -20,9 +20,13 @@ Shader "Hidden/Game/Pixel/Haze"
             float4 _PixelHaze2; // x = 1 / ln(full distance / start distance), y = seam half width in texels, z = curve gamma, w = relative depth tolerance for "same surface"
 
             // Continuous haze level in [0, bands - 1] at a radial distance (HazeMath.Level).
+            float4 _PixelHaze3; // T-190 far lift: x = far start (m), y = 1 / ln(far full / far start), z = power, w = 1 when on (HazeMath.FarLift)
             float HazeLevel(float dist)
             {
-                return (_PixelHaze.y - 1.0) * pow(saturate(log(max(dist, _PixelHaze.x) / _PixelHaze.x) * _PixelHaze2.x), _PixelHaze2.z);
+                float level = (_PixelHaze.y - 1.0) * pow(saturate(log(max(dist, _PixelHaze.x) / _PixelHaze.x) * _PixelHaze2.x), _PixelHaze2.z);
+                if (_PixelHaze3.w > 0.5 && dist > _PixelHaze3.x)
+                    level += (_PixelHaze.y - 1.0 - level) * pow(saturate(log(dist / _PixelHaze3.x) * _PixelHaze3.y), _PixelHaze3.z);
+                return level;
             }
             float4 _PixelSky;  // x = horizon value, y = zenith value, z = elevation (rad) of the zenith value, w = direction (+1 normal, -1 reversed control)
 

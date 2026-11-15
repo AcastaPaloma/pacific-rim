@@ -1,7 +1,7 @@
 // T-147 batch entry. Behind the default-off flag tools.capture.enabled (Assets/Game/Config/FeatureFlags/Tools.Capture.json); a run turns it on
 // for itself with -captureEnable (nothing is installed in the committed config).
 //   unity run . --no-tail --log-file <log> --timeout 1800 -- -executeMethod Game.Tools.Capture.CaptureCli.Run -capturePaths <dir|a.json,b.json> -captureOut <dir>
-//       [-captureScale 4,8] [-captureMaxFrames N] [-captureStride K] [-captureEnable] [-captureFailOnBlocked]
+//       [-captureScale 4,8] [-captureMaxFrames N] [-captureStride K] [-captureEnable] [-captureFailOnBlocked] [-captureConfig <pixel configuration json>] [-captureInstall]
 // Exit 0 ok, 1 error (lint failure, render error, log errors, non-deterministic replay), 3 at least one path was blocked and -captureFailOnBlocked was given.
 using System;
 using System.Collections.Generic;
@@ -53,6 +53,7 @@ namespace Game.Tools.Capture
         static int Execute()
         {
             if (!FlagOn() && !Has("-captureEnable")) { Debug.Log("[Capture] flag " + FlagName + " is off and -captureEnable was not given: nothing to do"); return 0; }
+            if (Has("-captureInstall")) Game.Rendering.Pixel.Editor.PixelPipelineInstaller.InstallAll();   // T-190: regenerate the baked profiles from PaletteProfileTuning.json first
             string outRoot = StyleCaptureCli.Arg("-captureOut", "evidence/T-147/captures_local");
             int maxFrames = Int("-captureMaxFrames", 0), stride = Int("-captureStride", 1);
             var scales = new HashSet<int>((StyleCaptureCli.Arg("-captureScale") ?? "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x, CultureInfo.InvariantCulture)));
@@ -89,7 +90,7 @@ namespace Game.Tools.Capture
                 {
                     var first = group.First().Key;
                     var tile = CaptureScene.Build(first.Tile, first.ProfileId, first.HideBids);
-                    using (var s = new StyleCaptureSession(tile.ScenePath, outRoot))
+                    using (var s = new StyleCaptureSession(tile.ScenePath, outRoot, StyleCaptureCli.Arg("-captureConfig", StyleCaptureCli.M0Configuration)))
                         foreach (var kv in group)
                         {
                             var p = kv.Key;

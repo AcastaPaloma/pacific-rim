@@ -44,8 +44,9 @@ namespace Game.Tools.StyleCapture
         readonly PixelPipelineScope m_Scope;
         ushort[] m_Depth16; byte[] m_MaskPng; int m_MaskW, m_MaskH;
 
-        public StyleCaptureSession(string scenePath, string outRoot, string configurationPath = StyleCaptureCli.M0Configuration)
+        public StyleCaptureSession(string scenePath, string outRoot, string configurationPath = null)
         {
+            configurationPath = configurationPath ?? StyleCaptureCli.Arg("-captureConfig") ?? StyleCaptureCli.M0Configuration;   // T-190: -captureConfig selects another pixel configuration (default unchanged)
             OutRoot = outRoot;
             Catalog = AssetDatabase.LoadAssetAtPath<PixelPipelineCatalog>(PixelPipelineInstaller.CatalogPath) ?? throw new InvalidOperationException("pixel pipeline assets missing: run StyleCaptureCli.Setup");
             m_Scope = new PixelPipelineScope(Catalog.pipeline);
