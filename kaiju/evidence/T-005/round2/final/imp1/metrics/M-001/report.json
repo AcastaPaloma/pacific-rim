@@ -1,0 +1,909 @@
+{
+ "assumed_thresholds_decisive": [],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [
+   "walk_fr010",
+   "walk_fr020",
+   "walk_fr030",
+   "start",
+   "stop",
+   "estop",
+   "turn90_inplace",
+   "curve"
+  ],
+  "optional_not_provided": [],
+  "provided": [
+   "start@imp1cap025",
+   "stop@imp1cap025",
+   "walk_fr010@imp1cap025"
+  ],
+  "required": [
+   "walk_fr010",
+   "walk_fr020",
+   "walk_fr030",
+   "start",
+   "stop",
+   "estop",
+   "turn90_inplace",
+   "curve"
+  ]
+ },
+ "exit_code": 1,
+ "extra": {
+  "smoothing_window_samples": {
+   "start.gait.jsonl": 19,
+   "stop.gait.jsonl": 19,
+   "walk_fr010.gait.jsonl": 23
+  }
+ },
+ "failing_gating": [
+  "M-001.1",
+  "M-001.2",
+  "M-001.3",
+  "M-001.4",
+  "M-001.5",
+  "M-001.8"
+ ],
+ "failures_suppressed": false,
+ "flags": [
+  {
+   "code": "NON_REFERENCE_NORMALISERS",
+   "detail": {
+    "differs": {
+     "I_yaw_kgm2": {
+      "header": 619689864,
+      "reference": 475000000.0
+     },
+     "com_height_stand_m": {
+      "header": 42.5405,
+      "reference": 44.8
+     },
+     "foot_length_m": {
+      "header": 15,
+      "reference": 19.6
+     },
+     "foot_width_m": {
+      "header": 10,
+      "reference": 7.65
+     },
+     "mu_assumed": {
+      "header": 0.6,
+      "reference": 0.4
+     },
+     "reactor_power_W": {
+      "header": 300000000.0,
+      "reference": 200000000.0
+     }
+    },
+    "file": "start.gait.jsonl"
+   }
+  },
+  {
+   "code": "NON_REFERENCE_NORMALISERS",
+   "detail": {
+    "differs": {
+     "I_yaw_kgm2": {
+      "header": 619689864,
+      "reference": 475000000.0
+     },
+     "com_height_stand_m": {
+      "header": 42.5405,
+      "reference": 44.8
+     },
+     "foot_length_m": {
+      "header": 15,
+      "reference": 19.6
+     },
+     "foot_width_m": {
+      "header": 10,
+      "reference": 7.65
+     },
+     "mu_assumed": {
+      "header": 0.6,
+      "reference": 0.4
+     },
+     "reactor_power_W": {
+      "header": 300000000.0,
+      "reference": 200000000.0
+     }
+    },
+    "file": "stop.gait.jsonl"
+   }
+  },
+  {
+   "code": "NON_REFERENCE_NORMALISERS",
+   "detail": {
+    "differs": {
+     "I_yaw_kgm2": {
+      "header": 619689864,
+      "reference": 475000000.0
+     },
+     "T_stride_nom_s": {
+      "header": 7.54254617409,
+      "reference": 6.6
+     },
+     "com_height_stand_m": {
+      "header": 42.5405,
+      "reference": 44.8
+     },
+     "foot_length_m": {
+      "header": 15,
+      "reference": 19.6
+     },
+     "foot_width_m": {
+      "header": 10,
+      "reference": 7.65
+     },
+     "fr_cruise_nom": {
+      "header": 0.1,
+      "reference": 0.2
+     },
+     "mu_assumed": {
+      "header": 0.6,
+      "reference": 0.4
+     },
+     "reactor_power_W": {
+      "header": 300000000.0,
+      "reference": 200000000.0
+     }
+    },
+    "file": "walk_fr010.gait.jsonl"
+   }
+  }
+ ],
+ "headless_verdict": "FAIL",
+ "headless_verdict_label": "FAIL",
+ "images": [
+  "diag_gait.png"
+ ],
+ "inputs": [
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g1/start.gait.jsonl",
+   "role": "gait_log@v1 start@imp1cap025",
+   "sha256": "1f0d2eb207a676f68411a3e6ef5c246795ca9d1928fce6f9c304d5dea153cf26"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g1/stop.gait.jsonl",
+   "role": "gait_log@v1 stop@imp1cap025",
+   "sha256": "becf7b577eb7d78c0d513fe7d9bc8f8dece638125a6e685e4e41998ffd74a97a"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g1/walk_fr010.gait.jsonl",
+   "role": "gait_log@v1 walk_fr010@imp1cap025",
+   "sha256": "34bda33b35905b68854071614d9c6a3ffdf5a20b62eb298e4a7bac08d9a82952"
+  }
+ ],
+ "invocation": {
+  "command": "m001",
+  "inputs": [
+   "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g1"
+  ],
+  "label": "T-005",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "T-005",
+ "metric": "M-001",
+ "metric_version": "M-001@v1",
+ "normalisers": {
+  "start.gait.jsonl": {
+   "F_off_N_header": 981000,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 15,
+   "P_W": 300000000.0,
+   "T_nom_s": 6.56616782054,
+   "W_f_m": 10,
+   "capture": "start@imp1cap025",
+   "fr_cruise_nom": 0.2,
+   "g": 9.81,
+   "h_m": 42.5405,
+   "l_m": 42,
+   "m_kg": 10000000.0,
+   "unit_id": "ent:1"
+  },
+  "stop.gait.jsonl": {
+   "F_off_N_header": 981000,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 15,
+   "P_W": 300000000.0,
+   "T_nom_s": 6.56616782054,
+   "W_f_m": 10,
+   "capture": "stop@imp1cap025",
+   "fr_cruise_nom": 0.2,
+   "g": 9.81,
+   "h_m": 42.5405,
+   "l_m": 42,
+   "m_kg": 10000000.0,
+   "unit_id": "ent:1"
+  },
+  "walk_fr010.gait.jsonl": {
+   "F_off_N_header": 981000,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 15,
+   "P_W": 300000000.0,
+   "T_nom_s": 7.54254617409,
+   "W_f_m": 10,
+   "capture": "walk_fr010@imp1cap025",
+   "fr_cruise_nom": 0.1,
+   "g": 9.81,
+   "h_m": 42.5405,
+   "l_m": 42,
+   "m_kg": 10000000.0,
+   "unit_id": "ent:1"
+  }
+ },
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-001@v1.1.yaml",
+  "revision": "v1.1",
+  "sha256": "e18bdef7a8b54c168e15bb21b54b8e62cb6abc8396caeaa9d87579c14a53ad0e",
+  "spec": "M-001@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "revw-172-31-218-200.rn.uwaterloo.ca",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-15T00:10:32Z",
+  "wall_time_s": 0.807
+ },
+ "submeasures": [
+  {
+   "decisive_part": "start@imp1cap025:Fr band",
+   "diagnostics": {
+    "steady": {
+     "start@imp1cap025:start.gait.jsonl": {
+      "Fr": 0.0102576840563,
+      "steady_strides_min_per_foot": 6,
+      "v_bar_mps": 2.05581394705
+     },
+     "stop@imp1cap025:stop.gait.jsonl": {
+      "Fr": 0.014080268523,
+      "steady_strides_min_per_foot": 7,
+      "v_bar_mps": 2.40859964229
+     },
+     "walk_fr010@imp1cap025:walk_fr010.gait.jsonl": {
+      "Fr": 0.0167993103376,
+      "steady_strides_min_per_foot": 14,
+      "v_bar_mps": 2.63090323754
+     }
+    }
+   },
+   "id": "M-001.1",
+   "kind": "gating",
+   "margin": -0.0897423159437,
+   "margin_rel": -0.299141053146,
+   "note": null,
+   "op": "in",
+   "parts": [
+    {
+     "margin": -0.0897423159437,
+     "margin_rel": -0.299141053146,
+     "name": "start@imp1cap025:Fr band",
+     "op": "in",
+     "status": "FAIL",
+     "threshold": 0.1,
+     "threshold_hi": 0.3,
+     "unit": "Fr",
+     "value": 0.0102576840563
+    },
+    {
+     "margin": -0.085919731477,
+     "margin_rel": -0.286399104923,
+     "name": "stop@imp1cap025:Fr band",
+     "op": "in",
+     "status": "FAIL",
+     "threshold": 0.1,
+     "threshold_hi": 0.3,
+     "unit": "Fr",
+     "value": 0.014080268523
+    },
+    {
+     "margin": -0.0832006896624,
+     "margin_rel": -0.277335632208,
+     "name": "walk_fr010@imp1cap025:Fr band",
+     "op": "in",
+     "status": "FAIL",
+     "threshold": 0.1,
+     "threshold_hi": 0.3,
+     "unit": "Fr",
+     "value": 0.0167993103376
+    },
+    {
+     "margin": 0.323504962774,
+     "margin_rel": 0.92429989364,
+     "name": "max stride Fr, all captures",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.35,
+     "unit": "Fr",
+     "value": 0.026495037226,
+     "where": "stop@imp1cap025 stride n=1006..1017"
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 0.1,
+   "threshold_hi": 0.3,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Froude number of steady walking, Fr = v_bar^2 / (g l)",
+   "unit": "Fr",
+   "value": 0.0102576840563
+  },
+  {
+   "decisive_part": "stop@imp1cap025:T ratio",
+   "diagnostics": {},
+   "id": "M-001.2",
+   "kind": "gating",
+   "margin": -0.797745823978,
+   "margin_rel": -0.69369202085,
+   "note": null,
+   "op": "in",
+   "parts": [
+    {
+     "T_alexander_s": 11.8934571946,
+     "T_meas_s": 0.683333333333,
+     "margin": -0.792545441401,
+     "margin_rel": -0.689169949044,
+     "name": "start@imp1cap025:T ratio",
+     "op": "in",
+     "status": "FAIL",
+     "threshold": 0.85,
+     "threshold_hi": 1.15,
+     "unit": "-",
+     "value": 0.0574545585991
+    },
+    {
+     "T_alexander_s": 11.1633821015,
+     "T_meas_s": 0.583333333333,
+     "margin": -0.797745823978,
+     "margin_rel": -0.69369202085,
+     "name": "stop@imp1cap025:T ratio",
+     "op": "in",
+     "status": "FAIL",
+     "threshold": 0.85,
+     "threshold_hi": 1.15,
+     "unit": "-",
+     "value": 0.0522541760222
+    },
+    {
+     "T_alexander_s": 10.7760522112,
+     "T_meas_s": 0.683333333333,
+     "margin": -0.786587785588,
+     "margin_rel": -0.683989378772,
+     "name": "walk_fr010@imp1cap025:T ratio",
+     "op": "in",
+     "status": "FAIL",
+     "threshold": 0.85,
+     "threshold_hi": 1.15,
+     "unit": "-",
+     "value": 0.0634122144119
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 0.85,
+   "threshold_hi": 1.15,
+   "threshold_status": "derived",
+   "title": "Stride period versus Alexander, T_meas / (2.3 Fr^-0.2 sqrt(l/g))",
+   "unit": "-",
+   "value": 0.0522541760222
+  },
+  {
+   "decisive_part": "start@imp1cap025:duty foot L",
+   "diagnostics": {},
+   "id": "M-001.3",
+   "kind": "gating",
+   "margin": -0.195775771373,
+   "margin_rel": -0.271910793574,
+   "note": null,
+   "op": "in",
+   "parts": [
+    {
+     "double_support": -0.191551542747,
+     "margin": -0.195775771373,
+     "margin_rel": -0.271910793574,
+     "name": "start@imp1cap025:duty foot L",
+     "op": "in",
+     "status": "FAIL",
+     "threshold": 0.6,
+     "threshold_hi": 0.72,
+     "unit": "-",
+     "value": 0.404224228627
+    },
+    {
+     "double_support": 0.00796605420854,
+     "margin": -0.0960169728957,
+     "margin_rel": -0.1333569068,
+     "name": "start@imp1cap025:duty foot R",
+     "op": "in",
+     "status": "FAIL",
+     "threshold": 0.6,
+     "threshold_hi": 0.72,
+     "unit": "-",
+     "value": 0.503983027104
+    },
+    {
+     "double_support": 0.466246872483,
+     "margin": -0.0131234362414,
+     "margin_rel": -0.0182269947797,
+     "name": "stop@imp1cap025:duty foot L",
+     "op": "in",
+     "status": "FAIL",
+     "threshold": 0.6,
+     "threshold_hi": 0.72,
+     "unit": "-",
+     "value": 0.733123436241
+    },
+    {
+     "double_support": 0.0656333459248,
+     "margin": -0.0671833270376,
+     "margin_rel": -0.0933101764411,
+     "name": "stop@imp1cap025:duty foot R",
+     "op": "in",
+     "status": "FAIL",
+     "threshold": 0.6,
+     "threshold_hi": 0.72,
+     "unit": "-",
+     "value": 0.532816672962
+    },
+    {
+     "double_support": 0.0553193052573,
+     "margin": -0.0723403473714,
+     "margin_rel": -0.100472704682,
+     "name": "walk_fr010@imp1cap025:duty foot L",
+     "op": "in",
+     "status": "FAIL",
+     "threshold": 0.6,
+     "threshold_hi": 0.72,
+     "unit": "-",
+     "value": 0.527659652629
+    },
+    {
+     "double_support": 0.117021427462,
+     "margin": -0.0414892862688,
+     "margin_rel": -0.0576240087067,
+     "name": "walk_fr010@imp1cap025:duty foot R",
+     "op": "in",
+     "status": "FAIL",
+     "threshold": 0.6,
+     "threshold_hi": 0.72,
+     "unit": "-",
+     "value": 0.558510713731
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 0.6,
+   "threshold_hi": 0.72,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Duty factor beta (mean per foot over steady strides); double support = 2 beta - 1",
+   "unit": "-",
+   "value": 0.404224228627
+  },
+  {
+   "decisive_part": "start@imp1cap025:peak |a_fore|",
+   "diagnostics": {
+    "unsmoothed_peak_m_s2": 9.6940498131,
+    "where": "start@imp1cap025:peak |a_fore| at {'capture': 'start@imp1cap025', 'file': 'start.gait.jsonl', 'n': 757, 't_s': 12.6167, 'stride_samples': [451, 895]}"
+   },
+   "id": "M-001.4",
+   "kind": "gating",
+   "margin": -0.330722607971,
+   "margin_rel": -0.112376013582,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "at": {
+      "capture": "start@imp1cap025",
+      "file": "start.gait.jsonl",
+      "n": 757,
+      "stride_samples": [
+       451,
+       895
+      ],
+      "t_s": 12.6167
+     },
+     "margin": -0.330722607971,
+     "margin_rel": -0.112376013582,
+     "name": "start@imp1cap025:peak |a_fore|",
+     "op": "<=",
+     "status": "FAIL",
+     "threshold": 2.943,
+     "unit": "m/s^2",
+     "unsmoothed_peak": 9.6940498131,
+     "value": 3.27372260797
+    },
+    {
+     "at": {
+      "capture": "stop@imp1cap025",
+      "file": "stop.gait.jsonl",
+      "n": 622,
+      "stride_samples": [
+       331,
+       760
+      ],
+      "t_s": 10.3667
+     },
+     "margin": 0.152543440786,
+     "margin_rel": 0.0518326336343,
+     "name": "stop@imp1cap025:peak |a_fore|",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 2.943,
+     "unit": "m/s^2",
+     "unsmoothed_peak": 7.54501612513,
+     "value": 2.79045655921
+    },
+    {
+     "at": {
+      "capture": "walk_fr010@imp1cap025",
+      "file": "walk_fr010.gait.jsonl",
+      "n": 624,
+      "stride_samples": [
+       331,
+       760
+      ],
+      "t_s": 10.4
+     },
+     "margin": 0.367494507041,
+     "margin_rel": 0.124870712552,
+     "name": "walk_fr010@imp1cap025:peak |a_fore|",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 2.943,
+     "unit": "m/s^2",
+     "unsmoothed_peak": 7.5536195316,
+     "value": 2.57550549296
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 2.943,
+   "threshold_status": "derived",
+   "title": "Peak fore-aft CoM acceleration (smoothed), all captures",
+   "unit": "m/s^2",
+   "value": 3.27372260797
+  },
+  {
+   "decisive_part": "start@imp1cap025:peak |a_lat|",
+   "diagnostics": {
+    "unsmoothed_peak_m_s2": 10.3984745488,
+    "where": "start@imp1cap025:peak |a_lat| at {'capture': 'start@imp1cap025', 'file': 'start.gait.jsonl', 'n': 2497, 't_s': 41.6167, 'stride_samples': None}"
+   },
+   "id": "M-001.5",
+   "kind": "gating",
+   "margin": -1.88899343968,
+   "margin_rel": -1.64561601792,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "at": {
+      "capture": "start@imp1cap025",
+      "file": "start.gait.jsonl",
+      "n": 2497,
+      "stride_samples": null,
+      "t_s": 41.6167
+     },
+     "margin": -1.88899343968,
+     "margin_rel": -1.64561601792,
+     "name": "start@imp1cap025:peak |a_lat|",
+     "op": "<=",
+     "status": "FAIL",
+     "threshold": 1.14789441711,
+     "unit": "m/s^2",
+     "unsmoothed_peak": 10.3984745488,
+     "value": 3.03688785679
+    },
+    {
+     "at": {
+      "capture": "stop@imp1cap025",
+      "file": "stop.gait.jsonl",
+      "n": 1177,
+      "stride_samples": [
+       774,
+       1264
+      ],
+      "t_s": 19.6167
+     },
+     "margin": -1.51588571079,
+     "margin_rel": -1.32057939144,
+     "name": "stop@imp1cap025:peak |a_lat|",
+     "op": "<=",
+     "status": "FAIL",
+     "threshold": 1.14789441711,
+     "unit": "m/s^2",
+     "unsmoothed_peak": 9.26454207893,
+     "value": 2.6637801279
+    },
+    {
+     "at": {
+      "capture": "walk_fr010@imp1cap025",
+      "file": "walk_fr010.gait.jsonl",
+      "n": 1176,
+      "stride_samples": [
+       774,
+       1264
+      ],
+      "t_s": 19.6
+     },
+     "margin": -1.42315095835,
+     "margin_rel": -1.23979256031,
+     "name": "walk_fr010@imp1cap025:peak |a_lat|",
+     "op": "<=",
+     "status": "FAIL",
+     "threshold": 1.14789441711,
+     "unit": "m/s^2",
+     "unsmoothed_peak": 11.0819058343,
+     "value": 2.57104537546
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 1.14789441711,
+   "threshold_status": "derived",
+   "title": "Peak lateral CoM acceleration (smoothed), all captures",
+   "unit": "m/s^2",
+   "value": 3.03688785679
+  },
+  {
+   "diagnostics": {},
+   "id": "M-001.6",
+   "kind": "gating",
+   "note": "no start capture",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Net start acceleration (command to 90 % of cruise) and the power limit (P - c m g v)/(m v)",
+   "unit": "",
+   "value": null
+  },
+  {
+   "decisive_part": "stop@imp1cap025:peak |yaw rate|",
+   "diagnostics": {
+    "where": "stop@imp1cap025:peak |yaw rate| at {'capture': 'stop@imp1cap025', 'file': 'stop.gait.jsonl', 'n': 1127, 't_s': 18.7833, 'stride_samples': [774, 1264]}"
+   },
+   "id": "M-001.7",
+   "kind": "gating",
+   "margin": 16.3859692084,
+   "margin_rel": 0.610805009089,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "at": {
+      "capture": "start@imp1cap025",
+      "file": "start.gait.jsonl",
+      "n": 722,
+      "stride_samples": [
+       451,
+       895
+      ],
+      "t_s": 12.0333
+     },
+     "margin": 16.9429644838,
+     "margin_rel": 0.631567620072,
+     "name": "start@imp1cap025:peak |yaw rate|",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 26.8268415691,
+     "unit": "deg/s",
+     "unsmoothed_peak": 13.3433198197,
+     "value": 9.88387708525
+    },
+    {
+     "at": {
+      "capture": "stop@imp1cap025",
+      "file": "stop.gait.jsonl",
+      "n": 1127,
+      "stride_samples": [
+       774,
+       1264
+      ],
+      "t_s": 18.7833
+     },
+     "margin": 16.3859692084,
+     "margin_rel": 0.610805009089,
+     "name": "stop@imp1cap025:peak |yaw rate|",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 26.8268415691,
+     "unit": "deg/s",
+     "unsmoothed_peak": 14.4399895729,
+     "value": 10.4408723606
+    },
+    {
+     "at": {
+      "capture": "walk_fr010@imp1cap025",
+      "file": "walk_fr010.gait.jsonl",
+      "n": 1127,
+      "stride_samples": [
+       774,
+       1264
+      ],
+      "t_s": 18.7833
+     },
+     "margin": 16.6542711642,
+     "margin_rel": 0.620806259331,
+     "name": "walk_fr010@imp1cap025:peak |yaw rate|",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 26.8268415691,
+     "unit": "deg/s",
+     "unsmoothed_peak": 14.4399895729,
+     "value": 10.1725704049
+    }
+   ],
+   "status": "PASS",
+   "threshold": 26.8268415691,
+   "threshold_status": "derived",
+   "title": "Peak yaw rate (smoothed), all captures",
+   "unit": "deg/s",
+   "value": 10.4408723606
+  },
+  {
+   "decisive_part": "stop@imp1cap025:peak |yaw acc|",
+   "diagnostics": {
+    "where": "stop@imp1cap025:peak |yaw acc| at {'capture': 'stop@imp1cap025', 'file': 'stop.gait.jsonl', 'n': 1080, 't_s': 18.0, 'stride_samples': [774, 1264]}"
+   },
+   "id": "M-001.8",
+   "kind": "gating",
+   "margin": -66.6639025088,
+   "margin_rel": -16.508749442,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "at": {
+      "capture": "start@imp1cap025",
+      "file": "start.gait.jsonl",
+      "n": 2223,
+      "stride_samples": [
+       2223,
+       2409
+      ],
+      "t_s": 37.05
+     },
+     "margin": -49.4801475978,
+     "margin_rel": -12.2533384381,
+     "name": "start@imp1cap025:peak |yaw acc|",
+     "op": "<=",
+     "status": "FAIL",
+     "threshold": 4.0380952381,
+     "unit": "deg/s^2",
+     "value": 53.5182428359
+    },
+    {
+     "at": {
+      "capture": "stop@imp1cap025",
+      "file": "stop.gait.jsonl",
+      "n": 1080,
+      "stride_samples": [
+       774,
+       1264
+      ],
+      "t_s": 18.0
+     },
+     "margin": -66.6639025088,
+     "margin_rel": -16.508749442,
+     "name": "stop@imp1cap025:peak |yaw acc|",
+     "op": "<=",
+     "status": "FAIL",
+     "threshold": 4.0380952381,
+     "unit": "deg/s^2",
+     "value": 70.7019977469
+    },
+    {
+     "at": {
+      "capture": "walk_fr010@imp1cap025",
+      "file": "walk_fr010.gait.jsonl",
+      "n": 1081,
+      "stride_samples": [
+       774,
+       1264
+      ],
+      "t_s": 18.0167
+     },
+     "margin": -48.1963614736,
+     "margin_rel": -11.9354197045,
+     "name": "walk_fr010@imp1cap025:peak |yaw acc|",
+     "op": "<=",
+     "status": "FAIL",
+     "threshold": 4.0380952381,
+     "unit": "deg/s^2",
+     "value": 52.2344567116
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 4.0380952381,
+   "threshold_status": "derived",
+   "title": "Peak yaw acceleration (smoothed), all captures",
+   "unit": "deg/s^2",
+   "value": 70.7019977469
+  },
+  {
+   "diagnostics": {},
+   "id": "M-001.9",
+   "kind": "gating",
+   "note": "no capture with v_bar > 0.5 v_cruise",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Yaw rate while v_bar > 0.5 v_cruise, limit a_lat / v_bar",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-001.10",
+   "kind": "gating",
+   "note": "no start capture",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Time to start (command to 90 % of cruise) in steps (step = T_nom / 2)",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-001.11",
+   "kind": "gating",
+   "note": "no stop capture",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Time to stop, normal (cruise to < 0.3 m/s), in steps and t* = t / sqrt(l/g)",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-001.12",
+   "info": {
+    "mass_variants": {
+     "note": "mass-variant clause (>= 2 mass variants) is non-gating until variant logs exist",
+     "status": "PENDING",
+     "variants": []
+    }
+   },
+   "kind": "gating",
+   "note": "no estop capture",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Time to stop, emergency >= max(v_cruise / a_ref, m v0 / F_brake,max)",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-001.13",
+   "kind": "gating",
+   "note": "no panel_ratings@v1 file given (the tool never defaults a score)",
+   "parts": [],
+   "status": "PENDING",
+   "threshold_status": "derived",
+   "title": "Panel score \"feels like 10,000 t\"",
+   "unit": "",
+   "value": null
+  }
+ ],
+ "tool": {
+  "git_commit": "c6819fc58b850eafa3b8d2b5ae792b2b9963a1d1",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "FAIL",
+ "verdict_label": "FAIL",
+ "warnings": []
+}

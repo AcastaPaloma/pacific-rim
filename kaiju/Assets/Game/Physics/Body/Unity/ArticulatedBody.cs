@@ -283,6 +283,69 @@ namespace Game.Physics.Body.Unity
             var force = ab.GetJointForcesForAcceleration(acc);
             return force.dofCount > k ? info.Sign * force[k] * _unit : 0;
         }
+        // ---- whole-body model (contract v3). Layout measured in step 9.4c-2 (6000.6.9f1, one reduced coordinate at a time on a fresh rig; J qdot reproduces every link velocity to 1e-3 or better):
+        //  rows    = 6 x articulation bodies; the block of link i starts at row EngineLink(i).index * 6: 3 linear (velocity of the link's CENTRE OF MASS, world frame), then 3 angular (world frame).
+        //  columns = the engine's reduced coordinates in GetDofStartIndices order, identical to the GetJointVelocities list: 0..2 = root COM linear velocity (world), 3..5 = root angular velocity (world, about the root COM),
+        //            then 'start[link.index] + slot' per joint; a spherical joint keeps 3 slots, the active axes take the compact slots 0..n-1, the locked remainder is an inert slot (soft lock: it leaks a few % of the neighbouring slot's velocity).
+        //  GetJointGravityForces / GetJointCoriolisCentrifugalForces: with a floating base the gravity list is the FREE-FALL joint force (about 1e-5 of the true weight torques, base entries 0), so the model builds gravity itself from the Jacobian and the link masses.
+        ArticulationJacobian _jacobian; int _jacRows, _jacCols;
+        int BiasOffset()
+        {
+            // bias vectors and Jacobian columns share one index space when the bias list carries the 6 base coordinates; otherwise the base block comes first
+            if (!_idGravityFresh) { _ab[0].GetJointGravityForces(_idGravity); _idGravityFresh = true; }
+            return ModelColumns - _idGravity.Count;
+        }
+        /// <summary>Measured (step 9.4c, 6000.6.9f1): the engine's reduced-coordinate count (bias length = Jacobian columns = 6 base + the slots of every link, 3 per spherical joint even with a locked axis), not the active DOF count; the extra slots are inert.</summary>
+        public int ModelColumns { get { if (!_idGravityFresh) { _ab[0].GetJointGravityForces(_idGravity); _idGravityFresh = true; } return _idGravity.Count > 0 ? _idGravity.Count : _dof.Length + (_ab[0].immovable ? 0 : 6); } }
+        public int ModelColumnOfDof(int dof) { int i = IdIndex(dof); return i < 0 ? -1 : i + BiasOffset(); }
+        public int LinkJacobianRow(int link) => _ab[link].index * 6;
+        public int ModelBaseColumn(int k) => _ab[0].immovable ? -1 : k < 0 || k > 5 ? -1 : k;
+        bool ReadRawJacobian(out int rows, out int cols)
+        {
+            rows = _ab.Length * 6; cols = ModelColumns;
+            if (_jacobian.elements == null || _jacRows != rows || _jacCols != cols) { _jacobian = new ArticulationJacobian(rows, cols); _jacRows = rows; _jacCols = cols; }
+            if (_ab[0].GetDenseJacobian(ref _jacobian) <= 0) return false;
+            rows = _jacobian.rows; cols = _jacobian.columns;
+            return true;
+        }
+        public bool GetBodyJacobian(double[] jac, out int rows, out int cols)
+        {
+            rows = _ab.Length * 6; cols = ModelColumns;
+            if (jac == null || jac.Length < rows * cols) return false;
+            if (!ReadRawJacobian(out rows, out cols)) return false;
+            if (jac.Length < rows * cols) return false;
+            for (int r = 0; r < rows; r++) for (int c = 0; c < cols; c++) jac[r * cols + c] = _jacobian[r, c];
+            for (int d = 0; d < _dof.Length; d++)
+            {
+                int c = ModelColumnOfDof(d);
+                if (c < 0 || c >= cols || _dof[d].Sign >= 0) continue;
+                for (int r = 0; r < rows; r++) jac[r * cols + c] = -jac[r * cols + c];
+            }
+            return true;
+        }
+        public void GetBiasForce(double[] h)
+        {
+            if (!_idCoriolisFresh) { _ab[0].GetJointCoriolisCentrifugalForces(_idCoriolis); _idCoriolisFresh = true; }
+            int n = Math.Min(h.Length, _idCoriolis.Count);
+            for (int i = 0; i < n; i++) h[i] = _idCoriolis[i] * _unit;
+            if (_ab[0].immovable)
+            {
+                // fixed base: the engine's gravity list is the gravity compensation
+                if (!_idGravityFresh) { _ab[0].GetJointGravityForces(_idGravity); _idGravityFresh = true; }
+                for (int i = 0; i < Math.Min(n, _idGravity.Count); i++) h[i] += _idGravity[i] * _unit;
+            }
+            else if (ReadRawJacobian(out int rows, out int cols))
+            {
+                // floating base: h_gravity = -Q = g sum_l m_l J_lin,y(l) (world y up), from the same Jacobian the controller uses, so the two stay consistent
+                double g = _tuning.gravity_mps2;
+                for (int l = 0; l < _ab.Length; l++)
+                {
+                    int row = _ab[l].index * 6 + 1; double mg = _frame.segments[l].mass_kg * g;
+                    for (int c = 0; c < Math.Min(n, cols); c++) h[c] += mg * _jacobian[row, c];
+                }
+            }
+            for (int d = 0; d < _dof.Length; d++) { int c = ModelColumnOfDof(d); if (c >= 0 && c < n && _dof[d].Sign < 0) h[c] = -h[c]; }
+        }
         public string FootId(int foot) => _frame.segments[_footLink[foot]].side ?? _frame.segments[_footLink[foot]].id;
         public void GetFoot(int foot, out FootState state) => state = _foot[foot];
         public Transform PartTransform(string segmentId) { int i = FindLink(segmentId); return i < 0 ? null : _tf[i]; }

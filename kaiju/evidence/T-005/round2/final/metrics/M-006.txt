@@ -1,0 +1,52 @@
+M-006.1   sum of link masses vs frame total (rel)              0              <= 0.001                           PASS
+M-006.1   worst single link mass (rel)                         1.703e-08      <= 0.001                           PASS
+M-006.1   gravity y (m/s2), x = z = 0                          -9.81          = -9.81 exact                      PASS
+M-006.1   fixed dt (s)                                         0.016667       1/60 (R-005 R2)                    PASS
+M-006.1   density over human-equivalent volume (kg/m3)         1627.2         [1000, 2500]                       PASS
+M-006.1   hull density from collider boxes (kg/m3)             876.61         [500, 2500], warn < 1025           PASS
+M-006.1   largest damping / joint friction read back           0              = 0                                PASS
+M-006.2   drop: energy loss / energy released                  0.0081979      <= dt/t + 0.5 % = 0.0133           PASS
+M-006.2   drop: worst energy gain / released                   0              <= 0.001                           PASS
+M-006.2   drop_x2km: energy loss / energy released             0.0081979      <= dt/t + 0.5 % = 0.0133           PASS
+M-006.2   drop_x2km: worst energy gain / released              0              <= 0.001                           PASS
+M-006.2   knee pendulum: energy drift over 10 periods          0.0037551      <= 0.03 (A)                        PASS
+M-006.3   impact_e0_headon: |dp| / |p0|                        1.5259e-07     <= 0.005                           PASS
+M-006.3   impact_e0_headon: |dL| / |L0|                        3.3973e-06     <= 0.02 (A)                        PASS
+M-006.3   impact_e0_headon: KE after / KE before               0.90909        <= 1.001                           PASS
+M-006.3   head-on e = 0: KE ratio                              0.90909        0.909 +/- 3 %                      PASS
+M-006.3   impact_e0_offset5: |dp| / |p0|                       2.8992e-06     <= 0.005                           PASS
+M-006.3   impact_e0_offset5: |dL| / |L0|                       5.268e-06      <= 0.02 (A)                        PASS
+M-006.3   impact_e0_offset5: KE after / KE before              0.91223        <= 1.001                           PASS
+M-006.3   impact_e05_offset5: |dp| / |p0|                      7.6513e-07     <= 0.005                           PASS
+M-006.3   impact_e05_offset5: |dL| / |L0|                      1.2459e-05     <= 0.02 (A)                        PASS
+M-006.3   impact_e05_offset5: KE after / KE before             0.93417        <= 1.001                           PASS
+M-006.4   double stance: sum Fn / (m g), t = 8..10 s           1.0001         1 +/- 0.01                         PASS
+M-006.4   double stance: foot L pressure (kPa)                 325.62         327 +/- 5 %                        PASS
+M-006.4   double stance: foot R pressure (kPa)                 328.43         327 +/- 5 %                        PASS
+M-006.6   standing still: mean sum |P| (MW), t >= 10 s         0.86488        <= 5 (A)                           PASS
+M-006.4   single stance: pressure (kPa), last 2 s of a 16.0 s  653.66         654 +/- 2 %                        PASS
+M-006.4   walk_fr020: worst |stride impulse / (m g T) - 1| ove 0.018991       <= 0.02                            PASS
+M-006.4   walk_fr020: peak single-foot Fn (body weights), whol 4.0784         [1.0, 2.0]                         FAIL
+M-006.5   locked topple: KE at impact / dPE to impact          0.98493        1 +/- 0.03                         PASS
+M-006.5   locked topple: angular speed at impact (rad/s)       0.57458        0.57 +/- 5 %                       PASS
+M-006.5   locked topple: time to first non-foot contact (s)    8.0333         8.2 +/- 10 %                       PASS
+M-006.5   locked topple: energy released to rest (GJ)          3.5907         3.6 +/- 10 % (inside 3.6..4.4 per T-005 spec table) PASS
+M-006.5   limp topple: (KE + drive dissipation) / dPE at impac 0.91315        1 +/- 0.05 (A)                     FAIL
+M-006.6   walk_fr025: worst |tau| / forceLimit                 1              <= 1                               PASS
+M-006.6   walk_fr025: most saturated joint, share of steps     0.007141       <= 0.05                            PASS
+M-006.6   walk_fr025: ankle peak torque (N m)                  6.2138e+08     <= 1.0e9                           PASS
+M-006.6   walk_fr025: mean sum positive P (MW), walking part ( 97.201         [30, 120]                          PASS
+M-006.6   walk_fr025: peak sum positive P (MW), whole capture  2067.8         <= 450                             FAIL
+M-006.6   walk_fr020: worst |tau| / forceLimit                 1              <= 1                               PASS
+M-006.6   walk_fr020: most saturated joint, share of steps     0.007141       <= 0.05                            PASS
+M-006.6   walk_fr020: ankle peak torque (N m)                  6.2138e+08     <= 1.0e9                           PASS
+M-006.6   walk_fr020: mean sum positive P (MW), walking part ( 97.201         [30, 120]                          PASS
+M-006.6   walk_fr020: peak sum positive P (MW), whole capture  2067.8         <= 450                             FAIL
+M-006.7   NaN records in 17 physics logs                       0              = 0                                PASS
+M-006.7   max link speed outside falls (m/s)                   24.947         <= 60                              PASS
+M-006.7   max leg joint speed outside falls (rad/s)            2.1898         <= 3                               PASS
+M-006.7   max arm / waist joint speed outside falls (rad/s)    0.724          <= 10                              PASS
+M-006.7   largest one-step energy gain without external work ( 3.2178e+07     <= 7.8e7 (0.01 m g H)              PASS
+M-006.8   3 runs of the 60 s sequence: CoM divergence at 60 s  0              <= 0.01                            PASS
+M-006.8   identical footfall step indices and order (46 events 1              = 1                                PASS
+M-006@v1 verdict: FAIL {'M-006.1': 'pass', 'M-006.2': 'pass', 'M-006.3': 'pass', 'M-006.4': 'FAIL', 'M-006.5': 'FAIL', 'M-006.6': 'FAIL', 'M-006.7': 'pass', 'M-006.8': 'pass'} not measured: []

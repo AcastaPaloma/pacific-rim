@@ -1,11 +1,12 @@
 using System.Numerics;
 using Game.Core;
+using Game.Physics.Body.Qp;
 
 namespace Game.Physics.Body.Contracts
 {
     public static class BodyContractVersions
     {
-        public const int ArticulatedBody = 2;   // 2: inverse-dynamics queries (round 2 of T-005)
+        public const int ArticulatedBody = 3;   // 3: whole-body model queries (Jacobian, bias force; step 9.4 of T-005); 2: inverse-dynamics queries
         public const int FootContactEvent = 1;
         public const string PhysicsLog = "physics_log@v1";
         public const string FlagEnabled = "physics.body.enabled", FlagPhysicsLog = "physics.body.physicsLog";
@@ -157,6 +158,20 @@ namespace Game.Physics.Body.Contracts
         /// <summary>Running count of (step, DOF) pairs at which a joint moved at the engine's speed guard (max joint velocity, R-005 R11). The guard is an explosion stop, not a motion limit: it should stay 0 outside falls.</summary>
         int JointSpeedClampCount { get; }
         bool DofSpeedClamped(int dof);
+
+        // ---- v3: whole-body model (the engine exposes no mass matrix; the controller builds it from Jacobians, masses and inertias) ----
+        /// <summary>Column count of the Jacobian and length of the bias vector: the engine's reduced coordinates (6 base columns when the root is not immovable, then the slots of every link; a locked axis of a spherical joint keeps an inert slot, so this can exceed DofCount + 6). Valid once the articulation exists (after the first step).</summary>
+        int ModelColumns { get; }
+        /// <summary>Model column of a body DOF (anatomical sign, same index space as <see cref="GetBiasForce"/>).</summary>
+        int ModelColumnOfDof(int dof);
+        /// <summary>Model column of base coordinate k (0..5): measured (step 9.4c-2) 0..2 = linear velocity of the root centre of mass, world frame, 3..5 = angular velocity, world frame (about the root COM).</summary>
+        int ModelBaseColumn(int k);
+        /// <summary>First row of the 6-row block of link <paramref name="link"/> in <see cref="GetBodyJacobian"/> (engine articulation index * 6; not the link order).</summary>
+        int LinkJacobianRow(int link);
+        /// <summary>Dense Jacobian, row-major, rows x cols, written into <paramref name="jac"/> (length >= rows*cols). Rows are 6 per link: row of link i = (engine articulation index of i) * 6, 3 linear then 3 angular, all in the world frame, the linear rows being the velocity of the link's centre of mass (measured, step 9.4c-2). DOF columns use anatomical signs; base columns are raw; the inert slot of a locked spherical axis is a (soft-locked) column that the model leaves at zero. False when the buffer is too small or the engine returns nothing.</summary>
+        bool GetBodyJacobian(double[] jac, out int rows, out int cols);
+        /// <summary>Bias force h in M qdd + h = S tau + J^T f: h = -(generalised gravity force) + Coriolis/centrifugal, SI (N, N m), model-column order, DOF entries in anatomical sign. With a floating base the gravity part is built from the Jacobian and the link masses because the engine's gravity list is the free-fall force (about zero); the Coriolis part is the engine's list (verified only at rest, where it is 0).</summary>
+        void GetBiasForce(double[] h);
     }
 
     /// <summary>Where and how a body is created. Rotation is a world rotation of the whole frame (identity = facing +z).</summary>
@@ -183,5 +198,7 @@ namespace Game.Physics.Body.Contracts
         void StartPhysicsLog(IArticulatedBody body, string path, string scene, string commit);
         void LogEvent(IArticulatedBody body, long step, string type, string extraJsonBody);
         void StopPhysicsLog(IArticulatedBody body);
+        /// <summary>A preallocated dense QP solver (no allocation per solve), so unit modules need not reference the solver implementation.</summary>
+        IQpSolver CreateQpSolver(int maxN, int maxEq, int maxIn);
     }
 }

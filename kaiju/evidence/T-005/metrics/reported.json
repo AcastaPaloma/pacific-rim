@@ -1,0 +1,63 @@
+{
+ "tool": "Tools/PhysicsMetrics/m006.py v1",
+ "commit": "bedecf4",
+ "R5_latency_s": {
+  "stick_to_first_com_motion_0.05mps": 0.016666666666666607,
+  "stick_to_first_foot_lift": 2.5,
+  "stick_to_90pct_of_steady_speed": 5.216666666666666,
+  "steady_speed_mps": 3.0485846946166664,
+  "status": "proposed metric, unregistered: cannot fail",
+  "release_to_below_0.3mps_for_2s": 4.783333333333331,
+  "release_to_stand_phase": 3.0333333333333314
+ },
+ "C13_walk_to_target": {
+  "target": [
+   130,
+   0,
+   130
+  ],
+  "final_com_xz": [
+   118.269461227417,
+   126.84498834991454
+  ],
+  "distance_m": 12.14741282772789,
+  "final_phase": "SingleSupport",
+  "limit": "one step length"
+ },
+ "C14_limit_causes_step_counts": {
+  "None": 181,
+  "EffortRange": 3324,
+  "Accel": 362,
+  "StepReach": 3324,
+  "Decel": 136,
+  "YawAccel": 528,
+  "LateralAccel": 299,
+  "TurnBeforeWalk": 739,
+  "YawRate": 418,
+  "Fallen": 3996
+ },
+ "C10_max_external_force_N_per_capture": {
+  "curve": 0,
+  "estop": 0,
+  "intent_over_limit": 0,
+  "repeat60": 0,
+  "repeat60_run1": 0,
+  "repeat60_run2": 0,
+  "repeat60_run3": 0,
+  "shove_005": 4905000,
+  "shove_015": 14715000.0,
+  "shove_030": 29430000.0,
+  "shove_060": 58860000.0,
+  "single_stance": 0,
+  "stand": 0,
+  "start": 0,
+  "stomp": 0,
+  "stop": 0,
+  "turn90_inplace": 0,
+  "walk_fr010": 0,
+  "walk_fr020": 0,
+  "walk_fr025": 0,
+  "walk_fr030": 0,
+  "walk_scn": 0
+ }
+}

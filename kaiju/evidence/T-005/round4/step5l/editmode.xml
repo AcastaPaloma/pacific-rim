@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-15 13:08:26Z" end-time="2026-11-15 13:08:32Z" duration="5.8641191">
+  <test-suite type="TestSuite" id="1000" name="KaijuGame" fullname="KaijuGame" runstate="Runnable" testcasecount="332" result="Passed" start-time="2026-11-15 13:08:26Z" end-time="2026-11-15 13:08:32Z" duration="5.864119" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1376" name="Game.Units.Mech.UnityTests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005-94b/kaiju/Library/ScriptAssemblies/Game.Units.Mech.UnityTests.dll" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-11-15 13:08:26Z" end-time="2026-11-15 13:08:32Z" duration="5.844437" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="23401" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1377" name="Game" fullname="Game" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-11-15 13:08:26Z" end-time="2026-11-15 13:08:32Z" duration="5.843934" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1378" name="Units" fullname="Game.Units" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-11-15 13:08:26Z" end-time="2026-11-15 13:08:32Z" duration="5.843770" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1379" name="Mech" fullname="Game.Units.Mech" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-11-15 13:08:26Z" end-time="2026-11-15 13:08:32Z" duration="5.843615" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1380" name="UnityTests" fullname="Game.Units.Mech.UnityTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-11-15 13:08:26Z" end-time="2026-11-15 13:08:32Z" duration="5.843416" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1364" name="ImpByteIdentityTests" fullname="Game.Units.Mech.UnityTests.ImpByteIdentityTests" classname="Game.Units.Mech.UnityTests.ImpByteIdentityTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-11-15 13:08:26Z" end-time="2026-11-15 13:08:32Z" duration="5.842634" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1365" name="Imp012_BodyStateIsByteIdenticalToTheBaseCommit" fullname="Game.Units.Mech.UnityTests.ImpByteIdentityTests.Imp012_BodyStateIsByteIdenticalToTheBaseCommit" methodname="Imp012_BodyStateIsByteIdenticalToTheBaseCommit" classname="Game.Units.Mech.UnityTests.ImpByteIdentityTests" runstate="Runnable" seed="1219125912" result="Passed" start-time="2026-11-15 13:08:26Z" end-time="2026-11-15 13:08:32Z" duration="5.832348" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[imp0 ticks=1200 every=50 stable=24 cp=a5d3c217b3453d87,ddc4206704d47b7c,e88ac3ff6b064a73,a374a26850cdabc7,64cd8443163671b6,938af0841d1fd068,20243bb4feb8f368,a6f6597365bd7497,7496a8c2483ebe3a,5242b2774f3944ba,6c03b285bd258e58,a03e192e23fa1ea7,76620119664c65bd,96994e7e9cac2ae5,c55d5a7dbad273bf,c33cae7dc61231e1,35c29159ee7c726b,cde346566a117ff7,57c5572d2ddad78c,edcc7d3abf647df0,99c8d5abac0696bc,ac48cb21dbded58a,cb6cb2825ba62d16,25dd598ffd31f2de  (5 in-process repeats)
+imp0: identical to the baseline over 24 checkpoints (1200 ticks)
+imp1 ticks=1200 every=50 stable=18 cp=a5d3c217b3453d87,ddc4206704d47b7c,e88ac3ff6b064a73,a374a26850cdabc7,64cd8443163671b6,938af0841d1fd068,af0b3984ee3c23a5,2548c11591b5099d,779135ca5e5f4211,d237a203126305e4,7c762b70349b0b0f,24d4a74497d89cfb,0224359d3c6e51c1,53bc774640e90b07,c8ef490fb69c45fb,6b02fc43b364311b,42ee4e807e5a6236,dc86798d0d0e0ec0,0167b820bbf13756,554c4dff06dadb4b,df76b2ca12590582,2bfbc4a870efc663,ce2259c2109f158d,27fef4d659825a8a  (5 in-process repeats)
+imp1: identical to the baseline over 18 checkpoints (900 ticks)
+imp2 ticks=1200 every=50 stable=24 cp=a5d3c217b3453d87,ddc4206704d47b7c,e88ac3ff6b064a73,a374a26850cdabc7,64cd8443163671b6,938af0841d1fd068,de98a41686facbe3,7b01684c795426ef,c03830644d0b4a10,952fd5e30e788908,74e6db4e9aeb1f6e,e428a062486bfde2,c05c60c0a69bac8c,fbbff96177ec0f70,179b80052452d86a,4034bb9332fcb5c9,d9c0a319acf361fe,2a1feba96b391f4e,ab8ee188d0315c7c,e7d33cdaf289f461,c5135fbcbc5c9e7a,c5122a473abd5ab9,27d76f0cc2a92dd9,f587bc74fac3dce7  (5 in-process repeats)
+imp2: identical to the baseline over 24 checkpoints (1200 ticks)
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/kuanw/Library/Application Support/DefaultCompany/KaijuGame/TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

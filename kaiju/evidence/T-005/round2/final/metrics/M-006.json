@@ -1,0 +1,478 @@
+{
+ "metric": "M-006@v1",
+ "tool": "Tools/PhysicsMetrics/m006.py v1",
+ "commit": "c1ba9af",
+ "verdict": "FAIL",
+ "sub_measure_verdicts": {
+  "M-006.1": true,
+  "M-006.2": true,
+  "M-006.3": true,
+  "M-006.4": false,
+  "M-006.6": false,
+  "M-006.5": false,
+  "M-006.7": true,
+  "M-006.8": true
+ },
+ "not_measured": [],
+ "items": [
+  {
+   "sub_measure": "M-006.1",
+   "name": "sum of link masses vs frame total (rel)",
+   "value": 0,
+   "threshold": "<= 0.001",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.1",
+   "name": "worst single link mass (rel)",
+   "value": 1.7029898507254463e-08,
+   "threshold": "<= 0.001",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.1",
+   "name": "gravity y (m/s2), x = z = 0",
+   "value": -9.8100004196167,
+   "threshold": "= -9.81 exact",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.1",
+   "name": "fixed dt (s)",
+   "value": 0.016666666666666666,
+   "threshold": "1/60 (R-005 R2)",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.1",
+   "name": "density over human-equivalent volume (kg/m3)",
+   "value": 1627.2321428571427,
+   "threshold": "[1000, 2500]",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.1",
+   "name": "hull density from collider boxes (kg/m3)",
+   "value": 876.6131837597508,
+   "threshold": "[500, 2500], warn < 1025",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": "boxes ignore fill factors; frame hull density 1232"
+  },
+  {
+   "sub_measure": "M-006.1",
+   "name": "largest damping / joint friction read back",
+   "value": 0,
+   "threshold": "= 0",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.2",
+   "name": "drop: energy loss / energy released",
+   "value": 0.008197945153769096,
+   "threshold": "<= dt/t + 0.5 % = 0.0133",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.2",
+   "name": "drop: worst energy gain / released",
+   "value": 0,
+   "threshold": "<= 0.001",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.2",
+   "name": "drop_x2km: energy loss / energy released",
+   "value": 0.008197945153769096,
+   "threshold": "<= dt/t + 0.5 % = 0.0133",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.2",
+   "name": "drop_x2km: worst energy gain / released",
+   "value": 0,
+   "threshold": "<= 0.001",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.2",
+   "name": "knee pendulum: energy drift over 10 periods",
+   "value": 0.003755054961383586,
+   "threshold": "<= 0.03 (A)",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": "period measured 8.489 s, small-angle 8.383 s"
+  },
+  {
+   "sub_measure": "M-006.3",
+   "name": "impact_e0_headon: |dp| / |p0|",
+   "value": 1.5258789065756675e-07,
+   "threshold": "<= 0.005",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.3",
+   "name": "impact_e0_headon: |dL| / |L0|",
+   "value": 3.397319466934326e-06,
+   "threshold": "<= 0.02 (A)",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.3",
+   "name": "impact_e0_headon: KE after / KE before",
+   "value": 0.9090906297302261,
+   "threshold": "<= 1.001",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.3",
+   "name": "head-on e = 0: KE ratio",
+   "value": 0.9090906297302261,
+   "threshold": "0.909 +/- 3 %",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.3",
+   "name": "impact_e0_offset5: |dp| / |p0|",
+   "value": 2.8991936068591117e-06,
+   "threshold": "<= 0.005",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.3",
+   "name": "impact_e0_offset5: |dL| / |L0|",
+   "value": 5.268005626754529e-06,
+   "threshold": "<= 0.02 (A)",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.3",
+   "name": "impact_e0_offset5: KE after / KE before",
+   "value": 0.912234271505761,
+   "threshold": "<= 1.001",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.3",
+   "name": "impact_e05_offset5: |dp| / |p0|",
+   "value": 7.6513437387161e-07,
+   "threshold": "<= 0.005",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.3",
+   "name": "impact_e05_offset5: |dL| / |L0|",
+   "value": 1.2458978554258554e-05,
+   "threshold": "<= 0.02 (A)",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.3",
+   "name": "impact_e05_offset5: KE after / KE before",
+   "value": 0.9341732161030505,
+   "threshold": "<= 1.001",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.4",
+   "name": "double stance: sum Fn / (m g), t = 8..10 s",
+   "value": 1.000076097519538,
+   "threshold": "1 +/- 0.01",
+   "pass": true,
+   "source": "gait/stand",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.4",
+   "name": "double stance: foot L pressure (kPa)",
+   "value": 325.6213808888889,
+   "threshold": "327 +/- 5 %",
+   "pass": true,
+   "source": "gait/stand",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.4",
+   "name": "double stance: foot R pressure (kPa)",
+   "value": 328.4283868888889,
+   "threshold": "327 +/- 5 %",
+   "pass": true,
+   "source": "gait/stand",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.6",
+   "name": "standing still: mean sum |P| (MW), t >= 10 s",
+   "value": 0.8648823878055842,
+   "threshold": "<= 5 (A)",
+   "pass": true,
+   "source": "physics/stand",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.4",
+   "name": "single stance: pressure (kPa), last 2 s of a 16.0 s hold",
+   "value": 653.6643941597797,
+   "threshold": "654 +/- 2 %",
+   "pass": true,
+   "source": "gait/single_stance",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.4",
+   "name": "walk_fr020: worst |stride impulse / (m g T) - 1| over 5 strides",
+   "value": 0.018990650393955755,
+   "threshold": "<= 0.02",
+   "pass": true,
+   "source": "gait/walk_fr020",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.4",
+   "name": "walk_fr020: peak single-foot Fn (body weights), whole capture",
+   "value": 4.078378185524975,
+   "threshold": "[1.0, 2.0]",
+   "pass": false,
+   "source": "gait/walk_fr020",
+   "note": "raw per-step contact force, no smoothing"
+  },
+  {
+   "sub_measure": "M-006.5",
+   "name": "locked topple: KE at impact / dPE to impact",
+   "value": 0.9849298468403817,
+   "threshold": "1 +/- 0.03",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.5",
+   "name": "locked topple: angular speed at impact (rad/s)",
+   "value": 0.5745752453804016,
+   "threshold": "0.57 +/- 5 %",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.5",
+   "name": "locked topple: time to first non-foot contact (s)",
+   "value": 8.033333333333333,
+   "threshold": "8.2 +/- 10 %",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.5",
+   "name": "locked topple: energy released to rest (GJ)",
+   "value": 3.590669383787298,
+   "threshold": "3.6 +/- 10 % (inside 3.6..4.4 per T-005 spec table)",
+   "pass": true,
+   "source": "truth_scenes.json",
+   "note": "m g h standing = 4.17 GJ"
+  },
+  {
+   "sub_measure": "M-006.5",
+   "name": "limp topple: (KE + drive dissipation) / dPE at impact",
+   "value": 0.9131508520784256,
+   "threshold": "1 +/- 0.05 (A)",
+   "pass": false,
+   "source": "truth_scenes.json",
+   "note": "drive damping ratio 0.30 of critical, logged"
+  },
+  {
+   "sub_measure": "M-006.6",
+   "name": "walk_fr025: worst |tau| / forceLimit",
+   "value": 1.00000009,
+   "threshold": "<= 1",
+   "pass": true,
+   "source": "physics/walk_fr025",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.6",
+   "name": "walk_fr025: most saturated joint, share of steps",
+   "value": 0.007140967997884158,
+   "threshold": "<= 0.05",
+   "pass": true,
+   "source": "physics/walk_fr025",
+   "note": "hip_L.flexion"
+  },
+  {
+   "sub_measure": "M-006.6",
+   "name": "walk_fr025: ankle peak torque (N m)",
+   "value": 621382600.0,
+   "threshold": "<= 1.0e9",
+   "pass": true,
+   "source": "physics/walk_fr025",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.6",
+   "name": "walk_fr025: mean sum positive P (MW), walking part (t >= 3 s)",
+   "value": 97.2011275699522,
+   "threshold": "[30, 120]",
+   "pass": true,
+   "source": "physics/walk_fr025",
+   "note": "measured at the speed actually reached, not at Fr 0.25"
+  },
+  {
+   "sub_measure": "M-006.6",
+   "name": "walk_fr025: peak sum positive P (MW), whole capture",
+   "value": 2067.800448962452,
+   "threshold": "<= 450",
+   "pass": false,
+   "source": "physics/walk_fr025",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.6",
+   "name": "walk_fr020: worst |tau| / forceLimit",
+   "value": 1.00000009,
+   "threshold": "<= 1",
+   "pass": true,
+   "source": "physics/walk_fr020",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.6",
+   "name": "walk_fr020: most saturated joint, share of steps",
+   "value": 0.007140967997884158,
+   "threshold": "<= 0.05",
+   "pass": true,
+   "source": "physics/walk_fr020",
+   "note": "hip_L.flexion"
+  },
+  {
+   "sub_measure": "M-006.6",
+   "name": "walk_fr020: ankle peak torque (N m)",
+   "value": 621382600.0,
+   "threshold": "<= 1.0e9",
+   "pass": true,
+   "source": "physics/walk_fr020",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.6",
+   "name": "walk_fr020: mean sum positive P (MW), walking part (t >= 3 s)",
+   "value": 97.2011275699522,
+   "threshold": "[30, 120]",
+   "pass": true,
+   "source": "physics/walk_fr020",
+   "note": "measured at the speed actually reached, not at Fr 0.25"
+  },
+  {
+   "sub_measure": "M-006.6",
+   "name": "walk_fr020: peak sum positive P (MW), whole capture",
+   "value": 2067.800448962452,
+   "threshold": "<= 450",
+   "pass": false,
+   "source": "physics/walk_fr020",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.7",
+   "name": "NaN records in 17 physics logs",
+   "value": 0,
+   "threshold": "= 0",
+   "pass": true,
+   "source": "physics/*",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.7",
+   "name": "max link speed outside falls (m/s)",
+   "value": 24.946530955992284,
+   "threshold": "<= 60",
+   "pass": true,
+   "source": "physics/*",
+   "note": "shove_060"
+  },
+  {
+   "sub_measure": "M-006.7",
+   "name": "max leg joint speed outside falls (rad/s)",
+   "value": 2.18982,
+   "threshold": "<= 3",
+   "pass": true,
+   "source": "physics/*",
+   "note": "shove_060:knee_L"
+  },
+  {
+   "sub_measure": "M-006.7",
+   "name": "max arm / waist joint speed outside falls (rad/s)",
+   "value": 0.724,
+   "threshold": "<= 10",
+   "pass": true,
+   "source": "physics/*",
+   "note": "shove_060:shoulder_R"
+  },
+  {
+   "sub_measure": "M-006.7",
+   "name": "largest one-step energy gain without external work (J)",
+   "value": 32178289.851795197,
+   "threshold": "<= 7.8e7 (0.01 m g H)",
+   "pass": true,
+   "source": "physics/*",
+   "note": "shove_060 t=12.33; actuator work is not external work, so walking steps count here"
+  },
+  {
+   "sub_measure": "M-006.8",
+   "name": "3 runs of the 60 s sequence: CoM divergence at 60 s (m)",
+   "value": 0.0,
+   "threshold": "<= 0.01",
+   "pass": true,
+   "source": "gait/repeat60_run1..3",
+   "note": ""
+  },
+  {
+   "sub_measure": "M-006.8",
+   "name": "identical footfall step indices and order (46 events)",
+   "value": 1.0,
+   "threshold": "= 1",
+   "pass": true,
+   "source": "gait/repeat60_run1..3",
+   "note": ""
+  }
+ ]
+}

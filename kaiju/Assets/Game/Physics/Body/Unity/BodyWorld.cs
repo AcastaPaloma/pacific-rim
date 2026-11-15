@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Game.Core;
 using Game.Physics.Body.Contracts;
+using Game.Physics.Body.Qp;
 using Unity.Collections;
 using UnityEngine;
 using EntityId = Game.Core.EntityId;
@@ -53,6 +54,7 @@ namespace Game.Physics.Body.Unity
             var o = new BodyBuildOptions { Position = new Vector3(spawn.Position.X, spawn.Position.Y, spawn.Position.Z), Rotation = new Quaternion(spawn.Rotation.X, spawn.Rotation.Y, spawn.Rotation.Z, spawn.Rotation.W), LockAllJoints = spawn.LockAllJoints, Visuals = spawn.Visuals, Name = spawn.Name };
             return new ArticulatedBody(this, frame, tuning, unitId, _bus, o);
         }
+        public IQpSolver CreateQpSolver(int maxN, int maxEq, int maxIn) => new GoldfarbIdnaniQp(maxN, maxEq, maxIn);
         public void DestroyBody(IArticulatedBody body)
         {
             var b = (ArticulatedBody)body;

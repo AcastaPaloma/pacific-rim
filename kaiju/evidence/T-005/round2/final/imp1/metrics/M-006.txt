@@ -1,0 +1,7 @@
+M-006.7   NaN records in 1 physics logs                        0              = 0                                PASS
+M-006.7   max link speed outside falls (m/s)                   21.53          <= 60                              PASS
+M-006.7   max leg joint speed outside falls (rad/s)            2.9619         <= 3                               PASS
+M-006.7   max arm / waist joint speed outside falls (rad/s)    0.48865        <= 10                              PASS
+M-006.7   largest one-step energy gain without external work ( 3.6935e+07     <= 7.8e7 (0.01 m g H)              PASS
+M-006@v1 verdict: FAIL {'M-006.7': 'pass'} not measured: ['M-006.1', 'M-006.2', 'M-006.3', 'M-006.4', 'M-006.5', 'M-006.6', 'M-006.8']
+footfall latency: 209 contacts, same-step share 1.0000

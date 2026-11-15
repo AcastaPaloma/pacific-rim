@@ -1,0 +1,74 @@
+{
+ "schema": "body_tuning@v1",
+ "notes": "Every value is from research/R-005 unless marked. Section 3.3: force limits (Assumed there). Section 3.2: zeta 1, swing 1.0 Hz, stance/whole-body 0.5 Hz. Section 4: R4 iterations 24/4, R5 contact offset 0.1 m, R8 sleep 0, R10 depenetration 1 m/s, R11 velocity guards, R12/R13 damping and joint friction 0, R15 friction 0.8/0.6 combine Minimum, R9 restitution 0. Contact hysteresis: research/R-001 section 5 (F_on 0.03 m g, F_off 0.01 m g). reactor_power_w: R-005 Q-008 default 300 MW (Assumed). sim_mass_unit_kg: measured in evidence/T-005/probes (PhysX articulation contacts fail above about 1e5 mass units; TGS: 1e7 sinks through the ground).",
+ "reference_mass_kg": 10000000.0,
+ "reference_height_m": 80.0,
+ "sim_mass_unit_kg": 100000.0,
+ "gravity_mps2": 9.81,
+ "solver_iterations": 24,
+ "solver_velocity_iterations": 4,
+ "contact_offset_m": 0.1,
+ "max_depenetration_mps": 1.0,
+ "sleep_threshold": 0.0,
+ "linear_damping": 0.0,
+ "angular_damping": 0.0,
+ "joint_friction": 0.0,
+ "max_linear_velocity_mps": 100.0,
+ "max_angular_velocity_rps": 5.0,
+ "leg_max_joint_velocity_rps": 3.0,
+ "arm_max_joint_velocity_rps": 10.0,
+ "body_max_joint_velocity_rps": 5.0,
+ "friction_static": 0.8,
+ "friction_dynamic": 0.6,
+ "restitution": 0.0,
+ "continuous_collision_kinds": [
+  "torso",
+  "head",
+  "upper_arm",
+  "forearm",
+  "hand"
+ ],
+ "contact_on_bw": 0.03,
+ "contact_off_bw": 0.01,
+ "contact_load_window_tstar": 0.32,
+ "damping_ratio": 1.0,
+ "reactor_power_w": 300000000.0,
+ "joint_kinds": [
+  {
+   "kind": "ankle",
+   "force_limit_nm": 1600000000.0,
+   "swing_hz": 1.0,
+   "stance_hz": 0.5
+  },
+  {
+   "kind": "knee",
+   "force_limit_nm": 800000000.0,
+   "swing_hz": 1.0,
+   "stance_hz": 0.5
+  },
+  {
+   "kind": "hip",
+   "force_limit_nm": 1200000000.0,
+   "swing_hz": 1.0,
+   "stance_hz": 0.5
+  },
+  {
+   "kind": "waist",
+   "force_limit_nm": 500000000.0,
+   "swing_hz": 1.0,
+   "stance_hz": 0.5
+  },
+  {
+   "kind": "shoulder",
+   "force_limit_nm": 300000000.0,
+   "swing_hz": 1.0,
+   "stance_hz": 0.5
+  },
+  {
+   "kind": "elbow",
+   "force_limit_nm": 150000000.0,
+   "swing_hz": 1.0,
+   "stance_hz": 0.5
+  }
+ ]
+}

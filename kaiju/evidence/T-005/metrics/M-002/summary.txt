@@ -1,0 +1,13 @@
+M-002@v1  [T-005]  registry v1.1 sha256:dd104137882d  tool 1.0.0
+VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 1
+  FAIL           [G] M-002.1          0.2461 L_f  < 0.005  margin -0.2411
+      where: stomp foot R contact 3 n=541 t=9.0167s slip 3.6919 m (24.613 % L_f); curve foot L contact 39 n=3454 t=57.5667s slip 1.8366 m (12.244 % L_f); turn90_inplace foot L contact 6 n=874 t
+  FAIL           [A] M-002.2          0.034 L_f  < 0.0025  margin -0.0315 seed-threshold
+  PASS           [G] M-002.3          0.01667 s  <= 0.02  margin 0.003333
+  PASS           [G] M-002.4          1 share of foot-steps  >= 0.99  margin 0.01
+  PASS           [G] M-002.5          0 contacts  <= 0  margin 0
+  warning: ADVISORY M-002.2 failed: value 0.034 vs < 0.0025
+  flag NON_REFERENCE_NORMALISERS: {'file': 'walk_fr010.gait.jsonl', 'differs': {'com_height_stand_m': {'header': 42.5405, 'reference': 44.8}, 'I_yaw_kgm2': {'header': 619689864, 'reference': 475
+  flag NON_REFERENCE_NORMALISERS: {'file': 'walk_fr020.gait.jsonl', 'differs': {'com_height_stand_m': {'header': 42.5405, 'reference': 44.8}, 'I_yaw_kgm2': {'header': 619689864, 'reference': 475
+  flag NON_REFERENCE_NORMALISERS: {'file': 'walk_fr030.gait.jsonl', 'differs': {'com_height_stand_m': {'header': 42.5405, 'reference': 44.8}, 'I_yaw_kgm2': {'header': 619689864, 'reference': 475
+  inputs: 9 files hashed; report.json holds every value, threshold and hash

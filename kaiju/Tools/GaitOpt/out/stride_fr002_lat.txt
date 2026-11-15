@@ -1,0 +1,9 @@
+stride_fr002_lat: verdict FEASIBLE; trust-constr status 0 (The maximum number of function evaluations is exceeded.); iterations 500; runtime 110 s; N=40
+max dynamics residual 7.95e-09, max eq residual 1.26e-08, max ineq violation 0.00e+00 (feasible tol 1e-05); optimality 2.38e-03
+objective 0.17487; step time 6.274 s (ref 5.228), step length 18.09 m, v 2.884 m/s
+peak |tau| / limit: hip_A 3.169e+08/1.2e+09 = 0.264, knee_A 2.278e+08/8.0e+08 = 0.285, ankle_A 3.071e+08/1.0e+09 = 0.307, hip_B 5.537e+08/1.2e+09 = 0.461, knee_B 4.003e+08/8.0e+08 = 0.500, ankle_B 5.700e+08/1.0e+09 = 0.570
+peak total Fn 2.120 BW (node 36), peak point Fn 1.435 BW, peak friction use 0.817 (mu 0.400)
+ROM margin to 5 deg-margin bound / to physical ROM (deg): hip_A 1.3/6.3, knee_A 1.4/6.4, ankle_A 0.0/5.0, hip_B 20.6/25.6, knee_B 0.4/5.4, ankle_B 1.9/6.9
+knee deg min 5.4 max 43.2
+binding within 2% (27): rom knee_B @node 14 (7.7); rom ankle_A @node 16 (-13.9); rom knee_B @node 16 (6.56); rom hip_A @node 17 (-13); rom ankle_A @node 17 (-13.9); rom knee_B @node 17 (6.4); rom hip_A @node 18 (-13.7); rom knee_A @node 18 (7.34); rom ankle_A @node 18 (-14.6); rom hip_A @node 19 (-12.3); rom knee_A @node 19 (6.4); rom ankle_A @node 19 (-14.7); rom knee_A @node 20 (6.96); rom ankle_A @node 20 (-14.6); rom ankle_A @node 21 (-14.7); rom ankle_A @node 22 (-15); rom knee_B @node 22 (7.09); rom ankle_A @node 23 (-15); rom knee_B @node 23 (7.4); rom ankle_A @node 24 (-14.7); rom ankle_A @node 25 (-14.4); rom ankle_A @node 39 (-14.9); rom knee_B @node 39 (5.45); strike_vx- 2 @node 0 (0.00697); strike_vy 3 @node 18 (0.00232); clear 1 @node 22 (0.00264); clear 1 @node 23 (0.00223)
+--lat: mu_eff min 0.3697 (used; mu 0.4000; single solve), mu_eff min at final step time 0.3698 (stale 0.60 %), peak a_lat 0.152 g (zc 42.66 m, omega 0.480); 3D friction use sqrt(Ft^2+Fy^2)/(mu Fn) max 0.843; verdict FEASIBLE

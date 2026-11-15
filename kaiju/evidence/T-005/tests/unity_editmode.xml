@@ -1,0 +1,1443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="168" result="Failed(Child)" total="168" passed="161" failed="7" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:44Z" duration="10.4310213">
+  <test-suite type="TestSuite" id="1000" name="KaijuGame" fullname="KaijuGame" runstate="Runnable" testcasecount="168" result="Failed" site="Child" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:44Z" duration="10.431021" total="168" passed="161" failed="7" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1012" name="Game.Control.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Library/ScriptAssemblies/Game.Control.Tests.dll" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.017854" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="75556" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1013" name="Game" fullname="Game" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.017615" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1014" name="Control" fullname="Game.Control" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.017498" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1015" name="Tests" fullname="Game.Control.Tests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.017345" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1002" name="ControlContractTests" fullname="Game.Control.Tests.ControlContractTests" classname="Game.Control.Tests.ControlContractTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.014331" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1003" name="Contract_HasExactlyTheModularity41Types" fullname="Game.Control.Tests.ControlContractTests.Contract_HasExactlyTheModularity41Types" methodname="Contract_HasExactlyTheModularity41Types" classname="Game.Control.Tests.ControlContractTests" runstate="Runnable" seed="116326950" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.004587" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1008" name="Seat_TakesAnyNumberOfPilots_AndASwappedArbiter" fullname="Game.Control.Tests.ControlContractTests.Seat_TakesAnyNumberOfPilots_AndASwappedArbiter" classname="Game.Control.Tests.ControlContractTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.002444" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1006" name="Seat_TakesAnyNumberOfPilots_AndASwappedArbiter(2)" fullname="Game.Control.Tests.ControlContractTests.Seat_TakesAnyNumberOfPilots_AndASwappedArbiter(2)" methodname="Seat_TakesAnyNumberOfPilots_AndASwappedArbiter" classname="Game.Control.Tests.ControlContractTests" runstate="Runnable" seed="1887260659" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.001474" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1007" name="Seat_TakesAnyNumberOfPilots_AndASwappedArbiter(3)" fullname="Game.Control.Tests.ControlContractTests.Seat_TakesAnyNumberOfPilots_AndASwappedArbiter(3)" methodname="Seat_TakesAnyNumberOfPilots_AndASwappedArbiter" classname="Game.Control.Tests.ControlContractTests" runstate="Runnable" seed="767770028" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000028" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1004" name="SinglePilotArbiter_IsTheOnlyShippedArbiter" fullname="Game.Control.Tests.ControlContractTests.SinglePilotArbiter_IsTheOnlyShippedArbiter" methodname="SinglePilotArbiter_IsTheOnlyShippedArbiter" classname="Game.Control.Tests.ControlContractTests" runstate="Runnable" seed="2380339" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000346" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1005" name="SinglePilotArbiter_PassesTheInputStraightThrough" fullname="Game.Control.Tests.ControlContractTests.SinglePilotArbiter_PassesTheInputStraightThrough" methodname="SinglePilotArbiter_PassesTheInputStraightThrough" classname="Game.Control.Tests.ControlContractTests" runstate="Runnable" seed="1365780852" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000948" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1009" name="PilotSourceTests" fullname="Game.Control.Tests.PilotSourceTests" classname="Game.Control.Tests.PilotSourceTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.002611" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1010" name="ScriptedPilot_PlaysItsTimelineByClockStep" fullname="Game.Control.Tests.PilotSourceTests.ScriptedPilot_PlaysItsTimelineByClockStep" methodname="ScriptedPilot_PlaysItsTimelineByClockStep" classname="Game.Control.Tests.PilotSourceTests" runstate="Runnable" seed="2082066533" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.001635" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1011" name="StickMapping_GivesATargetPointAndEffort_NeverAJoint" fullname="Game.Control.Tests.PilotSourceTests.StickMapping_GivesATargetPointAndEffort_NeverAJoint" methodname="StickMapping_GivesATargetPointAndEffort_NeverAJoint" classname="Game.Control.Tests.PilotSourceTests" runstate="Runnable" seed="386774209" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000434" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="1121" name="Game.Core.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Library/ScriptAssemblies/Game.Core.Tests.dll" runstate="Runnable" testcasecount="89" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:43Z" duration="9.205101" total="89" passed="89" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="75556" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1122" name="Game" fullname="Game" runstate="Runnable" testcasecount="89" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:43Z" duration="9.204245" total="89" passed="89" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1123" name="Core" fullname="Game.Core" runstate="Runnable" testcasecount="89" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:43Z" duration="9.203491" total="89" passed="89" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1124" name="Tests" fullname="Game.Core.Tests" runstate="Runnable" testcasecount="89" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:43Z" duration="9.202526" total="89" passed="89" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1016" name="AllocationTests" fullname="Game.Core.Tests.AllocationTests" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" testcasecount="17" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.124788" total="17" passed="17" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1017" name="AllocMeter_DetectsAllocations" fullname="Game.Core.Tests.AllocationTests.AllocMeter_DetectsAllocations" methodname="AllocMeter_DetectsAllocations" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="1771303187" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.001436" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[alloc.txt: control: 1000 x new byte[64] -> bytes=n/a gcAllocCount=1000
+]]></output>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1030" name="Bus_Publish_AllocatesNothing_SteadyState" fullname="Game.Core.Tests.AllocationTests.Bus_Publish_AllocatesNothing_SteadyState" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.030979" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1018" name="Bus_Publish_AllocatesNothing_SteadyState(1,False,False)" fullname="Game.Core.Tests.AllocationTests.Bus_Publish_AllocatesNothing_SteadyState(1,False,False)" methodname="Bus_Publish_AllocatesNothing_SteadyState" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="986943885" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.002376" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[alloc.txt: publish x10000 subs=1 event=PingEvent(4B) nested=False warmup=1000 -> bytes=n/a gcAllocCount=0
+]]></output>
+                </test-case>
+                <test-case id="1019" name="Bus_Publish_AllocatesNothing_SteadyState(8,False,False)" fullname="Game.Core.Tests.AllocationTests.Bus_Publish_AllocatesNothing_SteadyState(8,False,False)" methodname="Bus_Publish_AllocatesNothing_SteadyState" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="872839769" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.001049" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[alloc.txt: publish x10000 subs=8 event=PingEvent(4B) nested=False warmup=1000 -> bytes=n/a gcAllocCount=0
+]]></output>
+                </test-case>
+                <test-case id="1020" name="Bus_Publish_AllocatesNothing_SteadyState(64,False,False)" fullname="Game.Core.Tests.AllocationTests.Bus_Publish_AllocatesNothing_SteadyState(64,False,False)" methodname="Bus_Publish_AllocatesNothing_SteadyState" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="1487183135" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.002632" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[alloc.txt: publish x10000 subs=64 event=PingEvent(4B) nested=False warmup=1000 -> bytes=n/a gcAllocCount=0
+]]></output>
+                </test-case>
+                <test-case id="1021" name="Bus_Publish_AllocatesNothing_SteadyState(1,True,False)" fullname="Game.Core.Tests.AllocationTests.Bus_Publish_AllocatesNothing_SteadyState(1,True,False)" methodname="Bus_Publish_AllocatesNothing_SteadyState" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="1448458250" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.001839" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[alloc.txt: publish x10000 subs=1 event=BigEvent(96B) nested=False warmup=1000 -> bytes=n/a gcAllocCount=0
+]]></output>
+                </test-case>
+                <test-case id="1022" name="Bus_Publish_AllocatesNothing_SteadyState(8,True,False)" fullname="Game.Core.Tests.AllocationTests.Bus_Publish_AllocatesNothing_SteadyState(8,True,False)" methodname="Bus_Publish_AllocatesNothing_SteadyState" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="2004694513" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.001480" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[alloc.txt: publish x10000 subs=8 event=BigEvent(96B) nested=False warmup=1000 -> bytes=n/a gcAllocCount=0
+]]></output>
+                </test-case>
+                <test-case id="1023" name="Bus_Publish_AllocatesNothing_SteadyState(64,True,False)" fullname="Game.Core.Tests.AllocationTests.Bus_Publish_AllocatesNothing_SteadyState(64,True,False)" methodname="Bus_Publish_AllocatesNothing_SteadyState" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="71004460" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.003032" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[alloc.txt: publish x10000 subs=64 event=BigEvent(96B) nested=False warmup=1000 -> bytes=n/a gcAllocCount=0
+]]></output>
+                </test-case>
+                <test-case id="1024" name="Bus_Publish_AllocatesNothing_SteadyState(1,False,True)" fullname="Game.Core.Tests.AllocationTests.Bus_Publish_AllocatesNothing_SteadyState(1,False,True)" methodname="Bus_Publish_AllocatesNothing_SteadyState" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="594980820" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.002379" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[alloc.txt: publish x10000 subs=1 event=PingEvent(4B) nested=True warmup=1000 -> bytes=n/a gcAllocCount=0
+]]></output>
+                </test-case>
+                <test-case id="1025" name="Bus_Publish_AllocatesNothing_SteadyState(8,False,True)" fullname="Game.Core.Tests.AllocationTests.Bus_Publish_AllocatesNothing_SteadyState(8,False,True)" methodname="Bus_Publish_AllocatesNothing_SteadyState" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="740529930" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.002167" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[alloc.txt: publish x10000 subs=8 event=PingEvent(4B) nested=True warmup=1000 -> bytes=n/a gcAllocCount=0
+]]></output>
+                </test-case>
+                <test-case id="1026" name="Bus_Publish_AllocatesNothing_SteadyState(64,False,True)" fullname="Game.Core.Tests.AllocationTests.Bus_Publish_AllocatesNothing_SteadyState(64,False,True)" methodname="Bus_Publish_AllocatesNothing_SteadyState" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="248746999" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.003666" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[alloc.txt: publish x10000 subs=64 event=PingEvent(4B) nested=True warmup=1000 -> bytes=n/a gcAllocCount=0
+]]></output>
+                </test-case>
+                <test-case id="1027" name="Bus_Publish_AllocatesNothing_SteadyState(1,True,True)" fullname="Game.Core.Tests.AllocationTests.Bus_Publish_AllocatesNothing_SteadyState(1,True,True)" methodname="Bus_Publish_AllocatesNothing_SteadyState" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="304376755" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.002503" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[alloc.txt: publish x10000 subs=1 event=BigEvent(96B) nested=True warmup=1000 -> bytes=n/a gcAllocCount=0
+]]></output>
+                </test-case>
+                <test-case id="1028" name="Bus_Publish_AllocatesNothing_SteadyState(8,True,True)" fullname="Game.Core.Tests.AllocationTests.Bus_Publish_AllocatesNothing_SteadyState(8,True,True)" methodname="Bus_Publish_AllocatesNothing_SteadyState" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="1843391469" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.002656" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[alloc.txt: publish x10000 subs=8 event=BigEvent(96B) nested=True warmup=1000 -> bytes=n/a gcAllocCount=0
+]]></output>
+                </test-case>
+                <test-case id="1029" name="Bus_Publish_AllocatesNothing_SteadyState(64,True,True)" fullname="Game.Core.Tests.AllocationTests.Bus_Publish_AllocatesNothing_SteadyState(64,True,True)" methodname="Bus_Publish_AllocatesNothing_SteadyState" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="796137944" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.004190" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[alloc.txt: publish x10000 subs=64 event=BigEvent(96B) nested=True warmup=1000 -> bytes=n/a gcAllocCount=0
+]]></output>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="1035" name="Bus_Throughput_Baseline" fullname="Game.Core.Tests.AllocationTests.Bus_Throughput_Baseline" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.089330" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1032" name="Bus_Throughput_Baseline(1)" fullname="Game.Core.Tests.AllocationTests.Bus_Throughput_Baseline(1)" methodname="Bus_Throughput_Baseline" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="382227859" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.017953" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[bench.txt: subs=1 ns/publish=78.9 ns/delivery=78.9 (n=200000)
+]]></output>
+                </test-case>
+                <test-case id="1033" name="Bus_Throughput_Baseline(8)" fullname="Game.Core.Tests.AllocationTests.Bus_Throughput_Baseline(8)" methodname="Bus_Throughput_Baseline" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="1662767975" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.020065" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[bench.txt: subs=8 ns/publish=90.9 ns/delivery=11.4 (n=200000)
+]]></output>
+                </test-case>
+                <test-case id="1034" name="Bus_Throughput_Baseline(64)" fullname="Game.Core.Tests.AllocationTests.Bus_Throughput_Baseline(64)" methodname="Bus_Throughput_Baseline" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="1166178719" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.050728" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[bench.txt: subs=64 ns/publish=230.2 ns/delivery=3.6 (n=200000)
+]]></output>
+                </test-case>
+              </test-suite>
+              <test-case id="1031" name="FlagAndClockReads_AllocateNothing" fullname="Game.Core.Tests.AllocationTests.FlagAndClockReads_AllocateNothing" methodname="FlagAndClockReads_AllocateNothing" classname="Game.Core.Tests.AllocationTests" runstate="Runnable" seed="1065677973" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.002086" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[alloc.txt: flag+clock reads x10000 -> bytes=n/a gcAllocCount=0
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1036" name="ClockTests" fullname="Game.Core.Tests.ClockTests" classname="Game.Core.Tests.ClockTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.125782" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1039" name="Clock_FixedStepCheck_DetectsMismatch" fullname="Game.Core.Tests.ClockTests.Clock_FixedStepCheck_DetectsMismatch" methodname="Clock_FixedStepCheck_DetectsMismatch" classname="Game.Core.Tests.ClockTests" runstate="Runnable" seed="1517123286" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000217" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1040" name="Clock_ManualStepping_DrivesBus" fullname="Game.Core.Tests.ClockTests.Clock_ManualStepping_DrivesBus" methodname="Clock_ManualStepping_DrivesBus" classname="Game.Core.Tests.ClockTests" runstate="Runnable" seed="831244228" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.021817" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1038" name="Clock_NoDriftAfter10MSteps" fullname="Game.Core.Tests.ClockTests.Clock_NoDriftAfter10MSteps" methodname="Clock_NoDriftAfter10MSteps" classname="Game.Core.Tests.ClockTests" runstate="Runnable" seed="2086321836" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.022752" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[bench.txt: clock 1e7 steps: derived=200000 naiveFloatSum=191361.891 naiveDoubleSum=199999.99997261938
+]]></output>
+              </test-case>
+              <test-case id="1037" name="Clock_StepComesFromCommittedConfig" fullname="Game.Core.Tests.ClockTests.Clock_StepComesFromCommittedConfig" methodname="Clock_StepComesFromCommittedConfig" classname="Game.Core.Tests.ClockTests" runstate="Runnable" seed="2092485414" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.002588" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[bench.txt: committed fixedStepSeconds=0.016666666666666666 maxEventsPerCascade=10000
+]]></output>
+              </test-case>
+              <test-case id="1041" name="Core_StepReplay_Deterministic" fullname="Game.Core.Tests.ClockTests.Core_StepReplay_Deterministic" methodname="Core_StepReplay_Deterministic" classname="Game.Core.Tests.ClockTests" runstate="Runnable" seed="512265769" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.077376" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[trace-hashes.txt: replay1000 CE7CBB4259A6A39B length=168876
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1042" name="EventBusTests" fullname="Game.Core.Tests.EventBusTests" classname="Game.Core.Tests.EventBusTests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.278846" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1043" name="Bus_DeliversAllEventsWithinPublishingStep" fullname="Game.Core.Tests.EventBusTests.Bus_DeliversAllEventsWithinPublishingStep" methodname="Bus_DeliversAllEventsWithinPublishingStep" classname="Game.Core.Tests.EventBusTests" runstate="Runnable" seed="1586835644" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.001332" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1044" name="Bus_DispatchTrace_IsReproducible" fullname="Game.Core.Tests.EventBusTests.Bus_DispatchTrace_IsReproducible" methodname="Bus_DispatchTrace_IsReproducible" classname="Game.Core.Tests.EventBusTests" runstate="Runnable" seed="944082353" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.015027" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[trace-hashes.txt: dispatch 6F72236CAACE7678 length=6417
+]]></output>
+              </test-case>
+              <test-case id="1049" name="Bus_DoubleSubscribe_Throws" fullname="Game.Core.Tests.EventBusTests.Bus_DoubleSubscribe_Throws" methodname="Bus_DoubleSubscribe_Throws" classname="Game.Core.Tests.EventBusTests" runstate="Runnable" seed="2145631892" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000199" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1050" name="Bus_PublishCycle_FailsLoudlyNamingEventTypes" fullname="Game.Core.Tests.EventBusTests.Bus_PublishCycle_FailsLoudlyNamingEventTypes" methodname="Bus_PublishCycle_FailsLoudlyNamingEventTypes" classname="Game.Core.Tests.EventBusTests" runstate="Runnable" seed="1071825478" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000824" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1054" name="Bus_PublishFromAnotherThread_FailsLoudly" fullname="Game.Core.Tests.EventBusTests.Bus_PublishFromAnotherThread_FailsLoudly" methodname="Bus_PublishFromAnotherThread_FailsLoudly" classname="Game.Core.Tests.EventBusTests" runstate="Runnable" seed="452668057" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000489" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1045" name="Bus_PublishFromHandler_IsQueuedFifoAfterCurrentEvent" fullname="Game.Core.Tests.EventBusTests.Bus_PublishFromHandler_IsQueuedFifoAfterCurrentEvent" methodname="Bus_PublishFromHandler_IsQueuedFifoAfterCurrentEvent" classname="Game.Core.Tests.EventBusTests" runstate="Runnable" seed="510384441" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000189" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1048" name="Bus_SubscribeDuringDispatch_StartsWithNextPublishedEvent" fullname="Game.Core.Tests.EventBusTests.Bus_SubscribeDuringDispatch_StartsWithNextPublishedEvent" methodname="Bus_SubscribeDuringDispatch_StartsWithNextPublishedEvent" classname="Game.Core.Tests.EventBusTests" runstate="Runnable" seed="888503379" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000503" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1051" name="Bus_ThrowingHandler_OthersStillReceive_ErrorReported" fullname="Game.Core.Tests.EventBusTests.Bus_ThrowingHandler_OthersStillReceive_ErrorReported" methodname="Bus_ThrowingHandler_OthersStillReceive_ErrorReported" classname="Game.Core.Tests.EventBusTests" runstate="Runnable" seed="1427946026" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000443" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1052" name="Bus_TypedIsolation" fullname="Game.Core.Tests.EventBusTests.Bus_TypedIsolation" methodname="Bus_TypedIsolation" classname="Game.Core.Tests.EventBusTests" runstate="Runnable" seed="2037309752" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000101" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1046" name="Bus_UnsubscribeOtherDuringDispatch_RemovedGetsNothingMore" fullname="Game.Core.Tests.EventBusTests.Bus_UnsubscribeOtherDuringDispatch_RemovedGetsNothingMore" methodname="Bus_UnsubscribeOtherDuringDispatch_RemovedGetsNothingMore" classname="Game.Core.Tests.EventBusTests" runstate="Runnable" seed="2064026508" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000209" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1047" name="Bus_UnsubscribeSelfDuringDispatch_IsSafe" fullname="Game.Core.Tests.EventBusTests.Bus_UnsubscribeSelfDuringDispatch_IsSafe" methodname="Bus_UnsubscribeSelfDuringDispatch_IsSafe" classname="Game.Core.Tests.EventBusTests" runstate="Runnable" seed="1769191701" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000130" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1053" name="EventTypes_AreUnmanagedStructs" fullname="Game.Core.Tests.EventBusTests.EventTypes_AreUnmanagedStructs" methodname="EventTypes_AreUnmanagedStructs" classname="Game.Core.Tests.EventBusTests" runstate="Runnable" seed="1555732605" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.257056" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1055" name="ExtensionProofTests" fullname="Game.Core.Tests.ExtensionProofTests" classname="Game.Core.Tests.ExtensionProofTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.015993" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1056" name="ExtensionProof_SampleModule_NoCoreChanges" fullname="Game.Core.Tests.ExtensionProofTests.ExtensionProof_SampleModule_NoCoreChanges" methodname="ExtensionProof_SampleModule_NoCoreChanges" classname="Game.Core.Tests.ExtensionProofTests" runstate="Runnable" seed="1518923137" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.015227" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1057" name="FlagTests" fullname="Game.Core.Tests.FlagTests" classname="Game.Core.Tests.FlagTests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.010133" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1060" name="Flags_Folder_MergesFilesInOrdinalOrder_DuplicateIsError" fullname="Game.Core.Tests.FlagTests.Flags_Folder_MergesFilesInOrdinalOrder_DuplicateIsError" methodname="Flags_Folder_MergesFilesInOrdinalOrder_DuplicateIsError" classname="Game.Core.Tests.FlagTests" runstate="Runnable" seed="99101238" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.001423" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1068" name="Flags_Malformed_ReportsAndAllOff" fullname="Game.Core.Tests.FlagTests.Flags_Malformed_ReportsAndAllOff" classname="Game.Core.Tests.FlagTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.006438" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1061" name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\&quot;flags\&quot;:{\&quot;x\&quot;:true,}}&quot;,1)" fullname="Game.Core.Tests.FlagTests.Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\&quot;flags\&quot;:{\&quot;x\&quot;:true,}}&quot;,1)" methodname="Flags_Malformed_ReportsAndAllOff" classname="Game.Core.Tests.FlagTests" runstate="Runnable" seed="1554806029" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000600" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1062" name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\n\&quot;flags\&quot;:{\&quot;x\&quot;:tru}}&quot;,2)" fullname="Game.Core.Tests.FlagTests.Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\n\&quot;flags\&quot;:{\&quot;x\&quot;:tru}}&quot;,2)" methodname="Flags_Malformed_ReportsAndAllOff" classname="Game.Core.Tests.FlagTests" runstate="Runnable" seed="510547295" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000148" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1063" name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\&quot;flags\&quot;:{\&quot;x\&quot;:\&quot;yes\&quot;}}&quot;,0)" fullname="Game.Core.Tests.FlagTests.Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\&quot;flags\&quot;:{\&quot;x\&quot;:\&quot;yes\&quot;}}&quot;,0)" methodname="Flags_Malformed_ReportsAndAllOff" classname="Game.Core.Tests.FlagTests" runstate="Runnable" seed="67864089" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000113" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1064" name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:2,\&quot;flags\&quot;:{\&quot;x\&quot;:true}}&quot;,0)" fullname="Game.Core.Tests.FlagTests.Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:2,\&quot;flags\&quot;:{\&quot;x\&quot;:true}}&quot;,0)" methodname="Flags_Malformed_ReportsAndAllOff" classname="Game.Core.Tests.FlagTests" runstate="Runnable" seed="1602239527" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000091" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1065" name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;flags\&quot;:{\&quot;x\&quot;:true}}&quot;,0)" fullname="Game.Core.Tests.FlagTests.Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;flags\&quot;:{\&quot;x\&quot;:true}}&quot;,0)" methodname="Flags_Malformed_ReportsAndAllOff" classname="Game.Core.Tests.FlagTests" runstate="Runnable" seed="2055882595" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000132" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1066" name="Flags_Malformed_ReportsAndAllOff(&quot;[true]&quot;,0)" fullname="Game.Core.Tests.FlagTests.Flags_Malformed_ReportsAndAllOff(&quot;[true]&quot;,0)" methodname="Flags_Malformed_ReportsAndAllOff" classname="Game.Core.Tests.FlagTests" runstate="Runnable" seed="320212870" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000091" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1067" name="Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\&quot;flags\&quot;:{\&quot;x\&quot;:true,\&quot;x\&quot;:true}}&quot;,1)" fullname="Game.Core.Tests.FlagTests.Flags_Malformed_ReportsAndAllOff(&quot;{\&quot;schema\&quot;:1,\&quot;flags\&quot;:{\&quot;x\&quot;:true,\&quot;x\&quot;:true}}&quot;,1)" methodname="Flags_Malformed_ReportsAndAllOff" classname="Game.Core.Tests.FlagTests" runstate="Runnable" seed="287205226" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.003737" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1059" name="Flags_MissingFile_AllOffOneWarning" fullname="Game.Core.Tests.FlagTests.Flags_MissingFile_AllOffOneWarning" methodname="Flags_MissingFile_AllOffOneWarning" classname="Game.Core.Tests.FlagTests" runstate="Runnable" seed="1079536907" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000570" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1069" name="Flags_RepoFile_NewFeaturesDefaultOff" fullname="Game.Core.Tests.FlagTests.Flags_RepoFile_NewFeaturesDefaultOff" methodname="Flags_RepoFile_NewFeaturesDefaultOff" classname="Game.Core.Tests.FlagTests" runstate="Runnable" seed="514315049" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000571" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[grep-counts.txt: committed flag files=4 flags=6
+control.devicePilot=0
+core.verboseBoot=0
+physics.body.enabled=0
+physics.body.physicsLog=0
+units.mech.enabled=0
+units.mech.gaitLog=0
+]]></output>
+              </test-case>
+              <test-case id="1070" name="Flags_Snapshot_StableAndSerialisable" fullname="Game.Core.Tests.FlagTests.Flags_Snapshot_StableAndSerialisable" methodname="Flags_Snapshot_StableAndSerialisable" classname="Game.Core.Tests.FlagTests" runstate="Runnable" seed="1204313276" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000253" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1058" name="Flags_Unknown_IsOff" fullname="Game.Core.Tests.FlagTests.Flags_Unknown_IsOff" methodname="Flags_Unknown_IsOff" classname="Game.Core.Tests.FlagTests" runstate="Runnable" seed="173215250" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000099" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1071" name="IdTests" fullname="Game.Core.Tests.IdTests" classname="Game.Core.Tests.IdTests" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:37Z" duration="2.379478" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1076" name="BuildingId_FromSourceKey_OrderIndependent" fullname="Game.Core.Tests.IdTests.BuildingId_FromSourceKey_OrderIndependent" methodname="BuildingId_FromSourceKey_OrderIndependent" classname="Game.Core.Tests.IdTests" runstate="Runnable" seed="101178416" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.002851" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1077" name="BuildingId_LargeValues_NoCrossSourceCollision" fullname="Game.Core.Tests.IdTests.BuildingId_LargeValues_NoCrossSourceCollision" methodname="BuildingId_LargeValues_NoCrossSourceCollision" classname="Game.Core.Tests.IdTests" runstate="Runnable" seed="77500263" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:34Z" duration="0.000826" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1078" name="BuildingId_NoCollisions_10M" fullname="Game.Core.Tests.IdTests.BuildingId_NoCollisions_10M" methodname="BuildingId_NoCollisions_10M" classname="Game.Core.Tests.IdTests" runstate="Runnable" seed="1495536946" result="Passed" start-time="2026-11-14 17:22:34Z" end-time="2026-11-14 17:22:37Z" duration="2.338017" asserts="0">
+                <properties>
+                  <property name="Category" value="Slow" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[grep-counts.txt: BuildingId_NoCollisions_10M: ids=10000002 collisions=0
+]]></output>
+              </test-case>
+              <test-case id="1079" name="EntityId_NoReuseWithinSession" fullname="Game.Core.Tests.IdTests.EntityId_NoReuseWithinSession" methodname="EntityId_NoReuseWithinSession" classname="Game.Core.Tests.IdTests" runstate="Runnable" seed="1254719669" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.017633" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1073" name="Ids_DefaultIsInvalid" fullname="Game.Core.Tests.IdTests.Ids_DefaultIsInvalid" methodname="Ids_DefaultIsInvalid" classname="Game.Core.Tests.IdTests" runstate="Runnable" seed="1300694178" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.000807" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1072" name="Ids_NoImplicitConversions_NoPublicConstructors" fullname="Game.Core.Tests.IdTests.Ids_NoImplicitConversions_NoPublicConstructors" methodname="Ids_NoImplicitConversions_NoPublicConstructors" classname="Game.Core.Tests.IdTests" runstate="Runnable" seed="342060296" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.000248" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1075" name="Ids_SerialiseRoundTrip_AndCrossProcessStable" fullname="Game.Core.Tests.IdTests.Ids_SerialiseRoundTrip_AndCrossProcessStable" methodname="Ids_SerialiseRoundTrip_AndCrossProcessStable" classname="Game.Core.Tests.IdTests" runstate="Runnable" seed="1471676431" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.014002" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[trace-hashes.txt: ids_golden 62A5FD0C1BB7FD0E
+]]></output>
+              </test-case>
+              <test-case id="1074" name="Ids_ValueSemantics_AllocationFree" fullname="Game.Core.Tests.IdTests.Ids_ValueSemantics_AllocationFree" methodname="Ids_ValueSemantics_AllocationFree" classname="Game.Core.Tests.IdTests" runstate="Runnable" seed="58010521" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.000673" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[alloc.txt: id equality/hash/compare x10000 -> bytes=n/a gcAllocCount=0
+]]></output>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1085" name="PlayerSlots_SupportN" fullname="Game.Core.Tests.IdTests.PlayerSlots_SupportN" classname="Game.Core.Tests.IdTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.002256" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1080" name="PlayerSlots_SupportN(1)" fullname="Game.Core.Tests.IdTests.PlayerSlots_SupportN(1)" methodname="PlayerSlots_SupportN" classname="Game.Core.Tests.IdTests" runstate="Runnable" seed="1010123801" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.000956" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1081" name="PlayerSlots_SupportN(2)" fullname="Game.Core.Tests.IdTests.PlayerSlots_SupportN(2)" methodname="PlayerSlots_SupportN" classname="Game.Core.Tests.IdTests" runstate="Runnable" seed="830895032" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.000042" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1082" name="PlayerSlots_SupportN(3)" fullname="Game.Core.Tests.IdTests.PlayerSlots_SupportN(3)" methodname="PlayerSlots_SupportN" classname="Game.Core.Tests.IdTests" runstate="Runnable" seed="1256845863" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.000036" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1083" name="PlayerSlots_SupportN(16)" fullname="Game.Core.Tests.IdTests.PlayerSlots_SupportN(16)" methodname="PlayerSlots_SupportN" classname="Game.Core.Tests.IdTests" runstate="Runnable" seed="102963460" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.000083" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1084" name="PlayerSlots_SupportN(64)" fullname="Game.Core.Tests.IdTests.PlayerSlots_SupportN(64)" methodname="PlayerSlots_SupportN" classname="Game.Core.Tests.IdTests" runstate="Runnable" seed="1682910290" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.000249" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1086" name="RegistryTests" fullname="Game.Core.Tests.RegistryTests" classname="Game.Core.Tests.RegistryTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.001506" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1092" name="CoreServices_RegistersCoreContracts" fullname="Game.Core.Tests.RegistryTests.CoreServices_RegistersCoreContracts" methodname="CoreServices_RegistersCoreContracts" classname="Game.Core.Tests.RegistryTests" runstate="Runnable" seed="324849351" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.000224" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1090" name="Registry_And_Bus_InstancesAreIndependent" fullname="Game.Core.Tests.RegistryTests.Registry_And_Bus_InstancesAreIndependent" methodname="Registry_And_Bus_InstancesAreIndependent" classname="Game.Core.Tests.RegistryTests" runstate="Runnable" seed="1905263496" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.000200" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1088" name="Registry_DuplicateRegistration_FailsNamingBothImplementations" fullname="Game.Core.Tests.RegistryTests.Registry_DuplicateRegistration_FailsNamingBothImplementations" methodname="Registry_DuplicateRegistration_FailsNamingBothImplementations" classname="Game.Core.Tests.RegistryTests" runstate="Runnable" seed="956340905" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.000165" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1089" name="Registry_RegisterResolveByContract" fullname="Game.Core.Tests.RegistryTests.Registry_RegisterResolveByContract" methodname="Registry_RegisterResolveByContract" classname="Game.Core.Tests.RegistryTests" runstate="Runnable" seed="1261351006" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.000073" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1087" name="Registry_ResolveMissing_NamesContract" fullname="Game.Core.Tests.RegistryTests.Registry_ResolveMissing_NamesContract" methodname="Registry_ResolveMissing_NamesContract" classname="Game.Core.Tests.RegistryTests" runstate="Runnable" seed="1359185615" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.000139" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1091" name="Registry_Teardown_DisposesReverseOrderOnce" fullname="Game.Core.Tests.RegistryTests.Registry_Teardown_DisposesReverseOrderOnce" methodname="Registry_Teardown_DisposesReverseOrderOnce" classname="Game.Core.Tests.RegistryTests" runstate="Runnable" seed="159102974" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.000200" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1093" name="SaveTests" fullname="Game.Core.Tests.SaveTests" classname="Game.Core.Tests.SaveTests" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:39Z" duration="1.929564" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="ParameterizedMethod" id="1110" name="Save_ByteIdentical_UnderForeignCulture" fullname="Game.Core.Tests.SaveTests.Save_ByteIdentical_UnderForeignCulture" classname="Game.Core.Tests.SaveTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.005530" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1108" name="Save_ByteIdentical_UnderForeignCulture(&quot;de-DE&quot;)" fullname="Game.Core.Tests.SaveTests.Save_ByteIdentical_UnderForeignCulture(&quot;de-DE&quot;)" methodname="Save_ByteIdentical_UnderForeignCulture" classname="Game.Core.Tests.SaveTests" runstate="Runnable" seed="555428320" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.004039" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1109" name="Save_ByteIdentical_UnderForeignCulture(&quot;tr-TR&quot;)" fullname="Game.Core.Tests.SaveTests.Save_ByteIdentical_UnderForeignCulture(&quot;tr-TR&quot;)" methodname="Save_ByteIdentical_UnderForeignCulture" classname="Game.Core.Tests.SaveTests" runstate="Runnable" seed="159369753" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.001235" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1094" name="Save_GoldenV1_Loads" fullname="Game.Core.Tests.SaveTests.Save_GoldenV1_Loads" methodname="Save_GoldenV1_Loads" classname="Game.Core.Tests.SaveTests" runstate="Runnable" seed="692175573" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.000951" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1107" name="Save_InterruptedWrite_PreviousIntact" fullname="Game.Core.Tests.SaveTests.Save_InterruptedWrite_PreviousIntact" methodname="Save_InterruptedWrite_PreviousIntact" classname="Game.Core.Tests.SaveTests" runstate="Runnable" seed="1588972860" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.001753" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1105" name="Save_Migration_V1ToV2_Sample" fullname="Game.Core.Tests.SaveTests.Save_Migration_V1ToV2_Sample" methodname="Save_Migration_V1ToV2_Sample" classname="Game.Core.Tests.SaveTests" runstate="Runnable" seed="1834909983" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.001527" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1096" name="Save_NewerVersion_RefusedUntouched" fullname="Game.Core.Tests.SaveTests.Save_NewerVersion_RefusedUntouched" methodname="Save_NewerVersion_RefusedUntouched" classname="Game.Core.Tests.SaveTests" runstate="Runnable" seed="616134343" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:37Z" duration="0.001748" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1095" name="Save_RoundTrip_100k" fullname="Game.Core.Tests.SaveTests.Save_RoundTrip_100k" methodname="Save_RoundTrip_100k" classname="Game.Core.Tests.SaveTests" runstate="Runnable" seed="1419208736" result="Passed" start-time="2026-11-14 17:22:37Z" end-time="2026-11-14 17:22:39Z" duration="1.911453" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[save-baseline.txt: records=100000 write_ms=121.4 read_ms=515.3 bytes=13544521
+]]></output>
+              </test-case>
+              <test-case id="1106" name="Save_SectionTooNewOrUnmigratable_Refused" fullname="Game.Core.Tests.SaveTests.Save_SectionTooNewOrUnmigratable_Refused" methodname="Save_SectionTooNewOrUnmigratable_Refused" classname="Game.Core.Tests.SaveTests" runstate="Runnable" seed="715766636" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.000580" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1111" name="Save_UnknownSections_PreservedThroughLoadSave" fullname="Game.Core.Tests.SaveTests.Save_UnknownSections_PreservedThroughLoadSave" methodname="Save_UnknownSections_PreservedThroughLoadSave" classname="Game.Core.Tests.SaveTests" runstate="Runnable" seed="1239079822" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.000603" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1104" name="Save_UnknownVersion_NoSilentLoad" fullname="Game.Core.Tests.SaveTests.Save_UnknownVersion_NoSilentLoad" classname="Game.Core.Tests.SaveTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.004492" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1097" name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;&quot;,UnknownSchema)" fullname="Game.Core.Tests.SaveTests.Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;&quot;,UnknownSchema)" methodname="Save_UnknownVersion_NoSilentLoad" classname="Game.Core.Tests.SaveTests" runstate="Runnable" seed="2080301140" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.000375" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1098" name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;\&quot;schema\&quot;:0&quot;,UnknownSchema)" fullname="Game.Core.Tests.SaveTests.Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;\&quot;schema\&quot;:0&quot;,UnknownSchema)" methodname="Save_UnknownVersion_NoSilentLoad" classname="Game.Core.Tests.SaveTests" runstate="Runnable" seed="396935870" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.002267" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1099" name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;\&quot;schema\&quot;:\&quot;1\&quot;&quot;,UnknownSchema)" fullname="Game.Core.Tests.SaveTests.Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;\&quot;schema\&quot;:\&quot;1\&quot;&quot;,UnknownSchema)" methodname="Save_UnknownVersion_NoSilentLoad" classname="Game.Core.Tests.SaveTests" runstate="Runnable" seed="2095029549" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.000170" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1100" name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;\&quot;schema\&quot;:1.5&quot;,UnknownSchema)" fullname="Game.Core.Tests.SaveTests.Save_UnknownVersion_NoSilentLoad(&quot;\&quot;schema\&quot;:1&quot;,&quot;\&quot;schema\&quot;:1.5&quot;,UnknownSchema)" methodname="Save_UnknownVersion_NoSilentLoad" classname="Game.Core.Tests.SaveTests" runstate="Runnable" seed="326316416" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.000166" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1101" name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;format\&quot;:\&quot;kaiju-save\&quot;&quot;,&quot;\&quot;format\&quot;:\&quot;other\&quot;&quot;,Corrupt)" fullname="Game.Core.Tests.SaveTests.Save_UnknownVersion_NoSilentLoad(&quot;\&quot;format\&quot;:\&quot;kaiju-save\&quot;&quot;,&quot;\&quot;format\&quot;:\&quot;other\&quot;&quot;,Corrupt)" methodname="Save_UnknownVersion_NoSilentLoad" classname="Game.Core.Tests.SaveTests" runstate="Runnable" seed="316620981" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.000171" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1102" name="Save_UnknownVersion_NoSilentLoad(&quot;\&quot;version\&quot;:1&quot;,&quot;\&quot;version\&quot;:\&quot;x\&quot;&quot;,Corrupt)" fullname="Game.Core.Tests.SaveTests.Save_UnknownVersion_NoSilentLoad(&quot;\&quot;version\&quot;:1&quot;,&quot;\&quot;version\&quot;:\&quot;x\&quot;&quot;,Corrupt)" methodname="Save_UnknownVersion_NoSilentLoad" classname="Game.Core.Tests.SaveTests" runstate="Runnable" seed="2078068711" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.000233" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1103" name="Save_UnknownVersion_NoSilentLoad(&quot;]}\n]}&quot;,&quot;]}&quot;,Corrupt)" fullname="Game.Core.Tests.SaveTests.Save_UnknownVersion_NoSilentLoad(&quot;]}\n]}&quot;,&quot;]}&quot;,Corrupt)" methodname="Save_UnknownVersion_NoSilentLoad" classname="Game.Core.Tests.SaveTests" runstate="Runnable" seed="1913005303" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.000171" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1112" name="StructureTests" fullname="Game.Core.Tests.StructureTests" classname="Game.Core.Tests.StructureTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.023626" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1113" name="Layering_CoreAsmdefsAreEngineFree" fullname="Game.Core.Tests.StructureTests.Layering_CoreAsmdefsAreEngineFree" methodname="Layering_CoreAsmdefsAreEngineFree" classname="Game.Core.Tests.StructureTests" runstate="Runnable" seed="620569607" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.015589" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[grep-counts.txt: UnityEngine mentions in Core/Contracts+Runtime code: 0
+]]></output>
+              </test-case>
+              <test-case id="1114" name="Layering_NoNetOrGameplayTypesInCore" fullname="Game.Core.Tests.StructureTests.Layering_NoNetOrGameplayTypesInCore" methodname="Layering_NoNetOrGameplayTypesInCore" classname="Game.Core.Tests.StructureTests" runstate="Runnable" seed="120108623" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.000290" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1116" name="NoHardCodedCountsInCore" fullname="Game.Core.Tests.StructureTests.NoHardCodedCountsInCore" methodname="NoHardCodedCountsInCore" classname="Game.Core.Tests.StructureTests" runstate="Runnable" seed="1953859833" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.004124" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[grep-counts.txt: hard-coded player/mech/kaiju/pilot counts in Core: 0
+]]></output>
+              </test-case>
+              <test-case id="1115" name="NoMutableStaticFieldsInCore" fullname="Game.Core.Tests.StructureTests.NoMutableStaticFieldsInCore" methodname="NoMutableStaticFieldsInCore" classname="Game.Core.Tests.StructureTests" runstate="Runnable" seed="1321762650" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.000276" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[grep-counts.txt: mutable static fields in Game.Core + Game.Core.Contracts (reflection, 51 static fields checked): 0 
+]]></output>
+              </test-case>
+              <test-case id="1117" name="NoWallClockOrUnseededRandomInCore" fullname="Game.Core.Tests.StructureTests.NoWallClockOrUnseededRandomInCore" methodname="NoWallClockOrUnseededRandomInCore" classname="Game.Core.Tests.StructureTests" runstate="Runnable" seed="1015236469" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.002305" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[grep-counts.txt: wall-clock / Random / Guid.NewGuid / GetInstanceID / UnityEngine.Time in Core: 0
+grep-counts.txt: GetHashCode() calls inside Ids.cs (IDs must use IdHash.Mix only): 0
+]]></output>
+              </test-case>
+              <test-case id="1118" name="SaveCodeKnowsNothingAboutBuildings" fullname="Game.Core.Tests.StructureTests.SaveCodeKnowsNothingAboutBuildings" methodname="SaveCodeKnowsNothingAboutBuildings" classname="Game.Core.Tests.StructureTests" runstate="Runnable" seed="1596120578" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:39Z" duration="0.000313" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[grep-counts.txt: 'Building' in Contracts/Save.cs + Runtime/Save.cs: 0
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1119" name="SuiteHygieneTests" fullname="Game.Core.Tests.SuiteHygieneTests" classname="Game.Core.Tests.SuiteHygieneTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:43Z" duration="4.311598" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1120" name="Suite_PassesTwiceInShuffledOrder_InOneProcess" fullname="Game.Core.Tests.SuiteHygieneTests.Suite_PassesTwiceInShuffledOrder_InOneProcess" methodname="Suite_PassesTwiceInShuffledOrder_InOneProcess" classname="Game.Core.Tests.SuiteHygieneTests" runstate="Runnable" seed="2134561753" result="Passed" start-time="2026-11-14 17:22:39Z" end-time="2026-11-14 17:22:43Z" duration="4.310944" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[test-hygiene.txt: shuffled double pass: cases=87 seeds=1,0xC0FFEE failures=0
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="1131" name="Game.Core.Unity.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Library/ScriptAssemblies/Game.Core.Unity.Tests.dll" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.165293" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="75556" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1132" name="Game" fullname="Game" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.164580" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1133" name="Core" fullname="Game.Core" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.164394" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1134" name="Unity" fullname="Game.Core.Unity" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.164154" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1135" name="Tests" fullname="Game.Core.Unity.Tests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.163866" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1125" name="AdapterTests" fullname="Game.Core.Unity.Tests.AdapterTests" classname="Game.Core.Unity.Tests.AdapterTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.163561" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1126" name="Adapter_ConfigAsset_PointsAtCommittedFiles" fullname="Game.Core.Unity.Tests.AdapterTests.Adapter_ConfigAsset_PointsAtCommittedFiles" methodname="Adapter_ConfigAsset_PointsAtCommittedFiles" classname="Game.Core.Unity.Tests.AdapterTests" runstate="Runnable" seed="1333043286" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.007462" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1127" name="Adapter_CreateRoot_FromCommittedConfig_AllFlagsOff" fullname="Game.Core.Unity.Tests.AdapterTests.Adapter_CreateRoot_FromCommittedConfig_AllFlagsOff" methodname="Adapter_CreateRoot_FromCommittedConfig_AllFlagsOff" classname="Game.Core.Unity.Tests.AdapterTests" runstate="Runnable" seed="816439388" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000979" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1130" name="Adapter_EnterPlayModeTwice_NoDomainReload_FreshStateEachTime" fullname="Game.Core.Unity.Tests.AdapterTests.Adapter_EnterPlayModeTwice_NoDomainReload_FreshStateEachTime" methodname="Adapter_EnterPlayModeTwice_NoDomainReload_FreshStateEachTime" classname="Game.Core.Unity.Tests.AdapterTests" runstate="Runnable" seed="1451418711" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.150771" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[Core] play mode re-entry: first root 1238910120, second root -227262768, domain reload disabled
+]]></output>
+                </test-case>
+                <test-case id="1129" name="Adapter_LogSink_LogsOncePerSubscriberAndEventType_CountsAll" fullname="Game.Core.Unity.Tests.AdapterTests.Adapter_LogSink_LogsOncePerSubscriberAndEventType_CountsAll" methodname="Adapter_LogSink_LogsOncePerSubscriberAndEventType_CountsAll" classname="Game.Core.Unity.Tests.AdapterTests" runstate="Runnable" seed="800831300" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.002833" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[Core] HandlerException: Handler Game.Core.Unity.Tests.AdapterTests+ThrowingProbe#0 threw while handling Game.Core.Unity.Tests.AdapterTests+ProbeEvent: InvalidOperationException: probe
+System.InvalidOperationException: probe
+  at Game.Core.Unity.Tests.AdapterTests+ThrowingProbe.Game.Core.IEventHandler<Game.Core.Unity.Tests.AdapterTests.ProbeEvent>.Handle (Game.Core.Unity.Tests.AdapterTests+ProbeEvent& evt) [0x00000] in <d85515509caf4d5cb4beccb4d2f37888>:0 
+  at Game.Core.EventBus+Channel`1[T].DispatchNext (Game.Core.EventBus bus) [0x0006c] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Core/Runtime/EventBus.cs:248 
+]]></output>
+                </test-case>
+                <test-case id="1128" name="Adapter_ReconcileFixedStep_ReportsMismatch" fullname="Game.Core.Unity.Tests.AdapterTests.Adapter_ReconcileFixedStep_ReportsMismatch" methodname="Adapter_ReconcileFixedStep_ReportsMismatch" classname="Game.Core.Unity.Tests.AdapterTests" runstate="Runnable" seed="2037136493" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000153" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="1151" name="Game.Physics.Body.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Library/ScriptAssemblies/Game.Physics.Body.Tests.dll" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.008109" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="75556" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1152" name="Game" fullname="Game" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.007810" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1153" name="Physics" fullname="Game.Physics" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.007552" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1154" name="Body" fullname="Game.Physics.Body" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.007341" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1155" name="Tests" fullname="Game.Physics.Body.Tests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.007164" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1136" name="FrameTests" fullname="Game.Physics.Body.Tests.FrameTests" classname="Game.Physics.Body.Tests.FrameTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.005007" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1143" name="EffectiveInertias_MatchR005Table" fullname="Game.Physics.Body.Tests.FrameTests.EffectiveInertias_MatchR005Table" methodname="EffectiveInertias_MatchR005Table" classname="Game.Physics.Body.Tests.FrameTests" runstate="Runnable" seed="1165980851" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.001250" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1137" name="Frame_Loads_Validates_And_MassesSumToTotal" fullname="Game.Physics.Body.Tests.FrameTests.Frame_Loads_Validates_And_MassesSumToTotal" methodname="Frame_Loads_Validates_And_MassesSumToTotal" classname="Game.Physics.Body.Tests.FrameTests" runstate="Runnable" seed="418461861" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000590" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1138" name="Frame_UnknownSchema_IsRefused" fullname="Game.Physics.Body.Tests.FrameTests.Frame_UnknownSchema_IsRefused" methodname="Frame_UnknownSchema_IsRefused" classname="Game.Physics.Body.Tests.FrameTests" runstate="Runnable" seed="312892163" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000266" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1144" name="GainRule_IsKEqualsIOmegaSquared_AndScalesWithInertia" fullname="Game.Physics.Body.Tests.FrameTests.GainRule_IsKEqualsIOmegaSquared_AndScalesWithInertia" methodname="GainRule_IsKEqualsIOmegaSquared_AndScalesWithInertia" classname="Game.Physics.Body.Tests.FrameTests" runstate="Runnable" seed="1747167155" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000102" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-suite type="ParameterizedMethod" id="1142" name="Scale_FollowsR005Rule" fullname="Game.Physics.Body.Tests.FrameTests.Scale_FollowsR005Rule" classname="Game.Physics.Body.Tests.FrameTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.001375" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="1139" name="Scale_FollowsR005Rule(76.0d,6000000.0d)" fullname="Game.Physics.Body.Tests.FrameTests.Scale_FollowsR005Rule(76.0d,6000000.0d)" methodname="Scale_FollowsR005Rule" classname="Game.Physics.Body.Tests.FrameTests" runstate="Runnable" seed="1882300003" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000639" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1140" name="Scale_FollowsR005Rule(88.0d,15000000.0d)" fullname="Game.Physics.Body.Tests.FrameTests.Scale_FollowsR005Rule(88.0d,15000000.0d)" methodname="Scale_FollowsR005Rule" classname="Game.Physics.Body.Tests.FrameTests" runstate="Runnable" seed="1869073535" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000214" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1141" name="Scale_FollowsR005Rule(80.0d,10000000.0d)" fullname="Game.Physics.Body.Tests.FrameTests.Scale_FollowsR005Rule(80.0d,10000000.0d)" methodname="Scale_FollowsR005Rule" classname="Game.Physics.Body.Tests.FrameTests" runstate="Runnable" seed="892882309" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000198" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                </test-suite>
+                <test-case id="1145" name="Tuning_Loads_AndScalesLimitsWithMassTimesHeight" fullname="Game.Physics.Body.Tests.FrameTests.Tuning_Loads_AndScalesLimitsWithMassTimesHeight" methodname="Tuning_Loads_AndScalesLimitsWithMassTimesHeight" classname="Game.Physics.Body.Tests.FrameTests" runstate="Runnable" seed="818914175" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000740" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1146" name="SmallLogicTests" fullname="Game.Physics.Body.Tests.SmallLogicTests" classname="Game.Physics.Body.Tests.SmallLogicTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.001863" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1147" name="ContactHysteresis_UsesOnAndOffThresholds" fullname="Game.Physics.Body.Tests.SmallLogicTests.ContactHysteresis_UsesOnAndOffThresholds" methodname="ContactHysteresis_UsesOnAndOffThresholds" classname="Game.Physics.Body.Tests.SmallLogicTests" runstate="Runnable" seed="618959933" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000133" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1150" name="JsonLine_WritesInvariantRoundTripNumbers" fullname="Game.Physics.Body.Tests.SmallLogicTests.JsonLine_WritesInvariantRoundTripNumbers" methodname="JsonLine_WritesInvariantRoundTripNumbers" classname="Game.Physics.Body.Tests.SmallLogicTests" runstate="Runnable" seed="851400006" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000424" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1149" name="QuaternionProduct_AppliesRightFactorFirst" fullname="Game.Physics.Body.Tests.SmallLogicTests.QuaternionProduct_AppliesRightFactorFirst" methodname="QuaternionProduct_AppliesRightFactorFirst" classname="Game.Physics.Body.Tests.SmallLogicTests" runstate="Runnable" seed="904091708" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000443" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1148" name="RotVec_RoundTrips_AndMatchesAxisAngle" fullname="Game.Physics.Body.Tests.SmallLogicTests.RotVec_RoundTrips_AndMatchesAxisAngle" methodname="RotVec_RoundTrips_AndMatchesAxisAngle" classname="Game.Physics.Body.Tests.SmallLogicTests" runstate="Runnable" seed="1314215381" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000378" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="1225" name="Game.Units.Mech.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Library/ScriptAssemblies/Game.Units.Mech.Tests.dll" runstate="Runnable" testcasecount="55" result="Failed" site="Child" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:44Z" duration="1.030056" total="55" passed="48" failed="7" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="75556" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1226" name="Game" fullname="Game" runstate="Runnable" testcasecount="55" result="Failed" site="Child" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:44Z" duration="1.029671" total="55" passed="48" failed="7" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1227" name="Units" fullname="Game.Units" runstate="Runnable" testcasecount="55" result="Failed" site="Child" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:44Z" duration="1.029266" total="55" passed="48" failed="7" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="1228" name="Mech" fullname="Game.Units.Mech" runstate="Runnable" testcasecount="55" result="Failed" site="Child" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:44Z" duration="1.028896" total="55" passed="48" failed="7" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestSuite" id="1229" name="Tests" fullname="Game.Units.Mech.Tests" runstate="Runnable" testcasecount="55" result="Failed" site="Child" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:44Z" duration="1.028474" total="55" passed="48" failed="7" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-suite type="TestFixture" id="1173" name="ArchitectureTests" fullname="Game.Units.Mech.Tests.ArchitectureTests" classname="Game.Units.Mech.Tests.ArchitectureTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.012970" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1178" name="BehaviourCode_KeepsItsTuningNumbersInConfig" fullname="Game.Units.Mech.Tests.ArchitectureTests.BehaviourCode_KeepsItsTuningNumbersInConfig" methodname="BehaviourCode_KeepsItsTuningNumbersInConfig" classname="Game.Units.Mech.Tests.ArchitectureTests" runstate="Runnable" seed="1015578017" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.002930" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1177" name="CompositionRootAssemblies_AreNotCompiledIntoPlayers" fullname="Game.Units.Mech.Tests.ArchitectureTests.CompositionRootAssemblies_AreNotCompiledIntoPlayers" methodname="CompositionRootAssemblies_AreNotCompiledIntoPlayers" classname="Game.Units.Mech.Tests.ArchitectureTests" runstate="Runnable" seed="918705219" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.002645" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1179" name="EngineFreeAssemblies_DeclareNoEngineReferences" fullname="Game.Units.Mech.Tests.ArchitectureTests.EngineFreeAssemblies_DeclareNoEngineReferences" methodname="EngineFreeAssemblies_DeclareNoEngineReferences" classname="Game.Units.Mech.Tests.ArchitectureTests" runstate="Runnable" seed="1728501224" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000487" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1176" name="EveryModule_HasContractsRuntimeTestsAndModuleDoc" fullname="Game.Units.Mech.Tests.ArchitectureTests.EveryModule_HasContractsRuntimeTestsAndModuleDoc" methodname="EveryModule_HasContractsRuntimeTestsAndModuleDoc" classname="Game.Units.Mech.Tests.ArchitectureTests" runstate="Runnable" seed="1579942542" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.001869" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1180" name="FeatureFlags_OfTheseModules_ShipSwitchedOff" fullname="Game.Units.Mech.Tests.ArchitectureTests.FeatureFlags_OfTheseModules_ShipSwitchedOff" methodname="FeatureFlags_OfTheseModules_ShipSwitchedOff" classname="Game.Units.Mech.Tests.ArchitectureTests" runstate="Runnable" seed="1647339421" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000549" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1174" name="PhysicsBody_ReferencesNeitherControlNorUnits" fullname="Game.Units.Mech.Tests.ArchitectureTests.PhysicsBody_ReferencesNeitherControlNorUnits" methodname="PhysicsBody_ReferencesNeitherControlNorUnits" classname="Game.Units.Mech.Tests.ArchitectureTests" runstate="Runnable" seed="2097421442" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.001475" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1175" name="RuntimeAssemblies_UseOtherModulesOnlyThroughContracts" fullname="Game.Units.Mech.Tests.ArchitectureTests.RuntimeAssemblies_UseOtherModulesOnlyThroughContracts" methodname="RuntimeAssemblies_UseOtherModulesOnlyThroughContracts" classname="Game.Units.Mech.Tests.ArchitectureTests" runstate="Runnable" seed="584478338" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.001416" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1181" name="WalkTuning_Loads_WithItsSchema" fullname="Game.Units.Mech.Tests.ArchitectureTests.WalkTuning_Loads_WithItsSchema" methodname="WalkTuning_Loads_WithItsSchema" classname="Game.Units.Mech.Tests.ArchitectureTests" runstate="Runnable" seed="1676166050" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000744" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1167" name="IntentLimiterTests" fullname="Game.Units.Mech.Tests.IntentLimiterTests" classname="Game.Units.Mech.Tests.IntentLimiterTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.004173" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1170" name="InstantReversal_SlowsThenTurnsOnTheSpot" fullname="Game.Units.Mech.Tests.IntentLimiterTests.InstantReversal_SlowsThenTurnsOnTheSpot" methodname="InstantReversal_SlowsThenTurnsOnTheSpot" classname="Game.Units.Mech.Tests.IntentLimiterTests" runstate="Runnable" seed="524054980" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.001384" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1168" name="Limits_ComeFromFroudeAndR001" fullname="Game.Units.Mech.Tests.IntentLimiterTests.Limits_ComeFromFroudeAndR001" methodname="Limits_ComeFromFroudeAndR001" classname="Game.Units.Mech.Tests.IntentLimiterTests" runstate="Runnable" seed="1281532794" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000394" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1169" name="OverCommandedSpeed_IsClamped_Ramped_AndReported" fullname="Game.Units.Mech.Tests.IntentLimiterTests.OverCommandedSpeed_IsClamped_Ramped_AndReported" methodname="OverCommandedSpeed_IsClamped_Ramped_AndReported" classname="Game.Units.Mech.Tests.IntentLimiterTests" runstate="Runnable" seed="506700620" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000497" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1171" name="StickJitterAt30Hz_NeverExceedsTheRates" fullname="Game.Units.Mech.Tests.IntentLimiterTests.StickJitterAt30Hz_NeverExceedsTheRates" methodname="StickJitterAt30Hz_NeverExceedsTheRates" classname="Game.Units.Mech.Tests.IntentLimiterTests" runstate="Runnable" seed="105066660" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000297" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1172" name="WalkToATarget_StopsByTheStoppingDistanceRule_AndEmergencyStopIsFasterButLimited" fullname="Game.Units.Mech.Tests.IntentLimiterTests.WalkToATarget_StopsByTheStoppingDistanceRule_AndEmergencyStopIsFasterButLimited" methodname="WalkToATarget_StopsByTheStoppingDistanceRule_AndEmergencyStopIsFasterButLimited" classname="Game.Units.Mech.Tests.IntentLimiterTests" runstate="Runnable" seed="135294" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.001006" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1161" name="LegIkTests" fullname="Game.Units.Mech.Tests.LegIkTests" classname="Game.Units.Mech.Tests.LegIkTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.001623" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1166" name="Solve_ClampsAnUnreachableTarget_InsteadOfStretchingTheLeg" fullname="Game.Units.Mech.Tests.LegIkTests.Solve_ClampsAnUnreachableTarget_InsteadOfStretchingTheLeg" methodname="Solve_ClampsAnUnreachableTarget_InsteadOfStretchingTheLeg" classname="Game.Units.Mech.Tests.LegIkTests" runstate="Runnable" seed="133648568" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000683" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-suite type="ParameterizedMethod" id="1165" name="Solve_ReachesTheAnkleTarget_WithTheKneeForward" fullname="Game.Units.Mech.Tests.LegIkTests.Solve_ReachesTheAnkleTarget_WithTheKneeForward" classname="Game.Units.Mech.Tests.LegIkTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000609" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="1162" name="Solve_ReachesTheAnkleTarget_WithTheKneeForward(0.0f,-36.0f,6.0f,0.0f)" fullname="Game.Units.Mech.Tests.LegIkTests.Solve_ReachesTheAnkleTarget_WithTheKneeForward(0.0f,-36.0f,6.0f,0.0f)" methodname="Solve_ReachesTheAnkleTarget_WithTheKneeForward" classname="Game.Units.Mech.Tests.LegIkTests" runstate="Runnable" seed="1320283183" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000321" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1163" name="Solve_ReachesTheAnkleTarget_WithTheKneeForward(2.0f,-30.0f,-10.0f,0.3f)" fullname="Game.Units.Mech.Tests.LegIkTests.Solve_ReachesTheAnkleTarget_WithTheKneeForward(2.0f,-30.0f,-10.0f,0.3f)" methodname="Solve_ReachesTheAnkleTarget_WithTheKneeForward" classname="Game.Units.Mech.Tests.LegIkTests" runstate="Runnable" seed="1760754182" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000025" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1164" name="Solve_ReachesTheAnkleTarget_WithTheKneeForward(-1.0f,-37.5f,0.0f,-0.2f)" fullname="Game.Units.Mech.Tests.LegIkTests.Solve_ReachesTheAnkleTarget_WithTheKneeForward(-1.0f,-37.5f,0.0f,-0.2f)" methodname="Solve_ReachesTheAnkleTarget_WithTheKneeForward" classname="Game.Units.Mech.Tests.LegIkTests" runstate="Runnable" seed="1592215879" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000022" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                </test-suite>
+              </test-suite>
+              <test-suite type="TestFixture" id="1156" name="LipmTests" fullname="Game.Units.Mech.Tests.LipmTests" classname="Game.Units.Mech.Tests.LipmTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.001166" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1157" name="DcmAtEnd_MatchesNumericalIntegration_WithMovingCop" fullname="Game.Units.Mech.Tests.LipmTests.DcmAtEnd_MatchesNumericalIntegration_WithMovingCop" methodname="DcmAtEnd_MatchesNumericalIntegration_WithMovingCop" classname="Game.Units.Mech.Tests.LipmTests" runstate="Runnable" seed="2035692060" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000355" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1158" name="DeadbeatOffset_BringsTheDcmToItsTarget" fullname="Game.Units.Mech.Tests.LipmTests.DeadbeatOffset_BringsTheDcmToItsTarget" methodname="DeadbeatOffset_BringsTheDcmToItsTarget" classname="Game.Units.Mech.Tests.LipmTests" runstate="Runnable" seed="795178791" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000223" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1159" name="SteadyGaitOffsets_ArePeriodic" fullname="Game.Units.Mech.Tests.LipmTests.SteadyGaitOffsets_ArePeriodic" methodname="SteadyGaitOffsets_ArePeriodic" classname="Game.Units.Mech.Tests.LipmTests" runstate="Runnable" seed="2118513128" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000087" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1160" name="StepTime_FollowsAlexander_AndIsCappedWhenSlow" fullname="Game.Units.Mech.Tests.LipmTests.StepTime_FollowsAlexander_AndIsCappedWhenSlow" methodname="StepTime_FollowsAlexander_AndIsCappedWhenSlow" classname="Game.Units.Mech.Tests.LipmTests" runstate="Runnable" seed="1691741299" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.000119" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1182" name="ReferenceGaitTests" fullname="Game.Units.Mech.Tests.ReferenceGaitTests" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" testcasecount="34" result="Failed" site="Child" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:44Z" duration="1.007886" total="34" passed="27" failed="7" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <failure>
+                  <message><![CDATA[One or more child tests had errors]]></message>
+                </failure>
+                <test-suite type="ParameterizedMethod" id="1204" name="EveryJoint_HasFiveDegreesToSpare" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" testcasecount="5" result="Failed" site="Child" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.041899" total="5" passed="0" failed="5" inconclusive="0" skipped="0" asserts="0">
+                  <properties>
+                    <property name="Category" value="KnownGap" />
+                  </properties>
+                  <failure>
+                    <message><![CDATA[One or more child tests had errors]]></message>
+                  </failure>
+                  <test-case id="1199" name="EveryJoint_HasFiveDegreesToSpare(0.0213d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(0.0213d)" methodname="EveryJoint_HasFiveDegreesToSpare" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1726163654" result="Failed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.008674" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <failure>
+                      <message><![CDATA[  dorsiflexion
+  Expected: greater than or equal to -15.0d
+  But was:  -18.387882777686144d
+]]></message>
+                      <stack-trace><![CDATA[at Game.Units.Mech.Tests.ReferenceGaitTests.JointRanges (System.Double fr, System.Double margin) [0x00254] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:91
+at Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare (System.Double fr) [0x00000] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:70
+]]></stack-trace>
+                    </failure>
+                    <output><![CDATA[Fr 0.0213: step 10.5 m, hip flexion [8.0, 27.2], knee [11.5, 61.5], ankle plantarflexion [-18.4, -0.4] deg
+]]></output>
+                  </test-case>
+                  <test-case id="1200" name="EveryJoint_HasFiveDegreesToSpare(0.05d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(0.05d)" methodname="EveryJoint_HasFiveDegreesToSpare" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="549063053" result="Failed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.006024" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <failure>
+                      <message><![CDATA[  dorsiflexion
+  Expected: greater than or equal to -15.0d
+  But was:  -19.589269568183386d
+]]></message>
+                      <stack-trace><![CDATA[at Game.Units.Mech.Tests.ReferenceGaitTests.JointRanges (System.Double fr, System.Double margin) [0x00254] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:91
+at Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare (System.Double fr) [0x00000] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:70
+]]></stack-trace>
+                    </failure>
+                    <output><![CDATA[Fr 0.05: step 17.8 m, hip flexion [5.6, 29.6], knee [11.2, 62.3], ankle plantarflexion [-19.6, 3.7] deg
+]]></output>
+                  </test-case>
+                  <test-case id="1201" name="EveryJoint_HasFiveDegreesToSpare(0.1d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(0.1d)" methodname="EveryJoint_HasFiveDegreesToSpare" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="2139068623" result="Failed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.009032" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <failure>
+                      <message><![CDATA[  dorsiflexion
+  Expected: greater than or equal to -15.0d
+  But was:  -17.826501693535924d
+]]></message>
+                      <stack-trace><![CDATA[at Game.Units.Mech.Tests.ReferenceGaitTests.JointRanges (System.Double fr, System.Double margin) [0x00254] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:91
+at Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare (System.Double fr) [0x00000] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:70
+]]></stack-trace>
+                    </failure>
+                    <output><![CDATA[Fr 0.1: step 24.2 m, hip flexion [1.3, 32.3], knee [10.9, 65.4], ankle plantarflexion [-17.8, 7.6] deg
+]]></output>
+                  </test-case>
+                  <test-case id="1202" name="EveryJoint_HasFiveDegreesToSpare(0.2d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(0.2d)" methodname="EveryJoint_HasFiveDegreesToSpare" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="727442707" result="Failed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.011547" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <failure>
+                      <message><![CDATA[  dorsiflexion
+  Expected: greater than or equal to -15.0d
+  But was:  -24.503977770579727d
+]]></message>
+                      <stack-trace><![CDATA[at Game.Units.Mech.Tests.ReferenceGaitTests.JointRanges (System.Double fr, System.Double margin) [0x00254] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:91
+at Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare (System.Double fr) [0x00000] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:70
+]]></stack-trace>
+                    </failure>
+                    <output><![CDATA[Fr 0.2: step 29.8 m, hip flexion [-10.1, 32.4], knee [10.8, 63.7], ankle plantarflexion [-24.5, 11.3] deg
+]]></output>
+                  </test-case>
+                  <test-case id="1203" name="EveryJoint_HasFiveDegreesToSpare(0.3d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare(0.3d)" methodname="EveryJoint_HasFiveDegreesToSpare" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1913268296" result="Failed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.006084" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <failure>
+                      <message><![CDATA[  Expected: greater than or equal to -15.0d
+  But was:  -21.008730669744132d
+]]></message>
+                      <stack-trace><![CDATA[at Game.Units.Mech.Tests.ReferenceGaitTests.JointRanges (System.Double fr, System.Double margin) [0x001ec] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:89
+at Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_HasFiveDegreesToSpare (System.Double fr) [0x00000] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:70
+]]></stack-trace>
+                    </failure>
+                    <output><![CDATA[Fr 0.3: step 33.7 m, hip flexion [-21.0, 36.1], knee [10.7, 64.6], ankle plantarflexion [-30.2, 13.9] deg
+]]></output>
+                  </test-case>
+                </test-suite>
+                <test-suite type="ParameterizedMethod" id="1198" name="EveryJoint_StaysInsideItsRange_UpToFroudeTenth" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_StaysInsideItsRange_UpToFroudeTenth" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.021185" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="1195" name="EveryJoint_StaysInsideItsRange_UpToFroudeTenth(0.0213d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_StaysInsideItsRange_UpToFroudeTenth(0.0213d)" methodname="EveryJoint_StaysInsideItsRange_UpToFroudeTenth" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1051287532" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.005933" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[Fr 0.0213: step 10.5 m, hip flexion [8.0, 27.2], knee [11.5, 61.5], ankle plantarflexion [-18.4, -0.4] deg
+]]></output>
+                  </test-case>
+                  <test-case id="1196" name="EveryJoint_StaysInsideItsRange_UpToFroudeTenth(0.05d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_StaysInsideItsRange_UpToFroudeTenth(0.05d)" methodname="EveryJoint_StaysInsideItsRange_UpToFroudeTenth" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1895189956" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.005873" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[Fr 0.05: step 17.8 m, hip flexion [5.6, 29.6], knee [11.2, 62.3], ankle plantarflexion [-19.6, 3.7] deg
+]]></output>
+                  </test-case>
+                  <test-case id="1197" name="EveryJoint_StaysInsideItsRange_UpToFroudeTenth(0.1d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.EveryJoint_StaysInsideItsRange_UpToFroudeTenth(0.1d)" methodname="EveryJoint_StaysInsideItsRange_UpToFroudeTenth" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1539058101" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.008904" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[Fr 0.1: step 24.2 m, hip flexion [1.3, 32.3], knee [10.9, 65.4], ankle plantarflexion [-17.8, 7.6] deg
+]]></output>
+                  </test-case>
+                </test-suite>
+                <test-suite type="ParameterizedMethod" id="1194" name="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.077986" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="1189" name="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.0213d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.0213d)" methodname="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1830341114" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.017743" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1190" name="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.05d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.05d)" methodname="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1858542044" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.012080" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1191" name="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.1d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.1d)" methodname="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1211683212" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.020163" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1192" name="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.2d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.2d)" methodname="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="723092773" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.012187" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1193" name="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.3d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld(0.3d)" methodname="Feet_NeverPenetrateTheGround_AndTheSupportPointIsStationaryInTheWorld" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1963858160" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.015130" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                </test-suite>
+                <test-suite type="ParameterizedMethod" id="1210" name="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.020885" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="1205" name="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.0213d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.0213d)" methodname="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1651408191" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.010077" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[Fr 0.0213: largest sample-to-sample change 0.0355 (m or 0.1 rad) at dt 2.95 ms, largest second difference 148.5 (coordinate 4 at phase 0.3150)
+]]></output>
+                  </test-case>
+                  <test-case id="1206" name="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.05d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.05d)" methodname="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="320045298" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.002587" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[Fr 0.05: largest sample-to-sample change 0.0538 (m or 0.1 rad) at dt 3.28 ms, largest second difference 224.9 (coordinate 4 at phase 0.3150)
+]]></output>
+                  </test-case>
+                  <test-case id="1207" name="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.1d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.1d)" methodname="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1800160997" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.002558" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[Fr 0.1: largest sample-to-sample change 0.0713 (m or 0.1 rad) at dt 3.14 ms, largest second difference 272.2 (coordinate 4 at phase 0.3150)
+]]></output>
+                  </test-case>
+                  <test-case id="1208" name="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.2d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.2d)" methodname="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1200205265" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.002516" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[Fr 0.2: largest sample-to-sample change 0.0896 (m or 0.1 rad) at dt 2.74 ms, largest second difference 354.5 (coordinate 4 at phase 0.3150)
+]]></output>
+                  </test-case>
+                  <test-case id="1209" name="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.3d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary(0.3d)" methodname="PositionsAndVelocities_AreContinuous_AcrossEveryPhaseBoundary" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1465628168" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:43Z" duration="0.002517" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[Fr 0.3: largest sample-to-sample change 0.1026 (m or 0.1 rad) at dt 2.52 ms, largest second difference 417.0 (coordinate 4 at phase 0.3150)
+]]></output>
+                  </test-case>
+                </test-suite>
+                <test-case id="1211" name="ScanParameters" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.ScanParameters" methodname="ScanParameters" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="581914970" result="Passed" start-time="2026-11-14 17:22:43Z" end-time="2026-11-14 17:22:44Z" duration="0.823248" asserts="0">
+                  <properties>
+                    <property name="Category" value="DesignAid" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[SCAN bias -0.05 preswing 20 rise 0.45 toe 30 yaw 10 duty 0.6: worst violation 14.3 deg
+]]></output>
+                </test-case>
+                <test-suite type="ParameterizedMethod" id="1188" name="StepLengthAndCadence_MatchTheTarget" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.StepLengthAndCadence_MatchTheTarget" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.004931" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="1183" name="StepLengthAndCadence_MatchTheTarget(0.0213d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.StepLengthAndCadence_MatchTheTarget(0.0213d)" methodname="StepLengthAndCadence_MatchTheTarget" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1100937289" result="Passed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.001127" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1184" name="StepLengthAndCadence_MatchTheTarget(0.05d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.StepLengthAndCadence_MatchTheTarget(0.05d)" methodname="StepLengthAndCadence_MatchTheTarget" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1284940404" result="Passed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.000747" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1185" name="StepLengthAndCadence_MatchTheTarget(0.1d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.StepLengthAndCadence_MatchTheTarget(0.1d)" methodname="StepLengthAndCadence_MatchTheTarget" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1202720584" result="Passed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.000725" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1186" name="StepLengthAndCadence_MatchTheTarget(0.2d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.StepLengthAndCadence_MatchTheTarget(0.2d)" methodname="StepLengthAndCadence_MatchTheTarget" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="149731732" result="Passed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.000730" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1187" name="StepLengthAndCadence_MatchTheTarget(0.3d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.StepLengthAndCadence_MatchTheTarget(0.3d)" methodname="StepLengthAndCadence_MatchTheTarget" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1266720591" result="Passed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.000718" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                </test-suite>
+                <test-suite type="ParameterizedMethod" id="1217" name="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.004666" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="1212" name="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.0213d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.0213d)" methodname="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="561772461" result="Passed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.001080" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[Fr 0.0213: fastest descent in the last 0.5 s 0.61 m/s, forward speed of the foot in the world at touchdown 0.000 m/s
+]]></output>
+                  </test-case>
+                  <test-case id="1213" name="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.05d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.05d)" methodname="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="711476689" result="Passed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.000793" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[Fr 0.05: fastest descent in the last 0.5 s 0.61 m/s, forward speed of the foot in the world at touchdown 0.000 m/s
+]]></output>
+                  </test-case>
+                  <test-case id="1214" name="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.1d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.1d)" methodname="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="924942077" result="Passed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.000777" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[Fr 0.1: fastest descent in the last 0.5 s 0.61 m/s, forward speed of the foot in the world at touchdown 0.000 m/s
+]]></output>
+                  </test-case>
+                  <test-case id="1215" name="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.2d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.2d)" methodname="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1910428314" result="Passed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.000789" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[Fr 0.2: fastest descent in the last 0.5 s 0.61 m/s, forward speed of the foot in the world at touchdown 0.000 m/s
+]]></output>
+                  </test-case>
+                  <test-case id="1216" name="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.3d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest(0.3d)" methodname="Touchdown_IsControlled_AndTheFootMeetsTheGroundAtRest" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1814752702" result="Passed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.000776" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[Fr 0.3: fastest descent in the last 0.5 s 0.61 m/s, forward speed of the foot in the world at touchdown -0.002 m/s
+]]></output>
+                  </test-case>
+                </test-suite>
+                <test-suite type="ParameterizedMethod" id="1224" name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" testcasecount="2" result="Failed" site="Child" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.005206" total="2" passed="0" failed="2" inconclusive="0" skipped="0" asserts="0">
+                  <properties>
+                    <property name="Category" value="KnownGap" />
+                  </properties>
+                  <failure>
+                    <message><![CDATA[One or more child tests had errors]]></message>
+                  </failure>
+                  <test-case id="1222" name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove(0.2d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove(0.2d)" methodname="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1017921170" result="Failed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.002605" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <failure>
+                      <message><![CDATA[  Expected: less than or equal to 165000000.0d
+  But was:  348815427.60285568d
+]]></message>
+                      <stack-trace><![CDATA[at Game.Units.Mech.Tests.ReferenceGaitTests.YawBudgetCheck (System.Double fr) [0x00071] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:187
+at Game.Units.Mech.Tests.ReferenceGaitTests.YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove (System.Double fr) [0x00000] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:179
+]]></stack-trace>
+                    </failure>
+                    <output><![CDATA[Fr 0.2: peak yaw moment of the reference 3.49E+008 N m against the budget 1.65E+008
+]]></output>
+                  </test-case>
+                  <test-case id="1223" name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove(0.3d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove(0.3d)" methodname="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1467505767" result="Failed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.002246" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <failure>
+                      <message><![CDATA[  Expected: less than or equal to 165000000.0d
+  But was:  794020156.08650637d
+]]></message>
+                      <stack-trace><![CDATA[at Game.Units.Mech.Tests.ReferenceGaitTests.YawBudgetCheck (System.Double fr) [0x00071] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:187
+at Game.Units.Mech.Tests.ReferenceGaitTests.YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_AtCruiseAndAbove (System.Double fr) [0x00000] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-005/kaiju/Assets/Game/Units/Mech/Tests/EditMode/ReferenceGaitTests.cs:179
+]]></stack-trace>
+                    </failure>
+                    <output><![CDATA[Fr 0.3: peak yaw moment of the reference 7.94E+008 N m against the budget 1.65E+008
+]]></output>
+                  </test-case>
+                </test-suite>
+                <test-suite type="ParameterizedMethod" id="1221" name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.006930" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="1218" name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth(0.0213d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth(0.0213d)" methodname="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="677305341" result="Passed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.002199" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[Fr 0.0213: peak yaw moment of the reference 5.47E+007 N m against the budget 1.65E+008
+]]></output>
+                  </test-case>
+                  <test-case id="1219" name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth(0.05d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth(0.05d)" methodname="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="1301263473" result="Passed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.002206" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[Fr 0.05: peak yaw moment of the reference 7.13E+007 N m against the budget 1.65E+008
+]]></output>
+                  </test-case>
+                  <test-case id="1220" name="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth(0.1d)" fullname="Game.Units.Mech.Tests.ReferenceGaitTests.YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth(0.1d)" methodname="YawMomentAskedOfTheStanceFoot_StaysInsideTheFrictionBudget_UpToFroudeTenth" classname="Game.Units.Mech.Tests.ReferenceGaitTests" runstate="Runnable" seed="767678801" result="Passed" start-time="2026-11-14 17:22:44Z" end-time="2026-11-14 17:22:44Z" duration="0.002215" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[Fr 0.1: peak yaw moment of the reference 1.61E+008 N m against the budget 1.65E+008
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/kuanw/Library/Application Support/DefaultCompany/KaijuGame/TestResults.xml
+]]></output>
+                  </test-case>
+                </test-suite>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

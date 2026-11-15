@@ -1,0 +1,30 @@
+# T-005 r4 9.3b-4 design/gain round (v2 ref, stick plant, A start, 20 steps). Columns: tag | non-default options | fell steps speed comz%l pitch foot% fr>1%ticks solver%
+b4dev_a0         | onset=1 land=1 land_act=1                                                   | F  20.0 0.937 0.94 0.37 0.46 8.56 100.00
+b4dev_a1         | onset=1 land=1 land_act=1 land_lead=0.1                                     | T   2.1 1.264 5.61 2.55 58.03 28.99 99.82
+b4dev_a2         | onset=1 land=1 land_act=1 land_k0=32                                        | T   4.2 1.168 3.87 1.14 44.29 13.60 99.91
+b4dev_a3         | onset=1 land=1 land_act=1 land_k0=36                                        | F  20.0 0.996 0.26 0.32 4.30 5.94 100.00
+b4dev_b3         |                                                                             | F  20.0 1.000 0.31 0.22 2.65 11.17 99.85
+b4dev_b3s        |                                                                             | F   6.0 1.000 0.30 0.24 2.59 11.69 99.87
+b4dev_c1         | onset=1 land=1 land_act=1 land_k0=36 land_nounder=1                         | T   3.1 1.246 5.00 1.89 41.98 24.97 99.76
+b4dev_c2         | onset=1 land=1 land_act=1 land_k0=36 fmin_td=0.1                            | T   3.5 1.139 5.89 2.60 47.23 25.19 99.36
+b4dev_c3         | onset=1 land=1 land_act=1 land_k0=36 fr_margin=0.9 fr_meas=1                | F  20.0 0.999 0.18 0.32 4.56 3.81 100.00
+b4dev_c4         | onset=1 land=1 land_act=1 land_k0=36 land_nounder=1 fr_margin=0.9 fr_meas=1 fmin_td=0.1 | F  20.0 1.000 0.17 0.31 4.36 4.32 99.75
+b4dev_c5         | onset=1 land=1 land_act=1 land_k0=36 fr_meas=1                              | F  20.0 1.000 0.18 0.31 4.40 5.77 100.00
+b4dev_c6         | onset=1 land=1 land_act=1 land_k0=36 fr_margin=0.9                          | T   3.9 1.113 3.59 0.57 7.72 13.32 100.00
+b4dev_c7         | onset=1 land=1 land_act=1 land_k0=36 fr_margin=0.9 fr_meas=1 fmin_td=0.05   | F  20.0 1.001 0.17 0.30 4.19 4.51 100.00
+b4dev_d1         | onset=1 land=1 land_act=1 land_k0=35 fr_margin=0.9 fr_meas=1                | F  20.0 0.938 0.66 0.33 0.21 6.45 100.00
+b4dev_d2         | onset=1 land=1 land_act=1 land_k0=35.5 fr_margin=0.9 fr_meas=1              | F  20.0 1.020 0.08 0.16 0.95 4.90 100.00
+b4dev_d3         | onset=1 land=1 land_act=1 land_k0=35 land_nounder=1 fr_margin=0.9 fr_meas=1 | F  20.0 0.938 0.66 0.33 0.21 6.45 100.00
+b4dev_d4         | onset=1 land=1 land_act=1 land_k0=35.5 land_nounder=1 fr_margin=0.9 fr_meas=1 | F  20.0 1.020 0.08 0.16 0.95 4.90 100.00
+b4dev_l1         | onset=1 land=1 land_lead=0.3                                                | T   2.2 1.234 5.62 2.25 57.72 26.86 99.83
+b4dev_l2         | onset=1 land=1 land_lead=0.3 om_land=6                                      | T   1.9 1.338 8.09 1.10 90.61 33.60 99.80
+b4dev_l3         | onset=1 land=1 land_lead=0.5 om_land=6                                      | T   4.9 1.053 2.53 1.23 53.02 20.03 100.00
+b4dev_l4         | onset=1 land=1 land_lead=0.3 om_land=8                                      | T   2.8 1.204 5.45 2.16 56.26 20.36 99.86
+b4dev_land       | onset=1 land=1                                                              | F  20.0 0.936 0.52 0.35 0.17 4.88 100.00
+b4dev_on         | onset=1                                                                     | F  20.0 0.982 0.73 0.42 5.47 10.47 99.98
+b4k355_A         | onset=1 land=1 land_act=1 land_k0=35.5 fr_margin=0.9 fr_meas=1              | F  20.0 1.020 0.08 0.16 0.95 4.90 100.00
+b4k355_Cm09      | onset=1 land=1 land_act=1 land_k0=35.5 fr_margin=0.9 fr_meas=1              | T   3.6 1.032 5.28 1.20 71.23 12.73 99.69
+b4k355_Cdel2     | onset=1 land=1 land_act=1 land_k0=35.5 fr_margin=0.9 fr_meas=1              | T   3.2 1.099 3.98 0.56 72.95 10.76 99.65
+b4k355_Dp        | onset=1 land=1 land_act=1 land_k0=35.5 fr_margin=0.9 fr_meas=1              | F  20.0 1.018 0.13 0.24 1.49 4.88 100.00
+# (c3, c4 first ran before the fr_meas cap floor (1e-3 m g): solver 99.68 / 99.75 %; c3 shown after the fix. Dev runs deleted; final sets b4_*, b3ref_*.)
+# chosen: b4 = kvs 5, onset 1, land 1, land_act 1, land_k0 36, fr_meas 1, fr_margin 0.9 (k0 35.5: A/B/D better but C 1/5 vs 3/5; see b4k355 rows)

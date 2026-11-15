@@ -1,0 +1,207 @@
+{
+ "tool": "Tools/PhysicsMetrics/m006.py v1",
+ "commit": "bedecf4",
+ "definition": "L_step = step of the FootContact event minus first step whose logged contact flag is 1 (R-001 section 6); threshold L_step = 0 in >= 99 %, <= 1 in 100 %",
+ "total_contacts": 525,
+ "share_same_step": 1.0,
+ "captures": {
+  "curve": {
+   "contacts_in_log": 50,
+   "contact_begin_events": 50,
+   "events_in_the_contact_step": 50,
+   "cam_impulses": 50,
+   "cam_impulses_same_step": 50,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "estop": {
+   "contacts_in_log": 24,
+   "contact_begin_events": 24,
+   "events_in_the_contact_step": 24,
+   "cam_impulses": 24,
+   "cam_impulses_same_step": 24,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "intent_over_limit": {
+   "contacts_in_log": 44,
+   "contact_begin_events": 44,
+   "events_in_the_contact_step": 44,
+   "cam_impulses": 44,
+   "cam_impulses_same_step": 44,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "repeat60": {
+   "contacts_in_log": 23,
+   "contact_begin_events": 23,
+   "events_in_the_contact_step": 23,
+   "cam_impulses": 23,
+   "cam_impulses_same_step": 23,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "repeat60_run1": {
+   "contacts_in_log": 23,
+   "contact_begin_events": 23,
+   "events_in_the_contact_step": 23,
+   "cam_impulses": 23,
+   "cam_impulses_same_step": 23,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "repeat60_run2": {
+   "contacts_in_log": 23,
+   "contact_begin_events": 23,
+   "events_in_the_contact_step": 23,
+   "cam_impulses": 23,
+   "cam_impulses_same_step": 23,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "repeat60_run3": {
+   "contacts_in_log": 23,
+   "contact_begin_events": 23,
+   "events_in_the_contact_step": 23,
+   "cam_impulses": 23,
+   "cam_impulses_same_step": 23,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "shove_005": {
+   "contacts_in_log": 2,
+   "contact_begin_events": 2,
+   "events_in_the_contact_step": 2,
+   "cam_impulses": 2,
+   "cam_impulses_same_step": 2,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "shove_015": {
+   "contacts_in_log": 2,
+   "contact_begin_events": 2,
+   "events_in_the_contact_step": 2,
+   "cam_impulses": 2,
+   "cam_impulses_same_step": 2,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "shove_030": {
+   "contacts_in_log": 6,
+   "contact_begin_events": 6,
+   "events_in_the_contact_step": 6,
+   "cam_impulses": 6,
+   "cam_impulses_same_step": 6,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "shove_060": {
+   "contacts_in_log": 7,
+   "contact_begin_events": 7,
+   "events_in_the_contact_step": 7,
+   "cam_impulses": 7,
+   "cam_impulses_same_step": 7,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "single_stance": {
+   "contacts_in_log": 3,
+   "contact_begin_events": 3,
+   "events_in_the_contact_step": 3,
+   "cam_impulses": 3,
+   "cam_impulses_same_step": 3,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "stand": {
+   "contacts_in_log": 2,
+   "contact_begin_events": 2,
+   "events_in_the_contact_step": 2,
+   "cam_impulses": 2,
+   "cam_impulses_same_step": 2,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "start": {
+   "contacts_in_log": 28,
+   "contact_begin_events": 28,
+   "events_in_the_contact_step": 28,
+   "cam_impulses": 28,
+   "cam_impulses_same_step": 28,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "stomp": {
+   "contacts_in_log": 4,
+   "contact_begin_events": 4,
+   "events_in_the_contact_step": 4,
+   "cam_impulses": 4,
+   "cam_impulses_same_step": 4,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "stop": {
+   "contacts_in_log": 24,
+   "contact_begin_events": 24,
+   "events_in_the_contact_step": 24,
+   "cam_impulses": 24,
+   "cam_impulses_same_step": 24,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "turn90_inplace": {
+   "contacts_in_log": 13,
+   "contact_begin_events": 13,
+   "events_in_the_contact_step": 13,
+   "cam_impulses": 13,
+   "cam_impulses_same_step": 13,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "walk_fr010": {
+   "contacts_in_log": 37,
+   "contact_begin_events": 37,
+   "events_in_the_contact_step": 37,
+   "cam_impulses": 37,
+   "cam_impulses_same_step": 37,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "walk_fr020": {
+   "contacts_in_log": 37,
+   "contact_begin_events": 37,
+   "events_in_the_contact_step": 37,
+   "cam_impulses": 37,
+   "cam_impulses_same_step": 37,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "walk_fr025": {
+   "contacts_in_log": 37,
+   "contact_begin_events": 37,
+   "events_in_the_contact_step": 37,
+   "cam_impulses": 37,
+   "cam_impulses_same_step": 37,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "walk_fr030": {
+   "contacts_in_log": 37,
+   "contact_begin_events": 37,
+   "events_in_the_contact_step": 37,
+   "cam_impulses": 37,
+   "cam_impulses_same_step": 37,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  },
+  "walk_scn": {
+   "contacts_in_log": 76,
+   "contact_begin_events": 76,
+   "events_in_the_contact_step": 76,
+   "cam_impulses": 76,
+   "cam_impulses_same_step": 76,
+   "missed": 0,
+   "duplicates_or_extra": 0
+  }
+ }
+}

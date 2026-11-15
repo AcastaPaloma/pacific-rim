@@ -1,0 +1,5627 @@
+{
+ "assumed_thresholds_decisive": [],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [],
+  "optional_not_provided": [
+   "walk_fr020_terrain"
+  ],
+  "provided": [
+   "curve",
+   "estop",
+   "start",
+   "stomp",
+   "stop",
+   "turn90_inplace",
+   "walk_fr010",
+   "walk_fr020",
+   "walk_fr030"
+  ],
+  "required": [
+   "walk_fr010",
+   "walk_fr020",
+   "walk_fr030",
+   "start",
+   "stop",
+   "estop",
+   "turn90_inplace",
+   "curve",
+   "stomp"
+  ]
+ },
+ "exit_code": 1,
+ "extra": {
+  "contacts": [
+   {
+    "capture": "curve",
+    "contact_id": 1,
+    "foot": "L",
+    "n_begin": 1,
+    "per_point_m": [
+     0.199702036819,
+     0.282659790982,
+     0.348025294857,
+     0.0747803535988,
+     0.241745673213
+    ],
+    "samples": 537,
+    "slip_m": 0.348025294857,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 2,
+    "foot": "R",
+    "n_begin": 1,
+    "per_point_m": [
+     0.0111397915535,
+     0.0110318005918,
+     0.0112401065166,
+     0.0110417593868,
+     0.0112498808867
+    ],
+    "samples": 330,
+    "slip_m": 0.0112498808867,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 3,
+    "foot": "R",
+    "n_begin": 493,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 4,
+    "foot": "R",
+    "n_begin": 495,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 5,
+    "foot": "R",
+    "n_begin": 501,
+    "per_point_m": [
+     0.289904303605,
+     0.177588843329,
+     0.147660520154,
+     0.559677916802,
+     0.3446812419
+    ],
+    "samples": 265,
+    "slip_m": 0.559677916802,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 6,
+    "foot": "L",
+    "n_begin": 549,
+    "per_point_m": [
+     null,
+     0.00370480068269,
+     null,
+     0.016394039375,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.016394039375,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 7,
+    "foot": "L",
+    "n_begin": 716,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 8,
+    "foot": "L",
+    "n_begin": 727,
+    "per_point_m": [
+     0.12056913379,
+     0.0661469891162,
+     0.0765778388689,
+     0.31922074687,
+     0.507634185425
+    ],
+    "samples": 257,
+    "slip_m": 0.507634185425,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 9,
+    "foot": "R",
+    "n_begin": 939,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 10,
+    "foot": "R",
+    "n_begin": 948,
+    "per_point_m": [
+     0.145402623715,
+     0.045600719412,
+     0.0478371542064,
+     0.265072690131,
+     0.194775252695
+    ],
+    "samples": 257,
+    "slip_m": 0.265072690131,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 11,
+    "foot": "L",
+    "n_begin": 1163,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 12,
+    "foot": "L",
+    "n_begin": 1173,
+    "per_point_m": [
+     0.17535925159,
+     0.0401859040018,
+     0.0630236720679,
+     0.160119370739,
+     0.215709778029
+    ],
+    "samples": 258,
+    "slip_m": 0.215709778029,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 13,
+    "foot": "R",
+    "n_begin": 1219,
+    "per_point_m": [
+     null,
+     null,
+     0.00845091682498,
+     null,
+     0.0095980092862
+    ],
+    "samples": 2,
+    "slip_m": 0.0095980092862,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 14,
+    "foot": "R",
+    "n_begin": 1387,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 15,
+    "foot": "R",
+    "n_begin": 1397,
+    "per_point_m": [
+     0.171883790604,
+     0.0839588309389,
+     0.0719568051349,
+     0.212753685598,
+     0.155370031436
+    ],
+    "samples": 258,
+    "slip_m": 0.212753685598,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 16,
+    "foot": "L",
+    "n_begin": 1442,
+    "per_point_m": [
+     null,
+     0.00749833734167,
+     null,
+     0.0103375501351,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.0103375501351,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 17,
+    "foot": "L",
+    "n_begin": 1610,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 18,
+    "foot": "L",
+    "n_begin": 1619,
+    "per_point_m": [
+     0.182994076314,
+     0.0510259423056,
+     0.0616422205558,
+     0.218975326563,
+     0.274661339833
+    ],
+    "samples": 256,
+    "slip_m": 0.274661339833,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 19,
+    "foot": "R",
+    "n_begin": 1836,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0282293737994,
+     0.0188682279568
+    ],
+    "samples": 3,
+    "slip_m": 0.0282293737994,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 20,
+    "foot": "R",
+    "n_begin": 1845,
+    "per_point_m": [
+     0.187755631184,
+     0.0449999105711,
+     0.152409444558,
+     0.326644944414,
+     0.33147673802
+    ],
+    "samples": 276,
+    "slip_m": 0.33147673802,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 21,
+    "foot": "L",
+    "n_begin": 2058,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 22,
+    "foot": "L",
+    "n_begin": 2070,
+    "per_point_m": [
+     0.109112130157,
+     0.357205730135,
+     0.105520500743,
+     0.0547798745357,
+     0.0505692607963
+    ],
+    "samples": 274,
+    "slip_m": 0.357205730135,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 23,
+    "foot": "R",
+    "n_begin": 2285,
+    "per_point_m": [
+     0.0186642741932,
+     null,
+     0.02084195226,
+     0.0169976090777,
+     0.0207776272599
+    ],
+    "samples": 2,
+    "slip_m": 0.02084195226,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 24,
+    "foot": "R",
+    "n_begin": 2288,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 25,
+    "foot": "R",
+    "n_begin": 2290,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 26,
+    "foot": "R",
+    "n_begin": 2294,
+    "per_point_m": [
+     0.699856344412,
+     0.209684128875,
+     0.576614281811,
+     1.14947562663,
+     1.2713676332
+    ],
+    "samples": 292,
+    "slip_m": 1.2713676332,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 27,
+    "foot": "L",
+    "n_begin": 2501,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 28,
+    "foot": "L",
+    "n_begin": 2511,
+    "per_point_m": [
+     0.183470366763,
+     0.78495251255,
+     0.46217641884,
+     0.266132080649,
+     0.213169675214
+    ],
+    "samples": 312,
+    "slip_m": 0.78495251255,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 29,
+    "foot": "R",
+    "n_begin": 2754,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 30,
+    "foot": "R",
+    "n_begin": 2758,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0590363180751,
+     0.103687741951
+    ],
+    "samples": 3,
+    "slip_m": 0.103687741951,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 31,
+    "foot": "R",
+    "n_begin": 2769,
+    "per_point_m": [
+     0.972060841321,
+     0.391905106552,
+     0.891088301739,
+     0.855087416447,
+     0.953879284424
+    ],
+    "samples": 272,
+    "slip_m": 0.972060841321,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 32,
+    "foot": "L",
+    "n_begin": 2976,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     null,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 33,
+    "foot": "L",
+    "n_begin": 2989,
+    "per_point_m": [
+     0.317279403269,
+     0.970480466627,
+     0.320055061192,
+     0.315099536675,
+     0.749302501281
+    ],
+    "samples": 255,
+    "slip_m": 0.970480466627,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 34,
+    "foot": "R",
+    "n_begin": 3205,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 35,
+    "foot": "R",
+    "n_begin": 3213,
+    "per_point_m": [
+     0.133171581233,
+     0.108128880791,
+     0.095359638224,
+     0.155843875706,
+     0.115600195857
+    ],
+    "samples": 259,
+    "slip_m": 0.155843875706,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 36,
+    "foot": "L",
+    "n_begin": 3277,
+    "per_point_m": [
+     null,
+     0.0,
+     0.0,
+     null,
+     null
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 37,
+    "foot": "L",
+    "n_begin": 3428,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 38,
+    "foot": "L",
+    "n_begin": 3439,
+    "per_point_m": [
+     0.0515055303958,
+     0.106403004183,
+     0.0359404964158,
+     0.17391791324,
+     0.307423087582
+    ],
+    "samples": 258,
+    "slip_m": 0.307423087582,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 39,
+    "foot": "R",
+    "n_begin": 3650,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 40,
+    "foot": "R",
+    "n_begin": 3660,
+    "per_point_m": [
+     0.0932881245785,
+     0.045783739631,
+     0.0614348250437,
+     0.244161133837,
+     0.17855602311
+    ],
+    "samples": 257,
+    "slip_m": 0.244161133837,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 41,
+    "foot": "L",
+    "n_begin": 3875,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 42,
+    "foot": "L",
+    "n_begin": 3885,
+    "per_point_m": [
+     0.157918794454,
+     0.0931408743247,
+     0.0879069001053,
+     0.170661654894,
+     0.183699635476
+    ],
+    "samples": 257,
+    "slip_m": 0.183699635476,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 43,
+    "foot": "R",
+    "n_begin": 4099,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 44,
+    "foot": "R",
+    "n_begin": 4108,
+    "per_point_m": [
+     0.161498317193,
+     0.0609327098928,
+     0.0610162428683,
+     0.208893289908,
+     0.152683137915
+    ],
+    "samples": 260,
+    "slip_m": 0.208893289908,
+    "tags": []
+   },
+   {
+    "capture": "curve",
+    "contact_id": 45,
+    "foot": "L",
+    "n_begin": 4156,
+    "per_point_m": [
+     null,
+     0.0,
+     null,
+     0.0,
+     null
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 46,
+    "foot": "L",
+    "n_begin": 4323,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.00663235930844,
+     0.0113061095957
+    ],
+    "samples": 3,
+    "slip_m": 0.0113061095957,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 47,
+    "foot": "L",
+    "n_begin": 4331,
+    "per_point_m": [
+     0.150350914612,
+     0.0386868941,
+     0.0617056956462,
+     0.165052565524,
+     0.23774094397
+    ],
+    "samples": 170,
+    "slip_m": 0.23774094397,
+    "tags": [
+     "truncated_end"
+    ]
+   },
+   {
+    "capture": "curve",
+    "contact_id": 48,
+    "foot": "R",
+    "n_begin": 4377,
+    "per_point_m": [
+     null,
+     null,
+     0.0,
+     null,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "estop",
+    "contact_id": 1,
+    "foot": "L",
+    "n_begin": 1,
+    "per_point_m": [
+     0.199702036819,
+     0.282659790982,
+     0.348025294857,
+     0.0747803535988,
+     0.241745673213
+    ],
+    "samples": 537,
+    "slip_m": 0.348025294857,
+    "tags": []
+   },
+   {
+    "capture": "estop",
+    "contact_id": 2,
+    "foot": "R",
+    "n_begin": 1,
+    "per_point_m": [
+     0.0111397915535,
+     0.0110318005918,
+     0.0112401065166,
+     0.0110417593868,
+     0.0112498808867
+    ],
+    "samples": 330,
+    "slip_m": 0.0112498808867,
+    "tags": []
+   },
+   {
+    "capture": "estop",
+    "contact_id": 3,
+    "foot": "R",
+    "n_begin": 493,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "estop",
+    "contact_id": 4,
+    "foot": "R",
+    "n_begin": 495,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "estop",
+    "contact_id": 5,
+    "foot": "R",
+    "n_begin": 501,
+    "per_point_m": [
+     0.289904303605,
+     0.177588843329,
+     0.147660520154,
+     0.559677916802,
+     0.3446812419
+    ],
+    "samples": 265,
+    "slip_m": 0.559677916802,
+    "tags": []
+   },
+   {
+    "capture": "estop",
+    "contact_id": 6,
+    "foot": "L",
+    "n_begin": 549,
+    "per_point_m": [
+     null,
+     0.00370480068269,
+     null,
+     0.016394039375,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.016394039375,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "estop",
+    "contact_id": 7,
+    "foot": "L",
+    "n_begin": 716,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "estop",
+    "contact_id": 8,
+    "foot": "L",
+    "n_begin": 727,
+    "per_point_m": [
+     0.12056913379,
+     0.0661469891162,
+     0.0765778388689,
+     0.31922074687,
+     0.507634185425
+    ],
+    "samples": 257,
+    "slip_m": 0.507634185425,
+    "tags": []
+   },
+   {
+    "capture": "estop",
+    "contact_id": 9,
+    "foot": "R",
+    "n_begin": 939,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "estop",
+    "contact_id": 10,
+    "foot": "R",
+    "n_begin": 948,
+    "per_point_m": [
+     0.145402623715,
+     0.045600719412,
+     0.0478371542064,
+     0.265072690131,
+     0.194775252695
+    ],
+    "samples": 257,
+    "slip_m": 0.265072690131,
+    "tags": []
+   },
+   {
+    "capture": "estop",
+    "contact_id": 11,
+    "foot": "L",
+    "n_begin": 1163,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "estop",
+    "contact_id": 12,
+    "foot": "L",
+    "n_begin": 1173,
+    "per_point_m": [
+     0.17535925159,
+     0.0401859040018,
+     0.0630236720679,
+     0.160119370739,
+     0.215709778029
+    ],
+    "samples": 258,
+    "slip_m": 0.215709778029,
+    "tags": []
+   },
+   {
+    "capture": "estop",
+    "contact_id": 13,
+    "foot": "R",
+    "n_begin": 1219,
+    "per_point_m": [
+     null,
+     null,
+     0.00845091682498,
+     null,
+     0.0095980092862
+    ],
+    "samples": 2,
+    "slip_m": 0.0095980092862,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "estop",
+    "contact_id": 14,
+    "foot": "R",
+    "n_begin": 1387,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "estop",
+    "contact_id": 15,
+    "foot": "R",
+    "n_begin": 1397,
+    "per_point_m": [
+     0.171883790604,
+     0.0839588309389,
+     0.0719568051349,
+     0.212753685598,
+     0.155370031436
+    ],
+    "samples": 258,
+    "slip_m": 0.212753685598,
+    "tags": []
+   },
+   {
+    "capture": "estop",
+    "contact_id": 16,
+    "foot": "L",
+    "n_begin": 1442,
+    "per_point_m": [
+     null,
+     0.00749833734167,
+     null,
+     0.0103375501351,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.0103375501351,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "estop",
+    "contact_id": 17,
+    "foot": "L",
+    "n_begin": 1610,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "estop",
+    "contact_id": 18,
+    "foot": "L",
+    "n_begin": 1619,
+    "per_point_m": [
+     0.161125784263,
+     0.0818293236005,
+     0.0493813481927,
+     0.224686401215,
+     0.263682388893
+    ],
+    "samples": 259,
+    "slip_m": 0.263682388893,
+    "tags": []
+   },
+   {
+    "capture": "estop",
+    "contact_id": 19,
+    "foot": "R",
+    "n_begin": 1835,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "estop",
+    "contact_id": 20,
+    "foot": "R",
+    "n_begin": 1845,
+    "per_point_m": [
+     0.213466357083,
+     0.0752323476329,
+     0.149144070702,
+     0.171191690609,
+     0.217492926699
+    ],
+    "samples": 261,
+    "slip_m": 0.217492926699,
+    "tags": []
+   },
+   {
+    "capture": "estop",
+    "contact_id": 21,
+    "foot": "L",
+    "n_begin": 2060,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "estop",
+    "contact_id": 22,
+    "foot": "L",
+    "n_begin": 2070,
+    "per_point_m": [
+     0.158773219787,
+     0.066710816342,
+     0.0952600191157,
+     0.140761849243,
+     0.190736436039
+    ],
+    "samples": 212,
+    "slip_m": 0.190736436039,
+    "tags": []
+   },
+   {
+    "capture": "estop",
+    "contact_id": 23,
+    "foot": "R",
+    "n_begin": 2276,
+    "per_point_m": [
+     0.0417698020371,
+     0.00768158031783,
+     0.00738469912496,
+     0.133078543172,
+     0.0758091126747
+    ],
+    "samples": 1325,
+    "slip_m": 0.133078543172,
+    "tags": [
+     "truncated_end"
+    ]
+   },
+   {
+    "capture": "estop",
+    "contact_id": 24,
+    "foot": "L",
+    "n_begin": 2294,
+    "per_point_m": [
+     0.0023745844048,
+     0.000568798389094,
+     0.00229713789984,
+     0.00356210223148,
+     0.00419331910827
+    ],
+    "samples": 1307,
+    "slip_m": 0.00419331910827,
+    "tags": [
+     "truncated_end"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 1,
+    "foot": "L",
+    "n_begin": 1,
+    "per_point_m": [
+     0.163325950745,
+     0.268113449079,
+     0.300330828178,
+     0.0506434466459,
+     0.18399089379
+    ],
+    "samples": 668,
+    "slip_m": 0.300330828178,
+    "tags": []
+   },
+   {
+    "capture": "start",
+    "contact_id": 2,
+    "foot": "R",
+    "n_begin": 1,
+    "per_point_m": [
+     0.0112477936602,
+     0.0110823591085,
+     0.0114059479908,
+     0.0110950543943,
+     0.0114182834613
+    ],
+    "samples": 450,
+    "slip_m": 0.0114182834613,
+    "tags": []
+   },
+   {
+    "capture": "start",
+    "contact_id": 3,
+    "foot": "R",
+    "n_begin": 625,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 4,
+    "foot": "R",
+    "n_begin": 631,
+    "per_point_m": [
+     0.613101810365,
+     0.320894581598,
+     1.53155876632,
+     0.268286627422,
+     0.639513442483
+    ],
+    "samples": 265,
+    "slip_m": 1.53155876632,
+    "tags": []
+   },
+   {
+    "capture": "start",
+    "contact_id": 5,
+    "foot": "L",
+    "n_begin": 844,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 6,
+    "foot": "L",
+    "n_begin": 853,
+    "per_point_m": [
+     1.5280220908,
+     2.01469893011,
+     1.25870983112,
+     2.04771673694,
+     0.823793929238
+    ],
+    "samples": 254,
+    "slip_m": 2.04771673694,
+    "tags": []
+   },
+   {
+    "capture": "start",
+    "contact_id": 7,
+    "foot": "R",
+    "n_begin": 901,
+    "per_point_m": [
+     null,
+     null,
+     0.458774966283,
+     null,
+     0.186434110676
+    ],
+    "samples": 8,
+    "slip_m": 0.458774966283,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 8,
+    "foot": "R",
+    "n_begin": 1066,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 9,
+    "foot": "R",
+    "n_begin": 1077,
+    "per_point_m": [
+     0.356717870052,
+     0.401706991694,
+     0.898966498306,
+     0.966390614694,
+     0.367139899325
+    ],
+    "samples": 276,
+    "slip_m": 0.966390614694,
+    "tags": []
+   },
+   {
+    "capture": "start",
+    "contact_id": 10,
+    "foot": "L",
+    "n_begin": 1291,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 11,
+    "foot": "L",
+    "n_begin": 1293,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 12,
+    "foot": "L",
+    "n_begin": 1299,
+    "per_point_m": [
+     0.118603258009,
+     0.0658570812448,
+     0.0445122605656,
+     0.114889316775,
+     0.163301332812
+    ],
+    "samples": 269,
+    "slip_m": 0.163301332812,
+    "tags": []
+   },
+   {
+    "capture": "start",
+    "contact_id": 13,
+    "foot": "R",
+    "n_begin": 1513,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 14,
+    "foot": "R",
+    "n_begin": 1522,
+    "per_point_m": [
+     0.0667143585459,
+     0.0476253683855,
+     0.0898347211857,
+     0.300217232209,
+     0.182738437337
+    ],
+    "samples": 261,
+    "slip_m": 0.300217232209,
+    "tags": []
+   },
+   {
+    "capture": "start",
+    "contact_id": 15,
+    "foot": "L",
+    "n_begin": 1575,
+    "per_point_m": [
+     null,
+     0.0,
+     null,
+     0.0,
+     null
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 16,
+    "foot": "L",
+    "n_begin": 1735,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 17,
+    "foot": "L",
+    "n_begin": 1745,
+    "per_point_m": [
+     0.0872987733168,
+     0.0659229758404,
+     0.0480677718245,
+     0.170690999435,
+     0.278170124532
+    ],
+    "samples": 257,
+    "slip_m": 0.278170124532,
+    "tags": []
+   },
+   {
+    "capture": "start",
+    "contact_id": 18,
+    "foot": "R",
+    "n_begin": 1960,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 19,
+    "foot": "R",
+    "n_begin": 1970,
+    "per_point_m": [
+     0.140207633732,
+     0.0732572142946,
+     0.0919527782468,
+     0.166401445487,
+     0.134518714452
+    ],
+    "samples": 259,
+    "slip_m": 0.166401445487,
+    "tags": []
+   },
+   {
+    "capture": "start",
+    "contact_id": 20,
+    "foot": "L",
+    "n_begin": 2183,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 21,
+    "foot": "L",
+    "n_begin": 2192,
+    "per_point_m": [
+     0.152775726491,
+     0.0294730906951,
+     0.0451882293628,
+     0.189778046831,
+     0.264185486174
+    ],
+    "samples": 255,
+    "slip_m": 0.264185486174,
+    "tags": []
+   },
+   {
+    "capture": "start",
+    "contact_id": 22,
+    "foot": "R",
+    "n_begin": 2244,
+    "per_point_m": [
+     null,
+     null,
+     0.0,
+     null,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 23,
+    "foot": "R",
+    "n_begin": 2407,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 24,
+    "foot": "R",
+    "n_begin": 2415,
+    "per_point_m": [
+     0.159036110299,
+     0.0608540039185,
+     0.0501894183884,
+     0.230242267729,
+     0.163080212006
+    ],
+    "samples": 261,
+    "slip_m": 0.230242267729,
+    "tags": []
+   },
+   {
+    "capture": "start",
+    "contact_id": 25,
+    "foot": "L",
+    "n_begin": 2463,
+    "per_point_m": [
+     null,
+     0.00609138203979,
+     null,
+     0.00590731994926,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.00609138203979,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 26,
+    "foot": "L",
+    "n_begin": 2630,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 27,
+    "foot": "L",
+    "n_begin": 2639,
+    "per_point_m": [
+     0.149645499398,
+     0.0300337767504,
+     0.0451772341512,
+     0.176394326724,
+     0.255450018668
+    ],
+    "samples": 62,
+    "slip_m": 0.255450018668,
+    "tags": [
+     "truncated_end"
+    ]
+   },
+   {
+    "capture": "start",
+    "contact_id": 28,
+    "foot": "R",
+    "n_begin": 2690,
+    "per_point_m": [
+     null,
+     null,
+     0.0,
+     null,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stomp",
+    "contact_id": 1,
+    "foot": "L",
+    "n_begin": 1,
+    "per_point_m": [
+     0.361861750995,
+     0.518309232362,
+     0.466569638749,
+     0.312215952358,
+     0.218022775343
+    ],
+    "samples": 1800,
+    "slip_m": 0.518309232362,
+    "tags": [
+     "truncated_end"
+    ]
+   },
+   {
+    "capture": "stomp",
+    "contact_id": 2,
+    "foot": "R",
+    "n_begin": 1,
+    "per_point_m": [
+     0.0118597977166,
+     0.0117418724314,
+     0.0119740089521,
+     0.0117482033541,
+     0.0119802171657
+    ],
+    "samples": 331,
+    "slip_m": 0.0119802171657,
+    "tags": []
+   },
+   {
+    "capture": "stomp",
+    "contact_id": 3,
+    "foot": "R",
+    "n_begin": 541,
+    "per_point_m": [
+     3.6501132705,
+     0.306270245526,
+     3.69189987669,
+     2.28983984452,
+     3.64875120102
+    ],
+    "samples": 90,
+    "slip_m": 3.69189987669,
+    "tags": []
+   },
+   {
+    "capture": "stomp",
+    "contact_id": 4,
+    "foot": "R",
+    "n_begin": 642,
+    "per_point_m": [
+     0.263776920431,
+     0.224339043801,
+     0.236480747922,
+     0.294794192974,
+     0.304094722082
+    ],
+    "samples": 1159,
+    "slip_m": 0.304094722082,
+    "tags": [
+     "truncated_end"
+    ]
+   },
+   {
+    "capture": "stop",
+    "contact_id": 1,
+    "foot": "L",
+    "n_begin": 1,
+    "per_point_m": [
+     0.199702036819,
+     0.282659790982,
+     0.348025294857,
+     0.0747803535988,
+     0.241745673213
+    ],
+    "samples": 537,
+    "slip_m": 0.348025294857,
+    "tags": []
+   },
+   {
+    "capture": "stop",
+    "contact_id": 2,
+    "foot": "R",
+    "n_begin": 1,
+    "per_point_m": [
+     0.0111397915535,
+     0.0110318005918,
+     0.0112401065166,
+     0.0110417593868,
+     0.0112498808867
+    ],
+    "samples": 330,
+    "slip_m": 0.0112498808867,
+    "tags": []
+   },
+   {
+    "capture": "stop",
+    "contact_id": 3,
+    "foot": "R",
+    "n_begin": 493,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop",
+    "contact_id": 4,
+    "foot": "R",
+    "n_begin": 495,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop",
+    "contact_id": 5,
+    "foot": "R",
+    "n_begin": 501,
+    "per_point_m": [
+     0.289904303605,
+     0.177588843329,
+     0.147660520154,
+     0.559677916802,
+     0.3446812419
+    ],
+    "samples": 265,
+    "slip_m": 0.559677916802,
+    "tags": []
+   },
+   {
+    "capture": "stop",
+    "contact_id": 6,
+    "foot": "L",
+    "n_begin": 549,
+    "per_point_m": [
+     null,
+     0.00370480068269,
+     null,
+     0.016394039375,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.016394039375,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop",
+    "contact_id": 7,
+    "foot": "L",
+    "n_begin": 716,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop",
+    "contact_id": 8,
+    "foot": "L",
+    "n_begin": 727,
+    "per_point_m": [
+     0.12056913379,
+     0.0661469891162,
+     0.0765778388689,
+     0.31922074687,
+     0.507634185425
+    ],
+    "samples": 257,
+    "slip_m": 0.507634185425,
+    "tags": []
+   },
+   {
+    "capture": "stop",
+    "contact_id": 9,
+    "foot": "R",
+    "n_begin": 939,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop",
+    "contact_id": 10,
+    "foot": "R",
+    "n_begin": 948,
+    "per_point_m": [
+     0.145402623715,
+     0.045600719412,
+     0.0478371542064,
+     0.265072690131,
+     0.194775252695
+    ],
+    "samples": 257,
+    "slip_m": 0.265072690131,
+    "tags": []
+   },
+   {
+    "capture": "stop",
+    "contact_id": 11,
+    "foot": "L",
+    "n_begin": 1163,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop",
+    "contact_id": 12,
+    "foot": "L",
+    "n_begin": 1173,
+    "per_point_m": [
+     0.17535925159,
+     0.0401859040018,
+     0.0630236720679,
+     0.160119370739,
+     0.215709778029
+    ],
+    "samples": 258,
+    "slip_m": 0.215709778029,
+    "tags": []
+   },
+   {
+    "capture": "stop",
+    "contact_id": 13,
+    "foot": "R",
+    "n_begin": 1219,
+    "per_point_m": [
+     null,
+     null,
+     0.00845091682498,
+     null,
+     0.0095980092862
+    ],
+    "samples": 2,
+    "slip_m": 0.0095980092862,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop",
+    "contact_id": 14,
+    "foot": "R",
+    "n_begin": 1387,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop",
+    "contact_id": 15,
+    "foot": "R",
+    "n_begin": 1397,
+    "per_point_m": [
+     0.171883790604,
+     0.0839588309389,
+     0.0719568051349,
+     0.212753685598,
+     0.155370031436
+    ],
+    "samples": 258,
+    "slip_m": 0.212753685598,
+    "tags": []
+   },
+   {
+    "capture": "stop",
+    "contact_id": 16,
+    "foot": "L",
+    "n_begin": 1442,
+    "per_point_m": [
+     null,
+     0.00749833734167,
+     null,
+     0.0103375501351,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.0103375501351,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop",
+    "contact_id": 17,
+    "foot": "L",
+    "n_begin": 1610,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop",
+    "contact_id": 18,
+    "foot": "L",
+    "n_begin": 1619,
+    "per_point_m": [
+     0.161125784263,
+     0.0818293236005,
+     0.0493813481927,
+     0.224686401215,
+     0.263682388893
+    ],
+    "samples": 259,
+    "slip_m": 0.263682388893,
+    "tags": []
+   },
+   {
+    "capture": "stop",
+    "contact_id": 19,
+    "foot": "R",
+    "n_begin": 1835,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop",
+    "contact_id": 20,
+    "foot": "R",
+    "n_begin": 1845,
+    "per_point_m": [
+     0.206940901007,
+     0.0752323476329,
+     0.142097753054,
+     0.171191690609,
+     0.208406529393
+    ],
+    "samples": 260,
+    "slip_m": 0.208406529393,
+    "tags": []
+   },
+   {
+    "capture": "stop",
+    "contact_id": 21,
+    "foot": "L",
+    "n_begin": 2060,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "stop",
+    "contact_id": 22,
+    "foot": "L",
+    "n_begin": 2070,
+    "per_point_m": [
+     0.163256152404,
+     0.0710587087964,
+     0.100629100114,
+     0.14324878602,
+     0.196420276654
+    ],
+    "samples": 215,
+    "slip_m": 0.196420276654,
+    "tags": []
+   },
+   {
+    "capture": "stop",
+    "contact_id": 23,
+    "foot": "R",
+    "n_begin": 2281,
+    "per_point_m": [
+     0.0104383263075,
+     0.00933311676052,
+     0.011807524953,
+     0.0280696455666,
+     0.0181581924391
+    ],
+    "samples": 1320,
+    "slip_m": 0.0280696455666,
+    "tags": [
+     "truncated_end"
+    ]
+   },
+   {
+    "capture": "stop",
+    "contact_id": 24,
+    "foot": "L",
+    "n_begin": 2286,
+    "per_point_m": [
+     0.384989743172,
+     0.214816481659,
+     0.321322692469,
+     0.505717769252,
+     0.559552564988
+    ],
+    "samples": 48,
+    "slip_m": 0.559552564988,
+    "tags": []
+   },
+   {
+    "capture": "stop",
+    "contact_id": 25,
+    "foot": "L",
+    "n_begin": 2335,
+    "per_point_m": [
+     0.00565978635853,
+     0.00526534818182,
+     0.00589964973681,
+     0.00547026878001,
+     0.00608324070474
+    ],
+    "samples": 1266,
+    "slip_m": 0.00608324070474,
+    "tags": [
+     "truncated_end"
+    ]
+   },
+   {
+    "capture": "turn90_inplace",
+    "contact_id": 1,
+    "foot": "L",
+    "n_begin": 1,
+    "per_point_m": [
+     0.0264639768534,
+     0.23555062632,
+     0.0347610916647,
+     0.538520919245,
+     0.0495479411201
+    ],
+    "samples": 694,
+    "slip_m": 0.538520919245,
+    "tags": []
+   },
+   {
+    "capture": "turn90_inplace",
+    "contact_id": 2,
+    "foot": "R",
+    "n_begin": 1,
+    "per_point_m": [
+     0.0108540133469,
+     0.0109649100176,
+     0.0107604476154,
+     0.0109498943828,
+     0.010745146174
+    ],
+    "samples": 424,
+    "slip_m": 0.0109649100176,
+    "tags": []
+   },
+   {
+    "capture": "turn90_inplace",
+    "contact_id": 3,
+    "foot": "R",
+    "n_begin": 602,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "turn90_inplace",
+    "contact_id": 4,
+    "foot": "R",
+    "n_begin": 606,
+    "per_point_m": [
+     0.026155281873,
+     0.0274569842444,
+     0.0261658036035,
+     0.0261845667904,
+     0.0262849985663
+    ],
+    "samples": 309,
+    "slip_m": 0.0274569842444,
+    "tags": []
+   },
+   {
+    "capture": "turn90_inplace",
+    "contact_id": 5,
+    "foot": "L",
+    "n_begin": 865,
+    "per_point_m": [
+     0.0419262148102,
+     0.0448805890146,
+     0.0389346923335,
+     0.0453489493454,
+     0.0394712589027
+    ],
+    "samples": 4,
+    "slip_m": 0.0453489493454,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "turn90_inplace",
+    "contact_id": 6,
+    "foot": "L",
+    "n_begin": 874,
+    "per_point_m": [
+     1.57794082118,
+     1.55517591498,
+     1.49404126697,
+     1.73971683086,
+     1.61710637723
+    ],
+    "samples": 313,
+    "slip_m": 1.73971683086,
+    "tags": []
+   },
+   {
+    "capture": "turn90_inplace",
+    "contact_id": 7,
+    "foot": "R",
+    "n_begin": 1108,
+    "per_point_m": [
+     0.175634458566,
+     0.185624021896,
+     0.32863753096,
+     0.19719890658,
+     0.201620321822
+    ],
+    "samples": 307,
+    "slip_m": 0.32863753096,
+    "tags": []
+   },
+   {
+    "capture": "turn90_inplace",
+    "contact_id": 8,
+    "foot": "L",
+    "n_begin": 1334,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.102930076276,
+     0.120033559424
+    ],
+    "samples": 4,
+    "slip_m": 0.120033559424,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "turn90_inplace",
+    "contact_id": 9,
+    "foot": "L",
+    "n_begin": 1345,
+    "per_point_m": [
+     0.0623080962493,
+     0.0562271637411,
+     0.0117030961683,
+     0.684992066538,
+     0.479272163355
+    ],
+    "samples": 287,
+    "slip_m": 0.684992066538,
+    "tags": []
+   },
+   {
+    "capture": "turn90_inplace",
+    "contact_id": 10,
+    "foot": "R",
+    "n_begin": 1569,
+    "per_point_m": [
+     null,
+     0.0,
+     0.0,
+     null,
+     null
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "turn90_inplace",
+    "contact_id": 11,
+    "foot": "R",
+    "n_begin": 1580,
+    "per_point_m": [
+     0.219597760573,
+     0.228937038834,
+     0.262775683887,
+     0.0807470669785,
+     0.165420591781
+    ],
+    "samples": 2021,
+    "slip_m": 0.262775683887,
+    "tags": [
+     "truncated_end"
+    ]
+   },
+   {
+    "capture": "turn90_inplace",
+    "contact_id": 12,
+    "foot": "L",
+    "n_begin": 1805,
+    "per_point_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "turn90_inplace",
+    "contact_id": 13,
+    "foot": "L",
+    "n_begin": 1807,
+    "per_point_m": [
+     0.000147160370453,
+     0.000206016242441,
+     0.00014517235816,
+     0.000179887358674,
+     0.000130332048468
+    ],
+    "samples": 1794,
+    "slip_m": 0.000206016242441,
+    "tags": [
+     "truncated_end"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 1,
+    "foot": "L",
+    "n_begin": 1,
+    "per_point_m": [
+     0.199702036819,
+     0.282659790982,
+     0.348025294857,
+     0.0747803535988,
+     0.241745673213
+    ],
+    "samples": 537,
+    "slip_m": 0.348025294857,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 2,
+    "foot": "R",
+    "n_begin": 1,
+    "per_point_m": [
+     0.0111397915535,
+     0.0110318005918,
+     0.0112401065166,
+     0.0110417593868,
+     0.0112498808867
+    ],
+    "samples": 330,
+    "slip_m": 0.0112498808867,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 3,
+    "foot": "R",
+    "n_begin": 493,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 4,
+    "foot": "R",
+    "n_begin": 495,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 5,
+    "foot": "R",
+    "n_begin": 501,
+    "per_point_m": [
+     0.289904303605,
+     0.177588843329,
+     0.147660520154,
+     0.559677916802,
+     0.3446812419
+    ],
+    "samples": 265,
+    "slip_m": 0.559677916802,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 6,
+    "foot": "L",
+    "n_begin": 549,
+    "per_point_m": [
+     null,
+     0.00370480068269,
+     null,
+     0.016394039375,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.016394039375,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 7,
+    "foot": "L",
+    "n_begin": 716,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 8,
+    "foot": "L",
+    "n_begin": 727,
+    "per_point_m": [
+     0.12056913379,
+     0.0661469891162,
+     0.0765778388689,
+     0.31922074687,
+     0.507634185425
+    ],
+    "samples": 257,
+    "slip_m": 0.507634185425,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 9,
+    "foot": "R",
+    "n_begin": 939,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 10,
+    "foot": "R",
+    "n_begin": 948,
+    "per_point_m": [
+     0.145402623715,
+     0.045600719412,
+     0.0478371542064,
+     0.265072690131,
+     0.194775252695
+    ],
+    "samples": 257,
+    "slip_m": 0.265072690131,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 11,
+    "foot": "L",
+    "n_begin": 1163,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 12,
+    "foot": "L",
+    "n_begin": 1173,
+    "per_point_m": [
+     0.17535925159,
+     0.0401859040018,
+     0.0630236720679,
+     0.160119370739,
+     0.215709778029
+    ],
+    "samples": 258,
+    "slip_m": 0.215709778029,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 13,
+    "foot": "R",
+    "n_begin": 1219,
+    "per_point_m": [
+     null,
+     null,
+     0.00845091682498,
+     null,
+     0.0095980092862
+    ],
+    "samples": 2,
+    "slip_m": 0.0095980092862,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 14,
+    "foot": "R",
+    "n_begin": 1387,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 15,
+    "foot": "R",
+    "n_begin": 1397,
+    "per_point_m": [
+     0.171883790604,
+     0.0839588309389,
+     0.0719568051349,
+     0.212753685598,
+     0.155370031436
+    ],
+    "samples": 258,
+    "slip_m": 0.212753685598,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 16,
+    "foot": "L",
+    "n_begin": 1442,
+    "per_point_m": [
+     null,
+     0.00749833734167,
+     null,
+     0.0103375501351,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.0103375501351,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 17,
+    "foot": "L",
+    "n_begin": 1610,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 18,
+    "foot": "L",
+    "n_begin": 1619,
+    "per_point_m": [
+     0.161125784263,
+     0.0818293236005,
+     0.0493813481927,
+     0.224686401215,
+     0.263682388893
+    ],
+    "samples": 259,
+    "slip_m": 0.263682388893,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 19,
+    "foot": "R",
+    "n_begin": 1835,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 20,
+    "foot": "R",
+    "n_begin": 1845,
+    "per_point_m": [
+     0.206991319441,
+     0.0752323476329,
+     0.142141246886,
+     0.171191690609,
+     0.208409164465
+    ],
+    "samples": 260,
+    "slip_m": 0.208409164465,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 21,
+    "foot": "L",
+    "n_begin": 2060,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 22,
+    "foot": "L",
+    "n_begin": 2070,
+    "per_point_m": [
+     0.180663881344,
+     0.157645551266,
+     0.0945571070155,
+     0.230412307749,
+     0.193605303407
+    ],
+    "samples": 259,
+    "slip_m": 0.230412307749,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 23,
+    "foot": "R",
+    "n_begin": 2285,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0186349883189,
+     0.0117825928674
+    ],
+    "samples": 3,
+    "slip_m": 0.0186349883189,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 24,
+    "foot": "R",
+    "n_begin": 2293,
+    "per_point_m": [
+     0.127969259886,
+     0.0683993026802,
+     0.0844265035833,
+     0.17963391658,
+     0.130421527221
+    ],
+    "samples": 262,
+    "slip_m": 0.17963391658,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 25,
+    "foot": "L",
+    "n_begin": 2511,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0182326982834,
+     0.0199872978331
+    ],
+    "samples": 3,
+    "slip_m": 0.0199872978331,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 26,
+    "foot": "L",
+    "n_begin": 2519,
+    "per_point_m": [
+     0.13355684966,
+     0.110455480325,
+     0.0837962248691,
+     0.14545435447,
+     0.178515236098
+    ],
+    "samples": 272,
+    "slip_m": 0.178515236098,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 27,
+    "foot": "R",
+    "n_begin": 2563,
+    "per_point_m": [
+     null,
+     null,
+     0.0,
+     null,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 28,
+    "foot": "R",
+    "n_begin": 2738,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 29,
+    "foot": "R",
+    "n_begin": 2746,
+    "per_point_m": [
+     0.0945480554919,
+     0.0720557285474,
+     0.068524518507,
+     0.139331751945,
+     0.0961162023693
+    ],
+    "samples": 257,
+    "slip_m": 0.139331751945,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 30,
+    "foot": "L",
+    "n_begin": 2963,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 31,
+    "foot": "L",
+    "n_begin": 2972,
+    "per_point_m": [
+     0.161721605664,
+     0.052032216525,
+     0.0767435974182,
+     0.154184658324,
+     0.2083369959
+    ],
+    "samples": 258,
+    "slip_m": 0.2083369959,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 32,
+    "foot": "R",
+    "n_begin": 3015,
+    "per_point_m": [
+     null,
+     null,
+     0.0104421042735,
+     null,
+     0.017235907669
+    ],
+    "samples": 2,
+    "slip_m": 0.017235907669,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 33,
+    "foot": "R",
+    "n_begin": 3187,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 34,
+    "foot": "R",
+    "n_begin": 3196,
+    "per_point_m": [
+     0.168174630077,
+     0.0632415251525,
+     0.0440809288652,
+     0.212092241872,
+     0.149781881196
+    ],
+    "samples": 258,
+    "slip_m": 0.212092241872,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 35,
+    "foot": "L",
+    "n_begin": 3241,
+    "per_point_m": [
+     null,
+     0.0086635061236,
+     null,
+     0.00955304131642,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.00955304131642,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 36,
+    "foot": "L",
+    "n_begin": 3411,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 37,
+    "foot": "L",
+    "n_begin": 3421,
+    "per_point_m": [
+     0.197389543409,
+     0.0559009390734,
+     0.0586648453604,
+     0.191481667636,
+     0.240160874164
+    ],
+    "samples": 258,
+    "slip_m": 0.240160874164,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 38,
+    "foot": "R",
+    "n_begin": 3471,
+    "per_point_m": [
+     null,
+     null,
+     0.0,
+     null,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 39,
+    "foot": "R",
+    "n_begin": 3634,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr010",
+    "contact_id": 40,
+    "foot": "R",
+    "n_begin": 3643,
+    "per_point_m": [
+     0.143017132147,
+     0.0574917944995,
+     0.0385678246786,
+     0.241364663135,
+     0.165750203979
+    ],
+    "samples": 138,
+    "slip_m": 0.241364663135,
+    "tags": [
+     "truncated_end"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 1,
+    "foot": "L",
+    "n_begin": 1,
+    "per_point_m": [
+     0.199702036819,
+     0.282659790982,
+     0.348025294857,
+     0.0747803535988,
+     0.241745673213
+    ],
+    "samples": 537,
+    "slip_m": 0.348025294857,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 2,
+    "foot": "R",
+    "n_begin": 1,
+    "per_point_m": [
+     0.0111397915535,
+     0.0110318005918,
+     0.0112401065166,
+     0.0110417593868,
+     0.0112498808867
+    ],
+    "samples": 330,
+    "slip_m": 0.0112498808867,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 3,
+    "foot": "R",
+    "n_begin": 493,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 4,
+    "foot": "R",
+    "n_begin": 495,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 5,
+    "foot": "R",
+    "n_begin": 501,
+    "per_point_m": [
+     0.289904303605,
+     0.177588843329,
+     0.147660520154,
+     0.559677916802,
+     0.3446812419
+    ],
+    "samples": 265,
+    "slip_m": 0.559677916802,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 6,
+    "foot": "L",
+    "n_begin": 549,
+    "per_point_m": [
+     null,
+     0.00370480068269,
+     null,
+     0.016394039375,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.016394039375,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 7,
+    "foot": "L",
+    "n_begin": 716,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 8,
+    "foot": "L",
+    "n_begin": 727,
+    "per_point_m": [
+     0.12056913379,
+     0.0661469891162,
+     0.0765778388689,
+     0.31922074687,
+     0.507634185425
+    ],
+    "samples": 257,
+    "slip_m": 0.507634185425,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 9,
+    "foot": "R",
+    "n_begin": 939,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 10,
+    "foot": "R",
+    "n_begin": 948,
+    "per_point_m": [
+     0.145402623715,
+     0.045600719412,
+     0.0478371542064,
+     0.265072690131,
+     0.194775252695
+    ],
+    "samples": 257,
+    "slip_m": 0.265072690131,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 11,
+    "foot": "L",
+    "n_begin": 1163,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 12,
+    "foot": "L",
+    "n_begin": 1173,
+    "per_point_m": [
+     0.17535925159,
+     0.0401859040018,
+     0.0630236720679,
+     0.160119370739,
+     0.215709778029
+    ],
+    "samples": 258,
+    "slip_m": 0.215709778029,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 13,
+    "foot": "R",
+    "n_begin": 1219,
+    "per_point_m": [
+     null,
+     null,
+     0.00845091682498,
+     null,
+     0.0095980092862
+    ],
+    "samples": 2,
+    "slip_m": 0.0095980092862,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 14,
+    "foot": "R",
+    "n_begin": 1387,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 15,
+    "foot": "R",
+    "n_begin": 1397,
+    "per_point_m": [
+     0.171883790604,
+     0.0839588309389,
+     0.0719568051349,
+     0.212753685598,
+     0.155370031436
+    ],
+    "samples": 258,
+    "slip_m": 0.212753685598,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 16,
+    "foot": "L",
+    "n_begin": 1442,
+    "per_point_m": [
+     null,
+     0.00749833734167,
+     null,
+     0.0103375501351,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.0103375501351,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 17,
+    "foot": "L",
+    "n_begin": 1610,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 18,
+    "foot": "L",
+    "n_begin": 1619,
+    "per_point_m": [
+     0.161125784263,
+     0.0818293236005,
+     0.0493813481927,
+     0.224686401215,
+     0.263682388893
+    ],
+    "samples": 259,
+    "slip_m": 0.263682388893,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 19,
+    "foot": "R",
+    "n_begin": 1835,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 20,
+    "foot": "R",
+    "n_begin": 1845,
+    "per_point_m": [
+     0.206991319441,
+     0.0752323476329,
+     0.142141246886,
+     0.171191690609,
+     0.208409164465
+    ],
+    "samples": 260,
+    "slip_m": 0.208409164465,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 21,
+    "foot": "L",
+    "n_begin": 2060,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 22,
+    "foot": "L",
+    "n_begin": 2070,
+    "per_point_m": [
+     0.180663881344,
+     0.157645551266,
+     0.0945571070155,
+     0.230412307749,
+     0.193605303407
+    ],
+    "samples": 259,
+    "slip_m": 0.230412307749,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 23,
+    "foot": "R",
+    "n_begin": 2285,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0186349883189,
+     0.0117825928674
+    ],
+    "samples": 3,
+    "slip_m": 0.0186349883189,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 24,
+    "foot": "R",
+    "n_begin": 2293,
+    "per_point_m": [
+     0.127969259886,
+     0.0683993026802,
+     0.0844265035833,
+     0.17963391658,
+     0.130421527221
+    ],
+    "samples": 262,
+    "slip_m": 0.17963391658,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 25,
+    "foot": "L",
+    "n_begin": 2511,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0182326982834,
+     0.0199872978331
+    ],
+    "samples": 3,
+    "slip_m": 0.0199872978331,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 26,
+    "foot": "L",
+    "n_begin": 2519,
+    "per_point_m": [
+     0.13355684966,
+     0.110455480325,
+     0.0837962248691,
+     0.14545435447,
+     0.178515236098
+    ],
+    "samples": 272,
+    "slip_m": 0.178515236098,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 27,
+    "foot": "R",
+    "n_begin": 2563,
+    "per_point_m": [
+     null,
+     null,
+     0.0,
+     null,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 28,
+    "foot": "R",
+    "n_begin": 2738,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 29,
+    "foot": "R",
+    "n_begin": 2746,
+    "per_point_m": [
+     0.0945480554919,
+     0.0720557285474,
+     0.068524518507,
+     0.139331751945,
+     0.0961162023693
+    ],
+    "samples": 257,
+    "slip_m": 0.139331751945,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 30,
+    "foot": "L",
+    "n_begin": 2963,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 31,
+    "foot": "L",
+    "n_begin": 2972,
+    "per_point_m": [
+     0.161721605664,
+     0.052032216525,
+     0.0767435974182,
+     0.154184658324,
+     0.2083369959
+    ],
+    "samples": 258,
+    "slip_m": 0.2083369959,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 32,
+    "foot": "R",
+    "n_begin": 3015,
+    "per_point_m": [
+     null,
+     null,
+     0.0104421042735,
+     null,
+     0.017235907669
+    ],
+    "samples": 2,
+    "slip_m": 0.017235907669,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 33,
+    "foot": "R",
+    "n_begin": 3187,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 34,
+    "foot": "R",
+    "n_begin": 3196,
+    "per_point_m": [
+     0.168174630077,
+     0.0632415251525,
+     0.0440809288652,
+     0.212092241872,
+     0.149781881196
+    ],
+    "samples": 258,
+    "slip_m": 0.212092241872,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 35,
+    "foot": "L",
+    "n_begin": 3241,
+    "per_point_m": [
+     null,
+     0.0086635061236,
+     null,
+     0.00955304131642,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.00955304131642,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 36,
+    "foot": "L",
+    "n_begin": 3411,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 37,
+    "foot": "L",
+    "n_begin": 3421,
+    "per_point_m": [
+     0.197389543409,
+     0.0559009390734,
+     0.0586648453604,
+     0.191481667636,
+     0.240160874164
+    ],
+    "samples": 258,
+    "slip_m": 0.240160874164,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 38,
+    "foot": "R",
+    "n_begin": 3471,
+    "per_point_m": [
+     null,
+     null,
+     0.0,
+     null,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 39,
+    "foot": "R",
+    "n_begin": 3634,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr020",
+    "contact_id": 40,
+    "foot": "R",
+    "n_begin": 3643,
+    "per_point_m": [
+     0.143017132147,
+     0.0574917944995,
+     0.0385678246786,
+     0.241364663135,
+     0.165750203979
+    ],
+    "samples": 138,
+    "slip_m": 0.241364663135,
+    "tags": [
+     "truncated_end"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 1,
+    "foot": "L",
+    "n_begin": 1,
+    "per_point_m": [
+     0.199702036819,
+     0.282659790982,
+     0.348025294857,
+     0.0747803535988,
+     0.241745673213
+    ],
+    "samples": 537,
+    "slip_m": 0.348025294857,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 2,
+    "foot": "R",
+    "n_begin": 1,
+    "per_point_m": [
+     0.0111397915535,
+     0.0110318005918,
+     0.0112401065166,
+     0.0110417593868,
+     0.0112498808867
+    ],
+    "samples": 330,
+    "slip_m": 0.0112498808867,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 3,
+    "foot": "R",
+    "n_begin": 493,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 4,
+    "foot": "R",
+    "n_begin": 495,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 5,
+    "foot": "R",
+    "n_begin": 501,
+    "per_point_m": [
+     0.289904303605,
+     0.177588843329,
+     0.147660520154,
+     0.559677916802,
+     0.3446812419
+    ],
+    "samples": 265,
+    "slip_m": 0.559677916802,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 6,
+    "foot": "L",
+    "n_begin": 549,
+    "per_point_m": [
+     null,
+     0.00370480068269,
+     null,
+     0.016394039375,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.016394039375,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 7,
+    "foot": "L",
+    "n_begin": 716,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 8,
+    "foot": "L",
+    "n_begin": 727,
+    "per_point_m": [
+     0.12056913379,
+     0.0661469891162,
+     0.0765778388689,
+     0.31922074687,
+     0.507634185425
+    ],
+    "samples": 257,
+    "slip_m": 0.507634185425,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 9,
+    "foot": "R",
+    "n_begin": 939,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 10,
+    "foot": "R",
+    "n_begin": 948,
+    "per_point_m": [
+     0.145402623715,
+     0.045600719412,
+     0.0478371542064,
+     0.265072690131,
+     0.194775252695
+    ],
+    "samples": 257,
+    "slip_m": 0.265072690131,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 11,
+    "foot": "L",
+    "n_begin": 1163,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 12,
+    "foot": "L",
+    "n_begin": 1173,
+    "per_point_m": [
+     0.17535925159,
+     0.0401859040018,
+     0.0630236720679,
+     0.160119370739,
+     0.215709778029
+    ],
+    "samples": 258,
+    "slip_m": 0.215709778029,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 13,
+    "foot": "R",
+    "n_begin": 1219,
+    "per_point_m": [
+     null,
+     null,
+     0.00845091682498,
+     null,
+     0.0095980092862
+    ],
+    "samples": 2,
+    "slip_m": 0.0095980092862,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 14,
+    "foot": "R",
+    "n_begin": 1387,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 15,
+    "foot": "R",
+    "n_begin": 1397,
+    "per_point_m": [
+     0.171883790604,
+     0.0839588309389,
+     0.0719568051349,
+     0.212753685598,
+     0.155370031436
+    ],
+    "samples": 258,
+    "slip_m": 0.212753685598,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 16,
+    "foot": "L",
+    "n_begin": 1442,
+    "per_point_m": [
+     null,
+     0.00749833734167,
+     null,
+     0.0103375501351,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.0103375501351,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 17,
+    "foot": "L",
+    "n_begin": 1610,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 18,
+    "foot": "L",
+    "n_begin": 1619,
+    "per_point_m": [
+     0.161125784263,
+     0.0818293236005,
+     0.0493813481927,
+     0.224686401215,
+     0.263682388893
+    ],
+    "samples": 259,
+    "slip_m": 0.263682388893,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 19,
+    "foot": "R",
+    "n_begin": 1835,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 20,
+    "foot": "R",
+    "n_begin": 1845,
+    "per_point_m": [
+     0.206991319441,
+     0.0752323476329,
+     0.142141246886,
+     0.171191690609,
+     0.208409164465
+    ],
+    "samples": 260,
+    "slip_m": 0.208409164465,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 21,
+    "foot": "L",
+    "n_begin": 2060,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 22,
+    "foot": "L",
+    "n_begin": 2070,
+    "per_point_m": [
+     0.180663881344,
+     0.157645551266,
+     0.0945571070155,
+     0.230412307749,
+     0.193605303407
+    ],
+    "samples": 259,
+    "slip_m": 0.230412307749,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 23,
+    "foot": "R",
+    "n_begin": 2285,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0186349883189,
+     0.0117825928674
+    ],
+    "samples": 3,
+    "slip_m": 0.0186349883189,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 24,
+    "foot": "R",
+    "n_begin": 2293,
+    "per_point_m": [
+     0.127969259886,
+     0.0683993026802,
+     0.0844265035833,
+     0.17963391658,
+     0.130421527221
+    ],
+    "samples": 262,
+    "slip_m": 0.17963391658,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 25,
+    "foot": "L",
+    "n_begin": 2511,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0182326982834,
+     0.0199872978331
+    ],
+    "samples": 3,
+    "slip_m": 0.0199872978331,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 26,
+    "foot": "L",
+    "n_begin": 2519,
+    "per_point_m": [
+     0.13355684966,
+     0.110455480325,
+     0.0837962248691,
+     0.14545435447,
+     0.178515236098
+    ],
+    "samples": 272,
+    "slip_m": 0.178515236098,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 27,
+    "foot": "R",
+    "n_begin": 2563,
+    "per_point_m": [
+     null,
+     null,
+     0.0,
+     null,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 28,
+    "foot": "R",
+    "n_begin": 2738,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 29,
+    "foot": "R",
+    "n_begin": 2746,
+    "per_point_m": [
+     0.0945480554919,
+     0.0720557285474,
+     0.068524518507,
+     0.139331751945,
+     0.0961162023693
+    ],
+    "samples": 257,
+    "slip_m": 0.139331751945,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 30,
+    "foot": "L",
+    "n_begin": 2963,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 31,
+    "foot": "L",
+    "n_begin": 2972,
+    "per_point_m": [
+     0.161721605664,
+     0.052032216525,
+     0.0767435974182,
+     0.154184658324,
+     0.2083369959
+    ],
+    "samples": 258,
+    "slip_m": 0.2083369959,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 32,
+    "foot": "R",
+    "n_begin": 3015,
+    "per_point_m": [
+     null,
+     null,
+     0.0104421042735,
+     null,
+     0.017235907669
+    ],
+    "samples": 2,
+    "slip_m": 0.017235907669,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 33,
+    "foot": "R",
+    "n_begin": 3187,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 34,
+    "foot": "R",
+    "n_begin": 3196,
+    "per_point_m": [
+     0.168174630077,
+     0.0632415251525,
+     0.0440809288652,
+     0.212092241872,
+     0.149781881196
+    ],
+    "samples": 258,
+    "slip_m": 0.212092241872,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 35,
+    "foot": "L",
+    "n_begin": 3241,
+    "per_point_m": [
+     null,
+     0.0086635061236,
+     null,
+     0.00955304131642,
+     null
+    ],
+    "samples": 2,
+    "slip_m": 0.00955304131642,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 36,
+    "foot": "L",
+    "n_begin": 3411,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 37,
+    "foot": "L",
+    "n_begin": 3421,
+    "per_point_m": [
+     0.197389543409,
+     0.0559009390734,
+     0.0586648453604,
+     0.191481667636,
+     0.240160874164
+    ],
+    "samples": 258,
+    "slip_m": 0.240160874164,
+    "tags": []
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 38,
+    "foot": "R",
+    "n_begin": 3471,
+    "per_point_m": [
+     null,
+     null,
+     0.0,
+     null,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 39,
+    "foot": "R",
+    "n_begin": 3634,
+    "per_point_m": [
+     null,
+     null,
+     null,
+     0.0,
+     0.0
+    ],
+    "samples": 1,
+    "slip_m": 0.0,
+    "tags": [
+     "scuff"
+    ]
+   },
+   {
+    "capture": "walk_fr030",
+    "contact_id": 40,
+    "foot": "R",
+    "n_begin": 3643,
+    "per_point_m": [
+     0.143017132147,
+     0.0574917944995,
+     0.0385678246786,
+     0.241364663135,
+     0.165750203979
+    ],
+    "samples": 138,
+    "slip_m": 0.241364663135,
+    "tags": [
+     "truncated_end"
+    ]
+   }
+  ]
+ },
+ "failing_gating": [
+  "M-002.1"
+ ],
+ "failures_suppressed": false,
+ "flags": [
+  {
+   "code": "NON_REFERENCE_NORMALISERS",
+   "detail": {
+    "differs": {
+     "I_yaw_kgm2": {
+      "header": 619689864,
+      "reference": 475000000.0
+     },
+     "com_height_stand_m": {
+      "header": 42.5405,
+      "reference": 44.8
+     },
+     "foot_length_m": {
+      "header": 15,
+      "reference": 19.6
+     },
+     "foot_width_m": {
+      "header": 10,
+      "reference": 7.65
+     },
+     "mu_assumed": {
+      "header": 0.6,
+      "reference": 0.4
+     },
+     "reactor_power_W": {
+      "header": 300000000.0,
+      "reference": 200000000.0
+     }
+    },
+    "file": "curve.gait.jsonl"
+   }
+  },
+  {
+   "code": "NON_REFERENCE_NORMALISERS",
+   "detail": {
+    "differs": {
+     "I_yaw_kgm2": {
+      "header": 619689864,
+      "reference": 475000000.0
+     },
+     "com_height_stand_m": {
+      "header": 42.5405,
+      "reference": 44.8
+     },
+     "foot_length_m": {
+      "header": 15,
+      "reference": 19.6
+     },
+     "foot_width_m": {
+      "header": 10,
+      "reference": 7.65
+     },
+     "mu_assumed": {
+      "header": 0.6,
+      "reference": 0.4
+     },
+     "reactor_power_W": {
+      "header": 300000000.0,
+      "reference": 200000000.0
+     }
+    },
+    "file": "estop.gait.jsonl"
+   }
+  },
+  {
+   "code": "NON_REFERENCE_NORMALISERS",
+   "detail": {
+    "differs": {
+     "I_yaw_kgm2": {
+      "header": 619689864,
+      "reference": 475000000.0
+     },
+     "com_height_stand_m": {
+      "header": 42.5405,
+      "reference": 44.8
+     },
+     "foot_length_m": {
+      "header": 15,
+      "reference": 19.6
+     },
+     "foot_width_m": {
+      "header": 10,
+      "reference": 7.65
+     },
+     "mu_assumed": {
+      "header": 0.6,
+      "reference": 0.4
+     },
+     "reactor_power_W": {
+      "header": 300000000.0,
+      "reference": 200000000.0
+     }
+    },
+    "file": "start.gait.jsonl"
+   }
+  },
+  {
+   "code": "NON_REFERENCE_NORMALISERS",
+   "detail": {
+    "differs": {
+     "I_yaw_kgm2": {
+      "header": 619689864,
+      "reference": 475000000.0
+     },
+     "com_height_stand_m": {
+      "header": 42.5405,
+      "reference": 44.8
+     },
+     "foot_length_m": {
+      "header": 15,
+      "reference": 19.6
+     },
+     "foot_width_m": {
+      "header": 10,
+      "reference": 7.65
+     },
+     "mu_assumed": {
+      "header": 0.6,
+      "reference": 0.4
+     },
+     "reactor_power_W": {
+      "header": 300000000.0,
+      "reference": 200000000.0
+     }
+    },
+    "file": "stomp.gait.jsonl"
+   }
+  },
+  {
+   "code": "NON_REFERENCE_NORMALISERS",
+   "detail": {
+    "differs": {
+     "I_yaw_kgm2": {
+      "header": 619689864,
+      "reference": 475000000.0
+     },
+     "com_height_stand_m": {
+      "header": 42.5405,
+      "reference": 44.8
+     },
+     "foot_length_m": {
+      "header": 15,
+      "reference": 19.6
+     },
+     "foot_width_m": {
+      "header": 10,
+      "reference": 7.65
+     },
+     "mu_assumed": {
+      "header": 0.6,
+      "reference": 0.4
+     },
+     "reactor_power_W": {
+      "header": 300000000.0,
+      "reference": 200000000.0
+     }
+    },
+    "file": "stop.gait.jsonl"
+   }
+  },
+  {
+   "code": "NON_REFERENCE_NORMALISERS",
+   "detail": {
+    "differs": {
+     "I_yaw_kgm2": {
+      "header": 619689864,
+      "reference": 475000000.0
+     },
+     "com_height_stand_m": {
+      "header": 42.5405,
+      "reference": 44.8
+     },
+     "foot_length_m": {
+      "header": 15,
+      "reference": 19.6
+     },
+     "foot_width_m": {
+      "header": 10,
+      "reference": 7.65
+     },
+     "mu_assumed": {
+      "header": 0.6,
+      "reference": 0.4
+     },
+     "reactor_power_W": {
+      "header": 300000000.0,
+      "reference": 200000000.0
+     }
+    },
+    "file": "turn90_inplace.gait.jsonl"
+   }
+  },
+  {
+   "code": "NON_REFERENCE_NORMALISERS",
+   "detail": {
+    "differs": {
+     "I_yaw_kgm2": {
+      "header": 619689864,
+      "reference": 475000000.0
+     },
+     "T_stride_nom_s": {
+      "header": 7.54254617409,
+      "reference": 6.6
+     },
+     "com_height_stand_m": {
+      "header": 42.5405,
+      "reference": 44.8
+     },
+     "foot_length_m": {
+      "header": 15,
+      "reference": 19.6
+     },
+     "foot_width_m": {
+      "header": 10,
+      "reference": 7.65
+     },
+     "fr_cruise_nom": {
+      "header": 0.1,
+      "reference": 0.2
+     },
+     "mu_assumed": {
+      "header": 0.6,
+      "reference": 0.4
+     },
+     "reactor_power_W": {
+      "header": 300000000.0,
+      "reference": 200000000.0
+     }
+    },
+    "file": "walk_fr010.gait.jsonl"
+   }
+  },
+  {
+   "code": "NON_REFERENCE_NORMALISERS",
+   "detail": {
+    "differs": {
+     "I_yaw_kgm2": {
+      "header": 619689864,
+      "reference": 475000000.0
+     },
+     "com_height_stand_m": {
+      "header": 42.5405,
+      "reference": 44.8
+     },
+     "foot_length_m": {
+      "header": 15,
+      "reference": 19.6
+     },
+     "foot_width_m": {
+      "header": 10,
+      "reference": 7.65
+     },
+     "mu_assumed": {
+      "header": 0.6,
+      "reference": 0.4
+     },
+     "reactor_power_W": {
+      "header": 300000000.0,
+      "reference": 200000000.0
+     }
+    },
+    "file": "walk_fr020.gait.jsonl"
+   }
+  },
+  {
+   "code": "NON_REFERENCE_NORMALISERS",
+   "detail": {
+    "differs": {
+     "I_yaw_kgm2": {
+      "header": 619689864,
+      "reference": 475000000.0
+     },
+     "T_stride_nom_s": {
+      "header": 6.05471529544,
+      "reference": 6.6
+     },
+     "com_height_stand_m": {
+      "header": 42.5405,
+      "reference": 44.8
+     },
+     "foot_length_m": {
+      "header": 15,
+      "reference": 19.6
+     },
+     "foot_width_m": {
+      "header": 10,
+      "reference": 7.65
+     },
+     "fr_cruise_nom": {
+      "header": 0.3,
+      "reference": 0.2
+     },
+     "mu_assumed": {
+      "header": 0.6,
+      "reference": 0.4
+     },
+     "reactor_power_W": {
+      "header": 300000000.0,
+      "reference": 200000000.0
+     }
+    },
+    "file": "walk_fr030.gait.jsonl"
+   }
+  }
+ ],
+ "headless_verdict": "FAIL",
+ "headless_verdict_label": "FAIL",
+ "images": [
+  "diag_slip.png"
+ ],
+ "inputs": [
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g0/curve.gait.jsonl",
+   "role": "gait_log@v1 curve",
+   "sha256": "26b5181ee3980dd32f37433fddd3df797d7a81a94384f41a56952fa1166ad2b8"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g0/estop.gait.jsonl",
+   "role": "gait_log@v1 estop",
+   "sha256": "0bffbb6fe9fccc982d8d8b279d5bc34838085f73a2ccaaf20d860e2589c76656"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g0/start.gait.jsonl",
+   "role": "gait_log@v1 start",
+   "sha256": "58bffb3b8581bd52f972136c9203200cbb338f5a719bec7cff457e18053e1376"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g0/stomp.gait.jsonl",
+   "role": "gait_log@v1 stomp",
+   "sha256": "d628d186030b474d15863fc512341f8d47aef08157170b337dbe44e3d5aa0f7b"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g0/stop.gait.jsonl",
+   "role": "gait_log@v1 stop",
+   "sha256": "e1c9e1d85b66e8d4818f74d2484de7cbd5ecc42f5ee2998e71ed41e8c76148c7"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g0/turn90_inplace.gait.jsonl",
+   "role": "gait_log@v1 turn90_inplace",
+   "sha256": "338cf4e49ce2df2706f01dbdd385674e91ba10254de56dc64a904dda65899d6e"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g0/walk_fr010.gait.jsonl",
+   "role": "gait_log@v1 walk_fr010",
+   "sha256": "18e619dbc2791fe1da6454e4a632e9a03717b8d8720af1c407865fc1b956324f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g0/walk_fr020.gait.jsonl",
+   "role": "gait_log@v1 walk_fr020",
+   "sha256": "1ad6321f54ab109b5388c714779db830d7637caf0a9e08e61a93dbac3df27e80"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g0/walk_fr030.gait.jsonl",
+   "role": "gait_log@v1 walk_fr030",
+   "sha256": "81dc4fef85509d2d6b6993b9d8f6f2674ababe49af0a4d0d4d24509b13922c72"
+  }
+ ],
+ "invocation": {
+  "command": "m002",
+  "inputs": [
+   "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/a18f024f-cbec-45ed-bd2b-dcf1c7bf677a/scratchpad/g0"
+  ],
+  "label": "T-005",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "T-005",
+ "metric": "M-002",
+ "metric_version": "M-002@v1",
+ "normalisers": {
+  "curve.gait.jsonl": {
+   "F_off_N_header": 981000,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 15,
+   "P_W": 300000000.0,
+   "T_nom_s": 6.56616782054,
+   "W_f_m": 10,
+   "capture": "curve",
+   "fr_cruise_nom": 0.2,
+   "g": 9.81,
+   "h_m": 42.5405,
+   "l_m": 42,
+   "m_kg": 10000000.0,
+   "unit_id": "ent:1"
+  },
+  "estop.gait.jsonl": {
+   "F_off_N_header": 981000,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 15,
+   "P_W": 300000000.0,
+   "T_nom_s": 6.56616782054,
+   "W_f_m": 10,
+   "capture": "estop",
+   "fr_cruise_nom": 0.2,
+   "g": 9.81,
+   "h_m": 42.5405,
+   "l_m": 42,
+   "m_kg": 10000000.0,
+   "unit_id": "ent:1"
+  },
+  "start.gait.jsonl": {
+   "F_off_N_header": 981000,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 15,
+   "P_W": 300000000.0,
+   "T_nom_s": 6.56616782054,
+   "W_f_m": 10,
+   "capture": "start",
+   "fr_cruise_nom": 0.2,
+   "g": 9.81,
+   "h_m": 42.5405,
+   "l_m": 42,
+   "m_kg": 10000000.0,
+   "unit_id": "ent:1"
+  },
+  "stomp.gait.jsonl": {
+   "F_off_N_header": 981000,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 15,
+   "P_W": 300000000.0,
+   "T_nom_s": 6.56616782054,
+   "W_f_m": 10,
+   "capture": "stomp",
+   "fr_cruise_nom": 0.2,
+   "g": 9.81,
+   "h_m": 42.5405,
+   "l_m": 42,
+   "m_kg": 10000000.0,
+   "unit_id": "ent:1"
+  },
+  "stop.gait.jsonl": {
+   "F_off_N_header": 981000,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 15,
+   "P_W": 300000000.0,
+   "T_nom_s": 6.56616782054,
+   "W_f_m": 10,
+   "capture": "stop",
+   "fr_cruise_nom": 0.2,
+   "g": 9.81,
+   "h_m": 42.5405,
+   "l_m": 42,
+   "m_kg": 10000000.0,
+   "unit_id": "ent:1"
+  },
+  "turn90_inplace.gait.jsonl": {
+   "F_off_N_header": 981000,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 15,
+   "P_W": 300000000.0,
+   "T_nom_s": 6.56616782054,
+   "W_f_m": 10,
+   "capture": "turn90_inplace",
+   "fr_cruise_nom": 0.2,
+   "g": 9.81,
+   "h_m": 42.5405,
+   "l_m": 42,
+   "m_kg": 10000000.0,
+   "unit_id": "ent:1"
+  },
+  "walk_fr010.gait.jsonl": {
+   "F_off_N_header": 981000,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 15,
+   "P_W": 300000000.0,
+   "T_nom_s": 7.54254617409,
+   "W_f_m": 10,
+   "capture": "walk_fr010",
+   "fr_cruise_nom": 0.1,
+   "g": 9.81,
+   "h_m": 42.5405,
+   "l_m": 42,
+   "m_kg": 10000000.0,
+   "unit_id": "ent:1"
+  },
+  "walk_fr020.gait.jsonl": {
+   "F_off_N_header": 981000,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 15,
+   "P_W": 300000000.0,
+   "T_nom_s": 6.56616782054,
+   "W_f_m": 10,
+   "capture": "walk_fr020",
+   "fr_cruise_nom": 0.2,
+   "g": 9.81,
+   "h_m": 42.5405,
+   "l_m": 42,
+   "m_kg": 10000000.0,
+   "unit_id": "ent:1"
+  },
+  "walk_fr030.gait.jsonl": {
+   "F_off_N_header": 981000,
+   "F_off_N_spec": 981000.0,
+   "F_on_N_header": 2943000,
+   "F_on_N_spec": 2943000.0,
+   "L_f_m": 15,
+   "P_W": 300000000.0,
+   "T_nom_s": 6.05471529544,
+   "W_f_m": 10,
+   "capture": "walk_fr030",
+   "fr_cruise_nom": 0.3,
+   "g": 9.81,
+   "h_m": 42.5405,
+   "l_m": 42,
+   "m_kg": 10000000.0,
+   "unit_id": "ent:1"
+  }
+ },
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-002@v1.1.yaml",
+  "revision": "v1.1",
+  "sha256": "dd104137882d9d95ebfcdeaedc03f076cd546ae278068fa276db55db880b5745",
+  "spec": "M-002@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "revw-172-31-218-200.rn.uwaterloo.ca",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-15T00:10:31Z",
+  "wall_time_s": 1.632
+ },
+ "submeasures": [
+  {
+   "decisive_part": "stomp:stomp.gait.jsonl max s_c/L_f",
+   "diagnostics": {
+    "contacts_total": 262,
+    "contacts_used": 262,
+    "scuffs": 142,
+    "truncated": 13,
+    "where": "stomp foot R contact 3 n=541 t=9.0167s slip 3.6919 m (24.613 % L_f); start foot L contact 6 n=853 t=14.2167s slip 2.0477 m (13.651 % L_f); turn90_inplace foot L contact 6 n=874 t=14.5667s slip 1.7397 m (11.598 % L_f)",
+    "worst_contacts": [
+     {
+      "capture": "stomp",
+      "contact_id": 3,
+      "file": "stomp.gait.jsonl",
+      "foot": "R",
+      "n_begin": 541,
+      "slip_m": 3.69189987669,
+      "slip_pct_Lf": 24.6126658446,
+      "sole_point": 2,
+      "t_begin_s": 9.0167,
+      "t_worst_s": 10.5,
+      "tags": []
+     },
+     {
+      "capture": "start",
+      "contact_id": 6,
+      "file": "start.gait.jsonl",
+      "foot": "L",
+      "n_begin": 853,
+      "slip_m": 2.04771673694,
+      "slip_pct_Lf": 13.651444913,
+      "sole_point": 3,
+      "t_begin_s": 14.2167,
+      "t_worst_s": 15.8333,
+      "tags": []
+     },
+     {
+      "capture": "turn90_inplace",
+      "contact_id": 6,
+      "file": "turn90_inplace.gait.jsonl",
+      "foot": "L",
+      "n_begin": 874,
+      "slip_m": 1.73971683086,
+      "slip_pct_Lf": 11.5981122057,
+      "sole_point": 3,
+      "t_begin_s": 14.5667,
+      "t_worst_s": 18.1833,
+      "tags": []
+     },
+     {
+      "capture": "start",
+      "contact_id": 4,
+      "file": "start.gait.jsonl",
+      "foot": "R",
+      "n_begin": 631,
+      "slip_m": 1.53155876632,
+      "slip_pct_Lf": 10.2103917755,
+      "sole_point": 2,
+      "t_begin_s": 10.5167,
+      "t_worst_s": 14.9167,
+      "tags": []
+     },
+     {
+      "capture": "curve",
+      "contact_id": 26,
+      "file": "curve.gait.jsonl",
+      "foot": "R",
+      "n_begin": 2294,
+      "slip_m": 1.2713676332,
+      "slip_pct_Lf": 8.47578422132,
+      "sole_point": 4,
+      "t_begin_s": 38.2333,
+      "t_worst_s": 39.5833,
+      "tags": []
+     }
+    ]
+   },
+   "id": "M-002.1",
+   "kind": "gating",
+   "margin": -0.241126658446,
+   "margin_rel": -48.2253316892,
+   "note": null,
+   "op": "<",
+   "parts": [
+    {
+     "contact_id": 26,
+     "foot": "R",
+     "margin": -0.0797578422132,
+     "margin_rel": -15.9515684426,
+     "n_begin": 2294,
+     "name": "curve:curve.gait.jsonl max s_c/L_f",
+     "op": "<",
+     "slip_m": 1.2713676332,
+     "status": "FAIL",
+     "threshold": 0.005,
+     "unit": "L_f",
+     "value": 0.0847578422132
+    },
+    {
+     "contact_id": 5,
+     "foot": "R",
+     "margin": -0.0323118611201,
+     "margin_rel": -6.46237222403,
+     "n_begin": 501,
+     "name": "estop:estop.gait.jsonl max s_c/L_f",
+     "op": "<",
+     "slip_m": 0.559677916802,
+     "status": "FAIL",
+     "threshold": 0.005,
+     "unit": "L_f",
+     "value": 0.0373118611201
+    },
+    {
+     "contact_id": 6,
+     "foot": "L",
+     "margin": -0.13151444913,
+     "margin_rel": -26.3028898259,
+     "n_begin": 853,
+     "name": "start:start.gait.jsonl max s_c/L_f",
+     "op": "<",
+     "slip_m": 2.04771673694,
+     "status": "FAIL",
+     "threshold": 0.005,
+     "unit": "L_f",
+     "value": 0.13651444913
+    },
+    {
+     "contact_id": 3,
+     "foot": "R",
+     "margin": -0.241126658446,
+     "margin_rel": -48.2253316892,
+     "n_begin": 541,
+     "name": "stomp:stomp.gait.jsonl max s_c/L_f",
+     "op": "<",
+     "slip_m": 3.69189987669,
+     "status": "FAIL",
+     "threshold": 0.005,
+     "unit": "L_f",
+     "value": 0.246126658446
+    },
+    {
+     "contact_id": 5,
+     "foot": "R",
+     "margin": -0.0323118611201,
+     "margin_rel": -6.46237222403,
+     "n_begin": 501,
+     "name": "stop:stop.gait.jsonl max s_c/L_f",
+     "op": "<",
+     "slip_m": 0.559677916802,
+     "status": "FAIL",
+     "threshold": 0.005,
+     "unit": "L_f",
+     "value": 0.0373118611201
+    },
+    {
+     "contact_id": 6,
+     "foot": "L",
+     "margin": -0.110981122057,
+     "margin_rel": -22.1962244114,
+     "n_begin": 874,
+     "name": "turn90_inplace:turn90_inplace.gait.jsonl max s_c/L_f",
+     "op": "<",
+     "slip_m": 1.73971683086,
+     "status": "FAIL",
+     "threshold": 0.005,
+     "unit": "L_f",
+     "value": 0.115981122057
+    },
+    {
+     "contact_id": 5,
+     "foot": "R",
+     "margin": -0.0323118611201,
+     "margin_rel": -6.46237222403,
+     "n_begin": 501,
+     "name": "walk_fr010:walk_fr010.gait.jsonl max s_c/L_f",
+     "op": "<",
+     "slip_m": 0.559677916802,
+     "status": "FAIL",
+     "threshold": 0.005,
+     "unit": "L_f",
+     "value": 0.0373118611201
+    },
+    {
+     "contact_id": 5,
+     "foot": "R",
+     "margin": -0.0323118611201,
+     "margin_rel": -6.46237222403,
+     "n_begin": 501,
+     "name": "walk_fr020:walk_fr020.gait.jsonl max s_c/L_f",
+     "op": "<",
+     "slip_m": 0.559677916802,
+     "status": "FAIL",
+     "threshold": 0.005,
+     "unit": "L_f",
+     "value": 0.0373118611201
+    },
+    {
+     "contact_id": 5,
+     "foot": "R",
+     "margin": -0.0323118611201,
+     "margin_rel": -6.46237222403,
+     "n_begin": 501,
+     "name": "walk_fr030:walk_fr030.gait.jsonl max s_c/L_f",
+     "op": "<",
+     "slip_m": 0.559677916802,
+     "status": "FAIL",
+     "threshold": 0.005,
+     "unit": "L_f",
+     "value": 0.0373118611201
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 0.005,
+   "threshold_status": "derived",
+   "title": "Worst planted-foot slip, max over all contacts of all captures, s_c / L_f",
+   "unit": "L_f",
+   "value": 0.246126658446
+  },
+  {
+   "decisive_part": "p95 s_c/L_f",
+   "diagnostics": {},
+   "id": "M-002.2",
+   "kind": "advisory",
+   "margin": -0.0348118611201,
+   "margin_rel": -13.9247444481,
+   "note": null,
+   "op": "<",
+   "parts": [
+    {
+     "margin": -0.0348118611201,
+     "margin_rel": -13.9247444481,
+     "name": "p95 s_c/L_f",
+     "op": "<",
+     "status": "FAIL",
+     "threshold": 0.0025,
+     "unit": "L_f",
+     "value": 0.0373118611201
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 0.0025,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "p95 slip s_c / L_f (regression guard; reported)",
+   "unit": "L_f",
+   "value": 0.0373118611201
+  },
+  {
+   "decisive_part": "curve:fixed_dt_s",
+   "diagnostics": {},
+   "id": "M-002.3",
+   "kind": "gating",
+   "margin": 0.00333333333333,
+   "margin_rel": 0.166666666667,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.00333333333333,
+     "margin_rel": 0.166666666667,
+     "name": "curve:fixed_dt_s",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.02,
+     "unit": "s",
+     "value": 0.0166666666667
+    },
+    {
+     "margin": 0.00333333333333,
+     "margin_rel": 0.166666666667,
+     "name": "estop:fixed_dt_s",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.02,
+     "unit": "s",
+     "value": 0.0166666666667
+    },
+    {
+     "margin": 0.00333333333333,
+     "margin_rel": 0.166666666667,
+     "name": "start:fixed_dt_s",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.02,
+     "unit": "s",
+     "value": 0.0166666666667
+    },
+    {
+     "margin": 0.00333333333333,
+     "margin_rel": 0.166666666667,
+     "name": "stomp:fixed_dt_s",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.02,
+     "unit": "s",
+     "value": 0.0166666666667
+    },
+    {
+     "margin": 0.00333333333333,
+     "margin_rel": 0.166666666667,
+     "name": "stop:fixed_dt_s",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.02,
+     "unit": "s",
+     "value": 0.0166666666667
+    },
+    {
+     "margin": 0.00333333333333,
+     "margin_rel": 0.166666666667,
+     "name": "turn90_inplace:fixed_dt_s",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.02,
+     "unit": "s",
+     "value": 0.0166666666667
+    },
+    {
+     "margin": 0.00333333333333,
+     "margin_rel": 0.166666666667,
+     "name": "walk_fr010:fixed_dt_s",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.02,
+     "unit": "s",
+     "value": 0.0166666666667
+    },
+    {
+     "margin": 0.00333333333333,
+     "margin_rel": 0.166666666667,
+     "name": "walk_fr020:fixed_dt_s",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.02,
+     "unit": "s",
+     "value": 0.0166666666667
+    },
+    {
+     "margin": 0.00333333333333,
+     "margin_rel": 0.166666666667,
+     "name": "walk_fr030:fixed_dt_s",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.02,
+     "unit": "s",
+     "value": 0.0166666666667
+    },
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "every_step_logged",
+     "note": "n contiguous (validated: a gap is INVALID_INPUT)",
+     "op": null,
+     "status": "PASS",
+     "threshold": null,
+     "unit": "",
+     "value": true
+    },
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "float64_positions",
+     "note": "float32-quantised positions are INVALID_INPUT",
+     "op": null,
+     "status": "PASS",
+     "threshold": null,
+     "unit": "",
+     "value": true
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.02,
+   "threshold_status": "derived",
+   "title": "Sampling validity (fixed_dt <= 0.02 s, every step logged, float64 positions)",
+   "unit": "s",
+   "value": 0.0166666666667
+  },
+  {
+   "decisive_part": "curve:curve.gait.jsonl",
+   "diagnostics": {
+    "disagreeing_steps_n": {
+     "curve": [],
+     "estop": [],
+     "start": [],
+     "stomp": [],
+     "stop": [],
+     "turn90_inplace": [],
+     "walk_fr010": [],
+     "walk_fr020": [],
+     "walk_fr030": []
+    },
+    "where": ""
+   },
+   "id": "M-002.4",
+   "kind": "gating",
+   "margin": 0.01,
+   "margin_rel": 0.010101010101,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.01,
+     "margin_rel": 0.010101010101,
+     "name": "curve:curve.gait.jsonl",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.99,
+     "unit": "share of foot-steps",
+     "value": 1.0
+    },
+    {
+     "margin": 0.01,
+     "margin_rel": 0.010101010101,
+     "name": "estop:estop.gait.jsonl",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.99,
+     "unit": "share of foot-steps",
+     "value": 1.0
+    },
+    {
+     "margin": 0.01,
+     "margin_rel": 0.010101010101,
+     "name": "start:start.gait.jsonl",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.99,
+     "unit": "share of foot-steps",
+     "value": 1.0
+    },
+    {
+     "margin": 0.01,
+     "margin_rel": 0.010101010101,
+     "name": "stomp:stomp.gait.jsonl",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.99,
+     "unit": "share of foot-steps",
+     "value": 1.0
+    },
+    {
+     "margin": 0.01,
+     "margin_rel": 0.010101010101,
+     "name": "stop:stop.gait.jsonl",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.99,
+     "unit": "share of foot-steps",
+     "value": 1.0
+    },
+    {
+     "margin": 0.01,
+     "margin_rel": 0.010101010101,
+     "name": "turn90_inplace:turn90_inplace.gait.jsonl",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.99,
+     "unit": "share of foot-steps",
+     "value": 1.0
+    },
+    {
+     "margin": 0.01,
+     "margin_rel": 0.010101010101,
+     "name": "walk_fr010:walk_fr010.gait.jsonl",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.99,
+     "unit": "share of foot-steps",
+     "value": 1.0
+    },
+    {
+     "margin": 0.01,
+     "margin_rel": 0.010101010101,
+     "name": "walk_fr020:walk_fr020.gait.jsonl",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.99,
+     "unit": "share of foot-steps",
+     "value": 1.0
+    },
+    {
+     "margin": 0.01,
+     "margin_rel": 0.010101010101,
+     "name": "walk_fr030:walk_fr030.gait.jsonl",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.99,
+     "unit": "share of foot-steps",
+     "value": 1.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.99,
+   "threshold_status": "derived",
+   "title": "Contact detection consistency (emitter flag versus F_on / F_off hysteresis on fn)",
+   "unit": "share of foot-steps",
+   "value": 1.0
+  },
+  {
+   "decisive_part": "excluded contacts",
+   "diagnostics": {
+    "excluded": [],
+    "where": ""
+   },
+   "id": "M-002.5",
+   "kind": "gating",
+   "margin": 0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "excluded contacts",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "contacts",
+     "value": 0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "Excluded contacts in locomotion captures (external force > 0.05 m g)",
+   "unit": "contacts",
+   "value": 0
+  }
+ ],
+ "tool": {
+  "git_commit": "c6819fc58b850eafa3b8d2b5ae792b2b9963a1d1",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "FAIL",
+ "verdict_label": "FAIL",
+ "warnings": [
+  "ADVISORY M-002.2 failed: value 0.03731 vs < 0.0025"
+ ]
+}

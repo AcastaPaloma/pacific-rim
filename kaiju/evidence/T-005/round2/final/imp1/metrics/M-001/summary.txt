@@ -1,0 +1,23 @@
+M-001@v1  [T-005]  registry v1.1 sha256:e18bdef7a8b5  tool 1.0.0
+VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 6
+  FAIL           [G] M-001.1          0.01026 Fr  in [0.1, 0.3]  margin -0.08974 seed-threshold
+  FAIL           [G] M-001.2          0.05225 -  in [0.85, 1.15]  margin -0.7977
+  FAIL           [G] M-001.3          0.4042 -  in [0.6, 0.72]  margin -0.1958 seed-threshold
+  FAIL           [G] M-001.4          3.274 m/s^2  <= 2.943  margin -0.3307
+      where: start@imp1cap025:peak |a_fore| at {'capture': 'start@imp1cap025', 'file': 'start.gait.jsonl', 'n': 757, 't_s': 12.6167, 'stride_samples': [451, 895]}
+  FAIL           [G] M-001.5          3.037 m/s^2  <= 1.148  margin -1.889
+      where: start@imp1cap025:peak |a_lat| at {'capture': 'start@imp1cap025', 'file': 'start.gait.jsonl', 'n': 2497, 't_s': 41.6167, 'stride_samples': None}
+  FAIL           [G] M-001.8          70.7 deg/s^2  <= 4.038  margin -66.66
+      where: stop@imp1cap025:peak |yaw acc| at {'capture': 'stop@imp1cap025', 'file': 'stop.gait.jsonl', 'n': 1080, 't_s': 18.0, 'stride_samples': [774, 1264]}
+  NOT_RUN        [G] M-001.6          -   (no start capture)
+  PASS           [G] M-001.7          10.44 deg/s  <= 26.83  margin 16.39
+  NOT_RUN        [G] M-001.9          -   (no capture with v_bar > 0.5 v_cruise)
+  NOT_RUN        [G] M-001.10         -   (no start capture)
+  NOT_RUN        [G] M-001.11         -   (no stop capture)
+  NOT_RUN        [G] M-001.12         -   (no estop capture)
+  PENDING        [G] M-001.13         -   (no panel_ratings@v1 file given (the tool never defaults a score))
+  flag NON_REFERENCE_NORMALISERS: {'file': 'start.gait.jsonl', 'differs': {'com_height_stand_m': {'header': 42.5405, 'reference': 44.8}, 'I_yaw_kgm2': {'header': 619689864, 'reference': 47500000
+  flag NON_REFERENCE_NORMALISERS: {'file': 'stop.gait.jsonl', 'differs': {'com_height_stand_m': {'header': 42.5405, 'reference': 44.8}, 'I_yaw_kgm2': {'header': 619689864, 'reference': 475000000
+  flag NON_REFERENCE_NORMALISERS: {'file': 'walk_fr010.gait.jsonl', 'differs': {'com_height_stand_m': {'header': 42.5405, 'reference': 44.8}, 'I_yaw_kgm2': {'header': 619689864, 'reference': 475
+  missing inputs: walk_fr010, walk_fr020, walk_fr030, start, stop, estop, turn90_inplace, curve
+  inputs: 3 files hashed; report.json holds every value, threshold and hash

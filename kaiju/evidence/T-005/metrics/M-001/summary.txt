@@ -1,0 +1,21 @@
+M-001@v1  [T-005]  registry v1.1 sha256:e18bdef7a8b5  tool 1.0.0
+VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 6
+  FAIL           [G] M-001.1          0.02258 Fr  in [0.17, 0.23]  margin -0.1474 seed-threshold
+  FAIL           [G] M-001.2          0.2666 -  in [0.85, 1.15]  margin -0.5834
+  FAIL           [G] M-001.3          0.3292 -  in [0.6, 0.72]  margin -0.2708 seed-threshold
+  FAIL           [G] M-001.5          2.477 m/s^2  <= 1.148  margin -1.329
+      where: curve:peak |a_lat| at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 2945, 't_s': 49.0833, 'stride_samples': [2513, 2973]}
+  FAIL           [G] M-001.8          85.66 deg/s^2  <= 4.038  margin -81.62
+      where: curve:peak |yaw acc| at {'capture': 'curve', 'file': 'curve.gait.jsonl', 'n': 2834, 't_s': 47.2333, 'stride_samples': [2513, 2973]}
+  FAIL           [G] M-001.11         2.312 t/sqrt(l/g)  in [2.4, 4.8]  margin -0.08825 seed-threshold
+  PASS           [G] M-001.4          2.491 m/s^2  <= 2.943  margin 0.4521
+  NOT_RUN        [G] M-001.6          - 
+  PASS           [G] M-001.7          11.8 deg/s  <= 26.83  margin 15.02
+  NOT_RUN        [G] M-001.9          - 
+  NOT_RUN        [G] M-001.10         - 
+  PASS           [G] M-001.12         5.4 s  >= 2.983  margin 2.417 seed-threshold
+  PENDING        [G] M-001.13         -   (no panel_ratings@v1 file given (the tool never defaults a score))
+  flag NON_REFERENCE_NORMALISERS: {'file': 'walk_fr010.gait.jsonl', 'differs': {'com_height_stand_m': {'header': 42.5405, 'reference': 44.8}, 'I_yaw_kgm2': {'header': 619689864, 'reference': 475
+  flag NON_REFERENCE_NORMALISERS: {'file': 'walk_fr020.gait.jsonl', 'differs': {'com_height_stand_m': {'header': 42.5405, 'reference': 44.8}, 'I_yaw_kgm2': {'header': 619689864, 'reference': 475
+  flag NON_REFERENCE_NORMALISERS: {'file': 'walk_fr030.gait.jsonl', 'differs': {'com_height_stand_m': {'header': 42.5405, 'reference': 44.8}, 'I_yaw_kgm2': {'header': 619689864, 'reference': 475
+  inputs: 8 files hashed; report.json holds every value, threshold and hash
