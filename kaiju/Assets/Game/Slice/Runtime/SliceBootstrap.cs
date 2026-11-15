@@ -31,6 +31,8 @@ namespace Game.Slice
         [Tooltip("Slice flag set (Assets/Game/Slice/Config/slice_m1.flags.json): the only flags this scene turns on.")]
         public TextAsset sliceFlags;
         public TextAsset cameraSettings;
+        [Tooltip("Assets/Game/Config/WorldGeo.json: Geo reads it from Application.dataPath, which a player does not have, so the scene carries it.")]
+        public TextAsset geoSettings;
         public PixelPipelineCatalog pixelCatalog;
         public string paletteProfileId = "warm_amber_haze";
         public Material kaijuMaterial, mechMaterial, impactorMaterial;
@@ -65,7 +67,7 @@ namespace Game.Slice
         double _loadSeconds; int _tileCount, _buildingCount, _landmarkColliders;
         // smoke
         int _frame; readonly List<float> _ms = new List<float>(); readonly List<double> _draw = new List<double>(); ProfilerRecorder _drawRec;
-        public bool AutoPilot;
+        public bool AutoPilot; float _readyAt;
 
         double OriginX => _builder.FloatingOriginX; double OriginZ => _builder.FloatingOriginZ;
 
@@ -96,7 +98,7 @@ namespace Game.Slice
             var absent = GeoTileSetLoader.Absent(GeoModule.DefaultTilesRoot, ids);
             if (absent.Count > 0) { Debug.LogError("[Slice] tile folders absent under " + GeoModule.DefaultTilesRoot + ": " + string.Join(", ", absent)); yield break; }
             var set = GeoTileSetLoader.Load(GeoModule.DefaultTilesRoot, ids, verifyHashes: false);
-            _builder = new GeoTileSetBuilder(set, GgRef, GeoTileBuilder.LoadSettings()) { BuildingColliders = false, TerrainCollider = true };
+            _builder = new GeoTileSetBuilder(set, GgRef, LoadGeoSettings()) { BuildingColliders = false, TerrainCollider = true };
             while (!_builder.Done) { _builder.BuildNext(); yield return null; }
             _builder.ShiftOrigin(SomaRef.OriginX, SomaRef.OriginZ);
             _tileCount = _builder.Instances.Count;
@@ -125,18 +127,40 @@ namespace Game.Slice
             _loadSeconds = Time.realtimeSinceStartupAsDouble - t0;
             Log("ready in " + _loadSeconds.ToString("F1", CultureInfo.InvariantCulture) + " s: tiles " + _tileCount + ", buildings " + _buildingCount + ", landmark colliders " + _landmarkColliders);
             Debug.Log("[Slice] " + _lastMsg);
-            Ready = true;
+            Ready = true; _readyAt = Time.timeSinceLevelLoad;
             AutoPilot = SmokeFrames > 0;
             if (SmokeFrames > 0) _drawRec = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Draw Calls Count");
         }
 
+        /// <summary>The tile faults layers are empty by design in this district (nearest trace 5-8 km away), so the traces come from the baked bay-wide file (BayTM).</summary>
+        System.Collections.Generic.IReadOnlyDictionary<string, double> LoadGeoSettings()
+        {
+            if (!Application.isEditor && geoSettings != null)
+            {
+                string tmp = Path.Combine(Application.temporaryCachePath, "WorldGeo.json");
+                File.WriteAllText(tmp, geoSettings.text);
+                return GeoSettings.Load(tmp);
+            }
+            return GeoTileBuilder.LoadSettings();
+        }
+
         FaultTraceSet BuildFaults()
         {
+            string path = Path.Combine(Application.streamingAssetsPath, "Geo/global/v1/faults_bay.geojson");
             var pieces = new List<FaultPiece>();
-            foreach (var inst in _builder.Instances)
+            var fc = GeoJson.Obj(GeoJson.Parse(File.ReadAllText(path)));
+            foreach (var fo in GeoJson.Arr(GeoJson.Get(fc, "features")))
             {
-                var layer = inst.Model.Layer("faults");
-                if (layer != null) pieces.AddRange(FaultTraceSet.PiecesFromGeo(layer.Faults, inst.Model.Context.OriginX, inst.Model.Context.OriginZ));
+                var f = GeoJson.Obj(fo); var pr = GeoJson.Obj(GeoJson.Get(f, "properties")); var g = GeoJson.Obj(GeoJson.Get(f, "geometry"));
+                var lines = new List<List<object>>();
+                var coords = GeoJson.Arr(GeoJson.Get(g, "coordinates"));
+                if (GeoJson.Str(g, "type") == "LineString") lines.Add(coords); else foreach (var l in coords) lines.Add(GeoJson.Arr(l));
+                foreach (var line in lines)
+                {
+                    var xz = new double[line.Count * 2];
+                    for (int i = 0; i < line.Count; i++) { var c = GeoJson.Arr(line[i]); xz[2 * i] = (double)c[0]; xz[2 * i + 1] = (double)c[1]; }
+                    pieces.Add(new FaultPiece { FaultName = GeoJson.Str(pr, "fault_name"), Section = GeoJson.Str(pr, "section"), Linetype = GeoJson.Str(pr, "linetype"), SlipSense = GeoJson.Str(pr, "slip_sense"), Xz = xz });
+                }
             }
             return FaultTraceSet.Build(pieces);
         }
@@ -222,7 +246,7 @@ namespace Game.Slice
             _mech = new SliceTarget { Id = EntityId.FromValue(101), X = mx, Y = mz };
             _targets.Add(_mech);
             var brain = _root.Registry.Resolve<IKaijuBrainFactory>().Create();
-            float kx = mx - 700f, kz = mz + 200f;
+            float kx = mx - 450f, kz = mz + 150f;
             var kj = Prim(PrimitiveType.Capsule, "SliceTempKaiju", kaijuMaterial, new Vector3(25f, 30f, 25f));
             _kaijuT = kj.transform;
             _kaiju = new SliceKaijuAgent(brain, EntityId.FromValue(1), 7, kx, kz, 0f, (float)_root.Services.Settings.FixedStepSeconds);
@@ -283,7 +307,7 @@ namespace Game.Slice
         public bool TriggerQuake()
         {
             if (_comp.Seismic == null) { Log("quake: seismic not installed"); return false; }
-            if (!SliceQuakePlan.TryPlan(_comp.Seismic.Faults, (uint)_nextEventId, 1234u + (uint)_nextEventId, out var sc)) { Log("quake: no mapped fault in the district"); return false; }
+            if (!SliceQuakePlan.TryPlan(_comp.Seismic.Faults, (uint)_nextEventId, 1234u + (uint)_nextEventId, SomaRef.OriginX + 1024, SomaRef.OriginZ + 1024, out var sc)) { Log("quake: no mapped fault in the district"); return false; }
             _nextEventId++;
             var r = _comp.Seismic.Run(sc, _root.Services.Clock.TimeSeconds);
             if (r == null) { Log("quake: director refused the scenario"); return false; }
@@ -318,7 +342,7 @@ namespace Game.Slice
             var ch = _comp.Destruction.Apply(_impactTarget, e, DamageCause.Impact, EntityId.FromValue(901), _root.Services.Clock.Step);
             _impacts++;
             _comp.Destruction.TryGetThresholds(_impactTarget, out double s1, out double s2, out double s3, out double s4);
-            Log("impact " + (e / 1e9).ToString("F1", CultureInfo.InvariantCulture) + " GJ on " + _impactTarget + ": state " + ch.PrevState + " -> " + ch.Current.State + " (thresholds GJ " + (s1 / 1e9).ToString("F2", CultureInfo.InvariantCulture) + "/" + (s2 / 1e9).ToString("F2", CultureInfo.InvariantCulture) + "/" + (s3 / 1e9).ToString("F2", CultureInfo.InvariantCulture) + "/" + (s4 / 1e9).ToString("F2", CultureInfo.InvariantCulture) + ")");
+            Log("impact " + (e / 1e6).ToString("F0", CultureInfo.InvariantCulture) + " MJ on " + _impactTarget + ": state " + ch.PrevState + " -> " + ch.Current.State + " (thresholds MJ " + (s1 / 1e6).ToString("F1", CultureInfo.InvariantCulture) + "/" + (s2 / 1e6).ToString("F1", CultureInfo.InvariantCulture) + "/" + (s3 / 1e6).ToString("F1", CultureInfo.InvariantCulture) + "/" + (s4 / 1e6).ToString("F1", CultureInfo.InvariantCulture) + ")");
             _bus.Publish(new CameraShakeImpulse { Source = EntityId.FromValue(901), OriginX = _impactAim.x, OriginY = _impactAim.y, OriginZ = _impactAim.z, ImpulseNs = 8e5f });
             Destroy(_impactor.gameObject); _impactor = null;
         }
@@ -332,15 +356,24 @@ namespace Game.Slice
 
         void Log(string s) { _lastMsg = s; _log.AppendLine(s); if (Ready) Debug.Log("[Slice] " + s); }
 
-        // ---- smoke ----
-        const int Warmup = 60, QuakeAt = 120, ImpactAt = 240;
+        // ---- smoke (game-time script: the player runs at ~1000 fps, so frames alone would end it before anything happens) ----
+        const int Warmup = 60;
+        const float QuakeAtS = 5f, ImpactAtS = 12f, EndS = 20f;
+        static readonly float[] CaptureAtS = { 2f, 6.5f, 14f, 19f };
+        int _captureIdx;
         void SmokeTick()
         {
             _frame++;
-            if (_frame == QuakeAt) TriggerQuake();
-            if (_frame == ImpactAt) TriggerImpact();
+            float t = Time.timeSinceLevelLoad - _readyAt;
+            if (_quakes == 0 && t >= QuakeAtS) TriggerQuake();
+            if (_impacts == 0 && _impactor == null && t >= ImpactAtS) TriggerImpact();
+            if (_captureIdx < CaptureAtS.Length && t >= CaptureAtS[_captureIdx] && !string.IsNullOrEmpty(SmokeOut))
+            {
+                string png = Path.Combine(Path.GetDirectoryName(SmokeOut), "capture_" + _captureIdx + "_t" + ((int)CaptureAtS[_captureIdx]) + "s.png");
+                ScreenCapture.CaptureScreenshot(png); _captureIdx++;
+            }
             if (_frame > Warmup) { _ms.Add(Time.unscaledDeltaTime * 1000f); _draw.Add(_drawRec.Valid ? _drawRec.LastValue : -1); }
-            if (_frame >= Warmup + SmokeFrames) FinishSmoke();
+            if (_frame >= Warmup + SmokeFrames && t >= EndS && _impacts > 0) FinishSmoke();
         }
 
         static double Pct(List<double> v, double p) { var s = new List<double>(v); s.Sort(); return s.Count == 0 ? 0 : s[Math.Min(s.Count - 1, (int)(p * s.Count))]; }

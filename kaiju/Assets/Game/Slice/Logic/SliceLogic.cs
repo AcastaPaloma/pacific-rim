@@ -155,19 +155,34 @@ namespace Game.Slice
         }
     }
 
-    /// <summary>Chooses the quake from the baked faults: the mapped system with the longest mapped trace, hypocentre at its middle vertex.</summary>
+    /// <summary>Chooses the quake from the baked faults: the mapped system (>= 30 km) nearest the district, hypocentre at its vertex nearest a reference point.</summary>
     public static class SliceQuakePlan
     {
+        public const double MinMappedKm = 30.0;
         public const float DefaultMw = 6.9f;   // below the 7.2 default so a short mapped trace is rarely shortened; Assumed (slice feel)
 
-        public static bool TryPlan(FaultTraceSet faults, uint eventId, uint seed, out QuakeScenario scenario)
+        public static bool TryPlan(FaultTraceSet faults, uint eventId, uint seed, double nearX, double nearZ, out QuakeScenario scenario)
         {
             scenario = default;
             if (faults == null) return false;
-            FaultSystem best = null;
-            foreach (var s in faults.Systems) if (s.VertexCount > 1 && (best == null || s.MappedLengthM > best.MappedLengthM)) best = s;
-            if (best == null) return false;
-            int v = best.VertexCount / 2;
+            // the system whose nearest vertex is closest to the district, among those mapped over at least MinMappedKm (a rupture needs a trace to run along)
+            FaultSystem best = null; double bestD = double.MaxValue;
+            foreach (var sys in faults.Systems)
+            {
+                if (sys.VertexCount < 2 || sys.MappedLengthM < MinMappedKm * 1000.0) continue;
+                for (int i = 0; i < sys.VertexCount; i++)
+                {
+                    double d = (sys.X[i] - nearX) * (sys.X[i] - nearX) + (sys.Z[i] - nearZ) * (sys.Z[i] - nearZ);
+                    if (d < bestD) { bestD = d; best = sys; }
+                }
+            }
+            if (best == null) foreach (var sys in faults.Systems) if (sys.VertexCount > 1 && (best == null || sys.MappedLengthM > best.MappedLengthM)) best = sys;
+            int v = 0; double bd = double.MaxValue;   // hypocentre = the vertex nearest the given point (the district), so the rupture starts close
+            for (int i = 0; i < best.VertexCount; i++)
+            {
+                double d = (best.X[i] - nearX) * (best.X[i] - nearX) + (best.Z[i] - nearZ) * (best.Z[i] - nearZ);
+                if (d < bd) { bd = d; v = i; }
+            }
             scenario = new QuakeScenario
             {
                 EventId = eventId, Mw = DefaultMw, FaultId = best.FaultId, SlipSense = (byte)best.SlipSense,

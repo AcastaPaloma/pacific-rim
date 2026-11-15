@@ -61,18 +61,18 @@ namespace Game.Slice.Tests
         }
 
         [Test]
-        public void QuakePlan_PicksTheLongestMappedSystem()
+        public void QuakePlan_PicksTheNearestSystemMappedOver30Km()
         {
             var pieces = new List<FaultPiece>
             {
                 new FaultPiece { FaultName = "Short", Section = "s", Linetype = "", SlipSense = "Right lateral", Xz = new double[] { 0, 0, 5000, 0 } },
-                new FaultPiece { FaultName = "Long", Section = "l", Linetype = "", SlipSense = "Right lateral", Xz = new double[] { 0, 100, 40000, 100 } },
+                new FaultPiece { FaultName = "Long", Section = "l", Linetype = "", SlipSense = "Right lateral", Xz = new double[] { 0, 100, 10000, 100, 20000, 100, 30000, 100, 40000, 100 } },
             };
             var set = FaultTraceSet.Build(pieces);
-            Assert.IsTrue(SliceQuakePlan.TryPlan(set, 1, 9, out var sc));
-            Assert.AreEqual(FaultTraceSet.HashName("Long"), sc.FaultId);
-            Assert.Greater(sc.HypoX, 0f);
-            Assert.IsFalse(SliceQuakePlan.TryPlan(null, 1, 9, out _));
+            Assert.IsTrue(SliceQuakePlan.TryPlan(set, 1, 9, 30000, 100, out var sc));
+            Assert.AreEqual(FaultTraceSet.HashName("Long"), sc.FaultId);   // "Short" is nearer but under 30 km mapped
+            Assert.AreEqual(30000f, sc.HypoX, 1f);
+            Assert.IsFalse(SliceQuakePlan.TryPlan(null, 1, 9, 0, 0, out _));
         }
     }
 }
