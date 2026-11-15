@@ -27,6 +27,13 @@
     "_src": "R-004 §1.4 height fallback order",
     "metres_per_level": 4.22,
     "default_levels": 3,
+    "lidar_fill": {
+      "_src": "T-020b: only for buildings whose height_source is default; median of (first-return p95 - terrain) over 1 m cells in the footprint eroded erode_m; needs >= min_coverage of those cells with returns; mean multi-return share above max_multi_return_share = vegetation, rejected (Assumed thresholds)",
+      "erode_m": 1.0,
+      "min_coverage": 0.70,
+      "max_multi_return_share": 0.30,
+      "min_height_m": 2.0
+    },
     "datasf_min_iou": 0.6,
     "datasf_min_relief_m": 3.0,
     "min_area_m2": 0.05,

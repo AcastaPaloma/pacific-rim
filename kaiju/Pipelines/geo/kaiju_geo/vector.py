@@ -244,6 +244,59 @@ def resolve_height(tags, geom, datasf_tree, datasf, cfg):
     return cfg["default_levels"] * cfg["metres_per_level"], "default", {}
 
 
+def read_lidar_grid(path):
+    """T-020b: first-return grid of lidar_ref_v11 (1 m cells, row 0 = south) as a dict, or None when absent/unreadable."""
+    import numpy as np
+    try:
+        z = np.load(path)
+        return {"bounds": [float(v) for v in z["bounds_baytm"]], "p95": z["p95_10"], "multi": z["multi_10"], "count": z["count_10"]}
+    except (OSError, ValueError, KeyError):
+        return None
+
+
+def lidar_height(geom, grid, terrain_at, lcfg):
+    """Median of (first-return p95 - terrain) over 1 m cells whose centre lies in the footprint eroded by lcfg['erode_m'].
+    None unless >= lcfg['min_coverage'] of those cells (inside the grid) have returns, the mean multi-return share
+    (vegetation test of lidar_ref_v11) is <= lcfg['max_multi_return_share'] and the height >= lcfg['min_height_m']."""
+    import numpy as np
+    eg = geom.buffer(-lcfg["erode_m"])
+    if eg.is_empty:
+        return None
+    x0, z0, x1, z1 = grid["bounds"]
+    n = grid["p95"].shape[0]
+    res = (x1 - x0) / n
+    bx0, bz0, bx1, bz1 = eg.bounds
+    i0, i1 = max(int(np.floor((bx0 - x0) / res)), 0), min(int(np.ceil((bx1 - x0) / res)), n)
+    j0, j1 = max(int(np.floor((bz0 - z0) / res)), 0), min(int(np.ceil((bz1 - z0) / res)), n)
+    if i1 <= i0 or j1 <= j0:
+        return None
+    jj, ii = np.meshgrid(np.arange(j0, j1), np.arange(i0, i1), indexing="ij")
+    cx, cz = x0 + (ii + 0.5) * res, z0 + (jj + 0.5) * res
+    inside = shapely.contains_xy(eg, cx, cz)
+    if not inside.any():
+        return None
+    p = grid["p95"][j0:j1, i0:i1][inside]
+    has = grid["count"][j0:j1, i0:i1][inside] > 0
+    if has.mean() < lcfg["min_coverage"]:
+        return None
+    if float(np.mean(grid["multi"][j0:j1, i0:i1][inside][has])) > lcfg["max_multi_return_share"]:
+        return None
+    h = float(np.median(p[has] - terrain_at(cx[inside][has], cz[inside][has])))
+    return round(h, 3) if h >= lcfg["min_height_m"] else None
+
+
+def fill_default_height(geom, stories, grid, terrain_at, cfg):
+    """T-020b: for a building whose height came out as 'default' only. Order: 3DEP lidar, Assessor stories x
+    metres_per_level, else None (stays default). Returns (height_m, height_source) or None."""
+    if grid is not None:
+        h = lidar_height(geom, grid, terrain_at, cfg["lidar_fill"])
+        if h is not None:
+            return h, "lidar_3dep"
+    if stories is not None and stories > 0:
+        return stories * cfg["metres_per_level"], "assessor_stories"
+    return None
+
+
 def resolve_min_height(tags, cfg):
     mh = parse_length_m(tags.get("min_height"))
     if mh is not None and mh >= 0:
