@@ -64,6 +64,12 @@ def build_parser():
 
     add("m050", "M-050@v1 persistent destruction save round trip (two Core-envelope saves: <before> <after>)",
         "exactly two kaiju-save JSON files holding a destruction@v1 section")
+    add("m051", "M-051@v1 damage state versus fragility (fragility_dump@v1 JSON)",
+        "fragility_dump.json files (schema: kaiju_metrics/destruction/m051.py)")
+    add("m053", "M-053@v1 fault rupture geometry (fault_rupture_dump@v1 JSON + faults_bay.geojson)",
+        "fault_rupture_dump.json files (schema: kaiju_metrics/destruction/m053.py)")
+    add("m054", "M-054@v1 rupture scaling (rupture_dump@v1 JSON)",
+        "rupture_dump.json files (schema: kaiju_metrics/destruction/m054.py)")
     add("m052", "M-052@v1 collapse mass and energy account (destruction_dump@v1 JSON)",
         "destruction_dump.json files (schema: kaiju_metrics/destruction/m052.py)")
 
@@ -160,7 +166,7 @@ def _dispatch(args, argv):
                 for sid, e in m["submeasures"].items():
                     print(f"    {sid:<22} {e['kind']:<9} {e['title']}")
         return 0
-    if args.cmd in ("m001", "m002", "m003", "m004", "m050", "m052"):
+    if args.cmd in ("m001", "m002", "m003", "m004", "m050", "m051", "m052", "m053", "m054"):
         from .runner import run_metric_cli
         return run_metric_cli(args.cmd, args, argv)
     if args.cmd == "calibrate":

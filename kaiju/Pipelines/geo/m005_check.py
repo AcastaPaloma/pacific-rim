@@ -1185,7 +1185,7 @@ def wading(hs, water, msl, tile):
 V12 = "M-005@v1.2"
 V12_TH = {"default_height_share_union": 0.02, "per_tile_share": 0.05, "per_tile_min_area_m2": 10000.0,
           "seam_terrain_p99_E_m": 0.20, "seam_terrain_max_E_m": 0.50, "edge_vertex_gap_m": 0.001,
-          "clipped_area_rel": 0.001, "collider_overlap_m2": 0.05}
+          "clipped_area_rel": 0.001, "collider_overlap_m2": 0.05, "piece_height_base_m": 0.001}
 DISTRICT_TILES = ([f"L0_{i}_{j}" for i in (25, 26, 27) for j in (36, 37, 38)]           # Golden Gate 3 x 3
                   + [f"L0_{i}_{j}" for i in (29, 30, 31) for j in (35, 36)])            # SoMa 3 x 2
 V12_EVID = PROJECT / "evidence" / "T-035"
@@ -1368,12 +1368,51 @@ def v12_buildings(loaded, th=V12_TH):
     return rows
 
 
+def v12_pieces(loaded, path, th=V12_TH):
+    """Real clipped pieces from the Unity multi-tile build (`district_pieces@v1`):
+    {"format": "district_pieces", "schema": 1, "pieces": [{"bid", "tile", "area_m2", "height_m", "base_navd88_m"}, ...]}.
+    Each piece is compared with the baked footprint of its bid clipped to the named tile square (area, relative) and with
+    the baked height_m / base_navd88_m (absolute, metres). Pieces of unknown bids or tiles are errors, never skipped."""
+    try:
+        d = J(path)
+    except Exception as e:  # noqa: BLE001
+        raise NoInput(f"pieces: cannot read {path}: {e}")
+    if not isinstance(d, dict) or d.get("format") != "district_pieces" or d.get("schema") != 1 or not d.get("pieces"):
+        raise NoInput("pieces: not a non-empty district_pieces@v1 file")
+    boxes = {L["tile"].id: box(*L["tile"].bounds) for L in loaded}
+    feats = {f["properties"]["bid"]: f for L in loaded for f in L["feats"]}
+    worst_a, worst_hb, bad = 0.0, 0.0, []
+    got = {}
+    for pc in d["pieces"]:
+        f, b = feats.get(pc.get("bid")), boxes.get(pc.get("tile"))
+        if f is None or b is None or not all(isinstance(pc.get(k), (int, float)) for k in ("area_m2", "height_m", "base_navd88_m")):
+            bad.append(str(pc.get("bid")))
+            continue
+        want = shape(f["geometry"]).intersection(b).area
+        got.setdefault(pc["bid"], 0.0)
+        got[pc["bid"]] += pc["area_m2"]
+        if want > 0:
+            worst_a = max(worst_a, abs(pc["area_m2"] - want) / want)
+        elif pc["area_m2"] > 0:
+            worst_a = max(worst_a, 1.0)
+        p = f["properties"]
+        worst_hb = max(worst_hb, abs(pc["height_m"] - (p.get("height_m") or 0.0)), abs(pc["base_navd88_m"] - (p.get("base_navd88_m") or 0.0)))
+    if bad:
+        return [v12row("clipped_pieces", "error", reason="pieces of unknown bid / tile or non-numeric fields", examples=bad[:5])]
+    n = len(d["pieces"])
+    return [v12row("clipped_pieces_area", "pass" if worst_a <= th["clipped_area_rel"] else "fail", value=r(worst_a, 6),
+                   threshold=th["clipped_area_rel"], pieces=n, bids=len(got),
+                   note="piece area against the baked footprint clipped to the piece's tile square"),
+            v12row("clipped_pieces_height_base", "pass" if worst_hb <= th["piece_height_base_m"] else "fail", value=r(worst_hb, 6),
+                   threshold=th["piece_height_base_m"], pieces=n, note="max |height_m| and |base_navd88_m| difference to the baked feature (assumed 1 mm, as the vertex gap)")]
+
+
 def v12_landmarks(root=None):
     return v12row("landmarks", "not_evaluated", reason="landmarks layer does not exist yet (T-035 later step); absence accepted, not a pass",
                   checks=["linear continuity <= 1 mm", "lid unique", "GGB S tower 48 m from seam"])
 
 
-def district(tile_ids, root=None, th=V12_TH):
+def district(tile_ids, root=None, th=V12_TH, pieces=None):
     """Run every headless M-005@v1.2 district check over tile_ids. Never passes without input: a check with no data
     yields result 'error'. Returns the report dict."""
     root = root or TILES_ROOT
@@ -1393,6 +1432,11 @@ def district(tile_ids, root=None, th=V12_TH):
                 rows += fn(loaded, th)
             except NoInput as e:
                 errs.append(v12row(name, "error", reason=str(e)))
+    if pieces and not errs:
+        try:
+            rows += v12_pieces(loaded, pieces, th)
+        except NoInput as e:
+            errs.append(v12row("clipped_pieces", "error", reason=str(e)))
     rows += errs + [v12_landmarks()]
     res_ = {x["result"] for x in rows}
     overall = "error" if "error" in res_ else "fail" if "fail" in res_ else "pass"
@@ -1413,6 +1457,7 @@ def main(argv=None):
     ap.add_argument("cmd", choices=["prepare", "prepare_v11", "check", "district"])
     ap.add_argument("--tiles", default=None, help="district: comma-separated tile ids (default: the 15 GG + SoMa tiles)")
     ap.add_argument("--tiles-root", default=None, help="district: tiles folder (default Assets/StreamingAssets/Geo/tiles/v1)")
+    ap.add_argument("--pieces", default=None, help="district: district_pieces@v1 JSON from the Unity multi-tile build (clipped pieces)")
     ap.add_argument("--tile", default="L0_30_36")
     ap.add_argument("--export", default=str(EVID / "export" / "geo_export.json"))
     ap.add_argument("--out", default=None, help="report path (default evidence/T-003/m005_report.json)")
@@ -1422,7 +1467,7 @@ def main(argv=None):
         REPORT_PATH = Path(a.out)
     apply_std(a)
     if a.cmd == "district":
-        rep = district(a.tiles.split(",") if a.tiles else DISTRICT_TILES, a.tiles_root)
+        rep = district(a.tiles.split(",") if a.tiles else DISTRICT_TILES, a.tiles_root, pieces=a.pieces)
         out = Path(a.out) if a.out else V12_EVID / "m005_v12_district.json"
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(json.dumps(rep, indent=1) + "\n")

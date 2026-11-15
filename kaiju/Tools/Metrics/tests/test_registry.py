@@ -158,6 +158,22 @@ def test_registry_flip_style(tmp_path, style_sets, sid, key):
 
 # ------------------------------------------------------------------ literal scan
 ALLOW = {
+    ("baseline.py", "1e-9"): "float equality epsilon (coincides with the M-051 table tolerance)",
+    ("style/m004.py", "1e-9"): "float equality epsilon (coincides with the M-051 table tolerance)",
+    ("destruction/m052.py", "1e-9"): "debris vs M0 float slack (coincides with the M-051 table tolerance)",
+    ("destruction/m051.py", "0.5"): "Phi at the median, erf form and median-point test (maths, not a threshold)",
+    ("destruction/m051.py", "1.0"): "erf form of Phi (maths)",
+    ("destruction/m051.py", "2.0"): "erf form of Phi, sqrt(2) (maths)",
+    ("destruction/m051.py", "1.5"): "R-021 §2.4 spectrum corner 1.5 s (model constant, mirrors DamageParameters)",
+    ("destruction/m051.py", "4.0"): "Sd = Sa T^2 / 4 pi^2 (maths)",
+    ("destruction/m053.py", "0.0"): "accumulator start value (maths)",
+    ("destruction/m053.py", "0.95"): "p95 percentile rank (the metric's definition)",
+    ("destruction/m054.py", "0.01"): "WC94 validity range MD 0.01-14.6 m (R-022 §2 data table)",
+    ("destruction/m054.py", "0.05"): "WC94 validity range AD 0.05-8.0 m (R-022 §2 data table)",
+    ("destruction/m054.py", "8.0"): "WC94 validity range AD upper / M upper bound (R-022 §2 data table)",
+    ("destruction/m054.py", "0.90"): "WC94 regression coefficient b for log AD (R-022 §2 data table)",
+    ("destruction/m054.py", "0.0"): "accumulator start value (maths)",
+    ("destruction/m054.py", "1e-9"): "float slack on SRL <= trace length",
     ("style/m003.py", "1e-6"): "M-003 distance matching tolerance in metres; coincides with the M-052 relative threshold",
     # (file, literal): why a number equal to a registry value is legitimate there
     ("baseline.py", "0.08"): "R-002 §2 grid-detection R threshold (research procedure, not an M-003 threshold)",
@@ -300,4 +316,4 @@ def test_provisional_label_counts_assumed(tmp_path):
 
 def test_list_metrics():
     info = list_metrics()
-    assert sorted({m["metric"] for m in info}) == ["M-001", "M-002", "M-003", "M-004", "M-005", "M-050", "M-052"]
+    assert sorted({m["metric"] for m in info}) == ["M-001", "M-002", "M-003", "M-004", "M-005", "M-050", "M-051", "M-052", "M-053", "M-054"]
