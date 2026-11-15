@@ -1,3 +1,4 @@
+using System;
 using Game.Units.Mech;
 using Game.Units.Mech.Contracts;
 using NUnit.Framework;
@@ -17,6 +18,27 @@ namespace Game.Units.Mech.Tests
             Assert.That(lo, Is.EqualTo(-4.5f)); Assert.That(hi, Is.EqualTo(4.5f));   // the legacy clamp: +-sole half length less its margin
             StanceImpedance.CopRange(FootSupport.Swing, 4.5f, 5f, out lo, out hi);
             Assert.That(hi, Is.EqualTo(4.5f));
+        }
+
+        [Test]
+        public void LoadGains_SizeStiffnessFromTheCarriedLoad_AndNeverSofterThanHz()
+        {
+            var t = Repo.Walk();
+            Assert.That(t.imp_kload_hip, Is.EqualTo(0.5)); Assert.That(t.imp_kload_knee, Is.EqualTo(1.0)); Assert.That(t.imp_kload_ankle, Is.EqualTo(0.5)); Assert.That(t.imp_kload_zeta, Is.EqualTo(1.0));
+            double m = 1e7, g = 9.81, l = 42, w = m * g;   // one leg carries the whole weight
+            StanceImpedance.LoadGains(t, StanceImpedance.Knee, w, m, g, l, 1, 2, out double k, out double d);
+            Assert.That(k, Is.EqualTo(1.0 * w * l).Within(1e-6 * w * l));
+            Assert.That(d, Is.EqualTo(2 * Math.Sqrt(k * m * l * l)).Within(1e-6 * d));
+            StanceImpedance.LoadGains(t, StanceImpedance.Hip, w / 2, m, g, l, 1, 2, out k, out d);   // half load: share 0.5
+            Assert.That(k, Is.EqualTo(0.5 * 0.5 * w * l).Within(1e-6 * k));
+            Assert.That(d, Is.EqualTo(2 * Math.Sqrt(k * m * l * l * 0.5)).Within(1e-6 * d));
+            StanceImpedance.LoadGains(t, StanceImpedance.Ankle, w, m, g, l, 1e12, 1e12, out k, out d);   // Max blend: the Hz gains win when stiffer
+            Assert.That(k, Is.EqualTo(1e12)); Assert.That(d, Is.EqualTo(1e12));
+            t.imp_kload_knee = 0;
+            StanceImpedance.LoadGains(t, StanceImpedance.Knee, w, m, g, l, 3, 4, out k, out d);
+            Assert.That(k, Is.EqualTo(3)); Assert.That(d, Is.EqualTo(4));
+            StanceImpedance.LoadGains(t, StanceImpedance.Hip, 0, m, g, l, 3, 4, out k, out d);   // no load: unchanged
+            Assert.That(k, Is.EqualTo(3)); Assert.That(d, Is.EqualTo(4));
         }
 
         [Test]

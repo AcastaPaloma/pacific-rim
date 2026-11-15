@@ -643,6 +643,8 @@ namespace Game.Units.Mech
                     StanceImpedance.PdGains(_b.DofInertia(d, true), hz, zeta, out double kImp, out double cImp);
                     double v = _hasPrev[d] ? Math.Max(-_t.target_velocity_max_rps, Math.Min(_t.target_velocity_max_rps, (refTarget - _prevTarget[d]) / _dt)) : 0;
                     _prevTarget[d] = refTarget; _hasPrev[d] = true;
+                    // round 2 step 6b: stiffness sized from the load the joint carries (never softer than the Hz gains)
+                    StanceImpedance.LoadGains(_t, joint, leg.Load, _mass, _g, _l, kImp, cImp, out kImp, out cImp);
                     _b.SetDofDrive(d, refTarget, v, kImp, cImp);
                     _b.SetDofFeedForward(d, SupportTorque(d, force, leg.Cop, true) * _t.imp_vf_scale + Vector3.Dot(_b.DofAxisWorld(d), extraTorque) + ImpFf(d, refQdd, _t.imp_ff_stance_gravity_share));   // round 2 step 4: stance-leg gravity is only partly carried by the joints (contact carries the rest)
                     continue;
@@ -799,6 +801,16 @@ namespace Game.Units.Mech
                 case Knee: hz = s == 0 ? t.imp_knee_hz_heel : s == 1 ? t.imp_knee_hz_flat : t.imp_knee_hz_toe; zeta = s == 0 ? t.imp_knee_zeta_heel : s == 1 ? t.imp_knee_zeta_flat : t.imp_knee_zeta_toe; break;
                 default: hz = s == 0 ? t.imp_ankle_hz_heel : s == 1 ? t.imp_ankle_hz_flat : t.imp_ankle_hz_toe; zeta = s == 0 ? t.imp_ankle_zeta_heel : s == 1 ? t.imp_ankle_zeta_flat : t.imp_ankle_zeta_toe; break;
             }
+        }
+
+        /// <summary>Load-sized stance gains: K = kload_joint * W_leg * l (N m/rad), D = 2 zeta sqrt(K I_eff), I_eff = mass l^2 share, share = W_leg / (mass g) clamped to [0,1]; each blended with the Hz gains by Max. kload_joint = 0 returns the Hz gains.</summary>
+        public static void LoadGains(WalkTuning t, int joint, double loadN, double massKg, double g, double legLengthM, double kHz, double cHz, out double stiffness, out double damping)
+        {
+            double kl = joint == Hip ? t.imp_kload_hip : joint == Knee ? t.imp_kload_knee : t.imp_kload_ankle;
+            stiffness = kHz; damping = cHz;
+            if (kl <= 0 || loadN <= 0) return;
+            double k = kl * loadN * legLengthM, share = Math.Max(0, Math.Min(1, loadN / (massKg * g))), ieff = massKg * legLengthM * legLengthM * share;
+            stiffness = Math.Max(kHz, k); damping = Math.Max(cHz, 2 * t.imp_kload_zeta * Math.Sqrt(k * ieff));
         }
 
         /// <summary>Stiffness k = I w^2 and damping c = 2 zeta I w for an inertia I (kg m^2) about the joint axis.</summary>
