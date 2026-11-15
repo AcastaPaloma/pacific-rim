@@ -478,3 +478,7 @@ Worker escalated to Opus 5.5 high (§14) for the design; design `research/R-028.
 - Regenerated the committed M1 tile `L0_30_36` manifest.json/build_info.json (the existing bake tests rewrite them when fetch.py/bake.py change; outputs byte-identical); the other 14 M1 tiles keep stale inputs fingerprints until re-baked — decided autonomously (founder asleep)
 - T-119 flag/test conflict: the refused EconomyTests.cs edit is logged as waiting for the founders; the lead did not apply it. Recommended path for the successor: per-module flag file `Meta.Salvage.json` (existing convention), no test change — decided autonomously (founder asleep). Alternative: relax the test to count only `meta.economy` (needs founder OK, refused once).
 - Session 2 ended early (usage limit); state in plans/M2_PROGRESS.md "Session 2".
+## T-109 (M2 worker, 2026-11-15)
+- D1: one render origin (anchor cluster of the lowest-id camera); other clusters get no PhysicsScene until T-111 — decided autonomously (founder asleep); alternative: PhysicsScene per cluster now, deferred because the harness that exercises it is T-111.
+- D2: L1..L4 reader left behind `LevelRoutingReader` with no default because `geo_lod@v1` (T-108) is unmerged; fails with backoff instead of faking data — decided autonomously (founder asleep).
+- D3: no Composition installer added (other modules' files); `StreamingModule.Install` is the entry point — decided autonomously (founder asleep).
