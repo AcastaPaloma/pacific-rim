@@ -16,6 +16,7 @@ namespace Game.Cameras
         public float minReferenceDepthM = 20f;
         public float skylineDepthM = 664.874f;         // layerSnap main slab reference depth (T1 skyline design depth)
         public float farDepthM = 10353f;               // layerSnap far slab reference depth (T1 far design depth)
+        public float nearEdgeOffsetInTargetHeights = 0f; // layerSnap near slab depth = focus depth minus this many target heights (the target's nearest silhouette, T-187); 0 = focus depth
         public float impulseMetresPerMegaNs = 0.015f;
         public float impulseDegreesPerMegaNs = 0.012f;
         public float impulseMaxMetres = 0.5f;

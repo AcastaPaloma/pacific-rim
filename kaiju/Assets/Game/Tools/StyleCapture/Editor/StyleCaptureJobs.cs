@@ -37,14 +37,14 @@ namespace Game.Tools.StyleCapture
         public static readonly Viewpoint[] StillViewpoints = { Street, Eye70, Elevated };
         public static readonly Viewpoint[] MotionViewpoints = { Eye70, Street };
 
-        static CameraPose Station(Viewpoint v, int i) => v.Pose((i - 5.5f) * 22f, (i % 3) * 15f, (i - 5.5f) * 1.6f);
+        public static CameraPose Station(Viewpoint v, int i) => v.Pose((i - 5.5f) * 22f, (i % 3) * 15f, (i - 5.5f) * 1.6f);
 
         /// <summary>
         /// The pose a still is taken from: the wanted pose with its rotation on the rotation grid. Rendered right after
         /// a cut, the rig renders exactly this pose with zero remainder, so every still of a sequence declares the same
         /// (zero) output offset.
         /// </summary>
-        static CameraPose OnGrid(StyleCaptureSession s, CameraPose pose)
+        public static CameraPose OnGrid(StyleCaptureSession s, CameraPose pose)
         {
             s.Rig.Cut(); s.Rig.SetScriptedPose(pose, ReferenceDepth); s.Rig.Tick(StyleCaptureSession.Dt);
             pose = s.Rig.RenderedPose;
