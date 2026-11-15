@@ -278,11 +278,10 @@ namespace Game.AI.Training
                     HarnessScenario sc = _cfg.Build(seed);
                     var rng = new SplitMix64(seed ^ 0xA5A5A5A5UL);
                     for (int i = 0; i < _acc.Length; i++) { Array.Clear(_acc[i], 0, Wire.EvDim); _last[i] = null; _policyAgent[i] = false; }
-                    ScriptedKaijuBrain.NextIndex = 0;
-                    ScriptedKaijuBrain.Factory = i =>
+                    sc.BrainFactory = i =>
                     {
                         bool scriptedAlly = _cfg.ScriptedAllyFrac > 0 && rng.NextFloat() < _cfg.ScriptedAllyFrac;
-                        if (scriptedAlly) return ScriptedKaijuBrain.NewScripted();
+                        if (scriptedAlly) return new ScriptedKaijuBrain();
                         _policyAgent[i] = true;
                         return new PolicyKaijuBrain(new BridgeNetwork(this, i), PolicyConfig.Default());
                     };
@@ -296,7 +295,7 @@ namespace Game.AI.Training
                     var harness = new KaijuHarness(sc, new BrainLogWriter(tap));
                     try { HarnessResult res = harness.Run(); if (res.MechsAliveAtEnd == 0 && sc.MechRespawnSeconds <= 0f) tap.Win = true; }
                     catch (EpisodeEnd) { }
-                    finally { tee?.Flush(); tee?.Dispose(); ScriptedKaijuBrain.Factory = null; }
+                    finally { tee?.Flush(); tee?.Dispose(); }
                     Episodes++; if (tap.Win) Wins++;
                     for (int a = 0; a < sc.KaijuCount; a++)
                     {

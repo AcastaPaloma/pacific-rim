@@ -1,0 +1,28 @@
+{
+    "name": "Game.World.Streaming.Host.Tests",
+    "rootNamespace": "Game.World.Streaming.Host.Tests",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Game.Core.Contracts",
+        "Game.World.Geo.Contracts",
+        "Game.World.Streaming.Contracts",
+        "Game.World.Streaming",
+        "Game.World.Streaming.Host"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

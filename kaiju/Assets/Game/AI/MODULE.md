@@ -10,6 +10,7 @@ Layer: L3. References only `Game.Core.Contracts` and its own assemblies.
 | `Game.AI.Contracts` | `Contracts/` | none | `BrainContracts` (ContractVersion 1, MaxTargets 8, MaxAllies 7), `BrainObservation`, `BrainIntent`, `BrainConfig`, `ReasonCode`, `IKaijuBrain`, `BrainFlags`, `IKaijuBrainFactory` |
 | `Game.AI.Scripted` | `Scripted/` | none | `ScriptedKaijuBrain` (R-024 1.4 state machine, 1.5 target selection), `ScriptedBrainModule` (runtime only) |
 | `Game.AI.Harness` | `Harness/` | none, Editor-only, not auto-referenced | 2D `KaijuHarness` (kaiju and mechs with declared-DPS damage, scenarios `m007` and `m007_3v4`), `BrainLogWriter` -> `brain_log@v1`, `PackMetrics` M-007 C1-C4 |
+| `Game.AI.Pack` | `Pack/` | none | T-113 pack layer (R-103 s7): `PackCoordinator` (shared `PackBoard`, hunt-vs-raid goal with hysteresis, `RoleAllocator` for packs of 1-5 over `SpeciesRole`, per-member `PackDirective`), `PackMemberBrain` wrapper + `PackBrainFactory` (`pack@1`), `IDirectedBrain`. Consumes `Game.AI.Contracts` only. Flag `ai.pack` (`Config/FeatureFlags/AI.Pack.json`, default off). Follow-ups: Units.Kaiju adapter for `SpeciesRole`, `IInfrastructureSource` adapter over `IInfrastructureRegistry`, CommsModel (delay/loss), Bay route planner |
 | `Game.AI.Tests` | `Tests/EditMode/` | Editor | brain unit tests (`ScriptedKaijuBrainTests`); `DotnetTests/AI.Tests` compiles the same file plus the dotnet-only harness tests (`[Explicit]` M-007 sweeps) |
 
 ## Contract

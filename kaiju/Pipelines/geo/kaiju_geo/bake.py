@@ -186,6 +186,11 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
                 "faults_global": sha256_file(faults_global),
                 "code": {f: sha256_file(PIPE / f) for f in CODE_FILES},
                 "config": {f: sha256_file(PIPE / f) for f in CONFIG_FILES}}
+    # CUDEM release per cell (2022v1/2023v1/2025v1, T-101): a changed source version changes the fingerprint even if the
+    # window bytes happened to match. Omitted when every cell is 2022v1 so the committed M1 tile fingerprints stay valid.
+    cud_versions = sorted(m["item"] for m in cud if m.get("version", fetch.CUDEM_LEGACY_VERSION) != fetch.CUDEM_LEGACY_VERSION)
+    if cud_versions:
+        fp_parts["cudem_versions"] = sorted(m["item"] for m in cud)
     fingerprint = sha256_bytes(canonical_json(fp_parts).encode())
     man_path = out / "manifest.json"
     if man_path.exists() and not force:
