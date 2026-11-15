@@ -15,12 +15,13 @@ Session 3 (regression `evidence/regression/M1-merge-4.md`):
 - **T-022 step 1**: `landmarks` layer in the bake (`kaiju_geo/landmarks.py`, `config/landmarks.json`, licence `LicenseRef-facts-cited`); prisms emit 0 parts (OSM already right for Salesforce/Transamerica; Ferry tower 11.5 m above sourced, reported only).
 - **T-023 step 1**: Golden Gate Bridge features measured from lidar (`measure_ggb.py`, `config/ggb.json`, `evidence/T-023/ggb_lidar_measure.json`): 4 leg prisms (spacing 25.1/27.4 m), deck LineString with measured profile (75 m at towers → 81.7 m midspan), 2 cables (midspan 4.5 m above deck), cut at z = 77824; in 26_37/26_38 `landmarks.geojson`.
 - **T-030 step 1**: `Game.Net.ControlBridge` (IntentCodec, RemotePilotSource, LocalSeatIntentPublisher), two-peer loopback into PilotSeat at RTT 0/100 ms. dotnet 6/6.
+- **T-030 step 2 + T-031** (task/T-030b): `MechSeat`/`HostSeatPump`/`ClientSeatLink` (engine-free) + `MechSeatBehaviour` (Unity), flag `net.seatBridge` default off; host + 2 clients in one process at RTT 0/100 ms, each client's script reaches its own mech in order; Unity EditMode host+client behaviours. dotnet 12/12, Unity filter 14/14. Two-process run not done.
 - **T-032 steps A–C**: `Game.AI.Contracts` + `Game.AI.Scripted` (ScriptedKaijuBrain per R-024 §1.4/§1.5), 2D harness, `brain_log@v1`, M-058 (0.21 µs mean per Decide, 0 B alloc). Flag `kaiju.scriptedBrain` false (FeatureFlags/AI.json). dotnet 26/26. M-007 C1 FR_commit 0.18 < 0.60 = R-024 spec finding (FlankTimeout 10 s infeasible).
 
 ## Next (in order)
 1. **T-023 step 2** (Unity, World.Geo): optional `landmarks` layer reader (manifest without it stays valid; validator accepts the new licence id), static colliders per R-020 §3 (4 leg boxes, deck BoxColliders per 40 m segment following `y_navd88_m`, cable capsule chain r 0.46 m), meshes, layer order terrain, water, buildings, landmarks; `geo_export@v1` landmarks array; then `m005_check.py district` landmarks row (T-035 later step) and M-060. Branch from the integration head (task/T-022 is merged).
 2. R-024 revision for M-007 C1 (flank timeout from arc length/speed, pack-assembly gate), then re-run the harness. T-033 (brain_log Python tool, M-007).
-3. T-030 step 2: per-mech MonoBehaviour owning PilotSeat + RemotePilotSource per slot (`tasks/T-030.progress.md`), then T-031 loopback test.
+3. ~~T-030 step 2 + T-031~~ DONE (task/T-030b): see below. Remaining: T-030 step 3 placeholder body consuming `MechSeatBehaviour.Frame`.
 4. T-036 step 3 (M-051, needs R-021 C-3), step 4 (M-053/M-054), C# `destruction_dump@v1` exporter; T-035 steps 2–3.
 5. Composition root: install Destruction + Seismic + bridge + brain behind flags (T-039 or a small step).
 6. Evaluators per track (eval-arch, eval-physics, eval-perf), Sonnet medium.
