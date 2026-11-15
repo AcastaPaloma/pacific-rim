@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-15 20:01:19Z" end-time="2026-11-15 20:02:39Z" duration="79.3795829">
+  <test-suite type="TestSuite" id="1042" name="KaijuGame" fullname="KaijuGame" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-11-15 20:01:19Z" end-time="2026-11-15 20:02:39Z" duration="79.379583" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1066" name="Game.Slice.PlayMode.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-189/kaiju/Library/ScriptAssemblies/Game.Slice.PlayMode.Tests.dll" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-15 20:01:19Z" end-time="2026-11-15 20:02:39Z" duration="79.371601" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="87798" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1067" name="Game" fullname="Game" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-15 20:01:19Z" end-time="2026-11-15 20:02:39Z" duration="79.370785" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1068" name="Slice" fullname="Game.Slice" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-15 20:01:19Z" end-time="2026-11-15 20:02:39Z" duration="79.370328" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1069" name="PlayMode" fullname="Game.Slice.PlayMode" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-15 20:01:19Z" end-time="2026-11-15 20:02:39Z" duration="79.369862" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1070" name="Tests" fullname="Game.Slice.PlayMode.Tests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-15 20:01:19Z" end-time="2026-11-15 20:02:39Z" duration="79.369335" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1063" name="SliceSmokePlayModeTests" fullname="Game.Slice.PlayMode.Tests.SliceSmokePlayModeTests" classname="Game.Slice.PlayMode.Tests.SliceSmokePlayModeTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-15 20:01:19Z" end-time="2026-11-15 20:02:39Z" duration="79.368041" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1065" name="FeelCheck_BootsFightsAndExitsClean" fullname="Game.Slice.PlayMode.Tests.SliceSmokePlayModeTests.FeelCheck_BootsFightsAndExitsClean" methodname="FeelCheck_BootsFightsAndExitsClean" classname="Game.Slice.PlayMode.Tests.SliceSmokePlayModeTests" runstate="Runnable" seed="275695191" result="Passed" start-time="2026-11-15 20:01:19Z" end-time="2026-11-15 20:02:39Z" duration="79.349598" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="Timeout" value="900000" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+There are no audio listeners in the scene. Please ensure there is always one audio listener in the scene
+[Slice] ready in 57.5 s: tiles 15, buildings 16615, landmark colliders 154
+[Slice] geo L0_26_37 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=1558v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-8064.00, -53.36, 2176.00) (256.00, 13.11, 256.00)
+[Slice] geo L0_26_37 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=988v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7808.00, -49.35, 2176.00) (256.00, 5.09, 256.00)
+[Slice] geo L0_26_37 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=924v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7552.00, -53.95, 2176.00) (256.00, 10.56, 256.00)
+[Slice] geo L0_29_35 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=6381v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1920.00, 39.73, -1920.00) (256.00, 17.46, 256.00)
+[Slice] geo L0_29_35 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=8863v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1664.00, 34.71, -1920.00) (256.00, 28.15, 256.00)
+[Slice] geo L0_29_35 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=7010v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1408.00, 22.55, -1920.00) (256.00, 20.81, 256.00)
+[Slice] geo L0_30_35 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=2564v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(128.00, 5.92, -1920.00) (256.00, 4.39, 256.00)
+[Slice] geo L0_30_35 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=2583v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(384.00, 3.96, -1920.00) (256.00, 2.55, 256.00)
+[Slice] geo L0_30_35 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=3083v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(640.00, 2.94, -1920.00) (256.00, 5.01, 256.00)
+[Slice] geo L0_31_35 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=1600v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2176.00, -3.75, -1920.00) (256.00, 15.13, 256.00)
+[Slice] geo L0_31_35 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=43v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2432.00, -11.32, -1920.00) (256.00, 4.13, 256.00)
+[Slice] geo L0_31_35 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=20v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2688.00, -12.54, -1920.00) (256.00, 0.62, 256.00)
+[Slice] geo L0_25_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=162v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-10112.00, -30.25, 128.00) (256.00, 5.68, 256.00)
+[Slice] geo L0_25_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=116v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9856.00, -29.77, 128.00) (256.00, 4.65, 256.00)
+[Slice] geo L0_25_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=394v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9600.00, -25.96, 128.00) (256.00, 20.47, 256.00)
+[Slice] geo L0_26_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=23425v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-8064.00, 44.70, 128.00) (256.00, 99.66, 256.00)
+[Slice] geo L0_26_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=13064v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7808.00, 28.95, 128.00) (256.00, 69.69, 256.00)
+[Slice] geo L0_26_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=14229v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7552.00, 29.30, 128.00) (256.00, 69.62, 256.00)
+[Slice] geo L0_27_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=15921v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-6016.00, 44.20, 128.00) (256.00, 46.26, 256.00)
+[Slice] geo L0_27_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=10218v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5760.00, 49.55, 128.00) (256.00, 16.36, 256.00)
+[Slice] geo L0_27_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=8160v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5504.00, 49.45, 128.00) (256.00, 16.16, 256.00)
+[Slice] geo L0_29_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=10531v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1920.00, 65.50, 128.00) (256.00, 31.19, 256.00)
+[Slice] geo L0_29_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=9854v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1664.00, 73.18, 128.00) (256.00, 23.20, 256.00)
+[Slice] geo L0_29_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=4709v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1408.00, 62.92, 128.00) (256.00, 22.67, 256.00)
+[Slice] geo L0_30_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=4629v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(128.00, 20.23, 128.00) (256.00, 15.07, 256.00)
+[Slice] geo L0_30_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=3560v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(384.00, 11.53, 128.00) (256.00, 10.56, 256.00)
+[Slice] geo L0_30_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=3326v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(640.00, 6.50, 128.00) (256.00, 8.33, 256.00)
+[Slice] geo L0_31_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=1852v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2176.00, -18.46, 128.00) (256.00, 10.97, 256.00)
+[Slice] geo L0_31_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=1039v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2432.00, -19.52, 128.00) (256.00, 12.51, 256.00)
+[Slice] geo L0_31_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=875v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2688.00, -20.68, 128.00) (256.00, 6.27, 256.00)
+[Slice] geo L0_25_37 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=879v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-10112.00, -49.41, 2176.00) (256.00, 12.42, 256.00)
+[Slice] geo L0_25_37 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=891v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9856.00, -44.37, 2176.00) (256.00, 12.42, 256.00)
+[Slice] geo L0_25_37 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=1850v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9600.00, -37.42, 2176.00) (256.00, 12.28, 256.00)
+[Slice] geo L0_27_37 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=13003v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-6016.00, 55.75, 2176.00) (256.00, 24.89, 256.00)
+[Slice] geo L0_27_37 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=11360v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5760.00, 44.09, 2176.00) (256.00, 34.88, 256.00)
+[Slice] geo L0_27_37 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=14577v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5504.00, 23.84, 2176.00) (256.00, 50.12, 256.00)
+[Slice] geo L0_25_38 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=9805v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-10112.00, 28.34, 4224.00) (256.00, 74.14, 256.00)
+[Slice] geo L0_25_38 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=8713v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9856.00, 38.11, 4224.00) (256.00, 96.06, 256.00)
+[Slice] geo L0_25_38 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=8615v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9600.00, 27.77, 4224.00) (256.00, 75.02, 256.00)
+[Slice] geo L0_26_38 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=9265v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-8064.00, 164.18, 4224.00) (256.00, 111.55, 256.00)
+[Slice] geo L0_26_38 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=9615v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7808.00, 86.99, 4224.00) (256.00, 126.36, 256.00)
+[Slice] geo L0_26_38 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=16293v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7552.00, 65.12, 4224.00) (256.00, 151.23, 256.00)
+[Slice] geo L0_27_38 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=4016v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-6016.00, -53.13, 4224.00) (256.00, 75.60, 256.00)
+[Slice] geo L0_27_38 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=2506v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5760.00, -66.77, 4224.00) (256.00, 42.76, 256.00)
+[Slice] geo L0_27_38 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=2837v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5504.00, -61.01, 4224.00) (256.00, 32.74, 256.00)
+[Slice] emergence at (75364, 82861) t=28 s
+[Slice] quake Mw 6.90 on Chabot fault, buildings damaged so far 1125
+[Slice] destroy view: clear line of sight, target height 12.66 m
+[Slice] smoke duel: kaiju placed 90 m ahead
+[Slice] impact 16875 MJ on bld:osm-way:132121557: state 0 -> 4 (thresholds MJ 0.1/0.2/0.6/1.5)
+[Slice] kaiju melee hit; body hp 0.90
+[Slice] hangar cycle 1: hp 900 -> 1000 (1 queued, 1 repaired), redeployed at Crissy Field airfield, Presidio (-4619, 1910), terrain known True
+[Slice] kaiju respawned 340 m ahead
+[SliceSmoke] {   "task": "T-039c", "scene": "M1Slice", "platform": "OSXEditor", "development_build": true,   "graphics_device": "Apple M5 Pro", "resolution": "640x480",   "pixel_pipeline": true, "frames_recorded": 12660, "warmup_frames": 60,   "frame_ms": { "mean": 1.654, "median": 1.572, "p95": 2.32, "max": 143.673 },   "draw_calls": { "median": 265, "max": 270 },   "load_seconds": 57.491, "tiles": 15, "buildings_registered": 16615, "landmark_colliders": 154,   "quakes": 1, "impacts": 1, "building_damaged_events": 1126, "state_counts": [0, 975, 145, 4, 2], "buildings_removed_from_scene": 2,   "kaiju": { "decisions": 107, "melee_hits": 1, "state": "Charge", "distance_to_mech_m": 349.429 },   "feel": { "combat": true, "hangar": true, "cannon_shots": 5, "arm_swings": 2, "weapon_fired_events": 7, "impact_impulse_events": 5, "impacts_building": 3, "impacts_kaiju": 2, "impacts_ground": 0, "kaiju_min_hp": 292.0, "kaiju_hp": 400.0, "kaiju_downs": 0, "hangar_cycles": 1, "ammo": 20, "combat_buildings_in_world": 16615 },   "audio": { "received": 1141, "emitted": 319, "dropped_no_position": 0, "dropped_filtered": 975, "dropped_cap": 290, "footfalls": 1 },   "config": "feelcheck", "hangar_note": "hangar cycle 1: hp 900 -> 1000 (1 queued, 1 repaired), redeployed at Crissy Field airfield, Presidio (-4619, 1910), terrain known True",   "pixel_check": null,   "mech_travel_m": 5608.489,   "render_diag": "",   "log": "config feelcheck: install: geo=True destruction=True seismic=True bridge=True brain=True combat=True hangar=True audio=True emergence=True | spawn plan: mech (884, 1024) ground 3.782 m, view yaw 210 deg, blockers 0, buildings in view 114 (0.191 s) | combat: cannon True melee True, kaiju 400 hp | hangar: stub on, site Crissy Field airfield, Presidio | ready in 57.5 s: tiles 15, buildings 16615, landmark colliders 154 | emergence at (75364, 82861) t=28 s | quake Mw 6.90 on Chabot fault, buildings damaged so far 1125 | destroy view: clear line of sight, target height 12.66 m | smoke duel: kaiju placed 90 m ahead | impact 16875 MJ on bld:osm-way:132121557: state 0 -> 4 (thresholds MJ 0.1/0.2/0.6/1.5) | kaiju melee hit; body hp 0.90 | hangar cycle 1: hp 900 -> 1000 (1 queued, 1 repaired), redeployed at Crissy Field airfield, Presidio (-4619, 1910), terrain known True | kaiju respawned 340 m ahead | " } 
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/kuanw/Library/Application Support/DefaultCompany/KaijuGame/TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

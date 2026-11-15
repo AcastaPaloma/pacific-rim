@@ -17,7 +17,7 @@ namespace Game.Slice.PlayMode.Tests
         {
             string outPath = Path.Combine(Path.GetDirectoryName(Application.dataPath), "evidence", "T-039c", "smoke_editor.json");
             if (File.Exists(outPath)) File.Delete(outPath);   // a stale file can never stand in for this run (DEF-M1slice-f2)
-            SliceBootstrap.SmokeFrames = 600; SliceBootstrap.SmokeOut = outPath;
+            SliceBootstrap.SmokeFrames = 600; SliceBootstrap.SmokeOut = outPath; SliceBootstrap.ConfigName = "m1";   // the lean T-039b set; the feel check has its own test
             yield return EditorSceneManager.LoadSceneAsyncInPlayMode("Assets/Game/Slice/Scenes/M1Slice.unity", new LoadSceneParameters(LoadSceneMode.Single));
             float t = 0f;
             while ((SliceBootstrap.Instance == null || !SliceBootstrap.Instance.SmokeDone) && t < 800f) { t += Time.unscaledDeltaTime; yield return null; }
@@ -27,7 +27,32 @@ namespace Game.Slice.PlayMode.Tests
             string json = SliceBootstrap.Instance.SmokeJson;
             StringAssert.Contains("\"quakes\": 1", json); StringAssert.Contains("\"impacts\": 1", json);
             StringAssert.Contains("\"tiles\": 15", json);
-            SliceBootstrap.SmokeFrames = 0;
+            SliceBootstrap.SmokeFrames = 0; SliceBootstrap.ConfigName = null;
+        }
+
+        // T-189: the full feel-check flag set (combat, hangar, audio.slice, emergence on top of the M1 set) boots, fights (cannon + arm + kaiju melee), runs a hangar cycle and exits clean.
+        [UnityTest, Timeout(900000)]
+        public IEnumerator FeelCheck_BootsFightsAndExitsClean()
+        {
+            string dir = Path.Combine(Path.GetDirectoryName(Application.dataPath), "evidence", "T-189");
+            string outPath = Path.Combine(dir, "smoke_feelcheck.json");
+            if (File.Exists(outPath)) File.Delete(outPath);
+            // no SmokeOut: the screenshot captures of the pixel check hang in a batch-mode editor (the player run, T-039c, owns that check); the test writes the summary itself
+            SliceBootstrap.SmokeFrames = 600; SliceBootstrap.SmokeOut = null; SliceBootstrap.ConfigName = "feelcheck";
+            yield return EditorSceneManager.LoadSceneAsyncInPlayMode("Assets/Game/Slice/Scenes/M1Slice.unity", new LoadSceneParameters(LoadSceneMode.Single));
+            float t = 0f;
+            while ((SliceBootstrap.Instance == null || !SliceBootstrap.Instance.SmokeDone) && t < 800f) { t += Time.unscaledDeltaTime; yield return null; }
+            Assert.IsNotNull(SliceBootstrap.Instance, "bootstrap present");
+            Assert.IsTrue(SliceBootstrap.Instance.SmokeDone, "smoke finished (loaded: " + SliceBootstrap.Instance.Ready + ")");
+            string json = SliceBootstrap.Instance.SmokeJson;
+            Directory.CreateDirectory(dir); File.WriteAllText(outPath, json);
+            StringAssert.Contains("\"config\": \"feelcheck\"", json);
+            StringAssert.Contains("\"quakes\": 1", json); StringAssert.Contains("\"impacts\": 1", json); StringAssert.Contains("\"tiles\": 15", json);
+            StringAssert.Contains("\"combat\": true", json); StringAssert.Contains("\"hangar\": true", json); StringAssert.Contains("\"hangar_cycles\": 1", json);
+            StringAssert.DoesNotContain("\"cannon_shots\": 0,", json); StringAssert.DoesNotContain("\"weapon_fired_events\": 0,", json); StringAssert.DoesNotContain("\"impact_impulse_events\": 0,", json);
+            StringAssert.DoesNotContain("\"impacts_kaiju\": 0,", json); StringAssert.DoesNotContain("\"kaiju_min_hp\": 400.0", json);
+            StringAssert.DoesNotContain("\"audio\": null", json); StringAssert.DoesNotContain("\"received\": 0,", json);
+            SliceBootstrap.SmokeFrames = 0; SliceBootstrap.ConfigName = null;
         }
     }
 }
