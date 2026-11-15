@@ -354,3 +354,11 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 - 2026-11-15 · No time-warp in M2; emergence sites 5-20 km from an F-044 cluster, coarse 1 Hz transit tick far from mechs. Alternative (time-warp transit) tracked for M3 — decided autonomously (founder asleep).
 - 2026-11-15 · Liquefaction in M2 = start-condition of infrastructure + route softness only; tsunami not in the M2 gate (strike-slip faults, wake from F-045 instead), tracked M3 optional event — decided autonomously (founder asleep).
 - 2026-11-15 · M-008@v1 draft `m008_bay@v1`: Mac results `relative`/provisional only (<= 0.6 of the budget), absolute 60 fps stays `pending target PC` — decided autonomously (founder asleep).
+
+
+## T-146 (M3 worker, 2026-11-15)
+- Capture plan written to `docs/store/capture_plan.md`: 22 shots over P1-P5, 5 capturable now, 17 blocked (T-005 walk, kaiju bodies, M2 streaming, HUD, co-op). — decided autonomously (founder asleep)
+- Internal frame 480x270 with x4/x8 to 1920x1080/3840x2160 (R-121 default, Q-234); driver reads size from pipeline settings so a different style-track size still works; alternative was a 320x180 base. — decided autonomously (founder asleep)
+- `capture_path@v1` is plain JSON (lintable from Python), time = frame index, own xorshift seed, snapped camera mandatory; blocked paths make the driver exit 3 instead of rendering stand-ins. — decided autonomously (founder asleep)
+- T-147 extends StyleCapture by new files in a new `Game.Tools.Capture` assembly behind default-off flag `Tools.Capture.Enabled`; no StyleCapture file edited. — decided autonomously (founder asleep)
+- M-123 gate 100 % of store frames, M-124 gate unchanged at 99 % of pixels at ΔE00 <= 2.0; no threshold lowered. Logotype/icon art tracked as human input. — decided autonomously (founder asleep)
