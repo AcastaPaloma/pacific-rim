@@ -315,3 +315,9 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 - Composition change beyond the one new file: result field, one registration line, two asmdef refs, one MODULE.md line. Unity EditMode run is queued behind a watcher because 5 Unity batch processes were running (rule 5).
 
 - 2026-11-15 · T-036c (widened by the M1 lead): baked `fault_id` carried end to end — `GeoFaultData.FaultId`, `FaultsLayer`, new `GeoFaultsLoader.LoadGlobal`, `PiecesFromGeo` — and M-053 now runs on production fault data. No re-bake: tile `faults.geojson` already keeps `fault_id` in properties and all 15 district tiles are empty by design, so tile bytes and hashes are unchanged and `m005_check.py district` stays PASS — decided autonomously (founder asleep).
+
+## T-142 / T-143 (M3 worker, 2026-11-15)
+- 2026-11-15 · T-142 M-125 gate: a layer passes only if it has at least one source and every source has a non-blank licence, attribution and URL, and the licence id has a notice text in `attribution.py`; otherwise exit 1 and no files written. Alternative (warn only) rejected: the metric is 100 % — decided autonomously (founder asleep).
+- 2026-11-15 · Landmarks layer cites CTBUH heights under `LicenseRef-facts-cited`; added to the notice table (facts only, nothing redistributed) instead of loosening the check or editing manifests — decided autonomously (founder asleep).
+- 2026-11-15 · Attribution output is deterministic (no timestamp, no absolute paths, root order irrelevant); `copy_tiles.py` takes `{"tiles": [...]}` ids, skips Unity `.meta`, clones with `cp -c`, never symlinks — decided autonomously (founder asleep).
+- 2026-11-15 · T-143 VDFs: `setlive` left empty so an upload never goes live; two depots (mac, win) with a rendered-per-platform depot template; `render_vdf.py` refuses unset/empty/non-numeric IDs and imports no network or process modules — decided autonomously (founder asleep).
