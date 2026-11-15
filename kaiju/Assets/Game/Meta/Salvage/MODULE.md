@@ -32,7 +32,7 @@ Section `salvage`, version 1. Records: `totals` (credit_usd, wrecks), `wreck:<12
 Producer `DotnetTests/Meta.Salvage.Tests/Dotnet/M106SalvageTests.cs`: 3 seeds x 3 cycles x 2 phases, file save and simulated process restart after claims and after rare consumption (12 comparisons per seed, 36 total), each restarted run compared with an un-restarted twin, floats as raw bits; flipped-bit control; 19 corruption cases give `Corrupt`. Gate: 0 differences. Evidence `evidence/T-119/m106_salvage.json` (run with `KAIJU_EVIDENCE_DIR`).
 
 ## Feature flag
-`meta.salvage` (`Config/FeatureFlags/Meta.json`, default off). `SalvageModule.Install(registry, flags, yields, economy, bus)` registers `ISalvageService` only when on and an economy exists, and returns the service; the composition root loads `Config/Salvage/salvage_yields@v1.json`, registers the service with `SaveSystem` and passes the Core bus. **Not wired** into `Game.Composition` (another track's file).
+`meta.salvage` (`Config/FeatureFlags/Meta.Salvage.json`, default off). `SalvageModule.Install(registry, flags, yields, economy, bus)` registers `ISalvageService` only when on and an economy exists, and returns the service; the composition root loads `Config/Salvage/salvage_yields@v1.json`, registers the service with `SaveSystem` and passes the Core bus. **Not wired** into `Game.Composition` (another track's file).
 
 ## Known limits / TODO
 - Math.Exp is used for fragmentation: results are identical on one runtime, bit-exactness across CPU architectures is not claimed (saved values are stored, never recomputed).

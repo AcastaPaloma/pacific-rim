@@ -14,7 +14,7 @@ namespace Game.Meta.Salvage.Tests
         public static string Root()
         {
             var d = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
-            while (d != null && !File.Exists(Path.Combine(d.FullName, "Assets", "Game", "Config", "FeatureFlags", "Meta.json"))) d = d.Parent;
+            while (d != null && !File.Exists(Path.Combine(d.FullName, "Assets", "Game", "Config", "FeatureFlags", "Meta.Salvage.json"))) d = d.Parent;
             Assert.IsNotNull(d, "repo root not found");
             return d.FullName;
         }
@@ -92,9 +92,9 @@ namespace Game.Meta.Salvage.Tests
 
         [Test] public void Flag_FileDefaultsOff()
         {
-            string t = File.ReadAllText(Path.Combine(Kit.Root(), "Assets", "Game", "Config", "FeatureFlags", "Meta.json"));
+            string t = File.ReadAllText(Path.Combine(Kit.Root(), "Assets", "Game", "Config", "FeatureFlags", "Meta.Salvage.json"));
             StringAssert.Contains("\"meta.salvage\": false", t);
-            var snap = FeatureFlagLoader.Parse(t, "Meta.json", new CollectingErrorSink());
+            var snap = FeatureFlagLoader.Parse(t, "Meta.Salvage.json", new CollectingErrorSink());
             Assert.IsFalse(snap.IsOn(SalvageFlags.Salvage));
         }
 
