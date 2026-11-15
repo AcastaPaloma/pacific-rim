@@ -1,0 +1,652 @@
+{
+ "assumed_thresholds_decisive": [],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [
+   "lavender_peach: 0 gameplay frames (< 12)",
+   "slate_crimson: 0 gameplay frames (< 12)",
+   "slate_teal: 0 gameplay frames (< 12)",
+   "warm_amber_haze: 0 gameplay frames (< 12)",
+   "warm_rust_sepia: 0 gameplay frames (< 12)"
+  ],
+  "optional_not_provided": [],
+  "provided": [
+   "haze_cal"
+  ],
+  "required": [
+   "lavender_peach >= 12 frames",
+   "slate_crimson >= 12 frames",
+   "slate_teal >= 12 frames",
+   "warm_amber_haze >= 12 frames",
+   "warm_rust_sepia >= 12 frames",
+   "haze_cal"
+  ]
+ },
+ "exit_code": 3,
+ "extra": {
+  "frames": []
+ },
+ "failing_gating": [],
+ "failures_suppressed": false,
+ "flags": [],
+ "headless_verdict": "INCOMPLETE",
+ "headless_verdict_label": "INCOMPLETE",
+ "images": [],
+ "inputs": [
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/lavender_peach/f000000.json",
+   "role": "style_capture@v1",
+   "sha256": "a9d798be0b6b957a5514b3b8f320e8dcbd4f5745e94148530a862dc0013516b5"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/lavender_peach/f000000_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "2bde980fc1687739c9a6a9d0c5007e0a5d493e33fcafc5bd38a50ec68441d491"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/lavender_peach/f000000_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "7263dbe46145bc24d8777e40764d1296ec491d7e14fdf4c47a28d0a75c619b73"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/lavender_peach/f000000_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "65bb5b3d1bf638c7c4d77492b9ce0893918e77ca47aa9f702ffac4d75fd458cd"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/lavender_peach/f000000_index.png",
+   "role": "style_capture@v1",
+   "sha256": "04b359d3526f2682a3297515396250184365211cc2106e2e868751da538c966e"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/lavender_peach/f000000_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/lavender_peach/sequence.json",
+   "role": "style_capture@v1",
+   "sha256": "cb693bf7d124d619cb57fd87ef8e3505fbbe84b32043a47e768c42241b0729ec"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/slate_crimson/f000000.json",
+   "role": "style_capture@v1",
+   "sha256": "a11a313ba62a24e6a7ba898df44fcca04167a4cab6a8e41e50bfb2b06437b3a5"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/slate_crimson/f000000_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "871279d2094d5488b618f1421725b3df3038f3f4494657f5d95fb332aadebe1f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/slate_crimson/f000000_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "7f84e081502472e81893d43d4dc32b65fc242a7c2193548a7d831b3f23a6e5b4"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/slate_crimson/f000000_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "65bb5b3d1bf638c7c4d77492b9ce0893918e77ca47aa9f702ffac4d75fd458cd"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/slate_crimson/f000000_index.png",
+   "role": "style_capture@v1",
+   "sha256": "770931b3caede26e2805d44d1fa117ccd4fcc9dcf40f71233afd223c59ebe21c"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/slate_crimson/f000000_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/slate_crimson/sequence.json",
+   "role": "style_capture@v1",
+   "sha256": "8acf3df3668a355f6021f5130afc503af42fd5c2c939b40d6ec267498ef8f760"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/slate_teal/f000000.json",
+   "role": "style_capture@v1",
+   "sha256": "cbac3895e86e2666bd01677c994396aa71bfb478601b4dd9ca03fb1ca0832689"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/slate_teal/f000000_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "d95238c40fc84c061d744d47022bd19ca06fbc646e0dbd44d70c7df317afb59f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/slate_teal/f000000_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "8060972fb5654abe8d3092ec97a50f32161fb7d9674322502a097a0de4e7095e"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/slate_teal/f000000_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "65bb5b3d1bf638c7c4d77492b9ce0893918e77ca47aa9f702ffac4d75fd458cd"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/slate_teal/f000000_index.png",
+   "role": "style_capture@v1",
+   "sha256": "b930891801f9ad98f0ffd85d754231ddedde9310d52939f20ee50ff862563b63"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/slate_teal/f000000_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/slate_teal/sequence.json",
+   "role": "style_capture@v1",
+   "sha256": "0478d58e5ba1c10a13c8fa6c3317262c1dd2a37886d3b1349291350719da30ac"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/warm_amber_haze/f000000.json",
+   "role": "style_capture@v1",
+   "sha256": "7012f4684edabbdad71cb92b0c5958bf6e410ff9471fb8930e1f3ed0c0b1dd77"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/warm_amber_haze/f000000_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "a455f3c7f9cdbc17b2c401b343f9271235dece1432c238ba22dd69a69a0ce778"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/warm_amber_haze/f000000_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "c1be0ce5ef50d26aecaf5b6b6e5f416c18b4f856a98b0b85feb3e07e66eaeab7"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/warm_amber_haze/f000000_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "65bb5b3d1bf638c7c4d77492b9ce0893918e77ca47aa9f702ffac4d75fd458cd"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/warm_amber_haze/f000000_index.png",
+   "role": "style_capture@v1",
+   "sha256": "53cfd93e319a9f2c8935336ac4df92483b9fe064cea9b7d1d3af1e7999b15bd0"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/warm_amber_haze/f000000_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/warm_amber_haze/sequence.json",
+   "role": "style_capture@v1",
+   "sha256": "6b144f39d96089f83dbdacb40c3552557dec96c8869bc04984ab4563eb74d819"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/warm_rust_sepia/f000000.json",
+   "role": "style_capture@v1",
+   "sha256": "24d4edd0c69dee9646fcb3bfc847aeabaf00e25ebd635592877e99f088b24528"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/warm_rust_sepia/f000000_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "03bec720f262f79d61cbb9c7e7ba8d3e5636e586bc5b7b7f35d4a8d0b3f8555d"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/warm_rust_sepia/f000000_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "7272032b51dbebd8a85f891f7fb52a857c8c99508a102dc8192337f893ec3d4f"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/warm_rust_sepia/f000000_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "65bb5b3d1bf638c7c4d77492b9ce0893918e77ca47aa9f702ffac4d75fd458cd"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/warm_rust_sepia/f000000_index.png",
+   "role": "style_capture@v1",
+   "sha256": "d1d461ffae48f3e7dc8c933b85e6e9a6b6a872b41939ca8b5d8f83a4d664ace4"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/warm_rust_sepia/f000000_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal/warm_rust_sepia/sequence.json",
+   "role": "style_capture@v1",
+   "sha256": "759a7e2718d05153355a8bb5524e07aec53686fcf47d2deed8269ae90637a8d6"
+  },
+  {
+   "path": "research/R-002/palettes.json",
+   "role": "palette_set@v1",
+   "sha256": "868527c5a439fb595732a1b002de3c69b2d4dc7ea81c5e711da7e10c4cd51649"
+  }
+ ],
+ "invocation": {
+  "command": "m003",
+  "inputs": [
+   "/private/tmp/claude-501/-Users-kuanw-Me-code-pacific-rim--claude-worktrees-fable-orchestrator-prompt-83a0a8/cee079fb-1483-4089-9d5b-44b75dab4946/scratchpad/hz/M0StyleFrame/haze_cal"
+  ],
+  "label": "haze_cal",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "haze_cal",
+ "metric": "M-003",
+ "metric_version": "M-003@v1",
+ "normalisers": {},
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-003@v1.1.yaml",
+  "revision": "v1.1",
+  "sha256": "7a63afd06c6681ab3dc1480a407556dd499a53df0022c7eaf62256268bcc68a1",
+  "spec": "M-003@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "revw-172-31-218-200.rn.uwaterloo.ca",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-15T21:15:22Z",
+  "wall_time_s": 1.644
+ },
+ "submeasures": [
+  {
+   "diagnostics": {},
+   "id": "M-003.a.output",
+   "kind": "gating",
+   "note": "no gameplay frames",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "derived",
+   "title": "Palette adherence A_2 on color_output (share within dE00 <= T of the declared profile), worst frame",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.a.internal",
+   "kind": "gating",
+   "note": "no gameplay frames",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Palette adherence A_2 on color_internal, worst frame",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.a.A3",
+   "kind": "info",
+   "note": "no gameplay frames",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "derived",
+   "title": "Palette adherence A_3 on color_output (informational), worst frame",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.a.A5",
+   "kind": "info",
+   "note": "no gameplay frames",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "derived",
+   "title": "Palette adherence A_5 on color_output (informational), worst frame",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.b.DIG",
+   "kind": "gating",
+   "note": "no gameplay frames",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "derived",
+   "title": "Dithering present in gradients, share of evaluated frames with DIG >= 0.15",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.b.DIG_max",
+   "kind": "advisory",
+   "note": "no gameplay frames",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "DIG upper bound (a whole frame of dither reads as noise), worst frame",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.b.O",
+   "kind": "advisory",
+   "note": "no gameplay frames",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "none",
+   "title": "Ordered index O = rho(lag 2) - rho(lag 1) (advisory without a threshold until Q-015), median over evaluated frames",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.c1",
+   "kind": "gating",
+   "note": "no gameplay frames",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Value banding by depth monotonic on gameplay frames (drop, Spearman rho, span), worst frame",
+   "unit": "",
+   "value": null
+  },
+  {
+   "decisive_part": "haze_cal/lavender_peach/f000000: max drop of pair mean L*",
+   "diagnostics": {
+    "where": "haze_cal/lavender_peach/f000000"
+   },
+   "id": "M-003.c2",
+   "info": {
+    "frames": [
+     {
+      "abs_reading_far_ok": true,
+      "abs_reading_non_increasing": true,
+      "dL_abs_reading": [
+       35.5946678936,
+       30.1415875374,
+       22.0888485633,
+       12.7277344764,
+       12.7277344764,
+       9.03452437896
+      ],
+      "dL_signed": [
+       35.5946678936,
+       30.1415875374,
+       22.0888485633,
+       12.7277344764,
+       12.7277344764,
+       9.03452437896
+      ],
+      "frame": "haze_cal/lavender_peach/f000000",
+      "meanL": [
+       37.1970526356,
+       39.9235928137,
+       43.9499623007,
+       48.6305193442,
+       48.6305193442,
+       50.4771243929
+      ]
+     },
+     {
+      "abs_reading_far_ok": true,
+      "abs_reading_non_increasing": true,
+      "dL_abs_reading": [
+       30.7714672048,
+       22.5530581192,
+       22.5530581192,
+       13.3326649552,
+       13.3326649552,
+       0.0
+      ],
+      "dL_signed": [
+       30.7714672048,
+       22.5530581192,
+       22.5530581192,
+       13.3326649552,
+       13.3326649552,
+       0.0
+      ],
+      "frame": "haze_cal/slate_crimson/f000000",
+      "meanL": [
+       34.3385815442,
+       38.447786087,
+       38.447786087,
+       43.057982669,
+       43.057982669,
+       49.7243151466
+      ]
+     },
+     {
+      "abs_reading_far_ok": true,
+      "abs_reading_non_increasing": true,
+      "dL_abs_reading": [
+       34.3519932818,
+       27.6050160803,
+       21.1026530271,
+       21.1026530271,
+       12.6211831268,
+       12.6211831268
+      ],
+      "dL_signed": [
+       34.3519932818,
+       27.6050160803,
+       21.1026530271,
+       21.1026530271,
+       12.6211831268,
+       12.6211831268
+      ],
+      "frame": "haze_cal/slate_teal/f000000",
+      "meanL": [
+       49.9094810697,
+       53.2829696704,
+       56.534151197,
+       56.534151197,
+       60.7748861472,
+       60.7748861472
+      ]
+     },
+     {
+      "abs_reading_far_ok": true,
+      "abs_reading_non_increasing": true,
+      "dL_abs_reading": [
+       43.3752171441,
+       32.8845667505,
+       23.9370923702,
+       23.9370923702,
+       14.133821482,
+       8.86939539406
+      ],
+      "dL_signed": [
+       43.3752171441,
+       32.8845667505,
+       23.9370923702,
+       23.9370923702,
+       14.133821482,
+       8.86939539406
+      ],
+      "frame": "haze_cal/warm_amber_haze/f000000",
+      "meanL": [
+       56.7124540837,
+       61.9577792805,
+       66.4315164707,
+       66.4315164707,
+       71.3331519148,
+       73.9653649587
+      ]
+     },
+     {
+      "abs_reading_far_ok": true,
+      "abs_reading_non_increasing": true,
+      "dL_abs_reading": [
+       33.7734133851,
+       26.0530928821,
+       19.1270142782,
+       19.1270142782,
+       11.7367113928,
+       11.7367113928
+      ],
+      "dL_signed": [
+       33.7734133851,
+       26.0530928821,
+       19.1270142782,
+       19.1270142782,
+       11.7367113928,
+       11.7367113928
+      ],
+      "frame": "haze_cal/warm_rust_sepia/f000000",
+      "meanL": [
+       48.7877133092,
+       52.6478735606,
+       56.1109128626,
+       56.1109128626,
+       59.8060643053,
+       59.8060643053
+      ]
+     }
+    ],
+    "note": "signed reading gates (R-002 as written); the absolute-value reading (expect-B) is informational"
+   },
+   "kind": "gating",
+   "margin": 0.0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.5,
+     "margin_rel": 1.0,
+     "name": "haze_cal/lavender_peach/f000000: max rise of signed dL* between distances",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.5,
+     "unit": "L*",
+     "value": 0.0
+    },
+    {
+     "margin": 8.76280956786,
+     "margin_rel": 8.76280956786,
+     "name": "haze_cal/lavender_peach/f000000: dL*(8 km) - ratio x dL*(200 m)",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.0,
+     "unit": "L*",
+     "value": -8.76280956786
+    },
+    {
+     "margin": 0.0,
+     "margin_rel": 0.0,
+     "name": "haze_cal/lavender_peach/f000000: max drop of pair mean L*",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.0,
+     "unit": "L*",
+     "value": 0.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.0,
+   "threshold_status": "derived",
+   "title": "Contrast decreasing with distance on the haze_cal scene (signed light - dark dL*)",
+   "unit": "L*",
+   "value": 0.0
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.d-i",
+   "kind": "gating",
+   "note": "no gameplay frames",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "derived",
+   "title": "Value levels (distinct L* of entries >= 0.5 %, merged at dL* < 4), worst frame",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.d-ii",
+   "kind": "gating",
+   "note": "no gameplay frames",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "derived",
+   "title": "Hue families (chroma-weighted circular hue peaks >= 10 % mass), worst frame",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.d-iii",
+   "kind": "advisory",
+   "note": "no gameplay frames",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "derived",
+   "title": "Accent share when present, worst frame",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.d-iv",
+   "kind": "gating",
+   "note": "no gameplay frames",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "derived",
+   "title": "Pixel-grid integrity on color_output (uniform s x s blocks at the declared offset), worst frame",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.e.sky",
+   "kind": "advisory",
+   "note": "no gameplay frames",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Sky share (z >= 0.99 far), worst frame",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.e.horizon",
+   "kind": "advisory",
+   "note": "no gameplay frames",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Geometric horizon height from pose, h = 0.5 + tan(pitch) / (2 tan(vfov/2)), worst frame",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.e.contrast",
+   "kind": "advisory",
+   "note": "no gameplay frames",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Silhouette contrast L*90 - L*10, worst frame",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.f",
+   "kind": "gating",
+   "note": "no panel_ratings@v1 file given (the tool never defaults a score)",
+   "parts": [],
+   "status": "PENDING",
+   "threshold_status": "derived",
+   "title": "Blind panel style match (mean >= 8.0 over >= 12 captures, no profile mean < 7)",
+   "unit": "",
+   "value": null
+  }
+ ],
+ "tool": {
+  "git_commit": "d801833e4ae76aec26d958e4cf33b7a23ca3f1ab",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "INCOMPLETE",
+ "verdict_label": "INCOMPLETE",
+ "warnings": []
+}

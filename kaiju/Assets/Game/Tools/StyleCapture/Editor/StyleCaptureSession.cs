@@ -84,6 +84,9 @@ namespace Game.Tools.StyleCapture
         public PaletteProfile Profile => Capture.Binder.profile;
 
         /// <summary>Nominal texel size (m) at a depth, and texel angle (degrees), for the current output size.</summary>
+        /// <summary>T-192: the near-layer (focus) depth for a pose: <paramref name="depth"/>, or 124.2 m (ParallaxShiftMath.NearDepthM) when layerSnap is on and <paramref name="depth"/> is 400 m or more.</summary>
+        public float LayerFocus(float depth) => Flags.IsOn(PixelFlags.LayerSnap) && depth >= 400f ? 124.2f : depth;
+
         public void Grid(float depth, out float metresPerTexel, out float degreesPerTexel)
         {
             Rig.Tick(0f);   // sets the field of view from the grid
@@ -128,10 +131,11 @@ namespace Game.Tools.StyleCapture
                 System.IO.Directory.CreateDirectory(m_Dir);
             }
 
-            /// <summary>Renders the scripted pose (through the rig's stabiliser) and writes the frame.</summary>
+            /// <summary>Renders the scripted pose (through the rig's stabiliser) and writes the frame. T-192: with layerSnap on a reference depth of 400 m or more (the jobs' 600 m scene scale) is replaced by
+            /// the shipping focus depth 124.2 m, because near and main layers 600 and 664.874 m are too close for separate slabs and the binder would silently render the single-snap path.</summary>
             public CapturedFrame FrameScripted(int index, CameraPose pose, float referenceDepth, HazeTarget[] hazeTargets = null)
             {
-                m_S.Rig.SetScriptedPose(pose, referenceDepth);
+                m_S.Rig.SetScriptedPose(pose, m_S.LayerFocus(referenceDepth));
                 m_S.Rig.Tick(Dt);
                 return Write(index, hazeTargets);
             }

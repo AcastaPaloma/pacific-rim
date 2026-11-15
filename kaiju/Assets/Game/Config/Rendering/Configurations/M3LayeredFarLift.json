@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "name": "m3_layered_far_lift",
+  "comment": "T-192: M0StyleFrame plus rendering.pixel.layerSnap and rendering.pixel.hazeFarLift. The M3 capture configuration for moving layered sequences; the shipped default stays off.",
+  "enable": [
+    "rendering.pixel.enabled",
+    "rendering.pixel.lowRes",
+    "rendering.pixel.dither",
+    "rendering.pixel.haze",
+    "rendering.pixel.quantise",
+    "rendering.pixel.subPixelPresent",
+    "rendering.pixel.hazeFarLift",
+    "camera.thirdPersonRig",
+    "camera.snapPosition",
+    "camera.quantiseRotation",
+    "camera.footfallImpulse",
+    "rendering.pixel.layerSnap"
+  ]
+}
