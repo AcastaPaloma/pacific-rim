@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="11" result="Passed" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-15 06:33:06Z" end-time="2026-11-15 06:33:07Z" duration="0.2512716">
+  <test-suite type="TestSuite" id="1000" name="KaijuGame" fullname="KaijuGame" runstate="Runnable" testcasecount="557" result="Passed" start-time="2026-11-15 06:33:06Z" end-time="2026-11-15 06:33:07Z" duration="0.251272" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1231" name="Game.Core.Unity.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-030c/kaiju/Library/ScriptAssemblies/Game.Core.Unity.Tests.dll" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-15 06:33:06Z" end-time="2026-11-15 06:33:07Z" duration="0.233162" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="22624" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1232" name="Game" fullname="Game" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-15 06:33:06Z" end-time="2026-11-15 06:33:07Z" duration="0.232754" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1233" name="Core" fullname="Game.Core" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-15 06:33:06Z" end-time="2026-11-15 06:33:07Z" duration="0.232333" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1234" name="Unity" fullname="Game.Core.Unity" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-15 06:33:06Z" end-time="2026-11-15 06:33:07Z" duration="0.232019" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1235" name="Tests" fullname="Game.Core.Unity.Tests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-15 06:33:06Z" end-time="2026-11-15 06:33:07Z" duration="0.231792" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1225" name="AdapterTests" fullname="Game.Core.Unity.Tests.AdapterTests" classname="Game.Core.Unity.Tests.AdapterTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-15 06:33:06Z" end-time="2026-11-15 06:33:07Z" duration="0.230969" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1226" name="Adapter_ConfigAsset_PointsAtCommittedFiles" fullname="Game.Core.Unity.Tests.AdapterTests.Adapter_ConfigAsset_PointsAtCommittedFiles" methodname="Adapter_ConfigAsset_PointsAtCommittedFiles" classname="Game.Core.Unity.Tests.AdapterTests" runstate="Runnable" seed="1573096533" result="Passed" start-time="2026-11-15 06:33:06Z" end-time="2026-11-15 06:33:06Z" duration="0.025078" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1227" name="Adapter_CreateRoot_FromCommittedConfig_AllFlagsOff" fullname="Game.Core.Unity.Tests.AdapterTests.Adapter_CreateRoot_FromCommittedConfig_AllFlagsOff" methodname="Adapter_CreateRoot_FromCommittedConfig_AllFlagsOff" classname="Game.Core.Unity.Tests.AdapterTests" runstate="Runnable" seed="174132707" result="Passed" start-time="2026-11-15 06:33:06Z" end-time="2026-11-15 06:33:06Z" duration="0.007023" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1230" name="Adapter_EnterPlayModeTwice_NoDomainReload_FreshStateEachTime" fullname="Game.Core.Unity.Tests.AdapterTests.Adapter_EnterPlayModeTwice_NoDomainReload_FreshStateEachTime" methodname="Adapter_EnterPlayModeTwice_NoDomainReload_FreshStateEachTime" classname="Game.Core.Unity.Tests.AdapterTests" runstate="Runnable" seed="2120625501" result="Passed" start-time="2026-11-15 06:33:06Z" end-time="2026-11-15 06:33:07Z" duration="0.184600" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[Core] play mode re-entry: first root -63525936, second root -1805071104, domain reload disabled
+]]></output>
+                </test-case>
+                <test-case id="1229" name="Adapter_LogSink_LogsOncePerSubscriberAndEventType_CountsAll" fullname="Game.Core.Unity.Tests.AdapterTests.Adapter_LogSink_LogsOncePerSubscriberAndEventType_CountsAll" methodname="Adapter_LogSink_LogsOncePerSubscriberAndEventType_CountsAll" classname="Game.Core.Unity.Tests.AdapterTests" runstate="Runnable" seed="1335220106" result="Passed" start-time="2026-11-15 06:33:07Z" end-time="2026-11-15 06:33:07Z" duration="0.004217" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[Core] HandlerException: Handler Game.Core.Unity.Tests.AdapterTests+ThrowingProbe#0 threw while handling Game.Core.Unity.Tests.AdapterTests+ProbeEvent: InvalidOperationException: probe
+System.InvalidOperationException: probe
+  at Game.Core.Unity.Tests.AdapterTests+ThrowingProbe.Game.Core.IEventHandler<Game.Core.Unity.Tests.AdapterTests.ProbeEvent>.Handle (Game.Core.Unity.Tests.AdapterTests+ProbeEvent& evt) [0x00000] in <7b5030481ca14cb4b7a41bf2be15c945>:0 
+  at Game.Core.EventBus+Channel`1[T].DispatchNext (Game.Core.EventBus bus) [0x0006c] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-030c/kaiju/Assets/Game/Core/Runtime/EventBus.cs:273 
+]]></output>
+                </test-case>
+                <test-case id="1228" name="Adapter_ReconcileFixedStep_ReportsMismatch" fullname="Game.Core.Unity.Tests.AdapterTests.Adapter_ReconcileFixedStep_ReportsMismatch" methodname="Adapter_ReconcileFixedStep_ReportsMismatch" classname="Game.Core.Unity.Tests.AdapterTests" runstate="Runnable" seed="58728422" result="Passed" start-time="2026-11-15 06:33:07Z" end-time="2026-11-15 06:33:07Z" duration="0.001192" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="1596" name="Game.World.Destruction.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-030c/kaiju/Library/ScriptAssemblies/Game.World.Destruction.Tests.dll" runstate="Runnable" testcasecount="86" result="Passed" start-time="2026-11-15 06:33:07Z" end-time="2026-11-15 06:33:07Z" duration="0.011318" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="22624" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1597" name="Game" fullname="Game" runstate="Runnable" testcasecount="86" result="Passed" start-time="2026-11-15 06:33:07Z" end-time="2026-11-15 06:33:07Z" duration="0.010313" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1598" name="World" fullname="Game.World" runstate="Runnable" testcasecount="86" result="Passed" start-time="2026-11-15 06:33:07Z" end-time="2026-11-15 06:33:07Z" duration="0.009519" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1599" name="Destruction" fullname="Game.World.Destruction" runstate="Runnable" testcasecount="86" result="Passed" start-time="2026-11-15 06:33:07Z" end-time="2026-11-15 06:33:07Z" duration="0.008665" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1600" name="Tests" fullname="Game.World.Destruction.Tests" runstate="Runnable" testcasecount="86" result="Passed" start-time="2026-11-15 06:33:07Z" end-time="2026-11-15 06:33:07Z" duration="0.007724" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1574" name="DestructionWiringTests" fullname="Game.World.Destruction.Tests.DestructionWiringTests" classname="Game.World.Destruction.Tests.DestructionWiringTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-11-15 06:33:07Z" end-time="2026-11-15 06:33:07Z" duration="0.006977" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1580" name="Adapter_AreaFromPolygons_OuterMinusHoles" fullname="Game.World.Destruction.Tests.DestructionWiringTests.Adapter_AreaFromPolygons_OuterMinusHoles" methodname="Adapter_AreaFromPolygons_OuterMinusHoles" classname="Game.World.Destruction.Tests.DestructionWiringTests" runstate="Runnable" seed="2108850586" result="Passed" start-time="2026-11-15 06:33:07Z" end-time="2026-11-15 06:33:07Z" duration="0.001158" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1583" name="Adapter_ClockwiseRing_SamePositiveArea" fullname="Game.World.Destruction.Tests.DestructionWiringTests.Adapter_ClockwiseRing_SamePositiveArea" methodname="Adapter_ClockwiseRing_SamePositiveArea" classname="Game.World.Destruction.Tests.DestructionWiringTests" runstate="Runnable" seed="982393237" result="Passed" start-time="2026-11-15 06:33:07Z" end-time="2026-11-15 06:33:07Z" duration="0.000123" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1581" name="Adapter_Defaults_LevelsUnknownNotResidential" fullname="Game.World.Destruction.Tests.DestructionWiringTests.Adapter_Defaults_LevelsUnknownNotResidential" methodname="Adapter_Defaults_LevelsUnknownNotResidential" classname="Game.World.Destruction.Tests.DestructionWiringTests" runstate="Runnable" seed="469258384" result="Passed" start-time="2026-11-15 06:33:07Z" end-time="2026-11-15 06:33:07Z" duration="0.000138" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1582" name="Adapter_NoPolygons_FallsBackToAreaThenZero" fullname="Game.World.Destruction.Tests.DestructionWiringTests.Adapter_NoPolygons_FallsBackToAreaThenZero" methodname="Adapter_NoPolygons_FallsBackToAreaThenZero" classname="Game.World.Destruction.Tests.DestructionWiringTests" runstate="Runnable" seed="487966615" result="Passed" start-time="2026-11-15 06:33:07Z" end-time="2026-11-15 06:33:07Z" duration="0.000117" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1585" name="Adapter_Null_Throws" fullname="Game.World.Destruction.Tests.DestructionWiringTests.Adapter_Null_Throws" methodname="Adapter_Null_Throws" classname="Game.World.Destruction.Tests.DestructionWiringTests" runstate="Runnable" seed="195044854" result="Passed" start-time="2026-11-15 06:33:07Z" end-time="2026-11-15 06:33:07Z" duration="0.000635" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1584" name="Adapter_Result_RegistersAndDamagesInModel" fullname="Game.World.Destruction.Tests.DestructionWiringTests.Adapter_Result_RegistersAndDamagesInModel" methodname="Adapter_Result_RegistersAndDamagesInModel" classname="Game.World.Destruction.Tests.DestructionWiringTests" runstate="Runnable" seed="356628718" result="Passed" start-time="2026-11-15 06:33:07Z" end-time="2026-11-15 06:33:07Z" duration="0.003751" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/kuanw/Library/Application Support/DefaultCompany/KaijuGame/TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
