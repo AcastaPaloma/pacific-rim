@@ -1,0 +1,23 @@
+# T-108d summary (2026-11-15): B1/B2 form change, bake_lod.py@7
+
+Decision (lead, founder asleep): caps and accuracy gates stay, the FORM changes. Only the 184 tiles flagged by T-102b were re-baked (0 failed, ~50 min, 5 workers); the other 1333 manifests (@5/@6, all forms inside their caps) stay valid through `GENERATOR_COMPAT`.
+
+## Before / after (over cap, forms)
+| | before (T-102b) | after (T-108d) |
+|---|---|---|
+| L1 B1 | 116 | **109** (7 now fit as merged blocks) |
+| L2 B1 | 58 | **0** (4 merged blocks; 54 skyline form in the B1 slot, outside the B1 error envelope, flagged) |
+| L3 B2 | 1 | **0** (rooftop cell 512 m, flagged `surface_cell_over_chunk`) |
+| L4 B2 | 9 | **0** (rooftop cell 512 m, flagged) |
+| total over cap | 184 | **109** (all L1) |
+
+Fit classes over all 1517 tiles' forms: nominal 1629, adaptive 3, merged_blocks 11 (L1_18_10, L1_18_16, L1_19_16, L1_24_17, L1_25_07, L1_25_09, L1_28_02, L2_05_12, L2_06_12, L2_06_16, L2_13_04), skyline_fallback 54, over_cap_error_budget 109. Files: lod_budget_after.json (every over-cap form with triangles, cap, errors, ladder floor, `block_floor_triangles`; `outside_error_envelope` lists the 54 skyline fallbacks).
+
+## What changed (geo_lod@v1 unchanged, generator @7, `.lodmesh` format unchanged)
+1. **Merged blocks** (B1 at L1/L2, when the T-102b per-building ladder cannot fit): per 256 m chunk, buildings are clustered (touching within 2 g, smallest height difference first, cluster top range <= 2 dh), the footprints closed (buffer +g, -g), cut free of other clusters, simplified (t), rectified to the minimum rotated rectangle where within t, extruded as one block per component (constrained-Delaunay roof, courtyards kept). Landmarks never merge. Knobs g, t = fraction x phi x level budget (2 profiles, bisection on phi), dh = the level budget (fixed). Errors measured per block against the L0 footprints: footprint max (depth of every filled gap included) / rms (M-102 (a) boundary displacement, length weighted, both directions), height max / rms. Accepted only inside the R-101 section 8 envelope: max 2.0 m / rms 0.6 m at L1, doubling per level (L2 4.0 / 1.2). The footprint rms is now the M-102 (a) definition (the T-102b per-building-Hausdorff rms is stricter and still what the unchanged prism rungs report); both max values are exact-ish distances, never relaxed.
+2. **Skyline form in the L2 B1 slot** (lead: "far levels use a skyline/heightfield form") when even blocks cannot fit: tall (>= 60 m) prisms plus the max-pooled rooftop surface at the B1 cap (100k), cell 32 or 64 m (18 / 36 tiles), triangles 32,056 .. 94,724. It meets the cap and does NOT meet the B1 error envelope: manifest form record `footprint_fit: skyline_fallback`, `error_budget_met: false`, `footprint_max_m` = cell diagonal bound (45.3 / 90.5 m vs 4.0 m budget), rms = 0.41 x cell estimate, `block_floor_triangles` shows what blocks reached (e.g. L2_12_02: 565,754). Its switch distance has to follow those errors (M-102 / selector item), the 54 tiles are listed in lod_budget_after.json.
+3. **B2 rooftop surface** may grow its cell past CHUNK_M (256 m) up to 4 x CHUNK_M when it misses the 20k cap there: L3_06_01 and the 9 L4 tiles now fit at 512 m cells (7,080 .. 15,973 triangles); flagged `surface_cell_over_chunk: true`. The B2 form never had an error budget for the surface cell.
+4. Index rows of a block carry `members` and parallel `member_part_of`; the index has `merged_blocks: true` (skyline fallback: `skyline_fallback: true`). C# `LodBuildingIndex` + `GeoLodTileReader.Form` hide a block row once EVERY member (own id or parent structure) is removed; an older reader never hides such rows (fails safe). A single removed member stays drawn in its block until a re-bake (like the B2 surface).
+
+## What still does not fit: 109 L1 B1 forms
+Over cap by 1.01 x .. 5.3 x (median 1.77 x; before 1.96 x). 6 tiles are within 10 %, 19 within 20 %. Blocks cannot beat the per-building floor there: dense tiles hold 7,000 .. 33,000 buildings in 4 x 4 km (>= 10 triangles per box, 3n - 2 + 2h per block), and the 2 m / 0.6 m envelope limits closing gaps to 2 g <= 2 m and bands to 4 m of height. Example: L1_08_32 131k -> 119.7k tris (cap 100k) with footprint max 1.80, rms 0.21, height max 1.88; L1_14_16 (33k buildings) 530k, block floor 730k. Every such tile keeps its in-budget best and its ladders in the manifest (`footprint_ladder`, `block_ladder`, `block_floor_triangles`). Next levers, all outside the lead's decision: B1 culling beyond ~3 km (L2 takes over), a higher L1 cap, or a skyline L1 form with its own error budget (research item with M-102).
