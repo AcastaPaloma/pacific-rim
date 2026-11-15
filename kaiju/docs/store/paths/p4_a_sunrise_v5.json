@@ -1,0 +1,71 @@
+{
+ "schema": "capture_path@v1",
+ "path_id": "p4_a_sunrise_v5",
+ "pillar": "P4",
+ "viewpoint": {
+  "id": "V5",
+  "tile": "L0_30_36",
+  "baytm": [
+   61591.4,
+   75450.7
+  ],
+  "heading_deg": 170
+ },
+ "profile_id": "lavender_peach",
+ "district_id": "SF-CoitTower",
+ "time_of_day": "fixed_v1",
+ "fps": 60,
+ "duration_s": 6.0,
+ "seed": 147015,
+ "interpolation": "linear",
+ "keyframes": [
+  {
+   "t_s": 0,
+   "pos_baytm": [
+    61591.4,
+    75450.7
+   ],
+   "alt_navd88": 146,
+   "yaw_deg": 170,
+   "pitch_deg": 4,
+   "hfov_deg": 60
+  },
+  {
+   "t_s": 6,
+   "pos_baytm": [
+    61591.4,
+    75450.7
+   ],
+   "alt_navd88": 146,
+   "yaw_deg": 181.25,
+   "pitch_deg": 4,
+   "hfov_deg": 60
+  }
+ ],
+ "shake": [],
+ "snap": {
+  "enabled": true,
+  "dither_anchor": "direction"
+ },
+ "outputs": [
+  {
+   "internal_wh": [
+    480,
+    270
+   ],
+   "output_wh": [
+    1920,
+    1080
+   ],
+   "scale": 4
+  }
+ ],
+ "mode": "clip",
+ "actors": null,
+ "requires": [],
+ "reference_depth_m": 600,
+ "hide_bids": [
+  "osm:w28824850"
+ ],
+ "notes": "P4-a, plan section 2. Observer's own tower hidden as in M-005."
+}

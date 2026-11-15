@@ -55,3 +55,20 @@ def matches_nn_of(out: np.ndarray, internal: np.ndarray, s: int, offset=(0, 0)) 
     if exp.shape != out.shape:
         return 0.0
     return float((exp == out).all(-1).mean())
+
+
+def matches_shifted_nn_of(out: np.ndarray, internal: np.ndarray, s: int, shift=(0, 0)) -> float:
+    """Like matches_nn_of for a frame the present stage shifted by `shift` = present_shift_output_px (sx, sy) of the sidecar
+    (bottom-left origin, sub-pixel compensation): output pixel (x, y in PNG rows) shows texel (floor((y - sy) / s), floor((x + sx) / s)).
+    Pixels whose texel lies outside the cropped internal image (the guard band) are not compared. Returns the share of compared pixels that match."""
+    sx, sy = shift
+    H, W = out.shape[:2]
+    ih, iw = internal.shape[:2]
+    if (H, W) != (ih * s, iw * s):
+        return 0.0
+    ty = (np.arange(H) - sy) // s
+    tx = (np.arange(W) + sx) // s
+    vy, vx = (ty >= 0) & (ty < ih), (tx >= 0) & (tx < iw)
+    exp = internal[np.clip(ty, 0, ih - 1)][:, np.clip(tx, 0, iw - 1)]
+    eq = (exp == out).all(-1)[np.ix_(vy, vx)]
+    return float(eq.mean()) if eq.size else 0.0

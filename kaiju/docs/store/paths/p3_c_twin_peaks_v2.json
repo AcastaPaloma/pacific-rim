@@ -1,0 +1,70 @@
+{
+ "schema": "capture_path@v1",
+ "path_id": "p3_c_twin_peaks_v2",
+ "pillar": "P3",
+ "viewpoint": {
+  "id": "V2",
+  "tile": "L0_28_34",
+  "baytm": [
+   57904.459,
+   69908.638
+  ],
+  "heading_deg": 45
+ },
+ "profile_id": "lavender_peach",
+ "district_id": "SF-TwinPeaks",
+ "time_of_day": "fixed_v1",
+ "fps": 60,
+ "duration_s": 6.0,
+ "seed": 147018,
+ "interpolation": "ease_in_out",
+ "keyframes": [
+  {
+   "t_s": 0,
+   "pos_baytm": [
+    57904.459,
+    69908.638
+   ],
+   "alt_m": 1.7,
+   "yaw_deg": 20,
+   "pitch_deg": 0,
+   "hfov_deg": 60
+  },
+  {
+   "t_s": 6,
+   "pos_baytm": [
+    57904.459,
+    69908.638
+   ],
+   "alt_m": 1.7,
+   "yaw_deg": 80,
+   "pitch_deg": 0,
+   "hfov_deg": 60
+  }
+ ],
+ "shake": [],
+ "snap": {
+  "enabled": true,
+  "dither_anchor": "direction"
+ },
+ "outputs": [
+  {
+   "internal_wh": [
+    480,
+    270
+   ],
+   "output_wh": [
+    1920,
+    1080
+   ],
+   "scale": 4
+  }
+ ],
+ "mode": "clip",
+ "actors": null,
+ "requires": [
+  "m2_streaming"
+ ],
+ "reference_depth_m": 600,
+ "notes": "P3-c, blocked: tile L0_28_34 is not in StreamingAssets yet."
+}
