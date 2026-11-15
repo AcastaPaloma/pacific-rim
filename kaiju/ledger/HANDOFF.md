@@ -232,6 +232,13 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 - 2026-11-15 · Workers stay Sonnet/Haiku at ≤ medium per this session's brief; no §14 escalation unless the stop rule ends a loop with evidence it can work — decided autonomously (user offline).
 - 2026-11-15 · QP iteration cap stays 60: controller shapes need ≤ 22; only a large random case (n 40, m 80) needed 71 — decided autonomously (user offline).
 
+## T-039b M1 slice integration scene (2026-11-15)
+- 2026-11-15 · New assembly `Game.Slice` (`Assets/Game/Slice`, own MODULE.md) and `Scenes/M1Slice.unity`, behind `slice.m1` (`Config/FeatureFlags/Slice.json`, default off). The scene's flag set is `Slice/Config/slice_m1.flags.json`, passed to `GameComposition.Install` by the bootstrap; the committed config installs nothing new — decided autonomously (founder asleep).
+- 2026-11-15 · The tiles' faults layers are empty by design in GG/SoMa (nearest trace 5-8 km), so the slice builds `FaultTraceSet` from `StreamingAssets/Geo/global/v1/faults_bay.geojson`; the quake uses the mapped system (>= 30 km) nearest SoMa, Mw 6.9 (Assumed, slice feel) — decided autonomously (founder asleep).
+- 2026-11-15 · No per-building colliders in the slice (cost); the impactor applies its kinetic energy to the building under its aim point from a data index — decided autonomously (founder asleep).
+- 2026-11-15 · TEMPORARY, tracked: `SliceTempMech` (WASD capsule) until `Units.Placeholder` (T-030c) is merged and driven through the seat; capsule kaiju stand-in with `SliceKaijuAgent` (brain + harness kinematics). Neither collides with buildings.
+- 2026-11-15 · Geo limitation (not edited, belongs to Geo): `GeoTileBuilder.LoadSettings` reads `Application.dataPath/Game/Config/WorldGeo.json` from disk, which a player does not have; the slice carries the file as a TextAsset and calls `GeoSettings.Load` on a temp copy. A Geo follow-up should take the settings as a TextAsset.
+
 ## M1 lead orchestrator, session 5 (2026-11-15): decisions log
 - 2026-11-15 · M1 report §3.5 (3-mech vs 4-kaiju scenario with damage as the next AI step) accepted; run as T-033b — decided autonomously (user offline).
 - 2026-11-15 · M1 report §3.4 (lower Ferry Building tower and GGB north tower top to sourced heights) accepted; queued as M1-cleanup — decided autonomously (user offline).
