@@ -55,3 +55,4 @@ If the lead hands over before they report: check `git log` on the integration br
 - Update at hand-over: merged R-101 (e6d4ddb), R-103 (cd0e928), R-104 (9fd8399). Launched T-118 (Meta.Economy) and T-107 (World.Streaming core); both may stop at "awaiting Unity slot". Still running: T-100, R-102, T-144/T-145, T-146.
 - R-104 salvage headline (0.60 / 0.30) disagrees with its own computed 0.67 / 0.34: T-119 aligns it. R-103 species speeds are assumptions until R-102; T-113 starts after R-102 merges. Q-NEW placeholders in R-103/R-104 are numbered by the scribe pass (Q-208+).
 - Successor session start was refused by the permission classifier; left as a proposal card "M2/M3 lead orchestrator, session 2".
+- T-146 ✓ merged abf89ce (capture plan: 22 shots, 5 capturable now). Docs only, no regression note needed. T-147 converts landmark lat/lon → BayTM; confirm 480×270 internal size with the style track.
