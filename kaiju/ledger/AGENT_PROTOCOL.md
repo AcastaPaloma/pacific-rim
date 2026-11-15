@@ -224,7 +224,7 @@ This section overrides every earlier rule that sends a decision to the founders,
     - don't re-read big files.
 - Archive sessions that have finished or been replaced as soon as their result is checked. Never archive a session that still has work running, or whose side sessions do.
 
-## 14. Context cost and session hygiene (founder instruction, 2026-11-15)
+## 16. Context cost and session hygiene (founder instruction, 2026-11-15)
 **Context cost**
 - Orchestrator sessions write state and hand over at ~80k tokens (workers/tracks keep the ~150k reap).
 - Sessions message the orchestrator only on: a merge, a blocker, or a hand-over. No progress chatter.
