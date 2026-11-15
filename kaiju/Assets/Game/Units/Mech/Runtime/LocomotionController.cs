@@ -510,7 +510,7 @@ namespace Game.Units.Mech
                     }
                 }
                 for (int i = 0; i < 16; i++) _dbg.QpK[6 + i] = c.Diag[i];
-                if (_t.qp_plan > 0.5) for (int i = 0; i < 15; i++) _dbg.QpK[22 + i] = c.PlanDiag[i];
+                if (_t.qp_plan > 0.5) for (int i = 0; i < 16; i++) _dbg.QpK[22 + i] = c.PlanDiag[i];
                 if (_qpFoot) for (int i = 0; i < 15; i++) _dbg.QpK[38 + i] = c.FootLog[i];
             }
         }
