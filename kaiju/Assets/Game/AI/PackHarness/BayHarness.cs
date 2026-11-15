@@ -36,6 +36,7 @@ namespace Game.AI.PackHarness
         public float MechSpeed = 3f, MechCruise = 9.12f, MechRange = 300f, MechDps = 6f, MechTraverse = 0.6f, MechLockSeconds = 3f;
         public float MeleeDamageToMech = 25f, MechHpAbs = 100f, MeleeCooldown = 2f, KaijuHpRef = 400f;
         public float InfraDamageRate = 1f;         // hp/s per kaiju at the target (the coordinator plans with PackConfig.RaidDamageRate)
+        public string Variant = "";               // T-115f: "" = the T-115..T-115e scenarios (unchanged). "mv1" = hunt_mv@v1: mechs patrol as one squad that starts inside kaiju sight, pack spread 500 m (see MODULE note in BuildMechs)
         public string Map = "flat";               // flat | water (T-115c synthetic Bay with a depth / soft-ground field) | real (T-115d m007_bay_real@v1: Field = the Composition adapter over the T-102 raster)
         public Game.AI.Pack.IBayCostField Field;   // required for Map = real
         public BayLayout Layout;                   // null = by map (Synthetic, or Real for Map = real)
@@ -46,6 +47,10 @@ namespace Game.AI.PackHarness
         public double Duration => DurationSeconds > 0 ? DurationSeconds : Name == "hunt" ? 600 : Name == "churn" ? 900 : Name == "raid" || Name == "cross" ? 6000 : Name == "mixed" ? 3600 : 1200;
         public int LogEvery => LogEveryDecisions > 0 ? LogEveryDecisions : (Name == "hunt" || Name == "churn" ? 1 : 5);
         public string ScenarioId => "m007_bay_" + Name;
+        public float Mv1SquadDistM = 1000f;
+        public float Mv2KaijuSpacingM = 1500f, Mv2PicketAheadM = 900f, Mv2MechSpacingM = 1400f, Mv2PatrolM = 500f;
+        public bool Mv2 => Variant == "mv2";
+        public bool Mv1 => Variant == "mv1";
     }
 
     /// <summary>T-115e: a cost field seen from a local frame whose origin is (ox, oy) BayTM metres (integer), so the planner works on small coordinates.</summary>
@@ -80,7 +85,7 @@ namespace Game.AI.PackHarness
         sealed class M
         {
             public EntityId Id; public float X, Y, Heading, Hp; public bool Alive = true; public float WX, WY, HX, HY, Aim;
-            public int Aiming = -1; public double Lock; public double RespawnAt; public int Cluster = -1; public bool Guard;
+            public float OX, OY; public int Aiming = -1; public double Lock; public double RespawnAt; public int Cluster = -1; public bool Guard;
         }
 
         sealed class I : IInfrastructureSource
@@ -159,7 +164,7 @@ namespace Game.AI.PackHarness
                 float sx = 0f, sy = 0f;   // the scenario origin is the spawn (local frame)
 
                 for (int i = 0; i < list.Count; i++)
-                    NewKaiju(list[i], sx + _rng.Range(-150f, 150f), sy + (i - (list.Count - 1) * 0.5f) * 200f + _rng.Range(-50f, 50f), 0.0, 0.3f);
+                    NewKaiju(list[i], sx + _rng.Range(-150f, 150f), sy + (i - (list.Count - 1) * 0.5f) * (_sc.Mv1 ? 500f : _sc.Mv2 ? _sc.Mv2KaijuSpacingM : 200f) + _rng.Range(-50f, 50f), 0.0, 0.3f);
                 if (_sc.Name != "raid" && _sc.Name != "cross") BuildMechs();
                 var pk = NewPack();
                 foreach (var k in _k) Join(k, pk);
@@ -215,6 +220,36 @@ namespace Game.AI.PackHarness
             int n = (_sc.Seed % 2UL == 1UL) ? 3 : 4;
             bool guard = _sc.Name == "mixed";
             if (guard) n = 3;
+            if (_sc.Mv2 && !guard)
+            {
+                // hunt_mv@v2 (T-115f): a picket line facing the pack. Each mech holds a post (500 m patrol) 900 m ahead of the pack axis and 1400 m from its neighbour, the pack members are
+                // 1500 m apart, so each kaiju has a different mech in its own 1200 m sight, while the pack board (4 km hearing, shared) sees them all.
+                for (int j = 0; j < n; j++)
+                {
+                    var m = new M { Id = EntityId.FromValue((ulong)(101 + j)), Hp = 1f };
+                    m.X = _sc.Mv2PicketAheadM + _rng.Range(-100f, 100f); m.Y = (j - (n - 1) * 0.5f) * _sc.Mv2MechSpacingM + _rng.Range(-150f, 150f); m.HX = m.X; m.HY = m.Y; NewWaypoint(m);
+                    m.Heading = (float)Math.Atan2(m.WY - m.Y, m.WX - m.X); m.Aim = m.Heading;
+                    _m.Add(m);
+                }
+                return;
+            }
+            if (_sc.Mv1 && !guard)
+            {
+                // hunt_mv@v1 (T-115f): the mechs are one patrol squad (R-103 6.3 mutual support: guards answer calls within 10 km, so mechs of one force are within a few hundred metres of each other),
+                // squad centre 1000 m from the pack centre (inside the 1200 m sight of every member), members within 350 m of the centre and following a shared waypoint at patrol speed.
+                float ang0 = (float)(_rng.NextDouble() * 2 * Math.PI);
+                _sqHX = (float)Math.Cos(ang0) * _sc.Mv1SquadDistM; _sqHY = (float)Math.Sin(ang0) * _sc.Mv1SquadDistM;
+                for (int j = 0; j < n; j++)
+                {
+                    var m = new M { Id = EntityId.FromValue((ulong)(101 + j)), Hp = 1f };
+                    float a = (float)(_rng.NextDouble() * 2 * Math.PI), r = 350f * (float)Math.Sqrt(_rng.NextDouble());
+                    m.OX = (float)Math.Cos(a) * r; m.OY = (float)Math.Sin(a) * r; m.X = _sqHX + m.OX; m.Y = _sqHY + m.OY; m.HX = _sqHX; m.HY = _sqHY;
+                    _m.Add(m);
+                }
+                SquadWaypoint();
+                foreach (var m in _m) { m.Heading = (float)Math.Atan2(m.WY - m.Y, m.WX - m.X); m.Aim = m.Heading; }
+                return;
+            }
             for (int j = 0; j < n; j++)
             {
                 var m = new M { Id = EntityId.FromValue((ulong)(101 + j)), Hp = 1f };
@@ -241,7 +276,14 @@ namespace Game.AI.PackHarness
         float SoftAt(float lx, float ly) { double x = lx + _ox, y = ly + _oy; int ix = (int)((x - _field.OriginX) / _field.CellM), iy = (int)((y - _field.OriginY) / _field.CellM); return x < _field.OriginX || y < _field.OriginY || ix >= _field.Nx || iy >= _field.Ny ? 0f : _field.Softness(ix, iy); }
 
         void Mark(int[] idx) { foreach (int i in idx) { var n = _infra.N[i]; n.Defended = true; _infra.N[i] = n; } }
-        void NewWaypoint(M m) { float a = (float)(_rng.NextDouble() * 2 * Math.PI), r = 2000f * (float)Math.Sqrt(_rng.NextDouble()); m.WX = m.HX + (float)Math.Cos(a) * r; m.WY = m.HY + (float)Math.Sin(a) * r; }
+        float _sqHX, _sqHY, _sqWX, _sqWY;
+        void SquadWaypoint()
+        {
+            float a = (float)(_rng.NextDouble() * 2 * Math.PI), r = 2000f * (float)Math.Sqrt(_rng.NextDouble());
+            _sqWX = _sqHX + (float)Math.Cos(a) * r; _sqWY = _sqHY + (float)Math.Sin(a) * r;
+            foreach (var m in _m) { m.WX = _sqWX + m.OX; m.WY = _sqWY + m.OY; }
+        }
+        void NewWaypoint(M m) { float a = (float)(_rng.NextDouble() * 2 * Math.PI), r = (_sc.Mv2 ? _sc.Mv2PatrolM : 2000f) * (float)Math.Sqrt(_rng.NextDouble()); m.WX = m.HX + (float)Math.Cos(a) * r; m.WY = m.HY + (float)Math.Sin(a) * r; }
 
         Pk NewPack()
         {
@@ -451,7 +493,7 @@ namespace Game.AI.PackHarness
                 else { tx = m.HX; ty = m.HY; v = Dist(m.X, m.Y, tx, ty) > 30f ? _sc.MechCruise : 0f; }
             }
             else if (_sc.Name == "churn" && nd < 400f) { tx = m.X + (m.X - _k[ni].X); ty = m.Y + (m.Y - _k[ni].Y); v = 4.5f; }
-            else { if (Dist(m.X, m.Y, m.WX, m.WY) < 20f) NewWaypoint(m); tx = m.WX; ty = m.WY; v = _sc.MechSpeed; }
+            else { if (Dist(m.X, m.Y, m.WX, m.WY) < 20f) { if (_sc.Mv1) SquadWaypoint(); else NewWaypoint(m); } tx = m.WX; ty = m.WY; v = _sc.MechSpeed; }
             if (v > 0f) { m.Heading = (float)Math.Atan2(ty - m.Y, tx - m.X); m.X += (float)Math.Cos(m.Heading) * v * dt; m.Y += (float)Math.Sin(m.Heading) * v * dt; }
         }
 

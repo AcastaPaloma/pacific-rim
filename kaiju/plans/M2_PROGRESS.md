@@ -138,4 +138,8 @@ Lesson: workers' git commit/push are sometimes denied by the classifier; tell th
 ## Build lead 9 status (2026-11-15 13:58)
 - Session 8 workers still alive: T-115e (commit 450a089 on task/T-115e, Bay matrix rerun in .wt/T-115e, `m007_bay_matrix.sh` edit uncommitted) and T-108f (bake_lod re-bake running in .wt/T-108f, `lod.py` edit uncommitted, no commit yet). Not relaunched. Queue after them: T-104 (Bay landmarks), T-105 (infra bake), T-106 (M-005@v2 Bay run), then pack clauses via §14 Opus, T-123 open items.
 - T-115e: harness local-frame fix + translation tests; C2 re-measured on the real Bay (nofocus 200 seeds): fe -0.5464 FAIL, control ff 0.9748 stable; the swing was spawn/infrastructure geometry, not float32. Evidence/T-115/C2_T-115e.md.
+<<<<<<< HEAD
 - Build lead 8 workers still in flight at hand-over (build lead 9 owns M2; they merge under the lock on their own): T-108f (Agent a10bd85d13c4709b4, branch task/T-108f, `.wt/T-108f`: 54 L2 skyline tiles to the extended ladder) and T-115f (Agent ac8a5b4e37927c77c, branch task/T-115f, `.wt/T-115f`: C2 control/scenario design, M-007@v3 proposal if the clause cannot discriminate). T-115e merged (e51ff6c): C2 -0.5464, control ff 0.975 saturated. Check tasks/T-108f.progress.md and tasks/T-115f.progress.md.
+=======
+- T-115f: C2 made discriminating with scenario hunt_mv@v2 (control ff 0.506, cand 0.914, FE 0.826 PASS); only LL composition guard fails (pack-layer, bait+flanker pair). evidence/T-115/C2_T-115f.md.
+>>>>>>> task/T-115f

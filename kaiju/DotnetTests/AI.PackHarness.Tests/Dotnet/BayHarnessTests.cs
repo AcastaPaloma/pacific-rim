@@ -46,6 +46,29 @@ namespace Game.AI.PackHarness.Tests
                     }
         }
 
+        // T-115f: hunt_mv@v2 is a new variant; the default variant must leave the v1 logs untouched and mv2 must be deterministic, translation invariant and logged as a variant.
+        static string RunV(string variant, ulong seed, string brain, double dx, double dy)
+        {
+            var w = new StringWriter();
+            new BayHarness(new BayScenario { Name = "hunt", Composition = "LLMH", Seed = seed, BrainId = brain, DurationSeconds = 200, Variant = variant, Layout = BayLayout.Synthetic.Translated(dx, dy) }, w).Run();
+            return w.ToString();
+        }
+
+        [Test]
+        public void HuntMv2_IsDeterministicTranslationInvariantAndMarked()
+        {
+            foreach (string b in new[] { BayBrains.NoFocus, BayBrains.Candidate })
+            {
+                string a = RunV("mv2", 3, b, 0, 0), a2 = RunV("mv2", 3, b, 0, 0), s = RunV("mv2", 3, b, 60000, 90000);
+                Assert.AreEqual(a, a2);
+                Assert.AreEqual(StripXY(a), StripXY(s));
+                StringAssert.Contains("\"scenario_variant\":\"mv2\"", a);
+                string v1 = RunV("", 3, b, 0, 0);
+                StringAssert.DoesNotContain("scenario_variant", v1);
+                Assert.AreNotEqual(StripXY(v1), StripXY(a));
+            }
+        }
+
         [Test]
         public void Translation_EmergeRaidMixedAreInvariant()
         {

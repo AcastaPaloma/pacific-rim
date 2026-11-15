@@ -15,7 +15,7 @@ internal static class Program
     private static int Main(string[] args)
     {
         string map = "flat"; bool plan = true; string scenario = "hunt", brain = BayBrains.Candidate, comps = "LLH", seeds = "1-1", outDir = "m007_bay_out", speciesDir = null, costRaster = null;
-        BayLayout huntShift = null; bool defaults = false; int par = Math.Max(1, Environment.ProcessorCount - 2);
+        BayLayout huntShift = null; string variant = ""; float squadDist = 1000f; float[] mv2 = null; bool defaults = false; int par = Math.Max(1, Environment.ProcessorCount - 2);
         for (int i = 0; i < args.Length; i++)
         {
             switch (args[i])
@@ -30,6 +30,9 @@ internal static class Program
                 case "--no-route": plan = false; break;
                 case "--hunt-shift": { var q = args[++i].Split(','); huntShift = BayLayout.SyntheticHuntShifted(float.Parse(q[0]), float.Parse(q[1])); break; }
                 case "--cost-raster": costRaster = args[++i]; break;
+                case "--variant": variant = args[++i]; break;
+                case "--squad-dist": squadDist = float.Parse(args[++i]); break;
+                case "--mv2": { var q = args[++i].Split(','); mv2 = new[] { float.Parse(q[0]), float.Parse(q[1]), float.Parse(q[2]), float.Parse(q[3]) }; break; }   // kaiju spacing, picket ahead, mech spacing, patrol radius (m)
                 case "--defaults": defaults = true; break;
                 case "--parallel": par = int.Parse(args[++i]); break;
                 default: Console.Error.WriteLine("unknown arg " + args[i]); return 2;
@@ -59,7 +62,8 @@ internal static class Program
         long decisions = 0, blocked = 0;
         Parallel.ForEach(jobs, new ParallelOptions { MaxDegreeOfParallelism = par }, job =>
         {
-            var sc = new BayScenario { Name = scenario, Composition = job.comp, Seed = job.seed, BrainId = brain, Species = table, Map = map, PlanRoutes = plan, Field = realField, Layout = huntShift };
+            var sc = new BayScenario { Name = scenario, Composition = job.comp, Seed = job.seed, BrainId = brain, Species = table, Map = map, PlanRoutes = plan, Field = realField, Layout = huntShift, Variant = variant, Mv1SquadDistM = squadDist };
+            if (mv2 != null) { sc.Mv2KaijuSpacingM = mv2[0]; sc.Mv2PicketAheadM = mv2[1]; sc.Mv2MechSpacingM = mv2[2]; sc.Mv2PatrolM = mv2[3]; }
             string path = Path.Combine(dir, job.comp + "_" + job.seed + ".jsonl");
             using (var w = new StreamWriter(path, false, new System.Text.UTF8Encoding(false), 1 << 16))
             {
