@@ -69,3 +69,6 @@ Evaluators: M1-ai T-033b 0 blocking / 3 minor (C3 structurally 0: 12 s lockout =
 - T-041 Unity EditMode watcher gave up (3 Unity batch processes after 25 min): Game.AI.Policy still needs the batched EditMode run (open item 2). Session 5 stopped on the usage limit.
 T-039c merged: DEF-M1slice-f1 fixed (spawn planner puts camera clear of buildings; player captures render and change; smoke now fails on blank/frozen via colour-richness, non-background share and pairwise frame-diff, plus destruction before/after diff 2.1%). Evidence evidence/T-039c/final, smoke pass, Slice.Tests 17/0.
 Slice minor defects f2-f5 on LEDGER.md; M1 slice gate ready for re-evaluation (eval-style on final captures).
+
+## Session 7 (build lead, 2026-11-15)
+- T-039c ✓ merged 85d9ff7 (spawn planner, strengthened pixel smoke; player run pass, min share 0.506). T-119/T-112 ✓ (eae5dea). T-176 ✓ 6678a16 (C7/C6 haze model, C11 slab model; shader steps T-180..T-185 staged, need Unity + Rendering.Pixel worker). T-042 (R-024 rev 4) running. Open: final batched EditMode (after T-042), reports/M1.md.
