@@ -82,3 +82,8 @@ Brief `tasks/T-006.md`, spec `expectations/T-006.md` (19 criteria). Worktree `.w
 - Research follow-ups: the independent skyline reference recipe and a seabed-bias gate (`evaluations/T-003/eval-bay.cycle2.md`), shimmer threshold calibration and single-plane snapping (`evaluations/T-004/eval-style.md`), the mech-independence mechanism (R-008 §6).
 - The realism research loop (orchestrator §6) on the merged M0 work.
 - Minor-defect backlog in the ledger's Defects table.
+
+### M1 (lead orchestrator session 2, 2026-11-15): state in `plans/M1_PROGRESS.md`
+- Merged into the integration branch: T-020, T-024, T-025, T-029 (regression `evidence/regression/M1-merge-1.md`). M1 touches no T-005 files (Physics.Body, Control, Units.Mech, `.wt/T-005`, `tasks/T-005*`, `Tools/GaitOpt`).
+- Running on task branches: T-024b (year_built), T-027 (seismic), T-021 (multi-tile), T-035 (M-005 district tool). M1 uses at most one Unity batch process, only while the machine count is < 2.
+- `GameCoreConfig.asset`: M1 adds the `WorldSeismic.json` flag file (T-027); after merging it the config asset is regenerated with `CoreConfigAsset.CreateOrUpdate`. If T-005 also adds a flag file, regenerate after whichever merges second.
