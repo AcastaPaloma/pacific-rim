@@ -155,7 +155,7 @@ namespace Game.Units.Mech
                 if (qpReference == null || qpReference.schema != GaitReferenceData.SchemaV2) throw new InvalidOperationException("imp = 3 needs the QP reference (Config/Mech/gait_reference_qp.json, gait_reference_opt@v2)");
                 if (qpSolver == null) throw new InvalidOperationException("imp = 3 needs a QP solver (IBodyWorld.CreateQpSolver)");
                 int a0 = (_legs[0].Side < 0) == (tuning.qp_leg_a_left > 0.5) ? 0 : 1;
-                _qpDof = new bool[nd]; _qpSwingDof = new bool[nd]; _drvK = new double[nd]; _drvC = new double[nd]; _drvT = new double[nd]; _drvV = new double[nd]; _qpPdSwing = tuning.qp_pd_swing; _qpPdRef = (int)tuning.qp_pd_ref; _qpDiag = tuning.qp_diag > 0.5; _qpPd = tuning.qp_pd_scale; _qpEngageFrac = tuning.qp_engage_speed_frac; _qpVRef = qpReference.rows[0].v;
+                _qpDof = new bool[nd]; _qpSwingDof = new bool[nd]; _drvK = new double[nd]; _drvC = new double[nd]; _drvT = new double[nd]; _drvV = new double[nd]; _qpPdSwing = tuning.qp_pd_swing; _qpPdRef = (int)tuning.qp_pd_ref; _qpDiag = tuning.qp_diag > 0.5; _qpFoot = tuning.qp_foot > 0.5 && tuning.qp_plan > 0.5; _qpFootDrive = tuning.qp_foot_drive > 0.5; _qpPd = tuning.qp_pd_scale; _qpEngageFrac = tuning.qp_engage_speed_frac; _qpVRef = qpReference.rows[0].v;
                 // a hand-off start can begin at either foot's touchdown: one driver per assignment of planar leg A / B (the second one only then); the walking-start mode builds just the configured one
                 _qpDrv = new WholeBodyQpDriver[2]; _qpFoots = new int[2]; _qpLegs = new Leg[2][]; _qpLat = tuning.qp_lateral > 0.5;
                 // step 9.5b ladder (qp_ladder): one pair of drivers per @v2 row (rows sorted by Froude, the walk climbs them); otherwise the single row 0
@@ -188,7 +188,8 @@ namespace Game.Units.Mech
             _b.SetDofDrive(dof, target, velocity, stiffness, damping);
         }
         // step 9.5k (qp_pd_swing, qp_pd_ref, qp_diag): last PD of each QP DOF (scaled gains, target, rate); the swing leg of the QP (its parity) as of the previous tick
-        double _qpPdSwing = -1; int _qpPdRef; bool _qpDiag; double[] _drvK, _drvC, _drvT, _drvV; bool[] _qpSwingDof;
+        // round 6 (qp_foot): sole-orientation task, ankle drive target, ankle saturation counters
+        double _qpPdSwing = -1; int _qpPdRef; bool _qpDiag, _qpFoot, _qpFootDrive; long _qpAnkSatSwing, _qpAnkSatStance; double[] _drvK, _drvC, _drvT, _drvV; bool[] _qpSwingDof;
 
         static double[] JointPos(MechFrameData f, string child) { foreach (var j in f.joints) if (j.child == child) return j.position; throw new InvalidOperationException("no joint for " + child); }
         static double Dist(double[] a, double[] b) => Math.Sqrt((a[0] - b[0]) * (a[0] - b[0]) + (a[1] - b[1]) * (a[1] - b[1]) + (a[2] - b[2]) * (a[2] - b[2]));
@@ -449,7 +450,7 @@ namespace Game.Units.Mech
             _qp.TimeScale = _qpScale; _qp.DesiredYaw = _cmd.Heading;
             int tdBefore = _qp.Controller.Touchdowns;
             _qp.Apply(_qpTime, _pelvisYaw, _groundY); _qpTime += _dt * _qpScale; _qpPlanTd = _t.qp_plan > 0.5 && _qp.Controller.Schedule.LastCallReanchored;
-            if (_qpPdSwing >= 0 || _qpPdRef > 0 || _qpDiag) QpSwingPd();
+            if (_qpPdSwing >= 0 || _qpPdRef > 0 || _qpDiag || _qpFoot) QpSwingPd();
             if (_qpMatch && _t.qp_td_rematch > 0 && _t.qp_plan < 0.5 && _qp.Controller.Touchdowns > tdBefore) QpTouchdownRematch();
             if (_qpLat) QpLateralDrives();
             var c = _qp.Controller; _dbg.QpOn = true; _dbg.QpScale = _qpScale; _dbg.QpMs = (System.Diagnostics.Stopwatch.GetTimestamp() - t0) * 1e3 / System.Diagnostics.Stopwatch.Frequency; _dbg.QpIters = c.LastIterations; _dbg.QpTau ??= new double[6]; System.Array.Copy(c.Tau, _dbg.QpTau, 6);
@@ -481,9 +482,24 @@ namespace Game.Units.Mech
                     }
                 }
             }
+            if (_qpFoot)
+            {
+                // round 6: the ankle PD target = measured shank pitch + the commanded sole pitch (the stiff stance ankle then holds the sole level instead of the reference ankle angle); ankle authority: applied torque / force limit
+                for (int pl = 0; pl < 2; pl++)
+                {
+                    var leg = legs[pl]; int d = leg.Ankle[0]; var info = _b.GetDof(d); int a = 3 + 3 * pl;
+                    if (_qpFootDrive && (_drvK[d] > 0 || _drvC[d] > 0))
+                    {
+                        double tg = Math.Max(info.LowerRad, Math.Min(info.UpperRad, c.Q[a + 1] + c.FootCmd[pl])), vl = c.Qd[a + 1];
+                        _drvT[d] = tg; _drvV[d] = vl; _b.SetDofDrive(d, tg, vl, _drvK[d], _drvC[d]);
+                    }
+                    double ratio = _b.DofAppliedTorque(d) / Math.Max(info.ForceLimitNm, 1.0); c.FootLog[11 + pl] = ratio;
+                    if (Math.Abs(ratio) > _t.qp_foot_sat) { if (pl == c.Parity) _qpAnkSatSwing++; else _qpAnkSatStance++; }
+                }
+            }
             if (_qpDiag)
             {
-                _dbg.QpK ??= new double[_t.qp_plan > 0.5 ? 38 : 22];
+                _dbg.QpK ??= new double[_qpFoot ? 52 : _t.qp_plan > 0.5 ? 38 : 22];
                 for (int pl = 0; pl < 2; pl++)
                 {
                     var leg = legs[pl]; int[] d3 = { leg.Hip[0], leg.Knee, leg.Ankle[0] };
@@ -495,6 +511,7 @@ namespace Game.Units.Mech
                 }
                 for (int i = 0; i < 16; i++) _dbg.QpK[6 + i] = c.Diag[i];
                 if (_t.qp_plan > 0.5) for (int i = 0; i < 15; i++) _dbg.QpK[22 + i] = c.PlanDiag[i];
+                if (_qpFoot) for (int i = 0; i < 14; i++) _dbg.QpK[38 + i] = c.FootLog[i];
             }
         }
 

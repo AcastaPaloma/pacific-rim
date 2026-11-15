@@ -174,9 +174,10 @@ namespace Game.Units.Mech.Qp
             c.Com[0] = sy * _wb.ComTotal[0] + cy * _wb.ComTotal[2]; c.Com[1] = _wb.ComTotal[1] - groundY;
             double p0 = 0, p1 = 0, p2 = 0, l3 = 0, l5 = 0; for (int s = 0; s < NS; s++) { double v = _qdS[s]; p0 += _wb.AG[s] * v; p1 += _wb.AG[NS + s] * v; p2 += _wb.AG[2 * NS + s] * v; l3 += _wb.AG[3 * NS + s] * v; l5 += _wb.AG[5 * NS + s] * v; }
             double mt = _wb.TotalMass; c.ComD[0] = (sy * p0 + cy * p2) / mt; c.ComD[1] = p1 / mt; c.AngMom = -(cy * l3 - sy * l5);
+            double ftSum = 0;
             for (int leg = 0; leg < 2; leg++)
             {
-                _b.GetFoot(_foot[leg], out var fs); int h = 2 * leg, tt = h + 1; double n = fs.Contact || fs.NormalForceN > 0 ? fs.NormalForceN : 0.0, ft = 0;
+                _b.GetFoot(_foot[leg], out var fs); int h = 2 * leg, tt = h + 1; ftSum += Vector3.Dot(fs.TangentialForceN, fwd); double n = fs.Contact || fs.NormalForceN > 0 ? fs.NormalForceN : 0.0, ft = 0;
                 if (n > 0)
                 {
                     double hx = _wb.PointPos[3 * h], hy = _wb.PointPos[3 * h + 1], hz = _wb.PointPos[3 * h + 2], dx = _wb.PointPos[3 * tt] - hx, dy = _wb.PointPos[3 * tt + 1] - hy, dz = _wb.PointPos[3 * tt + 2] - hz;
@@ -185,7 +186,7 @@ namespace Game.Units.Mech.Qp
                 }
                 c.FnMeas[tt] = ft; c.FnMeas[h] = n - ft;
             }
-            c.HasFnMeas = _n > 0;
+            c.FtMeas = ftSum; c.HasFnMeas = _n > 0;
             c.Step(t); _n++;
             for (int j = 0; j < 6; j++) _b.SetDofFeedForward(_dof[j], c.Tau[j]);
             if (_lat)
