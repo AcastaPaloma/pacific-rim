@@ -145,3 +145,27 @@ The founders want steady progress whenever they are away, and want token use kep
   ```
 - Never run git against `main`. Once, during M1, a merge run from the wrong folder landed on the founders' local `main`.
 - Unity still follows §9: start a batch process only while fewer than 2 are running machine-wide. Otherwise do other work and check again later.
+
+## 13. Lighter verification gates (founder instruction, 2026-11-15: too much time went to verification)
+The same approach as before (tests, metrics, evaluators, regressions) at a lower dose. This section overrides any earlier rule that asks for more checking. The hard safety rules still apply in full: never `main`, the merge lock, the branch check, no cache symlinks, and the Unity queue.
+
+**Per step and per merge**
+- A worker runs only the tests of the modules it touched (dotnet and/or pytest), then reports the pass count and the log path. The orchestrator trusts that report and does not re-run it. It only spot-checks when a result looks surprising.
+- Merging a task branch needs:
+  - fast tests green on the merge result: dotnet, plus pytest for the touched packages;
+  - a one-line regression note.
+- Batch the full Unity EditMode run and the `GameCoreConfig.asset` regeneration: once per 3 merges, or once at the end of a session, whichever comes first. When that run fails, bisect over the batch.
+- Unity EditMode runs per merge only when the merge changes `.asmdef` files, scenes, prefabs, shaders or `GameCoreConfig.asset`.
+
+**Evaluators**
+- No evaluator pass per step. Each track gets one combined evaluator (Sonnet/low, architecture plus the track's own domain) when the track's work for the milestone has merged. Visual work also gets `eval-style`, run once on the final captures.
+- An evaluator lists its defects. Only blocking defects (wrong results, broken contracts, failing gates) get a fix cycle. Minor defects go into `LEDGER.md` and wait for a later batch, with no re-check cycle of their own.
+- At most one fix cycle per gate. If the gate still fails after it, record the shortfall, route it as a founder or research item, and move on (as T-004 did with C7 and C11).
+
+**Expectations and evidence**
+- A small task (one module, under about 300 lines changed) gets one expectation draft, not two reconciled ones. Two independent drafts are kept for hard slices and anything gated by a founder metric.
+- Evidence is numbers plus the log or output path. Capture sets, sheets and boards are only made for visual gates or a founder checkpoint. Captures are slimmed as in T-004: short sets kept whole, long sets one frame in 100.
+
+**Lead orchestrator**
+- Trust session reports. Verify only what lands on the integration branch, with a cheap `git log`. Read a session's transcript only when its report is unclear or contradicts the branch.
+- Metric suites run once per milestone checkpoint and when a track closes, not after every merge.
