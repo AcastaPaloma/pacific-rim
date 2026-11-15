@@ -1,0 +1,45 @@
+{
+ "schema": "style_frame_build@v1",
+ "scene": "Assets/Game/Tools/StyleFrame/Scenes/StyleFrame.unity",
+ "tile": "L0_30_36",
+ "tile_origin_baytm": [61440, 73728],
+ "floating_origin_baytm": [61440, 73728],
+ "mech": {
+  "prefab": "Assets/Game/Units/Mech/Art/Prefabs/MechFrameBalanced.prefab",
+  "scene_position_m": [1668.4730224609375, -4.1459078788757324, 656.92181396484375],
+  "baytm_position_m": [63108.473022460938, -4.1459078788757324, 74384.921813964844],
+  "foot_centre_baytm": [63106.223022460938, 74384.921813964844],
+  "yaw_deg": 270,
+  "scale": [1, 1, 1],
+  "measured_height_m": 80,
+  "bounds_min": [1658.4730224609375, -4.1459083557128906, 641.007080078125],
+  "bounds_max": [1677.8729248046875, 75.854095458984375, 672.836669921875],
+  "sole_y_navd88_m": -4.1459078788757324,
+  "seabed_under_feet_max_m": -4.1459077722595232,
+  "seabed_under_each_foot_m": [-4.1459077722595232, -4.4281074572354555],
+  "seabed_at_foot_centre_data_m": -4.5114149879574477,
+  "water_depth_at_mech_m": 5.480414987957448,
+  "stripped_components": []
+ },
+ "water": {"level_navd88_m": 0.969, "surface_min_y": 0.968999981880188, "surface_max_y": 0.968999981880188, "renderers": 9},
+ "waterline": {"water_level_navd88_m": 0.969, "sole_y_m": -4.1459078788757324, "ankle_y_m": 2.1723141670227051, "mid_shin_y_m": 12.1063871383667, "shin_top_y_m": 21.558683395385742, "water_above_sole_m": 5.1149078788757327, "water_above_ankle_m": -1.2033141670227052, "water_above_mid_shin_m": -11.1373871383667, "relation": "below the ankle (feet only wet)", "method": "ankle = top of the foot renderer bounds; mid-shin = centre of the MechBalanced_shank_L renderer bounds; scene metres, NAVD88 y"},
+ "waterline": {"water_level_navd88_m": 0.969, "sole_y_m": -4.1459078788757324, "ankle_y_m": 2.1723141670227051, "mid_shin_y_m": 12.1063871383667, "shin_top_y_m": 21.558683395385742, "water_above_sole_m": 5.1149078788757327, "water_above_ankle_m": -1.2033141670227052, "water_above_mid_shin_m": -11.1373871383667, "relation": "below the ankle (feet only wet)", "method": "ankle = top of the foot renderer bounds; mid-shin = centre of the MechBalanced_shank_L renderer bounds; scene metres, NAVD88 y"},
+ "site": {"search_pass": "C: depth 0.5-12 m, 150-1500 m offshore, flat", "ferry_building_baytm_estimate": [62656.47297405167, 74704.921795323331], "tower_anchor_baytm": [62352.928702882542, 74058.511747140321], "tower_bid": "osm:w1053143796", "tower_top_navd88_m": 330.892, "window_baytm": [62756.47297405167, 74204.921795323331, 63428, 75004.921795323331], "chosen_baytm": [63108.47297405167, 74384.921795323331], "chosen_depth_m": 5.5436492477306274, "chosen_offshore_m": 151.32096862792969, "depth_source": "terrain.tif (CUDEM topobathy merged into the baked tile), water level minus SampleData"},
+ "pixel": {"profile": "slate_teal", "palette_sha256": "a35522b1467269ab253cdb6524f46ce9c006dd5e82bcbbe532cff482b208f719", "configuration": "Assets/Game/Config/Rendering/Configurations/M0StyleFrame.json", "flags_on": ["camera.footfallImpulse", "camera.quantiseRotation", "camera.snapPosition", "camera.thirdPersonRig", "rendering.pixel.dither", "rendering.pixel.enabled", "rendering.pixel.haze", "rendering.pixel.lowRes", "rendering.pixel.quantise", "rendering.pixel.subPixelPresent"], "world_camera": "PixelWorldCamera"},
+ "hashes": {
+  "seabed_height_samples_below_sea_level_sha256": "5942ca68ed035b78a735d6863ae3b45be6ef97849a608ab017327f36e0d6f745",
+  "terrain_mesh_vertices_sha256": "adf6b589ea1fae5bdb18f8c15fba4d6399521bb33d76daa997c5dfb3912a4cea",
+  "seabed_mesh_vertices_sha256": "0da8b5ec572b9dc26389b98da36274242840364d70dc5416e1ad7dd2b3b77f0d",
+  "seabed_definition": "terrain-mesh vertices with y < sea level, in mesh order",
+  "building_chunk_mesh_vertices_sha256": "e00d2b0abe1d971dbd8ab680030a4db28cd25b4717cc8e53b1a0170d4d4e3912",
+  "water_mesh_vertices_sha256": "99d8e9aa72b61a6c7c3a42a7c1a80805f713cff413c3d85744db6a8baf319881",
+  "heightfield_float32_sha256": "ee80b2f4f60d57e5990deed28f88f0b5b3eca178bf63b9eedf7862ed757b2023",
+  "baked_files": {
+   "terrain": {"file": "terrain.tif", "sha256": "2d3f79ebec42f9fcc18a4c8a9786f9e433133e27ced540a0fa08e26dda70c96c", "manifest_sha256": "2d3f79ebec42f9fcc18a4c8a9786f9e433133e27ced540a0fa08e26dda70c96c"},
+   "buildings": {"file": "buildings.geojson", "sha256": "7cbb40727134f72cfbdcabe8bb998c213d13cb62f5e1f1d3bc43b7d9ac794c3d", "manifest_sha256": "7cbb40727134f72cfbdcabe8bb998c213d13cb62f5e1f1d3bc43b7d9ac794c3d"},
+   "water": {"file": "water.png", "sha256": "4f4d8695dd4b22422cf4f7e459cf7638a3d5f1dff707324b9f1434f38cb1a314", "manifest_sha256": "4f4d8695dd4b22422cf4f7e459cf7638a3d5f1dff707324b9f1434f38cb1a314"}
+  }
+ },
+ "non_unit_scales": [],
+ "warnings": ["site search fell back to pass C: depth 0.5-12 m, 150-1500 m offshore, flat"]
+}

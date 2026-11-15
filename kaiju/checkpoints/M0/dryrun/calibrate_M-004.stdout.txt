@@ -1,0 +1,21 @@
+$ /opt/miniconda3/envs/kaiju/bin/python Tools/Metrics/metrics.py calibrate --ratings .wt/T-006/kaiju/checkpoints/M0/dryrun/M-004_dummy_ratings.json --reports .wt/T-006/kaiju/checkpoints/M0/bulk/dryrun_reports/M-004 --out .wt/T-006/kaiju/checkpoints/M0/dryrun/calibrate_M-004
+exit 0
+--- stdout
+calibrate M-004 from registry v1.1 on 10 captures (pass = rating >= 8.0)
+rater agreement: 1 pairs, mean Spearman 0.994
+anchors (median): {}
+registry diff (NOT applied; review, then add the new revision file by hand):
+--- registry/M-004@v1.1.yaml
++++ registry/M-004@v1.2.yaml (proposed; review, then add as a new file)
+@@ -1,7 +1,7 @@
+ registry_schema: metric_registry@v1
+ metric: M-004
+ spec: M-004@v1
+-revision: v1.1
++revision: v1.2
+ metric_status: registered
+ date: "2026-11-14"   # v1.1: fix cycle 2 (DEF-T002-arch-3: index vs colour check)
+ title: Pixel stability (shimmer and crawl)
+
+
+--- stderr

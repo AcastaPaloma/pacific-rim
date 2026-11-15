@@ -97,7 +97,16 @@ namespace Game.World.Geo
             int n = (int)GeoJson.Num(ctx.ManifestLayer("terrain"), "samples", 2049);
             double sp = GeoJson.Num(ctx.ManifestLayer("terrain"), "spacing_m", 1.0);
             var hf = GeoHeightField.FromR16(ctx.ReadBytes(GeoJson.Str(L, "file")), n, sp, GeoJson.Num(L, "h_min_m"), GeoJson.Num(L, "h_max_m"));
-            var rt = RtinMesher.Build(hf.Data, n, sp, (float)GeoSettings.Require(ctx, GeoSettingKeys.TerrainMaxErrorM), (int)GeoSettings.Require(ctx, GeoSettingKeys.TerrainChunkCells));
+            // neighbours in a tile set: shared border heights (mean of both tiles) and every border node kept as a vertex
+            bool[] force = null;
+            if (c.Edge != null)
+            {
+                c.Edge.Apply(hf.Data, n);
+                force = c.Edge.Forced;
+            }
+            // persisted terrain edits (T-110, R-101 section 7): replayed after the decode and the border policy, before RTIN, so a crater is in the mesh
+            c.HeightEdit?.Invoke(hf.Data, n, sp, c.OriginX, c.OriginZ);
+            var rt = RtinMesher.Build(hf.Data, n, sp, (float)GeoSettings.Require(ctx, GeoSettingKeys.TerrainMaxErrorM), (int)GeoSettings.Require(ctx, GeoSettingKeys.TerrainChunkCells), "terrain", force);
             hf.Render = rt.RenderHeights;
             c.Heights = hf;
             var o = new GeoLayerOutput { Layer = Name };
@@ -187,6 +196,12 @@ namespace Game.World.Geo
     public sealed class BuildingsLayer : IGeoLayer
     {
         public string Name => "buildings";
+        // Absent, null or non-finite -> 0.
+        static int OptInt(IReadOnlyDictionary<string, object> p, string k)
+        {
+            double v = GeoJson.Num(p, k, 0);
+            return double.IsNaN(v) || double.IsInfinity(v) || v < 0 || v > int.MaxValue ? 0 : (int)v;
+        }
         public GeoLayerOutput Build(IGeoTileContext ctx)
         {
             var o = new GeoLayerOutput { Layer = Name };
@@ -205,6 +220,7 @@ namespace Game.World.Geo
                     BaseNavd88M = GeoJson.Num(p, "base_navd88_m"), HeightSource = GeoJson.Str(p, "height_source"),
                     RoofShape = GeoJson.Str(p, "roof_shape"), Name = GeoJson.Str(p, "name"), HasParts = GeoJson.Bool(p, "has_parts"),
                     Excluded = GeoJson.Str(p, "excluded"), HeightCappedToParent = GeoJson.Bool(p, "height_capped_to_parent"),
+                    YearBuilt = OptInt(p, "year_built"), Stories = OptInt(p, "stories"), StructClass = GeoJson.Str(p, "struct_class"),
                     Polygons = GeoGeom.Polygons(GeoJson.Get(f, "geometry"), ctx.OriginX, ctx.OriginZ),
                 };
                 b.Id = ParseBid(b.Bid);
@@ -315,7 +331,8 @@ namespace Game.World.Geo
                 {
                     Id = GeoJson.Get(f, "id") as string, FaultName = GeoJson.Str(p, "fault_name"), Section = GeoJson.Str(p, "section"),
                     Linetype = GeoJson.Str(p, "linetype"), SlipRate = GeoJson.Str(p, "slip_rate"), SlipSense = GeoJson.Str(p, "slip_sense"),
-                    Age = GeoJson.Str(p, "age"), Lines = GeoGeom.Lines(GeoJson.Get(f, "geometry"), ctx.OriginX, ctx.OriginZ),
+                    Age = GeoJson.Str(p, "age"), FaultId = GeoJson.Str(p, "fault_id"),
+                    Lines = GeoGeom.Lines(GeoJson.Get(f, "geometry"), ctx.OriginX, ctx.OriginZ),
                 });
             }
             o.Stats["faults.count"] = o.Faults.Count;

@@ -1,0 +1,764 @@
+{
+ "metric_version": "M-005@v1.2",
+ "result": "pass",
+ "thresholds": {
+  "default_height_share_union": 0.02,
+  "per_tile_share": 0.05,
+  "per_tile_min_area_m2": 10000.0,
+  "seam_terrain_p99_E_m": 0.2,
+  "seam_terrain_max_E_m": 0.5,
+  "edge_vertex_gap_m": 0.001,
+  "clipped_area_rel": 0.001,
+  "collider_overlap_m2": 0.05,
+  "piece_height_base_m": 0.001
+ },
+ "tiles": [
+  "L0_25_36",
+  "L0_25_37",
+  "L0_25_38",
+  "L0_26_36",
+  "L0_26_37",
+  "L0_26_38",
+  "L0_27_36",
+  "L0_27_37",
+  "L0_27_38",
+  "L0_29_35",
+  "L0_29_36",
+  "L0_30_35",
+  "L0_30_36",
+  "L0_31_35",
+  "L0_31_36"
+ ],
+ "rows": [
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "default_height_share_union",
+   "scope": "district",
+   "result": "pass",
+   "value": 0.01443,
+   "threshold": 0.02,
+   "building_area_m2": 6951909.8,
+   "default_area_m2": 100349.5,
+   "structures": 16615,
+   "unit": "structure root-outline area, excluded structures dropped"
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "default_height_share_tile",
+   "scope": "L0_25_36",
+   "result": "reported",
+   "value": 0.0,
+   "building_area_m2": 144.3,
+   "default_area_m2": 0.0,
+   "structures": 1,
+   "gated": false,
+   "threshold": 0.05,
+   "reason": "< 10000 m2 of buildings: reported, not gated"
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "default_height_share_tile",
+   "scope": "L0_25_37",
+   "result": "reported",
+   "value": null,
+   "building_area_m2": 0.0,
+   "default_area_m2": 0.0,
+   "structures": 0,
+   "gated": false,
+   "threshold": 0.05,
+   "reason": "< 10000 m2 of buildings: reported, not gated"
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "default_height_share_tile",
+   "scope": "L0_25_38",
+   "result": "pass",
+   "value": 0.0,
+   "building_area_m2": 12708.0,
+   "default_area_m2": 0.0,
+   "structures": 30,
+   "gated": true,
+   "threshold": 0.05
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "default_height_share_tile",
+   "scope": "L0_26_36",
+   "result": "pass",
+   "value": 0.0006,
+   "building_area_m2": 95892.6,
+   "default_area_m2": 59.5,
+   "structures": 423,
+   "gated": true,
+   "threshold": 0.05
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "default_height_share_tile",
+   "scope": "L0_26_37",
+   "result": "reported",
+   "value": 0.0025,
+   "building_area_m2": 4391.6,
+   "default_area_m2": 10.8,
+   "structures": 6,
+   "gated": false,
+   "threshold": 0.05,
+   "reason": "< 10000 m2 of buildings: reported, not gated"
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "default_height_share_tile",
+   "scope": "L0_26_38",
+   "result": "pass",
+   "value": 0.0123,
+   "building_area_m2": 25479.8,
+   "default_area_m2": 313.7,
+   "structures": 91,
+   "gated": true,
+   "threshold": 0.05
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "default_height_share_tile",
+   "scope": "L0_27_36",
+   "result": "pass",
+   "value": 0.0029,
+   "building_area_m2": 277992.9,
+   "default_area_m2": 800.5,
+   "structures": 965,
+   "gated": true,
+   "threshold": 0.05
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "default_height_share_tile",
+   "scope": "L0_27_37",
+   "result": "pass",
+   "value": 0.0236,
+   "building_area_m2": 24112.5,
+   "default_area_m2": 569.8,
+   "structures": 106,
+   "gated": true,
+   "threshold": 0.05
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "default_height_share_tile",
+   "scope": "L0_27_38",
+   "result": "reported",
+   "value": 0.0227,
+   "building_area_m2": 7840.4,
+   "default_area_m2": 178.1,
+   "structures": 28,
+   "gated": false,
+   "threshold": 0.05,
+   "reason": "< 10000 m2 of buildings: reported, not gated"
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "default_height_share_tile",
+   "scope": "L0_29_35",
+   "result": "pass",
+   "value": 0.0488,
+   "building_area_m2": 1885638.5,
+   "default_area_m2": 91948.9,
+   "structures": 4016,
+   "gated": true,
+   "threshold": 0.05
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "default_height_share_tile",
+   "scope": "L0_29_36",
+   "result": "pass",
+   "value": 0.0018,
+   "building_area_m2": 1911960.7,
+   "default_area_m2": 3491.6,
+   "structures": 7430,
+   "gated": true,
+   "threshold": 0.05
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "default_height_share_tile",
+   "scope": "L0_30_35",
+   "result": "pass",
+   "value": 0.0008,
+   "building_area_m2": 1469276.6,
+   "default_area_m2": 1239.5,
+   "structures": 1471,
+   "gated": true,
+   "threshold": 0.05
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "default_height_share_tile",
+   "scope": "L0_30_36",
+   "result": "pass",
+   "value": 0.0014,
+   "building_area_m2": 1214764.7,
+   "default_area_m2": 1737.2,
+   "structures": 2042,
+   "gated": true,
+   "threshold": 0.05
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "default_height_share_tile",
+   "scope": "L0_31_35",
+   "result": "pass",
+   "value": 0.0,
+   "building_area_m2": 18542.0,
+   "default_area_m2": 0.0,
+   "structures": 3,
+   "gated": true,
+   "threshold": 0.05
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "default_height_share_tile",
+   "scope": "L0_31_36",
+   "result": "reported",
+   "value": 0.0,
+   "building_area_m2": 3165.2,
+   "default_area_m2": 0.0,
+   "structures": 3,
+   "gated": false,
+   "threshold": 0.05,
+   "reason": "< 10000 m2 of buildings: reported, not gated"
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam_all_edges",
+   "scope": "district",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0033,
+    "max_dE_m": 0.0045
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "edges": 19,
+   "nodes": 38931,
+   "surface": "terrain.r16 (built surface), shared edge nodes, whole edge"
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap_all_edges",
+   "scope": "district",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001,
+   "edges": 19
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_25_36|L0_26_36",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0022,
+    "max_dE_m": 0.0023
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_25_36|L0_26_36",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_25_36|L0_25_37",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0025,
+    "max_dE_m": 0.0028
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_25_36|L0_25_37",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_25_37|L0_26_37",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0033,
+    "max_dE_m": 0.0035
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_25_37|L0_26_37",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_25_37|L0_25_38",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0033,
+    "max_dE_m": 0.0037
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_25_37|L0_25_38",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_25_38|L0_26_38",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0041,
+    "max_dE_m": 0.0045
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_25_38|L0_26_38",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_26_36|L0_27_36",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0019,
+    "max_dE_m": 0.0021
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_26_36|L0_27_36",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_26_36|L0_26_37",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0029,
+    "max_dE_m": 0.0032
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_26_36|L0_26_37",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_26_37|L0_27_37",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0031,
+    "max_dE_m": 0.0033
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_26_37|L0_27_37",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_26_37|L0_26_38",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0041,
+    "max_dE_m": 0.0044
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_26_37|L0_26_38",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_26_38|L0_27_38",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0035,
+    "max_dE_m": 0.0039
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_26_38|L0_27_38",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_27_36|L0_27_37",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.002,
+    "max_dE_m": 0.0022
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_27_36|L0_27_37",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_27_37|L0_27_38",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0026,
+    "max_dE_m": 0.0028
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_27_37|L0_27_38",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_29_35|L0_30_35",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0008,
+    "max_dE_m": 0.0009
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_29_35|L0_30_35",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_29_35|L0_29_36",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0013,
+    "max_dE_m": 0.0014
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_29_35|L0_29_36",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_29_36|L0_30_36",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0016,
+    "max_dE_m": 0.0018
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_29_36|L0_30_36",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_30_35|L0_31_35",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0005,
+    "max_dE_m": 0.0006
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_30_35|L0_31_35",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_30_35|L0_30_36",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0012,
+    "max_dE_m": 0.0013
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_30_35|L0_30_36",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_30_36|L0_31_36",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0011,
+    "max_dE_m": 0.0012
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_30_36|L0_31_36",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "terrain_seam",
+   "scope": "L0_31_35|L0_31_36",
+   "result": "pass",
+   "value": {
+    "p99_dE_m": 0.0004,
+    "max_dE_m": 0.0005
+   },
+   "threshold": {
+    "p99": 0.2,
+    "max": 0.5
+   },
+   "nodes": 2049
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "edge_vertex_gap",
+   "scope": "L0_31_35|L0_31_36",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "bid_ownership",
+   "scope": "district",
+   "result": "pass",
+   "value": {
+    "duplicate_bids": 0,
+    "not_in_owner_tile": 0
+   },
+   "threshold": {
+    "duplicate_bids": 0,
+    "not_in_owner_tile": 0
+   },
+   "bids": 17858,
+   "examples": []
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "clipped_area",
+   "scope": "district",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001,
+   "footprints_crossing_an_edge": 240,
+   "note": "pieces = footprint clipped to each tile square; area inside the district union is the reference"
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "collider_overlap",
+   "scope": "district",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.05,
+   "pairs_over_threshold": 0,
+   "colliders": 17670,
+   "examples": []
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "clipped_pieces_area",
+   "scope": "district",
+   "result": "pass",
+   "value": 0.000349,
+   "threshold": 0.001,
+   "pieces": 18114,
+   "bids": 17858,
+   "note": "piece area against the baked footprint clipped to the piece's tile square"
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "clipped_pieces_height_base",
+   "scope": "district",
+   "result": "pass",
+   "value": 0.0,
+   "threshold": 0.001,
+   "pieces": 18114,
+   "note": "max |height_m| and |base_navd88_m| difference to the baked feature (assumed 1 mm, as the vertex gap)"
+  },
+  {
+   "metric_version": "M-005@v1.2",
+   "check": "landmarks",
+   "scope": "district",
+   "result": "not_evaluated",
+   "reason": "landmarks layer does not exist yet (T-035 later step); absence accepted, not a pass",
+   "checks": [
+    "linear continuity <= 1 mm",
+    "lid unique",
+    "GGB S tower 48 m from seam"
+   ]
+  }
+ ]
+}

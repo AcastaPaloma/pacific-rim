@@ -89,14 +89,19 @@ namespace Game.Core
         public bool RemoveSection(string name) => _sections.Remove(name);
     }
 
-    public enum SaveLoadStatus { Ok = 0, Missing = 1, Corrupt = 2, NewerSchema = 3, UnknownSchema = 4, SectionTooNew = 5, MissingMigration = 6 }
+    public enum SaveLoadStatus { Ok = 0, Missing = 1, Corrupt = 2, NewerSchema = 3, UnknownSchema = 4, SectionTooNew = 5, MissingMigration = 6,
+        /// <summary>The file exists but could not be read (locked, permission, I/O error). Nothing was loaded; the file is untouched; retry later.</summary>
+        Unreadable = 7 }
 
     public sealed class SaveLoadResult
     {
-        public SaveLoadResult(SaveLoadStatus status, SaveDocument document, string message) { Status = status; Document = document; Message = message; }
+        public SaveLoadResult(SaveLoadStatus status, SaveDocument document, string message, bool fromBackup = false)
+        { Status = status; Document = document; Message = message; FromBackup = fromBackup; }
         public SaveLoadStatus Status { get; }
         public SaveDocument Document { get; }   // null unless Status == Ok
-        public string Message { get; }
+        public string Message { get; }          // for Ok with FromBackup: why the primary file was not used
+        /// <summary>True when the primary file was corrupt and the previous generation (<c>.bak</c>) was loaded instead.</summary>
+        public bool FromBackup { get; }
         public bool Ok => Status == SaveLoadStatus.Ok;
     }
 

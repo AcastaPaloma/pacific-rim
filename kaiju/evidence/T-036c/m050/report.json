@@ -1,0 +1,227 @@
+{
+ "assumed_thresholds_decisive": [],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [],
+  "optional_not_provided": [],
+  "provided": [
+   "before",
+   "after"
+  ],
+  "required": [
+   "before",
+   "after"
+  ]
+ },
+ "exit_code": 0,
+ "extra": {
+  "m050": {
+   "differing_bytes": 0,
+   "first_differing_ids": [],
+   "records_after": 651,
+   "records_before": 651
+  }
+ },
+ "failing_gating": [],
+ "failures_suppressed": false,
+ "flags": [],
+ "headless_verdict": "PASS",
+ "headless_verdict_label": "PASS",
+ "images": [],
+ "inputs": [
+  {
+   "path": "evidence/T-036c/dumps/save_after.json",
+   "role": "save after (kaiju-save, destruction@v1)",
+   "sha256": "c5ceda299b70557a3d02bee1535dbb4f62925512ec554e335328b8aa6491c734"
+  },
+  {
+   "path": "evidence/T-036c/dumps/save_before.json",
+   "role": "save before (kaiju-save, destruction@v1)",
+   "sha256": "c5ceda299b70557a3d02bee1535dbb4f62925512ec554e335328b8aa6491c734"
+  }
+ ],
+ "invocation": {
+  "command": "m050",
+  "inputs": [
+   "evidence/T-036c/dumps/save_before.json",
+   "evidence/T-036c/dumps/save_after.json"
+  ],
+  "label": "save_before.json",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "save_before.json",
+ "metric": "M-050",
+ "metric_version": "M-050@v1",
+ "normalisers": {},
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-050@v1.yaml",
+  "revision": "v1.0",
+  "sha256": "5190b6f07443a47d07f93acfec271373174db28095ee597ef2b22ba329bf7e25",
+  "spec": "M-050@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "revw-172-31-218-200.rn.uwaterloo.ca",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-15T06:38:06Z",
+  "wall_time_s": 0.025
+ },
+ "submeasures": [
+  {
+   "decisive_part": "differing_bytes",
+   "diagnostics": {
+    "extra_ids": 0,
+    "first_differing_ids": [],
+    "missing_ids": 0,
+    "model_rev": {
+     "after": 2,
+     "before": 2
+    },
+    "records": {
+     "after": 651,
+     "before": 651
+    },
+    "where": null
+   },
+   "id": "M-050.bytes",
+   "kind": "gating",
+   "margin": 0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "differing_bytes",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "bytes",
+     "value": 0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "Canonical bytes of the destruction section",
+   "unit": "bytes",
+   "value": 0
+  },
+  {
+   "decisive_part": "state_mismatch",
+   "diagnostics": {
+    "extra_ids": 0,
+    "first_differing_ids": [],
+    "missing_ids": 0,
+    "model_rev": {
+     "after": 2,
+     "before": 2
+    },
+    "records": {
+     "after": 651,
+     "before": 651
+    },
+    "where": null
+   },
+   "id": "M-050.fields",
+   "kind": "gating",
+   "margin": 0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "state_mismatch",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "ids",
+     "value": 0
+    },
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "e_cum_j_bit_mismatch",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "ids",
+     "value": 0
+    },
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "debris_kg_bit_mismatch",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "ids",
+     "value": 0
+    },
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "ids_missing_or_extra",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "ids",
+     "value": 0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "Per-ID state, e_cum_j bits, debris_kg bits and record set",
+   "unit": "ids",
+   "value": 0
+  },
+  {
+   "decisive_part": "other_sections_differing_bytes",
+   "diagnostics": {},
+   "id": "M-050.other_sections",
+   "kind": "gating",
+   "margin": 0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "other_sections_differing_bytes",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "bytes",
+     "value": 0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "Unrelated sections byte-identical",
+   "unit": "bytes",
+   "value": 0
+  }
+ ],
+ "tool": {
+  "git_commit": "ef87e2e96ba420efa82eadc682de2fb38187377e",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "PASS",
+ "verdict_label": "PASS",
+ "warnings": []
+}

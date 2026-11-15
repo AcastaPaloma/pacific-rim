@@ -78,9 +78,32 @@ Written by the scribe on 2026-11-14. Translates the `M-NEW-*` / `Q-NEW-*` placeh
 | orchestrator, T-005 cycle 3 (walk gate); related to Q-014 | Q-053 |
 | evaluations/T-007/eval-style.cycle3.md "Not lost" (C16 margin) | Q-054 |
 | evaluations/T-007/eval-style.cycle3.md "Not lost" (density about 1,030 kg/m³) | Q-009 (extra source) |
+| research/R-008.md Q-NEW-b | Q-055 |
+| research/R-008.md Q-NEW-d | Q-056 |
+| tasks/T-002.impl Q-NEW-a, Q-NEW-o; tasks/T-004.impl Q-NEW-a | Q-057 |
+| tasks/T-002.impl Q-NEW-d, e, f, i, j, k, m | Q-058 |
+| tasks/T-002.impl Q-NEW-b, c, h, l, n | Q-059 |
+| tasks/T-004.impl Q-NEW-b; tasks/T-002.impl Q-NEW-g | Q-060 |
+| tasks/T-004.impl Q-NEW-c | Q-061 |
+| tasks/T-003.impl Q-NEW-a | Q-062 |
+| tasks/T-005.impl Q-NEW-c | Q-063 |
+| tasks/T-005.impl Q-NEW-d | Q-064 |
+| tasks/T-007.impl Q-NEW-a, Q-NEW-b | Q-065 |
+| tasks/T-007.impl Q-NEW-c | Q-066 |
+| expectations/T-006.md Q (placeholder props) | Q-067 |
+| research/R-008.md Q-NEW-a; tasks/T-005.impl Q-NEW-b, Q-NEW-e | Q-053 (extra source; default: M0 gate at Fr >= 0.10, cruise 0.20 as the M1 gate) |
+| research/R-008.md Q-NEW-c | Q-014 (extra source; refines it: yaw-moment assist only, <= 3 % of ankle limit, declared and logged, Fr >= 0.15; default no assist) |
+| tasks/T-005.impl Q-NEW-a (physics mass unit) | Q-051 (extra source) |
+| tasks/T-003.impl Q-NEW-b (bridge decks at M0) | Q-040 (extra source) |
+| tasks/T-003.impl Q-NEW-c (R-ind thresholds) | Q-047 (extra source; V4 and the R-ind recipe reframed by M-005@v1.1) |
+| tasks/T-003.impl Q-NEW-d (C11 seam statistic) | none (settled by M-005.9 in `M-005@v1.1`, R-006) |
+| tasks/T-007.impl Q-NEW-d (C11 shoulder-width measure) | none (settled by the orchestrator ruling on C11, §12) |
+| expectations/T-006.md Q (default framing of the first image) | Q-042 (extra source) |
 
 Not placeholders but also registered: `R-001` to `R-005` (the file's own ID), `M-001@v1` to `M-006@v1` (specs; the proposals named `M-003@v1`, `M-004@v1`, `M-005@v1`, `M-006@v1` in the research files), `gait_log@v1` as M-010, `physics_log@v1`, `palette_set@v1`, `style_capture@v1`, `geo_tile@v1`, `mech_frame@v1` stay file-level data contracts owned by the file that defines them.
 
 Added 2026-11-14 (scribe): Q-035 to Q-043 from the reconciled specs `expectations/T-002.md`, `T-003.md`, `T-004.md`; the rows marked "extra source" are duplicates of an existing Q and create no new number.
 
 Added 2026-11-14 (scribe, second pass): M-018 to M-020 and Q-044 to Q-050 from R-006 and R-007; Q-051 to Q-054 from evaluations and the orchestrator; also registered: `R-006`, `R-007` (own IDs), `M-005@v1.1` (spec, R-006 §5), `M-006@v1.1` (Proposed clarifications, R-007, not registered); `R-008` reserved (commissioned).
+
+Added 2026-11-14 (scribe, M0 catch-up): Q-055 to Q-067 from R-008 and the `Proposed breakdown entries` of the T-002 to T-007 implementation notes and `expectations/T-006.md`; rows naming an existing Q create no new number. `R-008` registered (own ID); `M-006@v1.1` registered as Assumed. Not numbered (not founder questions): R-008 M-NEW-a to c, T-004 M-NEW-a, T-005 F-NEW-b and R-NEW-a.

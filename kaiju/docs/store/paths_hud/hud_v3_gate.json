@@ -1,0 +1,71 @@
+{
+ "schema": "capture_path@v1",
+ "path_id": "hud_v3_gate",
+ "pillar": "P4",
+ "viewpoint": {
+  "id": "V3",
+  "tile": "L0_26_38",
+  "baytm": [
+   55004.615,
+   78793.17
+  ],
+  "heading_deg": 160
+ },
+ "profile_id": "warm_amber_haze",
+ "district_id": "SF-GoldenGate",
+ "time_of_day": "fixed_v1",
+ "fps": 60,
+ "duration_s": 1.0,
+ "seed": 191102,
+ "interpolation": "linear",
+ "keyframes": [
+  {
+   "t_s": 0,
+   "pos_baytm": [
+    55004.615,
+    78793.17
+   ],
+   "alt_m": 1.7,
+   "yaw_deg": 160,
+   "pitch_deg": -2,
+   "hfov_deg": 60
+  },
+  {
+   "t_s": 1.0,
+   "pos_baytm": [
+    55004.615,
+    78793.17
+   ],
+   "alt_m": 1.7,
+   "yaw_deg": 160,
+   "pitch_deg": -2,
+   "hfov_deg": 60
+  }
+ ],
+ "shake": [],
+ "snap": {
+  "enabled": true,
+  "dither_anchor": "direction"
+ },
+ "outputs": [
+  {
+   "internal_wh": [
+    480,
+    270
+   ],
+   "output_wh": [
+    1920,
+    1080
+   ],
+   "scale": 4
+  }
+ ],
+ "mode": "still",
+ "actors": null,
+ "requires": [],
+ "reference_depth_m": 600,
+ "still_frames": [
+  0
+ ],
+ "notes": "T-191 HUD-on pass: world frame for the feel-check slice HUD composite (docs/store/hud_scenes.json); x4 only."
+}

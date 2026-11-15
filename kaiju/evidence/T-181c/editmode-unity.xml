@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="7" result="Passed" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-15 16:26:13Z" end-time="2026-11-15 16:26:13Z" duration="0.04318">
+  <test-suite type="TestSuite" id="1000" name="KaijuGame" fullname="KaijuGame" runstate="Runnable" testcasecount="782" result="Passed" start-time="2026-11-15 16:26:13Z" end-time="2026-11-15 16:26:13Z" duration="0.043180" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1074" name="Game.Camera.Unity.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-181c/kaiju/Library/ScriptAssemblies/Game.Camera.Unity.Tests.dll" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-15 16:26:13Z" end-time="2026-11-15 16:26:13Z" duration="0.026071" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="82717" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1075" name="Game" fullname="Game" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-15 16:26:13Z" end-time="2026-11-15 16:26:13Z" duration="0.025731" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1076" name="Cameras" fullname="Game.Cameras" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-15 16:26:13Z" end-time="2026-11-15 16:26:13Z" duration="0.025582" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1077" name="Tests" fullname="Game.Cameras.Tests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-15 16:26:13Z" end-time="2026-11-15 16:26:13Z" duration="0.025307" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1066" name="ThirdPersonRigTests" fullname="Game.Cameras.Tests.ThirdPersonRigTests" classname="Game.Cameras.Tests.ThirdPersonRigTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-15 16:26:13Z" end-time="2026-11-15 16:26:13Z" duration="0.024732" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1071" name="ACut_RendersExactlyTheStaticPose_NoResidualState" fullname="Game.Cameras.Tests.ThirdPersonRigTests.ACut_RendersExactlyTheStaticPose_NoResidualState" methodname="ACut_RendersExactlyTheStaticPose_NoResidualState" classname="Game.Cameras.Tests.ThirdPersonRigTests" runstate="Runnable" seed="377586392" result="Passed" start-time="2026-11-15 16:26:13Z" end-time="2026-11-15 16:26:13Z" duration="0.009100" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1073" name="Bind_WiresFlagsBusAndRegistry_ThroughCoreContractsOnly" fullname="Game.Cameras.Tests.ThirdPersonRigTests.Bind_WiresFlagsBusAndRegistry_ThroughCoreContractsOnly" methodname="Bind_WiresFlagsBusAndRegistry_ThroughCoreContractsOnly" classname="Game.Cameras.Tests.ThirdPersonRigTests" runstate="Runnable" seed="820620814" result="Passed" start-time="2026-11-15 16:26:13Z" end-time="2026-11-15 16:26:13Z" duration="0.001897" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1068" name="FollowingAMovingTarget_KeepsItSteadyWithinOneInternalTexel" fullname="Game.Cameras.Tests.ThirdPersonRigTests.FollowingAMovingTarget_KeepsItSteadyWithinOneInternalTexel" methodname="FollowingAMovingTarget_KeepsItSteadyWithinOneInternalTexel" classname="Game.Cameras.Tests.ThirdPersonRigTests" runstate="Runnable" seed="1344345093" result="Passed" start-time="2026-11-15 16:26:13Z" end-time="2026-11-15 16:26:13Z" duration="0.002514" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1072" name="FootfallEvent_OnTheCoreBus_MovesTheCamera_InProportion_Bounded_AndDecaysBack" fullname="Game.Cameras.Tests.ThirdPersonRigTests.FootfallEvent_OnTheCoreBus_MovesTheCamera_InProportion_Bounded_AndDecaysBack" methodname="FootfallEvent_OnTheCoreBus_MovesTheCamera_InProportion_Bounded_AndDecaysBack" classname="Game.Cameras.Tests.ThirdPersonRigTests" runstate="Runnable" seed="1031802598" result="Passed" start-time="2026-11-15 16:26:13Z" end-time="2026-11-15 16:26:13Z" duration="0.002159" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1069" name="LayerSnap_IsOffByDefault_AndFillsThreeLayersWhenOn" fullname="Game.Cameras.Tests.ThirdPersonRigTests.LayerSnap_IsOffByDefault_AndFillsThreeLayersWhenOn" methodname="LayerSnap_IsOffByDefault_AndFillsThreeLayersWhenOn" classname="Game.Cameras.Tests.ThirdPersonRigTests" runstate="Runnable" seed="406419983" result="Passed" start-time="2026-11-15 16:26:13Z" end-time="2026-11-15 16:26:13Z" duration="0.000813" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1067" name="Rig_ImplementsTheContracts_AndFramesAnEightyMetreTarget" fullname="Game.Cameras.Tests.ThirdPersonRigTests.Rig_ImplementsTheContracts_AndFramesAnEightyMetreTarget" methodname="Rig_ImplementsTheContracts_AndFramesAnEightyMetreTarget" classname="Game.Cameras.Tests.ThirdPersonRigTests" runstate="Runnable" seed="27617386" result="Passed" start-time="2026-11-15 16:26:13Z" end-time="2026-11-15 16:26:13Z" duration="0.000516" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1070" name="WithoutAGrid_TheRigOffersNoHints_AndWithStabilisersOff_ItRendersTheWantedPose" fullname="Game.Cameras.Tests.ThirdPersonRigTests.WithoutAGrid_TheRigOffersNoHints_AndWithStabilisersOff_ItRendersTheWantedPose" methodname="WithoutAGrid_TheRigOffersNoHints_AndWithStabilisersOff_ItRendersTheWantedPose" classname="Game.Cameras.Tests.ThirdPersonRigTests" runstate="Runnable" seed="385539497" result="Passed" start-time="2026-11-15 16:26:13Z" end-time="2026-11-15 16:26:13Z" duration="0.000333" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/kuanw/Library/Application Support/DefaultCompany/KaijuGame/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

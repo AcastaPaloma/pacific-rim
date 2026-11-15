@@ -1,0 +1,18 @@
+M-001@v1  [bd_M-001.12_0.98]  registry v1.1 sha256:e18bdef7a8b5  tool 1.0.0
+VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 2
+  FAIL           [G] M-001.4          3.003 m/s^2  <= 2.943  margin -0.06006
+      where: estop:peak |a_fore| at {'capture': 'estop', 'file': 'estop.gait.jsonl', 'n': 1419, 't_s': 28.38, 'stride_samples': None}
+  FAIL           [G] M-001.12         2.94 s  >= 2.997  margin -0.05721 seed-threshold
+  PASS           [G] M-001.1          0.2 Fr  in [0.1, 0.3]  margin 0.1 seed-threshold
+  PASS           [G] M-001.2          1 -  in [0.85, 1.15]  margin 0.1496
+  PASS           [G] M-001.3          0.6606 -  in [0.6, 0.72]  margin 0.05939 seed-threshold
+  PASS           [G] M-001.5          5.995e-15 m/s^2  <= 0.8339  margin 0.8339
+  NOT_RUN        [G] M-001.6          -   (no start capture)
+  PASS           [G] M-001.7          0 deg/s  <= 26.7  margin 26.7
+  PASS           [G] M-001.8          0 deg/s^2  <= 4  margin 4
+  PASS           [G] M-001.9          0 m/s^2  <= 0.8339  margin 0.8339 seed-threshold
+  NOT_RUN        [G] M-001.10         -   (no start capture)
+  NOT_RUN        [G] M-001.11         -   (no stop capture)
+  PENDING        [G] M-001.13         -   (no panel_ratings@v1 file given (the tool never defaults a score))
+  missing inputs: walk_fr010, walk_fr020, walk_fr030, start, stop, turn90_inplace, curve
+  inputs: 1 files hashed; report.json holds every value, threshold and hash

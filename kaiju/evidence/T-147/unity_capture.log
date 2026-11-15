@@ -1,0 +1,666 @@
+Unity Editor version:    6000.6.9f1 (8c45277fb9c5)
+Branch:                  6000.6/staging
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 26.6.2 (Build 25G83)
+Darwin version:          25.6.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        24576 MB
+Date:                    2026-11-15T19:55:44Z
+VBCSCompilerPreWarmer: watching VBCSCompiler (PID 85338)
+VBCSCompilerPreWarmer: pre-warm launched (dotnet PID 85340)
+VBCSCompiler prewarm took 13.32 ms
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kuanw" at "2026-11-15T19:55:44.382455Z"
+Launching external process: /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Helpers/PackageManager/Server/UnityPackageManager
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/MacOS/Unity
+-batchmode
+-quit
+-projectPath
+/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju
+-logFile
+/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/evidence/T-147/unity_capture.log
+-executeMethod
+Game.Tools.Capture.CaptureCli.Run
+-capturePaths
+docs/store/paths
+-captureOut
+evidence/T-147/captures_local
+-captureEnable
+-captureMaxFrames
+6
+-captureFailOnBlocked
+-hubSessionId
+53dcba44-495b-48cd-8fa7-613a37880240
+-accessToken
+tUDZMK2yREutkD3TQ5kFE0FSMgOHyQaPIgKrC-Y5Xtc003f
+Successfully changed project path to: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju
+/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-remapper-allocator-initial-capacity=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=1"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Logging is directed to a specific file, skipping project log.
+Player connection [8319410560]  Target information:
+
+Player connection [8319410560]  * "[IP] 10.39.69.198 [Port] 55505 [Flags] 2 [Guid] 2900337462 [EditorId] 2900337462 [Version] 1048832 [Id] OSXEditor(0,revw-172-31-218-200.rn.uwaterloo.ca) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8319410560]  * "[IP] 172.31.218.200 [Port] 55505 [Flags] 2 [Guid] 2900337462 [EditorId] 2900337462 [Version] 1048832 [Id] OSXEditor(0,revw-172-31-218-200.rn.uwaterloo.ca) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8319410560] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [8319410560] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.19.0+4cc3dda
+  Session Id:              a2396163cea940ef9e392678f2ce3e48
+  Correlation Id:          b081f4decbdb0f021f9123b7bc614413
+  External correlation Id: 4360026252747725365
+  Machine Id:              Jtoxy/laSQwJh0RLupJMEeaAObc=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-kuanw" (connect: 0.00s, validation: 0.00s, handshake: 0.38s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-kuanw-notifications" at "2026-11-15T19:55:44.764048Z"
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated the access token tUDZMK2yRE...
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 3574486243256-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.01
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 0.43s
+Initialising UDS system complete:
+  - System type: Client
+  - Resource namespace: 09f09650b6c704de0286fc6acc85ef98
+  - Shared memory size: 1073741824
+  - Command buffer id: 1052672
+  - Command buffer size: 8192
+  - Hashmap size: 4194304
+  - Service connected: false
+[Package Manager] Connected to IPC stream "Upm-85337" after 0.4 seconds.
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+Launching Unity Data Store - /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Helpers/Unity.DataStore 
+Unity Data Store artifact dir = Library/DataStore, working dir = /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaijuUnity Data Store running and initialised
+[Physics::Module] Selected backend (deferred post-plugins).
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Initialize engine version: 6000.6.9f1 (8c45277fb9c5)
+[EntityIdStore] init: VM path (explicit commit), pageSize=16384, blockCount=262144, entitiesPerBlock=1024, blocksPerSlotPage=0, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+ preferred device: Apple M5 Pro (high power)
+Metal devices available: 1
+0: Apple M5 Pro (high power)
+Using device Apple M5 Pro (high power)
+Initializing Metal device caps: Apple M5 Pro
+Mac GPU Family: 2
+Apple GPU Family: 9
+MSL Version: 3.0
+Has Float MSAA: 1
+Has Float Filtering: 1
+ReadWrite Texture Tier: 2
+Initialize mono
+Mono path[0] = '/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/Managed'
+Mono path[1] = '/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = '/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/lib/mono/unityjit-macos'
+Mono config path = '/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56337
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/Hub/Editor/6000.6.9f1/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.6.9f1/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.6.9f1/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.001925 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:False
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  1.322 seconds
+Domain Reload Profiling: 1840ms
+	BeginReloadAssembly (125ms)
+		CreateAndSetChildDomain (14ms)
+	RebuildCommonClasses (5ms)
+	RebuildNativeTypeToScriptingClass (14ms)
+	initialDomainReloadingComplete (60ms)
+	LoadAllAssembliesAndSetupDomain (313ms)
+		LoadAssemblies (112ms)
+		TypeCache.Refresh (206ms)
+			TypeCache.ScanAssembly (189ms)
+		AnalyzeDomain (1ms)
+	FinalizeReload (1323ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (3ms)
+			BeforeProcessingInitializeOnLoad (122ms)
+			ProcessInitializeOnLoadAttributes (109ms)
+			ProcessInitializeOnLoadMethodAttributes (849ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 64 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.collab-proxy@2.14.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.collab-proxy@ac5a9def1e96)
+    com.unity.ide.rider@3.1.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.ide.rider@570989d4a882)
+    com.unity.ide.visualstudio@2.0.28 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.ide.visualstudio@b5edea5f33f4)
+    com.unity.inputsystem@1.20.1 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.inputsystem@2436e68c60c4)
+    com.unity.pipeline@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.pipeline@178b93997022)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.splines@2.9.2 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.splines@c3dd4719f1ee)
+    com.unity.nuget.mono-cecil@1.11.6 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.settings-manager@2.1.1 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.settings-manager@0b8638c5ce86)
+    com.unity.searcher@4.9.5 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.searcher@a463122f2c00)
+    com.unity.profiling.core@1.0.3 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.profiling.core@8a49f7027d06)
+  Built-in packages:
+    com.unity.render-pipelines.universal@17.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.render-pipelines.universal@2a6014b851d8)
+    com.unity.ugui@2.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.ugui@ff4f88904a57)
+    com.unity.modules.accessibility@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.physics2d)
+    com.unity.modules.physicscore2d@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.physicscore2d)
+    com.unity.modules.screencapture@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.terrainphysics)
+    com.unity.modules.tetgen@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.tetgen)
+    com.unity.modules.tilemap@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.tilemap)
+    com.unity.modules.timelinefoundation@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.timelinefoundation)
+    com.unity.modules.ui@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.video)
+    com.unity.modules.wind@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.xr)
+    com.unity.cinemachine@6.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.cinemachine@39083c3c55f9)
+    com.unity.test-framework@1.8.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.test-framework@01a8b42f9cf6)
+    com.unity.modules.subsystems@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.modules.hierarchycore)
+    com.unity.render-pipelines.core@17.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.render-pipelines.core@77e675a23c5f)
+    com.unity.shadergraph@17.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.shadergraph@807b608040c3)
+    com.unity.render-pipelines.universal-config@17.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.render-pipelines.universal-config@561422b74439)
+    com.unity.ext.nunit@2.1.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.ext.nunit@0198eae3b53e)
+    com.unity.mathematics@1.4.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.mathematics@8306a64d0cd6)
+    com.unity.graph-authoring@1.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.graph-authoring@cfd2588851ee)
+    com.unity.burst@2.0.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.burst@626e66ab421b)
+    com.unity.collections@6.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.collections@c70d71c1212e)
+    com.unity.test-framework.performance@6.6.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.unity.test-framework.performance@816c370aad5b)
+  Git packages:
+    com.coplaydev.unity-mcp@https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#v10.3.0 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.coplaydev.unity-mcp@da7b9ae4aeeb)
+    com.gamebooom.unity.mcp@https://github.com/FunplayAI/funplay-unity-mcp.git#v0.7.6 (location: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/PackageCache/com.gamebooom.unity.mcp@c96c612ed183)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.01 seconds
+Assembly reference Packages/com.unity.cinemachine/Editor/Samples/ExposeHDRPInternals/HDRP-Editor-ref.asmref has no target assembly definition
+Assembly reference Packages/com.unity.cinemachine/Editor/Samples/ExposeHDRPInternals/HDRP-Editor-ref.asmref has no target assembly definition
+[ScriptCompilation] Requested script compilation because: AssetDatabase observed changes in script compilation related files
+Starting: /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/200b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju
+DisplayProgressbar: Compiling Scripts
+warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.runtime.interopservices.windowsruntime has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll" in favor of "/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.WindowsRuntime.dll"
+warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.componentmodel.composition has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/NetStandard/compat/2.1.0/shims/netfx/System.ComponentModel.Composition.dll" in favor of "/Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Resources/Scripting/UnityReferenceAssemblies/unity-4.8-api/System.ComponentModel.Composition.dll"
+ExitCode: 0 Duration: 1s422ms
+[1308/1832  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[1828/1832  0s] Csc Library/Bee/artifacts/200b0aE.dag/Game.Tools.Capture.dll (+2 others)
+[1829/1832  0s] ILPostProcess Library/Bee/artifacts/200b0aE.dag/post-processed/Game.Tools.Capture.dll (+pdb)
+Processing assembly Library/Bee/artifacts/200b0aE.dag/Game.Tools.Capture.dll, with 140 defines and 331 references
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, Unity.Pipeline.CodeGen.MethodReloadInPlaceILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+1 processor(s) skipped this assembly
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+running Unity.Pipeline.CodeGen.MethodReloadInPlaceILPostProcessor
+[1830/1832  0s] CopyFiles Library/ScriptAssemblies/Game.Tools.Capture.pdb
+[1831/1832  0s] CopyFiles Library/ScriptAssemblies/Game.Tools.Capture.dll
+*** Tundra build success (1.39 seconds), 5 items updated, 1832 evaluated
+AssetDatabase: script compilation time: 2.227478s
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory is not a mono symbol file
+Assembly reference Packages/com.unity.cinemachine/Editor/Samples/ExposeHDRPInternals/HDRP-Editor-ref.asmref has no target assembly definition
+'Packages/com.unity.render-pipelines.core/Editor/Deprecated.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
+'Packages/com.unity.render-pipelines.core/Editor/Deprecated.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
+'Packages/com.unity.cinemachine/Editor/Editors/CinemachineVirtualCameraBaseEditor.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
+'Packages/com.unity.cinemachine/Editor/Obsolete/CinemachineVirtualCameraBaseEditor.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
+Refreshing native plugins compatible for Editor in 6.02 ms, found 2 plugins.
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Start HTTP server: port:7801
+Pipeline: Descriptor written to /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Library/Pipeline/.unity-pipeline-port
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  1.042 seconds
+Domain Reload Profiling: 2207ms
+	BeginReloadAssembly (335ms)
+		DisableScriptedObjects (31ms)
+		CreateAndSetChildDomain (156ms)
+	RebuildCommonClasses (7ms)
+	RebuildNativeTypeToScriptingClass (12ms)
+	initialDomainReloadingComplete (73ms)
+	LoadAllAssembliesAndSetupDomain (737ms)
+		LoadAssemblies (331ms)
+		TypeCache.Refresh (230ms)
+			TypeCache.ScanAssembly (209ms)
+		AnalyzeDomain (83ms)
+			BuildScriptInfoCaches (77ms)
+			ResolveRequiredComponents (4ms)
+	FinalizeReload (1043ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (3ms)
+			BeforeProcessingInitializeOnLoad (98ms)
+			ProcessInitializeOnLoadAttributes (374ms)
+			ProcessInitializeOnLoadMethodAttributes (64ms)
+		AwakeInstancesAfterBackupRestoration (17ms)
+Starting new worker id: 0 with log in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-147/kaiju/Logs/AssetImportWorkerHW0.log
+Launching external process: /Applications/Unity/Hub/Editor/6000.6.9f1/Unity.app/Contents/Helpers/UnityShaderCompiler
+
+Asset Pipeline Refresh (id=3f1fe43b7b91648e89fb91d726d8b0ab): Total: 5.759 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=2053 ms
+		Asset DB Callback time: managed=186 ms, native=13 ms
+		Scripting: domain reloads=1, domain reload time=1217 ms, compile time=2229 ms, other=58 ms
+		Project Asset Count: scripts=1637, non-scripts=2510
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 1
+	InvokePackagesCallback: 10.679ms
+	ApplyChangesToAssetFolders: 0.372ms
+	Scan: 564.726ms
+	Collect global state as custom dependencies: 22.528ms
+	OnSourceAssetsModified: 0.490ms
+	CategorizeScriptCompilationAssets: 51.336ms
+	ProcessAssetsWithTransientArtifactChanges: 61.550ms
+	CategorizeAssets: 61.739ms
+	CompileScripts: 2229.167ms
+	ImportOutOfDateAssets: 1060.174ms (1052.380ms without children)
+		ReloadNativeAssets: 0.055ms
+		UnloadImportedAssets: 2.162ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.643ms
+		ImportSchedulerStart: 4.931ms
+	PostProcessAllAssets: 187.263ms
+		VCAutoAddAssetPostprocess 0.831ms
+		XRBuildSystem.XRAssetImported 0.118ms
+		MonoPostProcessAllAssets: 185.970ms
+			AssetPostprocessor.OnPostprocessAllAssets 112.042ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 16.002ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 12.763ms
+			SyncVS.PostprocessSyncProject 10.037ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 9.289ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 2.549ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 2.137ms
+			AssetChangedListener.OnPostprocessAllAssets 1.762ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 1.677ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 1.017ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.666ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.654ms
+			MaterialPostprocessor.OnPostprocessAllAssets 0.583ms
+			AssetEvents.OnPostprocessAllAssets 0.508ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.450ms
+			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 0.448ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.376ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.360ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.359ms
+			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.330ms
+			PostProcessor.OnPostprocessAllAssets 0.290ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.288ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.269ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.216ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.189ms
+			SamplePostprocessor.OnPostprocessAllAssets 0.182ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.182ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.171ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.170ms
+			CinemachineSettings.OnPostprocessAllAssets 0.168ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.165ms
+			DomainReloadProcessor.OnPostprocessAllAssets 0.127ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.124ms
+			ThemePostprocessor.OnPostprocessAllAssets 0.120ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.096ms
+			AssetReloadNotifier.OnPostprocessAllAssets 0.090ms
+	PostAssetChangesProfiler: 2.784ms
+	UnloadStreamsBegin: 1.522ms
+	PersistCurrentRevisions: 0.127ms
+	GenerateScriptTypeHashes: 1.303ms
+	GenerateScriptTypeSerializationHashes: 2.400ms
+	Untracked: 1501.749ms
+
+Application.AssetDatabase Initial Refresh End
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Launched and connected shader compiler UnityShaderCompiler after 0.01 seconds
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Scanning for USB devices : 0.649ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-KaijuGame
+2026-11-15 14:55:54.005 Unity[85337:7997019] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x8b7331180 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Unloading 69 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6329 unused Assets / (8.8 MB). Loaded Objects now: 7280.
+Memory consumption went from 0.54 GB to 0.53 GB.
+Total: 12.297709 ms (FindLiveObjects: 0.506708 ms CreateObjectMapping: 0.175625 ms MarkObjects: 7.547625 ms  DeleteObjects: 3.960541 ms)
+
+2026-11-15 14:55:54.161 Unity[85337:7997019] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x8b7324820 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+[Capture] p1_b_kaiju_wade_v4 blocked: kaiju
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.Capture.CaptureCli:Execute () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:85)
+Game.Tools.Capture.CaptureCli:Run () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:33)
+
+(Filename: Assets/Game/Tools/Capture/Editor/CaptureCli.cs Line: 85)
+
+[Capture] p2_a_foot_strike blocked: walk
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.Capture.CaptureCli:Execute () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:85)
+Game.Tools.Capture.CaptureCli:Run () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:33)
+
+(Filename: Assets/Game/Tools/Capture/Editor/CaptureCli.cs Line: 85)
+
+[Capture] p3_b_bay_bridge_v1 blocked: m2_streaming
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.Capture.CaptureCli:Execute () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:85)
+Game.Tools.Capture.CaptureCli:Run () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:33)
+
+(Filename: Assets/Game/Tools/Capture/Editor/CaptureCli.cs Line: 85)
+
+[Capture] p3_c_twin_peaks_v2 blocked: m2_streaming
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.Capture.CaptureCli:Execute () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:85)
+Game.Tools.Capture.CaptureCli:Run () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:33)
+
+(Filename: Assets/Game/Tools/Capture/Editor/CaptureCli.cs Line: 85)
+
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (Unknown). Loaded Objects now: 7282.
+Memory consumption went from 0.52 GB to 0.52 GB.
+Total: 7.832666 ms (FindLiveObjects: 0.306959 ms CreateObjectMapping: 0.077334 ms MarkObjects: 7.336459 ms  DeleteObjects: 0.008167 ms)
+
+Worker ready: AssetImportWorkerHW0 0
+Importing 'GUID: f5f78b730b2a740a88cab61c503d82a2 - Path: Assets/Game/Tools/Capture/Generated/CaptureBay_L0_30_36_h52d5.unity' with importer (DefaultImporter)
+Imported 'GUID: f5f78b730b2a740a88cab61c503d82a2' -> (Import Result ID: '99f64fd800e610d502f2c9d006b6c57b') in 0.004 seconds [static dependencies only]. Details - ImportResultOutputID=5da02abeef99322eb230069176409e2f DependenciesID=b92341e88f0107598377cd76183b8ba5 StaticDependenciesID=f59eff76caa73098e3e6efd65927e272 
+Asset Pipeline Refresh (id=595d393b73b7046539261945569dc6aa): Total: 0.085 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Opening scene 'Assets/Game/Tools/Capture/Generated/CaptureBay_L0_30_36_h52d5.unity'
+Unloading 24 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/Game/Tools/Capture/Generated/CaptureBay_L0_30_36_h52d5.unity'
+	Deserialize:            151.091 ms
+	Integration:            92.579 ms
+	Integration of assets:  89.431 ms
+	Thread Wait Time:       -89.074 ms
+	Total Operation Time:   244.026 ms
+Unloading 156 unused Assets / (135.9 KB). Loaded Objects now: 20266.
+Memory consumption went from 0.63 GB to 0.62 GB.
+Total: 11.219292 ms (FindLiveObjects: 0.898416 ms CreateObjectMapping: 0.251209 ms MarkObjects: 9.672708 ms  DeleteObjects: 0.161209 ms)
+
+[Capture] p1_d_scale_proxy_v5 x4: 6 frames, 480x270 -> 1920x1080, replay identical
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.Capture.CaptureDriver:RenderOne (Game.Tools.StyleCapture.StyleCaptureSession,Game.Tools.Capture.CaptureTile,Game.Tools.Capture.CapturePath,Game.Tools.Capture.CaptureOutput,System.Collections.Generic.List`1<int>,string,int) (at Assets/Game/Tools/Capture/Editor/CaptureDriver.cs:114)
+Game.Tools.Capture.CaptureDriver:Render (Game.Tools.StyleCapture.StyleCaptureSession,Game.Tools.Capture.CaptureTile,Game.Tools.Capture.CapturePath,string,string,int,int,System.Collections.Generic.ICollection`1<int>) (at Assets/Game/Tools/Capture/Editor/CaptureDriver.cs:69)
+Game.Tools.Capture.CaptureCli:Execute () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:96)
+Game.Tools.Capture.CaptureCli:Run () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:33)
+
+(Filename: Assets/Game/Tools/Capture/Editor/CaptureDriver.cs Line: 114)
+
+[Capture] p4_a_still_v5 x4: 1 frames, 480x270 -> 1920x1080, replay identical
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.Capture.CaptureDriver:RenderOne (Game.Tools.StyleCapture.StyleCaptureSession,Game.Tools.Capture.CaptureTile,Game.Tools.Capture.CapturePath,Game.Tools.Capture.CaptureOutput,System.Collections.Generic.List`1<int>,string,int) (at Assets/Game/Tools/Capture/Editor/CaptureDriver.cs:114)
+Game.Tools.Capture.CaptureDriver:Render (Game.Tools.StyleCapture.StyleCaptureSession,Game.Tools.Capture.CaptureTile,Game.Tools.Capture.CapturePath,string,string,int,int,System.Collections.Generic.ICollection`1<int>) (at Assets/Game/Tools/Capture/Editor/CaptureDriver.cs:69)
+Game.Tools.Capture.CaptureCli:Execute () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:96)
+Game.Tools.Capture.CaptureCli:Run () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:33)
+
+(Filename: Assets/Game/Tools/Capture/Editor/CaptureDriver.cs Line: 114)
+
+[Capture] p4_a_still_v5 x8: 1 frames, 480x270 -> 3840x2160, replay identical
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.Capture.CaptureDriver:RenderOne (Game.Tools.StyleCapture.StyleCaptureSession,Game.Tools.Capture.CaptureTile,Game.Tools.Capture.CapturePath,Game.Tools.Capture.CaptureOutput,System.Collections.Generic.List`1<int>,string,int) (at Assets/Game/Tools/Capture/Editor/CaptureDriver.cs:114)
+Game.Tools.Capture.CaptureDriver:Render (Game.Tools.StyleCapture.StyleCaptureSession,Game.Tools.Capture.CaptureTile,Game.Tools.Capture.CapturePath,string,string,int,int,System.Collections.Generic.ICollection`1<int>) (at Assets/Game/Tools/Capture/Editor/CaptureDriver.cs:69)
+Game.Tools.Capture.CaptureCli:Execute () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:96)
+Game.Tools.Capture.CaptureCli:Run () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:33)
+
+(Filename: Assets/Game/Tools/Capture/Editor/CaptureDriver.cs Line: 114)
+
+[Capture] p4_a_sunrise_v5 x4: 6 frames, 480x270 -> 1920x1080, replay identical
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.Capture.CaptureDriver:RenderOne (Game.Tools.StyleCapture.StyleCaptureSession,Game.Tools.Capture.CaptureTile,Game.Tools.Capture.CapturePath,Game.Tools.Capture.CaptureOutput,System.Collections.Generic.List`1<int>,string,int) (at Assets/Game/Tools/Capture/Editor/CaptureDriver.cs:114)
+Game.Tools.Capture.CaptureDriver:Render (Game.Tools.StyleCapture.StyleCaptureSession,Game.Tools.Capture.CaptureTile,Game.Tools.Capture.CapturePath,string,string,int,int,System.Collections.Generic.ICollection`1<int>) (at Assets/Game/Tools/Capture/Editor/CaptureDriver.cs:69)
+Game.Tools.Capture.CaptureCli:Execute () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:96)
+Game.Tools.Capture.CaptureCli:Run () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:33)
+
+(Filename: Assets/Game/Tools/Capture/Editor/CaptureDriver.cs Line: 114)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 3 unused Assets / (60.4 KB). Loaded Objects now: 7374.
+Memory consumption went from 0.54 GB to 0.54 GB.
+Total: 14.158083 ms (FindLiveObjects: 0.432125 ms CreateObjectMapping: 0.204542 ms MarkObjects: 13.138584 ms  DeleteObjects: 0.150042 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 22 unused Assets / (273.4 KB). Loaded Objects now: 7296.
+Memory consumption went from 0.54 GB to 0.54 GB.
+Total: 9.242958 ms (FindLiveObjects: 0.408541 ms CreateObjectMapping: 0.078250 ms MarkObjects: 8.173084 ms  DeleteObjects: 0.376750 ms)
+
+Importing 'GUID: 00000000000000009000000000000000 - Path: ProjectSettings/QualitySettings.asset' with importer (LibraryAssetImporter)
+Imported 'GUID: 00000000000000009000000000000000' -> (Import Result ID: '4c4863529adc9ac14970731e8a5da60e') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=2a108b3da874f726c62fbe5f12be4a8a DependenciesID=e27b047e3559935d81d11e8d5dd7411e StaticDependenciesID=a4661aca7a2be7b6d5e28438e344ffeb 
+Asset Pipeline Refresh (id=f1af87d2435fa4dd696b7a27770be036): Total: 0.020 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 1838836173acf4d29bc16dadf7ff6ab8 - Path: Assets/Game/Tools/Capture/Generated/CaptureBay_L0_26_38.unity' with importer (DefaultImporter)
+Imported 'GUID: 1838836173acf4d29bc16dadf7ff6ab8' -> (Import Result ID: 'cb083ca8fd8ef7d7495ce1cd41759036') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=d82fe8cc9eaf4fb8a8dbfecf56e38b38 DependenciesID=3bf34d929dd375d98d7d0f6d3ffa589e StaticDependenciesID=880bc8cd61ed3e613be6e34814ab2381 
+Asset Pipeline Refresh (id=4c43a2fb4a06b419d9409d3e9c389cad): Total: 0.048 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Opening scene 'Assets/Game/Tools/Capture/Generated/CaptureBay_L0_26_38.unity'
+Unloading 22 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/Game/Tools/Capture/Generated/CaptureBay_L0_26_38.unity'
+	Deserialize:            71.339 ms
+	Integration:            12.174 ms
+	Integration of assets:  18.393 ms
+	Thread Wait Time:       -18.066 ms
+	Total Operation Time:   83.840 ms
+Unloading 156 unused Assets / (138.4 KB). Loaded Objects now: 8524.
+Memory consumption went from 0.61 GB to 0.61 GB.
+Total: 8.286208 ms (FindLiveObjects: 0.465500 ms CreateObjectMapping: 0.087708 ms MarkObjects: 7.371209 ms  DeleteObjects: 0.157958 ms)
+
+[Capture] p3_a_golden_gate_v3 x4: 6 frames, 480x270 -> 1920x1080, replay identical
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.Capture.CaptureDriver:RenderOne (Game.Tools.StyleCapture.StyleCaptureSession,Game.Tools.Capture.CaptureTile,Game.Tools.Capture.CapturePath,Game.Tools.Capture.CaptureOutput,System.Collections.Generic.List`1<int>,string,int) (at Assets/Game/Tools/Capture/Editor/CaptureDriver.cs:114)
+Game.Tools.Capture.CaptureDriver:Render (Game.Tools.StyleCapture.StyleCaptureSession,Game.Tools.Capture.CaptureTile,Game.Tools.Capture.CapturePath,string,string,int,int,System.Collections.Generic.ICollection`1<int>) (at Assets/Game/Tools/Capture/Editor/CaptureDriver.cs:69)
+Game.Tools.Capture.CaptureCli:Execute () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:96)
+Game.Tools.Capture.CaptureCli:Run () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:33)
+
+(Filename: Assets/Game/Tools/Capture/Editor/CaptureDriver.cs Line: 114)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 3 unused Assets / (60.5 KB). Loaded Objects now: 7372.
+Memory consumption went from 0.54 GB to 0.54 GB.
+Total: 9.772791 ms (FindLiveObjects: 0.419250 ms CreateObjectMapping: 0.153334 ms MarkObjects: 8.880041 ms  DeleteObjects: 0.114250 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 20 unused Assets / (144.7 KB). Loaded Objects now: 7296.
+Memory consumption went from 0.54 GB to 0.54 GB.
+Total: 8.554917 ms (FindLiveObjects: 0.389708 ms CreateObjectMapping: 0.143250 ms MarkObjects: 7.629458 ms  DeleteObjects: 0.180666 ms)
+
+Importing 'GUID: 00000000000000009000000000000000 - Path: ProjectSettings/QualitySettings.asset' with importer (LibraryAssetImporter)
+Imported 'GUID: 00000000000000009000000000000000' -> (Import Result ID: '4c4863529adc9ac14970731e8a5da60e') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=2a108b3da874f726c62fbe5f12be4a8a DependenciesID=e27b047e3559935d81d11e8d5dd7411e StaticDependenciesID=a4661aca7a2be7b6d5e28438e344ffeb 
+Asset Pipeline Refresh (id=0fe537cc200704fc5ba6f25b08b29d0a): Total: 0.017 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: a3c5500f81c5844edac2b9b6238291b7 - Path: Assets/Game/Tools/Capture/Generated/CaptureBay_L0_30_36.unity' with importer (DefaultImporter)
+Imported 'GUID: a3c5500f81c5844edac2b9b6238291b7' -> (Import Result ID: 'f80985f995c42434957db430935805e2') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=48bce34215068e183e7616f3cea3aae0 DependenciesID=fe5830e9022540cd79e76495b6266bfe StaticDependenciesID=a8aea4447b4b1143c05da204876d4beb 
+Asset Pipeline Refresh (id=62862579ca2b14106a9bfe30a4c6a175): Total: 0.056 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Opening scene 'Assets/Game/Tools/Capture/Generated/CaptureBay_L0_30_36.unity'
+Unloading 22 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/Game/Tools/Capture/Generated/CaptureBay_L0_30_36.unity'
+	Deserialize:            119.154 ms
+	Integration:            89.694 ms
+	Integration of assets:  95.175 ms
+	Thread Wait Time:       -95.119 ms
+	Total Operation Time:   208.903 ms
+Unloading 156 unused Assets / (2.2 MB). Loaded Objects now: 20270.
+Memory consumption went from 0.63 GB to 0.63 GB.
+Total: 11.368667 ms (FindLiveObjects: 0.984417 ms CreateObjectMapping: 0.273542 ms MarkObjects: 9.576292 ms  DeleteObjects: 0.189917 ms)
+
+[Capture] p4_d_dolly_v4 x4: 6 frames, 480x270 -> 1920x1080, replay identical
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.Capture.CaptureDriver:RenderOne (Game.Tools.StyleCapture.StyleCaptureSession,Game.Tools.Capture.CaptureTile,Game.Tools.Capture.CapturePath,Game.Tools.Capture.CaptureOutput,System.Collections.Generic.List`1<int>,string,int) (at Assets/Game/Tools/Capture/Editor/CaptureDriver.cs:114)
+Game.Tools.Capture.CaptureDriver:Render (Game.Tools.StyleCapture.StyleCaptureSession,Game.Tools.Capture.CaptureTile,Game.Tools.Capture.CapturePath,string,string,int,int,System.Collections.Generic.ICollection`1<int>) (at Assets/Game/Tools/Capture/Editor/CaptureDriver.cs:69)
+Game.Tools.Capture.CaptureCli:Execute () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:96)
+Game.Tools.Capture.CaptureCli:Run () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:33)
+
+(Filename: Assets/Game/Tools/Capture/Editor/CaptureDriver.cs Line: 114)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 3 unused Assets / (71.7 KB). Loaded Objects now: 7372.
+Memory consumption went from 0.54 GB to 0.54 GB.
+Total: 11.090709 ms (FindLiveObjects: 0.506875 ms CreateObjectMapping: 0.170917 ms MarkObjects: 10.028292 ms  DeleteObjects: 0.116375 ms)
+
+[Capture] 6 sequences, 4 blocked, replay identical, 22.2 s; log: 0 errors, 0 warnings
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.Capture.CaptureCli:Execute () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:116)
+Game.Tools.Capture.CaptureCli:Run () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:33)
+
+(Filename: Assets/Game/Tools/Capture/Editor/CaptureCli.cs Line: 116)
+
+MonoPathRemapper: Attempts to remap: 21964; Successful remaps: 4
+Thread 0x4223c7000 may have been prematurely finalized
+Serialized file version minimum: 22, current 23
+Pipeline Server stopped
+Importing 'GUID: 00000000000000009000000000000000 - Path: ProjectSettings/QualitySettings.asset' with importer (LibraryAssetImporter)
+Imported 'GUID: 00000000000000009000000000000000' -> (Import Result ID: '4c4863529adc9ac14970731e8a5da60e') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=2a108b3da874f726c62fbe5f12be4a8a DependenciesID=e27b047e3559935d81d11e8d5dd7411e StaticDependenciesID=a4661aca7a2be7b6d5e28438e344ffeb 
+Thread 0x422707000 may have been prematurely finalized
+Asset Pipeline Refresh (id=a560ce37d72f84ab2ba11385c5cba579): Total: 0.014 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+Thread 0x16de77000 may have been prematurely finalized
+Thread 0x16e2d7000 may have been prematurely finalized
+Thread 0x16e1bf000 may have been prematurely finalized
+Thread 0x16df8f000 may have been prematurely finalized
+Thread 0x16df03000 may have been prematurely finalized
+Thread 0x16e24b000 may have been prematurely finalized
+Thread 0x16e133000 may have been prematurely finalized
+Thread 0x16e01b000 may have been prematurely finalized
+Thread 0x16e0a7000 may have been prematurely finalized
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+[Licensing::IpcConnector] LicenseClient-kuanw-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-kuanw channel disconnected successfully.
+Lingering sessions upon destruction of worker manager
+Unity Data Store service was successfully shut down
+UDS shutting down local client system
+Shut down UDS service system complete
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+CodeReloadManager destroyed
+debugger-agent: Unable to listen on 41
+VBCSCompilerPreWarmer: requested VBCSCompiler shutdown

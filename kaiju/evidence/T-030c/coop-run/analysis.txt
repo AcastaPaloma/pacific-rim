@@ -1,0 +1,7 @@
+two-process co-op run (host and client are separate OS processes, real UDP on 127.0.0.1)
+host: steps 1700, peak slots 2, final 1, accepts 2, refuses 0, slot releases 2, late>5ms steps 1, max late 8.3 ms
+client: slot phase1 1, phase2 1, same slot on rejoin: True, late>5ms 2, max late 15.24 ms
+client view rows 1391, stale rows 0
+phase 1: remote-body error vs host truth (render-time matched): n=691 p50 0.083 m, p95 0.096 m, max 0.096 m
+phase 2: remote-body error vs host truth (render-time matched): n=700 p50 0.096 m, p95 0.096 m, max 0.245 m
+host body of slot 1: max speed 4.80 m/s, end position (112.0, 125.1), path straight-line 125.7 m

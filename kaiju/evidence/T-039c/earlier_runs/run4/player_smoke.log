@@ -1,0 +1,743 @@
+Mono path[0] = '/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Builds/M1Slice/M1Slice.app/Contents/Resources/Data/Managed'
+Mono config path = '/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Builds/M1Slice/M1Slice.app/Contents/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Found 2 interfaces on host : 0) 10.39.69.198 1) 172.31.218.200
+Player connection [8319410560]  Target information:
+
+Player connection [8319410560]  * "[IP] 10.39.69.198 [Port] 55000 [Flags] 2 [Guid] 603726455 [EditorId] 972763278 [Version] 1048832 [Id] OSXPlayer(1,revw-172-31-218-200.rn.uwaterloo.ca) [Debug] 0 [PackageName] OSXPlayer [ProjectName] KaijuGame" 
+
+Player connection [8319410560]  * "[IP] 172.31.218.200 [Port] 55000 [Flags] 2 [Guid] 603726455 [EditorId] 972763278 [Version] 1048832 [Id] OSXPlayer(1,revw-172-31-218-200.rn.uwaterloo.ca) [Debug] 0 [PackageName] OSXPlayer [ProjectName] KaijuGame" 
+
+Player connection [8319410560] Started UDP target info broadcast (1) on [225.0.0.222:54997].
+
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+ preferred device: Apple M5 Pro (high power)
+Metal devices available: 1
+0: Apple M5 Pro (high power)
+Using device Apple M5 Pro (high power)
+Initialize engine version: 6000.6.9f1 (8c45277fb9c5)
+[EntityIdStore] init: VM path (explicit commit), pageSize=16384, blockCount=262144, entitiesPerBlock=1024, blocksPerSlotPage=0, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Builds/M1Slice/M1Slice.app/Contents/Resources/Data/UnitySubsystems
+GfxDevice: creating device client; kGfxThreadingModeThreaded
+Initializing Metal device caps: Apple M5 Pro
+Mac GPU Family: 2
+Apple GPU Family: 9
+MSL Version: 3.0
+Has Float MSAA: 1
+Has Float Filtering: 1
+ReadWrite Texture Tier: 2
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory is not a mono symbol file
+- Finished resetting the current domain, in  0.004 seconds
+[Physics::Module] Selected backend (deferred post-plugins).
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Metal RecreateSurface[0x99ad0c540]: surface size 1920x1080
+UnloadTime: 0.794834 ms
+[Slice] ready in 32.3 s: tiles 15, buildings 16615, landmark colliders 154
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:148)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_26_37 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=1558v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-8064.00, -53.36, 2176.00) (256.00, 13.11, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_26_37 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=988v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7808.00, -49.35, 2176.00) (256.00, 5.09, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_26_37 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=924v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7552.00, -53.95, 2176.00) (256.00, 10.56, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_29_35 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=6381v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1920.00, 39.73, -1920.00) (256.00, 17.46, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_29_35 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=8863v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1664.00, 34.71, -1920.00) (256.00, 28.15, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_29_35 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=7010v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1408.00, 22.55, -1920.00) (256.00, 20.81, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_30_35 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=2564v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(128.00, 5.92, -1920.00) (256.00, 4.39, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_30_35 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=2583v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(384.00, 3.96, -1920.00) (256.00, 2.55, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_30_35 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=3083v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(640.00, 2.94, -1920.00) (256.00, 5.01, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_31_35 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=1600v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2176.00, -3.75, -1920.00) (256.00, 15.13, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_31_35 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=43v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2432.00, -11.32, -1920.00) (256.00, 4.13, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_31_35 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=20v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2688.00, -12.54, -1920.00) (256.00, 0.62, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_25_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=162v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-10112.00, -30.25, 128.00) (256.00, 5.68, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_25_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=116v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9856.00, -29.77, 128.00) (256.00, 4.65, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_25_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=394v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9600.00, -25.96, 128.00) (256.00, 20.47, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_26_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=23425v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-8064.00, 44.70, 128.00) (256.00, 99.66, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_26_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=13064v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7808.00, 28.95, 128.00) (256.00, 69.69, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_26_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=14229v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7552.00, 29.30, 128.00) (256.00, 69.62, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_27_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=15921v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-6016.00, 44.20, 128.00) (256.00, 46.26, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_27_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=10218v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5760.00, 49.55, 128.00) (256.00, 16.36, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_27_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=8160v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5504.00, 49.45, 128.00) (256.00, 16.16, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_29_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=10531v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1920.00, 65.50, 128.00) (256.00, 31.19, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_29_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=9854v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1664.00, 73.18, 128.00) (256.00, 23.20, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_29_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=4709v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1408.00, 62.92, 128.00) (256.00, 22.67, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_30_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=4629v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(128.00, 20.23, 128.00) (256.00, 15.07, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_30_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=3560v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(384.00, 11.53, 128.00) (256.00, 10.56, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_30_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=3326v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(640.00, 6.50, 128.00) (256.00, 8.33, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_31_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=1852v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2176.00, -18.46, 128.00) (256.00, 10.97, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_31_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=1039v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2432.00, -19.52, 128.00) (256.00, 12.51, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_31_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=875v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2688.00, -20.68, 128.00) (256.00, 6.27, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_25_37 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=879v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-10112.00, -49.41, 2176.00) (256.00, 12.42, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_25_37 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=891v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9856.00, -44.37, 2176.00) (256.00, 12.42, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_25_37 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=1850v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9600.00, -37.42, 2176.00) (256.00, 12.28, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_27_37 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=13003v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-6016.00, 55.75, 2176.00) (256.00, 24.89, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_27_37 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=11360v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5760.00, 44.09, 2176.00) (256.00, 34.88, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_27_37 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=14577v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5504.00, 23.84, 2176.00) (256.00, 50.12, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_25_38 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=9805v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-10112.00, 28.34, 4224.00) (256.00, 74.14, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_25_38 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=8713v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9856.00, 38.11, 4224.00) (256.00, 96.06, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_25_38 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=8615v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9600.00, 27.77, 4224.00) (256.00, 75.02, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_26_38 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=9265v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-8064.00, 164.18, 4224.00) (256.00, 111.55, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_26_38 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=9615v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7808.00, 86.99, 4224.00) (256.00, 126.36, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_26_38 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=16293v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7552.00, 65.12, 4224.00) (256.00, 151.23, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_27_38 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=4016v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-6016.00, -53.13, 4224.00) (256.00, 75.60, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_27_38 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=2506v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5760.00, -66.77, 4224.00) (256.00, 42.76, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] geo L0_27_38 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=2837v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5504.00, -61.01, 4224.00) (256.00, 32.74, 256.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:LogGeoDiag () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:184)
+Game.Slice.SliceBootstrap/<Start>d__84:MoveNext () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:150)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] emergence at (75364, 82861) t=28 s
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:Log (string) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:446)
+Game.Slice.SliceBootstrap:Handle (Game.World.Seismic.EmergencePoint&) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:444)
+Game.Slice.SliceBootstrap:Game.Core.IEventHandler<Game.World.Seismic.EmergencePoint>.Handle (Game.World.Seismic.EmergencePoint modreq(System.Runtime.InteropServices.InAttribute)&)
+Game.Core.EventBus/Channel`1<Game.World.Seismic.EmergencePoint>:DispatchNext (Game.Core.EventBus) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Core/Runtime/EventBus.cs:273)
+Game.Core.EventBus:Publish<Game.World.Seismic.EmergencePoint> (Game.World.Seismic.EmergencePoint&) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Core/Runtime/EventBus.cs:85)
+Game.Core.EventBus:Game.Core.IEventBus.Publish<Game.World.Seismic.EmergencePoint> (Game.World.Seismic.EmergencePoint modreq(System.Runtime.InteropServices.InAttribute)&)
+Game.World.Seismic.CoreBusSeismicSink:Flush () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/World/Seismic/Runtime/SeismicModule.cs:33)
+Game.World.Seismic.QuakeDirector:Run (Game.World.Seismic.QuakeScenario,double) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/World/Seismic/Runtime/SeismicModule.cs:65)
+Game.Slice.SliceBootstrap:TriggerQuake () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:399)
+Game.Slice.SliceBootstrap:SmokeTick () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:473)
+Game.Slice.SliceBootstrap:Update () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:368)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] quake Mw 6.90 on Chabot fault, buildings damaged so far 1124
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:Log (string) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:446)
+Game.Slice.SliceBootstrap:TriggerQuake () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:403)
+Game.Slice.SliceBootstrap:SmokeTick () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:473)
+Game.Slice.SliceBootstrap:Update () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:368)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] destroy view: clear line of sight, target height 12.66 m
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:Log (string) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:446)
+Game.Slice.SliceBootstrap:PrepareDestroyView () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:560)
+Game.Slice.SliceBootstrap:TriggerImpact () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:421)
+Game.Slice.SliceBootstrap:SmokeTick () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:474)
+Game.Slice.SliceBootstrap:Update () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:368)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] impact 16875 MJ on bld:osm-way:132121557: state 0 -> 4 (thresholds MJ 0.1/0.2/0.6/1.5)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:Log (string) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:446)
+Game.Slice.SliceBootstrap:MoveImpactor (single) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:434)
+Game.Slice.SliceBootstrap:Update () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:359)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[Slice] bridge view: camera (-5741.988, 250, 3143.973) looking at the south tower
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:Log (string) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:446)
+Game.Slice.SliceBootstrap:SetBridgeView () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:506)
+Game.Slice.SliceBootstrap:BeginCapture (string,Game.Slice.SliceBootstrap/CapView,single) (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:488)
+Game.Slice.SliceBootstrap:SmokeTick () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:479)
+Game.Slice.SliceBootstrap:Update () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:368)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+[SliceSmoke] {   "task": "T-039c", "scene": "M1Slice", "platform": "OSXPlayer", "development_build": true,   "graphics_device": "Apple M5 Pro", "resolution": "1920x1080",   "pixel_pipeline": true, "frames_recorded": 24269, "warmup_frames": 60,   "frame_ms": { "mean": 0.806, "median": 0.704, "p95": 1.315, "max": 67.909 },   "draw_calls": { "median": 268, "max": 546 },   "load_seconds": 32.346, "tiles": 15, "buildings_registered": 16615, "landmark_colliders": 154,   "quakes": 1, "impacts": 1, "building_damaged_events": 1125, "state_counts": [0, 975, 145, 4, 1], "buildings_removed_from_scene": 1,   "kaiju": { "decisions": 100, "melee_hits": 0, "state": "Charge", "distance_to_mech_m": 178.728 },   "pixel_check": { "pass": true, "non_background_share_floor": 0.2, "min_distinct_colours_floor": 5, "max_dominant_share_ceiling": 0.9, "background_colours": 4, "resolution": "1920x1080", "hud_rects_ignored": true,     "captures": [{ "label": "follow", "t_s": 2.001, "file": "capture_0_follow_t2s.png", "non_background_share": 0.759, "distinct_colours": 10, "dominant_colour_share": 0.39 }, { "label": "follow", "t_s": 4, "file": "capture_1_follow_t4s.png", "non_background_share": 0.761, "distinct_colours": 10, "dominant_colour_share": 0.383 }, { "label": "follow", "t_s": 6.5, "file": "capture_2_follow_t6.5s.png", "non_background_share": 0.766, "distinct_colours": 10, "dominant_colour_share": 0.367 }, { "label": "follow", "t_s": 9, "file": "capture_3_follow_t9s.png", "non_background_share": 0.78, "distinct_colours": 10, "dominant_colour_share": 0.358 }, { "label": "destroy_before", "t_s": 12, "file": "capture_4_destroy_before_t12s.png", "non_background_share": 0.999, "distinct_colours": 5, "dominant_colour_share": 0.669 }, { "label": "follow", "t_s": 14.001, "file": "capture_5_follow_t14s.png", "non_background_share": 0.812, "distinct_colours": 10, "dominant_colour_share": 0.377 }, { "label": "follow", "t_s": 19.001, "file": "capture_6_follow_t19s.png", "non_background_share": 0.846, "distinct_colours": 10, "dominant_colour_share": 0.448 }, { "label": "bridge", "t_s": 19.4, "file": "capture_7_bridge_t19.4s.png", "non_background_share": 0.506, "distinct_colours": 6, "dominant_colour_share": 0.299 }, { "label": "destroy_after", "t_s": 19.8, "file": "capture_8_destroy_after_t19.8s.png", "non_background_share": 0.999, "distinct_colours": 5, "dominant_colour_share": 0.685 }],     "destruction_view_diff_share": 0.021, "destruction_visible": true,     "pairs": [{ "a": 0, "b": 1, "diff_share": 0.125 }, { "a": 0, "b": 2, "diff_share": 0.199 }, { "a": 0, "b": 3, "diff_share": 0.244 }, { "a": 0, "b": 4, "diff_share": 0.679 }, { "a": 0, "b": 5, "diff_share": 0.355 }, { "a": 0, "b": 6, "diff_share": 0.423 }, { "a": 0, "b": 7, "diff_share": 0.692 }, { "a": 0, "b": 8, "diff_share": 0.681 }, { "a": 1, "b": 2, "diff_share": 0.149 }, { "a": 1, "b": 3, "diff_share": 0.245 }, { "a": 1, "b": 4, "diff_share": 0.674 }, { "a": 1, "b": 5, "diff_share": 0.345 }, { "a": 1, "b": 6, "diff_share": 0.415 }, { "a": 1, "b": 7, "diff_share": 0.695 }, { "a": 1, "b": 8, "diff_share": 0.675 }, { "a": 2, "b": 3, "diff_share": 0.18 }, { "a": 2, "b": 4, "diff_share": 0.663 }, { "a": 2, "b": 5, "diff_share": 0.307 }, { "a": 2, "b": 6, "diff_share": 0.382 }, { "a": 2, "b": 7, "diff_share": 0.699 }, { "a": 2, "b": 8, "diff_share": 0.666 }, { "a": 3, "b": 4, "diff_share": 0.644 }, { "a": 3, "b": 5, "diff_share": 0.255 }, { "a": 3, "b": 6, "diff_share": 0.325 }, { "a": 3, "b": 7, "diff_share": 0.708 }, { "a": 3, "b": 8, "diff_share": 0.65 }, { "a": 4, "b": 5, "diff_share": 0.588 }, { "a": 4, "b": 6, "diff_share": 0.54 }, { "a": 4, "b": 7, "diff_share": 0.768 }, { "a": 4, "b": 8, "diff_share": 0.021 }, { "a": 5, "b": 6, "diff_share": 0.218 }, { "a": 5, "b": 7, "diff_share": 0.714 }, { "a": 5, "b": 8, "diff_share": 0.598 }, { "a": 6, "b": 7, "diff_share": 0.706 }, { "a": 6, "b": 8, "diff_share": 0.549 }, { "a": 7, "b": 8, "diff_share": 0.778 }],     "min_non_background_share": 0.506, "min_pair_diff_share": 0.021, "min_distinct_colours": 5, "max_dominant_share": 0.685, "shares_pass": true, "richness_pass": true, "pairs_pass": true },   "mech_travel_m": 56.24,   "render_diag": "follow t=2 pipeline=PixelPipeline cam=(1007.353,30.53,1237.654) rot=(356.003,210.056) fov=35.983 clip=1-30000 target=482x272 body(speed=1.2 heading=-2.518 move=Walk effort=0.539) kaiju=(638.685,777.192) Approach mech=(883.341,3.782,1022.983) renderers=1481 visible=262 | follow t=4 pipeline=PixelPipeline cam=(1005.403,30.73,1235.476) rot=(356.003,210.056) fov=35.983 clip=1-30000 target=482x272 body(speed=2.4 heading=-2.545 move=Walk effort=0.529) kaiju=(645.952,784.484) Approach mech=(881.199,3.782,1020.075) renderers=1481 visible=262 | follow t=6.5 pipeline=PixelPipeline cam=(1001.989,30.608,1229.577) rot=(356.003,210.056) fov=35.983 clip=1-30000 target=482x272 body(speed=3.251 heading=-2.75 move=Walk effort=0.542) kaiju=(655.643,794.139) Approach mech=(877.695,3.782,1013.453) renderers=1481 visible=258 | follow t=9 pipeline=PixelPipeline cam=(999.522,30.571,1221.739) rot=(356.003,210.056) fov=35.983 clip=1-30000 target=482x272 body(speed=3.304 heading=-2.862 move=Walk effort=0.551) kaiju=(665.429,803.699) Approach mech=(875.113,3.782,1005.647) renderers=1481 visible=258 | destroy_before t=12 pipeline=PixelPipeline cam=(702.612,137.64,726.945) rot=(40.385,30.047) fov=35.983 clip=1-30000 target=482x272 body(speed=3.193 heading=-2.745 move=Walk effort=0.532) kaiju=(677.342,814.993) Approach mech=(872.001,3.782,996.406) renderers=1480 visible=256 | follow t=14 pipeline=PixelPipeline cam=(993.967,30.191,1206.442) rot=(356.003,210.056) fov=35.983 clip=1-30000 target=482x272 body(speed=3.191 heading=-2.597 move=Walk effort=0.532) kaiju=(685.38,822.422) Approach mech=(869.129,3.782,990.737) renderers=1482 visible=256 | follow t=19 pipeline=PixelPipeline cam=(983.919,30.706,1193.841) rot=(356.003,210.056) fov=35.983 clip=1-30000 target=482x272 body(speed=3.275 heading=-2.395 move=Walk effort=0.546) kaiju=(716.533,850.616) Charge mech=(858.624,3.782,978.26) renderers=1481 visible=250 | bridge t=19.4 pipeline=PixelPipeline cam=(-5741.988,250,3143.973) rot=(12.129,255.11) fov=35.983 clip=1-30000 target=482x272 body(speed=3.259 heading=-2.408 move=Walk effort=0.543) kaiju=(719.247,853.054) Charge mech=(857.743,3.782,977.295) renderers=1481 visible=518 | destroy_after t=19.8 pipeline=PixelPipeline cam=(702.612,137.64,726.945) rot=(40.385,30.047) fov=35.983 clip=1-30000 target=482x272 body(speed=3.24 heading=-2.425 move=Walk effort=0.54) kaiju=(721.963,855.489) Charge mech=(856.885,3.782,976.326) renderers=1479 visible=249",   "log": "install: geo=True destruction=True seismic=True bridge=True brain=True | spawn plan: mech (884, 1024) ground 3.782 m, view yaw 210 deg, blockers 0, buildings in view 114 (0.128 s) | ready in 32.3 s: tiles 15, buildings 16615, landmark colliders 154 | emergence at (75364, 82861) t=28 s | quake Mw 6.90 on Chabot fault, buildings damaged so far 1124 | destroy view: clear line of sight, target height 12.66 m | impact 16875 MJ on bld:osm-way:132121557: state 0 -> 4 (thresholds MJ 0.1/0.2/0.6/1.5) | bridge view: camera (-5741.988, 250, 3143.973) looking at the south tower | " } 
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:130)
+Game.Slice.SliceBootstrap:FinishSmoke () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:662)
+Game.Slice.SliceBootstrap:SmokeTick () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:483)
+Game.Slice.SliceBootstrap:Update () (at /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-039c/kaiju/Assets/Game/Slice/Runtime/SliceBootstrap.cs:368)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 130)
+
+Thread 0x171e17000 may have been prematurely finalized
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+Thread 0x170877000 may have been prematurely finalized
+Thread 0x170903000 may have been prematurely finalized
+Thread 0x17098f000 may have been prematurely finalized
+Thread 0x170a1b000 may have been prematurely finalized
+Thread 0x170aa7000 may have been prematurely finalized
+Thread 0x1707eb000 may have been prematurely finalized
+CodeReloadManager destroyed
+PlayerConnection::Cleanup##utp:{"type":"MemoryLeaks","version":2,"phase":"Immediate","time":1794734916637,"processId":15059,"allocatedMemory":863270,"memoryLabels":[{"Default":54551},{"Permanent":1472},{"Thread":8120},{"Manager":16195},{"VertexData":8},{"Geometry":408},{"Texture":16},{"Shader":78020},{"Material":212},{"GfxDevice":38632},{"GfxThread":320},{"Animation":880},{"Audio":3448},{"FreeType":8},{"FontEngine":736},{"Physics":2000},{"Physics2D":16},{"Serialization":16392},{"Input":43216},{"JobScheduler":456},{"TextLib":280},{"Mono":56},{"ScriptingNativeRuntime":128},{"BaseObject":36520},{"Resource":996},{"Renderer":2736},{"Transform":6525},{"File":4600},{"WebCam":32},{"Culling":32},{"Terrain":11298},{"Wind":24},{"String":3119},{"Utility":317816},{"PoolAlloc":1536},{"AI":40},{"TypeTree":5512},{"ScriptManager":5712},{"CodeReload":440},{"RuntimeInitializeOnLoadManager":64},{"Sprites":78},{"SpriteAtlas":120},{"GI":7200},{"Director":8248},{"CloudService":144},{"WebRequest":520},{"VR":49402},{"SceneManager":408},{"Video":2080},{"LazyScriptCache":32},{"NativeArray":648},{"Camera":1169},{"Secure":241},{"SerializationCache":3608},{"APIUpdating":10320},{"Subsystems":336},{"VirtualTexturing":57496},{"Baselib":16},{"Analytics":80},{"Hierarchy":1452},{"UIElements":40},{"CoreStats":14696},{"Identifiers":7152},{"EntityIdStore":33152},{"Gui":1900},{"CoreBusinessMetrics":128},{"AssetReference":32}]}

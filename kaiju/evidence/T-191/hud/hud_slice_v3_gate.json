@@ -1,0 +1,26 @@
+{
+ "schema": "hud_frame@v1",
+ "id": "hud_slice_v3_gate",
+ "composite": true,
+ "live_imgui": false,
+ "note": "HUD text composited over a driver frame; strings follow SliceBootstrap.OnGUI (feelcheck); state values are scene definitions, not a running simulation",
+ "source_frame": "hud_v3_gate/x4/f000000_color_output.png",
+ "source_sha256": "d8d0be5bf03d67845dbc1ad77c4c036ac9a127c94a75b256a4197d77f138fb29",
+ "output_sha256": "a2292e644bf6291935e2533972eb6ebbe240b168aec113d387f67a7e6016b5b5",
+ "hud_lines": [
+  "Kaiju feel check (TEMPORARY: capsule mech and kaiju; mech body awaits T-005)  60 fps   buildings destroyed 0  damaged events 0",
+  "WASD move   Space stop   F cannon   R arm swing   Q quake   I impactor   H hangar (repair + redeploy)   kaiju Approach d=520 m   mech hp 1.00",
+  "ammo 20/20   kaiju hp 100%   shots 0 hits k0/b0   hangar cycles 1",
+  "hangar cycle 1: hp 120 -> 1000, redeployed at the Crissy Field site"
+ ],
+ "font": "Arial.ttf",
+ "font_px": 12,
+ "origin_px": [
+  10,
+  10
+ ],
+ "size": [
+  1920,
+  1080
+ ]
+}

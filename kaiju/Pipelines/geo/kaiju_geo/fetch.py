@@ -11,7 +11,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from .common import (CACHE, PIPE, Tile, canonical_json, finish_fetch, http_get, http_json,
+from .common import (CACHE, pipe_rel, PIPE, Tile, canonical_json, finish_fetch, http_get, http_json,
                      is_offline, load_config, meta_path, NetworkForbidden, up_to_date, utc_now)
 
 SRC = load_config("sources.json")
@@ -19,10 +19,36 @@ FETCH_MARGIN_M = 320.0  # covers footprints owned by the tile that cross its edg
 
 
 # ---------------------------------------------------------------- CUDEM (terrain + seabed)
-def cudem_items(lonlat_bbox):
-    """CUDEM 1/9" tiles are 0.25 deg, named by their NW corner (R-004 §1.2)."""
+CUDEM_VERSION_RE = re.compile(r"_(\d{4}v\d+)$")
+CUDEM_LEGACY_VERSION = "2022v1"  # the version sources.json's url_template was written for
+
+
+def cudem_version(item: str) -> str:
+    """'ncei19_n37x50_w122x00_2023v1' -> '2023v1' (the NCEI release tag differs per 0.25 deg cell: R-100 §2)."""
+    m = CUDEM_VERSION_RE.search(item)
+    if not m:
+        raise ValueError(f"CUDEM item without a version tag: {item}")
+    return m.group(1)
+
+
+def cudem_catalog() -> dict:
+    """{cell key 'n37x50_w122x00': {item, url, version}} from config/bay.json snapshots.cudem (the HEAD-checked list of
+    the CUDEM 1/9 arc-second files that exist; 2022v1, 2023v1 and 2025v1 cells coexist). Empty if bay.json has none."""
+    try:
+        snap = load_config("bay.json")["snapshots"]["cudem"]
+    except (OSError, KeyError):
+        return {}
+    cat = {}
+    for e in snap:
+        parts = e["item"].split("_")  # ncei19, nLATxFF, wLONxFF, VERSION
+        cat[f"{parts[1]}_{parts[2]}"] = {"item": e["item"], "url": e["url"], "version": cudem_version(e["item"])}
+    return cat
+
+
+def cudem_cells(lonlat_bbox):
+    """CUDEM 1/9" cells are 0.25 deg, named by their NW corner (R-004 §1.2): ['n37x50_w122x00', ...]."""
     w, s, e, n = lonlat_bbox
-    items = []
+    cells = []
     lat_n = math.ceil(n * 4) / 4
     while lat_n - 0.25 < n and lat_n > s:
         lon_w = math.floor(w * 4) / 4
@@ -30,10 +56,33 @@ def cudem_items(lonlat_bbox):
             lat_s_ = f"{int(lat_n):02d}x{int(round((lat_n % 1) * 100)):02d}"
             lw = -lon_w
             lon_s_ = f"{int(lw):03d}x{int(round((lw % 1) * 100)):02d}"
-            items.append(f"ncei19_n{lat_s_}_w{lon_s_}_2022v1")
+            cells.append(f"n{lat_s_}_w{lon_s_}")
             lon_w += 0.25
         lat_n -= 0.25
+    return sorted(set(cells))
+
+
+def cudem_items(lonlat_bbox, catalog: dict | None = None):
+    """Item names (with their release version) of the CUDEM cells that cover the bbox. Cells absent from the catalog
+    (no CUDEM there: R-100 §1) are omitted; with an empty catalog the legacy 2022v1 name is assumed."""
+    cat = cudem_catalog() if catalog is None else catalog
+    items = []
+    for cell in cudem_cells(lonlat_bbox):
+        if cat:
+            if cell in cat:
+                items.append(cat[cell]["item"])
+        else:
+            items.append(f"ncei19_{cell}_{CUDEM_LEGACY_VERSION}")
     return sorted(set(items))
+
+
+def cudem_url(item: str, catalog: dict | None = None) -> str:
+    cat = cudem_catalog() if catalog is None else catalog
+    cell = "_".join(item.split("_")[1:3])
+    if cell in cat and cat[cell]["item"] == item:
+        return cat[cell]["url"]
+    lat, lon = item.split("_")[1][1:], item.split("_")[2][1:]
+    return SRC["cudem"]["url_template"].replace("2022v1", cudem_version(item)).format(lat=lat, lon=lon)
 
 
 def _window_read(url: str, dest: Path, bounds, bounds_crs: str, label: str, extra: dict) -> dict:
@@ -70,28 +119,26 @@ def _window_read(url: str, dest: Path, bounds, bounds_crs: str, label: str, extr
         dst.write(data, 1)
     src_info.update(extra)
     meta = finish_fetch(dest, tmp, url, src_info)
-    print(f"[{label}] fetched window {data.shape} -> {dest.relative_to(PIPE)}")
+    print(f"[{label}] fetched window {data.shape} -> {pipe_rel(dest)}")
     return meta
 
 
 def fetch_cudem(tile: Tile) -> list[dict]:
+    """Windowed reads of every CUDEM cell covering the tile; each cache entry records `item` and `version`."""
     bb = tile.bounds_lonlat(FETCH_MARGIN_M)
+    cat = cudem_catalog()
     out = []
-    for item in cudem_items(bb):
-        lat = item.split("_")[1][1:]
-        lon = item.split("_")[2][1:]
-        url = SRC["cudem"]["url_template"].format(lat=lat, lon=lon)
+    for item in cudem_items(bb, cat):
+        url = cudem_url(item, cat)
         dest = CACHE / "cudem" / f"{item}__{tile.id}.tif"
-        m = _window_read(url, dest, bb, "EPSG:4269", "cudem", {"item": item})
-        m.update(item=item, file=str(dest.relative_to(PIPE)))
+        m = _window_read(url, dest, bb, "EPSG:4269", "cudem", {"item": item, "version": cudem_version(item)})
+        m.update(item=item, version=cudem_version(item), file=str(pipe_rel(dest)))
         out.append(m)
     return out
 
 
 # ---------------------------------------------------------------- 3DEP 1 m (land detail)
-def fetch_3dep(tile: Tile) -> list[dict]:
-    """TNM discovery (cached per tile) -> newest project per UTM 10 km tile -> windowed reads."""
-    bb = tile.bounds_lonlat(FETCH_MARGIN_M)
+def _tnm_items(tile: Tile, bb) -> list[dict]:
     q = CACHE / "3dep" / f"tnm_query__{tile.id}.json"
     m = up_to_date(q, "3dep-tnm")
     if m is None:
@@ -106,13 +153,38 @@ def fetch_3dep(tile: Tile) -> list[dict]:
         tmp = q.with_name(q.name + ".part")
         tmp.write_text(canonical_json(items, indent=1) + "\n")
         finish_fetch(q, tmp, url)
-    items = json.loads(q.read_text())
+    return json.loads(q.read_text())
+
+
+def _key_of(url: str) -> str:
+    name = url.rsplit("/", 1)[1]
+    mk = re.search(r"_(x\d+y\d+)_", name)
+    return mk.group(1) if mk else name
+
+
+def window_valid_share(path: Path) -> float:
+    """Share of cells of a fetched 3DEP window that hold data (nodata / NaN are holes)."""
+    import numpy as np
+    import rasterio
+    with rasterio.open(path) as src:
+        d = src.read(1)
+        ok = np.isfinite(d) if src.nodata is None else (np.isfinite(d) & (d != src.nodata))
+    return float(ok.mean())
+
+
+def fetch_3dep(tile: Tile, fill: bool = False) -> list[dict]:
+    """TNM discovery (cached per tile) -> newest project per UTM 10 km tile -> windowed reads.
+
+    fill=True (T-103, tiles listed in config/dep3_fill.json only): for every UTM key whose newest window has holes, the
+    OLDER projects for the same key are read too (newest first, so `sample_rasters` takes an older project only at
+    nodes the newer ones leave empty). Entries carry `fill: True`. Every project is US-Gov public domain 1 m 3DEP."""
+    bb = tile.bounds_lonlat(FETCH_MARGIN_M)
+    items = _tnm_items(tile, bb)
     # newest project per UTM tile key (e.g. x55y419); ties broken by URL for determinism
-    best = {}
+    best, by_key = {}, {}
     for it in items:
-        name = it["url"].rsplit("/", 1)[1]
-        mk = re.search(r"_(x\d+y\d+)_", name)
-        key = mk.group(1) if mk else name
+        key = _key_of(it["url"])
+        by_key.setdefault(key, []).append(it)
         cand = (it["pub"], it["url"])
         if key not in best or cand > best[key][0]:
             best[key] = (cand, it)
@@ -125,8 +197,21 @@ def fetch_3dep(tile: Tile) -> list[dict]:
             m = _window_read(it["url"], dest, bb, "EPSG:4269", "3dep", {"item": name, "published": it["pub"]})
         except ValueError:  # window does not intersect this item
             continue
-        m.update(item=name, file=str(dest.relative_to(PIPE)))
+        m.update(item=name, file=str(pipe_rel(dest)))
         out.append(m)
+        if not fill or window_valid_share(dest) >= 1.0:
+            continue
+        for old in sorted(by_key[key], key=lambda d: (d["pub"], d["url"]), reverse=True):
+            if old is it:
+                continue
+            oname = old["url"].rsplit("/", 1)[1].removesuffix(".tif")
+            odest = CACHE / "3dep" / f"{oname}__{tile.id}.tif"
+            try:
+                om = _window_read(old["url"], odest, bb, "EPSG:4269", "3dep", {"item": oname, "published": old["pub"], "fill_for": name})
+            except ValueError:
+                continue
+            om.update(item=oname, file=str(pipe_rel(odest)), fill=True)
+            out.append(om)
     return out
 
 
@@ -176,6 +261,29 @@ def fetch_datasf(tile: Tile) -> dict:
     m = http_get(url, dest, "datasf", expect="FeatureCollection")
     lic = CACHE / "datasf" / "ynuv-fyni.meta.json"
     http_get(SRC["datasf"]["meta_url"], lic, "datasf-licence")
+    return m
+
+
+# ---------------------------------------------------------------- Assessor roll (optional building attributes)
+def assessor_url(tile: Tile) -> str:
+    w, s, e, n = tile.bounds_lonlat(FETCH_MARGIN_M)
+    a = SRC["assessor"]
+    return a["url_template"].format(roll_year=a["roll_year"], limit=a["row_limit"],
+                                    n=f"{n:.6f}", w=f"{w:.6f}", s=f"{s:.6f}", e=f"{e:.6f}")
+
+
+def fetch_assessor(tile: Tile) -> dict:
+    """Newest-roll parcel centroids with year built, stories and construction type for a tile (cached, idempotent)."""
+    dest = CACHE / "assessor" / f"wv5m-vpq2__{tile.id}.json"
+    m = http_get(assessor_url(tile), dest, "assessor", expect="[")
+    rows = json.loads(dest.read_text(encoding="utf-8"))
+    if not isinstance(rows, list):
+        raise RuntimeError(f"assessor: unexpected payload for {tile.id}: {str(rows)[:200]}")
+    if len(rows) >= SRC["assessor"]["row_limit"]:
+        for p in (dest, meta_path(dest)):
+            p.unlink(missing_ok=True)
+        raise RuntimeError(f"assessor: {tile.id} hit the row limit ({len(rows)}); the result may be truncated")
+    http_get(SRC["assessor"]["meta_url"], CACHE / "assessor" / "wv5m-vpq2.meta.json", "assessor-licence")
     return m
 
 
@@ -263,11 +371,11 @@ def fetch_lidar_dsm(tile: Tile) -> dict:
     n = p.execute()
     m = finish_fetch(dest, tmp, SRC["lidar_ept"]["url"], {"points_kept": int(n), "ept_bounds_3857": bounds,
                                                           "pdal_filters": LIDAR_FILTER})
-    print(f"[lidar-dsm] {n} first-return points kept -> {dest.relative_to(PIPE)}")
+    print(f"[lidar-dsm] {n} first-return points kept -> {pipe_rel(dest)}")
     return m
 
 
 LAYERS = {
-    "cudem": fetch_cudem, "3dep": fetch_3dep, "osm": fetch_osm_tile, "datasf": fetch_datasf,
+    "cudem": fetch_cudem, "3dep": fetch_3dep, "osm": fetch_osm_tile, "datasf": fetch_datasf, "assessor": fetch_assessor,
     "ngs": fetch_ngs, "lidar": fetch_lidar_dsm,
 }

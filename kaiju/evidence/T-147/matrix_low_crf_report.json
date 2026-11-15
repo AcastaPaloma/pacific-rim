@@ -1,0 +1,133 @@
+{
+ "check": "matrix",
+ "gate": "share <= dE00 2.0 >= 99% (never moved); selection margin 99.5%",
+ "source_frames": 6,
+ "internal_wh": [
+  480,
+  270
+ ],
+ "preset": "medium",
+ "cells": [
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 0,
+   "tune": "animation",
+   "bytes": 263900,
+   "min_share": 1.0,
+   "mean_share": 1.0,
+   "p999_worst": 0.7109035895508573,
+   "frames": 6,
+   "gate_pass": true,
+   "ok": true
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 4,
+   "tune": "animation",
+   "bytes": 91246,
+   "min_share": 0.9998167438271605,
+   "mean_share": 0.9999328864454732,
+   "p999_worst": 1.620859726988795,
+   "frames": 6,
+   "gate_pass": true,
+   "ok": true
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv444p",
+   "crf": 6,
+   "tune": "animation",
+   "bytes": 83825,
+   "min_share": 0.9988001543209877,
+   "mean_share": 0.999471691743827,
+   "p999_worst": 2.1938421047692587,
+   "frames": 6,
+   "gate_pass": true,
+   "ok": true
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 0,
+   "tune": "animation",
+   "bytes": 226329,
+   "min_share": 0.865907600308642,
+   "mean_share": 0.8662809445730454,
+   "p999_worst": 7.777945009542537,
+   "frames": 6,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 4,
+   "tune": "animation",
+   "bytes": 142925,
+   "min_share": 0.8638642939814815,
+   "mean_share": 0.864194235468107,
+   "p999_worst": 7.777945009542537,
+   "frames": 6,
+   "gate_pass": false,
+   "ok": false
+  },
+  {
+   "scale": 4,
+   "size_wh": [
+    1920,
+    1080
+   ],
+   "pix_fmt": "yuv420p",
+   "crf": 6,
+   "tune": "animation",
+   "bytes": 128077,
+   "min_share": 0.8595867091049383,
+   "mean_share": 0.8600969328703704,
+   "p999_worst": 7.556942641281318,
+   "frames": 6,
+   "gate_pass": false,
+   "ok": false
+  }
+ ],
+ "selected": {
+  "scale": 4,
+  "size_wh": [
+   1920,
+   1080
+  ],
+  "pix_fmt": "yuv444p",
+  "crf": 6,
+  "tune": "animation",
+  "bytes": 83825,
+  "min_share": 0.9988001543209877,
+  "mean_share": 0.999471691743827,
+  "p999_worst": 2.1938421047692587,
+  "frames": 6,
+  "gate_pass": true,
+  "ok": true
+ },
+ "pass": true,
+ "reason": null
+}

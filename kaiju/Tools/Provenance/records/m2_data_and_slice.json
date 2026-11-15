@@ -1,0 +1,28 @@
+{
+ "spec": "provenance@v1",
+ "records": [
+  {
+   "paths": ["Assets/StreamingAssets/Geo/global/v1/landmarks.json"],
+   "class": "data-derived",
+   "tool": "Pipelines/geo bake_tile.py (landmark rows from config/landmarks.json: positions and heights cited from public sources)",
+   "manifest": "Pipelines/geo/config/landmarks.json",
+   "licence": "LicenseRef-facts-cited",
+   "evidence": "Pipelines/geo/config/landmarks_ref.json (source references per row); facts only, no creative expression copied"
+  },
+  {
+   "paths": ["Assets/StreamingAssets/Geo/global/v1/bay_manifest.json"],
+   "class": "data-derived",
+   "tool": "Pipelines/geo/bay_manifest.py (tile plan from the Bay config, OSM extract and water polygons fingerprints)",
+   "manifest": "Pipelines/geo/config/bay.json",
+   "evidence": "Pipelines/geo/config/sources.json lists the source licences and attribution"
+  },
+  {
+   "paths": ["Assets/Game/Slice/Scenes/M1Slice.unity", "Assets/Game/Slice/Materials/*.mat"],
+   "class": "code-generated",
+   "tool": "Unity batch editor script (flat colour URP materials and an empty scene filled at runtime; no hand authoring)",
+   "generator": "Assets/Game/Slice/Editor/SliceEditorTools.cs",
+   "stage": "T-039b M1 slice",
+   "human_edits": "none"
+  }
+ ]
+}

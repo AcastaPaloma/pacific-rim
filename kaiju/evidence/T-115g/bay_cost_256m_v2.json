@@ -1,0 +1,43 @@
+{
+ "spec": "bay_cost@v2",
+ "nx": 576,
+ "ny": 576,
+ "cell_m": 256.0,
+ "depth": "copied unchanged from bay_cost_256m_v1.bin",
+ "v1_sha256": "209d6299f125a9f645d3fdd0ca304bc033600b4526f6a7dbbf1fce2ce22fdfb6",
+ "file_sha256": "b5bfe36113dfb2334f341713d7d93794a4c02d7614533aab3649bbc071a77396",
+ "source": "https://pubs.usgs.gov/of/2006/1037/of06-1037_4b.shp.zip",
+ "source_zip_sha256": "4f96c00ecffb819528276acf09f0abfb45d38907ce01cc72e541aa3bf6885cd8",
+ "class_to_softness": {
+  "VH": 1.0,
+  "H": 0.75,
+  "M": 0.5,
+  "L": 0.25,
+  "VL": 0.1,
+  "NM": 0.0
+ },
+ "class_mapping_status": "Assumed (ordinal source classes)",
+ "coverage_lonlat": [
+  -123.0,
+  37.125,
+  -121.625,
+  38.625003814697266
+ ],
+ "stats": {
+  "cells_inside": 146780,
+  "cells_mapped_land": 124951,
+  "cells_proxy_uncovered": 184996,
+  "soft_gt_half": 48688,
+  "v1_soft_gt_half": 27408,
+  "cells_changed_gt_0p1": 123975,
+  "class_counts": {
+   "VH": 1348,
+   "H": 629,
+   "M": 6799,
+   "L": 2227,
+   "VL": 1216,
+   "NM": 2
+  }
+ },
+ "note": "Inside coverage the v1 proxy is replaced; outside it is kept. Bay mud (Qhbm) is class M in OFR 2006-1037."
+}

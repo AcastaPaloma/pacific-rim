@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Runs the same NUnit sources that Unity EditMode runs (Assets/Game/Camera/Tests/EditMode). -->
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <AssemblyName>Game.Camera.Tests</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../Assets/Game/Camera/Tests/EditMode/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Core.Contracts/Core.Contracts.csproj" />
+    <ProjectReference Include="../Camera.Contracts/Camera.Contracts.csproj" />
+    <ProjectReference Include="../Camera.Maths/Camera.Maths.csproj" />
+    <ProjectReference Include="../Rendering.Pixel.Contracts/Rendering.Pixel.Contracts.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+  </ItemGroup>
+</Project>

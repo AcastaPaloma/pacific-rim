@@ -1,0 +1,70 @@
+{
+ "schema": "capture_path@v1",
+ "path_id": "p2_a_foot_strike",
+ "pillar": "P2",
+ "viewpoint": {
+  "id": "V5",
+  "tile": "L0_30_36",
+  "baytm": [
+   61591.4,
+   75450.7
+  ],
+  "heading_deg": 170
+ },
+ "profile_id": "warm_rust_sepia",
+ "district_id": "SF-SoMa",
+ "time_of_day": "fixed_v1",
+ "fps": 60,
+ "duration_s": 4.0,
+ "seed": 147016,
+ "interpolation": "linear",
+ "keyframes": [
+  {
+   "t_s": 0,
+   "pos_baytm": [
+    61591.4,
+    75450.7
+   ],
+   "alt_m": 1.7,
+   "yaw_deg": 170,
+   "pitch_deg": 0,
+   "hfov_deg": 60
+  },
+  {
+   "t_s": 4,
+   "pos_baytm": [
+    61591.4,
+    75450.7
+   ],
+   "alt_m": 1.7,
+   "yaw_deg": 170,
+   "pitch_deg": 0,
+   "hfov_deg": 60
+  }
+ ],
+ "shake": [],
+ "snap": {
+  "enabled": true,
+  "dither_anchor": "direction"
+ },
+ "outputs": [
+  {
+   "internal_wh": [
+    480,
+    270
+   ],
+   "output_wh": [
+    1920,
+    1080
+   ],
+   "scale": 4
+  }
+ ],
+ "mode": "clip",
+ "actors": null,
+ "requires": [
+  "walk"
+ ],
+ "reference_depth_m": 600,
+ "notes": "P2-a, blocked on the mech walk (T-005)."
+}

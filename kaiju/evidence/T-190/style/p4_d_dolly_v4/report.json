@@ -1,0 +1,814 @@
+{
+ "assumed_thresholds_decisive": [
+  "M-003.a.internal",
+  "M-003.c1"
+ ],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [
+   "lavender_peach: 0 gameplay frames (< 12)",
+   "slate_crimson: 0 gameplay frames (< 12)",
+   "slate_teal: 3 gameplay frames (< 12)",
+   "warm_amber_haze: 0 gameplay frames (< 12)",
+   "warm_rust_sepia: 0 gameplay frames (< 12)",
+   "haze_cal sequence (M-003 c2)"
+  ],
+  "optional_not_provided": [],
+  "provided": [
+   "slate_teal: 3 frames"
+  ],
+  "required": [
+   "lavender_peach >= 12 frames",
+   "slate_crimson >= 12 frames",
+   "slate_teal >= 12 frames",
+   "warm_amber_haze >= 12 frames",
+   "warm_rust_sepia >= 12 frames",
+   "haze_cal"
+  ]
+ },
+ "exit_code": 3,
+ "extra": {
+  "frames": [
+   {
+    "A2_int": 1.0,
+    "A2_out": 1.0,
+    "A3_out": 1.0,
+    "A5_out": 1.0,
+    "DIG": 0.382208900902,
+    "O": 1.05204206821,
+    "accent_share": null,
+    "composition": {
+     "contrast": 27.4877996792,
+     "horizon": 0.418442522638,
+     "sky_share": 0.468333333333
+    },
+    "depth": {
+     "bands": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "max_drop": 0.0,
+     "meanL": [
+      26.7975482231,
+      27.7653618381,
+      34.2701757657,
+      46.2398055857,
+      47.5469632683
+     ],
+     "rho": 1.0,
+     "span": 20.7494150451
+    },
+    "dither_evaluated": true,
+    "frame": "p4_d_dolly_v4/x4/f000000",
+    "gradient_share": 0.288325617284,
+    "grid_uniform": 1.0,
+    "hue_families": 1,
+    "hue_peaks": [
+     [
+      270,
+      1.0
+     ]
+    ],
+    "levels": 6,
+    "off_palette_px_out": 0,
+    "profile": "slate_teal"
+   },
+   {
+    "A2_int": 1.0,
+    "A2_out": 1.0,
+    "A3_out": 1.0,
+    "A5_out": 1.0,
+    "DIG": 0.385731330332,
+    "O": 1.05719226519,
+    "accent_share": null,
+    "composition": {
+     "contrast": 27.4877996792,
+     "horizon": 0.418442522638,
+     "sky_share": 0.456226851852
+    },
+    "depth": {
+     "bands": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "max_drop": 0.0,
+     "meanL": [
+      26.7975482231,
+      27.7653618381,
+      34.8218561222,
+      46.509097478,
+      47.9431108185
+     ],
+     "rho": 1.0,
+     "span": 21.1455625954
+    },
+    "dither_evaluated": true,
+    "frame": "p4_d_dolly_v4/x4/f000001",
+    "gradient_share": 0.284552469136,
+    "grid_uniform": 1.0,
+    "hue_families": 1,
+    "hue_peaks": [
+     [
+      270,
+      1.0
+     ]
+    ],
+    "levels": 6,
+    "off_palette_px_out": 0,
+    "profile": "slate_teal"
+   },
+   {
+    "A2_int": 1.0,
+    "A2_out": 1.0,
+    "A3_out": 1.0,
+    "A5_out": 1.0,
+    "DIG": 0.381994603287,
+    "O": 1.04801610702,
+    "accent_share": null,
+    "composition": {
+     "contrast": 27.4877996792,
+     "horizon": 0.418442522638,
+     "sky_share": 0.439359567901
+    },
+    "depth": {
+     "bands": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "max_drop": 0.0,
+     "meanL": [
+      26.7975482231,
+      27.7653618381,
+      36.7344387688,
+      46.2533902284,
+      47.7792519186
+     ],
+     "rho": 1.0,
+     "span": 20.9817036954
+    },
+    "dither_evaluated": true,
+    "frame": "p4_d_dolly_v4/x4/f000002",
+    "gradient_share": 0.283094135802,
+    "grid_uniform": 1.0,
+    "hue_families": 1,
+    "hue_peaks": [
+     [
+      270,
+      1.0
+     ]
+    ],
+    "levels": 6,
+    "off_palette_px_out": 0,
+    "profile": "slate_teal"
+   }
+  ]
+ },
+ "failing_gating": [],
+ "failures_suppressed": false,
+ "flags": [],
+ "headless_verdict": "INCOMPLETE",
+ "headless_verdict_label": "INCOMPLETE",
+ "images": [],
+ "inputs": [
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000000.json",
+   "role": "style_capture@v1",
+   "sha256": "983d26242d6eca23269adab488ea5cdf49e26b6b1285be73aae5053a37f14725"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000000_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "d17813bd4a13e685c96f7a03a5758a016daa5fe16af9fd776e280724e76b0685"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000000_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "9386152e975a5600c5326423965f87bdcfb0a095b4ce303bcd5837b0dfe50dd3"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000000_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "583ab5990c5d3b909f1d730935de62ca40337dc880d81c40e29f88e5b26452aa"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000000_index.png",
+   "role": "style_capture@v1",
+   "sha256": "68f65f98e8add73119a9740ee697a03c4e680c9011dd174b2573f64eab92636d"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000000_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000001.json",
+   "role": "style_capture@v1",
+   "sha256": "54d91b19be4b0b96ceb7a96dabb96256c4dcc6735717ec2297cfffc59dcd7634"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000001_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "5039ff4b8dc1c043ff35b6d632e8eab07715de46fe0d50e3d06b5a8c07ecc131"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000001_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "30ddb040b2740588a555f98c6a88434ba48eb8da7cb4ec11dc108ceaf69a76c5"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000001_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "a7c19b98aacf11e2d557483ed453051ef3a754933099c602694661676df3203a"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000001_index.png",
+   "role": "style_capture@v1",
+   "sha256": "1c16decd7c5a12b0c1b748ddf3a38a12d40d866d30c02b76640d9ea1f8f28a7a"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000001_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000002.json",
+   "role": "style_capture@v1",
+   "sha256": "8d4972374d2434e669eb56a92054557aef32c89910e6c7940cd53a038a8f61b3"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000002_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "971bac931d15f6c56e0c2b9eb04f1d3b47e9bbfd97dff43e650ef23d9402c029"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000002_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "2501fda8faffcc9feb17c6ac9d05e31d32b8e1b50764415a038086601979e220"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000002_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "29214fd545b2eee07087f87f360205e485b927d706de156d8b0dbbe865852be1"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000002_index.png",
+   "role": "style_capture@v1",
+   "sha256": "ec54ddb89f306cdb1ed84089bfc3f97d259d006d0e0b44bb5ac857afddfa2dcb"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/f000002_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "/tmp/t190_final/p4_d_dolly_v4/x4/sequence.json",
+   "role": "style_capture@v1",
+   "sha256": "a48dc771aff36581346d1cba457d23aaabf7701e14d8bfc80e15882fb61ec0a4"
+  },
+  {
+   "path": "research/R-002/palettes.json",
+   "role": "palette_set@v1",
+   "sha256": "868527c5a439fb595732a1b002de3c69b2d4dc7ea81c5e711da7e10c4cd51649"
+  }
+ ],
+ "invocation": {
+  "command": "m003",
+  "inputs": [
+   "/tmp/t190_final/p4_d_dolly_v4"
+  ],
+  "label": "p4_d_dolly_v4",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "p4_d_dolly_v4",
+ "metric": "M-003",
+ "metric_version": "M-003@v1",
+ "normalisers": {},
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-003@v1.1.yaml",
+  "revision": "v1.1",
+  "sha256": "7a63afd06c6681ab3dc1480a407556dd499a53df0022c7eaf62256268bcc68a1",
+  "spec": "M-003@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "revw-172-31-218-200.rn.uwaterloo.ca",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-15T20:29:04Z",
+  "wall_time_s": 3.368
+ },
+ "submeasures": [
+  {
+   "decisive_part": "A_2 output worst frame p4_d_dolly_v4/x4/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "p4_d_dolly_v4/x4/f000000": 1.0,
+     "p4_d_dolly_v4/x4/f000001": 1.0,
+     "p4_d_dolly_v4/x4/f000002": 1.0
+    },
+    "where": "p4_d_dolly_v4/x4/f000000 (0 output px beyond dE00 2.0)"
+   },
+   "id": "M-003.a.output",
+   "kind": "gating",
+   "margin": 0.05,
+   "margin_rel": 0.0526315789474,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.05,
+     "margin_rel": 0.0526315789474,
+     "name": "A_2 output worst frame p4_d_dolly_v4/x4/f000000",
+     "off_palette_px": 0,
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.95,
+     "unit": "share",
+     "value": 1.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.95,
+   "threshold_status": "derived",
+   "title": "Palette adherence A_2 on color_output (share within dE00 <= T of the declared profile), worst frame",
+   "unit": "share",
+   "value": 1.0
+  },
+  {
+   "decisive_part": "A_2 internal worst frame p4_d_dolly_v4/x4/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "p4_d_dolly_v4/x4/f000000": 1.0,
+     "p4_d_dolly_v4/x4/f000001": 1.0,
+     "p4_d_dolly_v4/x4/f000002": 1.0
+    },
+    "where": "p4_d_dolly_v4/x4/f000000"
+   },
+   "id": "M-003.a.internal",
+   "kind": "gating",
+   "margin": 0.005,
+   "margin_rel": 0.00502512562814,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.005,
+     "margin_rel": 0.00502512562814,
+     "name": "A_2 internal worst frame p4_d_dolly_v4/x4/f000000",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.995,
+     "unit": "share",
+     "value": 1.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.995,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Palette adherence A_2 on color_internal, worst frame",
+   "unit": "share",
+   "value": 1.0
+  },
+  {
+   "diagnostics": {
+    "worst_frame": "p4_d_dolly_v4/x4/f000000"
+   },
+   "id": "M-003.a.A3",
+   "kind": "info",
+   "note": null,
+   "parts": [],
+   "status": "REPORTED",
+   "threshold_status": "derived",
+   "title": "Palette adherence A_3 on color_output (informational), worst frame",
+   "unit": "share",
+   "value": 1.0
+  },
+  {
+   "diagnostics": {
+    "worst_frame": "p4_d_dolly_v4/x4/f000000"
+   },
+   "id": "M-003.a.A5",
+   "kind": "info",
+   "note": null,
+   "parts": [],
+   "status": "REPORTED",
+   "threshold_status": "derived",
+   "title": "Palette adherence A_5 on color_output (informational), worst frame",
+   "unit": "share",
+   "value": 1.0
+  },
+  {
+   "decisive_part": "slate_teal: share of evaluated frames with DIG >= dig_min",
+   "diagnostics": {
+    "per_frame_DIG": {
+     "p4_d_dolly_v4/x4/f000000": 0.382208900902,
+     "p4_d_dolly_v4/x4/f000001": 0.385731330332,
+     "p4_d_dolly_v4/x4/f000002": 0.381994603287
+    },
+    "where": ""
+   },
+   "id": "M-003.b.DIG",
+   "kind": "gating",
+   "margin": 0.2,
+   "margin_rel": 0.25,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "dig_min": 0.15,
+     "evaluated": 3,
+     "margin": 0.2,
+     "margin_rel": 0.25,
+     "name": "slate_teal: share of evaluated frames with DIG >= dig_min",
+     "op": ">=",
+     "skipped": 0,
+     "status": "PASS",
+     "threshold": 0.8,
+     "unit": "share of frames",
+     "value": 1.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.8,
+   "threshold_status": "derived",
+   "title": "Dithering present in gradients, share of evaluated frames with DIG >= 0.15",
+   "unit": "share of frames",
+   "value": 1.0
+  },
+  {
+   "decisive_part": "max DIG p4_d_dolly_v4/x4/f000001",
+   "diagnostics": {},
+   "id": "M-003.b.DIG_max",
+   "kind": "advisory",
+   "margin": 0.114268669668,
+   "margin_rel": 0.228537339335,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.114268669668,
+     "margin_rel": 0.228537339335,
+     "name": "max DIG p4_d_dolly_v4/x4/f000001",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.5,
+     "unit": "DIG",
+     "value": 0.385731330332
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.5,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "DIG upper bound (a whole frame of dither reads as noise), worst frame",
+   "unit": "DIG",
+   "value": 0.385731330332
+  },
+  {
+   "diagnostics": {
+    "note": "Bayer/checker > 0.5, white noise ~ 0, clustered < 0 (advisory until Q-015)",
+    "per_frame_O": {
+     "p4_d_dolly_v4/x4/f000000": 1.05204206821,
+     "p4_d_dolly_v4/x4/f000001": 1.05719226519,
+     "p4_d_dolly_v4/x4/f000002": 1.04801610702
+    }
+   },
+   "id": "M-003.b.O",
+   "kind": "advisory",
+   "note": null,
+   "parts": [],
+   "status": "REPORTED",
+   "threshold_status": "none",
+   "title": "Ordered index O = rho(lag 2) - rho(lag 1) (advisory without a threshold until Q-015), median over evaluated frames",
+   "unit": "O",
+   "value": 1.05204206821
+  },
+  {
+   "decisive_part": "p4_d_dolly_v4/x4/f000000: Spearman rho(band, L*)",
+   "diagnostics": {
+    "frames_evaluated": 3,
+    "frames_skipped": 0,
+    "where": "p4_d_dolly_v4/x4/f000000 bands [0, 1, 2, 3, 4] mean L* [26.8, 27.8, 34.3, 46.2, 47.5]"
+   },
+   "id": "M-003.c1",
+   "kind": "gating",
+   "margin": 0.1,
+   "margin_rel": 0.111111111111,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 2.0,
+     "margin_rel": 1.0,
+     "name": "p4_d_dolly_v4/x4/f000000: max band-to-band drop",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 2.0,
+     "unit": "L*",
+     "value": 0.0
+    },
+    {
+     "margin": 0.1,
+     "margin_rel": 0.111111111111,
+     "name": "p4_d_dolly_v4/x4/f000000: Spearman rho(band, L*)",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.9,
+     "unit": "rho",
+     "value": 1.0
+    },
+    {
+     "margin": 5.74941504515,
+     "margin_rel": 0.383294336343,
+     "name": "p4_d_dolly_v4/x4/f000000: far - near span",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 15.0,
+     "unit": "L*",
+     "value": 20.7494150451
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.9,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Value banding by depth monotonic on gameplay frames (drop, Spearman rho, span), worst frame",
+   "unit": "rho",
+   "value": 1.0
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.c2",
+   "kind": "gating",
+   "note": "no haze_cal sequence in the capture set",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "derived",
+   "title": "Contrast decreasing with distance on the haze_cal scene (signed light - dark dL*)",
+   "unit": "",
+   "value": null
+  },
+  {
+   "decisive_part": "value levels p4_d_dolly_v4/x4/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "p4_d_dolly_v4/x4/f000000": 6,
+     "p4_d_dolly_v4/x4/f000001": 6,
+     "p4_d_dolly_v4/x4/f000002": 6
+    }
+   },
+   "id": "M-003.d-i",
+   "kind": "gating",
+   "margin": 6,
+   "margin_rel": 0.5,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 6,
+     "margin_rel": 0.5,
+     "name": "value levels p4_d_dolly_v4/x4/f000000",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 12,
+     "unit": "levels",
+     "value": 6
+    }
+   ],
+   "status": "PASS",
+   "threshold": 12,
+   "threshold_status": "derived",
+   "title": "Value levels (distinct L* of entries >= 0.5 %, merged at dL* < 4), worst frame",
+   "unit": "levels",
+   "value": 6
+  },
+  {
+   "decisive_part": "hue families p4_d_dolly_v4/x4/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "p4_d_dolly_v4/x4/f000000": 1,
+     "p4_d_dolly_v4/x4/f000001": 1,
+     "p4_d_dolly_v4/x4/f000002": 1
+    }
+   },
+   "id": "M-003.d-ii",
+   "kind": "gating",
+   "margin": 2,
+   "margin_rel": 0.666666666667,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 2,
+     "margin_rel": 0.666666666667,
+     "name": "hue families p4_d_dolly_v4/x4/f000000",
+     "op": "<=",
+     "peaks": [
+      [
+       270,
+       1.0
+      ]
+     ],
+     "status": "PASS",
+     "threshold": 3,
+     "unit": "families",
+     "value": 1
+    }
+   ],
+   "status": "PASS",
+   "threshold": 3,
+   "threshold_status": "derived",
+   "title": "Hue families (chroma-weighted circular hue peaks >= 10 % mass), worst frame",
+   "unit": "families",
+   "value": 1
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.d-iii",
+   "kind": "advisory",
+   "note": "no accent present in any frame (applies only when present)",
+   "parts": [],
+   "spec_clause": "R-002 §4 d-iii: the accent share is checked when the accent is present",
+   "status": "NOT_APPLICABLE",
+   "threshold_status": "derived",
+   "title": "Accent share when present, worst frame",
+   "unit": "",
+   "value": null
+  },
+  {
+   "decisive_part": "uniform blocks p4_d_dolly_v4/x4/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "p4_d_dolly_v4/x4/f000000": 1.0,
+     "p4_d_dolly_v4/x4/f000001": 1.0,
+     "p4_d_dolly_v4/x4/f000002": 1.0
+    },
+    "where": "p4_d_dolly_v4/x4/f000000"
+   },
+   "id": "M-003.d-iv",
+   "kind": "gating",
+   "margin": 0.005,
+   "margin_rel": 0.00502512562814,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.005,
+     "margin_rel": 0.00502512562814,
+     "name": "uniform blocks p4_d_dolly_v4/x4/f000000",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.995,
+     "unit": "share of blocks",
+     "value": 1.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.995,
+   "threshold_status": "derived",
+   "title": "Pixel-grid integrity on color_output (uniform s x s blocks at the declared offset), worst frame",
+   "unit": "share of blocks",
+   "value": 1.0
+  },
+  {
+   "decisive_part": "sky_share p4_d_dolly_v4/x4/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "p4_d_dolly_v4/x4/f000000": 0.468333333333,
+     "p4_d_dolly_v4/x4/f000001": 0.456226851852,
+     "p4_d_dolly_v4/x4/f000002": 0.439359567901
+    }
+   },
+   "id": "M-003.e.sky",
+   "kind": "advisory",
+   "margin": 0.0316666666667,
+   "margin_rel": 0.0633333333333,
+   "note": null,
+   "op": "in",
+   "parts": [
+    {
+     "margin": 0.0316666666667,
+     "margin_rel": 0.0633333333333,
+     "name": "sky_share p4_d_dolly_v4/x4/f000000",
+     "op": "in",
+     "status": "PASS",
+     "threshold": 0.2,
+     "threshold_hi": 0.5,
+     "unit": "",
+     "value": 0.468333333333
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.2,
+   "threshold_hi": 0.5,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Sky share (z >= 0.99 far), worst frame",
+   "unit": "",
+   "value": 0.468333333333
+  },
+  {
+   "decisive_part": "horizon p4_d_dolly_v4/x4/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "p4_d_dolly_v4/x4/f000000": 0.418442522638,
+     "p4_d_dolly_v4/x4/f000001": 0.418442522638,
+     "p4_d_dolly_v4/x4/f000002": 0.418442522638
+    }
+   },
+   "id": "M-003.e.horizon",
+   "kind": "advisory",
+   "margin": 0.0315574773616,
+   "margin_rel": 0.0701277274701,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.0315574773616,
+     "margin_rel": 0.0701277274701,
+     "name": "horizon p4_d_dolly_v4/x4/f000000",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.45,
+     "unit": "",
+     "value": 0.418442522638
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.45,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Geometric horizon height from pose, h = 0.5 + tan(pitch) / (2 tan(vfov/2)), worst frame",
+   "unit": "",
+   "value": 0.418442522638
+  },
+  {
+   "decisive_part": "contrast p4_d_dolly_v4/x4/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "p4_d_dolly_v4/x4/f000000": 27.4877996792,
+     "p4_d_dolly_v4/x4/f000001": 27.4877996792,
+     "p4_d_dolly_v4/x4/f000002": 27.4877996792
+    }
+   },
+   "id": "M-003.e.contrast",
+   "kind": "advisory",
+   "margin": 2.48779967916,
+   "margin_rel": 0.0995119871662,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 2.48779967916,
+     "margin_rel": 0.0995119871662,
+     "name": "contrast p4_d_dolly_v4/x4/f000000",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 25.0,
+     "unit": "",
+     "value": 27.4877996792
+    }
+   ],
+   "status": "PASS",
+   "threshold": 25.0,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Silhouette contrast L*90 - L*10, worst frame",
+   "unit": "",
+   "value": 27.4877996792
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.f",
+   "kind": "gating",
+   "note": "no panel_ratings@v1 file given (the tool never defaults a score)",
+   "parts": [],
+   "status": "PENDING",
+   "threshold_status": "derived",
+   "title": "Blind panel style match (mean >= 8.0 over >= 12 captures, no profile mean < 7)",
+   "unit": "",
+   "value": null
+  }
+ ],
+ "tool": {
+  "git_commit": "ea5cd8d4306d37577c1b8c41d0d05c38c5856be8",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "INCOMPLETE",
+ "verdict_label": "INCOMPLETE",
+ "warnings": [
+  "ADVISORY M-003.b.O reported without a threshold until Q-015: median O 1.052 (Bayer/checker > 0.5, white noise ~ 0, clustered < 0; the references are -0.34..+0.15)"
+ ]
+}

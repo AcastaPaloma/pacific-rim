@@ -1,0 +1,42 @@
+{
+ "seed": 105,
+ "per_chassis": 400,
+ "chassis": {
+  "balanced": {
+   "builds": 403,
+   "valid": 162,
+   "invalid": 241,
+   "borderline": 0,
+   "first_violation_counts": {
+    "Mass": 114,
+    "Power": 40,
+    "HeatRejection": 76,
+    "Torque": 11
+   },
+   "default_valid": true
+  },
+  "basic_balanced": {
+   "builds": 403,
+   "valid": 403,
+   "invalid": 0,
+   "borderline": 0,
+   "first_violation_counts": {},
+   "default_valid": true
+  },
+  "heavy_brawler": {
+   "builds": 403,
+   "valid": 180,
+   "invalid": 223,
+   "borderline": 0,
+   "first_violation_counts": {
+    "Torque": 61,
+    "HeatStorage": 48,
+    "HeatRejection": 56,
+    "Power": 58
+   },
+   "default_valid": true
+  }
+ },
+ "failures": [],
+ "pass": true
+}

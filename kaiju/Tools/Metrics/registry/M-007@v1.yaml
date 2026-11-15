@@ -1,0 +1,66 @@
+registry_schema: metric_registry@v1
+revision: v1.0
+metric_status: registered
+date: '2026-11-15'
+metric: M-007
+spec: M-007@v1
+title: Kaiju look intelligent (behaviour clauses C1-C4; panel C5 pending; win rate C6 deferred)
+source: research/R-024.md section 3 and 5 (rev 2); every threshold is an R-024 design target
+note: Reads brain_log@v1 (kaiju_metrics/brain/brain_log.py). scripted@1 runs are measured, directcharge@1 is the null control.
+procedure:
+  scripted_brain_id: {value: scripted@1, unit: id, status: derived, source: "R-024 section 4 header brain_id"}
+  control_brain_id: {value: directcharge@1, unit: id, status: derived, source: "R-024 section 3.1 null control"}
+  nofocus_brain_id: {value: nofocus@1, unit: id, status: derived, source: "T-033b: scripted brain with WeightFocus = 0 (uncoordinated targeting); second control for C2/C3 discrimination, diagnostic only"}
+  edge_margin_frac: {value: 0.05, unit: ratio, status: assumed_pending_calibration, source: "R-028 O4 edge-time diagnostic (diagnostic only, never gates)"}
+  edge_field_half_m: {value: 2000.0, unit: m, status: derived, source: "Game.AI.Harness HarnessScenario.FieldHalfM"}
+  bootstrap_resamples: {value: 2000, unit: resamples, status: derived, source: "R-024 section 5: 95 % bootstrap interval across runs"}
+  flank_spread_deg: {value: 90.0, unit: deg, status: assumed_pending_calibration, source: "R-024 section 3.1 Flanked: spread >= 90 deg"}
+  commit_fresh_s: {value: 8.0, unit: s, status: assumed_pending_calibration, source: "R-024 section 3.1 commit event: no pack Charge toward T in the previous 8 s"}
+  thrash_window_s: {value: 12.0, unit: s, status: assumed_pending_calibration, source: "R-024 rev 3 section 3.3 thrash: A-B-A within 12 s (> any brain minimum dwell; was 4 s = RetargetMinSeconds, structurally zero)"}
+  memory_s: {value: 3.0, unit: s, status: assumed_pending_calibration, source: "R-024 section 3.4 leak: not visible and memory age > 3 s"}
+  bootstrap_ci_level: {value: 0.95, unit: ratio, status: derived, source: "R-024 section 5: 95 % bootstrap interval"}
+  bootstrap_seed: {value: 7, unit: seed, status: derived, source: "deterministic report"}
+submeasures:
+  M-007.runs:
+    title: Seeded run count per brain
+    kind: gating
+    thresholds:
+      min_runs: {value: 100.0, unit: runs, status: derived, source: "R-024 section 5 definition: N = 100 seeded runs"}
+  M-007.C1:
+    title: C1 Flank commit rate FR_commit
+    kind: gating
+    thresholds:
+      fr_commit_min: {value: 0.60, unit: ratio, status: assumed_pending_calibration, source: "R-024 section 5 C1 (design target)"}
+      ratio_to_null_min: {value: 2.0, unit: x, status: assumed_pending_calibration, source: "R-024 section 5 C1: >= 2 x FR_commit_null"}
+  M-007.C2:
+    title: C2 Focus-fire excess FE
+    kind: gating
+    thresholds:
+      fe_min: {value: 0.50, unit: ratio, status: assumed_pending_calibration, source: "R-024 section 5 C2"}
+  M-007.C3:
+    title: C3 Target switching (thrash fraction, voluntary switch rate)
+    kind: gating
+    thresholds:
+      min_voluntary_switches: {value: 200.0, unit: switches, status: assumed_pending_calibration, source: "R-024 rev 3: churn scenario C3 is NOT_RUN under 200 voluntary switches per brain"}
+      thrash_fraction_max: {value: 0.10, unit: ratio, status: assumed_pending_calibration, source: "R-024 section 5 C3"}
+      switch_rate_max: {value: 3.0, unit: 1/kaiju-min, status: assumed_pending_calibration, source: "R-024 section 5 C3"}
+  M-007.C4:
+    title: C4 Information fairness (leaks)
+    kind: gating
+    thresholds:
+      leaks_max: {value: 0, unit: ticks, status: derived, source: "R-024 section 3.4: brain must have 0 leaks"}
+  M-007.C5:
+    title: C5 Human panel smart / cheap
+    kind: gating
+    thresholds:
+      smart_median_min: {value: 5.0, unit: score, status: assumed_pending_calibration, source: "R-024 section 5 C5"}
+      cheap_median_max: {value: 3, unit: score, status: assumed_pending_calibration, source: "R-024 section 5 C5"}
+      min_raters: {value: 12.0, unit: raters, status: derived, source: "R-024 section 5 C5"}
+  M-007.C6:
+    title: C6 Win rate vs scripted baseline (needs --candidate)
+    kind: gating
+    thresholds:
+      win_rate_min: {value: 0.55, unit: ratio, status: assumed_pending_calibration, source: "R-024 section 5 C6"}
+      wilson_lb_min: {value: 0.50, unit: ratio, status: derived, source: "R-028 section 11 D11: Wilson 95 % lower bound of the pair-win rate must exceed 0.50"}
+      min_pairs: {value: 200.0, unit: pairs, status: derived, source: "R-028 section 11: 200 held-out paired seeds"}
+      max_tie_fraction: {value: 0.5, unit: ratio, status: derived, source: "R-028 section 11: more than 50 % tied pairs = NOT_RUN"}

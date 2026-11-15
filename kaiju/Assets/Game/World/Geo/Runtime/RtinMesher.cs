@@ -18,13 +18,24 @@ namespace Game.World.Geo
         /// <summary>
         /// Meshes h (row = z, col = x, size n = 2^k + 1) so that no node deviates more than maxError from the mesh,
         /// with no triangle larger than one chunk (chunkCells cells), so chunks can be culled independently.
+        /// forceEdges (optional, N, E, S, W) keeps every lattice node of those borders as a vertex.
         /// </summary>
-        public static RtinResult Build(float[] h, int n, double spacing, float maxError, int chunkCells, string layer = "terrain")
+        public static RtinResult Build(float[] h, int n, double spacing, float maxError, int chunkCells, string layer = "terrain", bool[] forceEdges = null)
         {
             int tile = n - 1;
             if ((tile & (tile - 1)) != 0) throw new ArgumentException("grid must be 2^k + 1");
             if (chunkCells <= 0 || tile % chunkCells != 0) throw new ArgumentException("chunkCells must divide the tile");
             var errors = new float[n * n];
+            // multi-tile seams: every node of a forced border (N, E, S, W = index of GeoDirection) stays a vertex,
+            // so a neighbouring tile that forces the same border produces the identical edge vertices
+            if (forceEdges != null)
+                for (int k = 0; k < n; k++)
+                {
+                    if (forceEdges[0]) errors[(n - 1) * n + k] = float.MaxValue;
+                    if (forceEdges[1]) errors[k * n + n - 1] = float.MaxValue;
+                    if (forceEdges[2]) errors[k] = float.MaxValue;
+                    if (forceEdges[3]) errors[k * n] = float.MaxValue;
+                }
             long numTriangles = (long)tile * tile * 2 - 2;
             long numParent = numTriangles - (long)tile * tile;
             // bottom-up error accumulation over the implicit binary triangle tree

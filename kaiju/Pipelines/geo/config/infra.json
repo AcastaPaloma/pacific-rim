@@ -1,0 +1,21 @@
+{
+  "_doc": "infra@v1 (T-105, F-044): which OSM objects become infrastructure targets. Sources: research/R-100.md section 5 (OSM only, Q-NEW-c: CEC and HIFLD excluded). Every kind lists its OSM selector; nothing is invented, numbers come from tags or from the geometry. Changing any value changes the layer fingerprint.",
+  "spec": "infra@v1",
+  "kinds": {
+    "bridge": {"id": 1, "osm": "way with bridge=* (not no) and highway=* or railway=*; man_made=bridge excluded", "states": 5},
+    "power_tower": {"id": 2, "osm": "node power=tower"},
+    "power_line": {"id": 3, "osm": "way power=line or power=minor_line, not location=underground/underwater"},
+    "substation": {"id": 4, "osm": "node or way power=substation"},
+    "power_plant": {"id": 5, "osm": "node or way power=plant"},
+    "port_crane": {"id": 6, "osm": "node or way man_made=crane"},
+    "runway": {"id": 7, "osm": "way aeroway=runway"},
+    "terminal": {"id": 8, "osm": "way aeroway=terminal"},
+    "hangar": {"id": 9, "osm": "way aeroway=hangar"},
+    "control_tower": {"id": 10, "osm": "node or way aeroway=control_tower, or tower:type=air_traffic_control"}
+  },
+  "excluded": ["power=pole (45,184, ignored by R-100)", "power=generator (1,300 solar and wind units, no target role)", "aeroway=taxiway", "aeroway=aerodrome (area, no target)", "relations (multipolygons ignored, as in R-100 counts)"],
+  "source_key": "osm",
+  "owner_rule": "an object belongs to the L0 tile containing its owner point: the node itself, the midpoint by arc length of a line, point_on_surface of an area; geometry is not clipped",
+  "round_mm": 3,
+  "unpaved_footway_classes": ["footway", "path", "cycleway", "steps", "pedestrian", "bridleway"]
+}

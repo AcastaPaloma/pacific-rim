@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- NUnit tests for Meta.Roster, M-106 roster part (pure C#). T-120. -->
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <AssemblyName>Game.Meta.Roster.Tests</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Dotnet/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Meta.Roster/Meta.Roster.csproj" />
+    <ProjectReference Include="../Meta.Roster.Contracts/Meta.Roster.Contracts.csproj" />
+    <ProjectReference Include="../Meta.Salvage/Meta.Salvage.csproj" />
+    <ProjectReference Include="../Meta.Salvage.Contracts/Meta.Salvage.Contracts.csproj" />
+    <ProjectReference Include="../Meta.Economy/Meta.Economy.csproj" />
+    <ProjectReference Include="../Meta.Economy.Contracts/Meta.Economy.Contracts.csproj" />
+    <ProjectReference Include="../Hangar.Contracts/Hangar.Contracts.csproj" />
+    <ProjectReference Include="../WorldGeo.Contracts/WorldGeo.Contracts.csproj" />
+    <ProjectReference Include="../Core/Core.csproj" />
+    <ProjectReference Include="../Core.Contracts/Core.Contracts.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+  </ItemGroup>
+</Project>

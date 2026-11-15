@@ -1,0 +1,1112 @@
+{
+ "schema": "KaijuSpeciesSpec@v1",
+ "id": "breacher@1",
+ "mass_class": "Mid",
+ "design_codename": "BREACHER",
+ "geometry": {
+  "height_m": {
+   "value": 100,
+   "unit": "m",
+   "source": "R-102 \u00a73 / D-026 category",
+   "status": "Assumed"
+  },
+  "hip_height_m": {
+   "value": 45,
+   "unit": "m",
+   "source": "R-102 \u00a73",
+   "status": "Assumed"
+  },
+  "trunk": {
+   "a": {
+    "value": 28,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   },
+   "b": {
+    "value": 10.5,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   },
+   "c": {
+    "value": 13,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   }
+  },
+  "head": {
+   "a": {
+    "value": 8,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   },
+   "b": {
+    "value": 5,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   },
+   "c": {
+    "value": 5,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   }
+  },
+  "neck": {
+   "L": {
+    "value": 14,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   },
+   "R": {
+    "value": 5.5,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   },
+   "r": {
+    "value": 4.0,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   }
+  },
+  "tail": {
+   "L": {
+    "value": 50,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   },
+   "R": {
+    "value": 6.5,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   },
+   "r": {
+    "value": 0.8,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   }
+  },
+  "limb_upper": {
+   "L": {
+    "value": 23,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   },
+   "R_top": {
+    "value": 7,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   },
+   "R_bot": {
+    "value": 4.6,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   }
+  },
+  "limb_lower": {
+   "L": {
+    "value": 22,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   },
+   "R_top": {
+    "value": 4.6,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   },
+   "R_bot": {
+    "value": 3.8,
+    "unit": "m",
+    "source": "R-102 \u00a73",
+    "status": "Assumed"
+   }
+  },
+  "n_limbs": {
+   "value": 4,
+   "unit": "1",
+   "source": "R-102 \u00a74.4 (quadruped)",
+   "status": "Sourced"
+  },
+  "extra_volume_m3": {
+   "value": 600,
+   "unit": "m3",
+   "source": "R-102 \u00a73 (armour, crest, plates)",
+   "status": "Assumed"
+  },
+  "track_width_m": {
+   "value": 24,
+   "unit": "m",
+   "source": "R-102 \u00a75",
+   "status": "Assumed"
+  },
+  "foot_area_m2": {
+   "value": 100,
+   "unit": "m2",
+   "source": "R-102 \u00a78",
+   "status": "Assumed"
+  },
+  "foot_radius_m": {
+   "value": 5.641895835477563,
+   "unit": "m",
+   "source": "pi r^2 = foot area",
+   "status": "Derived"
+  },
+  "com_height_m": {
+   "value": 46.2,
+   "unit": "m",
+   "source": "T-112: back-derived from R-102 \u00a75 lateral limit a_y = g (w/2)/(2 h)",
+   "status": "Assumed"
+  }
+ },
+ "mass": {
+  "rho_eff_kg_m3": {
+   "value": 980,
+   "unit": "kg/m3",
+   "source": "R-102 \u00a73 (range 893-1100 sourced [5])",
+   "status": "Assumed"
+  },
+  "volume_m3": {
+   "value": 35718.98462853729,
+   "unit": "m3",
+   "source": "R-102 \u00a73 recipe",
+   "status": "Derived"
+  },
+  "mass_kg": {
+   "value": 35004604.935966544,
+   "unit": "kg",
+   "source": "rho_eff * V",
+   "status": "Derived"
+  },
+  "inertia_yaw_kgm2": {
+   "value": 6260573592.797617,
+   "unit": "kg m2",
+   "source": "T-112: trunk-ellipsoid approximation m(a^2+b^2)/5, ignores neck and tail; T-117 refines",
+   "status": "Assumed"
+  },
+  "recipe_validation": {
+   "elephant_trunk": {
+    "a": {
+     "value": 1.5,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    },
+    "b": {
+     "value": 0.65,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    },
+    "c": {
+     "value": 0.85,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    }
+   },
+   "elephant_head": {
+    "a": {
+     "value": 0.5,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    },
+    "b": {
+     "value": 0.22,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    },
+    "c": {
+     "value": 0.28,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    }
+   },
+   "elephant_neck": {
+    "L": {
+     "value": 0.6,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    },
+    "R": {
+     "value": 0.3,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    },
+    "r": {
+     "value": 0.22,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    }
+   },
+   "elephant_tail": {
+    "L": {
+     "value": 0.9,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    },
+    "R": {
+     "value": 0.08,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    },
+    "r": {
+     "value": 0.02,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    }
+   },
+   "elephant_limb_upper": {
+    "L": {
+     "value": 0.9,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    },
+    "R_top": {
+     "value": 0.28,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    },
+    "R_bot": {
+     "value": 0.2,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    }
+   },
+   "elephant_limb_lower": {
+    "L": {
+     "value": 0.8,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    },
+    "R_top": {
+     "value": 0.2,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    },
+    "R_bot": {
+     "value": 0.13,
+     "unit": "m",
+     "source": "R-102 \u00a73",
+     "status": "Assumed"
+    }
+   },
+   "elephant_extra_volume_m3": {
+    "value": 0.5579071813853558,
+    "unit": "m3",
+    "source": "T-112: remainder so V reproduces R-102 \u00a73 5.23 m3 (ears, trunk)",
+    "status": "Assumed"
+   },
+   "elephant_volume_m3": {
+    "value": 5.23,
+    "unit": "m3",
+    "source": "R-102 \u00a73",
+    "status": "Derived"
+   },
+   "elephant_mass_min_kg": {
+    "value": 3000,
+    "unit": "kg",
+    "source": "R-102 \u00a711.3 M-103.1 (recalled elephant range)",
+    "status": "Assumed"
+   },
+   "elephant_mass_max_kg": {
+    "value": 6000,
+    "unit": "kg",
+    "source": "R-102 \u00a711.3 M-103.1",
+    "status": "Assumed"
+   }
+  }
+ },
+ "material": {
+  "tissue_ref": "kaiju_tissue@v1",
+  "bone_yield_Pa": {
+   "value": 600000000.0,
+   "unit": "Pa",
+   "source": "R-102 \u00a74.3 shared tissue",
+   "status": "Assumed"
+  },
+  "muscle_isometric_Pa": {
+   "value": 6000000.0,
+   "unit": "Pa",
+   "source": "R-102 \u00a74.3 shared tissue",
+   "status": "Assumed"
+  },
+  "muscle_utilisation_max": {
+   "value": 0.85,
+   "unit": "1",
+   "source": "R-102 \u00a74.3",
+   "status": "Assumed"
+  },
+  "bone_sf_walk_min": {
+   "value": 2.5,
+   "unit": "1",
+   "source": "R-102 \u00a711.3 M-103.3 (Biewener 2-4 [3])",
+   "status": "Assumed"
+  },
+  "bone_sf_charge_min": {
+   "value": 2.0,
+   "unit": "1",
+   "source": "R-102 \u00a711.3 M-103.3",
+   "status": "Assumed"
+  }
+ },
+ "limb_model": {
+  "phi_static": {
+   "value": 0.25,
+   "unit": "1",
+   "source": "1 / n_limbs",
+   "status": "Derived"
+  },
+  "phi_peak": {
+   "value": 0.3,
+   "unit": "1",
+   "source": "R-102 \u00a72 (most loaded of four)",
+   "status": "Assumed"
+  },
+  "k_a": {
+   "value": 0.9,
+   "unit": "1",
+   "source": "R-102 \u00a72 K(Fr)=a+b Fr",
+   "status": "Assumed"
+  },
+  "k_b": {
+   "value": 1.2,
+   "unit": "1",
+   "source": "R-102 \u00a72",
+   "status": "Assumed"
+  },
+  "e_frac": {
+   "value": 0.25,
+   "unit": "1",
+   "source": "R-102 \u00a72/\u00a73 posture",
+   "status": "Assumed"
+  },
+  "cortex_q": {
+   "value": 0.4,
+   "unit": "1",
+   "source": "R-102 \u00a72 tube ID/OD",
+   "status": "Assumed"
+  },
+  "ema": {
+   "value": 0.9,
+   "unit": "1",
+   "source": "R-102 \u00a72",
+   "status": "Assumed"
+  },
+  "bone_area_share": {
+   "value": 0.15,
+   "unit": "1",
+   "source": "R-102 \u00a74.3",
+   "status": "Assumed"
+  },
+  "muscle_area_share": {
+   "value": 0.5,
+   "unit": "1",
+   "source": "R-102 \u00a74.3",
+   "status": "Assumed"
+  },
+  "limb_area_m2": {
+   "value": 105.68317686676065,
+   "unit": "m2",
+   "source": "pi R_mid^2, R_mid = mean(R_top,R_bot) of upper limb",
+   "status": "Derived"
+  }
+ },
+ "damage": {
+  "phi_one_limb_lost": {
+   "value": 0.4,
+   "unit": "1",
+   "source": "R-102 \u00a79",
+   "status": "Assumed"
+  },
+  "phi_two_limbs_lost": {
+   "value": 0.6,
+   "unit": "1",
+   "source": "R-102 \u00a79",
+   "status": "Assumed"
+  },
+  "fr_crawl": {
+   "value": 0.05,
+   "unit": "1",
+   "source": "R-102 \u00a79",
+   "status": "Assumed"
+  }
+ },
+ "gait": {
+  "fr_cruise": {
+   "value": 0.2,
+   "unit": "1",
+   "source": "R-102 \u00a75 (calibrate)",
+   "status": "Assumed"
+  },
+  "fr_band_min": {
+   "value": 0.1,
+   "unit": "1",
+   "source": "R-102 \u00a75",
+   "status": "Assumed"
+  },
+  "fr_band_max": {
+   "value": 0.3,
+   "unit": "1",
+   "source": "R-102 \u00a75",
+   "status": "Assumed"
+  },
+  "fr_charge_cap": {
+   "value": 0.35,
+   "unit": "1",
+   "source": "R-102 \u00a74.3 stress cap, rounded down",
+   "status": "Assumed"
+  },
+  "duty_factor_min": {
+   "value": 0.6,
+   "unit": "1",
+   "source": "R-102 \u00a75 [4]",
+   "status": "Assumed"
+  },
+  "duty_factor_max": {
+   "value": 0.72,
+   "unit": "1",
+   "source": "R-102 \u00a75 [4]",
+   "status": "Assumed"
+  },
+  "duty_factor_cruise": {
+   "value": 0.66,
+   "unit": "1",
+   "source": "T-112: inside band, rising with mass [4]",
+   "status": "Assumed"
+  },
+  "stride_k": {
+   "value": 2.3,
+   "unit": "1",
+   "source": "Alexander 1976 via R-001 [11][12]",
+   "status": "Sourced"
+  },
+  "stride_exp": {
+   "value": -0.2,
+   "unit": "1",
+   "source": "R-102 \u00a72 / R-001",
+   "status": "Sourced"
+  },
+  "start_strides_min": {
+   "value": 1.25,
+   "unit": "strides",
+   "source": "R-102 \u00a75",
+   "status": "Assumed"
+  },
+  "start_strides_max": {
+   "value": 2.0,
+   "unit": "strides",
+   "source": "R-102 \u00a75",
+   "status": "Assumed"
+  },
+  "stop_strides_min": {
+   "value": 0.75,
+   "unit": "strides",
+   "source": "R-102 \u00a75",
+   "status": "Assumed"
+  },
+  "stop_strides_max": {
+   "value": 1.5,
+   "unit": "strides",
+   "source": "R-102 \u00a75",
+   "status": "Assumed"
+  },
+  "yaw_rate_max_dps": {
+   "value": 25.91719120583864,
+   "unit": "deg/s",
+   "source": "R-001 \u00a73 scaling 26.7 sqrt(42.4/l)",
+   "status": "Derived"
+  },
+  "yaw_accel_max_dps2": {
+   "value": 3.7688888888888887,
+   "unit": "deg/s2",
+   "source": "R-001 4 x 42.4/l",
+   "status": "Derived"
+  },
+  "lateral_g_max": {
+   "value": 0.12987012987012986,
+   "unit": "g",
+   "source": "half of tipping limit (w/2)/h",
+   "status": "Derived"
+  },
+  "power_w_per_kg": {
+   "value": 15.0,
+   "unit": "W/kg",
+   "source": "R-001 \u00a72",
+   "status": "Assumed"
+  },
+  "resist_c": {
+   "value": 0.05,
+   "unit": "1",
+   "source": "R-001 \u00a72",
+   "status": "Assumed"
+  },
+  "accel_cap_g": {
+   "value": 0.14,
+   "unit": "g",
+   "source": "R-102 \u00a75",
+   "status": "Assumed"
+  },
+  "cruise_speed_ms": {
+   "value": 9.394671362000908,
+   "unit": "m/s",
+   "source": "sqrt(Fr g l)",
+   "status": "Derived"
+  },
+  "max_speed_ms": {
+   "value": 12.427982036517431,
+   "unit": "m/s",
+   "source": "sqrt(Fr_cap g l)",
+   "status": "Derived"
+  },
+  "stride_period_cruise_s": {
+   "value": 6.797790186661649,
+   "unit": "s",
+   "source": "k Fr^exp sqrt(l/g)",
+   "status": "Derived"
+  },
+  "stride_period_charge_s": {
+   "value": 6.077992309727818,
+   "unit": "s",
+   "source": "k Fr^exp sqrt(l/g)",
+   "status": "Derived"
+  },
+  "accel_power_cruise_ms2": {
+   "value": 1.1063172839052935,
+   "unit": "m/s2",
+   "source": "P/(m v) - c g",
+   "status": "Derived"
+  }
+ },
+ "stance": {
+  "rear_mode_allowed": {
+   "value": 1,
+   "unit": "bool",
+   "source": "R-102 \u00a74.4 / Q-NEW-2",
+   "status": "Assumed"
+  },
+  "rear_time_max_s": {
+   "value": 20,
+   "unit": "s",
+   "source": "Q-NEW-2",
+   "status": "Assumed"
+  },
+  "rear_phi": {
+   "value": 0.5,
+   "unit": "1",
+   "source": "R-102 \u00a74.4",
+   "status": "Assumed"
+  },
+  "rear_fr": {
+   "value": 0.05,
+   "unit": "1",
+   "source": "R-102 \u00a74.4",
+   "status": "Assumed"
+  },
+  "swim_speed_max_ms": {
+   "value": 3.0,
+   "unit": "m/s",
+   "source": "Q-NEW-4",
+   "status": "Assumed"
+  }
+ },
+ "attacks": [
+  {
+   "id": "claw_swipe",
+   "kind": "Swipe",
+   "m_eff_kg": {
+    "value": 420000.0,
+    "unit": "kg",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "v_tip_ms": {
+    "value": 28,
+    "unit": "m/s",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "muscle_mass_kg": {
+    "value": 421000.0,
+    "unit": "kg",
+    "source": "T-112: sized so R-102 \u00a76 energy is reproduced (muscle-limited) or exceeds KE",
+    "status": "Assumed"
+   },
+   "work_J_kg": {
+    "value": 70.0,
+    "unit": "J/kg",
+    "source": "R-102 \u00a76 (recalled)",
+    "status": "Assumed"
+   },
+   "elastic_amp": {
+    "value": 4.0,
+    "unit": "1",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "drop_height_m": {
+    "value": 0,
+    "unit": "m",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "target_mass_kg": {
+    "value": 0,
+    "unit": "kg",
+    "source": "R-102 \u00a76 mech 10,000 t",
+    "status": "Assumed"
+   },
+   "restitution": {
+    "value": 0.1,
+    "unit": "1",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "hold_force_N": {
+    "value": 0,
+    "unit": "N",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "muscle_area_m2": {
+    "value": 0,
+    "unit": "m2",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "E_cap_J": {
+    "value": 117880000.0,
+    "unit": "J",
+    "source": "R-102 \u00a76 bound, recomputed",
+    "status": "Derived"
+   },
+   "impulse_Ns": {
+    "value": 11760000.0,
+    "unit": "N*s",
+    "source": "R-102 \u00a76",
+    "status": "Derived"
+   },
+   "cooldown_s": {
+    "value": 10,
+    "unit": "s",
+    "source": "R-102 \u00a76/Q-NEW-2",
+    "status": "Assumed"
+   },
+   "reach_m": {
+    "value": 45,
+    "unit": "m",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   }
+  },
+  {
+   "id": "rearing_slam",
+   "kind": "Slam",
+   "m_eff_kg": {
+    "value": 12250000.0,
+    "unit": "kg",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "v_tip_ms": {
+    "value": 22,
+    "unit": "m/s",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "muscle_mass_kg": {
+    "value": 0,
+    "unit": "kg",
+    "source": "T-112: sized so R-102 \u00a76 energy is reproduced (muscle-limited) or exceeds KE",
+    "status": "Assumed"
+   },
+   "work_J_kg": {
+    "value": 70.0,
+    "unit": "J/kg",
+    "source": "R-102 \u00a76 (recalled)",
+    "status": "Assumed"
+   },
+   "elastic_amp": {
+    "value": 4.0,
+    "unit": "1",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "drop_height_m": {
+    "value": 25,
+    "unit": "m",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "target_mass_kg": {
+    "value": 0,
+    "unit": "kg",
+    "source": "R-102 \u00a76 mech 10,000 t",
+    "status": "Assumed"
+   },
+   "restitution": {
+    "value": 0.1,
+    "unit": "1",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "hold_force_N": {
+    "value": 0,
+    "unit": "N",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "muscle_area_m2": {
+    "value": 0,
+    "unit": "m2",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "E_cap_J": {
+    "value": 3003286562.5,
+    "unit": "J",
+    "source": "R-102 \u00a76 bound, recomputed",
+    "status": "Derived"
+   },
+   "impulse_Ns": {
+    "value": 269500000.0,
+    "unit": "N*s",
+    "source": "R-102 \u00a76",
+    "status": "Derived"
+   },
+   "cooldown_s": {
+    "value": 40,
+    "unit": "s",
+    "source": "R-102 \u00a76/Q-NEW-2",
+    "status": "Assumed"
+   },
+   "reach_m": {
+    "value": 45,
+    "unit": "m",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   }
+  },
+  {
+   "id": "grapple_squeeze",
+   "kind": "Grapple",
+   "m_eff_kg": {
+    "value": 0,
+    "unit": "kg",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "v_tip_ms": {
+    "value": 0,
+    "unit": "m/s",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "muscle_mass_kg": {
+    "value": 0,
+    "unit": "kg",
+    "source": "T-112: sized so R-102 \u00a76 energy is reproduced (muscle-limited) or exceeds KE",
+    "status": "Assumed"
+   },
+   "work_J_kg": {
+    "value": 70.0,
+    "unit": "J/kg",
+    "source": "R-102 \u00a76 (recalled)",
+    "status": "Assumed"
+   },
+   "elastic_amp": {
+    "value": 4.0,
+    "unit": "1",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "drop_height_m": {
+    "value": 0,
+    "unit": "m",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "target_mass_kg": {
+    "value": 0,
+    "unit": "kg",
+    "source": "R-102 \u00a76 mech 10,000 t",
+    "status": "Assumed"
+   },
+   "restitution": {
+    "value": 0.1,
+    "unit": "1",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "hold_force_N": {
+    "value": 196000000.0,
+    "unit": "N",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "muscle_area_m2": {
+    "value": 108,
+    "unit": "m2",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "E_cap_J": {
+    "value": 0.0,
+    "unit": "J",
+    "source": "R-102 \u00a76 bound, recomputed",
+    "status": "Derived"
+   },
+   "impulse_Ns": {
+    "value": 0.0,
+    "unit": "N*s",
+    "source": "R-102 \u00a76",
+    "status": "Derived"
+   },
+   "cooldown_s": {
+    "value": 30,
+    "unit": "s",
+    "source": "R-102 \u00a76/Q-NEW-2",
+    "status": "Assumed"
+   },
+   "reach_m": {
+    "value": 45,
+    "unit": "m",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   }
+  },
+  {
+   "id": "body_rush",
+   "kind": "Rush",
+   "m_eff_kg": {
+    "value": 35004604.935966544,
+    "unit": "kg",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "v_tip_ms": {
+    "value": 12.427982036517431,
+    "unit": "m/s",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "muscle_mass_kg": {
+    "value": 0,
+    "unit": "kg",
+    "source": "T-112: sized so R-102 \u00a76 energy is reproduced (muscle-limited) or exceeds KE",
+    "status": "Assumed"
+   },
+   "work_J_kg": {
+    "value": 70.0,
+    "unit": "J/kg",
+    "source": "R-102 \u00a76 (recalled)",
+    "status": "Assumed"
+   },
+   "elastic_amp": {
+    "value": 4.0,
+    "unit": "1",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "drop_height_m": {
+    "value": 0,
+    "unit": "m",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "target_mass_kg": {
+    "value": 10000000.0,
+    "unit": "kg",
+    "source": "R-102 \u00a76 mech 10,000 t",
+    "status": "Assumed"
+   },
+   "restitution": {
+    "value": 0.1,
+    "unit": "1",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "hold_force_N": {
+    "value": 0,
+    "unit": "N",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "muscle_area_m2": {
+    "value": 0,
+    "unit": "m2",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   },
+   "E_cap_J": {
+    "value": 600674872.534552,
+    "unit": "J",
+    "source": "R-102 \u00a76 bound, recomputed",
+    "status": "Derived"
+   },
+   "impulse_Ns": {
+    "value": 106331399.23223777,
+    "unit": "N*s",
+    "source": "R-102 \u00a76",
+    "status": "Derived"
+   },
+   "cooldown_s": {
+    "value": 25,
+    "unit": "s",
+    "source": "R-102 \u00a76/Q-NEW-2",
+    "status": "Assumed"
+   },
+   "reach_m": {
+    "value": 10,
+    "unit": "m",
+    "source": "R-102 \u00a76",
+    "status": "Assumed"
+   }
+  }
+ ],
+ "water": {
+  "rho_w_kg_m3": {
+   "value": 1025,
+   "unit": "kg/m3",
+   "source": "R-102 \u00a77",
+   "status": "Assumed"
+  },
+  "floats": {
+   "value": 1,
+   "unit": "bool",
+   "source": "rho < rho_w",
+   "status": "Derived"
+  },
+  "draft_fraction": {
+   "value": 0.9560975609756097,
+   "unit": "1",
+   "source": "rho/rho_w, 1 when it sinks",
+   "status": "Derived"
+  },
+  "belly_clearance_m": {
+   "value": 32,
+   "unit": "m",
+   "source": "hip height - trunk half-depth c",
+   "status": "Derived"
+  }
+ },
+ "soil": {
+  "static_pressure_Pa": {
+   "value": 858194.7724882407,
+   "unit": "Pa",
+   "source": "m g / (4 A_foot)",
+   "status": "Derived"
+  },
+  "peak_pressure_Pa": {
+   "value": 2265634.1993689556,
+   "unit": "Pa",
+   "source": "m g K(Fr_cap) / (2 A_foot)",
+   "status": "Derived"
+  },
+  "soil_ultimate_Pa": {
+   "value": 432000.0,
+   "unit": "Pa",
+   "source": "R-102 \u00a78: 3 x sandy gravel allowable 144 kPa (R-005 [33])",
+   "status": "Assumed"
+  },
+  "sinks": {
+   "value": 1,
+   "unit": "bool",
+   "source": "static pressure > soil ultimate",
+   "status": "Derived"
+  }
+ },
+ "pack": {
+  "role_affinity_anchor": {
+   "value": 0.5,
+   "unit": "1",
+   "source": "R-103 \u00a74.2",
+   "status": "Assumed"
+  },
+  "role_affinity_flanker": {
+   "value": 0.8,
+   "unit": "1",
+   "source": "R-103 \u00a74.2",
+   "status": "Assumed"
+  },
+  "role_affinity_bait": {
+   "value": 0.4,
+   "unit": "1",
+   "source": "R-103 \u00a74.2",
+   "status": "Assumed"
+  },
+  "role_affinity_raider": {
+   "value": 0.7,
+   "unit": "1",
+   "source": "R-103 \u00a74.2",
+   "status": "Assumed"
+  },
+  "preferred_range_min_m": {
+   "value": 45,
+   "unit": "m",
+   "source": "R-102 \u00a711.1",
+   "status": "Assumed"
+  },
+  "preferred_range_max_m": {
+   "value": 45,
+   "unit": "m",
+   "source": "R-102 \u00a711.1",
+   "status": "Assumed"
+  },
+  "max_pack_size_hint": {
+   "value": 4,
+   "unit": "1",
+   "source": "Q-204",
+   "status": "Assumed"
+  }
+ },
+ "render_hints": {
+  "silhouette_id": "breacher_s1",
+  "px_features": [
+   "hump",
+   "heavy forearms R 7 m",
+   "thick tail root 13 m"
+  ],
+  "palette_id": "breacher_p0"
+ },
+ "provenance": {
+  "citations": [
+   "R-102 \u00a73-\u00a79",
+   "R-001 \u00a71-\u00a73",
+   "R-103 \u00a74.2"
+  ],
+  "derivation_version": "T-112 v1",
+  "assumed_fields": [
+   "material.bone_yield_Pa",
+   "material.muscle_isometric_Pa"
+  ]
+ }
+}

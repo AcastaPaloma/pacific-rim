@@ -1,0 +1,68 @@
+{
+ "schema": "capture_path@v1",
+ "path_id": "p3_a_golden_gate_v3",
+ "pillar": "P3",
+ "viewpoint": {
+  "id": "V3",
+  "tile": "L0_26_38",
+  "baytm": [
+   55004.615,
+   78793.17
+  ],
+  "heading_deg": 180
+ },
+ "profile_id": "warm_amber_haze",
+ "district_id": "SF-GoldenGate",
+ "time_of_day": "fixed_v1",
+ "fps": 60,
+ "duration_s": 6.0,
+ "seed": 147019,
+ "interpolation": "linear",
+ "keyframes": [
+  {
+   "t_s": 0,
+   "pos_baytm": [
+    55004.615,
+    78793.17
+   ],
+   "alt_m": 1.7,
+   "yaw_deg": 180,
+   "pitch_deg": 2.2,
+   "hfov_deg": 60
+  },
+  {
+   "t_s": 6,
+   "pos_baytm": [
+    55004.615,
+    78793.17
+   ],
+   "alt_m": 1.7,
+   "yaw_deg": 180,
+   "pitch_deg": 2.2,
+   "hfov_deg": 60
+  }
+ ],
+ "shake": [],
+ "snap": {
+  "enabled": true,
+  "dither_anchor": "direction"
+ },
+ "outputs": [
+  {
+   "internal_wh": [
+    480,
+    270
+   ],
+   "output_wh": [
+    1920,
+    1080
+   ],
+   "scale": 4
+  }
+ ],
+ "mode": "clip",
+ "actors": null,
+ "requires": [],
+ "reference_depth_m": 600,
+ "notes": "P3-a on the real Marin tile (L0_26_38) as streamed today; the plan's full frame waits for M2 streaming of the bridge approach. T-190: framing changed for M-003.e (horizon <= 0.45 needs pitch up >= 2 deg; sky share <= 0.5 needs skyline above the horizon): pitch 2.2, alt 1.7, yaw [180]. T-190: the camera is static (the 180 m walk is removed): a walk of even 5 m moves sunlit near terrain into the near depth bands (band 0 empties, frame 5 of the clip) (M-003.c1 is content dependent on real geometry, see HANDOFF T-190)."
+}

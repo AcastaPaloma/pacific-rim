@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "name": "m3_haze_far_lift",
+  "comment": "T-190: M0StyleFrame plus rendering.pixel.hazeFarLift (far haze lift per profile, PaletteProfileTuning.json hazeFar*). Default-off flag; the shipped M0 configuration is unchanged.",
+  "enable": [
+    "rendering.pixel.enabled",
+    "rendering.pixel.lowRes",
+    "rendering.pixel.dither",
+    "rendering.pixel.haze",
+    "rendering.pixel.quantise",
+    "rendering.pixel.subPixelPresent",
+    "rendering.pixel.hazeFarLift",
+    "camera.thirdPersonRig",
+    "camera.snapPosition",
+    "camera.quantiseRotation",
+    "camera.footfallImpulse"
+  ]
+}

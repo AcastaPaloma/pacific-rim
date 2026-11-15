@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- T-030c: the engine-free adapters of the composition layer (PlaceholderDamageAdapter) and their tests, compiled without Unity. The same test source runs in Unity EditMode. -->
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <AssemblyName>Game.Composition.Adapters.Tests</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../Assets/Game/Composition/Runtime/PlaceholderDamageAdapter.cs" />
+    <Compile Include="../../Assets/Game/Composition/Tests/EditMode/PlaceholderDamageAdapterTests.cs" />
+    <Compile Include="../../Assets/Game/Composition/Runtime/DestructionSaveInstaller.cs" />
+    <Compile Include="../../Assets/Game/Composition/Tests/EditMode/DestructionSaveRegistrationTests.cs" />
+    <Compile Include="../../Assets/Game/Composition/Runtime/MetaAdapters.cs" />
+    <Compile Include="../../Assets/Game/Composition/Runtime/MetaInstaller.cs" />
+    <Compile Include="../../Assets/Game/Composition/Tests/EditMode/MetaCompositionTests.cs" />
+    <Compile Include="../../Assets/Game/Composition/Tests/EditMode/MetaTuningTests.cs" />
+    <Compile Include="../../Assets/Game/Composition/Runtime/BayRasterCostField.cs" />
+    <Compile Include="../../Assets/Game/Composition/Tests/EditMode/BayRasterCostFieldTests.cs" />
+    <Compile Include="../../Assets/Game/Composition/Runtime/PackInstaller.cs" />
+    <Compile Include="../../Assets/Game/Composition/Tests/EditMode/PackCompositionTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../AI.Contracts/AI.Contracts.csproj" />
+    <ProjectReference Include="../AI.Scripted/AI.Scripted.csproj" />
+    <ProjectReference Include="../AI.Pack/AI.Pack.csproj" />
+    <ProjectReference Include="../Units.Kaiju/Units.Kaiju.csproj" />
+    <ProjectReference Include="../Units.Kaiju.Contracts/Units.Kaiju.Contracts.csproj" />
+    <ProjectReference Include="../WorldEmergence/WorldEmergence.csproj" />
+    <ProjectReference Include="../WorldEmergence.Contracts/WorldEmergence.Contracts.csproj" />
+    <ProjectReference Include="../WorldSeismic/WorldSeismic.csproj" />
+    <ProjectReference Include="../WorldSeismic.Contracts/WorldSeismic.Contracts.csproj" />
+    <ProjectReference Include="../Hangar/Hangar.csproj" />
+    <ProjectReference Include="../Hangar.Contracts/Hangar.Contracts.csproj" />
+    <ProjectReference Include="../Units.Placeholder.Contracts/Units.Placeholder.Contracts.csproj" />
+    <ProjectReference Include="../Core.Contracts/Core.Contracts.csproj" />
+    <ProjectReference Include="../Core/Core.csproj" />
+    <ProjectReference Include="../WorldDestruction/WorldDestruction.csproj" />
+    <ProjectReference Include="../WorldDestruction.Contracts/WorldDestruction.Contracts.csproj" />
+    <ProjectReference Include="../WorldGeo.Contracts/WorldGeo.Contracts.csproj" />
+    <ProjectReference Include="../Meta.Economy/Meta.Economy.csproj" />
+    <ProjectReference Include="../Meta.Economy.Contracts/Meta.Economy.Contracts.csproj" />
+    <ProjectReference Include="../Meta.Salvage/Meta.Salvage.csproj" />
+    <ProjectReference Include="../Meta.Salvage.Contracts/Meta.Salvage.Contracts.csproj" />
+    <ProjectReference Include="../Meta.Roster/Meta.Roster.csproj" />
+    <ProjectReference Include="../Meta.Roster.Contracts/Meta.Roster.Contracts.csproj" />
+    <ProjectReference Include="../Meta.Refit/Meta.Refit.csproj" />
+    <ProjectReference Include="../Meta.Refit.Contracts/Meta.Refit.Contracts.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+  </ItemGroup>
+</Project>

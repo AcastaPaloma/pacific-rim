@@ -1,0 +1,71 @@
+{
+ "schema": "capture_path@v1",
+ "path_id": "p1_d_approach_t192",
+ "pillar": "P1",
+ "viewpoint": {
+  "id": "V5",
+  "tile": "L0_30_36",
+  "baytm": [
+   61591.4,
+   75450.7
+  ],
+  "heading_deg": 156
+ },
+ "profile_id": "slate_crimson",
+ "district_id": "SF-CoitTower",
+ "time_of_day": "fixed_v1",
+ "fps": 60,
+ "duration_s": 3.0,
+ "seed": 147019,
+ "interpolation": "ease_in_out",
+ "keyframes": [
+  {
+   "t_s": 0,
+   "pos_baytm": [
+    61591.4,
+    75450.7
+   ],
+   "alt_navd88": 88,
+   "yaw_deg": 156,
+   "pitch_deg": 2.2,
+   "hfov_deg": 60
+  },
+  {
+   "t_s": 3.0,
+   "pos_baytm": [
+    61591.4,
+    75360.7
+   ],
+   "alt_navd88": 88,
+   "yaw_deg": 156,
+   "pitch_deg": 2.2,
+   "hfov_deg": 60
+  }
+ ],
+ "shake": [],
+ "snap": {
+  "enabled": true,
+  "dither_anchor": "direction"
+ },
+ "outputs": [
+  {
+   "internal_wh": [
+    480,
+    270
+   ],
+   "output_wh": [
+    1920,
+    1080
+   ],
+   "scale": 4
+  }
+ ],
+ "mode": "clip",
+ "actors": null,
+ "requires": [],
+ "reference_depth_m": 600,
+ "hide_bids": [
+  "osm:w28824850"
+ ],
+ "notes": "T-192 seam-report path: along-view 90 m in 3 s at 88 m"
+}

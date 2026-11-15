@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Console runner of the m007_bay harness: writes brain_log@v2 JSONL for Tools/m007_bay.py (T-115). Arguments: see Program.cs. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net11.0</TargetFramework>
+    <AssemblyName>Game.AI.PackHarness.Run</AssemblyName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="../../Assets/Game/Composition/Runtime/PackInstaller.cs" />
+    <Compile Include="../../Assets/Game/Composition/Runtime/BayRasterCostField.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../AI.PackHarness/AI.PackHarness.csproj" />
+    <ProjectReference Include="../AI.Pack/AI.Pack.csproj" />
+    <ProjectReference Include="../AI.Scripted/AI.Scripted.csproj" />
+    <ProjectReference Include="../AI.Contracts/AI.Contracts.csproj" />
+    <ProjectReference Include="../Units.Kaiju/Units.Kaiju.csproj" />
+    <ProjectReference Include="../Units.Kaiju.Contracts/Units.Kaiju.Contracts.csproj" />
+    <ProjectReference Include="../WorldEmergence/WorldEmergence.csproj" />
+    <ProjectReference Include="../WorldEmergence.Contracts/WorldEmergence.Contracts.csproj" />
+    <ProjectReference Include="../WorldSeismic/WorldSeismic.csproj" />
+    <ProjectReference Include="../WorldSeismic.Contracts/WorldSeismic.Contracts.csproj" />
+    <ProjectReference Include="../WorldGeo.Contracts/WorldGeo.Contracts.csproj" />
+    <ProjectReference Include="../Core/Core.csproj" />
+    <ProjectReference Include="../Core.Contracts/Core.Contracts.csproj" />
+  </ItemGroup>
+</Project>

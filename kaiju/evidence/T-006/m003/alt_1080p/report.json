@@ -1,0 +1,833 @@
+{
+ "assumed_thresholds_decisive": [
+  "M-003.a.internal",
+  "M-003.c1"
+ ],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [
+   "lavender_peach: 0 gameplay frames (< 12)",
+   "slate_crimson: 0 gameplay frames (< 12)",
+   "slate_teal: 3 gameplay frames (< 12)",
+   "warm_amber_haze: 0 gameplay frames (< 12)",
+   "warm_rust_sepia: 0 gameplay frames (< 12)",
+   "haze_cal sequence (M-003 c2)"
+  ],
+  "optional_not_provided": [],
+  "provided": [
+   "slate_teal: 3 frames"
+  ],
+  "required": [
+   "lavender_peach >= 12 frames",
+   "slate_crimson >= 12 frames",
+   "slate_teal >= 12 frames",
+   "warm_amber_haze >= 12 frames",
+   "warm_rust_sepia >= 12 frames",
+   "haze_cal"
+  ]
+ },
+ "exit_code": 3,
+ "extra": {
+  "frames": [
+   {
+    "A2_int": 1.0,
+    "A2_out": 1.0,
+    "A3_out": 1.0,
+    "A5_out": 1.0,
+    "DIG": 0.291743080588,
+    "O": 0.810038768993,
+    "accent_share": null,
+    "composition": {
+     "contrast": 27.4877996792,
+     "horizon": 0.298867755448,
+     "sky_share": 0.384166666667
+    },
+    "depth": {
+     "bands": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "max_drop": 0.38654685296,
+     "meanL": [
+      28.5346086405,
+      28.1480617876,
+      32.5546135251,
+      46.5725328533,
+      48.7467435751
+     ],
+     "rho": 0.9,
+     "span": 20.2121349345
+    },
+    "dither_evaluated": true,
+    "frame": "alt_1080p/slate_teal_closer/f000000",
+    "gradient_share": 0.366041666667,
+    "grid_uniform": 1.0,
+    "hue_families": 1,
+    "hue_peaks": [
+     [
+      269,
+      1.0
+     ]
+    ],
+    "levels": 6,
+    "off_palette_px_out": 0,
+    "profile": "slate_teal"
+   },
+   {
+    "A2_int": 1.0,
+    "A2_out": 1.0,
+    "A3_out": 1.0,
+    "A5_out": 1.0,
+    "DIG": 0.490443390882,
+    "O": 1.06105707067,
+    "accent_share": null,
+    "composition": {
+     "contrast": 40.1089828059,
+     "horizon": 0.511111281568,
+     "sky_share": 0.459675925926
+    },
+    "depth": {
+     "bands": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "max_drop": 0.0,
+     "meanL": [
+      26.9218217189,
+      30.3140611868,
+      35.0484163017,
+      44.3001061643
+     ],
+     "rho": 1.0,
+     "span": 17.3782844453
+    },
+    "dither_evaluated": true,
+    "frame": "alt_1080p/slate_teal_waterfront/f000000",
+    "gradient_share": 0.258773148148,
+    "grid_uniform": 1.0,
+    "hue_families": 1,
+    "hue_peaks": [
+     [
+      270,
+      1.0
+     ]
+    ],
+    "levels": 6,
+    "off_palette_px_out": 0,
+    "profile": "slate_teal"
+   },
+   {
+    "A2_int": 1.0,
+    "A2_out": 1.0,
+    "A3_out": 1.0,
+    "A5_out": 1.0,
+    "DIG": 0.412081000419,
+    "O": 1.04894322084,
+    "accent_share": null,
+    "composition": {
+     "contrast": 25.7470400159,
+     "horizon": 0.425868865053,
+     "sky_share": 0.420447530864
+    },
+    "depth": {
+     "bands": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "max_drop": 0.0,
+     "meanL": [
+      30.4985451924,
+      34.8053657142,
+      44.8813475972,
+      46.9397684598
+     ],
+     "rho": 1.0,
+     "span": 16.4412232674
+    },
+    "dither_evaluated": true,
+    "frame": "alt_1080p/slate_teal_wider/f000000",
+    "gradient_share": 0.312831790123,
+    "grid_uniform": 1.0,
+    "hue_families": 1,
+    "hue_peaks": [
+     [
+      269,
+      1.0
+     ]
+    ],
+    "levels": 6,
+    "off_palette_px_out": 0,
+    "profile": "slate_teal"
+   }
+  ]
+ },
+ "failing_gating": [],
+ "failures_suppressed": false,
+ "flags": [],
+ "headless_verdict": "INCOMPLETE",
+ "headless_verdict_label": "INCOMPLETE",
+ "images": [
+  "diag_M-003a_dE00_heatmap.png",
+  "diag_M-003b_dither_mask.png",
+  "diag_M-003d4_nonuniform_blocks.png"
+ ],
+ "inputs": [
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_closer/f000000.json",
+   "role": "style_capture@v1",
+   "sha256": "4a26dd748fd57cd096ff0392fe34ad0f79fa505a5351bcec452346a2213dc7bb"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_closer/f000000_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "c89df4f20b89985b35d26a2a7d24b4f08d1039f9d215d69441d545194acee3bf"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_closer/f000000_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "00054b12e106b0ef6ae0e0dcb2fedbdee052acbe31dfa345807b379665247f88"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_closer/f000000_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "eafe7304e708aebaacc2728f3980691e7147cbd21716768bf2ee00cecd4d4027"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_closer/f000000_index.png",
+   "role": "style_capture@v1",
+   "sha256": "5e35a4418255890075abd80c8b7289d76638275e76467bb14073bc778916241f"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_closer/f000000_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_closer/sequence.json",
+   "role": "style_capture@v1",
+   "sha256": "21519b93b03f90272193af0758323ba57f7d666cb6c1737c9733b76a32b1bb15"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_waterfront/f000000.json",
+   "role": "style_capture@v1",
+   "sha256": "6c5a0d675216b7d2b7a9a2339f65ce647ec3e75a98d3edfaf0c9560c25d198f9"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_waterfront/f000000_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "e8bb6f215543c8694c4c8ed5e4c743992618e6510c445d717c7c2668a5ced564"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_waterfront/f000000_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "bf0fcbd8ecc1d61e47ba61821e554c2cccef2e82c4c872ec9f4306e1ebee34f5"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_waterfront/f000000_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "d9d74bc4ccbe0515324338f6f6d881dede90591418a7f7622cba26557394fbd5"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_waterfront/f000000_index.png",
+   "role": "style_capture@v1",
+   "sha256": "c1baa9e296e7ef52ee152f102f4dd6910603eb5fbae80195ba73cb22345d2f1c"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_waterfront/f000000_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_waterfront/sequence.json",
+   "role": "style_capture@v1",
+   "sha256": "6f3b8cf15a05e9d3edf2a9b26133d220e3ac3b7944402a3052a66bf94d51bd09"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_wider/f000000.json",
+   "role": "style_capture@v1",
+   "sha256": "c1935dc992fddb7f8420427bb4e2a510d04c1a825eaa2823b5746d97c4d260f3"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_wider/f000000_color_internal.png",
+   "role": "style_capture@v1",
+   "sha256": "7d2e9833e34a45a2978a0f563289d95e1b9143eaf16f956429e573df6a7a0dae"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_wider/f000000_color_output.png",
+   "role": "style_capture@v1",
+   "sha256": "736a5a6ca083adb886aec8883b3cbcade4f019d8b184a7eac2f9c11d8781c611"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_wider/f000000_depth.png",
+   "role": "style_capture@v1",
+   "sha256": "a6b6cfad68e529eb2fba57dafde59e6beb3ec823c5a9f2dfc09c8e0660dc0c41"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_wider/f000000_index.png",
+   "role": "style_capture@v1",
+   "sha256": "3fb67f1232aaa14aef4f4182dc975dd0a7127de9cac9affb780d285251529f56"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_wider/f000000_mask_animated.png",
+   "role": "style_capture@v1",
+   "sha256": "dd02471f66813ca189c56c44e39fd557f866d44a8bc25c47df86c330c813defe"
+  },
+  {
+   "path": "evidence/T-006/captures_local/alt_1080p/slate_teal_wider/sequence.json",
+   "role": "style_capture@v1",
+   "sha256": "ca53880cbf2560cf6bb4e30075848dc14482e8e0058164920396434f7c3b001c"
+  },
+  {
+   "path": "research/R-002/palettes.json",
+   "role": "palette_set@v1",
+   "sha256": "868527c5a439fb595732a1b002de3c69b2d4dc7ea81c5e711da7e10c4cd51649"
+  }
+ ],
+ "invocation": {
+  "command": "m003",
+  "inputs": [
+   "evidence/T-006/captures_local/alt_1080p"
+  ],
+  "label": "alt_1080p",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "alt_1080p",
+ "metric": "M-003",
+ "metric_version": "M-003@v1",
+ "normalisers": {},
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-003@v1.1.yaml",
+  "revision": "v1.1",
+  "sha256": "7a63afd06c6681ab3dc1480a407556dd499a53df0022c7eaf62256268bcc68a1",
+  "spec": "M-003@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "revw-172-31-218-200.rn.uwaterloo.ca",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-14T22:14:30Z",
+  "wall_time_s": 0.836
+ },
+ "submeasures": [
+  {
+   "decisive_part": "A_2 output worst frame alt_1080p/slate_teal_closer/f000000",
+   "diagnostics": {
+    "frame": "alt_1080p/slate_teal_closer/f000000",
+    "heat_map": "diag_M-003a_dE00_heatmap.png",
+    "per_frame": {
+     "alt_1080p/slate_teal_closer/f000000": 1.0,
+     "alt_1080p/slate_teal_waterfront/f000000": 1.0,
+     "alt_1080p/slate_teal_wider/f000000": 1.0
+    },
+    "where": "alt_1080p/slate_teal_closer/f000000 (0 output px beyond dE00 2.0)",
+    "worst_offenders": []
+   },
+   "id": "M-003.a.output",
+   "kind": "gating",
+   "margin": 0.05,
+   "margin_rel": 0.0526315789474,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.05,
+     "margin_rel": 0.0526315789474,
+     "name": "A_2 output worst frame alt_1080p/slate_teal_closer/f000000",
+     "off_palette_px": 0,
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.95,
+     "unit": "share",
+     "value": 1.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.95,
+   "threshold_status": "derived",
+   "title": "Palette adherence A_2 on color_output (share within dE00 <= T of the declared profile), worst frame",
+   "unit": "share",
+   "value": 1.0
+  },
+  {
+   "decisive_part": "A_2 internal worst frame alt_1080p/slate_teal_closer/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "alt_1080p/slate_teal_closer/f000000": 1.0,
+     "alt_1080p/slate_teal_waterfront/f000000": 1.0,
+     "alt_1080p/slate_teal_wider/f000000": 1.0
+    },
+    "where": "alt_1080p/slate_teal_closer/f000000"
+   },
+   "id": "M-003.a.internal",
+   "kind": "gating",
+   "margin": 0.005,
+   "margin_rel": 0.00502512562814,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.005,
+     "margin_rel": 0.00502512562814,
+     "name": "A_2 internal worst frame alt_1080p/slate_teal_closer/f000000",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.995,
+     "unit": "share",
+     "value": 1.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.995,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Palette adherence A_2 on color_internal, worst frame",
+   "unit": "share",
+   "value": 1.0
+  },
+  {
+   "diagnostics": {
+    "worst_frame": "alt_1080p/slate_teal_closer/f000000"
+   },
+   "id": "M-003.a.A3",
+   "kind": "info",
+   "note": null,
+   "parts": [],
+   "status": "REPORTED",
+   "threshold_status": "derived",
+   "title": "Palette adherence A_3 on color_output (informational), worst frame",
+   "unit": "share",
+   "value": 1.0
+  },
+  {
+   "diagnostics": {
+    "worst_frame": "alt_1080p/slate_teal_closer/f000000"
+   },
+   "id": "M-003.a.A5",
+   "kind": "info",
+   "note": null,
+   "parts": [],
+   "status": "REPORTED",
+   "threshold_status": "derived",
+   "title": "Palette adherence A_5 on color_output (informational), worst frame",
+   "unit": "share",
+   "value": 1.0
+  },
+  {
+   "decisive_part": "slate_teal: share of evaluated frames with DIG >= dig_min",
+   "diagnostics": {
+    "dither_mask": "diag_M-003b_dither_mask.png",
+    "frame": "alt_1080p/slate_teal_closer/f000000",
+    "per_frame_DIG": {
+     "alt_1080p/slate_teal_closer/f000000": 0.291743080588,
+     "alt_1080p/slate_teal_waterfront/f000000": 0.490443390882,
+     "alt_1080p/slate_teal_wider/f000000": 0.412081000419
+    },
+    "where": ""
+   },
+   "id": "M-003.b.DIG",
+   "kind": "gating",
+   "margin": 0.2,
+   "margin_rel": 0.25,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "dig_min": 0.15,
+     "evaluated": 3,
+     "margin": 0.2,
+     "margin_rel": 0.25,
+     "name": "slate_teal: share of evaluated frames with DIG >= dig_min",
+     "op": ">=",
+     "skipped": 0,
+     "status": "PASS",
+     "threshold": 0.8,
+     "unit": "share of frames",
+     "value": 1.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.8,
+   "threshold_status": "derived",
+   "title": "Dithering present in gradients, share of evaluated frames with DIG >= 0.15",
+   "unit": "share of frames",
+   "value": 1.0
+  },
+  {
+   "decisive_part": "max DIG alt_1080p/slate_teal_waterfront/f000000",
+   "diagnostics": {},
+   "id": "M-003.b.DIG_max",
+   "kind": "advisory",
+   "margin": 0.00955660911829,
+   "margin_rel": 0.0191132182366,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.00955660911829,
+     "margin_rel": 0.0191132182366,
+     "name": "max DIG alt_1080p/slate_teal_waterfront/f000000",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.5,
+     "unit": "DIG",
+     "value": 0.490443390882
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.5,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "DIG upper bound (a whole frame of dither reads as noise), worst frame",
+   "unit": "DIG",
+   "value": 0.490443390882
+  },
+  {
+   "diagnostics": {
+    "note": "Bayer/checker > 0.5, white noise ~ 0, clustered < 0 (advisory until Q-015)",
+    "per_frame_O": {
+     "alt_1080p/slate_teal_closer/f000000": 0.810038768993,
+     "alt_1080p/slate_teal_waterfront/f000000": 1.06105707067,
+     "alt_1080p/slate_teal_wider/f000000": 1.04894322084
+    }
+   },
+   "id": "M-003.b.O",
+   "kind": "advisory",
+   "note": null,
+   "parts": [],
+   "status": "REPORTED",
+   "threshold_status": "none",
+   "title": "Ordered index O = rho(lag 2) - rho(lag 1) (advisory without a threshold until Q-015), median over evaluated frames",
+   "unit": "O",
+   "value": 1.04894322084
+  },
+  {
+   "decisive_part": "alt_1080p/slate_teal_closer/f000000: Spearman rho(band, L*)",
+   "diagnostics": {
+    "frames_evaluated": 3,
+    "frames_skipped": 0,
+    "where": "alt_1080p/slate_teal_closer/f000000 bands [0, 1, 2, 3, 4] mean L* [28.5, 28.1, 32.6, 46.6, 48.7]"
+   },
+   "id": "M-003.c1",
+   "kind": "gating",
+   "margin": -2.22044604925e-16,
+   "margin_rel": -2.46716227694e-16,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 1.61345314704,
+     "margin_rel": 0.80672657352,
+     "name": "alt_1080p/slate_teal_closer/f000000: max band-to-band drop",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 2.0,
+     "unit": "L*",
+     "value": 0.38654685296
+    },
+    {
+     "margin": -2.22044604925e-16,
+     "margin_rel": -2.46716227694e-16,
+     "name": "alt_1080p/slate_teal_closer/f000000: Spearman rho(band, L*)",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.9,
+     "unit": "rho",
+     "value": 0.9
+    },
+    {
+     "margin": 5.21213493452,
+     "margin_rel": 0.347475662301,
+     "name": "alt_1080p/slate_teal_closer/f000000: far - near span",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 15.0,
+     "unit": "L*",
+     "value": 20.2121349345
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.9,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Value banding by depth monotonic on gameplay frames (drop, Spearman rho, span), worst frame",
+   "unit": "rho",
+   "value": 0.9
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.c2",
+   "kind": "gating",
+   "note": "no haze_cal sequence in the capture set",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "derived",
+   "title": "Contrast decreasing with distance on the haze_cal scene (signed light - dark dL*)",
+   "unit": "",
+   "value": null
+  },
+  {
+   "decisive_part": "value levels alt_1080p/slate_teal_closer/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "alt_1080p/slate_teal_closer/f000000": 6,
+     "alt_1080p/slate_teal_waterfront/f000000": 6,
+     "alt_1080p/slate_teal_wider/f000000": 6
+    }
+   },
+   "id": "M-003.d-i",
+   "kind": "gating",
+   "margin": 6,
+   "margin_rel": 0.5,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 6,
+     "margin_rel": 0.5,
+     "name": "value levels alt_1080p/slate_teal_closer/f000000",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 12,
+     "unit": "levels",
+     "value": 6
+    }
+   ],
+   "status": "PASS",
+   "threshold": 12,
+   "threshold_status": "derived",
+   "title": "Value levels (distinct L* of entries >= 0.5 %, merged at dL* < 4), worst frame",
+   "unit": "levels",
+   "value": 6
+  },
+  {
+   "decisive_part": "hue families alt_1080p/slate_teal_closer/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "alt_1080p/slate_teal_closer/f000000": 1,
+     "alt_1080p/slate_teal_waterfront/f000000": 1,
+     "alt_1080p/slate_teal_wider/f000000": 1
+    }
+   },
+   "id": "M-003.d-ii",
+   "kind": "gating",
+   "margin": 2,
+   "margin_rel": 0.666666666667,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 2,
+     "margin_rel": 0.666666666667,
+     "name": "hue families alt_1080p/slate_teal_closer/f000000",
+     "op": "<=",
+     "peaks": [
+      [
+       269,
+       1.0
+      ]
+     ],
+     "status": "PASS",
+     "threshold": 3,
+     "unit": "families",
+     "value": 1
+    }
+   ],
+   "status": "PASS",
+   "threshold": 3,
+   "threshold_status": "derived",
+   "title": "Hue families (chroma-weighted circular hue peaks >= 10 % mass), worst frame",
+   "unit": "families",
+   "value": 1
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.d-iii",
+   "kind": "advisory",
+   "note": "no accent present in any frame (applies only when present)",
+   "parts": [],
+   "spec_clause": "R-002 §4 d-iii: the accent share is checked when the accent is present",
+   "status": "NOT_APPLICABLE",
+   "threshold_status": "derived",
+   "title": "Accent share when present, worst frame",
+   "unit": "",
+   "value": null
+  },
+  {
+   "decisive_part": "uniform blocks alt_1080p/slate_teal_closer/f000000",
+   "diagnostics": {
+    "block_map": "diag_M-003d4_nonuniform_blocks.png",
+    "frame": "alt_1080p/slate_teal_closer/f000000",
+    "nonuniform_blocks": 0,
+    "per_frame": {
+     "alt_1080p/slate_teal_closer/f000000": 1.0,
+     "alt_1080p/slate_teal_waterfront/f000000": 1.0,
+     "alt_1080p/slate_teal_wider/f000000": 1.0
+    },
+    "where": "alt_1080p/slate_teal_closer/f000000"
+   },
+   "id": "M-003.d-iv",
+   "kind": "gating",
+   "margin": 0.005,
+   "margin_rel": 0.00502512562814,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.005,
+     "margin_rel": 0.00502512562814,
+     "name": "uniform blocks alt_1080p/slate_teal_closer/f000000",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.995,
+     "unit": "share of blocks",
+     "value": 1.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.995,
+   "threshold_status": "derived",
+   "title": "Pixel-grid integrity on color_output (uniform s x s blocks at the declared offset), worst frame",
+   "unit": "share of blocks",
+   "value": 1.0
+  },
+  {
+   "decisive_part": "sky_share alt_1080p/slate_teal_waterfront/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "alt_1080p/slate_teal_closer/f000000": 0.384166666667,
+     "alt_1080p/slate_teal_waterfront/f000000": 0.459675925926,
+     "alt_1080p/slate_teal_wider/f000000": 0.420447530864
+    }
+   },
+   "id": "M-003.e.sky",
+   "kind": "advisory",
+   "margin": 0.0403240740741,
+   "margin_rel": 0.0806481481481,
+   "note": null,
+   "op": "in",
+   "parts": [
+    {
+     "margin": 0.0403240740741,
+     "margin_rel": 0.0806481481481,
+     "name": "sky_share alt_1080p/slate_teal_waterfront/f000000",
+     "op": "in",
+     "status": "PASS",
+     "threshold": 0.2,
+     "threshold_hi": 0.5,
+     "unit": "",
+     "value": 0.459675925926
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.2,
+   "threshold_hi": 0.5,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Sky share (z >= 0.99 far), worst frame",
+   "unit": "",
+   "value": 0.459675925926
+  },
+  {
+   "decisive_part": "horizon alt_1080p/slate_teal_waterfront/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "alt_1080p/slate_teal_closer/f000000": 0.298867755448,
+     "alt_1080p/slate_teal_waterfront/f000000": 0.511111281568,
+     "alt_1080p/slate_teal_wider/f000000": 0.425868865053
+    }
+   },
+   "id": "M-003.e.horizon",
+   "kind": "advisory",
+   "margin": -0.0611112815678,
+   "margin_rel": -0.135802847928,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": -0.0611112815678,
+     "margin_rel": -0.135802847928,
+     "name": "horizon alt_1080p/slate_teal_waterfront/f000000",
+     "op": "<=",
+     "status": "FAIL",
+     "threshold": 0.45,
+     "unit": "",
+     "value": 0.511111281568
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 0.45,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Geometric horizon height from pose, h = 0.5 + tan(pitch) / (2 tan(vfov/2)), worst frame",
+   "unit": "",
+   "value": 0.511111281568
+  },
+  {
+   "decisive_part": "contrast alt_1080p/slate_teal_wider/f000000",
+   "diagnostics": {
+    "per_frame": {
+     "alt_1080p/slate_teal_closer/f000000": 27.4877996792,
+     "alt_1080p/slate_teal_waterfront/f000000": 40.1089828059,
+     "alt_1080p/slate_teal_wider/f000000": 25.7470400159
+    }
+   },
+   "id": "M-003.e.contrast",
+   "kind": "advisory",
+   "margin": 0.747040015913,
+   "margin_rel": 0.0298816006365,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.747040015913,
+     "margin_rel": 0.0298816006365,
+     "name": "contrast alt_1080p/slate_teal_wider/f000000",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 25.0,
+     "unit": "",
+     "value": 25.7470400159
+    }
+   ],
+   "status": "PASS",
+   "threshold": 25.0,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Silhouette contrast L*90 - L*10, worst frame",
+   "unit": "",
+   "value": 25.7470400159
+  },
+  {
+   "diagnostics": {},
+   "id": "M-003.f",
+   "kind": "gating",
+   "note": "no panel_ratings@v1 file given (the tool never defaults a score)",
+   "parts": [],
+   "status": "PENDING",
+   "threshold_status": "derived",
+   "title": "Blind panel style match (mean >= 8.0 over >= 12 captures, no profile mean < 7)",
+   "unit": "",
+   "value": null
+  }
+ ],
+ "tool": {
+  "git_commit": "a867e678b03deede3fad7edc9e2e630278017197",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "INCOMPLETE",
+ "verdict_label": "INCOMPLETE",
+ "warnings": [
+  "ADVISORY M-003.b.O reported without a threshold until Q-015: median O 1.049 (Bayer/checker > 0.5, white noise ~ 0, clustered < 0; the references are -0.34..+0.15)",
+  "ADVISORY M-003.e.horizon failed: value 0.5111 vs <= 0.45"
+ ]
+}

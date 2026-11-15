@@ -1,0 +1,719 @@
+{
+ "schema": "c11_slab_results@v1",
+ "gate_px": 1.0,
+ "configs": {
+  "exact_layersnap": {
+   "mode": "layersnap",
+   "main_depth_m": 664.874451,
+   "snap_reference_depth_m": 123.493088,
+   "sequences": 72,
+   "groups": [
+    "A",
+    "B"
+   ],
+   "frames_per_phase": 180,
+   "layered_frames_min": 180,
+   "layer_rejections": [],
+   "classes": {
+    "near": {
+     "phases_measured": 24,
+     "frames_median": 130.0,
+     "frames_min": 126,
+     "sequences_dropped": 0,
+     "worst_phase_px": 0.9583940000000268,
+     "median_phase_px": 0.9582774999999941,
+     "abs_worst_phase_px": 2.7188450000000017,
+     "abs_median_phase_px": 1.5058519999999938,
+     "pass_1px_worst": true,
+     "pass_1px_median": true,
+     "starts_within_1px": 24,
+     "share_starts_within_1px": 1.0
+    },
+    "reference": {
+     "phases_measured": 72,
+     "frames_median": 180.0,
+     "frames_min": 180,
+     "sequences_dropped": 0,
+     "worst_phase_px": 0.9566650000001573,
+     "median_phase_px": 0.9565430000000106,
+     "abs_worst_phase_px": 2.499755999999934,
+     "abs_median_phase_px": 1.5741575000000694,
+     "pass_1px_worst": true,
+     "pass_1px_median": true,
+     "starts_within_1px": 72,
+     "share_starts_within_1px": 1.0
+    },
+    "far": {
+     "phases_measured": 48,
+     "frames_median": 180.0,
+     "frames_min": 180,
+     "sequences_dropped": 0,
+     "worst_phase_px": 0.9537970000000087,
+     "median_phase_px": 0.9537350000000515,
+     "abs_worst_phase_px": 2.497070000000008,
+     "abs_median_phase_px": 1.4862975000000347,
+     "pass_1px_worst": true,
+     "pass_1px_median": true,
+     "starts_within_1px": 48,
+     "share_starts_within_1px": 1.0
+    }
+   },
+   "class_depths_geometric_m": {
+    "near": 123.493088,
+    "reference": 664.874451,
+    "far": 10371.81543
+   },
+   "model": {
+    "near": {
+     "worst_phase_px": 4.040350634460552,
+     "median_phase_px": 2.58433876972623
+    },
+    "reference": {
+     "worst_phase_px": 4.8380002244343885,
+     "median_phase_px": 0.9345225508295627
+    },
+    "far": {
+     "worst_phase_px": 0.6524390912778903,
+     "median_phase_px": 0.6524390912778903
+    }
+   },
+   "model_geometric": {
+    "near": {
+     "worst_phase_px": 0.7490155238485556,
+     "median_phase_px": 0.7490155238485556
+    },
+    "reference": {
+     "worst_phase_px": 0.9600122369568922,
+     "median_phase_px": 0.9600122369568922
+    },
+    "far": {
+     "worst_phase_px": 0.6530695988291415,
+     "median_phase_px": 0.6530695988291415
+    }
+   }
+  },
+  "ref663_base": {
+   "mode": "base",
+   "main_depth_m": 663,
+   "snap_reference_depth_m": 663,
+   "sequences": 72,
+   "groups": [
+    "A",
+    "B"
+   ],
+   "frames_per_phase": 180,
+   "layered_frames_min": 0,
+   "layer_rejections": [],
+   "classes": {
+    "near": {
+     "phases_measured": 24,
+     "frames_median": 130.0,
+     "frames_min": 126,
+     "sequences_dropped": 0,
+     "worst_phase_px": 12.584000000000003,
+     "median_phase_px": 11.388562999999976,
+     "abs_worst_phase_px": 11.455939999999998,
+     "abs_median_phase_px": 10.88717650000001,
+     "pass_1px_worst": false,
+     "pass_1px_median": false,
+     "starts_within_1px": 0,
+     "share_starts_within_1px": 0.0
+    },
+    "reference": {
+     "phases_measured": 72,
+     "frames_median": 180.0,
+     "frames_min": 180,
+     "sequences_dropped": 0,
+     "worst_phase_px": 3.9948729999998704,
+     "median_phase_px": 1.1082759999999325,
+     "abs_worst_phase_px": 2.515869000000066,
+     "abs_median_phase_px": 1.6306154999999762,
+     "pass_1px_worst": false,
+     "pass_1px_median": false,
+     "starts_within_1px": 0,
+     "share_starts_within_1px": 0.0
+    },
+    "far": {
+     "phases_measured": 48,
+     "frames_median": 180.0,
+     "frames_min": 180,
+     "sequences_dropped": 0,
+     "worst_phase_px": 5.676025999999979,
+     "median_phase_px": 4.429687000000001,
+     "abs_worst_phase_px": 4.330994000000032,
+     "abs_median_phase_px": 3.3860779999999977,
+     "pass_1px_worst": false,
+     "pass_1px_median": false,
+     "starts_within_1px": 0,
+     "share_starts_within_1px": 0.0
+    }
+   },
+   "class_depths_geometric_m": {
+    "near": 123.493088,
+    "reference": 664.874451,
+    "far": 10371.81543
+   },
+   "model": {
+    "near": {
+     "worst_phase_px": 13.39085450563607,
+     "median_phase_px": 12.144864721417093
+    },
+    "reference": {
+     "worst_phase_px": 0.9578922497737494,
+     "median_phase_px": 0.9578922497737494
+    },
+    "far": {
+     "worst_phase_px": 5.675609818526031,
+     "median_phase_px": 4.787804726436782
+    }
+   },
+   "model_geometric": {
+    "near": {
+     "worst_phase_px": 14.611367852425872,
+     "median_phase_px": 12.133213460497473
+    },
+    "reference": {
+     "worst_phase_px": 3.87276549178155,
+     "median_phase_px": 1.138443318827413
+    },
+    "far": {
+     "worst_phase_px": 5.700590945822491,
+     "median_phase_px": 4.786375575987279
+    }
+   }
+  },
+  "ref663_depthshift": {
+   "mode": "depthshift",
+   "main_depth_m": 663,
+   "snap_reference_depth_m": 663,
+   "sequences": 72,
+   "groups": [
+    "A",
+    "B"
+   ],
+   "frames_per_phase": 180,
+   "layered_frames_min": 0,
+   "layer_rejections": [],
+   "classes": {
+    "near": {
+     "phases_measured": 24,
+     "frames_median": 130.0,
+     "frames_min": 126,
+     "sequences_dropped": 0,
+     "worst_phase_px": 13.584000000000003,
+     "median_phase_px": 12.073173499999996,
+     "abs_worst_phase_px": 10.772449000000002,
+     "abs_median_phase_px": 10.204277000000005,
+     "pass_1px_worst": false,
+     "pass_1px_median": false,
+     "starts_within_1px": 0,
+     "share_starts_within_1px": 0.0
+    },
+    "reference": {
+     "phases_measured": 72,
+     "frames_median": 180.0,
+     "frames_min": 180,
+     "sequences_dropped": 0,
+     "worst_phase_px": 3.9948729999998704,
+     "median_phase_px": 1.1082759999999325,
+     "abs_worst_phase_px": 2.515869000000066,
+     "abs_median_phase_px": 1.6306154999999762,
+     "pass_1px_worst": false,
+     "pass_1px_median": false,
+     "starts_within_1px": 0,
+     "share_starts_within_1px": 0.0
+    },
+    "far": {
+     "phases_measured": 48,
+     "frames_median": 180.0,
+     "frames_min": 177,
+     "sequences_dropped": 0,
+     "worst_phase_px": 4.089417000000026,
+     "median_phase_px": 2.938720999999987,
+     "abs_worst_phase_px": 3.655701000000022,
+     "abs_median_phase_px": 3.5145875000000046,
+     "pass_1px_worst": false,
+     "pass_1px_median": false,
+     "starts_within_1px": 0,
+     "share_starts_within_1px": 0.0
+    }
+   },
+   "class_depths_geometric_m": {
+    "near": 123.493088,
+    "reference": 664.874451,
+    "far": 10371.81543
+   },
+   "model": {
+    "near": {
+     "worst_phase_px": 3.96742132045091,
+     "median_phase_px": 2.8911029822866325
+    },
+    "reference": {
+     "worst_phase_px": 0.9578922497737494,
+     "median_phase_px": 0.9578922497737494
+    },
+    "far": {
+     "worst_phase_px": 4.03780564056795,
+     "median_phase_px": 3.0079266352941176
+    }
+   },
+   "model_geometric": {
+    "near": {
+     "worst_phase_px": 4.285807270444167,
+     "median_phase_px": 3.2125492238075566
+    },
+    "reference": {
+     "worst_phase_px": 3.87276549178155,
+     "median_phase_px": 1.138443318827413
+    },
+    "far": {
+     "worst_phase_px": 4.044993426652213,
+     "median_phase_px": 3.0060981633954897
+    }
+   }
+  },
+  "ref663_layersnap": {
+   "mode": "layersnap",
+   "main_depth_m": 663,
+   "snap_reference_depth_m": 124.199997,
+   "sequences": 72,
+   "groups": [
+    "A",
+    "B"
+   ],
+   "frames_per_phase": 180,
+   "layered_frames_min": 180,
+   "layer_rejections": [],
+   "classes": {
+    "near": {
+     "phases_measured": 24,
+     "frames_median": 130.0,
+     "frames_min": 126,
+     "sequences_dropped": 0,
+     "worst_phase_px": 4.583969000000025,
+     "median_phase_px": 1.3246419999999972,
+     "abs_worst_phase_px": 2.836261999999998,
+     "abs_median_phase_px": 2.0880735000000072,
+     "pass_1px_worst": false,
+     "pass_1px_median": false,
+     "starts_within_1px": 0,
+     "share_starts_within_1px": 0.0
+    },
+    "reference": {
+     "phases_measured": 72,
+     "frames_median": 180.0,
+     "frames_min": 180,
+     "sequences_dropped": 0,
+     "worst_phase_px": 3.9948729999998704,
+     "median_phase_px": 1.1082759999999325,
+     "abs_worst_phase_px": 2.515869000000066,
+     "abs_median_phase_px": 1.6306154999999762,
+     "pass_1px_worst": false,
+     "pass_1px_median": false,
+     "starts_within_1px": 0,
+     "share_starts_within_1px": 0.0
+    },
+    "far": {
+     "phases_measured": 48,
+     "frames_median": 180.0,
+     "frames_min": 180,
+     "sequences_dropped": 0,
+     "worst_phase_px": 0.9588019999999915,
+     "median_phase_px": 0.9587400000000343,
+     "abs_worst_phase_px": 2.492065000000025,
+     "abs_median_phase_px": 1.4862975000000347,
+     "pass_1px_worst": true,
+     "pass_1px_median": true,
+     "starts_within_1px": 48,
+     "share_starts_within_1px": 1.0
+    }
+   },
+   "class_depths_geometric_m": {
+    "near": 123.493088,
+    "reference": 664.874451,
+    "far": 10371.81543
+   },
+   "model": {
+    "near": {
+     "worst_phase_px": 0.6368442898550484,
+     "median_phase_px": 0.6368442898550484
+    },
+    "reference": {
+     "worst_phase_px": 0.9578922497737494,
+     "median_phase_px": 0.9578922497737494
+    },
+    "far": {
+     "worst_phase_px": 0.6560978196078429,
+     "median_phase_px": 0.6560978196078429
+    }
+   },
+   "model_geometric": {
+    "near": {
+     "worst_phase_px": 4.517411397146368,
+     "median_phase_px": 2.4712549223807514
+    },
+    "reference": {
+     "worst_phase_px": 3.87276549178155,
+     "median_phase_px": 1.138443318827413
+    },
+    "far": {
+     "worst_phase_px": 0.6585357821393472,
+     "median_phase_px": 0.6585357821393472
+    }
+   }
+  },
+  "ref663_layersnap_and_depthshift": {
+   "mode": "layersnap",
+   "main_depth_m": 663,
+   "snap_reference_depth_m": 124.199997,
+   "sequences": 1,
+   "groups": [
+    "B"
+   ],
+   "frames_per_phase": 180,
+   "layered_frames_min": 180,
+   "layer_rejections": [],
+   "classes": {
+    "near": {
+     "phases_measured": 0,
+     "frames_median": 0.0,
+     "frames_min": 0,
+     "sequences_dropped": 0,
+     "worst_phase_px": null,
+     "median_phase_px": null,
+     "abs_worst_phase_px": null,
+     "abs_median_phase_px": null,
+     "pass_1px_worst": false,
+     "pass_1px_median": false,
+     "starts_within_1px": 0,
+     "share_starts_within_1px": null
+    },
+    "reference": {
+     "phases_measured": 1,
+     "frames_median": 180.0,
+     "frames_min": 180,
+     "sequences_dropped": 0,
+     "worst_phase_px": 1.1082759999999325,
+     "median_phase_px": 1.1082759999999325,
+     "abs_worst_phase_px": 0.7034909999999854,
+     "abs_median_phase_px": 0.7034909999999854,
+     "pass_1px_worst": false,
+     "pass_1px_median": false,
+     "starts_within_1px": 0,
+     "share_starts_within_1px": 0.0
+    },
+    "far": {
+     "phases_measured": 1,
+     "frames_median": 180.0,
+     "frames_min": 180,
+     "sequences_dropped": 0,
+     "worst_phase_px": 0.9587400000000343,
+     "median_phase_px": 0.9587400000000343,
+     "abs_worst_phase_px": 1.3334350000000086,
+     "abs_median_phase_px": 1.3334350000000086,
+     "pass_1px_worst": true,
+     "pass_1px_median": true,
+     "starts_within_1px": 1,
+     "share_starts_within_1px": 1.0
+    }
+   }
+  },
+  "ref664.874_base": {
+   "mode": "base",
+   "main_depth_m": 664.874023,
+   "snap_reference_depth_m": 664.874023,
+   "sequences": 72,
+   "groups": [
+    "A",
+    "B"
+   ],
+   "frames_per_phase": 180,
+   "layered_frames_min": 0,
+   "layer_rejections": [],
+   "classes": {
+    "near": {
+     "phases_measured": 24,
+     "frames_median": 130.0,
+     "frames_min": 126,
+     "sequences_dropped": 0,
+     "worst_phase_px": 12.584014999999994,
+     "median_phase_px": 11.304587999999967,
+     "abs_worst_phase_px": 11.403320000000008,
+     "abs_median_phase_px": 10.719568999999996,
+     "pass_1px_worst": false,
+     "pass_1px_median": false,
+     "starts_within_1px": 0,
+     "share_starts_within_1px": 0.0
+    },
+    "reference": {
+     "phases_measured": 72,
+     "frames_median": 180.0,
+     "frames_min": 180,
+     "sequences_dropped": 0,
+     "worst_phase_px": 0.9566650000001573,
+     "median_phase_px": 0.9565430000000106,
+     "abs_worst_phase_px": 2.499755999999934,
+     "abs_median_phase_px": 1.5741575000000694,
+     "pass_1px_worst": true,
+     "pass_1px_median": true,
+     "starts_within_1px": 72,
+     "share_starts_within_1px": 1.0
+    },
+    "far": {
+     "phases_measured": 48,
+     "frames_median": 180.0,
+     "frames_min": 180,
+     "sequences_dropped": 0,
+     "worst_phase_px": 5.676025999999979,
+     "median_phase_px": 4.321472500000027,
+     "abs_worst_phase_px": 4.258971999999972,
+     "abs_median_phase_px": 3.3799435000000244,
+     "pass_1px_worst": false,
+     "pass_1px_median": false,
+     "starts_within_1px": 0,
+     "share_starts_within_1px": 0.0
+    }
+   },
+   "class_depths_geometric_m": {
+    "near": 123.493088,
+    "reference": 664.874451,
+    "far": 10371.81543
+   },
+   "model": {
+    "near": {
+     "worst_phase_px": 14.374813642512066,
+     "median_phase_px": 11.721431536231819
+    },
+    "reference": {
+     "worst_phase_px": 4.8380002244343885,
+     "median_phase_px": 0.9345225508295627
+    },
+    "far": {
+     "worst_phase_px": 5.6756098185260315,
+     "median_phase_px": 4.787804726436781
+    }
+   },
+   "model_geometric": {
+    "near": {
+     "worst_phase_px": 14.714192729555833,
+     "median_phase_px": 12.765605168120807
+    },
+    "reference": {
+     "worst_phase_px": 0.9600122369568993,
+     "median_phase_px": 0.9600122369568993
+    },
+    "far": {
+     "worst_phase_px": 5.676198292240532,
+     "median_phase_px": 4.78637557598728
+    }
+   }
+  },
+  "ref664.874_depthshift": {
+   "mode": "depthshift",
+   "main_depth_m": 664.874023,
+   "snap_reference_depth_m": 664.874023,
+   "sequences": 72,
+   "groups": [
+    "A",
+    "B"
+   ],
+   "frames_per_phase": 180,
+   "layered_frames_min": 0,
+   "layer_rejections": [],
+   "classes": {
+    "near": {
+     "phases_measured": 24,
+     "frames_median": 130.0,
+     "frames_min": 126,
+     "sequences_dropped": 0,
+     "worst_phase_px": 13.584014999999994,
+     "median_phase_px": 12.206268500000022,
+     "abs_worst_phase_px": 10.668273999999997,
+     "abs_median_phase_px": 9.965880999999996,
+     "pass_1px_worst": false,
+     "pass_1px_median": false,
+     "starts_within_1px": 0,
+     "share_starts_within_1px": 0.0
+    },
+    "reference": {
+     "phases_measured": 72,
+     "frames_median": 180.0,
+     "frames_min": 180,
+     "sequences_dropped": 0,
+     "worst_phase_px": 0.9566650000001573,
+     "median_phase_px": 0.951415999999881,
+     "abs_worst_phase_px": 2.499755999999934,
+     "abs_median_phase_px": 1.5767209999999068,
+     "pass_1px_worst": true,
+     "pass_1px_median": true,
+     "starts_within_1px": 72,
+     "share_starts_within_1px": 1.0
+    },
+    "far": {
+     "phases_measured": 48,
+     "frames_median": 180.0,
+     "frames_min": 177,
+     "sequences_dropped": 0,
+     "worst_phase_px": 4.089417000000026,
+     "median_phase_px": 2.938720999999987,
+     "abs_worst_phase_px": 3.655701000000022,
+     "abs_median_phase_px": 3.5145875000000046,
+     "pass_1px_worst": false,
+     "pass_1px_median": false,
+     "starts_within_1px": 0,
+     "share_starts_within_1px": 0.0
+    }
+   },
+   "class_depths_geometric_m": {
+    "near": 123.493088,
+    "reference": 664.874451,
+    "far": 10371.81543
+   },
+   "model": {
+    "near": {
+     "worst_phase_px": 4.512403362318878,
+     "median_phase_px": 3.3952374363929465
+    },
+    "reference": {
+     "worst_phase_px": 4.8380002244343885,
+     "median_phase_px": 0.9345225508295627
+    },
+    "far": {
+     "worst_phase_px": 4.037805640567951,
+     "median_phase_px": 3.019511998918188
+    }
+   },
+   "model_geometric": {
+    "near": {
+     "worst_phase_px": 4.182982393314191,
+     "median_phase_px": 3.379763725723663
+    },
+    "reference": {
+     "worst_phase_px": 0.9600122369568993,
+     "median_phase_px": 0.9600122369568993
+    },
+    "far": {
+     "worst_phase_px": 4.044993426652212,
+     "median_phase_px": 3.017662510101185
+    }
+   }
+  },
+  "ref664.874_layersnap": {
+   "mode": "layersnap",
+   "main_depth_m": 664.874023,
+   "snap_reference_depth_m": 124.199997,
+   "sequences": 72,
+   "groups": [
+    "A",
+    "B"
+   ],
+   "frames_per_phase": 180,
+   "layered_frames_min": 180,
+   "layer_rejections": [],
+   "classes": {
+    "near": {
+     "phases_measured": 24,
+     "frames_median": 130.0,
+     "frames_min": 126,
+     "sequences_dropped": 0,
+     "worst_phase_px": 4.583969000000025,
+     "median_phase_px": 1.3246419999999972,
+     "abs_worst_phase_px": 2.836261999999998,
+     "abs_median_phase_px": 2.0880735000000072,
+     "pass_1px_worst": false,
+     "pass_1px_median": false,
+     "starts_within_1px": 0,
+     "share_starts_within_1px": 0.0
+    },
+    "reference": {
+     "phases_measured": 72,
+     "frames_median": 180.0,
+     "frames_min": 180,
+     "sequences_dropped": 0,
+     "worst_phase_px": 0.9566650000001573,
+     "median_phase_px": 0.9565430000000106,
+     "abs_worst_phase_px": 2.499755999999934,
+     "abs_median_phase_px": 1.5741575000000694,
+     "pass_1px_worst": true,
+     "pass_1px_median": true,
+     "starts_within_1px": 72,
+     "share_starts_within_1px": 1.0
+    },
+    "far": {
+     "phases_measured": 48,
+     "frames_median": 180.0,
+     "frames_min": 180,
+     "sequences_dropped": 0,
+     "worst_phase_px": 0.9588019999999915,
+     "median_phase_px": 0.9587400000000343,
+     "abs_worst_phase_px": 2.492065000000025,
+     "abs_median_phase_px": 1.4862975000000347,
+     "pass_1px_worst": true,
+     "pass_1px_median": true,
+     "starts_within_1px": 48,
+     "share_starts_within_1px": 1.0
+    }
+   },
+   "class_depths_geometric_m": {
+    "near": 123.493088,
+    "reference": 664.874451,
+    "far": 10371.81543
+   },
+   "model": {
+    "near": {
+     "worst_phase_px": 0.6733089468598763,
+     "median_phase_px": 0.6733089468598763
+    },
+    "reference": {
+     "worst_phase_px": 4.8380002244343885,
+     "median_phase_px": 0.9345225508295627
+    },
+    "far": {
+     "worst_phase_px": 0.6560978196078429,
+     "median_phase_px": 0.6560978196078429
+    }
+   },
+   "model_geometric": {
+    "near": {
+     "worst_phase_px": 4.517411397146368,
+     "median_phase_px": 2.47125492238078
+    },
+    "reference": {
+     "worst_phase_px": 0.9600122369568993,
+     "median_phase_px": 0.9600122369568993
+    },
+    "far": {
+     "worst_phase_px": 0.6585357821393469,
+     "median_phase_px": 0.6585357821393469
+    }
+   }
+  }
+ },
+ "depthshift_ignored_under_layersnap": {
+  "edge_tracks_identical": true,
+  "frames": 180
+ },
+ "any_depth_model_r131": {
+  "N=3": {
+   "worst_px_any_depth": 13.126257137796074,
+   "median_px": 3.592956923051837
+  },
+  "N=6": {
+   "worst_px_any_depth": 7.393189410665542,
+   "median_px": 3.3509135427537657
+  },
+  "N=12": {
+   "worst_px_any_depth": 5.3607605454986285,
+   "median_px": 3.2618584579133554
+  },
+  "N=20": {
+   "worst_px_any_depth": 4.888361975997906,
+   "median_px": 3.2150567468530973
+  },
+  "N=28": {
+   "worst_px_any_depth": 4.842491159219051,
+   "median_px": 2.527729903528737
+  }
+ },
+ "model_replication_mismatches": []
+}

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Mirrors the Unity Editor-only assembly Game.AI.PackHarness (m007_bay harness, brain_log@v2 writer). T-115. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>Game.AI.PackHarness</AssemblyName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <LangVersion>9.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../Assets/Game/AI/PackHarness/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Core.Contracts/Core.Contracts.csproj" />
+    <ProjectReference Include="../AI.Contracts/AI.Contracts.csproj" />
+    <ProjectReference Include="../AI.Scripted/AI.Scripted.csproj" />
+    <ProjectReference Include="../AI.Pack/AI.Pack.csproj" />
+    <ProjectReference Include="../WorldEmergence/WorldEmergence.csproj" />
+    <ProjectReference Include="../WorldEmergence.Contracts/WorldEmergence.Contracts.csproj" />
+  </ItemGroup>
+</Project>

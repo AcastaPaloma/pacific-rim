@@ -1,0 +1,246 @@
+{
+ "clause": "C1",
+ "scenario": "hunt",
+ "status": "FAIL",
+ "measures": [
+  {
+   "name": "fr_commit",
+   "value": 0.8646953405017921,
+   "op": ">=",
+   "threshold": 0.6,
+   "ok": true,
+   "unit": "",
+   "ci95": [
+    0.8433717377328419,
+    0.8835168709575106
+   ]
+  },
+  {
+   "name": "fr_commit_minus_k_null",
+   "value": -0.360304659498208,
+   "op": ">=",
+   "threshold": 0.0,
+   "ok": false,
+   "unit": "",
+   "ci95": null
+  }
+ ],
+ "composition_fail": [],
+ "per_composition": {
+  "LH": {
+   "ci95": [
+    0.9286523998213857,
+    0.9999999999999999
+   ],
+   "n_runs": 100
+  },
+  "LL": {
+   "ci95": [
+    0.8063923170025951,
+    1.0
+   ],
+   "n_runs": 100
+  },
+  "LLH": {
+   "ci95": [
+    0.5681352159800528,
+    0.7658066635505552
+   ],
+   "n_runs": 100
+  },
+  "LLMH": {
+   "ci95": [
+    0.5643567018377155,
+    0.7097114593103176
+   ],
+   "n_runs": 100
+  },
+  "LLMHH": {
+   "ci95": [
+    0.5357874549954498,
+    0.8143406776986681
+   ],
+   "n_runs": 40
+  },
+  "LMH": {
+   "ci95": [
+    0.9704901701490466,
+    0.999060421702371
+   ],
+   "n_runs": 100
+  },
+  "LMHH": {
+   "ci95": [
+    0.8567703208621443,
+    0.9464849197826498
+   ],
+   "n_runs": 100
+  },
+  "MH": {
+   "ci95": [
+    0.7867873274120836,
+    0.8833298204552631
+   ],
+   "n_runs": 100
+  },
+  "MMH": {
+   "ci95": [
+    0.956407667080573,
+    0.9948339711049505
+   ],
+   "n_runs": 100
+  }
+ },
+ "controls": [
+  {
+   "control": "directcharge@1",
+   "value": 0.6125,
+   "candidate": 0.8646953405017921,
+   "discriminates": true
+  }
+ ],
+ "note": null,
+ "info": {}
+}
+{
+ "clause": "C2",
+ "scenario": "hunt",
+ "status": "FAIL",
+ "measures": [
+  {
+   "name": "fe_vs_nofocus",
+   "value": 0.8264361400498043,
+   "op": ">=",
+   "threshold": 0.5,
+   "ok": true,
+   "unit": "",
+   "ci95": [
+    0.8080998810931327,
+    0.8441655807836057
+   ]
+  },
+  {
+   "name": "ff_ci_separation",
+   "value": 1.0,
+   "op": ">=",
+   "threshold": 1.0,
+   "ok": true,
+   "unit": "",
+   "ci95": null
+  }
+ ],
+ "composition_fail": [
+  "LL"
+ ],
+ "per_composition": {
+  "LH": {
+   "ci95": [
+    0.5064661476802532,
+    0.6048932505191372
+   ],
+   "n_runs": 100
+  },
+  "LL": {
+   "ci95": [
+    0.08441581338079462,
+    0.2121039372569074
+   ],
+   "n_runs": 100
+  },
+  "LLH": {
+   "ci95": [
+    0.8986536747513706,
+    0.9519897837351456
+   ],
+   "n_runs": 100
+  },
+  "LLMH": {
+   "ci95": [
+    0.979265488795092,
+    0.9869669421996312
+   ],
+   "n_runs": 100
+  },
+  "LLMHH": {
+   "ci95": [
+    0.9766903265014765,
+    0.9952246912913598
+   ],
+   "n_runs": 40
+  },
+  "LMH": {
+   "ci95": [
+    0.7563539845332787,
+    0.8267056377964186
+   ],
+   "n_runs": 100
+  },
+  "LMHH": {
+   "ci95": [
+    0.8774237596653006,
+    0.9295600340675189
+   ],
+   "n_runs": 100
+  },
+  "MH": {
+   "ci95": [
+    0.9988232012556837,
+    0.9999815516104109
+   ],
+   "n_runs": 100
+  },
+  "MMH": {
+   "ci95": [
+    0.9913645902977891,
+    0.9941928370329848
+   ],
+   "n_runs": 100
+  }
+ },
+ "controls": [
+  {
+   "control": "nofocus@1",
+   "value": 0.5060851593523844,
+   "candidate": 0.914274233770514,
+   "discriminates": true
+  }
+ ],
+ "note": null,
+ "info": {
+  "mean_ff": 0.914274233770514,
+  "mean_ff_nofocus": 0.5060851593523844,
+  "fe_vs_uniform_chance_informational": 0.7623546884945712
+ }
+}
+{
+ "clause": "C4",
+ "scenario": "all",
+ "status": "PENDING_CONTROL",
+ "measures": [
+  {
+   "name": "leaks",
+   "value": 0.0,
+   "op": "<=",
+   "threshold": 0,
+   "ok": true,
+   "unit": "",
+   "ci95": null
+  }
+ ],
+ "composition_fail": [],
+ "per_composition": {},
+ "controls": [
+  {
+   "control": "omniscient@1",
+   "value": null,
+   "candidate": null,
+   "discriminates": null
+  }
+ ],
+ "note": null,
+ "info": {
+  "leaks_v1": 0.0,
+  "leaks_provenance": 0.0,
+  "leaks_delivery": 0.0
+ }
+}

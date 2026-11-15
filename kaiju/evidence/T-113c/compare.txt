@@ -1,0 +1,22 @@
+T-113c hold-out evidence (hunt/mv2 seeds 3001-3030, mixed/raid 3001-3010; never used for tuning). Evaluator rev 1 = original reading, rev 2 = infrastructure targets are not combat targets.
+candidate = M007_PACK=BaitFirst=true,StrictAnchorTol=true,AnchorHoldM=340,BaitDrawSeconds=1,AvoidOtherMechsM=450 (best of the 3 dev iterations; stays OFF)
+
+== v1 matrix (hunt@v1 + mixed + raid)
+    base_rev1                         base_rev2                         cand_rev1                         cand_rev2                         
+C1  PASS 0.818                        PASS 0.818                        PASS 0.932                        PASS 0.932                        
+C2  NOT_RUN -                         NOT_RUN -                         NOT_RUN -                         NOT_RUN -                         
+P1  PASS 0.705                        PASS 0.916                        FAIL 0.654 LL:L                   PASS 0.957                        
+P4  PASS 0.001                        PASS 0.001                        FAIL -0.066                       FAIL -0.066                       
+P5  FAIL 0.926 LH,LLH,LLMH,LMH,       FAIL 0.926 LH,LLH,LLMH,LMH,       FAIL 0.854 LH,LLH,LLMH,LLMH       FAIL 0.854 LH,LLH,LLMH,LLMH       
+P6  FAIL 0.724 LH,LL,LLH,LLMH,L       FAIL 0.797 LH,LL,LLH,LLMH,L       FAIL 0.622 LH,LL,LLH,LLMH,L       FAIL 0.661 LH,LL,LLH,LLMH,L       
+I1  PASS -                            PASS -                            PASS -                            PASS -                            
+I3  FAIL 1.001                        FAIL 1.001                        FAIL 1.001                        FAIL 1.001                        
+
+== hunt_mv@v2 matrix (C2 is the clause here; the other rows are not clause scenarios)
+    base_rev1                         base_rev2                         cand_rev1                         cand_rev2                         
+C1  FAIL 0.847                        FAIL 0.847                        FAIL 0.894                        FAIL 0.894                        
+C2  FAIL 0.845 LL                     PASS 0.913                        FAIL 0.851 LL                     PASS 0.906                        
+
+== I3 pooled (raid + mixed), rev 2
+original mixed (Pacifica spawn) FAIL {'ival_per_kaiju_hour_ratio': 1.001, 'ratio_ci_lower': 0.98}
+mixed variant mx2 (spawn 62000,62000) FAIL {'ival_per_kaiju_hour_ratio': 1.032, 'ratio_ci_lower': 1.006}

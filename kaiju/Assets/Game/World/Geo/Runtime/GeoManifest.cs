@@ -14,7 +14,7 @@ namespace Game.World.Geo
         public static readonly string[] LayerFields = { "layer", "file", "sha256", "sources" };
         public static readonly string[] SourceFields = { "product", "item", "url", "licence", "attribution", "fetched_utc", "source_sha256" };
         public static readonly string[] RequiredLayers = { "terrain", "terrain_r16", "water", "buildings", "roads", "faults" };
-        public static readonly string[] Licences = { "US-Gov-PD", "ODbL-1.0", "PDDL-1.0", "CC0-1.0", "CC-BY-4.0" };
+        public static readonly string[] Licences = { "US-Gov-PD", "ODbL-1.0", "PDDL-1.0", "CC0-1.0", "CC-BY-4.0", "LicenseRef-facts-cited" }; // T-022: cited facts (CTBUH, GGBHTD)
 
         static bool Empty(object v) =>
             v == null || (v is string s && s.Trim().Length == 0) || (v is List<object> l && l.Count == 0) ||

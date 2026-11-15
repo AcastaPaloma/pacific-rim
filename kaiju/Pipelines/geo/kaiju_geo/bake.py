@@ -10,6 +10,7 @@ import concurrent.futures as cf
 import io
 import json
 import math
+import sys
 import time
 import zipfile
 from pathlib import Path
@@ -18,14 +19,14 @@ import numpy as np
 import shapely
 from shapely.geometry import box, mapping
 
-from . import fetch, terrain, vector
+from . import fetch, landmarks, landmarks_bay_emit, terrain, vector
 from .common import (BAYTM_ID, CACHE, GLOBAL_ROOT, PIPE, SAMPLES, SPEC, TILES_ROOT, Tile,
-                     baytm_compound_crs, canonical_json, git_head, load_config, sha256_bytes,
+                     baytm_compound_crs, canonical_json, git_head, load_config, read_meta, sha256_bytes,
                      sha256_file, utc_now, write_if_changed)
 
 CODE_FILES = ["kaiju_geo/common.py", "kaiju_geo/fetch.py", "kaiju_geo/terrain.py", "kaiju_geo/vector.py",
-              "kaiju_geo/bake.py", "bake_tile.py"]
-CONFIG_FILES = ["config/sources.json", "config/bake.json"]
+              "kaiju_geo/bake.py", "kaiju_geo/landmarks.py", "kaiju_geo/landmarks_bay.py", "kaiju_geo/landmarks_bay_emit.py", "bake_tile.py"]
+CONFIG_FILES = ["config/sources.json", "config/bake.json", "config/landmarks.json", "config/ggb.json", "config/landmarks_bay.json"]
 REQUIRED_SOURCE_FIELDS = ("product", "item", "url", "licence", "attribution", "fetched_utc", "source_sha256")
 
 
@@ -150,30 +151,64 @@ def clip_faults(tile: Tile):
 
 
 # ---------------------------------------------------------------- the bake
-def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffle_seed=None, layers_only=None):
+# T-102 (Bay bake): terrain nodes no source covers (ocean tiles without CUDEM, Delta / Contra Costa land where the newest
+# 3DEP project leaves a hole) get a flat NAVD88 PLACEHOLDER: PLACEHOLDER_SEA_M inside the OSM coastline water polygons,
+# PLACEHOLDER_LAND_M elsewhere. Both are pure functions of the node position (water-polygons zip), so neighbouring tiles agree
+# on a shared edge. The layer manifest says so (`placeholder_nodes_*`); plans/M2_PROGRESS.md tracks it until a real source
+# lands (Q-NEW-b bathymetry; T-103 / 3DEP gap fill for land). Nothing is measured data.
+PLACEHOLDER_SEA_M = -50.0
+PLACEHOLDER_LAND_M = 2.0
+
+
+def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffle_seed=None, layers_only=None, plan=None):
+    """`plan` (T-102, Bay driver only) names the sources this tile has per bay_manifest@v1: keys cudem, dep3, osm, datasf
+    (bool, default True = the M1 behaviour: every source is fetched / read from the cache). A source the manifest says
+    does not exist is not requested and contributes nothing; unfilled terrain nodes then take the flagged placeholders above."""
     t_start = time.time()
+    plan = plan or {}
+    bay = bool(plan)
     cfg = load_config("bake.json")
     out = out_root / tile.folder
     out.mkdir(parents=True, exist_ok=True)
 
     # ---- sources (cache only after first fetch; --offline proves it)
-    cud = fetch.fetch_cudem(tile)
-    dep = fetch.fetch_3dep(tile)
-    osm = fetch.fetch_osm_tile(tile)
+    cud = fetch.fetch_cudem(tile) if plan.get("cudem", True) else []
+    dep = fetch.fetch_3dep(tile, fill=bool(plan.get("dep3_fill"))) if plan.get("dep3", True) else []
+    osm = fetch.fetch_osm_tile(tile) if plan.get("osm", True) else None
     osm_pbf = fetch.fetch_osm_pbf()
     wat = fetch.fetch_osm_water()
-    dsf = fetch.fetch_datasf(tile)
+    dsf = fetch.fetch_datasf(tile) if plan.get("datasf", True) else None
+    asr = None
+    if dsf is not None:
+        try:  # optional layer (T-020 add-on): without it the bake writes nothing new
+            asr = fetch.fetch_assessor(tile)
+        except (RuntimeError, OSError) as e:  # NetworkForbidden is a RuntimeError
+            print(f"[bake] assessor attributes unavailable ({e}); building attributes year_built/stories/struct_class skipped", file=sys.stderr)
+            asr = None
     tide = fetch.fetch_tides()
+    lidar_path = CACHE / "lidar" / f"rind_v11__{tile.id}.npz"  # T-020b optional input (fetch_lidar_dsm.py); never fetched here
+    lidar = vector.read_lidar_grid(lidar_path) if lidar_path.exists() else None
+    lidar_meta = (read_meta(lidar_path) or {}) if lidar is not None else {}
+    if lidar is None:
+        print(f"[bake] {tile.id}: lidar cache missing ({lidar_path.name}); default heights are not filled from 3DEP "
+              f"(run fetch_lidar_dsm.py --tile {tile.id})", file=sys.stderr)
     faults_global = GLOBAL_ROOT / "faults_bay.geojson"
     if not faults_global.exists():
         raise RuntimeError("global fault layer missing: run bake_faults.py first")
 
     # ---- fingerprint (inputs + code + config) for idempotence
     fp_parts = {"spec": SPEC, "tile": tile.id,
-                "sources": sorted([m["sha256"] for m in cud + dep] + [osm["sha256"], wat["sha256"], dsf["sha256"], tide["sha256"]]),
+                "sources": sorted([m["sha256"] for m in cud + dep] + ([osm["sha256"]] if osm else []) + [wat["sha256"], tide["sha256"]] + ([dsf["sha256"]] if dsf else []) + ([asr["sha256"]] if asr else []) + ([lidar_meta.get("sha256", "lidar")] if lidar is not None else [])),
                 "faults_global": sha256_file(faults_global),
                 "code": {f: sha256_file(PIPE / f) for f in CODE_FILES},
                 "config": {f: sha256_file(PIPE / f) for f in CONFIG_FILES}}
+    # CUDEM release per cell (2022v1/2023v1/2025v1, T-101): a changed source version changes the fingerprint even if the
+    # window bytes happened to match. Omitted when every cell is 2022v1 so the committed M1 tile fingerprints stay valid.
+    if bay and not (osm and dsf):  # a source the manifest says is absent is part of the fingerprint (M1 shape unchanged otherwise)
+        fp_parts["absent_sources"] = [k for k, v in (("osm", osm), ("datasf", dsf)) if not v]
+    cud_versions = sorted(m["item"] for m in cud if m.get("version", fetch.CUDEM_LEGACY_VERSION) != fetch.CUDEM_LEGACY_VERSION)
+    if cud_versions:
+        fp_parts["cudem_versions"] = sorted(m["item"] for m in cud)
     fingerprint = sha256_bytes(canonical_json(fp_parts).encode())
     man_path = out / "manifest.json"
     if man_path.exists() and not force:
@@ -199,11 +234,26 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     h3 = terrain.sample_rasters(dep_paths, X, Z)
     h, w3 = terrain.merge_from_cfg(hc, h3, cfg, tile.spacing)
     core = (slice(M, M + SAMPLES), slice(M, M + SAMPLES))
+    ph_sea = ph_land = 0
+    if bay:  # T-102: no-data nodes are a flagged placeholder, not an error (the M1 path keeps the strict check below)
+        gap = ~np.isfinite(h)
+        if gap.any():
+            sea = shapely.contains_xy(read_water_polygons(tile, 2.0 * M * tile.spacing), X[gap], Z[gap])
+            fill = np.where(sea, PLACEHOLDER_SEA_M, PLACEHOLDER_LAND_M)
+            seamap = np.zeros(h.shape, dtype=bool)
+            seamap[gap] = sea
+            ph_sea = int(np.count_nonzero((gap & seamap)[core]))
+            ph_land = int(np.count_nonzero((gap & ~seamap)[core]))
+            h[gap] = fill
+    placeholder_nodes = ph_sea + ph_land
     if not np.all(np.isfinite(h[core])):
         raise RuntimeError(f"{tile.id}: terrain has {np.sum(~np.isfinite(h[core]))} unfilled nodes (source gap)")
 
     # ---- vectors
-    o = vector.read_osm(PIPE / osm["file"] if "file" in osm else CACHE / "osm" / "tiles" / f"{tile.id}.osm.pbf")
+    if osm is None:
+        o = {"buildings": [], "parts": [], "roads": [], "piers": []}
+    else:
+        o = vector.read_osm(PIPE / osm["file"] if "file" in osm else CACHE / "osm" / "tiles" / f"{tile.id}.osm.pbf")
     if shuffle_seed is not None:  # determinism test hook: input order must not matter
         rng = np.random.default_rng(shuffle_seed)
         for k in o:
@@ -241,8 +291,9 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
 
     # ---- buildings
     bcfg = cfg["buildings"]
-    datasf = vector.read_datasf(CACHE / "datasf" / f"ynuv-fyni__{tile.id}.geojson")
+    datasf = vector.read_datasf(CACHE / "datasf" / f"ynuv-fyni__{tile.id}.geojson") if dsf is not None else []
     dtree = shapely.STRtree([d["geom"] for d in datasf]) if datasf else None
+    asr_pts = vector.read_assessor(CACHE / "assessor" / f"wv5m-vpq2__{tile.id}.json", bcfg) if asr else []
     outlines = []
     for r in o["buildings"]:
         g = vector.clean_polygonal(r["geom"])
@@ -298,9 +349,17 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     owned_ids = {b["oid"] for b in owned_outlines}
     owned_parts = [p for p in parts if (p["part_of"] in owned_ids) or (p["part_of"] is None and owns(tile, p["geom"]))]
 
+    asr_attrs = vector.join_assessor([(b["oid"], b["geom"]) for b in owned_outlines] +
+                                     [(p["oid"], p["geom"]) for p in owned_parts if p["part_of"] is None], asr_pts)
+
     def build_record(b, is_part, parent=None):
         tags = b["tags"]
         hm, hsrc, extra = vector.resolve_height(tags, b["geom"], dtree, datasf, bcfg)
+        if hsrc == "default":  # T-020b: only default heights change; every other source is untouched
+            fill = vector.fill_default_height(b["geom"], asr_attrs.get(b["part_of"] if is_part and b.get("part_of") else b["oid"], {}).get("stories"),
+                                              lidar, lambda x, z: sample_h(x, z), bcfg)
+            if fill is not None:
+                hm, hsrc = fill
         mh = vector.resolve_min_height(tags, bcfg)
         lv = vector.parse_number(tags.get("building:levels"))
         if parent is not None:
@@ -318,10 +377,11 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
         props = {"bid": b["oid"], "part_of": b.get("part_of") if is_part else None,
                  "height_m": round(hm, 3), "min_height_m": round(mh, 3), "levels": lv,
                  "roof_shape": rs, "base_navd88_m": round(base, 3), "ground_min_navd88_m": round(gmin, 3), "height_source": hsrc,
-                 "name": tags.get("name"), "has_parts": (not is_part) and b["oid"] in parent_ids,
+                 "name": None, "has_parts": (not is_part) and b["oid"] in parent_ids,
                  "roof_height_m": round(rh, 3) if rh is not None else None, "excluded": excluded,
                  "height_capped_to_parent": capped}
         props.update(extra)
+        props.update(asr_attrs.get(b["part_of"] if is_part and b.get("part_of") else b["oid"], {}))
         if not is_part and b["oid"] in parent_ids:
             props["remainder_geometry"] = remainder(b) if not excluded else None
         return {"type": "Feature", "id": b["oid"], "properties": props, "geometry": mapping(b["geom"])}
@@ -336,6 +396,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     recs = [(p, True, parent_props.get(p["part_of"])) for p in owned_parts]
     feats_parts = list(cf.ThreadPoolExecutor(threads).map(job, recs)) if threads > 1 else [job(a) for a in recs]
     bfeats = sorted(feats_outline + feats_parts, key=lambda f: vector.oid_key(f["id"]))
+    landmarks.lower_to_sourced(tile.id, bfeats)  # M1-cleanup: sourced landmark height replaces a taller OSM part (Ferry Building tower)
 
     # ---- water mask (cell-centred 2048^2, row 0 = north): OSM water AND surface < MSL, minus piers/buildings
     water_poly = read_water_polygons(tile, 64.0)
@@ -366,7 +427,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
         rfeats.append({"type": "Feature", "id": r["oid"], "properties": {
             "wid": r["oid"], "class": t.get("highway"), "lanes": vector.parse_number(t.get("lanes")),
             "width_m": round(vector.road_width(t, rcfg), 3), "bridge": vector.as_int_bool(t.get("bridge")),
-            "tunnel": vector.as_int_bool(t.get("tunnel")), "layer": vector.layer_of(t), "name": t.get("name"),
+            "tunnel": vector.as_int_bool(t.get("tunnel")), "layer": vector.layer_of(t), "name": None,
             "drivable": t.get("highway") in rcfg["drivable"]}, "geometry": mapping(c)})
     rfeats.sort(key=lambda f: vector.oid_key(f["id"]))
 
@@ -388,6 +449,14 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     files["water.png"] = png_bytes(water_u8)
     files["buildings.geojson"] = fc(bfeats)
     files["roads.geojson"] = fc(rfeats)
+    lfeats, lchecked = landmarks.build(tile.id, bfeats)  # T-022: tiles without a configured landmark get no file/entry
+    bay_checked = []
+    if bay:  # T-104b: the Bay landmarks (config/landmarks_bay.json) are emitted for the Bay driver only; the 15 committed M1 tiles keep their bytes
+        bay_feats, bay_checked = landmarks_bay_emit.build(tile.id, bfeats, lambda bx, bz: sample_h(np.asarray(bx, float), np.asarray(bz, float)))
+        lfeats = sorted(lfeats + bay_feats, key=lambda f: f["id"])
+        lchecked = sorted(lchecked + bay_checked, key=lambda r: r["slug"])
+    if lchecked:
+        files["landmarks.geojson"] = fc(lfeats)
     files["faults.geojson"] = fc(ffeats, {"empty_by_design": len(ffeats) == 0,
                                           "note": "no Quaternary fault crosses this tile (R-004 §7); see nearest_faults" if not ffeats else None,
                                           "nearest_faults": nearest})
@@ -401,7 +470,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     bb = [round(min(c[0] for c in corners), 6), round(min(c[1] for c in corners), 6),
           round(max(c[0] for c in corners), 6), round(max(c[1] for c in corners), 6)]
     osm_src = source_entry("osm", "norcal-latest.osm.pbf", osm_pbf, {"osm_base_utc": osm_pbf.get("osm_base_utc"),
-                                                                     "extract_sha256": osm["sha256"]})
+                                                                     "extract_sha256": osm["sha256"] if osm else None})
     ter_sources = [source_entry("cudem", m["item"], m) for m in sorted(cud, key=lambda m: m["item"])] + \
                   [source_entry("dep3_1m", m["item"], m) for m in sorted(dep, key=lambda m: m["item"])]
     hs = {}
@@ -413,7 +482,10 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
          "format": "COG float32 2049x2049, pixel-is-point, row 0 = north, deflate + predictor 3",
          "samples": SAMPLES, "spacing_m": tile.spacing, "sources": ter_sources,
          "merge_rule": "3DEP 1 m where valid and CUDEM > +1.798 m NAVD88, CUDEM elsewhere, " + cfg["terrain"].get("feather_mode", "inside") + " linear feather over terrain.feather_m (" + str(cfg["terrain"]["feather_m"]) + " m); piers raised to deck",
-         "h_min_m": round(float(np.min(ht)), 4), "h_max_m": round(float(np.max(ht)), 4)},
+         "h_min_m": round(float(np.min(ht)), 4), "h_max_m": round(float(np.max(ht)), 4),
+         **({"placeholder_nodes": placeholder_nodes, "placeholder_nodes_sea": ph_sea, "placeholder_nodes_land": ph_land,
+             "placeholder_sea_navd88_m": PLACEHOLDER_SEA_M, "placeholder_land_navd88_m": PLACEHOLDER_LAND_M,
+             "placeholder_note": "nodes covered by neither CUDEM nor 3DEP hold a flat placeholder (sea inside OSM coastline water polygons, land elsewhere), not measured data (Q-NEW-b)"} if placeholder_nodes else {})},
         {"layer": "terrain_r16", "file": "terrain.r16", "sha256": sha256_bytes(files["terrain.r16"]),
          "format": "uint16 LE RAW 2049x2049, row 0 = south, col 0 = west, h = h_min + v*(h_max-h_min)/65535",
          "h_min_m": hmin, "h_max_m": hmax, "step_m": (hmax - hmin) / 65535.0, "sources": ter_sources},
@@ -430,11 +502,23 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
          "count_excluded": sum(1 for f in bfeats if f["properties"]["excluded"]),
          "count_height_capped_to_parent": sum(1 for f in bfeats if f["properties"]["height_capped_to_parent"]),
          "exclusion_rule": "kept as records, not extruded: location=underground, or layer<0 with building:levels:underground or level<0 (underground stations), building=ship; parts inherit their structure's exclusion",
+         "height_fill_rule": "T-020b: only a building whose R-004 chain ended at default is re-resolved: (a) lidar_3dep = median over 1 m cells inside the footprint eroded " + str(bcfg["lidar_fill"]["erode_m"]) + " m of (3DEP first-return p95 - terrain), needs >= " + str(bcfg["lidar_fill"]["min_coverage"]) + " of cells with returns, mean multi-return share <= " + str(bcfg["lidar_fill"]["max_multi_return_share"]) + " (vegetation test) and height >= " + str(bcfg["lidar_fill"]["min_height_m"]) + " m; (b) assessor_stories = stories x metres_per_level; (c) else default. height_source is lidar_3dep / assessor_stories for filled buildings",
          "part_height_rule": "R-004 order per part; a part height from a fallback (datasf/levels/default) is capped at its structure's height when that is osm_height or datasf (height_capped_to_parent)",
          "base_rule": "base_navd88_m = 10th percentile of the surface along the footprint ring (1 m steps); ground_min_navd88_m = minimum under the footprint; walls reach ground_min - skirt",
          "remainder_rule": "a structure with building:part ways renders through its parts plus remainder_geometry (outline minus parts, slivers < 4 m^2 or < 0.6 m wide dropped) extruded with the outline's own height_m",
-         "extra_fields": ["has_parts", "roof_height_m", "remainder_geometry", "datasf_id", "datasf_iou", "ground_min_navd88_m", "excluded", "height_capped_to_parent"],
-         "sources": [osm_src, source_entry("datasf", "ynuv-fyni", dsf)]},
+         "extra_fields": ["has_parts", "roof_height_m", "remainder_geometry", "datasf_id", "datasf_iou", "ground_min_navd88_m", "excluded", "height_capped_to_parent"]
+                         + (["year_built", "stories", "struct_class"] if asr else []),
+         "sources": [osm_src] + ([source_entry("datasf", "ynuv-fyni", dsf)] if dsf else []) + ([source_entry("assessor", "wv5m-vpq2", asr)] if asr else []),
+         **({"assessor_rule": "optional additive properties year_built, stories, struct_class (Assessor construction_type code, raw) from the pinned roll year; a parcel centroid is joined to the smallest footprint containing it; most common value per footprint; parts inherit their structure's; absent when unknown",
+             "assessor_roll_year": load_config("sources.json")["assessor"]["roll_year"],
+             "count_with_year_built": sum(1 for f in bfeats if "year_built" in f["properties"]),
+             "count_with_stories": sum(1 for f in bfeats if "stories" in f["properties"]),
+             "count_with_struct_class": sum(1 for f in bfeats if "struct_class" in f["properties"])} if asr else {})},
+        *([{"layer": "landmarks", "file": "landmarks.geojson", "sha256": sha256_bytes(files["landmarks.geojson"]),
+            "count": len(lfeats), "checked": lchecked,
+            "emit_rule": "R-020 §2: a part is emitted only when the sourced top (sourced height above the structure's baked base + that base) exceeds the baked building top at the landmark position by more than tol_height_m; it stacks on the baked top (part_of = owning OSM bid); otherwise recorded here as already right",
+            "sources": landmarks.source_entries(lfeats, [c for c in lchecked if c not in bay_checked]) + landmarks_bay_emit.source_entries(bay_checked),
+            **({"bay_rule": "T-104b: config/landmarks_bay.json (landmarks_bay@v1, T-104): bridge towers as prisms from the baked surface to the used top over the measured footprint, bridge decks as 3-D lines at the measured deck profile (cut at tile edges), port cranes as points (position only), building landmarks (Oakland towers, Alcatraz lighthouse, airport towers) by the emit_rule above"} if bay_checked else {})}] if lchecked else []),
         {"layer": "roads", "file": "roads.geojson", "sha256": sha256_bytes(files["roads.geojson"]), "count": len(rfeats),
          "clip_rule": "clipped to the tile square; wid is the global OSM way id", "sources": [osm_src]},
         {"layer": "faults", "file": "faults.geojson", "sha256": sha256_bytes(files["faults.geojson"]), "count": len(ffeats),
@@ -462,7 +546,9 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
     bake_s = round(time.time() - t_start, 2)
     write_if_changed(man_path, (canonical_json(manifest, indent=1) + "\n").encode("utf-8"))
     write_if_changed(out / "build_info.json", (canonical_json({"tile": tile.id, "bake_seconds": bake_s, "finished_utc": utc_now(),
-                                                               "manifest_sha256": sha256_file(man_path)}, indent=1) + "\n").encode("utf-8"))
+                                                               "manifest_sha256": sha256_file(man_path),
+                                                               "height_source_counts": dict(sorted(hs.items())),
+                                                               "lidar_fill": "applied" if lidar is not None else "skipped (no cache)"}, indent=1) + "\n").encode("utf-8"))
     manifest = dict(manifest, build=dict(manifest["build"], bake_seconds=bake_s))
     print(f"[bake] {tile.id}: {len(bfeats)} buildings ({len(owned_outlines)} structures, {len(owned_parts)} parts), "
           f"{len(rfeats)} roads, {len(ffeats)} fault pieces, water {water.mean() * 100:.1f} %, "

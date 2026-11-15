@@ -99,8 +99,41 @@ namespace Game.World.Geo
         public List<List<double[]>> RenderPolygons;
         public double AnchorLocalX, AnchorLocalZ;   // footprint area centroid, tile-local
         public double AreaM2;
+        /// <summary>Optional SF Assessor roll fields baked by the tile pipeline; 0 / null = absent.</summary>
+        public int YearBuilt, Stories;
+        public string StructClass;
         public GeoMeshData Mesh;                    // null when nothing of this record is rendered (structure fully covered by its parts)
         public int ChunkX, ChunkZ;
+    }
+
+    public enum GeoColliderShape { Box, Capsule }
+
+    /// <summary>One static collider of a landmark, tile-local metres (x east, z north), y NAVD88 (R-020 §3).
+    /// Box: P0 and P1 are the centres of the two end faces of the axis (a tower leg: bottom and top centre; a deck piece: the road-surface-offset
+    /// axis centre, the box top is at axis y + Depth/2). Width is the extent along the horizontal side vector (cos Yaw, 0, sin Yaw);
+    /// Depth is the extent along the remaining perpendicular (vertical for a sloped deck piece, horizontal across Width for a vertical leg).
+    /// Capsule: P0 and P1 are the axis ends, Radius the radius; Width, Depth and Yaw are unused (0).</summary>
+    public sealed class GeoColliderData
+    {
+        public GeoColliderShape Shape;
+        public double P0X, P0Y, P0Z, P1X, P1Y, P1Z;
+        public double Width, Depth, Radius, YawRad;
+    }
+
+    /// <summary>One baked landmark part (geo_tile landmarks.geojson, R-020): a tower leg, a deck piece or a cable piece, static only.
+    /// Linear kinds are cut at tile edges at shared float64 nodes (last vertex of one piece == first of the next).</summary>
+    public sealed class GeoLandmarkData
+    {
+        public string Lid, Bid, Kind, Confidence, HeightSource;
+        public int PartIdx, Piece;
+        public double BaseNavd88M, TopNavd88M, HeightM, WidthM, DiameterM;
+        public double AnchorLocalX, AnchorLocalZ;
+        /// <summary>Tower leg footprint rings, tile-local x0,z0,x1,z1,... (null for linear kinds).</summary>
+        public List<double[]> Footprint;
+        /// <summary>Linear kinds: original vertices, tile-local x0,z0,x1,z1,... and NAVD88 y per vertex (null for towers).</summary>
+        public double[] Line, Y;
+        public List<GeoColliderData> Colliders = new List<GeoColliderData>();
+        public GeoMeshData Mesh;
     }
 
     public sealed class GeoRoadData
@@ -115,6 +148,8 @@ namespace Game.World.Geo
     public sealed class GeoFaultData
     {
         public string Id, FaultName, Section, Linetype, SlipRate, SlipSense, Age;
+        /// <summary>The baked `fault_id` property (string, as in faults_bay.geojson; null when absent). Distinct from <see cref="Id"/>, the feature id ("qf:4:59"). M-053 keys on (FaultId, Section).</summary>
+        public string FaultId;
         public List<double[]> Lines = new List<double[]>();
     }
 
@@ -126,6 +161,7 @@ namespace Game.World.Geo
         public readonly List<GeoBuildingData> Buildings = new List<GeoBuildingData>();
         public readonly List<GeoRoadData> Roads = new List<GeoRoadData>();
         public readonly List<GeoFaultData> Faults = new List<GeoFaultData>();
+        public readonly List<GeoLandmarkData> Landmarks = new List<GeoLandmarkData>();
         /// <summary>Free-form statistics (counts, errors) reported in the tile stats.</summary>
         public readonly SortedDictionary<string, double> Stats = new SortedDictionary<string, double>(StringComparer.Ordinal);
         /// <summary>Attribution strings of the layer's sources (manifest), for the credits asset.</summary>

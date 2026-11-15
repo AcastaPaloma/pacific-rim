@@ -1,0 +1,59 @@
+m007_bay baseline (scriptedpack@1, T-113 pack layer, untuned), synthetic Bay m007_bay_synth@v1, specs from Units.Kaiju
+hunt/churn 50 seeds per composition (LLMHH 40), raid/mixed 20 seeds, emerge 100 seeds; thresholds are R-103 5.2, none lowered
+
+C1 FAIL hunt
+   fr_commit                                     0.0649 >= 0.6 -> FAIL
+   fr_commit_minus_k_null                        0.0649 >= 0.0 -> ok
+   failing compositions: LH, LLMH, LLMHH, LMH, LMHH, MH, MMH
+   control directcharge@1 value 0.0 discriminates True
+C2 FAIL hunt
+   fe_vs_nofocus                                 0.4511 >= 0.5 -> FAIL
+   ff_ci_separation                              0.0 >= 1.0 -> FAIL
+   control nofocus@1 value 0.9025 discriminates True
+C3 NOT_RUN churn
+   note: fewer than 200 voluntary switches (candidate 89)
+C4 PASS all
+   leaks                                         0.0 <= 0 -> ok
+C5 PENDING hunt,raid,mixed
+   note: human panel: >= 12 raters x 8 blinded clips (T-125); no ratings file
+C6 PENDING hunt,mixed
+   note: pending T-041 training: no trained-policy runs
+P1 FAIL hunt,mixed
+   role_coverage                                 0.9538 >= 0.9 -> ok
+   member_fit_time_min_over_species_x_comp       0.6393 >= 0.7 -> FAIL
+   failing compositions: LL:L
+   control randomrole@1 value 0.2775 discriminates True
+P2 FAIL hunt,churn
+   role_changes_per_member_min                   1.1231 <= 1.0 -> FAIL
+   role_thrash_fraction                          0.0 <= 0.1 -> ok
+   failing compositions: LH, LLMHH, LMH, LMHH
+P3 PASS hunt,mixed
+   share_Lr_le_10s                               0.9939 >= 0.9 -> ok
+   control randomrole@1 value 0.4174 discriminates True
+P4 FAIL hunt
+   bs_rate                                       0.0099 >= 0.4 -> FAIL
+   bs_rate_minus_k_nobait                        -0.0481 >= 0.0 -> FAIL
+   failing compositions: LH, LLH, LLMH, LLMHH, LMH, LMHH
+   control nobait@1 value 0.0407 discriminates False
+P5 FAIL hunt,mixed
+   kx_ratio_vs_noroles                           0.5198 >= 1.25 -> FAIL
+   kx_ratio_ci_lower                             0.427 >= 1.0 -> FAIL
+   failing compositions: LLMHH, MH, MMH
+   control noroles@1 value 0.2722 discriminates False
+P6 FAIL hunt,mixed
+   participation_share                           0.5384 >= 0.9 -> FAIL
+   failing compositions: LH, LL, LLH, LLMH, LLMHH, LMH, LMHH, MMH
+I1 PASS raid
+   raid_completion_rate                          1.0 >= 0.8 -> ok
+I2 NOT_RUN mixed
+   note: needs mixed runs with mech proximity and idle windows
+I3 FAIL raid,mixed
+   ival_per_kaiju_hour_ratio                     1.0 >= 1.2 -> FAIL
+   ratio_ci_lower                                1.0 >= 1.0 -> ok
+   control nearestinfra@1 value 0.6553 discriminates False
+I4 INFORMATIONAL mixed
+   note: gating (>= 0.30) only after T-125 calibration
+F1 PASS emerge
+   share_in_valid_pack                           0.954 >= 0.9 -> ok
+   packs_over_5_runs                             0.0 <= 0 -> ok
+   merges_beyond_call_range                      0.0 <= 0 -> ok

@@ -1,0 +1,32 @@
+{
+ "tool": "Game.Tools.StyleCapture.StyleTiming.PassTimingCli",
+ "method": "Recorder (enableRecording) on each PixelProfiling sampler (Pixel.*, including Pixel.Present); one editor frame per tick; per-frame gpuElapsedNanoseconds and elapsedNanoseconds (CPU) read one tick after the render; capture off, no readback",
+ "hardware": {"gpu": "Apple M5 Pro", "graphics_api": "Metal", "cpu": "Apple M5 Pro", "os": "Mac OS X 26.6.2", "unity": "6000.6.9f1", "batch_mode": true},
+ "supports_gpu_recorder": false,
+ "vsync_count": 0, "target_frame_rate": -1,
+ "warmup_frames_discarded": 123, "frames_measured": 1000,
+ "note": "Editor frames on the development Mac: relative regression numbers, not M-008 evidence (Q-019). GPU ms is 0 when the GPU recorder is unsupported; then only CPU ms is meaningful. Confidence interval is a normal approximation 1.96*stdev/sqrt(n) of the mean and ignores frame-to-frame autocorrelation.",
+ "resolutions": [
+  {"output": "1920x1080", "internal": "480x270", "csv": "pass_timing_1920x1080.csv", "frames": 1000,
+   "passes": {
+    "Pixel.Dither": {"gpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}, "cpu_ms": {"n": 1000, "mean": 0.0167, "stdev": 0.0338, "p95": 0.0179, "max": 1.0772, "ci95_lo": 0.0146, "ci95_hi": 0.0188}},
+    "Pixel.Downsample": {"gpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}, "cpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}},
+    "Pixel.Haze": {"gpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}, "cpu_ms": {"n": 1000, "mean": 0.0144, "stdev": 0.0012, "p95": 0.0158, "max": 0.0423, "ci95_lo": 0.0143, "ci95_hi": 0.0145}},
+    "Pixel.Outline": {"gpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}, "cpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}},
+    "Pixel.Present": {"gpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}, "cpu_ms": {"n": 1000, "mean": 0.0091, "stdev": 0.0015, "p95": 0.0107, "max": 0.0345, "ci95_lo": 0.0091, "ci95_hi": 0.0092}},
+    "Pixel.Quantise": {"gpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}, "cpu_ms": {"n": 1000, "mean": 0.0141, "stdev": 0.0009, "p95": 0.0155, "max": 0.0258, "ci95_lo": 0.014, "ci95_hi": 0.0141}},
+    "Pixel.Store": {"gpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}, "cpu_ms": {"n": 1000, "mean": 0.0155, "stdev": 0.0011, "p95": 0.017, "max": 0.033, "ci95_lo": 0.0154, "ci95_hi": 0.0155}}
+   }},
+  {"output": "2560x1440", "internal": "512x288", "csv": "pass_timing_2560x1440.csv", "frames": 1000,
+   "passes": {
+    "Pixel.Dither": {"gpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}, "cpu_ms": {"n": 1000, "mean": 0.0151, "stdev": 0.001, "p95": 0.0169, "max": 0.0255, "ci95_lo": 0.015, "ci95_hi": 0.0152}},
+    "Pixel.Downsample": {"gpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}, "cpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}},
+    "Pixel.Haze": {"gpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}, "cpu_ms": {"n": 1000, "mean": 0.0141, "stdev": 0.0024, "p95": 0.0151, "max": 0.0862, "ci95_lo": 0.014, "ci95_hi": 0.0143}},
+    "Pixel.Outline": {"gpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}, "cpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}},
+    "Pixel.Present": {"gpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}, "cpu_ms": {"n": 1000, "mean": 0.0089, "stdev": 0.0029, "p95": 0.01, "max": 0.0748, "ci95_lo": 0.0087, "ci95_hi": 0.009}},
+    "Pixel.Quantise": {"gpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}, "cpu_ms": {"n": 1000, "mean": 0.0138, "stdev": 0.0013, "p95": 0.0148, "max": 0.0479, "ci95_lo": 0.0137, "ci95_hi": 0.0139}},
+    "Pixel.Store": {"gpu_ms": {"n": 1000, "mean": 0, "stdev": 0, "p95": 0, "max": 0, "ci95_lo": 0, "ci95_hi": 0}, "cpu_ms": {"n": 1000, "mean": 0.015, "stdev": 0.0007, "p95": 0.0164, "max": 0.0223, "ci95_lo": 0.015, "ci95_hi": 0.0151}}
+   }}
+ ],
+ "gc_capture_off": {"1920x1080": {"frames": 600, "gc_alloc_samples": 0, "gc_collections": 0, "mono_used_delta_bytes": 16384}, "2560x1440": {"frames": 600, "gc_alloc_samples": 0, "gc_collections": 0, "mono_used_delta_bytes": 114688}}
+}

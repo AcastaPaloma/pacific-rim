@@ -1,0 +1,39 @@
+registry_schema: metric_registry@v1
+revision: v1.0
+metric_status: registered
+date: '2026-11-15'
+metric: M-105
+spec: M-105@v1
+title: Refit physical consistency (R-104 section 9 and 11)
+source: research/R-104.md sections 9, 11
+note: "Producers: the C# test DotnetTests/Meta.Refit.Tests M105RefitTests (3 x 12,000 seeded builds against an in-test oracle, evidence/T-121), the Python oracle
+  Tools/economy/m105_refit.py (a second independent implementation over the committed catalogue, corpus evidence/T-123/m105_corpus.json) and the C# replay
+  M105CorpusTests (every non-borderline corpus build gets the same verdict from the shipped RefitService). All thresholds are exact counts."
+submeasures:
+  M-105.valid_builds:
+    title: Valid builds out of the section 9 limits
+    kind: gating
+    thresholds:
+      out_of_limit_max:
+        value: 0
+        unit: builds
+        status: derived
+        source: "R-104 section 11 M-105: 0 valid builds out of limits"
+  M-105.invalid_builds:
+    title: Invalid builds accepted, or rejected with a wrong first violation
+    kind: gating
+    thresholds:
+      wrong_verdict_max:
+        value: 0
+        unit: builds
+        status: derived
+        source: "R-104 section 11 M-105: 0 invalid builds accepted, correct first violation"
+  M-105.cross_language:
+    title: Disagreements between the Python oracle and RefitService on the replayed corpus
+    kind: gating
+    thresholds:
+      disagreements_max:
+        value: 0
+        unit: builds
+        status: derived
+        source: "T-123: independent implementations must agree on every build that is not within 1e-9 relative of a limit"

@@ -17,6 +17,8 @@ namespace Game.World.Geo.Unity
         public bool TerrainCollider = true;
         public bool VerifyHashes = true;
         public Transform Parent;
+        /// <summary>Shared-border policy for tiles with neighbours in a set (GeoTileSetBuilder fills it); null for a single tile.</summary>
+        public GeoEdgePolicy Edge;
     }
 
     public static class GeoTileBuilder
@@ -38,7 +40,7 @@ namespace Game.World.Geo.Unity
             var sw = System.Diagnostics.Stopwatch.StartNew();
             var settings = opt.Settings ?? LoadSettings();
             GeoMaterials.Configure(settings);
-            var ctx = new GeoTileContext(tileDirectory, settings, opt.VerifyHashes);
+            var ctx = new GeoTileContext(tileDirectory, settings, opt.VerifyHashes) { Edge = opt.Edge };
             var model = new GeoTileModel(ctx);
             var root = new GameObject("GeoTile_" + ctx.Tile);
             if (opt.Parent != null) root.transform.SetParent(opt.Parent, false);

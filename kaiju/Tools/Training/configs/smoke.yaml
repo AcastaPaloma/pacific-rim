@@ -1,0 +1,44 @@
+# T-041 smoke: proves the loop end to end (bridge -> PPO update -> brain_log@v1). Not a training run.
+seed: 41
+bridge:
+  n_envs: 4
+  base_seed: 41000
+  scenario: m007_3v4      # 4 kaiju vs 3 shooting mechs (R-024 rev 3)
+  duration_s: 60          # short episodes so a few thousand decisions complete episodes
+  early_stop: true
+  log_episodes: 1         # brain_log@v1 of the first episode per env
+  brain_id: ppo-smoke@0
+  scripted_ally_frac: 0.0
+policy:
+  hidden: [128, 128]      # actor 58,880 MACs, R-028 D8 bound 100k
+  critic_hidden: [256, 256]
+ppo:
+  updates: 6
+  rollout_rows: 1024      # completed agent transitions per update
+  epochs: 3
+  minibatch: 256
+  gamma: 0.995            # per decision (0.2 s): ~40 s horizon
+  lam: 0.95
+  clip: 0.2
+  lr: 3.0e-4
+  vf_coef: 0.5
+  ent_coef: 0.01
+  max_grad_norm: 0.5
+  torch_threads: 4
+  device: cpu
+reward:                   # R-028 section 6
+  dmg_dealt: 1.0          # per full mech hp dealt
+  kill_mine: 0.5
+  team_kill: 1.0
+  dmg_taken: -0.5         # per full kaiju hp lost
+  i_died: -1.0
+  ally_death: -0.5
+  win: 5.0
+  loss: -2.0
+  timeout: -1.0
+  voluntary_switch: -0.05
+  time_per_s: -0.002
+  shaping:                # annealed to 0 by anneal_frac of training (anti-gaming, R-028 6.3)
+    commit_flanked: 0.3
+    commit_unflanked: -0.1
+    anneal_frac: 0.6

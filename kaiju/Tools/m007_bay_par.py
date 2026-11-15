@@ -1,0 +1,45 @@
+"""T-113b: parallel driver for Tools/m007_bay.py (no metric logic here). compute_run per log file in a process pool, then m007_bay.evaluate,
+exactly as m007_bay.main does serially. Usage: m007_bay_par.py <log dirs...> --out report.json [--jobs 12]"""
+import json
+import math
+import os
+import sys
+from multiprocessing import Pool
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import m007_bay as M  # noqa: E402
+
+
+CFG = dict(M.CFG)
+
+
+def _one(arg):          # (file, rev): workers are spawned (macOS), so the revision travels with the task, not through module state
+    f, rev = arg
+    return M.compute_run(M.load_run(f), dict(M.CFG, rev=rev))
+
+
+def main(argv):
+    out, jobs, ins = None, 12, []
+    i = 0
+    while i < len(argv):
+        if argv[i] == "--out":
+            out = argv[i + 1]; i += 2
+        elif argv[i] == "--rev":
+            CFG["rev"] = int(argv[i + 1]); i += 2
+        elif argv[i] == "--jobs":
+            jobs = int(argv[i + 1]); i += 2
+        else:
+            ins.append(argv[i]); i += 1
+    files = M.expand(ins)
+    with Pool(jobs) as p:
+        prims = p.map(_one, [(f, CFG["rev"]) for f in files], chunksize=2)
+    rep = M.evaluate([], CFG, None, prims=prims)
+    text = json.dumps(rep, indent=1, default=lambda o: None if isinstance(o, float) and math.isnan(o) else str(o))
+    if out:
+        open(out, "w").write(text)
+    print(json.dumps(rep["summary"]))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

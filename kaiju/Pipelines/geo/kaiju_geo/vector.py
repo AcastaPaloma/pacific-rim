@@ -148,6 +148,71 @@ def read_datasf(path):
     return out
 
 
+# ---------------------------------------------------------------- Assessor attributes (optional, additive)
+def read_assessor(path, cfg):
+    """Parcel centroids of the pinned roll as [{x, z (BayTM), year_built, stories, struct_class}] (None = unknown)."""
+    import json
+    rows = json.load(open(path, encoding="utf-8"))
+    acfg = cfg["assessor"]
+    t = transformer("EPSG:6318", baytm_crs())
+    out = []
+    for r in rows:
+        geom = r.get("the_geom") or {}
+        c = geom.get("coordinates")
+        if geom.get("type") != "Point" or not c or len(c) < 2:
+            continue
+        x, z = t.transform(float(c[0]), float(c[1]))
+        yb = parse_number(r.get("year_property_built"))
+        yb = int(yb) if yb is not None and yb == int(yb) and acfg["min_year_built"] <= yb <= int(r.get("closed_roll_year") or 9999) else None
+        st = parse_number(r.get("number_of_stories"))
+        st = None if st is None or not (0 < st <= acfg["max_stories"]) else (int(st) if st == int(st) else round(st, 1))
+        sc = (r.get("construction_type") or "").strip() or None
+        if yb is None and st is None and sc is None:
+            continue
+        out.append({"x": x, "z": z, "year_built": yb, "stories": st, "struct_class": sc})
+    return out
+
+
+def _mode(vals, prefer_high=False):
+    vals = [v for v in vals if v is not None]
+    if not vals:
+        return None
+    n = {}
+    for v in vals:
+        n[v] = n.get(v, 0) + 1
+    top = max(n.values())
+    c = sorted(v for v, k in n.items() if k == top)
+    return c[-1] if prefer_high else c[0]
+
+
+def join_assessor(items, points):
+    """items: [(key, polygon)]; points: read_assessor output. Each point goes to the smallest footprint containing it
+    (ties by key). Per footprint: year_built = most common (ties earlier), stories = most common (ties taller),
+    struct_class = most common raw code (ties lexicographic). Returns {key: {only the known fields}}."""
+    if not items or not points:
+        return {}
+    tree = shapely.STRtree([p for _, p in items])
+    pts = shapely.points([(p["x"], p["z"]) for p in points])
+    hit_pt, hit_g = tree.query(pts, predicate="within")
+    best = {}
+    for pi, gi in zip(hit_pt.tolist(), hit_g.tolist()):
+        k = (items[gi][1].area, str(items[gi][0]))
+        if pi not in best or k < best[pi][0]:
+            best[pi] = (k, gi)
+    groups = {}
+    for pi, (_, gi) in best.items():
+        groups.setdefault(gi, []).append(points[pi])
+    res = {}
+    for gi, ps in groups.items():
+        a = {"year_built": _mode([p["year_built"] for p in ps]),
+             "stories": _mode([p["stories"] for p in ps], prefer_high=True),
+             "struct_class": _mode([p["struct_class"] for p in ps])}
+        a = {k: v for k, v in a.items() if v is not None}
+        if a:
+            res[items[gi][0]] = a
+    return res
+
+
 def iou(a, b) -> float:
     inter = a.intersection(b).area
     if inter <= 0:
@@ -177,6 +242,67 @@ def resolve_height(tags, geom, datasf_tree, datasf, cfg):
     if lv is not None and lv > 0:
         return lv * cfg["metres_per_level"], "osm_levels", {}
     return cfg["default_levels"] * cfg["metres_per_level"], "default", {}
+
+
+def read_lidar_grid(path):
+    """T-020b: first-return grid of lidar_ref_v11 (1 m cells, row 0 = south) as a dict, or None when absent/unreadable."""
+    import numpy as np
+    try:
+        z = np.load(path)
+        return {"bounds": [float(v) for v in z["bounds_baytm"]], "p95": z["p95_10"], "multi": z["multi_10"], "count": z["count_10"]}
+    except (OSError, ValueError, KeyError):
+        return None
+
+
+def lidar_height(geom, grid, terrain_at, lcfg, low_floor=False):
+    """Median of (first-return p95 - terrain) over 1 m cells whose centre lies in the footprint eroded by lcfg['erode_m'].
+    None unless >= lcfg['min_coverage'] of those cells (inside the grid) have returns, the mean multi-return share
+    (vegetation test of lidar_ref_v11) is <= lcfg['max_multi_return_share'] and the height >= lcfg['min_height_m']."""
+    import numpy as np
+    eg = geom.buffer(-lcfg["erode_m"])
+    if eg.is_empty:
+        return None
+    x0, z0, x1, z1 = grid["bounds"]
+    n = grid["p95"].shape[0]
+    res = (x1 - x0) / n
+    bx0, bz0, bx1, bz1 = eg.bounds
+    i0, i1 = max(int(np.floor((bx0 - x0) / res)), 0), min(int(np.ceil((bx1 - x0) / res)), n)
+    j0, j1 = max(int(np.floor((bz0 - z0) / res)), 0), min(int(np.ceil((bz1 - z0) / res)), n)
+    if i1 <= i0 or j1 <= j0:
+        return None
+    jj, ii = np.meshgrid(np.arange(j0, j1), np.arange(i0, i1), indexing="ij")
+    cx, cz = x0 + (ii + 0.5) * res, z0 + (jj + 0.5) * res
+    inside = shapely.contains_xy(eg, cx, cz)
+    if not inside.any():
+        return None
+    p = grid["p95"][j0:j1, i0:i1][inside]
+    has = grid["count"][j0:j1, i0:i1][inside] > 0
+    cov = float(has.mean())
+    if cov < lcfg["min_coverage"]:
+        return None
+    multi = float(np.mean(grid["multi"][j0:j1, i0:i1][inside][has]))
+    if multi > lcfg["max_multi_return_share"]:
+        return None
+    h = float(np.median(p[has] - terrain_at(cx[inside][has], cz[inside][has])))
+    if h >= lcfg["min_height_m"]:
+        return round(h, 3)
+    # Low or earth-covered structure (sheds, coastal batteries): a clear, well-covered measurement below the floor
+    # gives the floor height instead of the 3-level default (M1 lead session 3, decided autonomously).
+    if low_floor and "low_floor" in lcfg and cov >= lcfg["low_floor"]["min_coverage"] and multi <= lcfg["low_floor"]["max_multi_return_share"]:
+        return float(lcfg["min_height_m"])
+    return None
+
+
+def fill_default_height(geom, stories, grid, terrain_at, cfg):
+    """T-020b: for a building whose height came out as 'default' only. Order: 3DEP lidar, Assessor stories x
+    metres_per_level, else None (stays default). Returns (height_m, height_source) or None."""
+    if grid is not None:
+        h = lidar_height(geom, grid, terrain_at, cfg["lidar_fill"], low_floor=True)
+        if h is not None:
+            return h, "lidar_3dep"
+    if stories is not None and stories > 0:
+        return stories * cfg["metres_per_level"], "assessor_stories"
+    return None
 
 
 def resolve_min_height(tags, cfg):

@@ -1,0 +1,64 @@
+........................................................................ [ 14%]
+........................................................................ [ 28%]
+........................................................................ [ 42%]
+........................................................................ [ 56%]
+........................................................................ [ 70%]
+.......................................F..F............................. [ 84%]
+........................................................................ [ 98%]
+......                                                                   [100%]
+=================================== FAILURES ===================================
+______________________ test_no_threshold_literals_in_code ______________________
+
+    def test_no_threshold_literals_in_code():
+        vals = _registry_values()
+        pkg = os.path.join(METRICS, "kaiju_metrics")
+        hits = []
+        for root, _, files in os.walk(pkg):
+            for f in files:
+                if not f.endswith(".py"):
+                    continue
+                path = os.path.join(root, f)
+                rel = os.path.relpath(path, pkg).replace(os.sep, "/")
+                toks = tokenize.generate_tokens(io.StringIO(open(path).read()).readline)
+                for t in toks:
+                    if t.type != tokenize.NUMBER:
+                        continue
+                    is_float = "." in t.string or "e" in t.string.lower()
+                    try:
+                        v = float(t.string)
+                    except ValueError:
+                        continue
+                    if not is_float:
+                        if v < 5:                    # small integers (axes, counts, 0/1/2/3/4 indices) are not scanned
+                            continue
+                        v = ("int", int(v))
+                    if v in vals and (rel, t.string) not in ALLOW and rel not in ALLOW_FILES:
+                        hits.append(f"{rel}:{t.start[0]}: {t.string}")
+>       assert hits == [], "threshold literals outside the registry:\n" + "\n".join(hits)
+E       AssertionError: threshold literals outside the registry:
+E         streaming/m102.py:77: 12
+E         streaming/m102.py:140: 0.0
+E         streaming/m102.py:168: 1e-9
+E         streaming/m102.py:178: 1e-9
+E       assert ['streaming/m...py:178: 1e-9'] == []
+E         
+E         Left contains 4 more items, first extra item: 'streaming/m102.py:77: 12'
+E         Use -v to get more diff
+
+Tools/Metrics/tests/test_registry.py:285: AssertionError
+______________________________ test_list_metrics _______________________________
+
+    def test_list_metrics():
+        info = list_metrics()
+>       assert sorted({m["metric"] for m in info}) == ["M-001", "M-002", "M-003", "M-004", "M-005", "M-007", "M-050", "M-051", "M-052", "M-053", "M-054", "M-059"]
+E       AssertionError: assert ['M-001', 'M-... 'M-007', ...] == ['M-001', 'M-... 'M-007', ...]
+E         
+E         At index 6 diff: 'M-015' != 'M-050'
+E         Left contains 3 more items, first extra item: 'M-059'
+E         Use -v to get more diff
+
+Tools/Metrics/tests/test_registry.py:321: AssertionError
+=========================== short test summary info ============================
+FAILED Tools/Metrics/tests/test_registry.py::test_no_threshold_literals_in_code
+FAILED Tools/Metrics/tests/test_registry.py::test_list_metrics - AssertionErr...
+2 failed, 508 passed in 323.85s (0:05:23)

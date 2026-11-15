@@ -23,7 +23,8 @@ from pathlib import Path
 # ---------------------------------------------------------------- paths
 PIPE = Path(__file__).resolve().parent.parent          # Pipelines/geo
 PROJECT = PIPE.parent.parent                            # kaiju/
-CACHE = PIPE / "cache"                                  # git-ignored raw downloads
+# git-ignored raw downloads; KAIJU_GEO_CACHE points a task worktree at the integration checkout's cache (T-102b; no symlinks)
+CACHE = Path(os.environ["KAIJU_GEO_CACHE"]).resolve() if os.environ.get("KAIJU_GEO_CACHE") else PIPE / "cache"
 CONFIG = PIPE / "config"
 # Baked, committed geo_tile@v1 output (outside the cache; readable by the Unity importer and
 # shipped with players): see README "Where the baked data lives".
@@ -40,6 +41,16 @@ SAMPLES = 2049
 def load_config(name: str) -> dict:
     with open(CONFIG / name, "r", encoding="utf-8") as f:
         return json.load(f)
+
+
+def pipe_rel(p) -> str:
+    """Path relative to Pipelines/geo, or the absolute path when the file lives elsewhere (KAIJU_GEO_CACHE pointing a task
+    worktree at the integration cache); `PIPE / pipe_rel(p)` resolves both."""
+    p = Path(p)
+    try:
+        return str(p.relative_to(PIPE))
+    except ValueError:
+        return str(p)
 
 
 # ---------------------------------------------------------------- CRS (R-004 §2.1)
@@ -243,7 +254,7 @@ def read_meta(dest: Path) -> dict | None:
 def up_to_date(dest: Path, label: str) -> dict | None:
     m = read_meta(dest)
     if m is not None:
-        print(f"[{label}] up to date: {dest.relative_to(PIPE)} (sha256 {m['sha256'][:12]}, fetched {m['fetched_utc']})")
+        print(f"[{label}] up to date: {pipe_rel(dest)} (sha256 {m['sha256'][:12]}, fetched {m['fetched_utc']})")
     return m
 
 
@@ -286,7 +297,7 @@ def http_get(url: str, dest: Path, label: str, retries: int = 4, timeout: int = 
             if expect and expect not in tmp.read_bytes()[:4096].decode("latin-1"):
                 raise RuntimeError(f"unexpected payload (no {expect!r}) from {url}")
             meta = finish_fetch(dest, tmp, url, {k: v for k, v in hdr.items() if v})
-            print(f"[{label}] fetched {dest.relative_to(PIPE)} ({meta['bytes'] / 1e6:.2f} MB)")
+            print(f"[{label}] fetched {pipe_rel(dest)} ({meta['bytes'] / 1e6:.2f} MB)")
             return meta
         except (urllib.error.URLError, OSError, RuntimeError) as e:
             last = e

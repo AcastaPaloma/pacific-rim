@@ -1,0 +1,23 @@
+M-003@v1  [control_subpixel_offset]  registry v1.1 sha256:7a63afd06c66  tool 1.0.0
+VERDICT: INCOMPLETE   headless: INCOMPLETE   exit 3   failing gating: 0
+  FAIL           [A] M-003.e.contrast 21.73   >= 25  margin -3.269 seed-threshold
+  PASS           [G] M-003.a.output   1 share  >= 0.95  margin 0.05
+  PASS           [G] M-003.a.internal 1 share  >= 0.995  margin 0.005 seed-threshold
+  PASS           [G] M-003.b.DIG      1 share of frames  >= 0.8  margin 0.2
+  PASS           [G] M-003.c1         1 rho  >= 0.9  margin 0.1 seed-threshold
+  PASS           [G] M-003.c2         0 L*  <= 0  margin 0
+  PASS           [G] M-003.d-i        6 levels  <= 12  margin 6
+  PASS           [G] M-003.d-ii       1 families  <= 3  margin 2
+  PASS           [G] M-003.d-iv       1 share of blocks  >= 0.995  margin 0.005
+  PENDING        [G] M-003.f          -   (no panel_ratings@v1 file given (the tool never defaults a score))
+  REPORTED       [i] M-003.a.A3       1 share
+  REPORTED       [i] M-003.a.A5       1 share
+  PASS           [A] M-003.b.DIG_max  0.287 DIG  <= 0.5  margin 0.213 seed-threshold
+  REPORTED       [A] M-003.b.O        1.018 O
+  NOT_APPLICABLE [A] M-003.d-iii      -   (no accent present in any frame (applies only when present))
+  PASS           [A] M-003.e.sky      0.3806   in [0.2, 0.5]  margin 0.1194 seed-threshold
+  PASS           [A] M-003.e.horizon  0.4184   <= 0.45  margin 0.03156 seed-threshold
+  warning: ADVISORY M-003.b.O reported without a threshold until Q-015: median O 1.018 (Bayer/checker > 0.5, white noise ~ 0, clustered < 0; the references are -0.34..+0.15)
+  warning: ADVISORY M-003.e.contrast failed: value 21.73 vs >= 25
+  missing inputs: slate_teal: 1 gameplay frames (< 12)
+  inputs: 43 files hashed; report.json holds every value, threshold and hash

@@ -1,0 +1,268 @@
+{
+ "camera_model": "pinhole, Unity left-handed, y up; pose = sidecar position_local_m + rotation_xyzw (camera-to-world, post-snap); hfov 60 deg, 1920x1080",
+ "origin_offset_baytm": [
+  61440.0,
+  73728.0
+ ],
+ "props_in_1_to_3_px": [
+  "figure_1",
+  "figure_2",
+  "figure_3",
+  "car_1",
+  "boat_1"
+ ],
+ "props_in_1_to_3_px_count": 5,
+ "cues": [
+  {
+   "name": "figure_1",
+   "kind": "figure 1.8 m",
+   "size_m": [
+    0.5,
+    1.8,
+    0.4
+   ],
+   "distance_m": 370.6,
+   "in_frame": true,
+   "projected_internal_px": {
+    "width": 0.621,
+    "height": 2.047,
+    "max_dim": 2.047
+   },
+   "in_1_to_3_px": true,
+   "output_bbox_px": [
+    571.3,
+    736.8,
+    573.8,
+    745.0
+   ],
+   "internal_cell_bbox": [
+    142,
+    184,
+    144,
+    187
+   ],
+   "L_inside_mean": 41.65,
+   "L_surround_mean": 41.38,
+   "L_contrast_inside_minus_surround": 0.27,
+   "caveat": "L* from color_internal over the projected bbox cells; sub-pixel props are blended with their surround, so the contrast is a lower bound on the box's own value contrast",
+   "analytic_expected_hero_1080p_max_px": 2.0465
+  },
+  {
+   "name": "figure_2",
+   "kind": "figure 1.8 m",
+   "size_m": [
+    0.5,
+    1.8,
+    0.4
+   ],
+   "distance_m": 388.0,
+   "in_frame": true,
+   "projected_internal_px": {
+    "width": 0.57,
+    "height": 1.954,
+    "max_dim": 1.954
+   },
+   "in_1_to_3_px": true,
+   "output_bbox_px": [
+    707.7,
+    735.5,
+    710.0,
+    743.4
+   ],
+   "internal_cell_bbox": [
+    176,
+    183,
+    178,
+    186
+   ],
+   "L_inside_mean": 40.57,
+   "L_surround_mean": 41.83,
+   "L_contrast_inside_minus_surround": -1.27,
+   "caveat": "L* from color_internal over the projected bbox cells; sub-pixel props are blended with their surround, so the contrast is a lower bound on the box's own value contrast",
+   "analytic_expected_hero_1080p_max_px": 1.9533
+  },
+  {
+   "name": "figure_3",
+   "kind": "figure 1.8 m",
+   "size_m": [
+    0.5,
+    1.8,
+    0.4
+   ],
+   "distance_m": 471.4,
+   "in_frame": true,
+   "projected_internal_px": {
+    "width": 0.473,
+    "height": 1.606,
+    "max_dim": 1.606
+   },
+   "in_1_to_3_px": true,
+   "output_bbox_px": [
+    1238.2,
+    730.0,
+    1240.1,
+    736.4
+   ],
+   "internal_cell_bbox": [
+    309,
+    182,
+    311,
+    185
+   ],
+   "L_inside_mean": 42.73,
+   "L_surround_mean": 42.63,
+   "L_contrast_inside_minus_surround": 0.1,
+   "caveat": "L* from color_internal over the projected bbox cells; sub-pixel props are blended with their surround, so the contrast is a lower bound on the box's own value contrast",
+   "analytic_expected_hero_1080p_max_px": 1.606
+  },
+  {
+   "name": "car_1",
+   "kind": "car 4.5 x 1.5 x 1.8 m (length along local z, bow toward the camera)",
+   "size_m": [
+    1.8,
+    1.5,
+    4.5
+   ],
+   "distance_m": 498.5,
+   "in_frame": true,
+   "projected_internal_px": {
+    "width": 1.584,
+    "height": 1.335,
+    "max_dim": 1.584
+   },
+   "in_1_to_3_px": true,
+   "output_bbox_px": [
+    1373.2,
+    729.6,
+    1379.5,
+    734.9
+   ],
+   "internal_cell_bbox": [
+    343,
+    182,
+    345,
+    184
+   ],
+   "L_inside_mean": 67.09,
+   "L_surround_mean": 43.11,
+   "L_contrast_inside_minus_surround": 23.97,
+   "caveat": "L* from color_internal over the projected bbox cells; sub-pixel props are blended with their surround, so the contrast is a lower bound on the box's own value contrast",
+   "analytic_expected_hero_1080p_max_px": 1.5842
+  },
+  {
+   "name": "boat_1",
+   "kind": "small cabin boat 6.5 x 1.8 x 2.2 m (length along local z, bow toward the camera)",
+   "size_m": [
+    2.2,
+    1.8,
+    6.5
+   ],
+   "distance_m": 355.3,
+   "in_frame": true,
+   "projected_internal_px": {
+    "width": 2.633,
+    "height": 2.376,
+    "max_dim": 2.633
+   },
+   "in_1_to_3_px": true,
+   "output_bbox_px": [
+    1130.0,
+    749.9,
+    1140.5,
+    759.4
+   ],
+   "internal_cell_bbox": [
+    282,
+    187,
+    286,
+    190
+   ],
+   "L_inside_mean": 48.12,
+   "L_surround_mean": 37.22,
+   "L_contrast_inside_minus_surround": 10.9,
+   "caveat": "L* from color_internal over the projected bbox cells; sub-pixel props are blended with their surround, so the contrast is a lower bound on the box's own value contrast",
+   "analytic_expected_hero_1080p_max_px": 2.6334
+  },
+  {
+   "name": "buoy_accent",
+   "kind": "channel-marker buoy 3.0 x 3.2 x 3.0 m (accent placeholder)",
+   "size_m": [
+    3,
+    3.2,
+    3
+   ],
+   "distance_m": 68.3,
+   "in_frame": true,
+   "projected_internal_px": {
+    "width": 18.98,
+    "height": 22.995,
+    "max_dim": 22.995
+   },
+   "in_1_to_3_px": false,
+   "output_bbox_px": [
+    1099.6,
+    915.0,
+    1175.5,
+    1007.0
+   ],
+   "internal_cell_bbox": [
+    274,
+    228,
+    294,
+    252
+   ],
+   "L_inside_mean": 37.38,
+   "L_surround_mean": 27.63,
+   "L_contrast_inside_minus_surround": 9.75,
+   "caveat": "L* from color_internal over the projected bbox cells; sub-pixel props are blended with their surround, so the contrast is a lower bound on the box's own value contrast",
+   "analytic_expected_hero_1080p_max_px": 22.9919
+  },
+  {
+   "name": "mech",
+   "kind": "mech 80 m",
+   "distance_m": 242.7,
+   "output_bbox_px": [
+    848,
+    272,
+    1068,
+    772
+   ],
+   "projected_internal_px": {
+    "width": 55.0,
+    "height": 125.0
+   }
+  }
+ ],
+ "ruler_plate": {
+  "mech_ruler_80m_px_output": 548.1,
+  "Salesforce Tower": {
+   "distance_along_axis_m": 1025.7,
+   "bar_px_output": 515.6,
+   "ruler80_px_output": 129.7,
+   "ratio_tower_to_80m": 4.075,
+   "base_px": [
+    673.3,
+    713.7
+   ],
+   "top_px": [
+    681.8,
+    198.1
+   ]
+  },
+  "Transamerica Pyramid": {
+   "distance_along_axis_m": 1388.9,
+   "bar_px_output": 307.4,
+   "ruler80_px_output": 95.8,
+   "ratio_tower_to_80m": 3.25,
+   "base_px": [
+    1570.8,
+    709.7
+   ],
+   "top_px": [
+    1560.1,
+    402.4
+   ]
+  }
+ },
+ "note": "the output frame is a 4x nearest upscale of the 480x270 internal image; figures render at about 1-2 internal px"
+}

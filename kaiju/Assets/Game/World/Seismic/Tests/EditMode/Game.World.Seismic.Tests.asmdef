@@ -1,0 +1,30 @@
+{
+    "name": "Game.World.Seismic.Tests",
+    "rootNamespace": "Game.World.Seismic.Tests",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Game.Core.Contracts",
+        "Game.Core",
+        "Game.World.Geo.Contracts",
+        "Game.World.Seismic.Contracts",
+        "Game.World.Seismic",
+        "Game.World.Destruction.Contracts",
+        "Game.World.Destruction"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

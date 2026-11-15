@@ -1,0 +1,23 @@
+{
+ "envs_16": {
+  "decisions": 49216,
+  "env_s": 3.0465570409724023,
+  "learn_s": 2.9713406680093613,
+  "wall_s": 6.155743542010896,
+  "decisions_per_s_env": 16154.629418752389,
+  "actor_macs": 58880,
+  "rc": 0,
+  "decisions_per_s_end_to_end": 8178.271280109116
+ },
+ "envs_64": {
+  "decisions": 49408,
+  "env_s": 1.629912667995086,
+  "learn_s": 3.2733863750181627,
+  "wall_s": 5.032488249999005,
+  "decisions_per_s_env": 30313.28056415165,
+  "actor_macs": 58880,
+  "rc": 0,
+  "decisions_per_s_end_to_end": 10076.48107255499
+ },
+ "note": "m007_3v4 300 s episodes, PPO 3 updates x 16384 transitions, CPU 4 torch threads, Apple M5 Pro; configs = configs/smoke.yaml with n_envs/rollout_rows/updates/duration overridden"
+}

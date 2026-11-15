@@ -1,0 +1,45 @@
+{
+ "criterion": "C1: 480 px and 96 px wide hero; mech dominant, 40-60% of frame height; evaluator names it from the 96 px version beside a decoy",
+ "method": "mech mask = depth within +-20 m of reference_depth_m (242.709 m), columns within 70 internal px of the projected mech centre, rows above the waterline, largest 8-connected component; decoy = same internal frame with the mech columns (+-2 px) replaced by the adjacent equal-width column band, numpy only",
+ "mech_mask_bbox_internal_xyxy": [
+  212,
+  68,
+  267,
+  193
+ ],
+ "mask_pixels": 4826,
+ "mech_visible_height_fraction_of_frame": 0.463,
+ "mech_full_80m_height_fraction_incl_submerged": 0.497,
+ "analytic_reference": {
+  "visible_above_waterline": 0.47,
+  "full_80m_incl_submerged": 0.5031,
+  "method": "analytic projection of waterline and mech top; the C1 measure is on the rendered mask"
+ },
+ "in_40_60_visible": true,
+ "in_40_60_full_80m": true,
+ "decoy_source_column_start": 151,
+ "decoy_replaced_columns": [
+  210,
+  269
+ ],
+ "evaluator_naming": "pending; the cold-rating step sees hero_thumb_test.png only (tiles labelled A/B, no other text); the answer is in this file",
+ "answer_key": {
+  "480_px": {
+   "A": "decoy (no mech)",
+   "B": "hero (mech)"
+  },
+  "96_px": {
+   "A": "hero (mech)",
+   "B": "decoy (no mech)"
+  }
+ },
+ "png_size": [
+  996,
+  398
+ ],
+ "tile_96_size": [
+  96,
+  54
+ ],
+ "tiles_96_fully_visible": true
+}

@@ -1,0 +1,132 @@
+{
+  "_doc": "T-022 sourced landmark prisms (R-020 \u00a71 rows 1-3, \u00a72 schema). height_above_base_m is above the owning OSM structure's baked base. Rows whose sourced top does not exceed the baked building top by more than tol_height_m are NOT emitted (recorded as already right in the manifest). Bridge rows 4-7 are T-023 (bridge key, config/ggb.json); excluded items (Coit Tower, Bay Bridge, 555 California, ...) stay excluded (R-020 \u00a71).",
+  "sources": {
+    "ctbuh": {
+      "licence": "LicenseRef-facts-cited",
+      "attribution": "Facts cited from the Council on Tall Buildings and Urban Habitat (CTBUH) Skyscraper Center; no CTBUH data or images redistributed",
+      "url": "https://www.skyscrapercenter.com/",
+      "item": "R-020 ref [4], [5] (heights 326.1 m, 260 m)",
+      "fetched_utc": "2026-11-14T00:00:00Z"
+    },
+    "port_sf_habs": {
+      "licence": "US-Gov-PD",
+      "attribution": "Port of San Francisco; HABS CA-1910, Library of Congress (US public record)",
+      "url": "https://www.loc.gov/pictures/item/ca0409/",
+      "item": "R-020 ref [7] (Ferry Building clock tower 235 ft)",
+      "fetched_utc": "2026-11-14T00:00:00Z"
+    },
+    "osm": {
+      "licence": "ODbL-1.0",
+      "attribution": "OpenStreetMap contributors",
+      "url": "https://www.openstreetmap.org/",
+      "item": "footprint and position (R-004 \u00a75)",
+      "fetched_utc": "2026-11-14T00:00:00Z"
+    },
+    "ggbhtd": {
+      "licence": "LicenseRef-facts-cited",
+      "attribution": "Facts cited from the Golden Gate Bridge, Highway and Transportation District (GGBHTD) fact sheets; no GGBHTD data or images redistributed",
+      "url": "https://www.goldengate.org/bridge/history-research/facts-figures/",
+      "item": "R-020 refs [1], [2] (tower, span, deck, cable, leg-base facts)",
+      "fetched_utc": "2026-11-14T00:00:00Z"
+    },
+    "lidar_3dep": {
+      "licence": "US-Gov-PD",
+      "attribution": "USGS 3D Elevation Program lidar (CA_SanFrancisco_1_B23, ARRA-CA_GoldenGate_2010); first-return max per 1 m cell, measured by measure_ggb.py",
+      "url": "https://www.usgs.gov/3d-elevation-program",
+      "item": "Golden Gate Bridge tower legs, deck and cable profile (evidence/T-023/ggb_lidar_measure.json)",
+      "fetched_utc": "2026-11-14T00:00:00Z"
+    }
+  },
+  "landmarks": [
+    {
+      "slug": "salesforce_tower",
+      "name": "Salesforce Tower",
+      "kind": "crown",
+      "tile": "L0_30_36",
+      "part_of": "osm:w431972186",
+      "pos_baytm": [
+        62375.6,
+        74051.1
+      ],
+      "height_above_base_m": 326.0,
+      "roof_shape": "flat",
+      "height_source": "ctbuh",
+      "source_ids": [
+        "ctbuh",
+        "osm"
+      ],
+      "pos_source": "osm",
+      "confidence": "A",
+      "tol_height_m": 3.0,
+      "tol_pos_m": 5.0
+    },
+    {
+      "slug": "transamerica_pyramid",
+      "name": "Transamerica Pyramid",
+      "kind": "spire",
+      "tile": "L0_30_36",
+      "part_of": "osm:w24222973",
+      "pos_baytm": [
+        61859.0,
+        74650.0
+      ],
+      "height_above_base_m": 260.0,
+      "spire_m": 64.6,
+      "roof_shape": "spire",
+      "height_source": "ctbuh",
+      "source_ids": [
+        "ctbuh",
+        "osm"
+      ],
+      "pos_source": "osm",
+      "confidence": "A",
+      "tol_height_m": 3.0,
+      "tol_pos_m": 5.0
+    },
+    {
+      "slug": "ferry_building_clock_tower",
+      "name": "Ferry Building clock tower",
+      "kind": "clock_tower",
+      "tile": "L0_30_36",
+      "part_of": "osm:w558731934",
+      "footprint_osm": [
+        "osm:w406710838",
+        "osm:w406710839"
+      ],
+      "pos_baytm": [
+        62683.1,
+        74690.5
+      ],
+      "height_above_base_m": 71.6,
+      "lower_baked_to_sourced": true,
+      "roof_shape": "flat",
+      "height_source": "nrhp",
+      "source_ids": [
+        "port_sf_habs",
+        "osm"
+      ],
+      "pos_source": "osm",
+      "confidence": "B",
+      "tol_height_m": 3.0,
+      "tol_pos_m": 5.0
+    }
+  ],
+  "bridge": {
+    "source_ids": [
+      "ggbhtd",
+      "lidar_3dep"
+    ],
+    "tower_top_navd88_m": 229.18,
+    "tower_top_tol_m": 3.0,
+    "leg_base_m": [
+      10.1,
+      16.5
+    ],
+    "seabed_envelope_navd88_m": -20.0,
+    "deck_width_m": 18.9,
+    "cable_diameter_m": 0.924,
+    "tol_height_m": 3.0,
+    "tol_pos_m": 3.0,
+    "_doc": "T-023 (R-020 \u00a73). Geometry measured from lidar lives in config/ggb.json (measure_ggb.py). Tower top = sourced 229.18 m NAVD88 when the measured top agrees within tower_top_tol_m, else measured. Base -20 m is an Assumed sea-floor envelope. Footprint = measured leg extent, at least the sourced 10.1 x 16.5 m (across x along the axis)."
+  }
+}

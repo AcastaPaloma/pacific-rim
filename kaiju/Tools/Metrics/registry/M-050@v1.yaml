@@ -1,0 +1,38 @@
+registry_schema: metric_registry@v1
+revision: v1.0
+metric_status: registered
+date: '2026-11-14'
+metric: M-050
+spec: M-050@v1
+title: Persistent destruction save round trip (F-043)
+source: "research/R-021.md \xA74 M-050; research/R-026.md \xA71"
+note: Compares two Core-envelope saves (destruction@v1). C# procedure (20,000 ids, cultures, v1->v2 migration, stream failure) is the producer
+  side. R-026 lists the status as draft_spec; registered here because every threshold is derived (exact equality).
+submeasures:
+  M-050.bytes:
+    title: Canonical bytes of the destruction section
+    kind: gating
+    thresholds:
+      differing_bytes_max:
+        value: 0
+        unit: bytes
+        status: derived
+        source: "R-021 \xA74 M-050: 0 differing bytes"
+  M-050.fields:
+    title: Per-ID state, e_cum_j bits, debris_kg bits and record set
+    kind: gating
+    thresholds:
+      mismatch_max:
+        value: 0
+        unit: ids
+        status: derived
+        source: "R-021 \xA74 M-050: 0 mismatches"
+  M-050.other_sections:
+    title: Unrelated sections byte-identical
+    kind: gating
+    thresholds:
+      differing_bytes_max:
+        value: 0
+        unit: bytes
+        status: derived
+        source: "R-021 \xA74 M-050: unrelated sections identical"

@@ -1,0 +1,3 @@
+# M1 merge 7: composition root (T-039) and evaluator fixes
+- T-039 merged (40ec88e): Unity EditMode 473/0/2 on the task branch.
+- Evaluator fixes (05fb6b9): Net and AI MODULE.md, SaveSystem.Restore rollback (+1 test), brain Wrap guard. Unity EditMode on the integration head: 474 pass, 2 fail, 2 skipped (`M1-merge-7.editmode.log`). The 2 failures were Destruction save tests that expected `Restore` to throw FormatException; it now returns `Corrupt` with the earlier sections rolled back. Tests updated; `dotnet test WorldDestruction.Tests` 82/82, Core.Tests 97/97, AI.Tests 27/27. The Unity run was not repeated (same tests, engine-free).

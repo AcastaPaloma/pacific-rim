@@ -1,0 +1,2044 @@
+{
+ "assumed_thresholds_decisive": [
+  "M-007.C1",
+  "M-007.C3"
+ ],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [],
+  "optional_not_provided": [],
+  "provided": [
+   "scripted runs",
+   "control runs"
+  ],
+  "required": [
+   "scripted runs",
+   "control runs"
+  ]
+ },
+ "exit_code": 1,
+ "extra": {
+  "m007": {
+   "control": {
+    "commits": 143,
+    "commits_flanked": 1,
+    "commits_multi": 69,
+    "deaths": 138,
+    "engaged_minutes": 195.313333333,
+    "fe": 0.941688356074,
+    "ff_ticks": 114111,
+    "flanked_ticks": 2526,
+    "fr_commit": 0.0144927536232,
+    "fr_time": 0.050590827158,
+    "hits": 552,
+    "leaks": 0,
+    "mean_ff": 0.985422089019,
+    "mean_ff_chance": 0.75,
+    "multi_ticks": 49930,
+    "sum_chance": 85583.25,
+    "sum_ff": 112447.5,
+    "switch_rate": 0.0153599344643,
+    "thrash": 0,
+    "thrash_fraction": 0.0,
+    "voluntary": 3
+   },
+   "runs": {
+    "control": 100,
+    "nofocus": 100,
+    "scripted": 100
+   },
+   "scripted": {
+    "commits": 131,
+    "commits_flanked": 114,
+    "commits_multi": 119,
+    "deaths": 116,
+    "engaged_minutes": 439.173333333,
+    "fe": 0.955532029558,
+    "ff_ticks": 173803,
+    "flanked_ticks": 45617,
+    "fr_commit": 0.957983193277,
+    "fr_time": 0.349587701551,
+    "hits": 467,
+    "leaks": 0,
+    "mean_ff": 0.98888300739,
+    "mean_ff_chance": 0.75,
+    "multi_ticks": 130488,
+    "sum_chance": 130352.25,
+    "sum_ff": 171870.833333,
+    "switch_rate": 0.00683101584796,
+    "thrash": 0,
+    "thrash_fraction": 0.0,
+    "voluntary": 3
+   },
+   "scripted_run_fr": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    null,
+    1.0,
+    1.0,
+    0.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.0,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    0.5,
+    null,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    0.5,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    0.5,
+    null,
+    null,
+    null,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    1.0
+   ]
+  }
+ },
+ "failing_gating": [
+  "M-007.C2"
+ ],
+ "failures_suppressed": false,
+ "flags": [],
+ "headless_verdict": "FAIL",
+ "headless_verdict_label": "FAIL",
+ "images": [],
+ "inputs": [
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_1.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "16149f28e08b9f633cbb5a6cb027d009883d114de6c3d42c50cd0359e60e2857"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_10.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2e572b18854e32ab4828171e3c7e9fee72e8fce52207911bded345660d74e644"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_100.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d14e361d06f39b8755d7da3c7436a88120c67807a98a2811a25f7389ef1392c0"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_11.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8851b664f967d3e452ab77f473530794156a0671298b92d3483814a9ce8c9d10"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_12.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f0d33d6c2aec68f76b2c4aaf343ff40081e0fb5fdec995270e65ee50bbd79c3c"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_13.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "939a3e9a0218c6c1baff08deaf8e00aad36042e743af290be691b03ed2d69621"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_14.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0685f9ede96689f0455d2b852e607c73296448e1a44f03e816a6db0f33e22ba8"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_15.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9d401cadb163a8cdc9d86575b8f72edd7a4dc8aa8a1dbe172946380f6d0db79e"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_16.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "5a11ad6aa44ad6838aa4006e5e84ed4d8a8fe607afe1f638e508bf3ac5a81f8c"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_17.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2ac36e4d379dcbedafb78cef4c2edac0154a54aefb65b526bda6a3573cb6b5a0"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_18.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9fea03a433b3b1911c7aacbd40cc6f264a4ac16832bc84d282dd5598a5d7a1c2"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_19.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7df17aec7fd16869fc9b8886a561c4f8ef341ca9def86dc24e18895521b24858"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_2.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2851d04acce984e22e53b072def48d18620306a6e9cdfb5106129aed1e69d517"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_20.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e9880ab6907f2e128a4fb3f1fd67663f106e8393957b3fef3a9185609555d042"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_21.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "da8a5e0caef7a018aaab36f122ed5bc996437227c0eccb140bcb9b5f7551a1b9"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_22.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "25ddea7801ec79f963e900ea636e278b74cc67d18e84a33a0bcbffe11cdd98ad"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_23.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b3040721d496adc5e23122bdebad7a06c8af653ff62bc5017c2afbebbee7e83b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_24.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f7b49aaa49069d6f24aaf26a554233f30a25ad7564eb7ee4ca3427ccbcc9e350"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_25.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a3cd5a643dcfe7db81dc516477ab2280346a8be309bd29240fee5a5c031c7e5d"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_26.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "233fbfcf4ca6f71a1224f2e4527362d8c265a69cb56355a9a1f72f8f7993b1c5"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_27.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4e595439f4b374972dd77104ce6485d7c80fa62b4d105b638ff69a6069217356"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_28.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "013a034414ccaa4927446f196c0e9dac07534d2e75454b6d662f82a2db0b604e"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_29.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "fdb1e40773ad921e1a2bd279c51da5e0bfdf95ce546a8bc236d9d3c673f56d3e"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_3.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c8b1bcd412ce27ff9cf04b102ffb6eb59796185a0ae4d9859c6ce4f377a5ccd2"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_30.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "837900434504f8eda3dbb651b05ac1e86a33c3b91115498787e9b3a3bd22365b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_31.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0bc40cffe74496a1c6b6bdfc78eee954423014ff4cbee7f1aa3a7841f4d0bf5b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_32.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "24bb65deff75d92d8ef0099a9f1599346a17740850668a90d76b7df777b04aaf"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_33.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4bade5724826f8c02366cd47da72fa65389bfe2f777f3bfdb73b3bd2f53a71aa"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_34.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e2e688a1e5430e945541dcebae0761e020ea70d19773f5867aa924a88b676685"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_35.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e0bc26043d46d461339c11bd0b4df441202a148a3f7b382af7b0a7ffdfed9c5c"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_36.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "18646dfef325e2f19bca2454c1e09155c7e7b40f5623e8ac7be7d491c71c44ec"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_37.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c9cf984034907bec96496df98515e039d2acf133031bfca5a0e7f03444199dfa"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_38.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "08079a14dd015ec183115387f5a6a231fcb0872f7b35df3d9b5c866a06f02e3a"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_39.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "615d9ce2fc456451404843e17fd3a3539c0629171f4265deda26fb4d9de761a1"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_4.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "5bf44ad88bf20e231f5ca3e31e28ba7eb78bc29bcb75bde6a61634390e263b7b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_40.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c460ddfaf3d436857be6dd1d39cbe5261f145c117654c7f1f1340049f51b824d"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_41.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f889065119b3df7db0162b5948b7164862f5676fd84c1066894f7f38f16f6a5c"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_42.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b57b2b903a1f6c87492d4923e0d38b7a535cd4e62cab1e402d02be9ec0ddf108"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_43.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "fcd6dcbd2e93d4d88969e64a8ce4a189b1dec54a8303c36e5d9f0081ebd96b45"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_44.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c51f4fb0f01501b5e476e5af2a2800e9fde2e874bed4805e00e13c72a5b03e85"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_45.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1ad3a841164158286e65e2e381771ee86c279fa99a1215dbb458482110971335"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_46.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "efca0881da1a1ec5924b5e5fce3838941fd877306a9996a1d275efbee70dbf00"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_47.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "dcd9a7579647d8df5b7bb53f84abc15e3485cf46ec7c4c3bda7fd8fca126a67b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_48.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "da954b326e048fcc921e5e2b623626e7fb9496dcbb766fb2ace26d72e6275bc4"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_49.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9fe2c4abb05060aaa6f2897da86f580fa5d57392297aa2cc0ee03c38f4525063"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_5.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f4a66b0e547981419d39220853eeff47525477214345d6589ef86333d4994009"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_50.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "fe51bdd0f4754ad23c31626f96a940a02e0f0f47db259ff16e96755481ef648b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_51.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "88e7bc6699d9e40cabb2e574f4cdd8b0863eaa445dd57ad68b99f6b22d1594e8"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_52.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cbcd61c887137bbd9fff574067a6afb1dc59f35662a0834b49023aec826045ce"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_53.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "83fec042b27087aefc172068162feafdbcf3247fa5b130c836d566ded6ec3e13"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_54.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2ec52ec317aaabc0d41c6c33b0bdf4851229d9828f507e04b8c6cadb86eb8c05"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_55.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "06abbe8bde50bd01e71e141eb15257414351025c0ec7724305e33c0847386cde"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_56.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "35f59c08d1b321be9f49ddac47aff76c44ac5853bc5d15898c43ec7ef53ea927"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_57.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "afbad62c2a213ff256f8310ead49dd05600e1f939c648cb465e7ea324df7643e"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_58.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "282d0243450092ba4590d04ce0d55b316aa87350b7696458f562aa68fddcfaf9"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_59.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b001b594b9183a01d9fc419ba7629cd2a321fc8b6154a609067c56a208445977"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_6.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0d570e4237e9bc6c01ecdab29cb39ada1988972b89c3a5e4e3a0a3a893e90f07"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_60.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1558b4d49b006b5b5674161b0fff1d38b8bf8dfca218fc5efc8e9010cb228608"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_61.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "eec850656be210024dfe600e1d6a2c27ec08eddee90ec5e7009eb69839a55ae8"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_62.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "679d7205d47ee40f732850a52b32f9f735550468edf74c068cc38b7b6090f034"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_63.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4979ace2550492303d371512065762468942c11566e663f7b41debe977d975cc"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_64.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "89ac761cc0b5e4d780b79a014f759686fa93456d363e019311f40b67a5f65890"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_65.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6c309770b54378d63db06fe4a564c755fbe6c7adf4d049dfe14359748e018bda"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_66.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "86db239ea80ec78a227f474daaaf8360eca6b227607ef76c645465b89f09b361"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_67.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "209e8992ca74d56cffcc5397fd0180684b6663c3203cbfff13999bad82a9b5b1"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_68.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3e8b092bc42d2a40f746af8280122757d3ae1820702fa564aa6b589eac08e610"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_69.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2d2bb6c41b66202b02cd1edac913a48a1163535c8af38a5e47ac81f3a12b3ebb"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_7.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "54aedac859bc652d9d2364379d0fee0d49fe1214369e416208c98b4efd41e75d"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_70.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a70355597349f6b970393dcdc6b15a6fe3ae251051f02a001d2e5f860076e997"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_71.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c14fff81d93c450fdd718489305766f13d343998f71821c80ef6df89300d2435"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_72.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "fbeca34bf0a940e450a6709cf90ad69ae84581369009e366757c0060f1cb1b35"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_73.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "03dadf70d37f53407a2a0c84e80f2d609a745d1faf9f410db8b62b0b802990e4"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_74.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2e6419e271db09d7f99ea09f418596d968649f8cd406f03892c4afa03a85877c"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_75.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "79794714c4617a371f2f93a8940efffcfa37be4dd468215dbfb4edb4bccc411c"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_76.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "89a57a0913056a9b5d9d4b3a559ef60d033a20e9bd782fce4bc43106901d0998"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_77.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b6ef3a62b18af487edd315c5721a5dd200a403c5091ad8a39d5d5b0009c64566"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_78.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6a72d96d1d3a99ee4405373bbc93115bbe269a845d9a8a3ce92dfc47708b6371"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_79.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bedf2eb10a5fd04b5a860c084ae6f49b2538f5cd5a3b8e1a74e40b21af60a474"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_8.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1ad8165e10f7593f8dc6d37ec4b378a322c96187933d712deb14ac425858c464"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_80.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0098e5282460af8ef0d80c8b63c7b37876ab732f8bb951d95529acd9f8dc4133"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_81.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a3f840011fb8ec077ff62e51cd254ce83e1375e85f62d59dbc4a2886ec8ad6bf"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_82.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "690c3e8369779589393ee16152d86e93d56a7400b1211265bcadb8221113f2b6"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_83.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3de20f66634741ab5ce3eb59a175979812ac44dcdc2f4992852e121df8fc4f86"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_84.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f41a3ae4c4160fda075318e598bf2120a78b074713cd7f8d75e9c0004bc846cb"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_85.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "83198306f35ce797d79dbdb05164f8c34e043b0e24794da8d8b75cd02cbd151b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_86.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "89a6c2e8eb7dac7a80c8f13142be253944141d1376286bee61bd28bfd42b00f6"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_87.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8fd095125b44c9981f686a6b222c94d17868e1b4d1cdc040ffec9f7e3f69d631"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_88.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6cd751a4f4023df7dee2c7247bbda43d8f2b480e18e963dffc89ccc484d010a6"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_89.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0c505b228ca6cb4f30039b93c06e415d32f127e700c1c180316ab34409d989ac"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_9.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "20c6d2de264310354f9c6bd41994a9560a957d76188e28b327195d0c5589a218"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_90.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "699cd884c59d0563d68d416134c0e7ae624f99daf0949b390f9057e086d3e94b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_91.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "256ddaf257959cf9a1ccd4d2c084b11610edd575dbc283c8f9d9144c21b2acd4"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_92.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f95d60bfb61f92cef1e64585ec34602fcc8ba3348efcee82c26a774707358e86"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_93.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3caa1e43a32ba59b50284d5cef1dae4377c2b19f2c436122cf8baf99e7e20d36"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_94.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "faf092d1ba5cb9ec76740b512d984bae89e2d8b6bc05d66bb117fed07f42b752"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_95.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a9c64ef91ff133cedf7461a68ae7a6a6a3265f51d3b0f2d0173706a9c280e34b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_96.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "46efbae87c10afd1d91cfdb403e4435c2d7b83cd7a49544d7c8400a209332d9a"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_97.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "75055c7751c0552e739f0bdd6d3d649db8a74efba1ca49d12e9c9645bd3dea5a"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_98.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1aeca7ac686867f594c7af1077db056e9e3e84fb28d0d607c4c18617b98e9834"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/directcharge/brain_log_m007_99.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f50087c534623e24b07ad10531df1f47c0dae3922d430558e0684b36def0de2b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_1.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1f6b7b7bb878dfd73e3735213277ef8f5f413e85ff1df8aa6235614ec2935a0b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_10.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1902c4ae058f7ffd2126620156fdb300f0de03ebd92f990924b13d8a87c0e898"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_100.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9bc9f3284330f5b98aeb8584630f41a6b2df8175d01209389d98b23dca4afb13"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_11.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3685ab1799aa1645d802f51d3fe565121497ccadae478f59f3fa5562835fac19"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_12.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0a286958ddf771dd56f8bd70a5bce69562c7d854132202d93bc801442fa9d4ca"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_13.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0fd1db03f194304684ac312c373a4de7acefa46a7187bb95776188f15c6c5fa4"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_14.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b36b24ef34e8752c3f703448cfe487c5420f38e7b4122eb96273d43c146861bf"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_15.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "5f16d6697b405fef71fc39ca9b22a8bea3713cbdf2a6a2c3c7baa85b69126437"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_16.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "dc075f98916c117ce9730f86286f99dedd0e538785ab7df33f11bb69138eb735"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_17.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1e6ec93ae5de57ec7e8640e2d75002c95c05a6a2035e1163f00877d86df358ec"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_18.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d5b1923370beb8942d2363d21cfdc949e07f0318718a426294112286d87affde"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_19.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f6aed8571f496d994cc34c624c413311b54711a78c4a19e6b74742535ed9af8e"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_2.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "97b20d6fb222da611b2b3295e6107fe551bc8982abb4f1af5a2dd25a2f18a86d"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_20.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d2c74aa7ae662d05ad0a7aefac0d50a629771d771ffd40deb5a49379394243a1"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_21.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6306998dfa684142e68416e2a31e5c8f56134efe966387fa0ac98fa34c80a0ed"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_22.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "61403f5d0d8a13b3f05fceac2bd7e67ba34cd3b8e2e54473a037d2a1b15eb3cc"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_23.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e370af7188df1399c0f82b96bbdec90e08f492973336e8d1dfcb0cb81498d26f"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_24.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "57f7fa281235d486fffaef75843221d657eef60b9e4a276ff597c461e2508e27"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_25.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d48d0e298ce6381241eb21161fc049a135691b65955cfdbc3f3186721a52e512"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_26.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d3a280d5e7c3f26307a391483509381c412c9f1c74d20252ed7bc3cb19ac68ca"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_27.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6ef0716ab696e9f13d8137ab810de3d370715b133aa56d71aa9d05dfd7cacbb3"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_28.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6ee64b69f5439d03777e24738b83a0f798e8a9bcd963aaa47f58f868c6ce638b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_29.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "df8f42c94b3757289981cc78bcc97dcb9c4f60ee7cecd4c360c6b3037fe2a1b1"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_3.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f0957f943aef66d883dc4b152e05a9f8bd201f595f622bf1d2872ce2235a038f"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_30.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c2e3d67f17e21dd85960c96f0b201d174fb4daa7401a3bda9bb49c2c11480453"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_31.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6b3dcdffc90c659e4f78d6f7d749da688f274f0e4404eea386be9fcca571e8be"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_32.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f15f04866077c7d85e19954079ec42932d40dd2908bb4599a1d446e95e4f65fb"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_33.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ec22725ae54b3f0922d95b2fe8534eee21eddee94126919eaf5a1b203f545752"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_34.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "fac85ae05136bddadac902fff7b9e9ea8ab8368dfa88e97d17bcd73f7e672ff6"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_35.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "48debacdf903c8563fa3961d2b9c757698160202c2198a1e58b29e31cd9b1d09"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_36.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "20c5f42af27c52310c4db9561eaae3f5fe7aff7b00bb980a90a11ea7fed38073"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_37.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0f3a162ec4b3e9d0fae22833ab9856c67416386b9d4f1aae8abe5ccbcacad846"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_38.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "5cc3d9112a6278c9289fb5bc853d16379eed62db7ab9482958af5f18027285aa"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_39.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8ad26e4fcc1fb28376d95feb61a4c408886e9e46a63b9c315ad005df4beb41ba"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_4.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "917338aec41465bfd464c77ea564806d23d1528f3260f6412b3c728e219fbda1"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_40.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "40f4eb376347ca63018b99da98b9a5ff84692202262a3b50434070a477999b98"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_41.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "15f1d9776c6241e277de42327f99d823e8b335a95108012643b64a96ff1b0bc5"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_42.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b98f7bf4b7e1ec607d40153c02c7fc241903c158886cd2bcfe64e827e1039e03"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_43.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c99410e67d85f85d9971848555b74d5ffe00f160596469d9115780f6690c4f45"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_44.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "30fc4ded7282b8d1dc1f02ddc8b55fec3eeb830434547e67e3592121c9f6eba5"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_45.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "5fcaa90a7194d28cefd1a51d1a94cbb069aedbe173c9608c01d4e6325bba33e1"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_46.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "63d8c7bc76c742bed1be01ad7b982615fc1fa386f5804c28a8377e689a4101a3"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_47.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0c6d5bb882d29c8bede06deac7c3d9d868370ae434e4d7fa0cb9357f5d9270bd"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_48.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1f1c7efa74de15398e7b62e48d30d1a75d8be296ebf102f88cb9a4fa5fc43d1b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_49.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4decf50fd5ddfed15c0600691e571aed96204123b220561b17224141e5bc006c"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_5.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9dd0966243f0e1005c80d5939a7401cbc17c4c3af0c6a0537104200bcb2c051d"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_50.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7400d2a4db7b0a1f341d349a8296fc49a1f0cf97042146ee5ca6d9f297730563"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_51.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "fb040914e72fb403c50bcdb6a4d71e8c97c701d0608eee3ad3043c013332ebf6"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_52.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2a8f7492b487aa54f4eb2ee4d0a719c9534e023cb432f957bc44d2b13a5764e2"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_53.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bd9593e8e1144b0eac2aa92f32be6a48ef73800f61c069d5eac7b8977cb58701"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_54.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "868c6126fac03600b3eaf227c7691d9cc165b71989fd1e8c6e7f5aed1e865f90"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_55.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6971adce127c22bc10d5d9b337663b203ed7d50fbabfb452bf049083bffaabdb"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_56.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1d674768f9eeb8439e52278fa12b71c68d89d0f7fdae70909ddb96ba66a85073"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_57.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "5ece39bee9afb36e1fb7d744b6353c57110c192f6d5b9c37149ba369906f405c"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_58.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "5d318554fe30e3f7312342a9fad1e0b27dd3ee08a7925821599b3a0115fb6986"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_59.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "aa64f9929ac27aa4c9abb2b0d6117e4123b521c25e8d55b95f66869106368037"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_6.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7aff54ff0bc2b73e2075f630f8b51709eaa24a62c9fdbd8a332f0b2a56c18dc2"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_60.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a9d94ed918ab0b180f9cadcc49f6d1aaefe004310920a1a9754f04c9c32b40fa"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_61.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "5da1312d1d339b65cab73fcddf546a2734dd72d342943dd4ac8dc24793f0fd0f"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_62.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4206535faf851d65c326f19974a8dc28d43c2746b7ac47053d3524792b03519c"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_63.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "56f3e5f4afd217fddea75531b1de77e0deb0f03230af7220adc6fb9ac0723dfd"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_64.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "eedb82f9b11435b631518bfa5e8f9bb5ba36f3f39b12f663eab981a08715eaf9"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_65.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4dc880a509bfec4e8d4d7df452a5ee0c27aecf76949606f54f35425b17818749"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_66.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7710790de4745285fa8a860fb6842fd4548019993b52eb6e0bd477abe835c422"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_67.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d3bda93af1681646d30bc48588b60a1dcc0574d4c237e8662772fadc2c2a01e6"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_68.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9e7847e4b02ae40dade21b77703c27730509542abe612decf34b199922fdfc6b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_69.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "fac539f9f9f36d40fc3f70b31d00777e1185ffa0fffd69e81c1c5c041f31b062"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_7.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c54298700ba314ad95b5bccee64e093f401829abdf321aef12e6f93edf4df97e"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_70.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8c7aa6b1d6b86285ff105096f0c1038c4f4483663a7b779a7f58cc41c80db650"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_71.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8c603f9dd50c77012840c5133a3e22856504e4a61e7b3fadaa84fee12db7efa6"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_72.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8961e6a59c79fff1135609514dd16622eeada941ac5d11ef8700f3ac4076d5bb"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_73.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cef61f20bc0b96be96e33ca8c48b7d6246513f9ac37678f4dc193fd697be410e"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_74.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "267f669feaea6e5df963fe2f54ebfcdc31628f5c605769f853181189f51a9272"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_75.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a96e10092d20a4990cd1b92ca61b5828ae3642f01d2612214f1467fe777016c9"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_76.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "00330f331a01aa77768338406ba00587a042f75253c2a1aa141031ffca665507"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_77.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "289905e019ca53c944462e32136e3756f99c0e90c2962381252d4e5abc3591e0"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_78.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c48ca2e62b048ed72becc90e120c37d00daec8c8bec9d87d2af667256abfa5f7"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_79.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2dc5b4fb4d4a61bfd81dd911c36686da954db6710d48c19b46e004d9a3c5fc42"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_8.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "dcd00a3dddb60ff9a9ed25c84f4eed981966fdcddaf83174f96e3f9ee2fd9be0"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_80.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "650b2e102b281641bca8b05a853a2d21e2a70248a0d94a76a9b64ce504d7ae6a"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_81.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2aa2e99ffb807c7020317a3c1e4b1886f755701e92c6796325a7bafe9497f7fc"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_82.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3fd2d9e3bd4e922bec1f005d75b4c7a413696f2cddd0d8fd7127e83ee0f66157"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_83.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6a22a831a3456a86d9a983b738b86b9a927b17cfaabb6ba17bc7ce11ad391a9c"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_84.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bae531c85067fe954f2634db8e2b9f89ff30890d4eb51a44dd7249c87b89eb5b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_85.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1815ba0f9a96ca85093a73f7ff0df5faafed7fdaa88c268dae06d0993d67e967"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_86.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "45fedd6054f7e8f6ae02e53d03b8669bd30b0c58f951c63ebb2f131c1697eca5"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_87.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "81ced6c73f776e4f7bf8ac54f4a574459181afb2d5a64217f7e9a6e0d879e8d0"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_88.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c4d6faf2d8b093a1b144072c5c10e6c399cb4349e564317d662738ed93e2226b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_89.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "501b6a583508183b305dc6f533c384de3267f469b58e5a8076e4df6b1d701c9b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_9.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "54e29b5bb7110db73aae39941f3f70710b252f6eac3485620c1aa2d42a6baab8"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_90.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bd88ae36db80879efe4d20ac303ec86fa59070f46910768d7706f8686633b106"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_91.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8451f0b42d32844b8a2e42df08bb7ebbb1a2c24cfb3aaa63c23bef54fac76720"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_92.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "232eb585879de1cf3a057b5cc3148b2ef7f2cf5f882313fbe3ddc97de764b64d"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_93.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "61b73ac38813924d6de65cd5b7e2aaf41c2606bc8e2e4adfce7d934d7ed61507"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_94.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0c2cc8c67147c1cdec587b63bd7d9cbb6f90870ee62554235e5b006142d6481e"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_95.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2ba987c8a713691f9237e016ba856190d587550296634b8c3cd14a10d3ef9184"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_96.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "09aca2b18a4f099154ab08000b2e445cda9d0a1d18fb73041a01806309e2c4df"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_97.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "184b3bb431d5f9379d659a88555dac5ddb12a4485c38778d671f9d46c7c6df18"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_98.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1561ccb1d761955c05b1c5488ceb6abb28ba63192e02f6d8e3dbe408b08dd701"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/nofocus/brain_log_m007_99.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0fffdd5833a81b548b229bb71b5a2a9b05b27305b3a3caf65d5c2e6db314dfa0"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_1.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3eb63fe0f2c675d4d44ef4fa28173f36a5634ad53a712d0b6f01f866627a642e"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_10.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e4a40994f6f87ca3d32e63765c33979b7c882d51ffd30f918797beeb2d3c3dc6"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_100.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "de45cca8c8798343ce893f95fac9d56ca34d4a2b1567295319ecbf04aead4224"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_11.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4274135fc81b23038a8c33c1cf3e2926e69e5df96978cdf9fa6e89c7b83b3de2"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_12.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d5541ff20d0d5b21144b467c96d9650540066ff8cafec0aa0993358fd549b175"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_13.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "bab8fc639634d8f7c08efb5e2be9912fea8cebbbe309585ed49cd74f5b675fa3"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_14.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4477b939c732a5d08deb0e2cad5eb75617d538af356526d7eab8598b85cdbe35"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_15.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cc6cf45c15ee0c1ac9967bbc2d5f51d578d1cca73aaab63ecb134adc4cbcb074"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_16.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "170fdcbc2f533f7675772a16141c39b5b1bcaa13bf6be9a49f6e441b7efc179c"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_17.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "22e80d278dbab3c870847050321d510fdbccd3cb4c2988a2a6863ebe7d16fe4c"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_18.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "49c05b54b8e126a484d5ae35bf4b8a6f94150c36bc40ea5bd5752aedb3818824"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_19.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "52def6387774c94ee42df29d7dccb51d46c8f00fcb2a0991befc432e8a4615a8"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_2.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e9a874702e78697908593219c15a472e97f5bd88398b0caab6db880618482e3b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_20.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b0145940191a6c23807cb5cef7f4835a02618cb80847426b70a8b2762df9da15"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_21.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "780c5c1857ebc6c1089e750420d95cb2933503eae99547ddd25e7b3ac3920d22"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_22.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ea1af22cc9ef8b092a0c916f23c1a83bfe733991b4eb7b67f6f42431a2b5a910"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_23.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2a35b925919b6aa4e78fefa6f2f9a5be6f72dfd5e8db8b18d624b64408aef910"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_24.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0ec536a0cf76fefd8c9681f16171eaeb89ace96191d9dd5b67e3cd178ad68bbf"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_25.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b155ee98aa8b3f5951ae2c3dbc4d0db9a68fadbee4dafe41e510cbafa543c4f6"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_26.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "df3713f7936d77238dde3c604c0f5cbd4d2aa5f5c668ece96bd0f5b7f9f7bf93"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_27.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "416496b4017561f04a75532ecee93f1b70b2665416fcd3b9584a9037298fcfe2"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_28.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8e3bb8ce4c0ff0525c68926a00923af53d0149877f00db8e1929cd4281832357"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_29.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8ca30e003f9bfb542ecedab8b8ae42879b1a26ab1238cf5a53b9058b189a4c24"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_3.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "60d11a3809b11ad16abf217b6adb8674d39220409016422decb0339fe01cca1e"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_30.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c6d615e676d4d03eba1fb9c7c611c2595bb399ec63bf2c84f1b643b84814dbf9"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_31.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cd6005c9a69de190b1e626e64335633dfad1a7c1b748e00e94f87f9da5121078"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_32.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "83eefdd5230364ef3c37fe04c2a053aa825f7038cdd33f50125dd2a3189d2dc1"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_33.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f06f8178c065dabf89760e24992acf8f06593f0afe38bf5e2ba97473ddfd6a73"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_34.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9e9e5ebe6f6813fbb144e9b4ee66bbabce9740986a383d39e209a8171fae114c"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_35.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "add0e55fd09c08eaa33c2240646c24b6c88e770371bd2df3e7e7acb25b243195"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_36.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "68fd920deb37b007b90961de921074e9c9e3b46ae0723354344de2ca1bc451ad"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_37.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "37bd5cc2212c91f0b5deaa364533e8004603dd50b148af191ce1c03244794e9f"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_38.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "e670167bd959b1af42b4b6c7d3cdb3086e889ccf4c2bc35759f50808c45a36ce"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_39.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "60ceb63d6966a3603743cba69513bb4efe1365a7731fa63be4ffb0d26170f53f"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_4.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "52f0b932e6d678be545d5d22e9499159d3a55ae18c4a93d32255a4951f9fde96"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_40.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "56fc59da0b677c79bc4673507c8d7100d499b3330abd67763cc38f7db2d7e745"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_41.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "719ed08b311f3b7e07b1b66507b35d6ab15b6b8a00681a749e87913e117122c3"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_42.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7daaa9abbbcb9e9bae045b6fcc3549f648c5014f328898545baddf7c2825779b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_43.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d18291f090831c60d63a1dae9bb9358ca4ea6cddf75e433d5be78def86513bcf"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_44.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8d9514c2c90587bcf4adcb601f48f88c76a53a16845f7b69abf4aa6191067999"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_45.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f1b7512b6aef0e31f5973e2a8edebb8fddd423dabc63f90b264f13c8712fd30c"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_46.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f60d766e01b70db2fdde991a1c5215a6fda2629ecbb2cbc9045f4d8ec7ea0da6"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_47.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6e1781cc9ffaa913f385ad41794967091f51f20eea19a4f7226dad4177d304ce"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_48.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1d40e7c2ad17fa32b960800d63d93f7ade6de066c92e9b74b60328e6518f468f"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_49.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3e00cbe8a86c9c4c368c00343b270beac7bdf8eaffd8aa658803d3ec968fc6ea"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_5.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "06b6c1d4575de8c7de54f5f81b5000d0e286b35173c8600e8fbcdc416da4f725"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_50.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6ed96ba28db506623ef76d5524f8c68e1487d4cae15c29321da8ebd9b2797013"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_51.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2f61a1bd9289a54aaa431eba97a8ba4eee988aef8edb36f24f70dbd4cede2c01"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_52.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4c295a9733b55817a97cf5484db5b04c147618bec505295b67a524e8889835c7"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_53.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "08b83fb9f03749b1e0875e212d683e57fa226f42c830e1d0451fa9cd791148bd"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_54.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2b2f1c375b1b80167c1d614b9e92d2f6f7d5a6614c0b6db44ade81905dc7d1ec"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_55.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cfbace37d0c29884846082c62aefab7588f05372c9d79c7e1b1b5dd61a562f1b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_56.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2b759adaa9a8c00f677976d815136d340d6e64405e1e70be8cbc365736d85926"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_57.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "72506315f9d67122691947df63ba7c09420f382fd2927314beda45e3de596396"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_58.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "50ce6eeb1aaa669d30c19c9e12c63dcc9a5cbb31f9f9775bb1f66ba775d99d0e"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_59.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a6f8f818fce988cfcbf27cf68cc917f3b13fa3df3492205c0b0bca53c98b8d4d"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_6.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7689ff20c26bcb4afb14ace85788ca5cfb671de0766e8714d7773ccabc4d950a"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_60.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "a6612a543e80967635360c2fc11a1e03fb590101a5cd7dc5cf849987f0f5d3c6"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_61.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6f6cf8c9b3534be2d495c80d9e9ff65d5371b3ddeb0660c1487ffe28e574ab09"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_62.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "50f8c16dc9ab54a9febc0764a33a9edbf4afc20bd7386d76e758569832068cbf"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_63.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0030a3255545db0448ab836d28b64d3151a846660752235b84a5a3542f627136"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_64.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8142ef13897162a9b43066578ff53bb0505b5ecd703ef387d68023ad3770de11"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_65.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "edf65d543269a12140da24639ee793fc4eb654a8150d5e95785cd59d388ad1a6"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_66.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8b4803d34d709990b217b58c64b8a6027d2a948d9ea860e78a5fe091135b3bfc"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_67.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "112a3b4794c569483bf2ed06be6f0ec6a664593e6279cbf23732eb76d6b8f94d"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_68.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "1e8a98f074246b59032158cc86897325c72f8150254a784adbb511a0938775f8"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_69.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9b340f0352df959b7c0d069d950656507d961f156793c31a3dbfb922de5ec9d8"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_7.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "9ee17ddf4645d2c7e851808debc12f237d351777835ca75b6401f9202f1edd10"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_70.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "ee7fb33ab069f883208408f238c35a0c3d0d69ef5fd4e1172a63243664bc01d8"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_71.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "d024dba796c0ddab2a76cc33423d4b4a9a949ad7cc247fc16af645104d3493e2"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_72.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7f4723fabfa28438c3c8d8ddbdb67f4ea3a0b8f730e740e66a332c67af34c4ba"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_73.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "22d9afb7069f6a5b6834c33c84d49726beef5c6479e08e5837a4bcd854240191"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_74.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "45b928ee0e7ceb356816998e2669c7696da4fa4f830e028705d6fd34727638f8"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_75.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "65b0f26603a851001980304af01fc7a25138a7025d5ff6178ae198566cf86b27"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_76.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "99968a9803dcb3798982b00b8dd9ef3a1dc4aeada20abbf8588c8fe66158004c"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_77.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "0fff1e22677d51fc2f6fc21da920abd0618be0eec361d0beb51c06774ab8899b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_78.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "520ac8e05087746086bf9afc96758a56bd452967d4c4fe555ff6d89e4d9fd02e"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_79.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "3ac9360841bc229e3fe8995b997d281eb57911755b93746f0df9970441735b48"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_8.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "84f420e67c4db23c3d1f185cc65cec8ddc2ad016f1afb5bad61a211e7764c79b"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_80.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "faeb98dfe54e267f0d147e15996c73063bd0288420c677fbf87f899d6b72a7ce"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_81.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "765e27c4b685dc442ea04d56e5350f430309b8af270dedbe5d80a955d06b9c53"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_82.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "8a9450d056bdc0dc0490c17fa950bfb5fa1c8ec423428b2daeb23252de96259d"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_83.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cfe2d591eb77b32e41270bb26cc39ec4a160a23e6f1558df03cd9f2446180cb7"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_84.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "701433e0e0e64b7f603623b385e65ac282da6c0f95249ae08fe5a33193dc6429"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_85.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "f8dbbd711950b4bc0a9e4367124d33dc8b53dd63b20e79b3d6868b0b5efdceb2"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_86.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "7612f25a332f28ca0ea6048c695f22edd353eb94dd176204b0ef548763acfafe"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_87.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "548a867fc35100830387c7d77db3e3ea5cdd1dc60e2b871e5dc9cf06f1f785fb"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_88.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "cd257826a038e9613366cf3d260dd15a59aea743ea8ac9cdf5d35dc2e68fba66"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_89.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "560416bb07bc8277976b091c78a172ee2f6b7cf9c23b8ca4da74145fda773e61"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_9.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "b3db033d0eda4d79e60e245cad0e74f9ece3767db303bdb1fd3a42a71d42d642"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_90.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c2f012e978e1d0a9a74eb7854e48a2e105b3d6c60e4d880038beec898bff10b0"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_91.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "6e411833f0d3e3fa447b124249ecc9595045b5c54fdaace3db3bc0c8a1aa712e"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_92.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "84b7b57d15aa4479878cd68fca293d7accb1ce69d8cdb09211988080d8f53ce2"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_93.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2c7315ef60cca26f3d70ed00dc1079ba68321d1739be78b070b19c07b6e4a27d"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_94.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "4d0e7911fc0aef21108acff9b6155aa41bcf66ffe3a974b1eecf78ea66d78655"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_95.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "68efdfc6c9a922cacebc76cbc0d009f8ac7d7b77828bb8ff8bdd626073f22e0f"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_96.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "52e6fe5fd58a5c4aee99660ee330b3336b50e63c0a6e57c0cae1cee903b92205"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_97.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "c0f6a538e6429610172eb597f620395e79f178708d2deb2c7d3c73258d3fcf8f"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_98.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "2cc4312e08110e5247706478ecca419a647b88cd0d29f3aa6ebfdf6f362ec892"
+  },
+  {
+   "path": "/private/tmp/claude-501/scr/f_two/scripted/brain_log_m007_99.jsonl",
+   "role": "brain_log@v1",
+   "sha256": "de5b85687756256cc4235f8b1c325dcfad29a2e65386d2cdb46f24937f7ff5eb"
+  }
+ ],
+ "invocation": {
+  "command": "m007",
+  "inputs": [
+   "/private/tmp/claude-501/scr/f_two"
+  ],
+  "label": "f_two",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "f_two",
+ "metric": "M-007",
+ "metric_version": "M-007@v1",
+ "normalisers": {},
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-007@v1.yaml",
+  "revision": "v1.0",
+  "sha256": "591e0f69b0b81b0fed8d80c97a051317a2219ed2bbce115ff066b09742dbd545",
+  "spec": "M-007@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "revw-172-31-218-200.rn.uwaterloo.ca",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-15T09:39:24Z",
+  "wall_time_s": 25.759
+ },
+ "submeasures": [
+  {
+   "decisive_part": "scripted_runs",
+   "diagnostics": {},
+   "id": "M-007.runs",
+   "kind": "gating",
+   "margin": 0.0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.0,
+     "margin_rel": 0.0,
+     "name": "scripted_runs",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 100.0,
+     "unit": "runs",
+     "value": 100
+    },
+    {
+     "margin": 0.0,
+     "margin_rel": 0.0,
+     "name": "control_runs",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 100.0,
+     "unit": "runs",
+     "value": 100
+    }
+   ],
+   "status": "PASS",
+   "threshold": 100.0,
+   "threshold_status": "derived",
+   "title": "Seeded run count per brain",
+   "unit": "runs",
+   "value": 100
+  },
+  {
+   "decisive_part": "fr_commit",
+   "diagnostics": {
+    "commit_events": 131,
+    "commit_events_flanked": 114,
+    "commit_events_multi": 119,
+    "discrimination_vs_null": {
+     "ci_overlap": false,
+     "control_ci95": [
+      0.0,
+      0.0481927710843
+     ],
+     "scripted_better_non_overlapping": true,
+     "scripted_ci95": [
+      0.91935483871,
+      0.990909090909
+     ]
+    },
+    "fr_commit_ci95_bootstrap": [
+     0.91935483871,
+     0.990909090909
+    ],
+    "fr_commit_null": 0.0144927536232,
+    "fr_time": 0.349587701551,
+    "null_commit_events_flanked": 1,
+    "null_commit_events_multi": 69
+   },
+   "id": "M-007.C1",
+   "kind": "gating",
+   "margin": 0.357983193277,
+   "margin_rel": 0.596638655462,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.357983193277,
+     "margin_rel": 0.596638655462,
+     "name": "fr_commit",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.6,
+     "unit": "ratio",
+     "value": 0.957983193277
+    },
+    {
+     "margin": 0.928997686031,
+     "margin_rel": 0.928997686031,
+     "name": "fr_commit_over_null",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.0,
+     "unit": "ratio excess",
+     "value": 0.928997686031
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.6,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "C1 Flank commit rate FR_commit",
+   "unit": "ratio",
+   "value": 0.957983193277
+  },
+  {
+   "decisive_part": "ff_ci_separation",
+   "diagnostics": {
+    "discrimination_vs_null": {
+     "ci_overlap": true,
+     "control_ci95": [
+      0.847542227369,
+      1.0
+     ],
+     "scripted_better_non_overlapping": false,
+     "scripted_ci95": [
+      0.883710565112,
+      1.0
+     ]
+    },
+    "fe_chance_informational": 0.955532029558,
+    "fe_ci95_bootstrap_vs_nofocus": [
+     0.371947598191,
+     1.0
+    ],
+    "ff_ci95_nofocus": [
+     0.930952532857,
+     0.97296537718
+    ],
+    "ff_ci95_scripted": [
+     0.970927641278,
+     1.0
+    ],
+    "mean_ff": 0.98888300739,
+    "mean_ff_nofocus": 0.953710297678
+   },
+   "id": "M-007.C2",
+   "kind": "gating",
+   "margin": -1.0,
+   "margin_rel": -1.0,
+   "note": null,
+   "op": ">=",
+   "parts": [
+    {
+     "margin": 0.259838753484,
+     "margin_rel": 0.519677506968,
+     "name": "focus_excess_vs_nofocus",
+     "op": ">=",
+     "status": "PASS",
+     "threshold": 0.5,
+     "unit": "ratio",
+     "value": 0.759838753484
+    },
+    {
+     "margin": -1.0,
+     "margin_rel": -1.0,
+     "name": "ff_ci_separation",
+     "op": ">=",
+     "status": "FAIL",
+     "threshold": 1.0,
+     "unit": "CI non-overlap",
+     "value": 0.0
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 1.0,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "C2 Focus-fire excess FE",
+   "unit": "CI non-overlap",
+   "value": 0.0
+  },
+  {
+   "decisive_part": "switch_rate_per_kaiju_min",
+   "diagnostics": {
+    "discrimination_switch_rate_vs_nofocus": {
+     "ci_overlap": false,
+     "control_ci95": [
+      0.0680460697094,
+      0.204521157094
+     ],
+     "scripted_better_non_overlapping": true,
+     "scripted_ci95": [
+      0.0,
+      0.0186442521324
+     ]
+    },
+    "discrimination_switch_rate_vs_null": {
+     "ci_overlap": true,
+     "control_ci95": [
+      0.0,
+      0.041769640433
+     ],
+     "scripted_better_non_overlapping": false,
+     "scripted_ci95": [
+      0.0,
+      0.0186442521324
+     ]
+    },
+    "discrimination_thrash_fraction_vs_nofocus": {
+     "ci_overlap": false,
+     "control_ci95": [
+      0.0294117647059,
+      0.254545454545
+     ],
+     "scripted_better_non_overlapping": true,
+     "scripted_ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "discrimination_thrash_fraction_vs_null": {
+     "ci_overlap": true,
+     "control_ci95": [
+      0.0,
+      0.0
+     ],
+     "scripted_better_non_overlapping": false,
+     "scripted_ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "engaged_kaiju_minutes": 439.173333333,
+    "switch_rate_nofocus": 0.129442597801,
+    "switch_rate_null": 0.0153599344643,
+    "thrash": 0,
+    "thrash_fraction_null": 0.0,
+    "voluntary_switches": 3
+   },
+   "id": "M-007.C3",
+   "kind": "gating",
+   "margin": 2.99316898415,
+   "margin_rel": 0.997722994717,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.1,
+     "margin_rel": 1.0,
+     "name": "thrash_fraction",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.1,
+     "unit": "ratio",
+     "value": 0.0
+    },
+    {
+     "margin": 2.99316898415,
+     "margin_rel": 0.997722994717,
+     "name": "switch_rate_per_kaiju_min",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 3.0,
+     "unit": "1/kaiju-min",
+     "value": 0.00683101584796
+    }
+   ],
+   "status": "PASS",
+   "threshold": 3.0,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "C3 Target switching (thrash fraction, voluntary switch rate)",
+   "unit": "1/kaiju-min",
+   "value": 0.00683101584796
+  },
+  {
+   "decisive_part": "leaks",
+   "diagnostics": {
+    "control_leaks": 0
+   },
+   "id": "M-007.C4",
+   "kind": "gating",
+   "margin": 0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "leaks",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "ticks",
+     "value": 0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "C4 Information fairness (leaks)",
+   "unit": "ticks",
+   "value": 0
+  },
+  {
+   "diagnostics": {},
+   "id": "M-007.C5",
+   "kind": "gating",
+   "note": "panel: >= 12 raters x 6 blinded clips (human step; no ratings file format yet)",
+   "parts": [],
+   "status": "PENDING",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "C5 Human panel smart / cheap",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-007.C6",
+   "kind": "gating",
+   "note": "win rate vs scripted baseline needs a policy (R-024 section 5)",
+   "parts": [],
+   "spec_clause": "R-024 section 5 C6: deferred, waits for a trained policy",
+   "status": "NOT_APPLICABLE",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "C6 Win rate vs scripted baseline (deferred)",
+   "unit": "",
+   "value": null
+  }
+ ],
+ "tool": {
+  "git_commit": "ca39c309edc92a523169babf07f7738c188c20ba",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "FAIL",
+ "verdict_label": "FAIL",
+ "warnings": []
+}

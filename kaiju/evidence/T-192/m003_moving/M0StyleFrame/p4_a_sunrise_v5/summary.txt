@@ -1,0 +1,23 @@
+M-003@v1  [p4_a_sunrise_v5]  registry v1.1 sha256:7a63afd06c66  tool 1.0.0
+VERDICT: FAIL   headless: FAIL   exit 1   failing gating: 1
+  FAIL           [G] M-003.c1         0.5 rho  >= 0.9  margin -0.4 seed-threshold
+      where: p4_a_sunrise_v5/x4/f000284 bands [0, 3, 4] mean L* [16.6, 34.6, 34.5]
+  PASS           [G] M-003.a.output   1 share  >= 0.95  margin 0.05
+  PASS           [G] M-003.a.internal 1 share  >= 0.995  margin 0.005 seed-threshold
+  PASS           [G] M-003.b.DIG      1 share of frames  >= 0.8  margin 0.2
+  NOT_RUN        [G] M-003.c2         -   (no haze_cal sequence in the capture set)
+  PASS           [G] M-003.d-i        4 levels  <= 12  margin 8
+  PASS           [G] M-003.d-ii       2 families  <= 3  margin 1
+  PASS           [G] M-003.d-iv       1 share of blocks  >= 0.995  margin 0.005
+  PENDING        [G] M-003.f          -   (no panel_ratings@v1 file given (the tool never defaults a score))
+  REPORTED       [i] M-003.a.A3       1 share
+  REPORTED       [i] M-003.a.A5       1 share
+  PASS           [A] M-003.b.DIG_max  0.3916 DIG  <= 0.5  margin 0.1084 seed-threshold
+  REPORTED       [A] M-003.b.O        1.017 O
+  NOT_APPLICABLE [A] M-003.d-iii      -   (no accent present in any frame (applies only when present))
+  PASS           [A] M-003.e.sky      0.493   in [0.2, 0.5]  margin 0.007006 seed-threshold
+  PASS           [A] M-003.e.horizon  0.437   <= 0.45  margin 0.013 seed-threshold
+  PASS           [A] M-003.e.contrast 30.47   >= 25  margin 5.47 seed-threshold
+  warning: ADVISORY M-003.b.O reported without a threshold until Q-015: median O 1.017 (Bayer/checker > 0.5, white noise ~ 0, clustered < 0; the references are -0.34..+0.15)
+  missing inputs: slate_crimson: 0 gameplay frames (< 12), slate_teal: 0 gameplay frames (< 12), warm_amber_haze: 0 gameplay frames (< 12), warm_rust_sepia: 0 gameplay frames (< 12), haze_cal sequen
+  inputs: 2162 files hashed; report.json holds every value, threshold and hash

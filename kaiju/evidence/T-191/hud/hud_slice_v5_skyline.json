@@ -1,0 +1,26 @@
+{
+ "schema": "hud_frame@v1",
+ "id": "hud_slice_v5_skyline",
+ "composite": true,
+ "live_imgui": false,
+ "note": "HUD text composited over a driver frame; strings follow SliceBootstrap.OnGUI (feelcheck); state values are scene definitions, not a running simulation",
+ "source_frame": "hud_v5_skyline/x4/f000000_color_output.png",
+ "source_sha256": "64c4b66aa9f12d8fbaa9c95121f5da50ffdfc42fbc43022430f985c8b04e9ac6",
+ "output_sha256": "33dba86b47fb64e5abf32957434005ac291c79d8449b1a22a374d6bb1a2d9368",
+ "hud_lines": [
+  "Kaiju feel check (TEMPORARY: capsule mech and kaiju; mech body awaits T-005)  60 fps   buildings destroyed 0  damaged events 0",
+  "WASD move   Space stop   F cannon   R arm swing   Q quake   I impactor   H hangar (repair + redeploy)   kaiju Approach d=340 m   mech hp 1.00",
+  "ammo 20/20   kaiju hp 100%   shots 0 hits k0/b0   hangar cycles 0",
+  "slice ready: WASD to walk, F to fire"
+ ],
+ "font": "Arial.ttf",
+ "font_px": 12,
+ "origin_px": [
+  10,
+  10
+ ],
+ "size": [
+  1920,
+  1080
+ ]
+}

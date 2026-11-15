@@ -1,0 +1,1 @@
+M1-cleanup: EditMode 482/484 pass, 0 fail, 2 skip (as M1-merge-6); dotnet Core 105, Destruction 82, Geo 70; pytest geo 128; M-005 district PASS 0.01443 with landmarks row pass. See M1-editmode-after-save-fix.md

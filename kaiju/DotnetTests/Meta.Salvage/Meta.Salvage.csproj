@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Mirrors the Unity assembly Game.Meta.Salvage (netstandard2.1, C# 9, engine-free). T-119. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>Game.Meta.Salvage</AssemblyName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../Assets/Game/Meta/Salvage/Runtime/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Core.Contracts/Core.Contracts.csproj" />
+    <ProjectReference Include="../Core/Core.csproj" />
+    <ProjectReference Include="../Meta.Salvage.Contracts/Meta.Salvage.Contracts.csproj" />
+    <ProjectReference Include="../Meta.Economy.Contracts/Meta.Economy.Contracts.csproj" />
+  </ItemGroup>
+</Project>

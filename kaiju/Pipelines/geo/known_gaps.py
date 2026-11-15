@@ -47,11 +47,18 @@ def main(argv=None):
     for o in out:
         lon, lat = __import__("kaiju_geo.common", fromlist=["x"]).baytm_to_lonlat(o["x"], o["z"])
         o["lon"], o["lat"] = round(lon, 6), round(lat, 6)
-    names = sorted({f["properties"]["name"] for f in feats if f["properties"]["name"] and "Fremont" in f["properties"]["name"]})
+    # OSM `name` is not shipped in baked tiles (T-144b, M-126), so each candidate is located by the nearest baked footprint id instead
+    geoms = [(f["properties"].get("bid") or f["properties"].get("id"), shape(f["geometry"])) for f in feats]
+    tree = shapely.STRtree([g for _, g in geoms])
+    from shapely.geometry import Point
+    for o in out:
+        pt = Point(o["x"], o["z"])
+        k = int(tree.nearest(pt))
+        o["nearest_osm_footprint"] = {"bid": geoms[k][0], "distance_m": round(float(geoms[k][1].distance(pt)), 1)}
     doc = {"tile": t.id, "rule": "lidar first-return DSM - bare surface > 15 m, connected area >= 300 m^2 with median > 15 m, not within 6 m of any OSM footprint, not water (may also be trees, cranes, construction)",
-           "candidates": out, "osm_names_containing_Fremont": names}
+           "candidates": out}
     (PROJECT / "evidence" / "T-003" / "known_gaps_candidates.json").write_text(json.dumps(doc, indent=1) + "\n")
-    print(len(out), "candidates;", names)
+    print(len(out), "candidates")
     for o in out[:12]:
         print(o)
 

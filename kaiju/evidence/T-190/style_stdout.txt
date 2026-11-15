@@ -1,0 +1,258 @@
+{
+ "check": "M-123",
+ "sets": {
+  "p1_d_scale_proxy_v5": {
+   "check": "M-123",
+   "scale": {
+    "check": "M-123/integer-scale",
+    "frames": 5,
+    "rows": [
+     {
+      "frame": "x4/f000000.json",
+      "match": 1.0,
+      "errors": [],
+      "ok": true
+     },
+     {
+      "frame": "x4/f000001.json",
+      "match": 1.0,
+      "errors": [],
+      "ok": true
+     },
+     {
+      "frame": "x4/f000002.json",
+      "match": 1.0,
+      "errors": [],
+      "ok": true
+     },
+     {
+      "frame": "x4/f000003.json",
+      "match": 1.0,
+      "errors": [],
+      "ok": true
+     },
+     {
+      "frame": "x4/f000004.json",
+      "match": 1.0,
+      "errors": [],
+      "ok": true
+     }
+    ],
+    "pass": true
+   },
+   "metrics": [
+    {
+     "metric": "m003",
+     "exit": 3,
+     "verdict": "INCOMPLETE",
+     "report": {
+      "assumed_thresholds_decisive": [
+       "M-003.a.internal",
+       "M-003.c1"
+      ],
+      "contract_errors": [],
+      "coverage": {
+       "missing": [
+        "lavender_peach: 0 gameplay frames (< 12)",
+        "slate_crimson: 5 gameplay frames (< 12)",
+        "slate_teal: 0 gameplay frames (< 12)",
+        "warm_amber_haze: 0 gameplay frames (< 12)",
+        "warm_rust_sepia: 0 gameplay frames (< 12)",
+        "haze_cal sequence (M-003 c2)"
+       ],
+       "optional_not_provided": [],
+       "provided": [
+        "slate_crimson: 5 frames"
+       ],
+       "required": [
+        "lavender_peach >= 12 frames",
+        "slate_crimson >= 12 frames",
+        "slate_teal >= 12 frames",
+        "warm_amber_haze >= 12 frames",
+        "warm_rust_sepia >= 12 frames",
+        "haze_cal"
+       ]
+      },
+      "exit_code": 3,
+      "extra": {
+       "frames": [
+        {
+         "A2_int": 1.0,
+         "A2_out": 1.0,
+         "A3_out": 1.0,
+         "A5_out": 1.0,
+         "DIG": 0.291641761307,
+         "O": 1.2074768972,
+         "accent_share": 0.0,
+         "composition": {
+          "contrast": 30.7714672048,
+          "horizon": 0.440711575184,
+          "sky_share": 0.488665123457
+         },
+         "depth": {
+          "bands": [
+           1,
+           2,
+           3,
+           4
+          ],
+          "max_drop": 0.0,
+          "meanL": [
+           19.6221575508,
+           25.8992353146,
+           34.3320144038,
+           43.651062401
+          ],
+          "rho": 1.0,
+          "span": 24.0289048502
+         },
+         "dither_evaluated": true,
+         "frame": "p1_d_scale_proxy_v5/x4/f000000",
+         "gradient_share": 0.309814814815,
+         "grid_uniform": 1.0,
+         "hue_families": 1,
+         "hue_peaks": [
+          [
+           279,
+           1.0
+          ]
+         ],
+         "levels": 5,
+         "off_palette_px_out": 0,
+         "profile": "slate_crimson"
+        },
+        {
+         "A2_int": 1.0,
+         "A2_out": 1.0,
+         "A3_out": 1.0,
+         "A5_out": 1.0,
+         "DIG": 0.29018201738,
+         "O": 1.21413168966,
+         "accent_share": 0.0,
+         "composition": {
+          "contrast": 30.7714672048,
+          "horizon": 0.440711575184,
+          "sky_share": 0.488410493827
+         },
+         "depth": {
+          "bands": [
+           1,
+           2,
+           3,
+           4
+          ],
+          "max_drop": 0.0,
+          "meanL": [
+           19.4880423932,
+           25.826478364,
+           34.411317727,
+           43.7304863913
+          ],
+          "rho": 1.0,
+          "span": 24.2424439981
+         },
+         "dither_evaluated": true,
+         "frame": "p1_d_scale_proxy_v5/x4/f000001",
+         "gradient_share": 0.309884259259,
+         "grid_uniform": 1.0,
+         "hue_families": 1,
+         "hue_peaks": [
+          [
+           279,
+           0.999747966049
+          ]
+         ],
+         "levels": 5,
+         "off_palette_px_out": 0,
+         "profile": "slate_crimson"
+        },
+        {
+         "A2_int": 1.0,
+         "A2_out": 1.0,
+         "A3_out": 1.0,
+         "A5_out": 1.0,
+         "DIG": 0.292803105714,
+         "O": 1.21835758829,
+         "accent_share": 0.0,
+         "composition": {
+          "contrast": 30.7714672048,
+          "horizon": 0.444420433357,
+          "sky_share": 0.485918209877
+         },
+         "depth": {
+          "bands": [
+           1,
+           2,
+           3,
+           4
+          ],
+          "max_drop": 0.0,
+          "meanL": [
+           19.3828492209,
+           26.4353026437,
+           34.8412288832,
+           44.1931973616
+          ],
+          "rho": 1.0,
+          "span": 24.8103481407
+         },
+         "dither_evaluated": true,
+         "frame": "p1_d_scale_proxy_v5/x4/f000002",
+         "gradient_share": 0.310061728395,
+         "grid_uniform": 1.0,
+         "hue_families": 1,
+         "hue_peaks": [
+          [
+           279,
+           0.999811226846
+          ]
+         ],
+         "levels": 5,
+         "off_palette_px_out": 0,
+         "profile": "slate_crimson"
+        },
+        {
+         "A2_int": 1.0,
+         "A2_out": 1.0,
+         "A3_out": 1.0,
+         "A5_out": 1.0,
+         "DIG": 0.292768155576,
+         "O": 1.2357840549,
+         "accent_share": 0.0,
+         "composition": {
+          "contrast": 30.7714672048,
+          "horizon": 0.440711575184,
+          "sky_share": 0.48674382716
+         },
+         "depth": {
+          "bands": [
+           1,
+           2,
+           3,
+           4
+          ],
+          "max_drop": 0.0,
+          "meanL": [
+           19.3603267535,
+           27.5914930868,
+           35.3033349325,
+           45.5449595907
+          ],
+          "rho": 1.0,
+          "span": 26.1846328372
+         },
+         "dither_evaluated": true,
+         "frame": "p1_d_scale_proxy_v5/x4/f000003",
+         "gradient_share": 0.304722222222,
+         "grid_uniform": 1.0,
+         "hue_families": 1,
+         "hue_peaks": [
+          [
+           279,
+           0.999681709667
+          ]
+         ],
+         "levels": 5,
+         "off_palette_px_out": 0,
+         "profile": "slate_crimson"
+        
