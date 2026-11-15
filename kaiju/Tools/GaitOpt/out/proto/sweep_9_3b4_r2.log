@@ -1,0 +1,24 @@
+# T-005 r4 9.3b-4 round 2 (this worker): b4 preset + options, v2 ref, stick plant, 20 steps; A start and Cm11 (controller model mass/inertia x1.1). Dev npz/json deleted.
+ox2_A          om_x=2                             fell=F st=20.0 v=1.003 cz=0.14 pit=0.22 ft= 3.07 sat=0.00 fr>1= 7.71 frmax=2.00 sol=100.00
+ox2_Cm11       om_x=2                             fell=T st= 1.4 v=0.805 cz=9.07 pit=1.07 ft=120.30 sat=0.26 fr>1=34.29 frmax=2.00 sol=99.74
+r1_A           rate_bw=0.1                        fell=T st= 2.0 v=1.086 cz=5.08 pit=0.51 ft=88.28 sat=1.53 fr>1= 9.18 frmax=2.00 sol=98.28
+r1_Cm11        rate_bw=0.1                        fell=T st= 1.5 v=1.607 cz=8.76 pit=0.61 ft= 9.55 sat=0.00 fr>1= 6.62 frmax=2.00 sol=100.00
+r2_A           rate_bw=0.2                        fell=T st= 1.6 v=0.874 cz=10.36 pit=0.82 ft=102.52 sat=6.33 fr>1=32.12 frmax=2.00 sol=93.19
+r2_Cm11        rate_bw=0.2                        fell=T st= 1.8 v=1.425 cz=5.41 pit=1.74 ft=68.15 sat=1.05 fr>1=10.92 frmax=2.00 sol=98.95
+v1_A           land_vclip=1                       fell=F st=20.0 v=0.999 cz=0.18 pit=0.31 ft= 4.44 sat=0.00 fr>1= 3.90 frmax=2.00 sol=100.00
+v1_Cm11        land_vclip=1                       fell=T st= 1.7 v=1.488 cz=6.11 pit=0.71 ft=13.30 sat=0.00 fr>1=10.55 frmax=2.00 sol=100.00
+v1r2_A         land_vclip=1 rate_bw=0.2           fell=T st= 1.6 v=0.874 cz=10.36 pit=0.82 ft=102.52 sat=6.33 fr>1=32.12 frmax=2.00 sol=93.19
+v1r2_Cm11      land_vclip=1 rate_bw=0.2           fell=T st= 1.8 v=1.445 cz=5.03 pit=2.56 ft=68.09 sat=1.46 fr>1=10.44 frmax=2.00 sol=98.54
+ws1_A          w_smooth=0.1                       fell=F st=20.0 v=1.000 cz=0.18 pit=0.32 ft= 4.46 sat=0.00 fr>1= 3.73 frmax=2.00 sol=100.00
+ws1_Cm11       w_smooth=0.1                       fell=T st= 1.7 v=1.487 cz=5.89 pit=0.70 ft=13.31 sat=0.00 fr>1=11.45 frmax=2.00 sol=100.00
+xl1_A          land_xlead=0.11                    fell=T st= 5.5 v=1.016 cz=3.89 pit=2.03 ft=57.45 sat=0.34 fr>1=12.97 frmax=2.00 sol=99.66
+xl1_Cm11       land_xlead=0.11                    fell=T st= 1.7 v=1.482 cz=5.95 pit=0.70 ft=13.28 sat=0.00 fr>1=11.43 frmax=2.00 sol=100.00
+xl2_A          land_xlead=0.2                     fell=T st=19.9 v=1.007 cz=2.13 pit=0.97 ft=31.53 sat=0.06 fr>1= 7.14 frmax=2.00 sol=99.96
+xl2_Cm11       land_xlead=0.2                     fell=T st= 1.7 v=1.474 cz=5.87 pit=0.71 ft=12.96 sat=0.00 fr>1=11.82 frmax=2.00 sol=100.00
+xl2ox_A        land_xlead=0.2 om_x=2              fell=T st= 3.8 v=0.899 cz=3.64 pit=0.79 ft=71.20 sat=0.29 fr>1=19.84 frmax=2.00 sol=99.80
+xl2ox_Cm11     land_xlead=0.2 om_x=2              fell=T st= 1.4 v=0.805 cz=9.07 pit=1.07 ft=120.30 sat=0.26 fr>1=34.29 frmax=2.00 sol=99.74
+xl2ws_A        land_xlead=0.2 w_smooth=0.1        fell=T st=18.9 v=1.006 cz=2.19 pit=0.92 ft=32.32 sat=0.04 fr>1= 7.00 frmax=2.00 sol=99.96
+xl2ws_Cm11     land_xlead=0.2 w_smooth=0.1        fell=T st= 1.7 v=1.474 cz=5.87 pit=0.71 ft=12.96 sat=0.00 fr>1=12.69 frmax=2.00 sol=100.00
+xl3_A          land_xlead=0.3                     fell=T st=18.2 v=0.993 cz=1.84 pit=0.42 ft=32.71 sat=0.14 fr>1= 6.32 frmax=2.00 sol=99.86
+xl3_Cm11       land_xlead=0.3                     fell=T st= 1.7 v=1.474 cz=5.93 pit=0.71 ft=12.97 sat=0.00 fr>1=11.35 frmax=2.00 sol=100.00
+# exceedance ticks by phase (first 4000 ticks): b4_A strike 76 / toe-down 57 / toe-off 19; xl2_A 128 / 0 / 27 (+67 elsewhere, falls at 19.9); xl3_A 118 / 8 / 9 (+68); ws1_A 79 / 49 / 24

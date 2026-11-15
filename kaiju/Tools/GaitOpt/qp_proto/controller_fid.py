@@ -35,7 +35,14 @@ DEFAULT = dict(
     start_par=0.0,    # 1: start in the mirrored step (state = ref node N, leg A new stance) for left/right symmetry tests
     fr_meas=0.0,      # 1: per-foot shear row |sum Ft_cmd| <= mu fr_margin * sum Fn_meas (last tick's read-back): the shear also fits the load the plant actually carries
     fmin_td=0.0, T_hold=0.3,   # > 0: a point keeps Fn_cmd >= min(fmin_td m g, fmax/2) for T_hold s after its first contact (no heel bounce after touchdown)
+    land_xlead=0.0,   # > 0 (s): with land_act, the re-planned heel x (to rest) and foot pitch reach the landing state land_xlead s before heel z touches (vertical final approach)
+    land_vclip=0.0,   # 1: the re-planned landing quintic's z channel starts from a clipped heel z-velocity (bisection) so that heel z stays >= 0 before T
     land_nounder=0.0, # 1: the re-planned landing quintic is lengthened (h/4 steps) until its heel z stays >= 0 before the end (no early impact)
+    # 9.3b-5 options (defaults off = b4 behaviour)
+    mass_est=0.0,     # > 0: online mass-scale estimate ms (filter gain per tick): ms -> sum Fn_meas / (m (g + dcomd_z/dt)) of the last tick (exact for the plant); M, h, W, m, L are scaled by ms
+    mass_lo=0.7, mass_hi=1.5,   # clip of the estimate
+    sg_floor=0.0,     # > 0 (in m g): while the swing foot has no measured contact the stance leg's points keep fmax >= min(sg_floor, rate limit) (the unload ramp cannot drop below it)
+    sg_fmin=0.0,      # > 0 (in m g): and, in that phase, the stance leg's summed Fn_cmd must stay >= sg_fmin (support guard, lower bound)
 )
 
 
@@ -97,10 +104,27 @@ class FIDWalker:
             A = np.array([[T**3, T**4, T**5], [3 * T**2, 4 * T**3, 5 * T**4], [6 * T, 12 * T**2, 20 * T**3]]); co = np.zeros((6, 3))
             for c in range(3):
                 b = np.array([p1[c] - (x0[c] + v0[c] * T), v1[c] - v0[c], 0.0]); co[:, c] = [x0[c], v0[c], 0.0, *np.linalg.solve(A, b)]
+            if self.p["land_vclip"] and v0[1] < 0:          # 9.3b-4 r2: z channel must not reach the ground before T (early strike with the heel still moving fast in x)
+                ss = np.linspace(0, T, 41)[:-2]
+                def zmin(vz):
+                    b = np.array([p1[1] - (x0[1] + vz * T), v1[1] - vz, 0.0]); cz = np.array([x0[1], vz, 0.0, *np.linalg.solve(A, b)]); return np.polyval(cz[::-1], ss).min(), cz
+                zm, cz = zmin(v0[1])
+                if zm < 0:
+                    lo, hi = v0[1], 0.0
+                    for _ in range(30):
+                        mid = 0.5 * (lo + hi); zm, _ = zmin(mid)
+                        lo, hi = (mid, hi) if zm < 0 else (lo, mid)
+                    _, cz = zmin(hi); co[:, 1] = cz
             if not self.p["land_nounder"]: break
             ss = np.linspace(0, T, 41)[:-2]; zz = np.polyval(co[::-1, 1], ss)
             if zz.min() >= 0: break
             T += 0.25 * self.h
+        self.LQx = None
+        if self.p["land_xlead"] > 0:                      # 9.3b-4 r2: x and pitch reach the landing state land_xlead s before z does, then hold (no tangential heel speed at strike)
+            Tx = max(T - self.p["land_xlead"], 2 * self.h); Ax = np.array([[Tx**3, Tx**4, Tx**5], [3 * Tx**2, 4 * Tx**3, 5 * Tx**4], [6 * Tx, 12 * Tx**2, 20 * Tx**3]])
+            for c in (0, 2):
+                b = np.array([p1[c] - (x0[c] + v0[c] * Tx), 0.0 - v0[c] if c == 0 else v1[c] - v0[c], 0.0]); co[:, c] = [x0[c], v0[c], 0.0, *np.linalg.solve(Ax, b)]
+            self.LQx = Tx
         co[0, 0] -= xo[0]                       # stored without Xoff (added back at use, as for the reference quintic)
         self.LQ[par] = (tau, T, co); self.land_plan = (self.t_anchor, par)
 
@@ -109,6 +133,10 @@ class FIDWalker:
         tau0, Tl, co = self.LQ[par]; s = float(np.clip(tau - tau0, 0.0, Tl)); ex = max(0.0, tau - tau0 - Tl)
         P_ = np.array([1, s, s**2, s**3, s**4, s**5]); V_ = np.array([0, 1, 2 * s, 3 * s**2, 4 * s**3, 5 * s**4]); A_ = np.array([0, 0, 2, 6 * s, 12 * s**2, 20 * s**3])
         pos, vel, acc = P_ @ co, V_ @ co, A_ @ co
+        if getattr(self, "LQx", None) and self.p["land_act"]:
+            sx = float(np.clip(tau - tau0, 0.0, self.LQx)); Px = np.array([1, sx, sx**2, sx**3, sx**4, sx**5]); Vx = np.array([0, 1, 2 * sx, 3 * sx**2, 4 * sx**3, 5 * sx**4]); Axx = np.array([0, 0, 2, 6 * sx, 12 * sx**2, 20 * sx**3])
+            for c in (0, 2): pos[c], vel[c], acc[c] = Px @ co[:, c], Vx @ co[:, c], Axx @ co[:, c]
+            if tau - tau0 > self.LQx: vel[0] = vel[2] = 0.0; acc[0] = acc[2] = 0.0
         if ex > 0: pos = pos + np.array([0.0, -self.p["v_td"] * ex, 0.0]); vel = np.array([0.0, -self.p["v_td"], 0.0]); acc = np.zeros(3)
         return pos, vel, acc
 
@@ -127,8 +155,9 @@ class FIDWalker:
 
     def reset(self):
         self.parity = 0; self.t_anchor = 0.0; self.Xoff = 0.0; self.Fprev = np.zeros((4, 2)); self.inc = np.zeros(4, bool); self.t_in = np.zeros(4); self.f_in = np.zeros(4)
+        self.ms = 1.0; self._comd_prev = None; self._t_prev = None
         self.t_rel = np.zeros(2) - 10.0; self.td_events = []; self.u_prev = None; self.F_meas = None   # F_meas: tick-averaged plant contact force of the last tick (set by the sim = contact-impulse read-back)
-        self.log = {k: [] for k in ("t", "tref", "parity", "q", "com", "L", "F", "u", "fr_cmd", "status1", "status2", "tdrop", "ms", "resid", "loaded", "qdd", "fn_meas", "fmax", "u_act", "wrench", "wd", "iters")}
+        self.log = {k: [] for k in ("t", "tref", "parity", "q", "com", "L", "F", "u", "fr_cmd", "status1", "status2", "tdrop", "ms", "resid", "loaded", "qdd", "fn_meas", "fmax", "u_act", "wrench", "wd", "iters", "mest")}
 
     def sense(self, q, qd, Minv, pts, Jp):
         fn = np.zeros(4); kn, z = self.p["kn"], self.p["zeta"]
@@ -148,6 +177,13 @@ class FIDWalker:
         coms, Jc, Jw, pts, Jp, ba, bp = m.kin(q, qd)
         M = Jc.T @ (m.MR[:, None] * Jc) + Jw.T @ (m.inertia[:, None] * Jw); h = Jc.T @ (m.MR * ba.reshape(-1)) + G0 * (Jc[1::2].T @ m.mass)
         Minv = np.linalg.inv(M); c = (m.mass[:, None] * coms).sum(0) / self.mt; comd = (m.MR * (Jc @ qd)).reshape(7, 2).sum(0) / self.mt
+        if p["mass_est"] > 0:                              # 9.3b-5: online mass-scale estimate from the last tick's read-back (sum Fn_meas = m_true (g + CoM z accel)); no effect before the first read-back
+            if self.F_meas is not None and self._comd_prev is not None and t > self._t_prev + 1e-9:
+                den = G0 + (comd[1] - self._comd_prev[1]) / (t - self._t_prev); ftot = float(self.F_meas[:, 1].sum())
+                if den > 0.5 * G0 and ftot > 0.4 * self.W: self.ms = float(np.clip(self.ms + p["mass_est"] * (ftot / (self.mt * den) - self.ms), p["mass_lo"], p["mass_hi"]))
+            self._comd_prev = comd.copy(); self._t_prev = t
+        ms = self.ms
+        if ms != 1.0: W = self.W * ms; M = M * ms; h = h * ms; Minv = Minv / ms
         vp = np.einsum("pdi,i->pd", Jp, qd)
         # ---- measured contact with hysteresis
         fn_meas = self.F_meas[:, 1].copy() if (p["meas_avg"] and self.F_meas is not None) else self.sense(q, qd, Minv, pts, Jp)
@@ -179,6 +215,10 @@ class FIDWalker:
             to = self.t_off(i, tref); ramp = np.clip((to - tref) / p["T_out"], 0.0, 1.0)
             fmax[i] = min(p["fcap"] * ramp, self.f_in[i] / W + (t - self.t_in[i]) / p["T_in"])
             if p["rate_bw"] > 0: fmax[i] = min(fmax[i], fn_meas[i] / W + p["rate_bw"])
+        sg_on = (p["sg_floor"] > 0 or p["sg_fmin"] > 0) and not any(self.inc[2 * sw_leg:2 * sw_leg + 2])       # support guard: single support, swing foot not (yet) in measured contact
+        if sg_on and p["sg_floor"] > 0:
+            for i in S:
+                if i // 2 == st_leg: fmax[i] = max(fmax[i], min(p["sg_floor"], self.f_in[i] / W + (t - self.t_in[i]) / p["T_in"]))
         fmin = np.zeros(4)
         if p["rate_bw"] > 0:
             for i in S: fmin[i] = min(max(0.0, fn_meas[i] / W - p["rate_bw"]), fmax[i])
@@ -205,8 +245,8 @@ class FIDWalker:
             T = np.atleast_2d(T); return np.hstack([np.zeros((T.shape[0], 9)), T])
         # centroidal
         cref = r["com"] + xo; cdd = r["comdd"] + np.array([p["om_x"] ** 2, p["om_z"] ** 2]) * (cref - c) + 2 * np.array([p["om_x"], p["om_z"]]) * (r["comd"] - comd)
-        A = m.AG(q); Lm = float((A @ qd)[2]); Ldd = r["Ldot"] + p["kL"] * (r["L"] - Lm)
-        wd = np.array([self.mt * cdd[0] / W, self.mt * (cdd[1] + G0) / W, Ldd / (W * l)])
+        A = m.AG(q); Lm = float((A @ qd)[2]) * ms; Ldd = r["Ldot"] + p["kL"] * (r["L"] - Lm)
+        wd = np.array([self.mt * ms * cdd[0] / W, self.mt * ms * (cdd[1] + G0) / W, Ldd / (W * l)])
         if nb:
             add(brow(Gm[0]), wd[:1], p["w_cx"]); add(brow(Gm[1]), wd[1:2], p["w_cz"]); add(brow(Gm[2]), wd[2:], p["w_L"])
             fref = np.concatenate([r["F"][i] / W for i in S]); fpv = np.concatenate([self.Fprev[i] / W for i in S])
@@ -260,6 +300,9 @@ class FIDWalker:
             for a, i in enumerate(S):
                 Cin.append(-brow(Em[2 * a + 1])); din.append(np.array([-fmax[i]]))
                 if fmin[i] > 0: Cin.append(brow(Em[2 * a + 1])); din.append(np.array([fmin[i]]))
+            if sg_on and p["sg_fmin"] > 0:                                   # summed stance-leg Fn_cmd >= sg_fmin (relaxed to what the leg's fmax allows)
+                al = [a for a, i in enumerate(S) if i // 2 == st_leg]
+                if al: Cin.append(brow(sum(Em[2 * a + 1] for a in al))); din.append(np.array([min(p["sg_fmin"], sum(fmax[S[a]] for a in al))]))
             if p["fr_meas"]:
                 for f in (0, 1):
                     al = [a for a, i in enumerate(S) if i // 2 == f]
@@ -285,6 +328,6 @@ class FIDWalker:
         Lg = self.log
         for kk, v in (("t", t), ("tref", tref), ("parity", self.parity), ("q", q.copy()), ("com", c.copy()), ("L", Lm), ("F", F), ("u", u.copy()), ("fr_cmd", fr), ("status1", st1), ("status2", st), ("iters", it1),
                       ("tdrop", tdrop), ("ms", 1e3 * (time.perf_counter() - t0)), ("resid", float(np.abs(res).max() / (W * l))), ("loaded", sum(1 << i for i in S)), ("qdd", qdd), ("fn_meas", fn_meas),
-                      ("fmax", fmax), ("u_act", u_act), ("wrench", wrench), ("wd", wd)):
+                      ("fmax", fmax), ("mest", ms), ("u_act", u_act), ("wrench", wrench), ("wd", wd)):
             Lg[kk].append(v)
         return u
