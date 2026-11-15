@@ -66,7 +66,7 @@ writes them to the git-ignored `cache/tiles/v1/L{n}/{ii}_{jj}/` (it refuses to w
 Per tile: `terrain.r16` (node subsample of the L0 field, spacing 2^n m, same 2049^2 layout), `slope.u8`, `water.png`
 (majority of the 2^n x 2^n L0 cells), `b1.lodmesh`/`b1.index.json` (merged blocks per 256 m chunk, per-building index
 ranges; L1, L2), `b2.lodmesh`/`b2.index.json` (prisms for >= 60 m buildings + max-pooled rooftop surface; L2..L4) and
-`manifest.json` (errors, stats, budget, file hashes, source fingerprint, attribution). `.lodmesh` layout: module docstring.
+`manifest.json` (errors, stats, budget, file hashes, source fingerprint, attribution). `.lodmesh` layout: module docstring. Index rows of building parts carry `part_of` (bake_lod.py@4, T-111b). C# reader: `Game.World.Streaming.Host/GeoLodTileReader.cs`; error measurement at the cap thresholds: `scripts/measure_lod_error.py` (evidence/T-111b).
 The manifest records the RTIN triangle count at the nominal threshold 0.1 x 2^n m and the smallest threshold of a
 fixed ladder that fits the 150 k cap (`terrain.rtin_threshold_for_cap_m`); the loader picks, the baker does not relax.
 Missing L0 tiles are an open-ocean placeholder (`coverage` < 1 in the manifest). `lod.validate_level_tile` and

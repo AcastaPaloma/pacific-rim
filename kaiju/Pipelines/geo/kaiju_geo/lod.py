@@ -50,7 +50,7 @@ from .common import SAMPLES, TILE_SIZE_M, Tile, canonical_json, sha256_bytes, sh
 from .terrain import decode_r16, quantise_r16
 
 SPEC = "geo_lod@v1"
-GENERATOR = "bake_lod.py@3"
+GENERATOR = "bake_lod.py@4"
 MAX_LEVEL = 4
 CHUNK_M = 256.0
 N = SAMPLES - 1                       # 2048 cells per tile edge
@@ -721,6 +721,7 @@ class Piece:
     landmark: bool
     err_m: float               # Hausdorff distance original vs simplified exterior
     chunk: tuple[int, int] | None = None
+    part_of: str | None = None     # parent structure bid (journal replay hides parts with their structure)
 
 
 def collect_pieces(feats: list[dict], landmarks: set[str]):
@@ -768,7 +769,7 @@ def _simplify_pieces(items, tol: float, tall_only: bool | None, landmarks: set[s
                 continue
             err = float(shapely.hausdorff_distance(ext.exterior, s.exterior))
             pieces.append(Piece(bid, ring, gmin, bottom, top, bid in landmarks or p.get("part_of") in landmarks,
-                                err))
+                                err, part_of=p.get("part_of")))
             c = s.representative_point()
             pieces[-1].chunk = mb.chunk_of(c.x, c.y)
     return pieces
@@ -823,6 +824,8 @@ def building_index(pieces: list[Piece], form: str, tile: Tile) -> dict:
         e["h_min"] = min(e["h_min"], p.ground)
         e["h_max"] = max(e["h_max"], p.top)
         e["landmark"] = e["landmark"] or p.landmark
+        if p.part_of and "part_of" not in e:
+            e["part_of"] = p.part_of
     rows = [by[k] for k in sorted(by)]
     for r in rows:
         r["h_min"] = round(r["h_min"], 3)

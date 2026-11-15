@@ -226,6 +226,9 @@ def test_b1_b2_forms_meshes_and_ranges(tmp_path):
     i1 = json.loads((d / "b1.index.json").read_text())
     bids = [b["bid"] for b in i1["buildings"]]
     assert bids == sorted(bids) == ["osm:w1", "osm:w2", "osm:w4", "osm:w6", "osm:w7", "osm:w8"]
+    # T-111b: parts name their structure so the C# reader hides them with it (journal replay); others carry no part_of
+    assert {b["bid"]: b.get("part_of") for b in i1["buildings"]} == {
+        "osm:w1": None, "osm:w2": None, "osm:w4": None, "osm:w6": "osm:w5", "osm:w7": "osm:w5", "osm:w8": None}
     # every range points inside its chunk's index block and lies on triangle boundaries
     for bi, ci, first, cnt in b1["ranges"]:
         c = b1["chunks"][ci]
