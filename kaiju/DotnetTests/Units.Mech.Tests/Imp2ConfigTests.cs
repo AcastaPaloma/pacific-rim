@@ -17,7 +17,8 @@ namespace Game.Units.Mech.Tests
             Assert.AreEqual(1.0, t.imp2_ff_scale); Assert.AreEqual(0.0, t.imp2_vf_scale);
             Assert.AreEqual(1.0, t.imp2_ff_sign_hip); Assert.AreEqual(1.0, t.imp2_ff_sign_knee); Assert.AreEqual(1.0, t.imp2_ff_sign_ankle);
             string json = File.ReadAllText(Path.Combine(Repo.Root(), "Assets", "Game", "Config", "Mech", "walk_tuning.json"));
-            foreach (var k in new[] { "imp2_ff_scale", "imp2_vf_scale", "imp2_ff_sign_hip", "imp2_ff_sign_knee", "imp2_ff_sign_ankle" }) StringAssert.Contains("\"" + k + "\"", json);
+            Assert.AreEqual(0.0, t.imp2_phase_sync); Assert.AreEqual(0.0, t.imp2_swing_noclamp); Assert.AreEqual(1.0, t.imp2_swing_gain_scale);
+            foreach (var k in new[] { "imp2_phase_sync", "imp2_swing_noclamp", "imp2_swing_gain_scale", "imp2_ff_scale", "imp2_vf_scale", "imp2_ff_sign_hip", "imp2_ff_sign_knee", "imp2_ff_sign_ankle" }) StringAssert.Contains("\"" + k + "\"", json);
         }
 
         [Test]

@@ -94,7 +94,9 @@ namespace Game.Units.Mech
               // optional (round 2 step 3): vertical free moment the stance foot(s) must supply, the friction budget, their ratio and the trunk's share of the legs' yaw momentum; null when not available
               .Num("yaw_moment_nm", dbg.YawMomentNm).Num("yaw_budget_nm", dbg.YawBudgetNm).Num("yaw_util", dbg.YawUtil).Num("trunk_share", dbg.TrunkShare)
               // optional (round 2 step 6a, imp > 0): reference and measured hip flexion, knee, ankle plantar angle (deg) of the stance and swing leg, and the Froude of the reference in use
-              .Raw("angles", dbg.AngStRef == null ? "null" : "{\"fr_ref\":" + F(dbg.RefFroude) + ",\"st_ref\":" + Arr(dbg.AngStRef) + ",\"st_meas\":" + Arr(dbg.AngStMeas) + ",\"sw_ref\":" + Arr(dbg.AngSwRef) + ",\"sw_meas\":" + Arr(dbg.AngSwMeas) + "}");
+              .Raw("angles", dbg.AngStRef == null ? "null" : "{\"fr_ref\":" + F(dbg.RefFroude) + ",\"st_ref\":" + Arr(dbg.AngStRef) + ",\"st_meas\":" + Arr(dbg.AngStMeas) + ",\"sw_ref\":" + Arr(dbg.AngSwRef) + ",\"sw_meas\":" + Arr(dbg.AngSwMeas) + "}")
+              // optional (round 3 step 8.5 c2, imp = 2): optimised feed-forward torque (N m, hip knee ankle) of the stance and swing leg, and the reference stance phase; null when not available
+              .Raw("tau_ff", dbg.TauFfSt == null ? "null" : "{\"st\":" + Arr(dbg.TauFfSt) + ",\"sw\":" + Arr(dbg.TauFfSw) + "}").Raw("ref_phase", dbg.TauFfSt == null ? "null" : F(dbg.RefPhase));
             _w.WriteLine(_j.End());
             if (intent.move != _lastMove || cmd.Causes != _lastCauses)
             {

@@ -34,7 +34,7 @@ namespace Game.Units.Mech
         {
             public LocoPhase Phase; public int Stance; public Vector2 Dcm, CopCommand, SwingTarget, Reference; public float ComHeightTarget, StepTime, TimeInStep; public bool SwingClamped;
             public double[] AngStRef, AngStMeas, AngSwRef, AngSwMeas; public double RefFroude;   // round 2 step 6a (imp > 0): hip flexion, knee, ankle plantar (deg), stance and swing leg; null when not available
-            public double[] TauFfSt, TauFfSw;   // round 3 step 8.5 (imp = 2): optimised feed-forward torque hip, knee, ankle (N m) after scale, sign and limit; null otherwise
+            public double RefPhase; public double[] TauFfSt, TauFfSw;   // round 3 step 8.5 (imp = 2): optimised feed-forward torque hip, knee, ankle (N m) after scale, sign and limit; null otherwise
             public double YawMomentNm, YawBudgetNm, YawUtil, TrunkShare;   // round 2 step 3 (NaN logs as null)
         }
 
@@ -60,7 +60,7 @@ namespace Game.Units.Mech
         // state
         LocoPhase _phase = LocoPhase.Stand;
         int _stance;                         // leg index of the stance (or new stance) leg
-        double _time, _stepT, _tds, _tss;    // time since the step began (touchdown), step timings
+        double _time, _syncT, _stepT, _tds, _tss;    // time since the step began (touchdown), step timings
         Vector2 _copPrev, _copAtTouchdown, _offsetHeld;
         Vector3 _swingStart; float _swingStartYaw, _swingYawTarget; Vector2 _swingTarget; double _swingTime;
         bool _stomp, _stompDone, _firstStep, _capture;
@@ -182,6 +182,7 @@ namespace Game.Units.Mech
                 ms[0] = _b.DofPosition(leg.Hip[0]) * R2D; ms[1] = _b.DofPosition(leg.Knee) * R2D; ms[2] = _b.DofPosition(leg.Ankle[0]) * R2D;
             }
             _dbg.RefFroude = _ref.Speed * _ref.Speed / (_g * _l);
+            _dbg.RefPhase = StancePhase();
             if (_o2) { _dbg.TauFfSt ??= new double[3]; _dbg.TauFfSw ??= new double[3]; for (int j = 0; j < 3; j++) { _dbg.TauFfSt[j] = O2Tau(_legs[_stance], j); _dbg.TauFfSw[j] = O2Tau(_legs[1 - _stance], j); } }
             else { _dbg.TauFfSt = null; _dbg.TauFfSw = null; }
         }
@@ -302,7 +303,9 @@ namespace Game.Units.Mech
         }
 
         bool ImpActive => _t.imp > 0 && _t.ref_track > 0 && !_stomp && _ref.Speed > 1e-3 && (_phase == LocoPhase.SingleSupport || _phase == LocoPhase.DoubleSupport);
-        double StancePhase() => (_stance == LeftLeg ? 0 : 0.5) + 0.5 * Math.Min(1, _time / _stepT);
+        bool Imp2Sync => _t.imp2_phase_sync > 0 && _t.imp >= 1.5 && _ref.IsOptimised;
+        // imp2_phase_sync: phase 0 of the new step is the measured touchdown (_syncT reset there), rate 1/data step time, clamped at 1 if touchdown is late
+        double StancePhase() => (_stance == LeftLeg ? 0 : 0.5) + 0.5 * (Imp2Sync ? Math.Min(1, _syncT / _ref.StepTime) : Math.Min(1, _time / _stepT));
         // round 2 step 4: reference samples at phase -h, 0, +h (the model trajectory, not the drive targets) for the reference accelerations; cached per WriteDrives call
         GaitSample _ffM, _ff0, _ffP;
         void SampleReferenceForFf()
@@ -343,7 +346,7 @@ namespace Game.Units.Mech
                         int rightLeg = _legs[0].Side > 0 ? 0 : 1;
                         int swing = turn < -(float)_t.turn_done_rad ? 1 - rightLeg : rightLeg;
                         if (wantsStomp) swing = Vector2.DistanceSquared(a.Sole2, XZ(intent.target)) <= Vector2.DistanceSquared(b.Sole2, XZ(intent.target)) ? 0 : 1;
-                        _stance = 1 - swing; _stomp = wantsStomp; _phase = LocoPhase.Shift; _time = 0; _firstStep = true;
+                        _stance = 1 - swing; _stomp = wantsStomp; _phase = LocoPhase.Shift; _time = 0; _syncT = 0; _firstStep = true;
                         PlanTimings();
                     }
                     Vector2 reference = 0.5f * (Nominal(a, 0, 0, false) + Nominal(b, 0, 0, false));
@@ -354,7 +357,7 @@ namespace Game.Units.Mech
                     {
                         // balance is leaving the ankle strategy's reach: take a capture step with the less loaded foot (R-005 5.4 step 4)
                         _stance = a.State.NormalForceN >= b.State.NormalForceN ? 0 : 1; _stomp = false; _firstStep = true;
-                        _capture = true; PlanTimings(); _time = _tds; BeginSwing();
+                        _capture = true; PlanTimings(); _time = _tds; _syncT = 0; BeginSwing();
                     }
                     break;
                 }
@@ -362,7 +365,7 @@ namespace Game.Units.Mech
                 {
                     Leg st = _legs[_stance], sw = _legs[1 - _stance];
                     if (!wantsWalk && !wantsTurn && !wantsStomp) { _phase = LocoPhase.Stand; goto case LocoPhase.Stand; }
-                    _time += _dt;
+                    _time += _dt; _syncT += _dt;
                     float wCop = Vector2.Dot(Nominal(sw, 0, 1, true) - Nominal(st, 0, 1, true), Right(st.Yaw)) * sw.Side;
                     float by = _stomp ? 0f : (float)Lipm.OffsetLateral(wCop, _omega, _stepT);
                     Vector2 reference = Nominal(st, 0, 1, true) + Right(st.Yaw) * (sw.Side * by);
@@ -376,7 +379,7 @@ namespace Game.Units.Mech
                 case LocoPhase.DoubleSupport:
                 case LocoPhase.SingleSupport:
                 {
-                    _time += _dt;
+                    _time += _dt; _syncT += _dt;
                     Leg st = _legs[_stance], sw = _legs[1 - _stance];
                     float heading = _cmd.Heading;
                     double T = _stepT, tr = Math.Max(T - _time, _t.step_end_freeze * T);
@@ -427,6 +430,7 @@ namespace Game.Units.Mech
                             Vector2 rel = ankleNext - st.Ankle2, sf = Fwd(st.Yaw), sr = Right(st.Yaw);
                             float along = Vector2.Dot(rel, sf), side = Vector2.Dot(rel, sr) * sw.Side;
                             float along2 = Clamp(along, -(float)(_t.reach_back_frac * _l), (float)(_t.reach_forward_frac * _l)), side2 = Clamp(side, _footWidth + (float)(_t.foot_gap_frac * _l), (float)(_t.reach_side_frac * _l));
+                            if (_t.imp2_swing_noclamp > 0 && _t.imp >= 1.5 && _ref.IsOptimised) { along2 = along; side2 = side; }   // step 8.5 c2: imp 2 only
                             _dbg.SwingClamped = along2 != along || side2 != side;
                             Vector2 wanted = st.Ankle2 + sf * along2 + sr * (side2 * sw.Side) + Fwd(yawNext) * _ankleToSoleCentre, change = wanted - _swingTarget;
                             float maxChange = (float)(_t.swing_retarget_tstar * _l / _lim.TStar * _dt);
@@ -444,7 +448,7 @@ namespace Game.Units.Mech
                     targetHeight = _pelvisRest - Math.Max(_t.com_drop_walk_frac * _l, stepDrop) - _extraDrop;
                     if (_t.ref_track > 0 && _t.ref_height_blend > 0 && _ref.Speed > 1e-3)
                     {
-                        var smp = _ref.Sample((_stance == LeftLeg ? 0 : 0.5) + 0.5 * Math.Min(1, _time / T));
+                        var smp = _ref.Sample(StancePhase());
                         double refPelvis = smp.HipHeight - (_l - _pelvisRest);
                         targetHeight += (refPelvis - _extraDrop - targetHeight) * _t.ref_height_blend;
                     }
@@ -506,7 +510,7 @@ namespace Game.Units.Mech
                 _stomp = false; _phase = LocoPhase.Stand; return;
             }
             _copAtTouchdown = _copPrev;
-            _stance = 1 - _stance; _phase = LocoPhase.DoubleSupport; _time = 0; _transfer = (float)_t.touchdown_share;
+            _stance = 1 - _stance; _phase = LocoPhase.DoubleSupport; _time = 0; _syncT = 0; _transfer = (float)_t.touchdown_share;
             PlanTimings();
         }
 
@@ -607,7 +611,7 @@ namespace Game.Units.Mech
                 if (_t.ref_track > 0 && _ref.Speed > 1e-3 && (_phase == LocoPhase.SingleSupport || _phase == LocoPhase.DoubleSupport))
                 {
                     // tracked reference: arms against their own legs and the trunk against the limbs' angular momentum (R-007 change 4)
-                    var smp = _ref.Sample((_stance == LeftLeg ? 0 : 0.5) + 0.5 * Math.Min(1, _time / _stepT));
+                    var smp = _ref.Sample(StancePhase());
                     bool imp = ImpActive;   // round 2 step 3: with imp = 1 the waist and both shoulders follow the reference fully, with their own drive gains
                     double trackUpper = imp ? 1 : _t.ref_track * _t.ref_track_upper;
                     if (imp && (d == _armShoulderFlex[0] || d == _armShoulderFlex[1])) { bool armL = d == _armShoulderFlex[0]; Track(d, armL ? smp.ArmFlexionL : smp.ArmFlexionR, Vector3.Zero, default, true, 1, _t.imp_arm_hz, _t.imp_arm_zeta, RefQdd(g => armL ? g.ArmFlexionL : g.ArmFlexionR)); continue; }
@@ -759,12 +763,13 @@ namespace Game.Units.Mech
             double soft = _stomp ? 1 : 1 - (1 - _t.touchdown_gain_scale) * Lipm.SmoothStep((tau - (_t.swing_hover - _t.touchdown_soften_span)) / _t.touchdown_soften_span);
             // round 2 step 4 (imp = 1): the swing leg's pitch DOFs get the reference leg's accelerations, the others gravity and Coriolis only
             bool ff = ImpActive; var lof = LegOf(leg);
+            double sg = _o2 ? _t.imp2_swing_gain_scale : 1;   // step 8.5 c2: imp 2 swing PD gain multiplier (on top of the touchdown softening)
             for (int a = 0; a < 3; a++)
             {
-                if (leg.Hip[a] >= 0) Track(leg.Hip[a], Component(hip, a) * _b.GetDof(leg.Hip[a]).Sign, Vector3.Zero, default, true, soft, 0, 1, ff ? (a == 0 ? RefQdd(g => lof(g).HipFlexion) : 0) : (double?)null);
-                if (leg.Ankle[a] >= 0) Track(leg.Ankle[a], Component(ank, a) * _b.GetDof(leg.Ankle[a]).Sign, Vector3.Zero, default, true, soft, 0, 1, ff ? (a == 0 ? RefQdd(g => lof(g).AnklePlantar) : 0) : (double?)null);
+                if (leg.Hip[a] >= 0) Track(leg.Hip[a], Component(hip, a) * _b.GetDof(leg.Hip[a]).Sign, Vector3.Zero, default, true, soft * sg, 0, 1, ff ? (a == 0 ? RefQdd(g => lof(g).HipFlexion) : 0) : (double?)null);
+                if (leg.Ankle[a] >= 0) Track(leg.Ankle[a], Component(ank, a) * _b.GetDof(leg.Ankle[a]).Sign, Vector3.Zero, default, true, soft * sg, 0, 1, ff ? (a == 0 ? RefQdd(g => lof(g).AnklePlantar) : 0) : (double?)null);
             }
-            Track(leg.Knee, ik.Knee * _b.GetDof(leg.Knee).Sign, Vector3.Zero, default, true, soft, 0, 1, ff ? RefQdd(g => lof(g).Knee) : (double?)null);
+            Track(leg.Knee, ik.Knee * _b.GetDof(leg.Knee).Sign, Vector3.Zero, default, true, soft * sg, 0, 1, ff ? RefQdd(g => lof(g).Knee) : (double?)null);
             if (_o2)
             {
                 // imp = 2: the optimised swing-leg torque replaces the inverse-dynamics feed-forward of the pitch joints
