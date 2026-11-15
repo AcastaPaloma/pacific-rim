@@ -11,6 +11,7 @@ namespace Game.AI.Harness
         public double FrCommit = double.NaN, FrTimeFraction = double.NaN;
         public int FfTicks; public double MeanFf = double.NaN, MeanFfChance = double.NaN, FocusExcess = double.NaN;
         public int VoluntarySwitches, Thrash; public double SwitchesPerKaijuMinuteEngaged = double.NaN, ThrashFraction;
+        public System.Collections.Generic.List<string> CommitDiag = new System.Collections.Generic.List<string>();
         public int Leaks; public int Hits, Deaths; public double DamageTopTargetShare30s = double.NaN;
     }
 
@@ -125,6 +126,18 @@ namespace Game.AI.Harness
                     {
                         bool entry = r.PrevState != 3;
                         bool fresh = !lastCharge.TryGetValue(r.Target, out double lc) || now - lc > 8.0;
+                        if (entry && fresh)
+                        {
+                            var sb = new System.Text.StringBuilder();
+                            sb.Append("t=").Append(now.ToString("F1", Inv)).Append(" tgt=").Append(r.Target).Append(" by=").Append(r.Ent).Append(" reason=").Append(((Game.AI.ReasonCode)r.Reason).ToString());
+                            foreach (var k in kaiju.Values)
+                            {
+                                if (k.Alive != 1 || k.Target != r.Target || !tpos.TryGetValue(k.Target, out Row q2)) continue;
+                                double ddx = k.X - q2.X, ddy = k.Y - q2.Y; double bb = Math.Atan2(ddy, ddx) * 180.0 / Math.PI; if (bb < 0) bb += 360.0;
+                                sb.Append(" | k").Append(k.Ent).Append(" st=").Append(k.State).Append(" d=").Append(Math.Sqrt(ddx * ddx + ddy * ddy).ToString("F0", Inv)).Append(" b=").Append(bb.ToString("F0", Inv));
+                            }
+                            rep.CommitDiag.Add(sb.ToString());
+                        }
                         if (entry && fresh && multi.Contains(r.Target)) { rep.CommitEvents++; rep.CommitEventsMulti++; if (flanked.Contains(r.Target)) rep.CommitEventsFlanked++; }
                         else if (entry && fresh) rep.CommitEvents++;
                         lastCharge[r.Target] = now;

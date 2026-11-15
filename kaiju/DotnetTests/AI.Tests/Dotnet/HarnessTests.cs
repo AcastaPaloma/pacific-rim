@@ -77,10 +77,20 @@ namespace Game.AI.Tests
             PackReport rep = PackMetrics.Compute(log.Split('\n', StringSplitOptions.RemoveEmptyEntries));
             TestContext.Out.WriteLine($"commit={rep.CommitEvents} multi={rep.CommitEventsMulti} flanked={rep.CommitEventsFlanked} FRcommit={rep.FrCommit:F3} FRtime={rep.FrTimeFraction:F3} " +
                 $"FF={rep.MeanFf:F3} chance={rep.MeanFfChance:F3} FE={rep.FocusExcess:F3} ffTicks={rep.FfTicks} vol={rep.VoluntarySwitches} thrash={rep.Thrash} leaks={rep.Leaks} hits={rep.Hits} deaths={rep.Deaths}");
+            foreach (string dg in rep.CommitDiag) TestContext.Out.WriteLine(dg);
             Assert.AreEqual(0, rep.Leaks);
             Assert.GreaterOrEqual(rep.CommitEventsFlanked, 1, "no flank commit event in 3v4 run (report: FSM does not produce it)");
             Assert.Greater(rep.FfTicks, 0, "no focus-fire evaluation ticks");
             Assert.Greater(rep.MeanFf, 0.5, "no focus fire observed");
+        }
+
+        [Test, Explicit("FR_commit 0.182 measured (13 commits, 11 multi, 2 flanked) vs M-007 C1 bar 0.60: R-024 spec finding, FlankTimeout 10 s < ~40 s kinematic need")]
+        public void ThreeVsFour_FrCommit_MeetsC1Bar()
+        {
+            string log = RunLog(new HarnessScenario { Name = "3v4", Seed = 7, MechRespawnSeconds = 20f }, out _);
+            PackReport rep = PackMetrics.Compute(log.Split('\n', StringSplitOptions.RemoveEmptyEntries));
+            foreach (string dg in rep.CommitDiag) TestContext.Out.WriteLine(dg);
+            Assert.GreaterOrEqual(rep.FrCommit, 0.60, "FR_commit " + rep.FrCommit.ToString("F3", CultureInfo.InvariantCulture));
         }
 
         [Test, Explicit("Writes kaiju/evidence/T-032/brain_log_sample.jsonl and m058_tick_cost.json")]
