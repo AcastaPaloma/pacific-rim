@@ -9,7 +9,7 @@ if [ -z "$SKIPTEST" ]; then
 wait_q; unity test . --mode EditMode -o $O/editmode.xml > $O/editmode.out 2>&1; echo "editmode rc=$? $(date +%T)" >> $S
 grep -o 'total="[0-9]*" passed="[0-9]*" failed="[0-9]*"' $O/editmode.xml | head -1 >> $S
 fi
-cat $(dirname $0)/variants85.txt > $O/variants.txt
+cat $(dirname $0)/${VAR:-variants85.txt} > $O/variants.txt
 wait_q; unity run . --no-tail --log-file $O/scen.log --timeout 3000 -- -executeMethod Game.Units.Mech.Editor.ScenarioCli.Run -scenarios ${SCN:-stand,walk_fr010,walk_fr015,walk_fr020} -out $O/out -variants $O/variants.txt -physlist none > $O/scen.out 2>&1
 echo "scenarios rc=$? $(date +%T)" >> $S
 echo DONE >> $S
