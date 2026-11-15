@@ -77,6 +77,7 @@ namespace Game.Net
             if (slot < 0 || slot == int.MaxValue) return false;
             var x = new HandshakeAccept { Slot = PlayerSlot.FromIndex(slot), HostStep = r.I64(), FixedStepSeconds = r.F64() };
             x.FirstSnapshot = ReadSnapshot(r);
+            if (x.FirstSnapshot == null) return false;
             int n = r.Count(4);
             x.Warnings = new string[n];
             for (int i = 0; i < n; i++) x.Warnings[i] = r.Str();
@@ -84,26 +85,12 @@ namespace Game.Net
             a = x; return true;
         }
 
-        private const int EntityBytes = 8 + 8 * 4;
-
-        private static void WriteSnapshot(ByteWriter w, StateSnapshot s)
-        {
-            w.I64(s.HostStep); w.I32(s.Entities.Length);
-            foreach (var e in s.Entities)
-            {
-                w.U64(e.Id.Value); w.F32(e.PosX); w.F32(e.PosY); w.F32(e.PosZ);
-                w.F32(e.VelX); w.F32(e.VelY); w.F32(e.VelZ); w.F32(e.Yaw); w.F32(e.YawRate);
-            }
-        }
+        private static void WriteSnapshot(ByteWriter w, StateSnapshot s) => w.Bytes(SnapshotCodec.Encode(s));
 
         private static StateSnapshot ReadSnapshot(ByteReader r)
         {
-            var s = new StateSnapshot { HostStep = r.I64() };
-            int n = r.Count(EntityBytes);
-            s.Entities = new EntityState[n];
-            for (int i = 0; i < n; i++)
-                s.Entities[i] = new EntityState(EntityId.FromValue(r.U64()), r.F32(), r.F32(), r.F32(), r.F32(), r.F32(), r.F32(), r.F32(), r.F32());
-            return s;
+            var bytes = r.Bytes();
+            return SnapshotCodec.TryDecode(bytes, out var s) ? s : null;
         }
 
         public const int IntentPacketBytes = 4 + 8 + 4 + 8 + IntentPayload.Size;
