@@ -27,6 +27,8 @@ namespace Game.Composition
         public NetCoopInputs Net;
         /// <summary>Limits for placeholder bodies (units.placeholderBody); null = PlaceholderLimits.Default().</summary>
         public PlaceholderLimits? PlaceholderBodyLimits;
+        /// <summary>Config reader, opening balance and building source for the meta layer (any meta.* flag); null with a meta flag on = reported, not installed.</summary>
+        public MetaInputs Meta;
     }
 
     /// <summary>What an install pass created. A null member means that module's flag is off (or its input was missing).</summary>
@@ -44,6 +46,8 @@ namespace Game.Composition
         /// <summary>Hangar stub (hangar.stub AND units.placeholderBody on); registered with the SaveSystem when one was supplied.</summary>
         public HangarService Hangar;
         public CombatHandle Combat;
+        /// <summary>Economy, Salvage, Roster, Refit and the fight-end bridge (meta.* flags); null while every meta flag is off.</summary>
+        public MetaHandle Meta;
     }
 
     public static class GameComposition
@@ -51,7 +55,7 @@ namespace Game.Composition
         /// <summary>Set before Play Mode (a bootstrap or test); null = no data providers, so seismic stays uninstalled even when its flag is on.</summary>
         public static GameCompositionInputs Inputs { get; set; }
 
-        /// <summary>Installs every module whose flag is on. Order: Geo, Destruction, Seismic (needs the bus), the shaking bridge (needs both), the brain, the co-op net session (net.coop + net.seatBridge), the placeholder body factory (units.placeholderBody).</summary>
+        /// <summary>Installs every module whose flag is on. Order: Geo, Destruction, Seismic (needs the bus), the shaking bridge (needs both), the brain, the co-op net session (net.coop + net.seatBridge), the placeholder body factory (units.placeholderBody), the hangar stub, combat, then the meta layer (meta.economy, meta.salvage, meta.permadeath, meta.refit).</summary>
         public static GameCompositionResult Install(IServiceRegistry registry, IFeatureFlags flags, ICoreErrorSink errors, GameCompositionInputs inputs = null, SaveSystem saves = null)
         {
             if (registry == null) throw new ArgumentNullException(nameof(registry));
@@ -87,6 +91,7 @@ namespace Game.Composition
                 if (r.Hangar != null) saves?.Register(r.Hangar);
             }
             r.Combat = CombatInstaller.Install(registry, flags, errors);
+            r.Meta = MetaInstaller.Install(registry, flags, errors, inputs?.Meta, saves, r.Hangar);
             return r;
         }
     }
@@ -107,7 +112,16 @@ namespace Game.Composition
 
         private static void OnBooted(CoreRoot root)
         {
-            Last = GameComposition.Install(root.Registry, root.Services.Flags, root.Errors, null, root.SaveSystem);
+            var flags = root.Services.Flags;
+            var inputs = GameComposition.Inputs;
+            // Meta data files: when a meta flag is on and the caller supplied no reader, read them from the project's Config folder (Editor and development builds).
+            if ((flags.IsOn(Game.Meta.Economy.EconomyFlags.Economy) || flags.IsOn(Game.Meta.Salvage.SalvageFlags.Salvage)
+                 || flags.IsOn(Game.Meta.Roster.RosterFlags.Permadeath) || flags.IsOn(Game.Meta.Refit.RefitFlags.Refit)) && inputs?.Meta == null)
+            {
+                inputs = inputs ?? new GameCompositionInputs();
+                inputs.Meta = MetaInputs.FromDirectory(System.IO.Path.Combine(Application.dataPath, "Game", "Config"));
+            }
+            Last = GameComposition.Install(root.Registry, flags, root.Errors, inputs, root.SaveSystem);
         }
     }
 }
