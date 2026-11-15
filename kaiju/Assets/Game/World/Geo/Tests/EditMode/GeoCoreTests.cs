@@ -272,6 +272,22 @@ namespace Game.World.Geo.Tests
         static string GeoBidOf(GeoTileModel m, BuildingId id) => m.ById[id].Bid;
 
         [Test]
+        public void AssessorFields_AreRead_AndAbsentMeansZeroOrNull()
+        {
+            var m = GeoTestData.M0();
+            int withYear = 0, withStories = 0, withClass = 0, noYear = 0;
+            foreach (var b in m.Buildings)
+            {
+                if (b.YearBuilt > 0) { withYear++; Assert.That(b.YearBuilt, Is.InRange(1800, 2100)); } else noYear++;
+                if (b.Stories > 0) withStories++;
+                if (!string.IsNullOrEmpty(b.StructClass)) withClass++;
+            }
+            TestContext.WriteLine("year_built " + withYear + ", stories " + withStories + ", struct_class " + withClass + ", no year " + noYear);
+            Assert.Greater(withYear, 0);
+            Assert.Greater(noYear, 0);   // absent stays 0
+        }
+
+        [Test]
         public void Removal_ByBid_LeavesOthersUnchanged_AndStructuresTakeTheirParts()
         {
             var m = new GeoTileModel(new GeoTileContext(GeoTestData.M0Dir, GeoTestData.Settings(), verifyHashes: false));

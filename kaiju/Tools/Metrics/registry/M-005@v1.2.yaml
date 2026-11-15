@@ -1,0 +1,53 @@
+registry_schema: metric_registry@v1
+metric: M-005
+spec: M-005@v1.2
+revision: v1.2
+metric_status: registered
+date: "2026-11-14"   # v1.2: district scale (T-035), adds to v1.1 (R-006 §5); no existing M-005 yaml in this folder, M-004@v1.1.yaml is the layout pattern
+title: Geo fidelity, district scale (default-height share, multi-tile seams, landmarks, viewpoints)
+source: research/R-020.md §4; research/R-026.md §1 registry block
+kind: gating
+headless: partly            # .4d and .10 are Python on geo_export@v1 (Pipelines/geo/m005_check.py district); viewpoint terms need-graphics
+inputs: [geo_export@v1, landmarks.geojson, "G1,G2,G3,S1,S2,S3 views"]
+tiles: {golden_gate: "i 25-27, j 36-38 (3 x 3)", soma: "i 29-31, j 35-36 (3 x 2)", count: 15, internal_edges: 19}
+report_row: {metric_version: "M-005@v1.2"}     # every row carries it
+result_values: [pass, fail, reported, not_evaluated, error]   # a check with no input data is error, never pass (DEF-T002-arch-1)
+procedure:
+  viewpoint_gate_min_in_district_share: {value: 0.90, unit: share of skyline columns, status: derived, source: "R-020 §4: a view gates only if >= 90 % of its columns are set by in-district features, else reported"}
+submeasures:
+  M-005.4d.union:
+    title: Default-height share by area over the union of the 15 tiles
+    kind: gating
+    thresholds:
+      max: {value: 0.02, unit: share of footprint area, status: derived, source: "R-020 §4 M-005.4(d)"}
+  M-005.4d.tile:
+    title: Default-height share per tile with >= 10,000 m2 of qualifying footprint (smaller tiles reported, not gated)
+    kind: gating
+    thresholds:
+      max: {value: 0.05, unit: share of footprint area, status: assumed_pending_calibration, source: "R-020 §4 (Assumed)"}
+      min_area_m2: {value: 10000.0, unit: m2, status: derived, source: "R-020 §4"}
+  M-005.10a.terrain:
+    title: Terrain seam across every shared tile edge, |dE| of the shared edge nodes of the built surface (terrain.r16)
+    kind: gating
+    thresholds:
+      p99: {value: 0.20, unit: m, status: derived, source: "R-020 §4 M-005.10(a), as .9"}
+      max: {value: 0.50, unit: m, status: derived, source: "R-020 §4 M-005.10(a), as .9"}
+  M-005.10a.gap:
+    title: Edge vertex gap between both tiles, float64 BayTM
+    kind: gating
+    thresholds:
+      max: {value: 0.001, unit: m, status: derived, source: "R-020 §4 M-005.10(a)"}
+  M-005.10b.clipped_area:
+    title: Clipped pieces, sum of piece areas against full footprint (also bid ownership: exactly one tile)
+    kind: gating
+    thresholds:
+      max: {value: 0.001, unit: relative, status: derived, source: "R-020 §4 M-005.10(b)"}
+  M-005.10b.collider_overlap:
+    title: Collider overlap across a tile edge
+    kind: gating
+    thresholds:
+      max: {value: 0.05, unit: m2, status: derived, source: "R-020 §4 M-005.10(b)"}
+  M-005.10c.landmarks:
+    title: Landmark continuity, lid uniqueness, GGB S tower 48 m from seam
+    kind: gating
+    status_now: not_evaluated      # landmarks layer does not exist yet; absence accepted, reported, never passed

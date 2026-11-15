@@ -22,6 +22,7 @@ namespace Game.World.Destruction
                 Levels = 0,
                 FootprintM2 = area,
                 Residential = false,
+                YearBuilt = b.YearBuilt > 0 ? b.YearBuilt : 0,
             };
         }
 

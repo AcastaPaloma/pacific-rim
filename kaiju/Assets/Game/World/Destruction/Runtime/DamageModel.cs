@@ -12,6 +12,7 @@ namespace Game.World.Destruction
             public BuildingDamageState State;
             public double S1, S2, S3, S4;
             public HazusType Type;
+            public CodeEra Era;
             public double HeightM, PeriodS, MassKg, FootprintM2;
         }
 
@@ -92,7 +93,7 @@ namespace Game.World.Destruction
                 r.State = saved;
                 _pending.Remove(id);
             }
-            r.Type = cap.Type; r.HeightM = a_h(attributes); r.PeriodS = cap.PeriodS;
+            r.Type = cap.Type; r.Era = cap.Era; r.HeightM = a_h(attributes); r.PeriodS = cap.PeriodS;
             r.MassKg = cap.MassKg; r.FootprintM2 = attributes.FootprintM2;
             if (!restored) r.State.DebrisKg = DebrisAccounting.DebrisKgAt(r.Type, r.MassKg, r.State.State);
             r.S1 = cap.S1; r.S2 = cap.S2; r.S3 = cap.S3; r.S4 = cap.S4;
@@ -115,7 +116,7 @@ namespace Game.World.Destruction
             double prevE = r.State.CumulativeEnergyJ;
             double debrisInc = 0;
             double u = CapacityModel.Uniform(id, eventIndex);
-            byte k = ShakingFragility.StateFor(r.Type, r.HeightM, r.PeriodS, pgaG, u);
+            byte k = ShakingFragility.StateFor(r.Type, r.HeightM, r.PeriodS, pgaG, u, r.Era);
             if (k > r.State.State)
             {
                 double s = k == 4 ? r.S4 : k == 3 ? r.S3 : k == 2 ? r.S2 : r.S1;

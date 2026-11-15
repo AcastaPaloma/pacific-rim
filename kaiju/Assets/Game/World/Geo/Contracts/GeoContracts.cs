@@ -99,6 +99,9 @@ namespace Game.World.Geo
         public List<List<double[]>> RenderPolygons;
         public double AnchorLocalX, AnchorLocalZ;   // footprint area centroid, tile-local
         public double AreaM2;
+        /// <summary>Optional SF Assessor roll fields baked by the tile pipeline; 0 / null = absent.</summary>
+        public int YearBuilt, Stories;
+        public string StructClass;
         public GeoMeshData Mesh;                    // null when nothing of this record is rendered (structure fully covered by its parts)
         public int ChunkX, ChunkZ;
     }

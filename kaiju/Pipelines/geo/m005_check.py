@@ -1181,9 +1181,238 @@ def wading(hs, water, msl, tile):
             "wadable_by_80m_mech_everywhere": bool(d.max() < 40), "plate": "evidence/T-003/plates/wading_depth.png"}
 
 
+# ================================================================ M-005@v1.2 district checks (R-020 §4; headless part)
+V12 = "M-005@v1.2"
+V12_TH = {"default_height_share_union": 0.02, "per_tile_share": 0.05, "per_tile_min_area_m2": 10000.0,
+          "seam_terrain_p99_E_m": 0.20, "seam_terrain_max_E_m": 0.50, "edge_vertex_gap_m": 0.001,
+          "clipped_area_rel": 0.001, "collider_overlap_m2": 0.05}
+DISTRICT_TILES = ([f"L0_{i}_{j}" for i in (25, 26, 27) for j in (36, 37, 38)]           # Golden Gate 3 x 3
+                  + [f"L0_{i}_{j}" for i in (29, 30, 31) for j in (35, 36)])            # SoMa 3 x 2
+V12_EVID = PROJECT / "evidence" / "T-035"
+
+
+class NoInput(Exception):
+    """A check had no input data. Never a pass (DEF-T002-arch-1)."""
+
+
+def v12row(check, result, scope="district", **kw):
+    d = {"metric_version": V12, "check": check, "scope": scope, "result": result}
+    d.update(kw)
+    return d
+
+
+def v12_load(tile, root):
+    """Raw per-tile inputs of the baked geo_tile@v1 folder: manifest, buildings features, r16 surface (row 0 = south)."""
+    d = Path(root) / tile.folder
+    need = [d / "manifest.json", d / "buildings.geojson", d / "terrain.r16"]
+    miss = [str(x) for x in need if not x.is_file()]
+    if miss:
+        raise NoInput(f"{tile.id}: missing {miss}")
+    man = J(d / "manifest.json")
+    feats = J(d / "buildings.geojson")["features"]
+    lay = next((l for l in man["layers"] if l["layer"] == "terrain_r16"), None)
+    n = next((l["samples"] for l in man["layers"] if l["layer"] == "terrain"), None)
+    if lay is None or n is None:
+        raise NoInput(f"{tile.id}: manifest has no terrain / terrain_r16 layer")
+    raw = np.fromfile(d / "terrain.r16", dtype="<u2")
+    if raw.size != n * n:
+        raise NoInput(f"{tile.id}: terrain.r16 has {raw.size} samples, expected {n * n}")
+    h = lay["h_min_m"] + raw.reshape(n, n).astype(np.float64) * (lay["h_max_m"] - lay["h_min_m"]) / 65535.0
+    return {"tile": tile, "man": man, "feats": feats, "h": h, "n": n}
+
+
+def v12_structures(feats):
+    """One unit per structure: the root outline's area; source = the source of the tallest element (v1.1 convention).
+    Excluded structures are dropped (R-006 §2 exclusions as recorded in the bake: properties.excluded)."""
+    groups = {}
+    for f in feats:
+        groups.setdefault(f["properties"].get("part_of") or f["id"], []).append(f)
+    rows = []
+    for sid, els in groups.items():
+        root = next((e for e in els if e["id"] == sid), els[0])
+        if root["properties"].get("excluded"):
+            continue
+        top = max(els, key=lambda e: (e["properties"].get("base_navd88_m") or 0.0) + (e["properties"].get("height_m") or 0.0))
+        rows.append({"sid": sid, "area": shape(root["geometry"]).area, "src": top["properties"].get("height_source")})
+    return rows
+
+
+def v12_default_share(loaded, th=V12_TH):
+    rows, tot_a, tot_d, n_struct = [], 0.0, 0.0, 0
+    for L in loaded:
+        st = v12_structures(L["feats"])
+        a = sum(s["area"] for s in st)
+        d = sum(s["area"] for s in st if s["src"] == "default")
+        tot_a += a; tot_d += d; n_struct += len(st)
+        gated = a >= th["per_tile_min_area_m2"]
+        sh = d / a if a > 0 else None
+        ok = (sh <= th["per_tile_share"]) if gated else None
+        rows.append(v12row("default_height_share_tile", ("pass" if ok else "fail") if gated else "reported", scope=L["tile"].id,
+                           value=r(sh), building_area_m2=r(a, 1), default_area_m2=r(d, 1), structures=len(st), gated=gated,
+                           threshold=th["per_tile_share"],
+                           **({} if gated else {"reason": f"< {th['per_tile_min_area_m2']:.0f} m2 of buildings: reported, not gated"})))
+    if tot_a <= 0:
+        raise NoInput("default_height_share: no building area in any tile")
+    sh = tot_d / tot_a
+    rows.insert(0, v12row("default_height_share_union", "pass" if sh <= th["default_height_share_union"] else "fail", value=r(sh, 5),
+                          threshold=th["default_height_share_union"], building_area_m2=r(tot_a, 1), default_area_m2=r(tot_d, 1),
+                          structures=n_struct, unit="structure root-outline area, excluded structures dropped"))
+    return rows
+
+
+def v12_internal_edges(tiles):
+    s = {(t.i, t.j): t for t in tiles}
+    return [(s[(i, j)], s[(i + dx, j + dz)], "x" if dx else "z") for (i, j) in sorted(s) for dx, dz in ((1, 0), (0, 1)) if (i + dx, j + dz) in s]
+
+
+def v12_seam(loaded, th=V12_TH):
+    by = {L["tile"].id: L for L in loaded}
+    edges = v12_internal_edges([L["tile"] for L in loaded])
+    if not edges:
+        raise NoInput("seam: the tile list has no shared tile edge")
+    rows, allE, gaps = [], [], []
+    for a, b, ax in edges:
+        A, B = by[a.id], by[b.id]
+        ha, hb = (A["h"][:, -1], B["h"][:, 0]) if ax == "x" else (A["h"][-1, :], B["h"][0, :])
+        E = np.abs(ha - hb)
+        # vertex positions along the shared edge, float64 BayTM, from each tile's own manifest bounds
+        def nodes(L, side):
+            x0, z0, x1, z1 = L["man"]["bounds_baytm"]
+            n = L["n"]
+            if ax == "x":
+                return np.stack([np.full(n, x1 if side == "hi" else x0), np.linspace(z0, z1, n)], 1)
+            return np.stack([np.linspace(x0, x1, n), np.full(n, z1 if side == "hi" else z0)], 1)
+        gap = float(np.max(np.hypot(*(nodes(A, "hi") - nodes(B, "lo")).T)))
+        allE.append(E); gaps.append(gap)
+        p99, mx = float(np.percentile(E, 99)), float(E.max())
+        ok = p99 <= th["seam_terrain_p99_E_m"] and mx <= th["seam_terrain_max_E_m"]
+        rows.append(v12row("terrain_seam", "pass" if ok else "fail", scope=f"{a.id}|{b.id}", value={"p99_dE_m": r(p99), "max_dE_m": r(mx)},
+                           threshold={"p99": th["seam_terrain_p99_E_m"], "max": th["seam_terrain_max_E_m"]}, nodes=int(E.size)))
+        rows.append(v12row("edge_vertex_gap", "pass" if gap <= th["edge_vertex_gap_m"] else "fail", scope=f"{a.id}|{b.id}",
+                           value=r(gap, 6), threshold=th["edge_vertex_gap_m"]))
+    E = np.concatenate(allE)
+    p99, mx = float(np.percentile(E, 99)), float(E.max())
+    head = [v12row("terrain_seam_all_edges", "pass" if p99 <= th["seam_terrain_p99_E_m"] and mx <= th["seam_terrain_max_E_m"] else "fail",
+                   value={"p99_dE_m": r(p99), "max_dE_m": r(mx)}, threshold={"p99": th["seam_terrain_p99_E_m"], "max": th["seam_terrain_max_E_m"]},
+                   edges=len(edges), nodes=int(E.size), surface="terrain.r16 (built surface), shared edge nodes, whole edge"),
+            v12row("edge_vertex_gap_all_edges", "pass" if max(gaps) <= th["edge_vertex_gap_m"] else "fail", value=r(max(gaps), 6),
+                   threshold=th["edge_vertex_gap_m"], edges=len(edges))]
+    return head + rows
+
+
+def v12_owner_ok(tile, f):
+    p = shape(f["geometry"]).representative_point()
+    return tile.contains(p.x, p.y)
+
+
+def v12_buildings(loaded, th=V12_TH):
+    """Ownership, clipped-area and cross-edge collider overlap."""
+    if not any(L["feats"] for L in loaded):
+        raise NoInput("buildings: no building features in any tile")
+    seen, dup, misowned = {}, [], []
+    for L in loaded:
+        for f in L["feats"]:
+            bid = f["properties"]["bid"]
+            if bid in seen:
+                dup.append(bid)
+            seen[bid] = L["tile"].id
+            g = shape(f["geometry"])
+            if not f["properties"].get("part_of") and not L["tile"].contains(*(lambda p: (p.x, p.y))(g.point_on_surface())):
+                misowned.append(bid)
+    rows = [v12row("bid_ownership", "pass" if not dup and not misowned else "fail", value={"duplicate_bids": len(dup), "not_in_owner_tile": len(misowned)},
+                   threshold={"duplicate_bids": 0, "not_in_owner_tile": 0}, bids=len(seen), examples=(dup + misowned)[:5])]
+    # clipped area: clip every footprint to every tile square of the list, pieces carry the full footprint's height/base
+    boxes = {L["tile"].id: box(*L["tile"].bounds) for L in loaded}
+    union = shapely.union_all(list(boxes.values()))
+    worst, n_cross, hb_bad = 0.0, 0, 0
+    for L in loaded:
+        for f in L["feats"]:
+            p = f["properties"]
+            if p.get("part_of") or p.get("excluded"):
+                continue
+            g = shape(f["geometry"])
+            hit = [b for b in boxes.values() if g.intersects(b)]
+            if len(hit) > 1:
+                n_cross += 1
+            inside = g.intersection(union).area
+            if inside <= 0:
+                continue
+            pieces = [g.intersection(b) for b in hit]
+            worst = max(worst, abs(sum(q.area for q in pieces) - inside) / inside)
+    rows.append(v12row("clipped_area", "pass" if worst <= th["clipped_area_rel"] else "fail", value=r(worst, 6), threshold=th["clipped_area_rel"],
+                       footprints_crossing_an_edge=n_cross, note="pieces = footprint clipped to each tile square; area inside the district union is the reference"))
+    # collider overlap across tile edges: render footprints of different owner tiles
+    items = []
+    for L in loaded:
+        for f in L["feats"]:
+            p = f["properties"]
+            if p.get("excluded"):
+                continue
+            geom = p.get("remainder_geometry") if p.get("has_parts") else f["geometry"]
+            if geom:
+                items.append((L["tile"].id, p.get("part_of") or f["id"], shape(geom)))
+    tree = shapely.STRtree([g for _, _, g in items])
+    worst_ov, n_ov, ex = 0.0, 0, []
+    for k, (tid, sid, g) in enumerate(items):
+        for m in tree.query(g):
+            m = int(m)
+            if m <= k or items[m][0] == tid or items[m][1] == sid:
+                continue
+            a = g.intersection(items[m][2]).area
+            if a > th["collider_overlap_m2"]:
+                n_ov += 1
+                ex.append({"tiles": [tid, items[m][0]], "bids": [sid, items[m][1]], "area_m2": r(a, 3)})
+            worst_ov = max(worst_ov, a)
+    rows.append(v12row("collider_overlap", "pass" if worst_ov <= th["collider_overlap_m2"] else "fail", value=r(worst_ov, 4),
+                       threshold=th["collider_overlap_m2"], pairs_over_threshold=n_ov, colliders=len(items), examples=ex[:5]))
+    return rows
+
+
+def v12_landmarks(root=None):
+    return v12row("landmarks", "not_evaluated", reason="landmarks layer does not exist yet (T-035 later step); absence accepted, not a pass",
+                  checks=["linear continuity <= 1 mm", "lid unique", "GGB S tower 48 m from seam"])
+
+
+def district(tile_ids, root=None, th=V12_TH):
+    """Run every headless M-005@v1.2 district check over tile_ids. Never passes without input: a check with no data
+    yields result 'error'. Returns the report dict."""
+    root = root or TILES_ROOT
+    tiles = [parse_tile(t) for t in tile_ids]
+    rows, errs = [], []
+    if not tiles:
+        return {"metric_version": V12, "result": "error", "rows": [v12row("input", "error", reason="empty tile list")], "tiles": []}
+    loaded = []
+    for t in tiles:
+        try:
+            loaded.append(v12_load(t, root))
+        except NoInput as e:
+            errs.append(v12row("input", "error", scope=t.id, reason=str(e)))
+    if not errs:
+        for name, fn in (("default_height_share", v12_default_share), ("terrain_seam", v12_seam), ("buildings", v12_buildings)):
+            try:
+                rows += fn(loaded, th)
+            except NoInput as e:
+                errs.append(v12row(name, "error", reason=str(e)))
+    rows += errs + [v12_landmarks()]
+    res_ = {x["result"] for x in rows}
+    overall = "error" if "error" in res_ else "fail" if "fail" in res_ else "pass"
+    return {"metric_version": V12, "result": overall, "thresholds": th, "tiles": [t.id for t in tiles], "rows": rows}
+
+
+def district_summary(rep):
+    out = [f"{rep['metric_version']} district: {rep['result'].upper()} ({len(rep['tiles'])} tiles)"]
+    for x in rep["rows"]:
+        if x["check"] in ("terrain_seam", "edge_vertex_gap") and x["scope"] != "district":
+            continue
+        out.append(f"  {x['result']:<14}{x['check']:<28}{x['scope']:<22}{x.get('value', x.get('reason', ''))}")
+    return "\n".join(out)
+
+
 def main(argv=None):
     ap = std_args(argparse.ArgumentParser(description=__doc__.splitlines()[0]))
-    ap.add_argument("cmd", choices=["prepare", "prepare_v11", "check"])
+    ap.add_argument("cmd", choices=["prepare", "prepare_v11", "check", "district"])
+    ap.add_argument("--tiles", default=None, help="district: comma-separated tile ids (default: the 15 GG + SoMa tiles)")
+    ap.add_argument("--tiles-root", default=None, help="district: tiles folder (default Assets/StreamingAssets/Geo/tiles/v1)")
     ap.add_argument("--tile", default="L0_30_36")
     ap.add_argument("--export", default=str(EVID / "export" / "geo_export.json"))
     ap.add_argument("--out", default=None, help="report path (default evidence/T-003/m005_report.json)")
@@ -1192,6 +1421,13 @@ def main(argv=None):
     if a.out:
         REPORT_PATH = Path(a.out)
     apply_std(a)
+    if a.cmd == "district":
+        rep = district(a.tiles.split(",") if a.tiles else DISTRICT_TILES, a.tiles_root)
+        out = Path(a.out) if a.out else V12_EVID / "m005_v12_district.json"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(rep, indent=1) + "\n")
+        print(district_summary(rep))
+        return 0 if rep["result"] == "pass" else 1
     t = parse_tile(a.tile)
     if a.cmd == "prepare":
         prepare(t)

@@ -12,7 +12,7 @@ Layer: L2. References only `Game.Core.Contracts` and its own assemblies (checked
 |---|---|---|---|
 | `Game.World.Geo.Contracts` | `Contracts/` | none | `IGeoLayer`, `IGeoTileContext`, `IGeoHeightField`, `GeoLayerOutput`, `GeoMeshData`, `GeoBuildingData`, `GeoRoadData`, `GeoFaultData`, `GeoTileId`, `IGeoWorld`, `GeoBuildingInfo`, event `GeoBuildingRemoved`, `GeoFlags`, `GeoContractVersions`, `GeoTileRejectedException` |
 | `Game.World.Geo` | `Runtime/` | none | `GeoJson`, `GeoManifestValidator`, `GeoTileContext` (+ r16 / PNG decode), `RtinMesher`, `Triangulator`, `BuildingExtruder`, layers `TerrainLayer`, `WaterLayer`, `BuildingsLayer`, `RoadsLayer`, `FaultsLayer`, `GeoTileModel` |
-| `Game.World.Geo.Unity` | `Unity/` | UnityEngine | `GeoTileBuilder`, `GeoTileInstance`, `GeoBuilding`, `GeoMaterials`, `GeoWorldService : IGeoWorld`, `GeoModule.Install`, `GeoAttribution` (ScriptableObject) |
+| `Game.World.Geo.Unity` | `Unity/` | UnityEngine | `GeoTileBuilder`, `GeoTileInstance`, `GeoBuilding`, `GeoMaterials`, `GeoWorldService : IGeoWorld` (multi-tile: tile picked by `GeoTileId.Containing`, global building-owner dictionary), `GeoTileSetBuilder` (staged: one tile per `BuildNext()`, roots at tile origin minus floating origin, `ShiftOrigin` moves all roots; seams are step 3), `GeoModule.Install` / `CreateTileSetBuilder(keys = M0 tile)`, `GeoAttribution` (ScriptableObject) |
 | `Game.World.Geo.Editor` | `Editor/` | Editor | `GeoBatch` (batch entry points), `GeoCaptures` |
 | `Game.World.Geo.Tests` | `Tests/EditMode/` | test | engine-free NUnit, also run by `dotnet test DotnetTests/WorldGeo.Tests` |
 | `Game.World.Geo.Unity.Tests` | `Tests/UnityOnly/` | test | scene build, colliders, removal, origin shift, flag, module rules |

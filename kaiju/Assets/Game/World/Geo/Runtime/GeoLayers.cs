@@ -187,6 +187,12 @@ namespace Game.World.Geo
     public sealed class BuildingsLayer : IGeoLayer
     {
         public string Name => "buildings";
+        // Absent, null or non-finite -> 0.
+        static int OptInt(IReadOnlyDictionary<string, object> p, string k)
+        {
+            double v = GeoJson.Num(p, k, 0);
+            return double.IsNaN(v) || double.IsInfinity(v) || v < 0 || v > int.MaxValue ? 0 : (int)v;
+        }
         public GeoLayerOutput Build(IGeoTileContext ctx)
         {
             var o = new GeoLayerOutput { Layer = Name };
@@ -205,6 +211,7 @@ namespace Game.World.Geo
                     BaseNavd88M = GeoJson.Num(p, "base_navd88_m"), HeightSource = GeoJson.Str(p, "height_source"),
                     RoofShape = GeoJson.Str(p, "roof_shape"), Name = GeoJson.Str(p, "name"), HasParts = GeoJson.Bool(p, "has_parts"),
                     Excluded = GeoJson.Str(p, "excluded"), HeightCappedToParent = GeoJson.Bool(p, "height_capped_to_parent"),
+                    YearBuilt = OptInt(p, "year_built"), Stories = OptInt(p, "stories"), StructClass = GeoJson.Str(p, "struct_class"),
                     Polygons = GeoGeom.Polygons(GeoJson.Get(f, "geometry"), ctx.OriginX, ctx.OriginZ),
                 };
                 b.Id = ParseBid(b.Bid);
