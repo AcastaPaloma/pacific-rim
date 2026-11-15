@@ -225,3 +225,8 @@ Session 3 did queue 4.0 (ledger T-004, 7d93da3), T-006 steps 1–8 cycle 1 on `t
 - 2026-11-15 · Evaluators (§13): one combined Sonnet/low evaluator per track, reports in `evaluations/M1-{geo,destruction-seismic,net,ai,save}/`. Geo PASS, destruction/seismic PASS; net, AI, save FAIL on one blocking each. Fixes: Net and AI `MODULE.md`; `SaveSystem.Restore` now snapshots and rolls earlier participants back when a `Read` throws, returning `Corrupt` (two-phase validate would have needed a contract change); brain `Wrap` guarded against huge/NaN headings. Minor defects are in LEDGER (DEF-M1*-minor) — decided autonomously (user offline).
 - 2026-11-15 · The rollback changes `Restore` from throwing to returning `Corrupt` for a bad section; two Destruction save tests updated to assert the status — decided autonomously (user offline).
 - Snapshot: all M1 tracks merged, T-039 merged, blocking evaluator defects fixed (05fb6b9 and later). `reports/M1.md` written. No agents or Unity jobs running. T-005 files untouched.
+
+## T-005 orchestrator, session 6 (2026-11-15): decisions log
+- 2026-11-15 · QP solver home: `Game.Physics.Body` runtime (`Runtime/Qp/`), engine-free and already mirrored in DotnetTests; R-009 left it open — decided autonomously (user offline).
+- 2026-11-15 · 9.3 split into 9.3a (plant, reference @v2, PD sanity), 9.3b (controller, criterion A), 9.3c (B/C/D, yaw, verdict); 9.3a runs in parallel with 9.2 because the Python prototype does not use the C# solver — decided autonomously (user offline).
+- 2026-11-15 · Workers stay Sonnet/Haiku at ≤ medium per this session's brief; no §14 escalation unless the stop rule ends a loop with evidence it can work — decided autonomously (user offline).
