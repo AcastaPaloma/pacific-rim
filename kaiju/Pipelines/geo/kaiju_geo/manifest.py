@@ -15,7 +15,7 @@ BUILD_FIELDS = ("script", "git", "built_utc", "inputs_sha256")
 LAYER_FIELDS = ("layer", "file", "sha256", "sources")
 SOURCE_FIELDS = ("product", "item", "url", "licence", "attribution", "fetched_utc", "source_sha256")
 REQUIRED_LAYERS = ("terrain", "terrain_r16", "water", "buildings", "roads", "faults")
-LICENCES = ("US-Gov-PD", "ODbL-1.0", "PDDL-1.0", "CC0-1.0", "CC-BY-4.0")  # SPDX ids or US-Gov-PD
+LICENCES = ("US-Gov-PD", "ODbL-1.0", "PDDL-1.0", "CC0-1.0", "CC-BY-4.0", "LicenseRef-facts-cited")  # SPDX ids or US-Gov-PD
 
 
 def _empty(v) -> bool:

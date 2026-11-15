@@ -12,10 +12,10 @@
   37.842125
  ],
  "build": {
-  "built_utc": "2026-11-15T03:43:11Z",
-  "git": "8d62534690673e0f9973bf6a3335c1a530bb5d65",
+  "built_utc": "2026-11-15T03:51:42Z",
+  "git": "2e9635b88d0c9597adcc7cffba1a81aa84141c76",
   "git_dirty_pipeline": true,
-  "inputs_sha256": "364525bb0c305e00b627538fd0f030f92bde57782a67b3616f09583857c7867b",
+  "inputs_sha256": "9d62ae9dd365636fc034dd7b0140b796dd66771cc52c6b0c4bf3c704cc6b414c",
   "script": "Pipelines/geo/bake_tile.py"
  },
  "crs": "kaiju:BayTM@v1 (WKT2 in crs/baytm_v1.wkt)",
@@ -1082,6 +1082,60 @@
      "upstream_etag": "W/\"Zm94dHJvdC40NTg5OF8xNV8xMDcxNmVEYUIySEFYUWlnbW9wdW5RZ3hXMUwzMk9KZw---gzitxJSA-w_ThghT38LXRPpL6ZcNtj--gzip--gzip\"",
      "upstream_last_modified": "Fri, 26 Jun 2026 22:25:22 GMT",
      "url": "https://data.sfgov.org/resource/wv5m-vpq2.json?$select=closed_roll_year,parcel_number,year_property_built,number_of_stories,construction_type,the_geom&$where=closed_roll_year=2025%20AND%20within_box(the_geom,37.845013,-122.504324,37.820747,-122.473728)&$order=row_id&$limit=50000"
+    }
+   ]
+  },
+  {
+   "checked": [
+    {
+     "pieces_in_tile": 1,
+     "slug": "ggb_cable_a",
+     "status": "emitted"
+    },
+    {
+     "pieces_in_tile": 1,
+     "slug": "ggb_cable_b",
+     "status": "emitted"
+    },
+    {
+     "pieces_in_tile": 1,
+     "slug": "ggb_deck",
+     "status": "emitted"
+    },
+    {
+     "base_navd88_m": -20.0,
+     "delta_m": 4.07,
+     "legs_in_tile": 2,
+     "measured_top_navd88_m": 233.25,
+     "slug": "ggb_tower_n",
+     "sourced_top_navd88_m": 229.18,
+     "status": "emitted",
+     "top_used": "measured"
+    }
+   ],
+   "count": 5,
+   "emit_rule": "R-020 §2: a part is emitted only when the sourced top (sourced height above the structure's baked base + that base) exceeds the baked building top at the landmark position by more than tol_height_m; it stacks on the baked top (part_of = owning OSM bid); otherwise recorded here as already right",
+   "file": "landmarks.geojson",
+   "layer": "landmarks",
+   "sha256": "115828bf99cbdfc6e59a6ac860254f34e968cd8563de2da31243b2ede7e213d9",
+   "sources": [
+    {
+     "attribution": "Facts cited from the Golden Gate Bridge, Highway and Transportation District (GGBHTD) fact sheets; no GGBHTD data or images redistributed",
+     "fetched_utc": "2026-11-14T00:00:00Z",
+     "item": "R-020 refs [1], [2] (tower, span, deck, cable, leg-base facts)",
+     "licence": "LicenseRef-facts-cited",
+     "product": "landmarks:ggbhtd",
+     "source_sha256": "1fcd7a90d921c6c9750ab681a2bfd028a535ada4ee120cf5563a6a483a4a7ff1",
+     "url": "https://www.goldengate.org/bridge/history-research/facts-figures/"
+    },
+    {
+     "attribution": "USGS 3D Elevation Program lidar (CA_SanFrancisco_1_B23, ARRA-CA_GoldenGate_2010); first-return max per 1 m cell, measured by measure_ggb.py",
+     "fetched_utc": "2026-11-14T00:00:00Z",
+     "item": "Golden Gate Bridge tower legs, deck and cable profile (evidence/T-023/ggb_lidar_measure.json)",
+     "licence": "US-Gov-PD",
+     "product": "landmarks:lidar_3dep",
+     "source_sha256": "337877ad921cd3ebbcf58fe2fbefefa4b8416044a4c93ab42c801b72aaed7b7f",
+     "url": "https://www.usgs.gov/3d-elevation-program"
     }
    ]
   },
