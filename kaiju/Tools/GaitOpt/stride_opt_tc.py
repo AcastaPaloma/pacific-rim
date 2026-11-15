@@ -13,6 +13,7 @@ ap.add_argument("--warm", default=None, help="warm-start json (default Tools/Gai
 ap.add_argument("--out", default=None, help="output prefix (writes .json and .txt), default Tools/GaitOpt/out/stride_frNNN_tc")
 ap.add_argument("--vlim", type=float, default=0.5); ap.add_argument("--tol", type=float, default=1e-5); ap.add_argument("--gtol", type=float, default=1e-8)
 ap.add_argument("--hess", default="bfgs", choices=["sr1", "bfgs"]); ap.add_argument("--tr0", type=float, default=0.05); ap.add_argument("--mu0", type=float, default=1e-3)
+ap.add_argument("--lat", action="store_true", help="add lateral LIPM shear to the friction cone: mu_eff(k) = sqrt(mu^2-(a_lat(k)/g)^2) (tightens the cone only)")
 A = ap.parse_args()
 
 # ---------------- problem definition: exec stride_opt.py up to (not including) its SLSQP section
@@ -33,7 +34,7 @@ in_fun0 = lambda z: np.concatenate([Sin @ evalz(z)["O"].reshape(-1) + kin_c, Fr_
 def warm_from_json(path):
     D = json.load(open(path)); nd = D["nodes"]; N0 = len(nd); ts0 = D["summary"]["step_time_s"]
     Q0 = np.array([n["q"] for n in nd]); sw = [0, 1, 2, 6, 7, 8, 3, 4, 5]; d = v_fwd * ts0
-    shift = np.zeros(9); shift[0] = d; Qe = np.vstack([Q0, (Q0[0][sw] + shift)[None]])             # node N0 = node 0 mirrored, hip x + step
+    shift = np.zeros(9); shift[0] = D["summary"].get("step_length_m", d); Qe = np.vstack([Q0, (Q0[0][sw] + shift)[None]])             # node N0 = node 0 mirrored, hip x + step
     names = ["A_heel", "A_toe", "B_heel", "B_toe"]
     F0 = np.array([[nd[k]["contact_N"][nm] for nm in names] for k in range(N0)]) / (W * 1e6)     # (N0, 4, [Ft, Fn]) in BW
     F0e = np.concatenate([F0, F0[0][[2, 3, 0, 1]][None]], 0)
@@ -43,6 +44,25 @@ def warm_from_json(path):
     return np.concatenate([Q.reshape(-1), [ts0], Fv])
 z0 = warm_from_json(warm_path) if os.path.exists(warm_path) else P["z0"].copy()
 lb = np.array([b[0] for b in bnds]); ub = np.array([b[1] for b in bnds]); z0 = np.clip(z0, lb + 1e-6 * (ub - lb), ub - 1e-6 * (ub - lb))
+# ---------------- --lat: lateral LIPM shear in the friction cone (formulas of yaw_check.py lateral(); HW, zc, omega)
+LAT = None; GR = P["g"]
+if A.lat:
+    import torch; sys.path.insert(0, str(HERE.parent.parent / "research" / "R-008")); from model import HW as HWL
+    def lat_a(z):                      # a_lat at the nodes (m/s2) for the step time and CoM height of z
+        ts_ = z[N * 9]; Qz = z[:N * 9].reshape(N, 9); Mw = P["MASS"].numpy()
+        zc = float(np.mean([(Mw * P["comf"](torch.tensor(Qz[k]))[:14].reshape(7, 2)[:, 1].numpy()).sum() / Mw.sum() for k in range(N)]))
+        w = np.sqrt(GR / zc); C_, S_ = np.cosh(w * ts_), np.sinh(w * ts_)
+        y0, u0 = np.linalg.solve(np.array([[C_ + 1, S_ / w], [w * S_, C_ + 1]]), np.array([HWL * (C_ - 1), w * S_ * HWL]))
+        tt = np.linspace(0, ts_, 400); aa = w ** 2 * (HWL + (y0 - HWL) * np.cosh(w * tt) + u0 / w * np.sinh(w * tt) - HWL)
+        return np.interp(np.arange(N) * ts_ / N, tt, aa), zc, w, ts_
+    def mu_eff_of(a): return np.sqrt(np.maximum(MU ** 2 - (a / GR) ** 2, 1e-12))
+    def build_Fr(mue):
+        r_, c_, v_ = [], [], []
+        for i, (k, p) in enumerate(act):
+            for s_, row in ((1, 2 * i), (-1, 2 * i + 1)): r_ += [row, row]; c_ += [N * 9 + 1 + 2 * i, N * 9 + 1 + 2 * i + 1]; v_ += [s_, mue[k]]
+        return sp.csr_matrix((v_, (r_, c_)), shape=(2 * nF, nz))
+    a_lat, zc_lat, w_lat, ts_lat = lat_a(z0); mue = mu_eff_of(a_lat); Fr_m = build_Fr(mue); LAT = dict(a_peak=float(np.abs(a_lat).max()), zc=zc_lat, omega=float(w_lat), hw=float(HWL))
+    print(f"--lat: zc {zc_lat:.2f} m, omega {w_lat:.3f}, step {ts_lat:.3f} s, peak a_lat {np.abs(a_lat).max()/GR:.3f} g, mu_eff min {mue.min():.4f} (mu {MU:.4f})", flush=True)
 # ---------------- scaling: x = (z - z0) / sv ; constraint rows scaled to O(1)
 sv = np.ones(nz); Qs = np.tile([10.0, 5.0, 0.3, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5], N); sv[:N * 9] = Qs; sv[N * 9] = Tref; sv[N * 9 + 1:] = 1.0
 rs_in = np.array([1 / 30.0 if (isinstance(l, tuple) and l[0] in ("rom_lo", "rom_hi")) else 1.0 for l in LAB_IN])              # deg rows -> ~1
@@ -69,9 +89,16 @@ def cb(xk, state):
     ve, vi = viol(zof(xk)); print(f"it {state.nit} f={obj(zof(xk)):.5f} eq={ve:.2e} in={vi:.2e} tr={state.tr_radius:.1e} mu={state.barrier_parameter:.1e} t={time.time()-t0:.0f}s ({(time.time()-t0)/max(1,state.nit):.2f}s/it)", flush=True)
     return bool(A.budget_s and time.time() - t0 > A.budget_s)
 ve, vi = viol(z0); print(f"warm start: f={obj(z0):.5f} eq={ve:.2e} in={vi:.2e} ({time.time()-t0:.1f}s)", flush=True)
-res = minimize(f, np.zeros(nz), jac=g, hess=HQ(), constraints=cons, bounds=bx, method="trust-constr", callback=cb,
-               options={"maxiter": A.maxiter, "gtol": A.gtol, "xtol": 1e-12, "barrier_tol": 1e-9, "initial_barrier_parameter": A.mu0, "initial_tr_radius": A.tr0, "verbose": 0})
-z = zof(res.x); rt = time.time() - t0; status = int(res.status); msg = str(res.message); iters = int(res.nit)
+def solve(x0):
+    return minimize(f, x0, jac=g, hess=HQ(), constraints=cons, bounds=bx, method="trust-constr", callback=cb,
+                    options={"maxiter": A.maxiter, "gtol": A.gtol, "xtol": 1e-12, "barrier_tol": 1e-9, "initial_barrier_parameter": A.mu0, "initial_tr_radius": A.tr0, "verbose": 0})
+res = solve(np.zeros(nz)); iters = int(res.nit); resolved = False
+if LAT is not None:                    # one outer fixed-point iteration: a_lat depends on the step time, which is a variable
+    a_new, zc_new, w_new, ts_new = lat_a(zof(res.x)); mue_new = mu_eff_of(a_new); chg = float(np.max(np.abs(mue_new / mue - 1)))
+    print(f"--lat outer check: step {ts_new:.3f} s, max change of mu_eff {100*chg:.2f} %", flush=True)
+    if chg > 0.01:
+        mue = mue_new; Fr_m = build_Fr(mue); res = solve(res.x.copy()); iters += int(res.nit); resolved = True
+z = zof(res.x); rt = time.time() - t0; status = int(res.status); msg = str(res.message)
 # ---------------- report (same schema as stride_opt.py plus solver info)
 O = evalz(z)["O"]; ce = eq_fun0(z); ci = in_fun0(z); Qn = z[:N * 9].reshape(N, 9); ts = z[N * 9]; Fv = z[N * 9 + 1:].reshape(nF, 2)
 viol_eq = float(np.abs(ce).max()); viol_in = float(max(0.0, -ci.min(), (lb - z).max(), (z - ub).max()))
@@ -99,8 +126,17 @@ conv_stat = status in (1, 2)
 if viol_dyn <= A.tol and viol_eq <= A.tol and viol_in <= A.tol: verdict = "FEASIBLE"
 elif conv_stat and (viol_eq > A.tol or viol_in > A.tol): verdict = "INFEASIBLE"        # converged to a stationary point of the problem with constraints still violated (local statement)
 else: verdict = "NOT CONVERGED"
+lat_sum = None
+if LAT is not None:
+    a_fin, zc_fin, w_fin, _ = lat_a(z); mue_fin = mu_eff_of(a_fin); stale = float(np.max(np.abs(mue_fin / mue - 1)))
+    use3 = 0.0; Fy = np.zeros((N, 4))
+    for (k, p) in act:
+        if Fn[k, p] > 1e-3: Fy[k, p] = Fn[k, p] * a_fin[k] / GR; use3 = max(use3, float(np.hypot(Ft[k, p], Fy[k, p]) / (MU * Fn[k, p])))
+    lat_sum = dict(mu_eff_min=float(mue.min()), mu_eff_min_final_a=float(mue_fin.min()), friction_use_3d_max=use3, a_lat_peak_g=float(np.abs(a_fin).max() / GR), zc=float(zc_fin), omega=float(w_fin),
+                   resolved_once=resolved, mu_eff_stale_rel=stale, mu_eff_nodes=[float(m_) for m_ in mue])
+    if verdict == "FEASIBLE" and use3 > 1.0 + 1e-3: verdict = "NOT CONVERGED"; lat_sum["note"] = "3D friction use above 1 (mu_eff stale vs final step time)"
 h = ts / N; Ue = evalz(z)["U"]; qdn = (Ue[:, 18:27] - Ue[:, 0:9]) / (2 * h); knee = np.stack([O[:, 10], O[:, 13]], 1)
-summary = dict(verdict=verdict, solver="scipy trust-constr", solver_status=status, solver_message=msg, iterations=iters, runtime_s=rt, fr=A.fr, v=v_fwd, step_time_s=float(ts), step_time_ref_s=Tref,
+summary = dict(verdict=verdict, **({"lat": lat_sum} if lat_sum else {}), solver="scipy trust-constr", solver_status=status, solver_message=msg, iterations=iters, runtime_s=rt, fr=A.fr, v=v_fwd, step_time_s=float(ts), step_time_ref_s=Tref,
                step_length_m=float(v_fwd * ts), nodes=N, max_eq_violation=viol_eq, max_dyn_residual=viol_dyn, max_ineq_violation=viol_in, residual_tol=A.tol, objective=obj(z), mu=MU,
                solver_info=dict(optimality=float(res.optimality), constr_violation=float(res.constr_violation), barrier_parameter=float(res.barrier_parameter), tr_radius=float(res.tr_radius), nfev=int(res.nfev), njev=int(res.njev), warm_start=warm_path),
                torque_limits_Nm=dict(hip=LIM["hip"] * 1e9, knee=LIM["knee"] * 1e9, ankle=LIM["ankle"] * 1e9), peak_torque_Nm=peak, peak_torque_over_limit=peak_ratio,
@@ -120,4 +156,5 @@ lines = [f"{pathlib.Path(out_pre).name}: verdict {verdict}; trust-constr status 
 if viol_eq > A.tol or viol_in > A.tol:
     wo = np.argsort(-np.abs(ce))[:5]; lines.append("worst eq: " + "; ".join(f"{labels_eq[i]} {ce[i]:.2e}" for i in wo))
     wi = np.argsort(ci)[:8]; lines.append("worst ineq: " + "; ".join(f"{LAB_IN[i]} {ci[i]:.2e}" for i in wi))
+if lat_sum: lines.append(f"--lat: mu_eff min {lat_sum['mu_eff_min']:.4f} (used; mu {MU:.4f}; {'re-solved once' if resolved else 'single solve'}), mu_eff min at final step time {lat_sum['mu_eff_min_final_a']:.4f} (stale {100*lat_sum['mu_eff_stale_rel']:.2f} %), peak a_lat {lat_sum['a_lat_peak_g']:.3f} g (zc {lat_sum['zc']:.2f} m, omega {lat_sum['omega']:.3f}); 3D friction use sqrt(Ft^2+Fy^2)/(mu Fn) max {lat_sum['friction_use_3d_max']:.3f}; verdict {verdict}")
 open(out_pre + ".txt", "w").write("\n".join(lines) + "\n"); print("\n".join(lines))

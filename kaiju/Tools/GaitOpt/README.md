@@ -16,3 +16,9 @@ Run from the project root: `/opt/miniconda3/envs/kaiju/bin/python Tools/GaitOpt/
 - Verdict: FEASIBLE if max dynamics/eq residual and max inequality violation <= 1e-5; INFEASIBLE if the solver stops at a stationary point (gtol/xtol) with violations above 1e-5 (local statement); otherwise NOT CONVERGED.
 - Output: `out/stride_fr010_tc.json` (stride_fr010.json schema plus solver info and ROM margins) and `.txt` (verdict, residuals, objective, peak tau/limit, Fn, friction use, ROM margins, bindings within 2 %).
 - `Tools/GaitOpt/run_8_1b.sh`: attempt 1 at N = 40 (`_tc`), then, only if not FEASIBLE, attempt 2 at N = 80 warm-started from attempt 1 (`_tc80`); log `out/run_8_1b.log`.
+
+### 8.3 lateral-shear friction option (`--lat`) and continuation
+- `stride_opt_tc.py --lat`: friction rows use mu_eff(k) = sqrt(mu^2 - (a_lat(k)/g)^2) per node (linear cone |Ft| <= mu_eff Fn), a_lat from the lateral LIPM of `yaw_check.py` (hip half-width, CoM height zc from the warm start, omega = sqrt(g/zc), step time of the iterate, node times k*Ts/N). Tightens the cone only; every other row is unchanged. Without `--lat` output is as before.
+- a_lat depends on the step time (a variable): after the solve a_lat is recomputed and the problem re-solved once from the iterate if mu_eff moved by more than 1 %. The .txt reports mu_eff min, 3D friction use max sqrt(Ft^2+Fy^2)/(mu Fn) with Fy = Fn a_lat/g, and the verdict (FEASIBLE is downgraded to NOT CONVERGED if the 3D use exceeds 1.001).
+- Average speed v = sqrt(Fr g l) follows `--fr`. A warm start from another Fr uses the previous step length for the periodic hip-x shift.
+- `run_8_3.sh`: Fr 0.10 --lat (from stride_fr010_tc.json), then 0.15 (fallback via 0.125), then 0.20 if 0.15 is FEASIBLE; log `out/run_8_3.log`; outputs `out/stride_fr{010,015,0125,020}_lat`.
