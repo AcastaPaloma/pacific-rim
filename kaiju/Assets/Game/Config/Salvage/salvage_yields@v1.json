@@ -1,0 +1,56 @@
+{
+  "schema": "salvage_yields@v1",
+  "source": "research/R-104.md sections 5.1-5.4, 7 and the Erratum (T-119). Every row has a source and an Assumed flag; a revised constant changes data, not code.",
+  "parameters": {
+    "comminution_j_per_kg": 10000,
+    "reuse_bps": 6000,
+    "reuse_min_integrity_bps": 3300,
+    "credit_cap_bps_of_build_price": 1200,
+    "kaiju_density_kg_m3": 1050,
+    "kaiju_volume_m3_coeff": 0.07,
+    "kaiju_reference_length_m": 1.8,
+    "throughput_kg_per_h": 80000,
+    "window_h": 48,
+    "assumed": true,
+    "source": "R-104 5.1 e_c 10 kJ/kg (A); 5.2 reuse 0.6 (A), reuse needs I > 0.33, credit cap 12% of build price; 5.4 rho 1,050 kg/m3 (A), V = 0.07 (l/1.8)^3, 80 t/h x 48 h (A)"
+  },
+  "locations": [
+    { "id": "land", "eta_bps": 9000, "assumed": true, "source": "R-104 5.1: 0.90, bounded by ship breaking 95% steel recovered [14] and C&D recovery 76% [15], discounted for a dense city (A)" },
+    { "id": "shallow_bay", "eta_bps": 7000, "assumed": true, "source": "R-104 5.1: 0.70, wading depth (A)" },
+    { "id": "deep_channel", "eta_bps": 3500, "assumed": true, "source": "R-104 5.1: 0.35, about 100 m deep, diving and heavy lift needed (A)" }
+  ],
+  "headline": {
+    "fall_energy_j_per_kg": 392,
+    "land": 0.86,
+    "shallow_bay": 0.67,
+    "deep_channel": 0.34,
+    "tolerance": 0.01,
+    "source": "R-104 Erratum (T-119): (1 - f_frag) x eta_loc with f_frag = 1 - exp(-392/10000) = 0.0384; unrounded 0.8654, 0.6731, 0.3365 for a part that absorbed the whole fall"
+  },
+  "classes": [
+    { "id": "structure", "kind": "mech", "fragments": true, "reuse_only": false, "scrap_raw_usd_per_tonne": 980, "scrap_bps": 3000, "rare_part": "", "rare_min_mass_kg": 0, "priority": 0, "priority_share_bps": 10000,
+      "assumed": false, "source": "R-104 5.2: steel scrap 0.3 x $980/t [4] = $294/t" },
+    { "id": "armour", "kind": "mech", "fragments": true, "reuse_only": false, "scrap_raw_usd_per_tonne": 980, "scrap_bps": 3000, "rare_part": "", "rare_min_mass_kg": 0, "priority": 0, "priority_share_bps": 10000,
+      "assumed": false, "source": "R-104 5.2: steel scrap 0.3 x $980/t [4] = $294/t (HSLA plate sold as steel)" },
+    { "id": "drive", "kind": "mech", "fragments": true, "reuse_only": false, "scrap_raw_usd_per_tonne": 980, "scrap_bps": 3000, "rare_part": "", "rare_min_mass_kg": 0, "priority": 0, "priority_share_bps": 10000,
+      "assumed": true, "source": "R-104 5.2 gives no scrap class for actuators; scrapped as steel (A)" },
+    { "id": "titanium", "kind": "mech", "fragments": true, "reuse_only": false, "scrap_raw_usd_per_tonne": 80000, "scrap_bps": 1000, "rare_part": "", "rare_min_mass_kg": 0, "priority": 0, "priority_share_bps": 10000,
+      "assumed": false, "source": "R-104 5.2: titanium scrap 0.1 x $80/kg = $8,000/t ($7.70/kg scrap price [5])" },
+    { "id": "composite", "kind": "mech", "fragments": true, "reuse_only": false, "scrap_raw_usd_per_tonne": 55000, "scrap_bps": 500, "rare_part": "", "rare_min_mass_kg": 0, "priority": 0, "priority_share_bps": 10000,
+      "assumed": true, "source": "R-104 5.2: composite scrap 0.05 x $55/kg [6] = $2,750/t (A)" },
+    { "id": "reactor", "kind": "mech", "fragments": true, "reuse_only": true, "scrap_raw_usd_per_tonne": 0, "scrap_bps": 0, "rare_part": "", "rare_min_mass_kg": 0, "priority": 0, "priority_share_bps": 10000,
+      "assumed": false, "source": "R-104 5.2: reactor parts are reuse-only (removed under city control, no scrap cash)" },
+    { "id": "weapons", "kind": "mech", "fragments": true, "reuse_only": true, "scrap_raw_usd_per_tonne": 0, "scrap_bps": 0, "rare_part": "", "rare_min_mass_kg": 0, "priority": 0, "priority_share_bps": 10000,
+      "assumed": false, "source": "R-104 5.2: weapon parts are reuse-only (no scrap cash)" },
+    { "id": "bone", "kind": "tissue", "fragments": true, "reuse_only": false, "scrap_raw_usd_per_tonne": 120000, "scrap_bps": 4500, "tissue_share_bps": 1200, "rare_part": "osteoderm_plate", "rare_min_mass_kg": 25000, "priority": 1, "priority_share_bps": 500,
+      "assumed": true, "source": "R-104 5.4: share 0.12 (A); strength 153-205 MPa [16]; cash at 0.45 x $120k/t titanium parity = $54,000/t; osteoderm set 25 t per chassis arm; fleet takes 5% of bone mass (340 t of 6,800 t, heavy kaiju)" },
+    { "id": "hide", "kind": "tissue", "fragments": true, "reuse_only": false, "scrap_raw_usd_per_tonne": 0, "scrap_bps": 0, "tissue_share_bps": 600, "rare_part": "keratin_liner", "rare_min_mass_kg": 10000, "priority": 2, "priority_share_bps": 500,
+      "assumed": true, "source": "R-104 5.4: share 0.06 (A); no sourced cash value, so none (an unlock, not currency); liner set 10 t, take 5% (A, Q-NEW-f)" },
+    { "id": "tendon", "kind": "tissue", "fragments": true, "reuse_only": false, "scrap_raw_usd_per_tonne": 0, "scrap_bps": 0, "tissue_share_bps": 3500, "rare_part": "actuator_fibre", "rare_min_mass_kg": 20000, "priority": 3, "priority_share_bps": 100,
+      "assumed": true, "source": "R-104 5.4: share 0.35 (A); no sourced cash value, so none; fibre bundle set 20 t, take 1% (A, Q-NEW-f)" },
+    { "id": "debris_steel", "kind": "debris", "fragments": false, "reuse_only": false, "scrap_raw_usd_per_tonne": 980, "scrap_bps": 3000, "rare_part": "", "rare_min_mass_kg": 0, "priority": 0, "priority_share_bps": 10000,
+      "assumed": false, "source": "R-104 5.3: debris paid as scrap only, steel $980/t x 0.3 = $294/t; already debris, so no further fragmentation" },
+    { "id": "debris_other", "kind": "debris", "fragments": false, "reuse_only": false, "scrap_raw_usd_per_tonne": 0, "scrap_bps": 0, "rare_part": "", "rare_min_mass_kg": 0, "priority": 0, "priority_share_bps": 10000,
+      "assumed": true, "source": "R-104 5.3: only the steel share of building debris pays; the remainder is carried as mass only (A)" }
+  ]
+}
