@@ -119,3 +119,6 @@ Next unblocked (§18): T-123 (economy tuning, uses T-122 wiring), Bay route plan
 - T-181b ✓ + T-180 ✓ (merge a11a894): hints contract v2 + `rendering.pixel.layerSnap` flag + `PixelLayerHints` validation; `rendering.pixel.depthShift` flag and depth-aware Present shader (compiles in Unity, EditMode 96/96, dotnet 83/83; captures in T-183). Open: T-181c (Camera brief), T-181d, T-182..T-185.
 
 - T-181c (rig side of layer snap) done and merged (fd277f3): `CameraLayerStabiliser`, rig wiring behind `rendering.pixel.layerSnap` (default off), dotnet 27 + Unity EditMode 34 passed. Next: T-181d (slab cameras + layered Present), T-182, T-183 captures.
+
+## T-103 (pilot, 2026-11-15)
+Older-3DEP-project gap fill: 374/375 placeholder-terrain land tiles fixed (L0 + 222 LOD tiles re-baked). Open: L0_04_31 (no 1 m DEM), Bay lidar building-height fill not started (disk/EPT cost), bathymetry. See ledger/HANDOFF.md, evidence/T-103/.
