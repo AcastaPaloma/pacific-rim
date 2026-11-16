@@ -53,11 +53,64 @@ namespace Game.Tools.Capture
         static int Execute()
         {
             if (!FlagOn() && !Has("-captureEnable")) { Debug.Log("[Capture] flag " + FlagName + " is off and -captureEnable was not given: nothing to do"); return 0; }
+            string variants = StyleCaptureCli.Arg("-captureTuningVariants");
+            if (!string.IsNullOrEmpty(variants)) return ExecuteVariants(variants);
             if (Has("-captureInstall")) Game.Rendering.Pixel.Editor.PixelPipelineInstaller.InstallAll();   // T-190: regenerate the baked profiles from PaletteProfileTuning.json first
-            string outRoot = StyleCaptureCli.Arg("-captureOut", "evidence/T-147/captures_local");
+            return ExecuteOne(StyleCaptureCli.Arg("-captureOut", "evidence/T-147/captures_local"), StyleCaptureCli.Arg("-captureConfig", StyleCaptureCli.M0Configuration), StyleCaptureCli.Arg("-capturePaths"));
+        }
+
+        /// <summary>
+        /// T-193 tuning sweep in ONE editor process. -captureTuningVariants <dir|a.json,b.json>: each file is a complete PaletteProfileTuning.json
+        /// (optional top-level "capturePaths": "a,b" overrides -capturePaths for that variant). For every variant and every configuration of
+        /// -captureConfig (comma list) the tuning file is swapped in, the baked profiles are regenerated and the capture is written to
+        /// <out>/<variant>/<configName>/. The committed tuning file and profile assets are restored at the end (also on error).
+        /// </summary>
+        static int ExecuteVariants(string variants)
+        {
+            string tuningPath = Game.Rendering.Pixel.Editor.PaletteProfileGenerator.TuningPath;
+            string original = File.ReadAllText(tuningPath);
+            string outRoot = StyleCaptureCli.Arg("-captureOut", "evidence/T-193/sweep_local");
+            var configs = (StyleCaptureCli.Arg("-captureConfig", StyleCaptureCli.M0Configuration)).Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var files = new List<string>();
+            foreach (var part in variants.Split(','))
+            {
+                if (Directory.Exists(part)) files.AddRange(Directory.GetFiles(part, "*.json").OrderBy(x => x, StringComparer.Ordinal));
+                else if (File.Exists(part)) files.Add(part);
+                else throw new FileNotFoundException("tuning variant not found: " + part);
+            }
+            int worst = 0;
+            try
+            {
+                foreach (var f in files)
+                {
+                    string raw = File.ReadAllText(f);
+                    string name = Path.GetFileNameWithoutExtension(f);
+                    string pathsOverride = null;
+                    var pm = System.Text.RegularExpressions.Regex.Match(raw, "\"capturePaths\"\\s*:\\s*\"([^\"]*)\""); if (pm.Success) pathsOverride = pm.Groups[1].Value;
+                    File.WriteAllText(tuningPath, raw);
+                    Game.Rendering.Pixel.Editor.PixelPipelineInstaller.InstallAll();
+                    foreach (var cfg in configs)
+                    {
+                        string cname = Path.GetFileNameWithoutExtension(cfg);
+                        Debug.Log("[Capture] variant " + name + " config " + cname);
+                        try { worst = Math.Max(worst, ExecuteOne(Path.Combine(outRoot, name, cname), cfg, pathsOverride ?? StyleCaptureCli.Arg("-capturePaths"))); }
+                        catch (Exception e) { Debug.LogError("[Capture] variant " + name + "/" + cname + " FAILED: " + e.Message); worst = 1; }
+                    }
+                }
+            }
+            finally
+            {
+                File.WriteAllText(tuningPath, original);
+                Game.Rendering.Pixel.Editor.PixelPipelineInstaller.InstallAll();
+            }
+            return worst;
+        }
+
+        static int ExecuteOne(string outRoot, string configPath, string pathsArg)
+        {
             int maxFrames = Int("-captureMaxFrames", 0), stride = Int("-captureStride", 1);
             var scales = new HashSet<int>((StyleCaptureCli.Arg("-captureScale") ?? "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x, CultureInfo.InvariantCulture)));
-            var files = PathFiles(StyleCaptureCli.Arg("-capturePaths"));
+            var files = PathFiles(pathsArg);
 
             // load and lint everything first: one bad path file stops the run before any frame is written
             var paths = new List<KeyValuePair<CapturePath, string>>(); var problems = new List<string>(); var ids = new HashSet<string>();
@@ -90,7 +143,7 @@ namespace Game.Tools.Capture
                 {
                     var first = group.First().Key;
                     var tile = CaptureScene.Build(first.Tile, first.ProfileId, first.HideBids);
-                    using (var s = new StyleCaptureSession(tile.ScenePath, outRoot, StyleCaptureCli.Arg("-captureConfig", StyleCaptureCli.M0Configuration)))
+                    using (var s = new StyleCaptureSession(tile.ScenePath, outRoot, configPath))
                         foreach (var kv in group)
                         {
                             var p = kv.Key;
