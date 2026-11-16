@@ -48,8 +48,8 @@ namespace Game.Perf.Bay
         public string Label = "";
         public double SpawnDistM = 4500.0;          // pack spawn east of the Port (R-103: camera at the host mech, pack 2.5 km away once the pack closes)
         public int FragmentsTarget = 0;             // sweep: cap on live fragments (0 = none)
-        public double PhysicsPrefetchM = 0.0;       // T-124b: StreamingConfig.PhysicsPrefetchRadiusM (0 = off)
-        public bool SliceRender = false;            // T-124b: UnityTileBuilder.SliceRenderBuilds
+        public double PhysicsPrefetchM = 768.0;      // T-124b: StreamingConfig.PhysicsPrefetchRadiusM (0 = off)
+        public bool SliceRender = true;             // T-124b: UnityTileBuilder.SliceRenderBuilds
         public double UrgentSliceMs = 0.0;          // T-124b: StreamingHostOptions.UrgentSliceMs (0 = off)
     }
 
@@ -74,7 +74,7 @@ namespace Game.Perf.Bay
                 };
                 if (o.TilesRoot == null || !Directory.Exists(o.TilesRoot)) throw new ArgumentException("-m008Tiles must name the baked tiles/v1 root (L0, L1.. folders)");
                 o.RasterPath = o.RasterPath ?? Path.Combine(Directory.GetCurrentDirectory(), "evidence", "T-115", "bay_cost_256m_v1.bin");
-                o.PhysicsPrefetchM = D(Arg(a, "-m008Prefetch", "0")); o.UrgentSliceMs = D(Arg(a, "-m008UrgentSlice", "0")); o.SliceRender = Arg(a, "-m008SliceRender", "0") != "0";
+                o.PhysicsPrefetchM = D(Arg(a, "-m008Prefetch", "768")); o.UrgentSliceMs = D(Arg(a, "-m008UrgentSlice", "0")); o.SliceRender = Arg(a, "-m008SliceRender", "1") != "0";
                 var sd = Arg(a, "-m008Spawn", null); if (sd != null) o.SpawnDistM = D(sd);
                 if (o.Scenario == "ref") { o.Kaiju = 1; o.Mechs = 1; o.Destruction = false; }
                 if (a.Length > 0) { var k = Arg(a, "-m008Kaiju", null); if (k != null) o.Kaiju = int.Parse(k); var m = Arg(a, "-m008Mechs", null); if (m != null) o.Mechs = int.Parse(m); var f = Arg(a, "-m008Fragments", null); if (f != null) o.FragmentsTarget = int.Parse(f); }

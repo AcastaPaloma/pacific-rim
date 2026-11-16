@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="84" result="Failed(Child)" total="84" passed="81" failed="1" inconclusive="0" skipped="2" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-16 01:37:54Z" end-time="2026-11-16 01:39:53Z" duration="119.296248">
+  <test-suite type="TestSuite" id="1000" name="KaijuGame" fullname="KaijuGame" runstate="Runnable" testcasecount="999" result="Failed" site="Child" start-time="2026-11-16 01:37:54Z" end-time="2026-11-16 01:39:53Z" duration="119.296248" total="84" passed="81" failed="1" inconclusive="0" skipped="2" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="2211" name="Game.World.Streaming.Host.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-124b/kaiju/Library/ScriptAssemblies/Game.World.Streaming.Host.Tests.dll" runstate="Runnable" testcasecount="37" result="Skipped" label="Ignored" start-time="2026-11-16 01:37:54Z" end-time="2026-11-16 01:39:38Z" duration="104.446598" total="37" passed="35" failed="0" inconclusive="0" skipped="2" asserts="0">
+      <properties>
+        <property name="_PID" value="43346" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <reason>
+        <message><![CDATA[One or more child tests were ignored]]></message>
+      </reason>
+      <test-suite type="TestSuite" id="2212" name="Game" fullname="Game" runstate="Runnable" testcasecount="37" result="Skipped" label="Ignored" start-time="2026-11-16 01:37:54Z" end-time="2026-11-16 01:39:38Z" duration="104.446136" total="37" passed="35" failed="0" inconclusive="0" skipped="2" asserts="0">
+        <properties />
+        <reason>
+          <message><![CDATA[One or more child tests were ignored]]></message>
+        </reason>
+        <test-suite type="TestSuite" id="2213" name="World" fullname="Game.World" runstate="Runnable" testcasecount="37" result="Skipped" label="Ignored" start-time="2026-11-16 01:37:54Z" end-time="2026-11-16 01:39:38Z" duration="104.445852" total="37" passed="35" failed="0" inconclusive="0" skipped="2" asserts="0">
+          <properties />
+          <reason>
+            <message><![CDATA[One or more child tests were ignored]]></message>
+          </reason>
+          <test-suite type="TestSuite" id="2214" name="Streaming" fullname="Game.World.Streaming" runstate="Runnable" testcasecount="37" result="Skipped" label="Ignored" start-time="2026-11-16 01:37:54Z" end-time="2026-11-16 01:39:38Z" duration="104.445601" total="37" passed="35" failed="0" inconclusive="0" skipped="2" asserts="0">
+            <properties />
+            <reason>
+              <message><![CDATA[One or more child tests were ignored]]></message>
+            </reason>
+            <test-suite type="TestSuite" id="2215" name="Host" fullname="Game.World.Streaming.Host" runstate="Runnable" testcasecount="37" result="Skipped" label="Ignored" start-time="2026-11-16 01:37:54Z" end-time="2026-11-16 01:39:38Z" duration="104.445350" total="37" passed="35" failed="0" inconclusive="0" skipped="2" asserts="0">
+              <properties />
+              <reason>
+                <message><![CDATA[One or more child tests were ignored]]></message>
+              </reason>
+              <test-suite type="TestSuite" id="2216" name="Tests" fullname="Game.World.Streaming.Host.Tests" runstate="Runnable" testcasecount="37" result="Skipped" label="Ignored" start-time="2026-11-16 01:37:54Z" end-time="2026-11-16 01:39:38Z" duration="104.444996" total="37" passed="35" failed="0" inconclusive="0" skipped="2" asserts="0">
+                <properties />
+                <reason>
+                  <message><![CDATA[One or more child tests were ignored]]></message>
+                </reason>
+                <test-suite type="TestFixture" id="2169" name="FlythroughHarnessTests" fullname="Game.World.Streaming.Host.Tests.FlythroughHarnessTests" classname="Game.World.Streaming.Host.Tests.FlythroughHarnessTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-11-16 01:37:54Z" end-time="2026-11-16 01:38:41Z" duration="47.098598" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="2176" name="ClusterBuilder_IsToldWhenAClusterAppearsMovesAndEnds" fullname="Game.World.Streaming.Host.Tests.FlythroughHarnessTests.ClusterBuilder_IsToldWhenAClusterAppearsMovesAndEnds" methodname="ClusterBuilder_IsToldWhenAClusterAppearsMovesAndEnds" classname="Game.World.Streaming.Host.Tests.FlythroughHarnessTests" runstate="Runnable" seed="452144932" result="Passed" start-time="2026-11-16 01:37:54Z" end-time="2026-11-16 01:37:54Z" duration="0.038524" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-suite type="ParameterizedMethod" id="2173" name="M015v2_AllClauses_HoldAtDesignSpeedAndAtTheCap" fullname="Game.World.Streaming.Host.Tests.FlythroughHarnessTests.M015v2_AllClauses_HoldAtDesignSpeedAndAtTheCap" classname="Game.World.Streaming.Host.Tests.FlythroughHarnessTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-16 01:37:54Z" end-time="2026-11-16 01:38:36Z" duration="42.067749" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                    <properties />
+                    <test-case id="2171" name="M015v2_AllClauses_HoldAtDesignSpeedAndAtTheCap(30.0d)" fullname="Game.World.Streaming.Host.Tests.FlythroughHarnessTests.M015v2_AllClauses_HoldAtDesignSpeedAndAtTheCap(30.0d)" methodname="M015v2_AllClauses_HoldAtDesignSpeedAndAtTheCap" classname="Game.World.Streaming.Host.Tests.FlythroughHarnessTests" runstate="Runnable" seed="1978848571" result="Passed" start-time="2026-11-16 01:37:54Z" end-time="2026-11-16 01:38:15Z" duration="20.853241" asserts="0">
+                      <properties>
+                        <property name="retryIteration" value="0" />
+                        <property name="repeatIteration" value="0" />
+                      </properties>
+                      <output><![CDATA[{
+ "format": "m015_dump",
+ "schema": 2,
+ "mode": "logic",
+ "label": "logic_30mps",
+ "path_length_m": 92562.255183274741,
+ "simulated_s": 10150,
+ "step_s": 1,
+ "mech_speed_mps": 30,
+ "steps": 10150,
+ "bodies": {"mechs": 2, "kaiju": 3, "debris": 100, "total": 106},
+ "max_abs_local_m": 3560.643310546875,
+ "max_reconstruction_err_m": 0.00012206981409690343,
+ "round_trip_err_m": 0,
+ "probe_max_err_m": 0.00012206305109430104,
+ "probe_steps": 3087,
+ "pair_change_max_m": 0.00028640807815349945,
+ "rebase_pair_change_max_m": 0.00020976625938828874,
+ "terrain_delta_max_m": 0.003345565037522924,
+ "rebase_terrain_delta_max_m": 0.0030481151832706388,
+ "placed_vs_read_max_m": 0,
+ "rebases": 91,
+ "cluster_shifts": 91,
+ "clusters_max": 3,
+ "hold_events": 0,
+ "frames_below_surface": 0,
+ "frames_without_ground": 0,
+ "world_origin_mismatches": 0,
+ "unclaimed_chunks": 0,
+ "tile_loads": 2145,
+ "max_loads_per_key": 3
+}
+
+]]></output>
+                    </test-case>
+                    <test-case id="2172" name="M015v2_AllClauses_HoldAtDesignSpeedAndAtTheCap(60.0d)" fullname="Game.World.Streaming.Host.Tests.FlythroughHarnessTests.M015v2_AllClauses_HoldAtDesignSpeedAndAtTheCap(60.0d)" methodname="M015v2_AllClauses_HoldAtDesignSpeedAndAtTheCap" classname="Game.World.Streaming.Host.Tests.FlythroughHarnessTests" runstate="Runnable" seed="162045951" result="Passed" start-time="2026-11-16 01:38:15Z" end-time="2026-11-16 01:38:36Z" duration="21.205664" asserts="0">
+                      <properties>
+                        <property name="retryIteration" value="0" />
+                        <property name="repeatIteration" value="0" />
+                      </properties>
+                      <output><![CDATA[{
+ "format": "m015_dump",
+ "schema": 2,
+ "mode": "logic",
+ "label": "logic_60mps",
+ "path_length_m": 92562.255183274741,
+ "simulated_s": 10150,
+ "step_s": 1,
+ "mech_speed_mps": 60,
+ "steps": 10150,
+ "bodies": {"mechs": 2, "kaiju": 3, "debris": 100, "total": 106},
+ "max_abs_local_m": 3112.492431640625,
+ "max_reconstruction_err_m": 0.00012206922110635787,
+ "round_trip_err_m": 0,
+ "probe_max_err_m": 0.00012206305109430104,
+ "probe_steps": 3087,
+ "pair_change_max_m": 0.00028377222366771093,
+ "rebase_pair_change_max_m": 0.00012524157097004718,
+ "terrain_delta_max_m": 0.003345565037522924,
+ "rebase_terrain_delta_max_m": 0.0030481151832706388,
+ "placed_vs_read_max_m": 0,
+ "rebases": 94,
+ "cluster_shifts": 94,
+ "clusters_max": 3,
+ "hold_events": 0,
+ "frames_below_surface": 0,
+ "frames_without_ground": 0,
+ "world_origin_mismatches": 0,
+ "unclaimed_chunks": 0,
+ "tile_loads": 2155,
+ "max_loads_per_key": 3
+}
+
+]]></output>
+                    </test-case>
+                  </test-suite>
+                  <test-case id="2175" name="PhysicsChunks_LiveInTheFrameOfTheClusterThatNeedsThem" fullname="Game.World.Streaming.Host.Tests.FlythroughHarnessTests.PhysicsChunks_LiveInTheFrameOfTheClusterThatNeedsThem" methodname="PhysicsChunks_LiveInTheFrameOfTheClusterThatNeedsThem" classname="Game.World.Streaming.Host.Tests.FlythroughHarnessTests" runstate="Runnable" seed="1597880205" result="Passed" start-time="2026-11-16 01:38:36Z" end-time="2026-11-16 01:38:36Z" duration="0.011919" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2174" name="Report_Json_IsStableAndNamesEveryClause" fullname="Game.World.Streaming.Host.Tests.FlythroughHarnessTests.Report_Json_IsStableAndNamesEveryClause" methodname="Report_Json_IsStableAndNamesEveryClause" classname="Game.World.Streaming.Host.Tests.FlythroughHarnessTests" runstate="Runnable" seed="1054789458" result="Passed" start-time="2026-11-16 01:38:36Z" end-time="2026-11-16 01:38:41Z" duration="4.965128" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2170" name="Route_IsAtLeast75Km" fullname="Game.World.Streaming.Host.Tests.FlythroughHarnessTests.Route_IsAtLeast75Km" methodname="Route_IsAtLeast75Km" classname="Game.World.Streaming.Host.Tests.FlythroughHarnessTests" runstate="Runnable" seed="1623021772" result="Passed" start-time="2026-11-16 01:38:41Z" end-time="2026-11-16 01:38:41Z" duration="0.000208" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                </test-suite>
+                <test-suite type="TestFixture" id="2177" name="GeoLodReaderTests" fullname="Game.World.Streaming.Host.Tests.GeoLodReaderTests" classname="Game.World.Streaming.Host.Tests.GeoLodReaderTests" runstate="Runnable" testcasecount="11" result="Skipped" label="Ignored" start-time="2026-11-16 01:38:41Z" end-time="2026-11-16 01:39:17Z" duration="36.314878" total="11" passed="9" failed="0" inconclusive="0" skipped="2" asserts="0">
+                  <properties />
+                  <reason>
+                    <message><![CDATA[One or more child tests were ignored]]></message>
+                  </reason>
+                  <test-case id="2182" name="BordersAreForcedOnlyWhereANeighbourIsBaked" fullname="Game.World.Streaming.Host.Tests.GeoLodReaderTests.BordersAreForcedOnlyWhereANeighbourIsBaked" methodname="BordersAreForcedOnlyWhereANeighbourIsBaked" classname="Game.World.Streaming.Host.Tests.GeoLodReaderTests" runstate="Runnable" seed="903448168" result="Passed" start-time="2026-11-16 01:38:41Z" end-time="2026-11-16 01:38:45Z" duration="3.651092" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2186" name="CratersReplayOnTheLevelOnlyWhenDeepEnough" fullname="Game.World.Streaming.Host.Tests.GeoLodReaderTests.CratersReplayOnTheLevelOnlyWhenDeepEnough" methodname="CratersReplayOnTheLevelOnlyWhenDeepEnough" classname="Game.World.Streaming.Host.Tests.GeoLodReaderTests" runstate="Runnable" seed="59026323" result="Passed" start-time="2026-11-16 01:38:45Z" end-time="2026-11-16 01:38:53Z" duration="8.007760" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2179" name="LodMeshRoundTripsWithinTheQuantisationStep" fullname="Game.World.Streaming.Host.Tests.GeoLodReaderTests.LodMeshRoundTripsWithinTheQuantisationStep" methodname="LodMeshRoundTripsWithinTheQuantisationStep" classname="Game.World.Streaming.Host.Tests.GeoLodReaderTests" runstate="Runnable" seed="1413636830" result="Passed" start-time="2026-11-16 01:38:53Z" end-time="2026-11-16 01:38:53Z" duration="0.008153" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2185" name="MergedBlockRowsGoOnlyWhenEveryMemberIsRemoved" fullname="Game.World.Streaming.Host.Tests.GeoLodReaderTests.MergedBlockRowsGoOnlyWhenEveryMemberIsRemoved" methodname="MergedBlockRowsGoOnlyWhenEveryMemberIsRemoved" classname="Game.World.Streaming.Host.Tests.GeoLodReaderTests" runstate="Runnable" seed="1831343229" result="Passed" start-time="2026-11-16 01:38:53Z" end-time="2026-11-16 01:38:58Z" duration="5.742127" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2180" name="ReadsTerrainBuildingsAndWaterInTileLocalMetres" fullname="Game.World.Streaming.Host.Tests.GeoLodReaderTests.ReadsTerrainBuildingsAndWaterInTileLocalMetres" methodname="ReadsTerrainBuildingsAndWaterInTileLocalMetres" classname="Game.World.Streaming.Host.Tests.GeoLodReaderTests" runstate="Runnable" seed="291122162" result="Passed" start-time="2026-11-16 01:38:58Z" end-time="2026-11-16 01:39:00Z" duration="1.803889" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2187" name="RealBakedTilesValidateAndMatchTheirManifests" fullname="Game.World.Streaming.Host.Tests.GeoLodReaderTests.RealBakedTilesValidateAndMatchTheirManifests" methodname="RealBakedTilesValidateAndMatchTheirManifests" classname="Game.World.Streaming.Host.Tests.GeoLodReaderTests" runstate="Runnable" seed="153095234" result="Skipped" label="Ignored" start-time="2026-11-16 01:39:00Z" end-time="2026-11-16 01:39:00Z" duration="0.004551" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <reason>
+                      <message><![CDATA[no baked geo_lod@v1 pyramid (Pipelines/geo/bake_lod.py --out ...; set KAIJU_LOD_ROOT)]]></message>
+                    </reason>
+                  </test-case>
+                  <test-case id="2188" name="RealTileRemovalByBidDropsExactlyThatBuildingsTriangles" fullname="Game.World.Streaming.Host.Tests.GeoLodReaderTests.RealTileRemovalByBidDropsExactlyThatBuildingsTriangles" methodname="RealTileRemovalByBidDropsExactlyThatBuildingsTriangles" classname="Game.World.Streaming.Host.Tests.GeoLodReaderTests" runstate="Runnable" seed="1983843136" result="Skipped" label="Ignored" start-time="2026-11-16 01:39:00Z" end-time="2026-11-16 01:39:00Z" duration="0.000673" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <reason>
+                      <message><![CDATA[no baked geo_lod@v1 pyramid]]></message>
+                    </reason>
+                  </test-case>
+                  <test-case id="2184" name="RemovedBuildingsLeaveTheirIndexRangesAndTakeTheirPartsWithThem" fullname="Game.World.Streaming.Host.Tests.GeoLodReaderTests.RemovedBuildingsLeaveTheirIndexRangesAndTakeTheirPartsWithThem" methodname="RemovedBuildingsLeaveTheirIndexRangesAndTakeTheirPartsWithThem" classname="Game.World.Streaming.Host.Tests.GeoLodReaderTests" runstate="Runnable" seed="818246442" result="Passed" start-time="2026-11-16 01:39:00Z" end-time="2026-11-16 01:39:10Z" duration="9.195982" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2183" name="RouterServesLevelsOneToFourAndRefusesPhysics" fullname="Game.World.Streaming.Host.Tests.GeoLodReaderTests.RouterServesLevelsOneToFourAndRefusesPhysics" methodname="RouterServesLevelsOneToFourAndRefusesPhysics" classname="Game.World.Streaming.Host.Tests.GeoLodReaderTests" runstate="Runnable" seed="1097531319" result="Passed" start-time="2026-11-16 01:39:10Z" end-time="2026-11-16 01:39:11Z" duration="1.832454" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2181" name="ThresholdOptionsNeverRelaxByThemselves" fullname="Game.World.Streaming.Host.Tests.GeoLodReaderTests.ThresholdOptionsNeverRelaxByThemselves" methodname="ThresholdOptionsNeverRelaxByThemselves" classname="Game.World.Streaming.Host.Tests.GeoLodReaderTests" runstate="Runnable" seed="2141762293" result="Passed" start-time="2026-11-16 01:39:11Z" end-time="2026-11-16 01:39:17Z" duration="5.524752" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2178" name="ValidatorAcceptsTheSyntheticTileAndNamesEveryDefect" fullname="Game.World.Streaming.Host.Tests.GeoLodReaderTests.ValidatorAcceptsTheSyntheticTileAndNamesEveryDefect" methodname="ValidatorAcceptsTheSyntheticTileAndNamesEveryDefect" classname="Game.World.Streaming.Host.Tests.GeoLodReaderTests" runstate="Runnable" seed="530012576" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:17Z" duration="0.181549" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                </test-suite>
+                <test-suite type="TestFixture" id="2189" name="StreamingHostCoreTests" fullname="Game.World.Streaming.Host.Tests.StreamingHostCoreTests" classname="Game.World.Streaming.Host.Tests.StreamingHostCoreTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:17Z" duration="0.151754" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="2191" name="BodyIsHeldWhileItsPhysicsRingIsStillBuilding" fullname="Game.World.Streaming.Host.Tests.StreamingHostCoreTests.BodyIsHeldWhileItsPhysicsRingIsStillBuilding" methodname="BodyIsHeldWhileItsPhysicsRingIsStillBuilding" classname="Game.World.Streaming.Host.Tests.StreamingHostCoreTests" runstate="Runnable" seed="649013932" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:17Z" duration="0.003266" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2193" name="Eviction_ReleasesBuilderAndFreesResidentSet" fullname="Game.World.Streaming.Host.Tests.StreamingHostCoreTests.Eviction_ReleasesBuilderAndFreesResidentSet" methodname="Eviction_ReleasesBuilderAndFreesResidentSet" classname="Game.World.Streaming.Host.Tests.StreamingHostCoreTests" runstate="Runnable" seed="1157231330" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:17Z" duration="0.004598" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2195" name="MainThreadSlice_LimitsNonUrgentBuildsPerTick_ButEveryPayloadIsBuiltEventually" fullname="Game.World.Streaming.Host.Tests.StreamingHostCoreTests.MainThreadSlice_LimitsNonUrgentBuildsPerTick_ButEveryPayloadIsBuiltEventually" methodname="MainThreadSlice_LimitsNonUrgentBuildsPerTick_ButEveryPayloadIsBuiltEventually" classname="Game.World.Streaming.Host.Tests.StreamingHostCoreTests" runstate="Runnable" seed="1028546557" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:17Z" duration="0.001174" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2190" name="PhysicsRing_ResidentChunksAreExactlyThoseWithinRadius_AndBodyIsReleasedForSimulation" fullname="Game.World.Streaming.Host.Tests.StreamingHostCoreTests.PhysicsRing_ResidentChunksAreExactlyThoseWithinRadius_AndBodyIsReleasedForSimulation" methodname="PhysicsRing_ResidentChunksAreExactlyThoseWithinRadius_AndBodyIsReleasedForSimulation" classname="Game.World.Streaming.Host.Tests.StreamingHostCoreTests" runstate="Runnable" seed="1580791322" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:17Z" duration="0.001421" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2194" name="ReaderFailure_BacksOffThenRecovers" fullname="Game.World.Streaming.Host.Tests.StreamingHostCoreTests.ReaderFailure_BacksOffThenRecovers" methodname="ReaderFailure_BacksOffThenRecovers" classname="Game.World.Streaming.Host.Tests.StreamingHostCoreTests" runstate="Runnable" seed="269171003" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:17Z" duration="0.001197" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2192" name="Rebase_ShiftsRootsByExactMultiplesAndKeepsResidentOffsetsBounded" fullname="Game.World.Streaming.Host.Tests.StreamingHostCoreTests.Rebase_ShiftsRootsByExactMultiplesAndKeepsResidentOffsetsBounded" methodname="Rebase_ShiftsRootsByExactMultiplesAndKeepsResidentOffsetsBounded" classname="Game.World.Streaming.Host.Tests.StreamingHostCoreTests" runstate="Runnable" seed="1700537448" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:17Z" duration="0.079259" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2196" name="SchedulerStateAndHostSetsAgree_NoKeyIsBuiltTwiceWhileResident" fullname="Game.World.Streaming.Host.Tests.StreamingHostCoreTests.SchedulerStateAndHostSetsAgree_NoKeyIsBuiltTwiceWhileResident" methodname="SchedulerStateAndHostSetsAgree_NoKeyIsBuiltTwiceWhileResident" classname="Game.World.Streaming.Host.Tests.StreamingHostCoreTests" runstate="Runnable" seed="1302467764" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:17Z" duration="0.001542" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                </test-suite>
+                <test-suite type="TestFixture" id="2197" name="StreamingJournalTests" fullname="Game.World.Streaming.Host.Tests.StreamingJournalTests" classname="Game.World.Streaming.Host.Tests.StreamingJournalTests" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:38Z" duration="20.878234" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="2207" name="BusRemovalEvent_IsRecordedInTheLocatedTile" fullname="Game.World.Streaming.Host.Tests.StreamingJournalTests.BusRemovalEvent_IsRecordedInTheLocatedTile" methodname="BusRemovalEvent_IsRecordedInTheLocatedTile" classname="Game.World.Streaming.Host.Tests.StreamingJournalTests" runstate="Runnable" seed="635383011" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:17Z" duration="0.002888" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2202" name="Codec_RoundTripsExactlyAndRejectsBadInput" fullname="Game.World.Streaming.Host.Tests.StreamingJournalTests.Codec_RoundTripsExactlyAndRejectsBadInput" methodname="Codec_RoundTripsExactlyAndRejectsBadInput" classname="Game.World.Streaming.Host.Tests.StreamingJournalTests" runstate="Runnable" seed="1021628765" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:17Z" duration="0.003288" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2206" name="Eviction_FlushesTheJournalBeforeTheBuilderReleases" fullname="Game.World.Streaming.Host.Tests.StreamingJournalTests.Eviction_FlushesTheJournalBeforeTheBuilderReleases" methodname="Eviction_FlushesTheJournalBeforeTheBuilderReleases" classname="Game.World.Streaming.Host.Tests.StreamingJournalTests" runstate="Runnable" seed="2013296645" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:17Z" duration="0.004661" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2204" name="FileStore_RoundTripsAndSurvivesRewrite" fullname="Game.World.Streaming.Host.Tests.StreamingJournalTests.FileStore_RoundTripsAndSurvivesRewrite" methodname="FileStore_RoundTripsAndSurvivesRewrite" classname="Game.World.Streaming.Host.Tests.StreamingJournalTests" runstate="Runnable" seed="967184917" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:17Z" duration="0.003307" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2203" name="Flush_WritesOnlyDirtyTilesAndReloadsFromStore" fullname="Game.World.Streaming.Host.Tests.StreamingJournalTests.Flush_WritesOnlyDirtyTilesAndReloadsFromStore" methodname="Flush_WritesOnlyDirtyTilesAndReloadsFromStore" classname="Game.World.Streaming.Host.Tests.StreamingJournalTests" runstate="Runnable" seed="139662099" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:17Z" duration="0.001827" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2201" name="Journal_CraterIsRecordedInEveryOverlappedTile" fullname="Game.World.Streaming.Host.Tests.StreamingJournalTests.Journal_CraterIsRecordedInEveryOverlappedTile" methodname="Journal_CraterIsRecordedInEveryOverlappedTile" classname="Game.World.Streaming.Host.Tests.StreamingJournalTests" runstate="Runnable" seed="391077688" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:17Z" duration="0.000194" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2200" name="Journal_RecordsIdempotentlyAndSnapshotsAreImmutable" fullname="Game.World.Streaming.Host.Tests.StreamingJournalTests.Journal_RecordsIdempotentlyAndSnapshotsAreImmutable" methodname="Journal_RecordsIdempotentlyAndSnapshotsAreImmutable" classname="Game.World.Streaming.Host.Tests.StreamingJournalTests" runstate="Runnable" seed="1484009937" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:17Z" duration="0.000304" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2210" name="Reader_ModelCacheDropsWhenACraterIsAdded" fullname="Game.World.Streaming.Host.Tests.StreamingJournalTests.Reader_ModelCacheDropsWhenACraterIsAdded" methodname="Reader_ModelCacheDropsWhenACraterIsAdded" classname="Game.World.Streaming.Host.Tests.StreamingJournalTests" runstate="Runnable" seed="1396898767" result="Passed" start-time="2026-11-16 01:39:17Z" end-time="2026-11-16 01:39:22Z" duration="5.245913" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2208" name="Reload_OmitsRemovedBuildingsBeforeMeshing_RenderAndPhysics" fullname="Game.World.Streaming.Host.Tests.StreamingJournalTests.Reload_OmitsRemovedBuildingsBeforeMeshing_RenderAndPhysics" methodname="Reload_OmitsRemovedBuildingsBeforeMeshing_RenderAndPhysics" classname="Game.World.Streaming.Host.Tests.StreamingJournalTests" runstate="Runnable" seed="1236733104" result="Passed" start-time="2026-11-16 01:39:22Z" end-time="2026-11-16 01:39:29Z" duration="7.030505" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2209" name="Reload_ReplaysCratersDeterministically_AndAfterAStoreRoundTrip" fullname="Game.World.Streaming.Host.Tests.StreamingJournalTests.Reload_ReplaysCratersDeterministically_AndAfterAStoreRoundTrip" methodname="Reload_ReplaysCratersDeterministically_AndAfterAStoreRoundTrip" classname="Game.World.Streaming.Host.Tests.StreamingJournalTests" runstate="Runnable" seed="1716149021" result="Passed" start-time="2026-11-16 01:39:29Z" end-time="2026-11-16 01:39:38Z" duration="8.574528" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2205" name="SaveSection_RoundTripsAndValidatesBeforeChanging" fullname="Game.World.Streaming.Host.Tests.StreamingJournalTests.SaveSection_RoundTripsAndValidatesBeforeChanging" methodname="SaveSection_RoundTripsAndValidatesBeforeChanging" classname="Game.World.Streaming.Host.Tests.StreamingJournalTests" runstate="Runnable" seed="1153390001" result="Passed" start-time="2026-11-16 01:39:38Z" end-time="2026-11-16 01:39:38Z" duration="0.006537" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2199" name="TerrainOp_AffectsLevelFollowsErrorLadder" fullname="Game.World.Streaming.Host.Tests.StreamingJournalTests.TerrainOp_AffectsLevelFollowsErrorLadder" methodname="TerrainOp_AffectsLevelFollowsErrorLadder" classname="Game.World.Streaming.Host.Tests.StreamingJournalTests" runstate="Runnable" seed="1966425577" result="Passed" start-time="2026-11-16 01:39:38Z" end-time="2026-11-16 01:39:38Z" duration="0.000109" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2198" name="TerrainOps_AreDeterministicOrderedAndSeamConsistent" fullname="Game.World.Streaming.Host.Tests.StreamingJournalTests.TerrainOps_AreDeterministicOrderedAndSeamConsistent" methodname="TerrainOps_AreDeterministicOrderedAndSeamConsistent" classname="Game.World.Streaming.Host.Tests.StreamingJournalTests" runstate="Runnable" seed="1093282993" result="Passed" start-time="2026-11-16 01:39:38Z" end-time="2026-11-16 01:39:38Z" duration="0.001033" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                </test-suite>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="2259" name="Game.World.Streaming.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-124b/kaiju/Library/ScriptAssemblies/Game.World.Streaming.Tests.dll" runstate="Runnable" testcasecount="39" result="Passed" start-time="2026-11-16 01:39:38Z" end-time="2026-11-16 01:39:52Z" duration="14.243136" total="39" passed="39" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="43346" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="2260" name="Game" fullname="Game" runstate="Runnable" testcasecount="39" result="Passed" start-time="2026-11-16 01:39:38Z" end-time="2026-11-16 01:39:52Z" duration="14.240447" total="39" passed="39" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="2261" name="World" fullname="Game.World" runstate="Runnable" testcasecount="39" result="Passed" start-time="2026-11-16 01:39:38Z" end-time="2026-11-16 01:39:52Z" duration="14.240151" total="39" passed="39" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="2262" name="Streaming" fullname="Game.World.Streaming" runstate="Runnable" testcasecount="39" result="Passed" start-time="2026-11-16 01:39:38Z" end-time="2026-11-16 01:39:52Z" duration="14.239909" total="39" passed="39" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="2263" name="Tests" fullname="Game.World.Streaming.Tests" runstate="Runnable" testcasecount="39" result="Passed" start-time="2026-11-16 01:39:38Z" end-time="2026-11-16 01:39:52Z" duration="14.239637" total="39" passed="39" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="2217" name="BayTraversalTests" fullname="Game.World.Streaming.Tests.BayTraversalTests" classname="Game.World.Streaming.Tests.BayTraversalTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-16 01:39:38Z" end-time="2026-11-16 01:39:52Z" duration="14.081904" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="2221" name="LoneCameraTraversal_EveryTileLoadedOnceEvictedAtMostOnce_PerCrossing" fullname="Game.World.Streaming.Tests.BayTraversalTests.LoneCameraTraversal_EveryTileLoadedOnceEvictedAtMostOnce_PerCrossing" methodname="LoneCameraTraversal_EveryTileLoadedOnceEvictedAtMostOnce_PerCrossing" classname="Game.World.Streaming.Tests.BayTraversalTests" runstate="Runnable" seed="2062459015" result="Passed" start-time="2026-11-16 01:39:38Z" end-time="2026-11-16 01:39:38Z" duration="0.037620" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2218" name="PathIsAtLeast75Km" fullname="Game.World.Streaming.Tests.BayTraversalTests.PathIsAtLeast75Km" methodname="PathIsAtLeast75Km" classname="Game.World.Streaming.Tests.BayTraversalTests" runstate="Runnable" seed="914360272" result="Passed" start-time="2026-11-16 01:39:38Z" end-time="2026-11-16 01:39:38Z" duration="0.000151" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2220" name="Probe_DrivenOutAndBack_ReturnsWithin1mm" fullname="Game.World.Streaming.Tests.BayTraversalTests.Probe_DrivenOutAndBack_ReturnsWithin1mm" methodname="Probe_DrivenOutAndBack_ReturnsWithin1mm" classname="Game.World.Streaming.Tests.BayTraversalTests" runstate="Runnable" seed="1529962095" result="Passed" start-time="2026-11-16 01:39:38Z" end-time="2026-11-16 01:39:38Z" duration="0.036477" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2219" name="Traversal_75km_2Mechs_3Kaiju_100Debris_EveryBodyWithin4096m_AndNoTileToggles" fullname="Game.World.Streaming.Tests.BayTraversalTests.Traversal_75km_2Mechs_3Kaiju_100Debris_EveryBodyWithin4096m_AndNoTileToggles" methodname="Traversal_75km_2Mechs_3Kaiju_100Debris_EveryBodyWithin4096m_AndNoTileToggles" classname="Game.World.Streaming.Tests.BayTraversalTests" runstate="Runnable" seed="2007675574" result="Passed" start-time="2026-11-16 01:39:38Z" end-time="2026-11-16 01:39:52Z" duration="14.005777" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[steps=10151 maxLocal=3562.9 maxRecon_mm=0.1221 maxPair_mm=0.2316 rebases=91 maxClusters=3 tiles=2204 maxGpuMB=634
+]]></output>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="2222" name="ClusterAssignerTests" fullname="Game.World.Streaming.Tests.ClusterAssignerTests" classname="Game.World.Streaming.Tests.ClusterAssignerTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.032185" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="2228" name="Cluster_MergeAndSplitKeepWithinBound" fullname="Game.World.Streaming.Tests.ClusterAssignerTests.Cluster_MergeAndSplitKeepWithinBound" methodname="Cluster_MergeAndSplitKeepWithinBound" classname="Game.World.Streaming.Tests.ClusterAssignerTests" runstate="Runnable" seed="928959416" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.018467" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2226" name="ClusterIds_AreStableAcrossTicks_AndRebaseOnlyWhenNeeded" fullname="Game.World.Streaming.Tests.ClusterAssignerTests.ClusterIds_AreStableAcrossTicks_AndRebaseOnlyWhenNeeded" methodname="ClusterIds_AreStableAcrossTicks_AndRebaseOnlyWhenNeeded" classname="Game.World.Streaming.Tests.ClusterAssignerTests" runstate="Runnable" seed="407870670" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.007876" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2225" name="ExtentCap_ChainOfLinkedBodiesIsSplitAtOrBelow5120" fullname="Game.World.Streaming.Tests.ClusterAssignerTests.ExtentCap_ChainOfLinkedBodiesIsSplitAtOrBelow5120" methodname="ExtentCap_ChainOfLinkedBodiesIsSplitAtOrBelow5120" classname="Game.World.Streaming.Tests.ClusterAssignerTests" runstate="Runnable" seed="544059336" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000866" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2229" name="LocalPositions_ReconstructTheWorldPositionWithin1mm" fullname="Game.World.Streaming.Tests.ClusterAssignerTests.LocalPositions_ReconstructTheWorldPositionWithin1mm" methodname="LocalPositions_ReconstructTheWorldPositionWithin1mm" classname="Game.World.Streaming.Tests.ClusterAssignerTests" runstate="Runnable" seed="299919509" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000474" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2223" name="NearBodiesShareACluster_FarBodiesDoNot" fullname="Game.World.Streaming.Tests.ClusterAssignerTests.NearBodiesShareACluster_FarBodiesDoNot" methodname="NearBodiesShareACluster_FarBodiesDoNot" classname="Game.World.Streaming.Tests.ClusterAssignerTests" runstate="Runnable" seed="433745824" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000171" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2224" name="Origin_IsATileCornerNearTheCentre_AndLocalsAreWithin4096" fullname="Game.World.Streaming.Tests.ClusterAssignerTests.Origin_IsATileCornerNearTheCentre_AndLocalsAreWithin4096" methodname="Origin_IsATileCornerNearTheCentre_AndLocalsAreWithin4096" classname="Game.World.Streaming.Tests.ClusterAssignerTests" runstate="Runnable" seed="1688681732" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000340" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2227" name="SoftRebaseWaitsForQuietStep_ForcedRebaseDoesNot" fullname="Game.World.Streaming.Tests.ClusterAssignerTests.SoftRebaseWaitsForQuietStep_ForcedRebaseDoesNot" methodname="SoftRebaseWaitsForQuietStep_ForcedRebaseDoesNot" classname="Game.World.Streaming.Tests.ClusterAssignerTests" runstate="Runnable" seed="1786798331" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000296" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="2230" name="StreamingSchedulerTests" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" testcasecount="28" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.124793" total="28" passed="28" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="2258" name="Allocation_PlanListsAreReused" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Allocation_PlanListsAreReused" methodname="Allocation_PlanListsAreReused" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="2069620810" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000501" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2246" name="Budget_ExactEvictionOrder_LowestPriorityThenLeastRecentlyNeeded" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Budget_ExactEvictionOrder_LowestPriorityThenLeastRecentlyNeeded" methodname="Budget_ExactEvictionOrder_LowestPriorityThenLeastRecentlyNeeded" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="828887487" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000808" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2244" name="Budget_GpuAndCpuNeverExceeded_WhileTraversing" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Budget_GpuAndCpuNeverExceeded_WhileTraversing" methodname="Budget_GpuAndCpuNeverExceeded_WhileTraversing" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="2062727852" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.032296" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2245" name="Budget_OverBudgetEvictsUnwantedFirstDownTo90Percent_NeverWantedOrPhysics" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Budget_OverBudgetEvictsUnwantedFirstDownTo90Percent_NeverWantedOrPhysics" methodname="Budget_OverBudgetEvictsUnwantedFirstDownTo90Percent_NeverWantedOrPhysics" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="560867970" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.001329" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2247" name="Budget_PressureEvictsLeastRecentlyNeededRetainedTileBeforeNewerOnes" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Budget_PressureEvictsLeastRecentlyNeededRetainedTileBeforeNewerOnes" methodname="Budget_PressureEvictsLeastRecentlyNeededRetainedTileBeforeNewerOnes" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="219204325" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.004583" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2257" name="Coverage_TilesOutsideTheBakedAreaAreNeverRequested" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Coverage_TilesOutsideTheBakedAreaAreNeverRequested" methodname="Coverage_TilesOutsideTheBakedAreaAreNeverRequested" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="2041901312" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000627" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2256" name="Determinism_SameInputsSameOutputs" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Determinism_SameInputsSameOutputs" methodname="Determinism_SameInputsSameOutputs" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="1337361599" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.025496" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2255" name="Events_AreUnmanagedAndCarryIdsOnly" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Events_AreUnmanagedAndCarryIdsOnly" methodname="Events_AreUnmanagedAndCarryIdsOnly" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="636928246" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000209" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2254" name="Events_TileResidentAndEvictedOnTheBus_GenerationCountsReloads" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Events_TileResidentAndEvictedOnTheBus_GenerationCountsReloads" methodname="Events_TileResidentAndEvictedOnTheBus_GenerationCountsReloads" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="1290070849" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.001194" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2253" name="Failed_RetriesWithBackoffThenParks" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Failed_RetriesWithBackoffThenParks" methodname="Failed_RetriesWithBackoffThenParks" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="529183531" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.001105" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2252" name="Fallback_ParentIsNeverEvictedWhileAWantedChildIsMissing_AndCoverageStartsAtTheTop" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Fallback_ParentIsNeverEvictedWhileAWantedChildIsMissing_AndCoverageStartsAtTheTop" methodname="Fallback_ParentIsNeverEvictedWhileAWantedChildIsMissing_AndCoverageStartsAtTheTop" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="89997716" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000899" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2231" name="Flag_NameIsWorldStreaming" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Flag_NameIsWorldStreaming" methodname="Flag_NameIsWorldStreaming" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="832960054" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000062" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2250" name="Hysteresis_LevelSwitchDithering_NoLoadsTwice" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Hysteresis_LevelSwitchDithering_NoLoadsTwice" methodname="Hysteresis_LevelSwitchDithering_NoLoadsTwice" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="842392239" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.006658" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2248" name="Hysteresis_NoThrashAtRingEdge_LoadedOnceNeverEvicted" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Hysteresis_NoThrashAtRingEdge_LoadedOnceNeverEvicted" methodname="Hysteresis_NoThrashAtRingEdge_LoadedOnceNeverEvicted" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="1241149223" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.006387" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2249" name="Hysteresis_RetainedUntilRadiusTimes125_ThenEvictedOnce" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Hysteresis_RetainedUntilRadiusTimes125_ThenEvictedOnce" methodname="Hysteresis_RetainedUntilRadiusTimes125_ThenEvictedOnce" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="1228507926" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000580" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2251" name="Hysteresis_StraightPass_EachTileLoadedAtMostOnceAndEvictedAtMostOnce" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Hysteresis_StraightPass_EachTileLoadedAtMostOnceAndEvictedAtMostOnce" methodname="Hysteresis_StraightPass_EachTileLoadedAtMostOnceAndEvictedAtMostOnce" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="1031058150" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.023526" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2239" name="Physics_CamerasAndBodiesWithoutPhysicsRequestNoChunks" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Physics_CamerasAndBodiesWithoutPhysicsRequestNoChunks" methodname="Physics_CamerasAndBodiesWithoutPhysicsRequestNoChunks" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="598482106" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000484" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2240" name="Physics_MaxChunksBudgetIsNeverExceeded" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Physics_MaxChunksBudgetIsNeverExceeded" methodname="Physics_MaxChunksBudgetIsNeverExceeded" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="1804127445" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000374" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2236" name="Physics_PrefetchFlagOffByDefault_RequestAndRetainRadiiUnchanged" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Physics_PrefetchFlagOffByDefault_RequestAndRetainRadiiUnchanged" methodname="Physics_PrefetchFlagOffByDefault_RequestAndRetainRadiiUnchanged" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="1020566421" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000174" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2237" name="Physics_PrefetchRing_LoadsBeyondHoldRing_RingStaysTheHoldRing" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Physics_PrefetchRing_LoadsBeyondHoldRing_RingStaysTheHoldRing" methodname="Physics_PrefetchRing_LoadsBeyondHoldRing_RingStaysTheHoldRing" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="129456892" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000466" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2235" name="Physics_RingMembership_512mChunksEvictAt768" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Physics_RingMembership_512mChunksEvictAt768" methodname="Physics_RingMembership_512mChunksEvictAt768" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="1952416557" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.001225" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2238" name="Physics_SlowLoader_WalkingBody_HeldWithoutPrefetch_NotHeldWithPrefetch" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Physics_SlowLoader_WalkingBody_HeldWithoutPrefetch_NotHeldWithPrefetch" methodname="Physics_SlowLoader_WalkingBody_HeldWithoutPrefetch_NotHeldWithPrefetch" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="986310464" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.007758" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2243" name="Priority_InFlightReadsAreLimited" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Priority_InFlightReadsAreLimited" methodname="Priority_InFlightReadsAreLimited" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="361908333" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000312" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2242" name="Priority_NearerAndFasterClosingTilesLoadFirst" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Priority_NearerAndFasterClosingTilesLoadFirst" methodname="Priority_NearerAndFasterClosingTilesLoadFirst" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="330250027" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000325" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2241" name="Priority_PlanIsSortedPhysicsFirstThenByPriorityThenKey" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Priority_PlanIsSortedPhysicsFirstThenByPriorityThenKey" methodname="Priority_PlanIsSortedPhysicsFirstThenByPriorityThenKey" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="1393598523" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000419" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2234" name="Render_LodSelectionUsesOutputPixelErrorAndIntegerScale" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Render_LodSelectionUsesOutputPixelErrorAndIntegerScale" methodname="Render_LodSelectionUsesOutputPixelErrorAndIntegerScale" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="831682160" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.002115" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2232" name="Render_RingMembership_NothingBeyondRetentionAndFocusTileAtL0" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Render_RingMembership_NothingBeyondRetentionAndFocusTileAtL0" methodname="Render_RingMembership_NothingBeyondRetentionAndFocusTileAtL0" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="667113141" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000678" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="2233" name="Render_RingRadiusFollowsHazeVisualRange_Clamped" fullname="Game.World.Streaming.Tests.StreamingSchedulerTests.Render_RingRadiusFollowsHazeVisualRange_Clamped" methodname="Render_RingRadiusFollowsHazeVisualRange_Clamped" classname="Game.World.Streaming.Tests.StreamingSchedulerTests" runstate="Runnable" seed="297151087" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.000600" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="2274" name="Game.World.Streaming.Unity.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-124b/kaiju/Library/ScriptAssemblies/Game.World.Streaming.Unity.Tests.dll" runstate="Runnable" testcasecount="8" result="Failed" site="Child" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:53Z" duration="0.580711" total="8" passed="7" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="43346" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="2275" name="Game" fullname="Game" runstate="Runnable" testcasecount="8" result="Failed" site="Child" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:53Z" duration="0.580386" total="8" passed="7" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="2276" name="World" fullname="Game.World" runstate="Runnable" testcasecount="8" result="Failed" site="Child" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:53Z" duration="0.580245" total="8" passed="7" failed="1" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="2277" name="Streaming" fullname="Game.World.Streaming" runstate="Runnable" testcasecount="8" result="Failed" site="Child" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:53Z" duration="0.580132" total="8" passed="7" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestSuite" id="2278" name="Unity" fullname="Game.World.Streaming.Unity" runstate="Runnable" testcasecount="8" result="Failed" site="Child" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:53Z" duration="0.580027" total="8" passed="7" failed="1" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-suite type="TestSuite" id="2279" name="Tests" fullname="Game.World.Streaming.Unity.Tests" runstate="Runnable" testcasecount="8" result="Failed" site="Child" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:53Z" duration="0.579891" total="8" passed="7" failed="1" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <failure>
+                  <message><![CDATA[One or more child tests had errors]]></message>
+                </failure>
+                <test-suite type="TestFixture" id="2264" name="ClusterPhysicsSceneTests" fullname="Game.World.Streaming.Unity.Tests.ClusterPhysicsSceneTests" classname="Game.World.Streaming.Unity.Tests.ClusterPhysicsSceneTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:53Z" duration="0.572747" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="2265" name="ChunkLivesOnlyInItsClusterScene_AndRaycastFindsTheSyntheticSurface" fullname="Game.World.Streaming.Unity.Tests.ClusterPhysicsSceneTests.ChunkLivesOnlyInItsClusterScene_AndRaycastFindsTheSyntheticSurface" methodname="ChunkLivesOnlyInItsClusterScene_AndRaycastFindsTheSyntheticSurface" classname="Game.World.Streaming.Unity.Tests.ClusterPhysicsSceneTests" runstate="Runnable" seed="2112390844" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.015804" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2266" name="ClusterRebase_MovesTheChunkByExactIntegers_AndTheHeightIsUnchanged" fullname="Game.World.Streaming.Unity.Tests.ClusterPhysicsSceneTests.ClusterRebase_MovesTheChunkByExactIntegers_AndTheHeightIsUnchanged" methodname="ClusterRebase_MovesTheChunkByExactIntegers_AndTheHeightIsUnchanged" classname="Game.World.Streaming.Unity.Tests.ClusterPhysicsSceneTests" runstate="Runnable" seed="2004623582" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:52Z" duration="0.001327" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2268" name="Flythrough_6km_OnRealPhysicsScenes_MeetsM015v2" fullname="Game.World.Streaming.Unity.Tests.ClusterPhysicsSceneTests.Flythrough_6km_OnRealPhysicsScenes_MeetsM015v2" methodname="Flythrough_6km_OnRealPhysicsScenes_MeetsM015v2" classname="Game.World.Streaming.Unity.Tests.ClusterPhysicsSceneTests" runstate="Runnable" seed="783286249" result="Passed" start-time="2026-11-16 01:39:52Z" end-time="2026-11-16 01:39:53Z" duration="0.552621" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <output><![CDATA[{
+ "format": "m015_dump",
+ "schema": 2,
+ "mode": "unity",
+ "label": "unity_edit_6km",
+ "path_length_m": 6000,
+ "simulated_s": 659,
+ "step_s": 1,
+ "mech_speed_mps": 30,
+ "steps": 659,
+ "bodies": {"mechs": 2, "kaiju": 3, "debris": 20, "total": 26},
+ "max_abs_local_m": 3555.33935546875,
+ "max_reconstruction_err_m": 0.00012206853352836333,
+ "round_trip_err_m": 0,
+ "probe_max_err_m": 0.00012194224109407514,
+ "probe_steps": 201,
+ "pair_change_max_m": 0.00027924071537199779,
+ "rebase_pair_change_max_m": 0.00017897235886721319,
+ "terrain_delta_max_m": 0.0017642997972364682,
+ "rebase_terrain_delta_max_m": 0.0015453035667398751,
+ "placed_vs_read_max_m": 0,
+ "rebases": 9,
+ "cluster_shifts": 9,
+ "clusters_max": 3,
+ "hold_events": 0,
+ "frames_below_surface": 0,
+ "frames_without_ground": 0,
+ "world_origin_mismatches": 0,
+ "unclaimed_chunks": 0,
+ "tile_loads": 449,
+ "max_loads_per_key": 3
+}
+
+]]></output>
+                  </test-case>
+                  <test-case id="2267" name="ReassignedChunk_MovesToTheOtherClustersScene" fullname="Game.World.Streaming.Unity.Tests.ClusterPhysicsSceneTests.ReassignedChunk_MovesToTheOtherClustersScene" methodname="ReassignedChunk_MovesToTheOtherClustersScene" classname="Game.World.Streaming.Unity.Tests.ClusterPhysicsSceneTests" runstate="Runnable" seed="796628861" result="Passed" start-time="2026-11-16 01:39:53Z" end-time="2026-11-16 01:39:53Z" duration="0.001083" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                </test-suite>
+                <test-suite type="TestFixture" id="2269" name="UnityTileBuilderTests" fullname="Game.World.Streaming.Unity.Tests.UnityTileBuilderTests" classname="Game.World.Streaming.Unity.Tests.UnityTileBuilderTests" runstate="Runnable" testcasecount="4" result="Failed" site="Child" start-time="2026-11-16 01:39:53Z" end-time="2026-11-16 01:39:53Z" duration="0.006905" total="4" passed="3" failed="1" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <failure>
+                    <message><![CDATA[One or more child tests had errors]]></message>
+                  </failure>
+                  <test-case id="2273" name="Install_IsInertWhenFlagOff_AndCreatesHostWhenOn" fullname="Game.World.Streaming.Unity.Tests.UnityTileBuilderTests.Install_IsInertWhenFlagOff_AndCreatesHostWhenOn" methodname="Install_IsInertWhenFlagOff_AndCreatesHostWhenOn" classname="Game.World.Streaming.Unity.Tests.UnityTileBuilderTests" runstate="Runnable" seed="1995672784" result="Passed" start-time="2026-11-16 01:39:53Z" end-time="2026-11-16 01:39:53Z" duration="0.001258" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2271" name="PhysicsChunk_ColliderIsAttachedAfterBake_AndReleasedWithItsKey" fullname="Game.World.Streaming.Unity.Tests.UnityTileBuilderTests.PhysicsChunk_ColliderIsAttachedAfterBake_AndReleasedWithItsKey" methodname="PhysicsChunk_ColliderIsAttachedAfterBake_AndReleasedWithItsKey" classname="Game.World.Streaming.Unity.Tests.UnityTileBuilderTests" runstate="Runnable" seed="1301576039" result="Passed" start-time="2026-11-16 01:39:53Z" end-time="2026-11-16 01:39:53Z" duration="0.001366" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2272" name="ReleasedBeforeBakeFinishes_NeverReportsBuilt" fullname="Game.World.Streaming.Unity.Tests.UnityTileBuilderTests.ReleasedBeforeBakeFinishes_NeverReportsBuilt" methodname="ReleasedBeforeBakeFinishes_NeverReportsBuilt" classname="Game.World.Streaming.Unity.Tests.UnityTileBuilderTests" runstate="Runnable" seed="855881407" result="Passed" start-time="2026-11-16 01:39:53Z" end-time="2026-11-16 01:39:53Z" duration="0.000328" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="2270" name="RenderRoot_SitsAtTileOriginMinusRenderOrigin_AndRebaseShiftsByExactIntegers" fullname="Game.World.Streaming.Unity.Tests.UnityTileBuilderTests.RenderRoot_SitsAtTileOriginMinusRenderOrigin_AndRebaseShiftsByExactIntegers" methodname="RenderRoot_SitsAtTileOriginMinusRenderOrigin_AndRebaseShiftsByExactIntegers" classname="Game.World.Streaming.Unity.Tests.UnityTileBuilderTests" runstate="Runnable" seed="1447577799" result="Failed" start-time="2026-11-16 01:39:53Z" end-time="2026-11-16 01:39:53Z" duration="0.001193" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                    <failure>
+                      <message><![CDATA[  Expected: 1
+  But was:  0
+]]></message>
+                      <stack-trace><![CDATA[at Game.World.Streaming.Unity.Tests.UnityTileBuilderTests.RenderRoot_SitsAtTileOriginMinusRenderOrigin_AndRebaseShiftsByExactIntegers () [0x0004c] in /Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-124b/kaiju/Assets/Game/World/Streaming/Unity/Tests/EditMode/UnityTileBuilderTests.cs:50
+]]></stack-trace>
+                    </failure>
+                    <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/kuanw/Library/Application Support/DefaultCompany/KaijuGame/TestResults.xml
+]]></output>
+                  </test-case>
+                </test-suite>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

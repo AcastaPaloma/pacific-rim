@@ -26,8 +26,8 @@ namespace Game.World.Streaming.Unity
         {
             _focus = focus ?? throw new ArgumentNullException(nameof(focus));
             runner = runner ?? new ThreadPoolWorkRunner();
-            _builder = new UnityTileBuilder(transform, runner, geoSettings);
-            Scheduler = new StreamingScheduler(cfg ?? new StreamingConfig(), cost ?? new DefaultTileCostModel(), bus);
+            _builder = new UnityTileBuilder(transform, runner, geoSettings) { SliceRenderBuilds = true /* T-124b default: M-008 */ };
+            Scheduler = new StreamingScheduler(cfg ?? new StreamingConfig { PhysicsPrefetchRadiusM = 768.0 /* T-124b default: M-008.f */ }, cost ?? new DefaultTileCostModel(), bus);
             var b = StreamingBudget.Default;
             _core = new StreamingHostCore(Scheduler, reader, _builder, runner, new StreamingHostOptions { MainThreadSliceMs = b.MainThreadSliceMs, MaxReads = b.MaxInFlightReads });
         }
