@@ -622,3 +622,74 @@ Unloading 156 unused Assets / (143.8 KB). Loaded Objects now: 20322.
 Memory consumption went from 0.64 GB to 0.64 GB.
 Total: 9.794500 ms (FindLiveObjects: 0.910459 ms CreateObjectMapping: 0.227458 ms MarkObjects: 8.176333 ms  DeleteObjects: 0.199458 ms)
 
+[Capture] p4_d_dolly_v4 x4: 60 frames, 480x270 -> 1920x1080, replay identical
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.Capture.CaptureDriver:RenderOne (Game.Tools.StyleCapture.StyleCaptureSession,Game.Tools.Capture.CaptureTile,Game.Tools.Capture.CapturePath,Game.Tools.Capture.CaptureOutput,System.Collections.Generic.List`1<int>,string,int) (at Assets/Game/Tools/Capture/Editor/CaptureDriver.cs:200)
+Game.Tools.Capture.CaptureDriver:Render (Game.Tools.StyleCapture.StyleCaptureSession,Game.Tools.Capture.CaptureTile,Game.Tools.Capture.CapturePath,string,string,int,int,System.Collections.Generic.ICollection`1<int>) (at Assets/Game/Tools/Capture/Editor/CaptureDriver.cs:80)
+Game.Tools.Capture.CaptureCli:ExecuteOne (string,string,string) (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:152)
+Game.Tools.Capture.CaptureCli:Execute () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:61)
+Game.Tools.Capture.CaptureCli:Run () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:34)
+
+(Filename: Assets/Game/Tools/Capture/Editor/CaptureDriver.cs Line: 200)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 3 unused Assets / (60.4 KB). Loaded Objects now: 7424.
+Memory consumption went from 0.55 GB to 0.55 GB.
+Total: 9.559875 ms (FindLiveObjects: 0.549334 ms CreateObjectMapping: 0.196958 ms MarkObjects: 8.450916 ms  DeleteObjects: 0.086875 ms)
+
+[Capture] 6 sequences, 4 blocked, replay identical, 39.4 s; log: 0 errors, 0 warnings
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:23)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Game.Tools.Capture.CaptureCli:ExecuteOne (string,string,string) (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:172)
+Game.Tools.Capture.CaptureCli:Execute () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:61)
+Game.Tools.Capture.CaptureCli:Run () (at Assets/Game/Tools/Capture/Editor/CaptureCli.cs:34)
+
+(Filename: Assets/Game/Tools/Capture/Editor/CaptureCli.cs Line: 172)
+
+MonoPathRemapper: Attempts to remap: 40612; Successful remaps: 4
+Thread 0x4217bb000 may have been prematurely finalized
+Serialized file version minimum: 22, current 23
+Pipeline Server stopped
+Importing 'GUID: 00000000000000009000000000000000 - Path: ProjectSettings/QualitySettings.asset' with importer (LibraryAssetImporter)
+Imported 'GUID: 00000000000000009000000000000000' -> (Import Result ID: '4c4863529adc9ac14970731e8a5da60e') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=2a108b3da874f726c62fbe5f12be4a8a DependenciesID=e27b047e3559935d81d11e8d5dd7411e StaticDependenciesID=a4661aca7a2be7b6d5e28438e344ffeb 
+Asset Pipeline Refresh (id=12058988fd2f643339f63e20dc534558): Total: 0.015 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Thread 0x421b47000 may have been prematurely finalized
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+Thread 0x1701b7000 may have been prematurely finalized
+Thread 0x17009f000 may have been prematurely finalized
+Thread 0x170243000 may have been prematurely finalized
+Thread 0x17012b000 may have been prematurely finalized
+Thread 0x1702cf000 may have been prematurely finalized
+Thread 0x17058b000 may have been prematurely finalized
+Thread 0x170473000 may have been prematurely finalized
+Thread 0x170617000 may have been prematurely finalized
+Thread 0x1703e7000 may have been prematurely finalized
+Thread 0x1707bb000 may have been prematurely finalized
+Thread 0x17072f000 may have been prematurely finalized
+Thread 0x1704ff000 may have been prematurely finalized
+Thread 0x17035b000 may have been prematurely finalized
+Thread 0x1706a3000 may have been prematurely finalized
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+[Licensing::IpcConnector] LicenseClient-kuanw-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-kuanw channel disconnected successfully.
+Shut down UDS service system complete
+Lingering sessions upon destruction of worker manager
+Unity Data Store service was successfully shut down
+UDS shutting down local client system
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+CodeReloadManager destroyed
+debugger-agent: Unable to listen on 46
+VBCSCompilerPreWarmer: requested VBCSCompiler shutdown

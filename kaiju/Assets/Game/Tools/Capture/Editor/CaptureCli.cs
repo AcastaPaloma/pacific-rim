@@ -54,7 +54,7 @@ namespace Game.Tools.Capture
         static int Execute()
         {
             if (!FlagOn() && !Has("-captureEnable")) { Debug.Log("[Capture] flag " + FlagName + " is off and -captureEnable was not given: nothing to do"); return 0; }
-            { IFeatureFlags fl = FeatureFlagLoader.LoadFolder("Assets/Game/Config/FeatureFlags", new CollectingErrorSink()); CaptureScene.StableDrawOrder = fl.IsOn(StableOrderFlag) || Has("-captureStableOrder"); }
+            { IFeatureFlags fl = FeatureFlagLoader.LoadFolder("Assets/Game/Config/FeatureFlags", new CollectingErrorSink()); CaptureScene.StableDrawOrder = fl.IsOn(StableOrderFlag) || Has("-captureStableOrder"); } { if (float.TryParse(StyleCaptureCli.Arg("-captureLiftM"), NumberStyles.Float, CultureInfo.InvariantCulture, out float lift)) CaptureScene.BuildingLiftMeters = lift; }
             if (float.TryParse(StyleCaptureCli.Arg("-captureTerrainSink"), NumberStyles.Float, CultureInfo.InvariantCulture, out float sink)) CaptureScene.TerrainSinkM = sink;   // T-194c, unverified, default 0 = off   // opt-in only: UNVERIFIED (priority alone did not fix, queue tier not yet run)   // T-194b
             string variants = StyleCaptureCli.Arg("-captureTuningVariants");
             if (!string.IsNullOrEmpty(variants)) return ExecuteVariants(variants);
