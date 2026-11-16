@@ -14,9 +14,9 @@ namespace Game.Rendering.Pixel
 
         /// <summary>
         /// Formats the member value (a JSON object, no trailing newline). <paramref name="shiftsOutputPx"/> holds near / main / far as x, y pairs (length 6),
-        /// as applied by the present stage (zero when sub-pixel compensation is off). An unbounded upper edge (the far slab) is written as null.
+        /// as applied by the present stage (zero when sub-pixel compensation is off). <paramref name="sharedPhase"/>: the shifts share one lattice phase (T-196, member <c>shared_phase</c>). An unbounded upper edge (the far slab) is written as null.
         /// </summary>
-        public static string Build(in PixelStabilisationHints hints, PixelSlab[] slabs, int[] boundaryBands, int[] shiftsOutputPx, int scale, int guardTexels, bool subPixelApplied, bool depthShiftIgnored)
+        public static string Build(in PixelStabilisationHints hints, PixelSlab[] slabs, int[] boundaryBands, int[] shiftsOutputPx, int scale, int guardTexels, bool subPixelApplied, bool depthShiftIgnored, bool sharedPhase = false)
         {
             if (slabs == null || slabs.Length != PixelLayerPlan.Count) throw new ArgumentException("need three slabs", nameof(slabs));
             if (shiftsOutputPx == null || shiftsOutputPx.Length != 2 * PixelLayerPlan.Count) throw new ArgumentException("need three x, y shift pairs", nameof(shiftsOutputPx));
@@ -36,6 +36,8 @@ namespace Game.Rendering.Pixel
             for (int i = 0; i < slabs.Length; i++) j.Append(i > 0 ? ", " : "").Append("[").Append(Num(slabs[i].ClipNearM)).Append(", ").Append(Num(slabs[i].ClipFarM)).Append("]");
             j.Append("], \"scale\": ").Append(scale).Append(", \"guard_texels\": ").Append(guardTexels);
             j.Append(", \"subpixel_applied\": ").Append(subPixelApplied ? "true" : "false").Append(", \"depth_shift_ignored\": ").Append(depthShiftIgnored ? "true" : "false");
+            // T-196: written only when the shifts share one lattice phase, so sidecars of the per-slab path are unchanged.
+            if (sharedPhase) j.Append(", \"shared_phase\": true");
             j.Append(", \"composite\": \"first slab near to far that is covered and owns the sample (radial distance); a gap takes the covered sample with the smallest radial distance; nothing covered is the far slab (sky)\"}");
             return j.ToString();
         }

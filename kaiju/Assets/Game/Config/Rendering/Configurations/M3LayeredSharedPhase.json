@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "name": "m3_layered_shared_phase",
+  "comment": "T-196: M3LayeredFarLift plus rendering.pixel.layerSharedPhase (one output-pixel lattice phase for the three slabs, M-003.d-iv). Measurement arm for the style panel; costs C11 (evidence/T-196). Not a shipping or feel-check configuration.",
+  "enable": [
+    "rendering.pixel.enabled",
+    "rendering.pixel.lowRes",
+    "rendering.pixel.dither",
+    "rendering.pixel.haze",
+    "rendering.pixel.quantise",
+    "rendering.pixel.subPixelPresent",
+    "rendering.pixel.hazeFarLift",
+    "camera.thirdPersonRig",
+    "camera.snapPosition",
+    "camera.quantiseRotation",
+    "camera.footfallImpulse",
+    "rendering.pixel.layerSnap",
+    "rendering.pixel.layerSharedPhase"
+  ]
+}
