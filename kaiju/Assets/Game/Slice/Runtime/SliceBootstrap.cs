@@ -421,7 +421,7 @@ namespace Game.Slice
             if (com.Y < _mechMinY) _mechMinY = com.Y; if (com.Y > _mechMaxY) _mechMaxY = com.Y; if (sp > _mechMaxSpeed) _mechMaxSpeed = sp;
             var ph = _mechUnit.Phase;
             if (_mechFellAt < 0 && (ph == LocoPhase.Fallen || ph == LocoPhase.Falling)) { _mechFellAt = ts; Log("mech FELL at t=" + F((float)ts) + " s, com (" + F(com.X) + ", " + F(com.Y) + ", " + F(com.Z) + ") ground " + F(gy) + " v (" + F(v.X) + ", " + F(v.Y) + ", " + F(v.Z) + ")"); }
-            if (ts >= _mechTraceNext) { _mechTraceNext = ts + 1.0; Log("mech t=" + F((float)ts) + " " + ph + " com (" + F(com.X) + ", " + F(com.Y) + ", " + F(com.Z) + ") ground " + F(gy) + " ray " + F(_mechUnit.Controller.GroundHeight != null ? _mechUnit.Controller.GroundHeight(com.X, com.Z) : -999f) + " v " + F(sp) + " hd " + F(hd)); }
+            if (ts >= _mechTraceNext) { _mechTraceNext = ts + (ts > 16.5 && ts < 19.5 ? 0.1 : 1.0); Log("mech t=" + F((float)ts) + " " + ph + " com (" + F(com.X) + ", " + F(com.Y) + ", " + F(com.Z) + ") ground " + F(gy) + " ray " + F(_mechUnit.Controller.GroundHeight != null ? _mechUnit.Controller.GroundHeight(com.X, com.Z) : -999f) + " v " + F(sp) + " hd " + F(hd)); }
         }
 
         float _apNext, _apDir = float.NaN; float _apBase = float.NaN;
@@ -601,18 +601,21 @@ namespace Game.Slice
         /// <summary>HUD text (top-left) and the "Development Build" label (bottom-right) are drawn over the presented frame; the pixel check ignores them.</summary>
         static PixelRect[] HudRects(int w, int h) { return new[] { new PixelRect(0, 0, Math.Min(w, 1120), Math.Min(h, 110)), new PixelRect(Math.Max(0, w - 220), Math.Max(0, h - 40), w, h) }; }
 
+        bool Skip(string what) { var a = Arg("-sliceSkip"); return !string.IsNullOrEmpty(a) && ("," + a + ",").Contains("," + what + ","); }   // T-202 bisect aid: -sliceSkip duel,cannon,swing,impact,quake
+
         void SmokeTick()
         {
             _frame++;
             float t = Time.timeSinceLevelLoad - _readyAt;
             bool shoot = !string.IsNullOrEmpty(SmokeOut);
-            if (_quakes == 0 && t >= QuakeAtS) TriggerQuake();
-            if (_impacts == 0 && _impactor == null && t >= ImpactAtS) TriggerImpact();
+            if (_quakes == 0 && t >= QuakeAtS && !Skip("quake")) TriggerQuake();
+            if (_impacts == 0 && _impactor == null && t >= ImpactAtS && !Skip("impact")) TriggerImpact();
             if (_feel != null)
             {   // T-189 scripted fight: a cannon round every 2 s from 3 s, arm swings at 8 s and 14 s, the hangar cycle once the captures are done
-                if (!_duelDone && t >= 13.5f) { _duelDone = true; _feel.ScriptedDuel(); _nextShotAt = t; }
-                if (t >= 3f && t >= _nextShotAt) { _feel.FireCannon(); _nextShotAt = t + 2f; }
-                if (_swingsDone == 0 && t >= 8f && _feel.SwingArm()) _swingsDone++;
+                if (!_duelDone && t >= 13.5f && !Skip("duel")) { _duelDone = true; _feel.ScriptedDuel(); _nextShotAt = t; }
+                if (t >= 3f && t >= _nextShotAt && !Skip("cannon")) { _feel.FireCannon(); _nextShotAt = t + 2f; }
+                if (Skip("swing")) { }
+                else if (_swingsDone == 0 && t >= 8f && _feel.SwingArm()) _swingsDone++;
                 else if (_swingsDone == 1 && t >= 14f && _feel.SwingArm()) _swingsDone++;
                 bool capsDone = !shoot || (_captureIdx >= CapSchedule.Length && _destroyBeforeDone && !_capturePending);
                 if (_feel.HangarOn && _feel.HangarCycles == 0 && t >= EndS - 0.05f && capsDone && _impacts > 0) { _feel.HangarCycle(HangarGround); _hangarAtT = t; }
