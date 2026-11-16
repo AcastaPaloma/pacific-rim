@@ -126,3 +126,15 @@ def test_gap_fill_ambiguity_only_in_clip_overlap_at_label_edges():
     assert amb[:, 14].all() and amb[:, 15].all() and not amb[:, 5].any() and not amb[:, 25].any()
     far = np.full((h, w), hi0 * 2.0)                              # outside the overlap: nothing ambiguous
     assert not A.gap_fill_ambiguous(lab, far, SC, cam).any()
+
+
+def test_style_metric_ok_rule_t196e():
+    from capture_tools import style
+    rep = {"submeasures": [{"id": "M-003.d-iv", "kind": "gating", "status": "FAIL"}, {"id": "M-003.a.output", "kind": "gating", "status": "PASS"}]}
+    m = {"exit": 1, "report": rep}
+    assert not style.metric_ok(m)                                   # unlayered: v1 verdict stands
+    assert style.metric_ok({**m, "d_iv_v2": {"ok": True}})          # layered, v2 ok, only d-iv@v1 failing
+    assert not style.metric_ok({**m, "d_iv_v2": {"ok": False}})
+    rep["submeasures"][1]["status"] = "FAIL"
+    assert not style.metric_ok({**m, "d_iv_v2": {"ok": True}})      # another gate failing: unchanged
+    assert style.metric_ok({"exit": 0, "report": rep})

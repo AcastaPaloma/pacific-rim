@@ -20,7 +20,7 @@ def row(rep):
 
 
 def _v2(report_path):
-    # d-iv@v2 (T-196b, advisory, additive): optional div_v2.json next to report.json = capture_tools.divv2.clip_value(...)
+    # d-iv@v2 (T-196e: rule for layered frames): div_v2.json next to report.json, written by capture_tools.style.divv2_set
     try: return json.load(open(os.path.join(os.path.dirname(report_path), "div_v2.json"))).get("gate_value")
     except (OSError, ValueError): return None
 
@@ -36,7 +36,7 @@ def main():
         cfg, st = rp.split(os.sep)[-4], rp.split(os.sep)[-3]
         rep = json.load(open(rp)); r = row(rep); r['_v2'] = _v2(rp); allrows.setdefault(st, {})[cfg] = r
     cfgs = sorted({c for v in allrows.values() for c in v})
-    lines.append("| set | config | A2 out | A2 internal | c1 drop (<=2) | c1 rho (>=0.9) | c1 span (>=15) | frames c1 | c2 | DIG share (>=0.8) | d-iv@v1 (>=0.995) | d-iv@v2 (advisory, layered only) |")
+    lines.append("| set | config | A2 out | A2 internal | c1 drop (<=2) | c1 rho (>=0.9) | c1 span (>=15) | frames c1 | c2 | DIG share (>=0.8) | d-iv@v1 (>=0.995) | d-iv@v2 (gate for layered frames; v1 reported) |")
     lines.append("|---|---|---|---|---|---|---|---|---|---|---|---|")
     for st, v in allrows.items():
         for cfg in cfgs:

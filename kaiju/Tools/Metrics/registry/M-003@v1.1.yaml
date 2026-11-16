@@ -130,3 +130,22 @@ submeasures:
       negative_anchor_exclude: {value: 6, unit: score, status: derived, source: "R-002 §4 f (rater excluded if a negative anchor >= 6)"}
       positive_anchors: {value: 2, unit: anchors, status: derived, source: "R-002 §4 f"}
       negative_anchors: {value: 2, unit: anchors, status: derived, source: "R-002 §4 f"}
+
+# T-196e: versioned definition (not a separate submeasure id: reported as M-003.d-iv@v1 + div_v2.json)
+versioned_definitions:
+  d-iv@v2:
+    title: "Pixel-grid integrity per slab (T-196e, adopted for LAYERED frames; d-iv@v1 above stays the rule for unlayered frames and is REPORTED beside v2 in every report)"
+    replaces_for: layered frames of M-003.d-iv (submeasure above, d-iv@v1, stays the gate for unlayered frames and is reported for all)
+    applies_to: layered frames only (sidecar layers.count >= 2); unlayered frames use d-iv@v1 whole-frame at 0.995
+    definition: >-
+      Per slab: the block offset estimated blind from the presented pixels must equal the declared per-slab offset
+      (layers.shift_output_px), and the share of uniform s x s blocks of that slab's own lattice must be >= min_share.
+      Texels whose slab is undecidable from the capture depth (label edge inside the clip overlap, hidden by a nearer slab,
+      gap) are excluded from the slab blocks and counted in the seam share, which must stay <= seam_share_cap.
+      Slab seams are gated by A2 palette adherence = 1.000 (no blended colours) plus the tearing test.
+    implementation: Pipelines/capture/capture_tools/divv2.py + divv2_adapter.py (exact presented labels); wired by capture_tools/style.py divv2_set
+    evidence: evidence/T-196d/EVIDENCE.md (8/8 clips, both arms; seam share max 2.9 %; C11 per-slab 0.96 px); research/R-M3-DIV-review.md; HANDOFF "d-iv vs C11 decision"
+    thresholds:
+      min_share:        {value: 0.995, unit: share of blocks, status: derived, source: "unchanged from d-iv@v1 (R-002 §4 d-iv)"}
+      seam_share_cap:   {value: 0.05, unit: share of frame, status: derived, source: "R-M3-DIV-review.md section 5 (P-1)"}
+      seam_a2_min:      {value: 1.0, unit: share, status: derived, source: "R-M3-DIV-review.md section 5 (P-1)"}
