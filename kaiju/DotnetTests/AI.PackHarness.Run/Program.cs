@@ -15,7 +15,7 @@ internal static class Program
     private static int Main(string[] args)
     {
         string map = "flat"; bool plan = true; string scenario = "hunt", brain = BayBrains.Candidate, comps = "LLH", seeds = "1-1", outDir = "m007_bay_out", speciesDir = null, costRaster = null, costVersion = Environment.GetEnvironmentVariable("KAIJU_BAY_COST_VERSION") ?? BayRasterCostField.DefaultVersion;
-        BayLayout huntShift = null; string variant = ""; float squadDist = 1000f; float[] mv2 = null; bool defaults = false; int par = Math.Max(1, Environment.ProcessorCount - 2); string packOver = ""; float[] mixedSpawn = null;
+        BayLayout huntShift = null; string variant = ""; float squadDist = 1000f; float[] mv2 = null; bool defaults = false; int par = Math.Max(1, Environment.ProcessorCount - 2); string packOver = ""; double duration = 0; float[] mixedSpawn = null;
         for (int i = 0; i < args.Length; i++)
         {
             switch (args[i])
@@ -37,6 +37,7 @@ internal static class Program
                 case "--defaults": defaults = true; break;
                 case "--mixed-spawn": { var q = args[++i].Split(','); mixedSpawn = new[] { float.Parse(q[0]), float.Parse(q[1]) }; break; }
                 case "--pack": packOver = args[++i]; break;   // T-113c: PackConfig overrides for sweeps, "BaitFirst=true,BaitDrawSeconds=2" (any public float/bool field)
+                case "--duration": duration = double.Parse(args[++i], System.Globalization.CultureInfo.InvariantCulture); break;   // T-115j: scenario horizon in seconds (0 = the scenario default, hunt 600 s); a versioned longer-horizon reading is reported next to the 600 s one
                 case "--parallel": par = int.Parse(args[++i]); break;
                 default: Console.Error.WriteLine("unknown arg " + args[i]); return 2;
             }
@@ -68,6 +69,7 @@ internal static class Program
         {
             var sc = new BayScenario { Name = scenario, Composition = job.comp, Seed = job.seed, BrainId = brain, Species = table, Map = map, PlanRoutes = plan, Field = realField, Layout = huntShift, Variant = variant, Mv1SquadDistM = squadDist };
             sc.MixedSpawn = mixedSpawn;
+            if (duration > 0) sc.DurationSeconds = duration;
             if (packOver.Length > 0) sc.Pack = ApplyPack(sc.Pack, packOver);
             if (mv2 != null) { sc.Mv2KaijuSpacingM = mv2[0]; sc.Mv2PicketAheadM = mv2[1]; sc.Mv2MechSpacingM = mv2[2]; sc.Mv2PatrolM = mv2[3]; }
             string path = Path.Combine(dir, job.comp + "_" + job.seed + ".jsonl");

@@ -620,7 +620,7 @@ namespace Game.AI.Pack
                     haveBait = true;
                     if (dt <= band * 1.15f) baitDrawing = true;
                 }
-                if (dt > SlotRadius(m.Species, band + 40f) * _cfg.CommitRangeFrac) allNear = false;
+                if (dt > SlotRadius(m.Species, band + 40f) * _cfg.CommitRangeFracFor(r)) allNear = false;
             }
             if (allNear && double.IsNegativeInfinity(_gateNearSince)) _gateNearSince = now;
             if (haveBait)
