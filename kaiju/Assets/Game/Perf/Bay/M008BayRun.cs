@@ -65,6 +65,9 @@ namespace Game.Perf.Bay
         static double D(string s) => double.Parse(s, CultureInfo.InvariantCulture);
 
         /// <summary>Batch entry. Writes m008_&lt;scenario&gt;_seed&lt;n&gt;.json per seed into -m008Out.</summary>
+        [System.Runtime.InteropServices.DllImport("libSystem.dylib")] static extern ulong clock_gettime_nsec_np(int clockId);
+        /// <summary>T-124e: calling thread CPU time in ns (macOS CLOCK_THREAD_CPUTIME_ID = 16); -1-safe off macOS. A hitch frame whose wall time far exceeds its CPU time was descheduled (machine load), not computing.</summary>
+        static long ThreadCpuNs() { try { return (long)clock_gettime_nsec_np(16); } catch (Exception) { return 0; } }
         public static void Run()
         {
             int code = 0;
@@ -211,13 +214,14 @@ namespace Game.Perf.Bay
                 {
 
                     bool inMeasure = !pre && frameSim >= o.WarmupS && frameSim < o.WarmupS + o.MeasureS;
-                    if (inMeasure && !measuring) { measuring = true; host.ResetItemProfile(); Array.Clear(host.TickStageMsMax, 0, host.TickStageMsMax.Length); hr.Planner?.ResetSearchProfile(); loadsStart = host.LoadsDispatched; gc0 = GC.CollectionCount(0); if (nextEvent < frameSim) nextEvent = frameSim + 4.0; }
+                    if (inMeasure && !measuring) { measuring = true; host.ResetItemProfile(); Array.Clear(host.TickStageMsMax, 0, host.TickStageMsMax.Length); Array.Clear(sched.PhaseMsMax, 0, sched.PhaseMsMax.Length); hr.Planner?.ResetSearchProfile(); loadsStart = host.LoadsDispatched; gc0 = GC.CollectionCount(0); if (nextEvent < frameSim) nextEvent = frameSim + 4.0; }
                     if (o.Realtime && !pre)
                     {   // pace to wall time: frame n of the whole run is due at n * Dt
                         double due = frameNo * (double)Dt; while (wall.Elapsed.TotalSeconds < due) Thread.Sleep(1);
                     }
                     if (!pre) frameNo++;
                     long a0 = GC.GetAllocatedBytesForCurrentThread();
+                    long cpu0 = ThreadCpuNs(); int gcA = GC.CollectionCount(0);   // T-124e: per-frame CPU-vs-wall and GC delta (hitch attribution)
                     long t0 = Stopwatch.GetTimestamp();
 
                     // ---- streaming
@@ -349,6 +353,7 @@ namespace Game.Perf.Bay
                         if (measuring) peakFrags = Math.Max(peakFrags, frags.Count);
                     }
                     long t3 = Stopwatch.GetTimestamp();
+                    long cpuFrameNs = ThreadCpuNs() - cpu0; int gcFrame = GC.CollectionCount(0) - gcA;
 
                     if (o.Render && !(measuring && inMeasure) && !pre) RenderOnce();   // warm-up frames render too (shader/pipeline warm-up), not measured
                     if (measuring && inMeasure)
@@ -360,7 +365,7 @@ namespace Game.Perf.Bay
                         brainL.Add((float)bm); total.Add((float)((t3 - t0) * toMs + bm)); if (o.Render) renderL.Add((float)((t3 - t0) * toMs + bm + rms));
                         alloc.Add(GC.GetAllocatedBytesForCurrentThread() - a0 + brainAlloc);
                         if ((t3 - t0) * toMs + bm > 12.0 && hitchLog.Count < 40)
-                            hitchLog.Add(frameSim.ToString("0.0", CultureInfo.InvariantCulture) + "s tot=" + ((t3 - t0) * toMs + bm).ToString("0.0", CultureInfo.InvariantCulture) + " strm=" + ((t1 - t0) * toMs).ToString("0.0", CultureInfo.InvariantCulture) + " phys=" + ((t2 - t1) * toMs).ToString("0.0", CultureInfo.InvariantCulture) + " destr=" + ((t3 - t2) * toMs).ToString("0.0", CultureInfo.InvariantCulture) + " brain=" + bm.ToString("0.0", CultureInfo.InvariantCulture) + " build=" + host.LastBuildMs.ToString("0.0", CultureInfo.InvariantCulture) + " shift=" + builder.LastShiftMs.ToString("0.0", CultureInfo.InvariantCulture) + " cshift=" + builder.LastClusterShiftMs.ToString("0.0", CultureInfo.InvariantCulture) + " items=" + host.LastPlan.Load.Count + " gc0=" + GC.CollectionCount(0) + " tickstages=" + string.Join("/", Array.ConvertAll(host.TickStageMsLast, x => x.ToString("0.0", CultureInfo.InvariantCulture))) + " phases=" + string.Join("/", Array.ConvertAll(hr.PhaseMsLast, x => x.ToString("0.0", CultureInfo.InvariantCulture))) + " search_max=" + (hr.Planner != null ? hr.Planner.SearchMsMax.ToString("0.0", CultureInfo.InvariantCulture) : "0"));
+                            hitchLog.Add(frameSim.ToString("0.0", CultureInfo.InvariantCulture) + "s tot=" + ((t3 - t0) * toMs + bm).ToString("0.0", CultureInfo.InvariantCulture) + " strm=" + ((t1 - t0) * toMs).ToString("0.0", CultureInfo.InvariantCulture) + " phys=" + ((t2 - t1) * toMs).ToString("0.0", CultureInfo.InvariantCulture) + " destr=" + ((t3 - t2) * toMs).ToString("0.0", CultureInfo.InvariantCulture) + " brain=" + bm.ToString("0.0", CultureInfo.InvariantCulture) + " build=" + host.LastBuildMs.ToString("0.0", CultureInfo.InvariantCulture) + " shift=" + builder.LastShiftMs.ToString("0.0", CultureInfo.InvariantCulture) + " cshift=" + builder.LastClusterShiftMs.ToString("0.0", CultureInfo.InvariantCulture) + " items=" + host.LastPlan.Load.Count + " gc0=" + GC.CollectionCount(0) + " tickstages=" + string.Join("/", Array.ConvertAll(host.TickStageMsLast, x => x.ToString("0.0", CultureInfo.InvariantCulture))) + " gcd=" + gcFrame + " cpu=" + (cpuFrameNs / 1e6).ToString("0.0", CultureInfo.InvariantCulture) + " wall=" + ((t3 - t0) * toMs).ToString("0.0", CultureInfo.InvariantCulture) + " schedphases=" + string.Join("/", Array.ConvertAll(sched.PhaseMsLast, x => x.ToString("0.00", CultureInfo.InvariantCulture))) + " phases=" + string.Join("/", Array.ConvertAll(hr.PhaseMsLast, x => x.ToString("0.0", CultureInfo.InvariantCulture))) + " search_max=" + (hr.Planner != null ? hr.Planner.SearchMsMax.ToString("0.0", CultureInfo.InvariantCulture) : "0"));
                         if (frameNo % 600 == 0) { proc.Refresh(); rssMaxKb = Math.Max(rssMaxKb, proc.WorkingSet64 / 1024); }
                     }
                                 }
@@ -437,6 +442,7 @@ namespace Game.Perf.Bay
             s.Append(", \"sweep\": ").Append(o.Scenario == "sweep" ? "{\"kaiju\": " + o.Kaiju + ", \"mechs\": " + o.Mechs + ", \"fragments_target\": " + o.FragmentsTarget + "}" : "null").Append(", \"engaged\": ").Append(engaged ? "true" : "false");
             s.Append(", \"t124c\": {\"brain_slice\": ").Append(o.BrainSlice ? "true" : "false").Append(", \"spawn_template\": ").Append(o.SpawnTemplate ? "true" : "false").Append(", \"lazy_go\": ").Append(o.LazyGameObjects ? "true" : "false").Append(", \"spawn_per_frame\": ").Append(o.SpawnPiecesPerFrame);
             s.Append(", \"phase_ms_max\": [").Append(string.Join(",", Array.ConvertAll(phaseMsMax, x => x.ToString("0.###", ic)))).Append("], \"tick_stage_ms_max\": [").Append(string.Join(",", Array.ConvertAll(host.TickStageMsMax, x => x.ToString("0.###", ic)))).Append("]");
+            s.Append(", \"sched_phase_ms_max\": [").Append(string.Join(",", Array.ConvertAll(sched.PhaseMsMax, x => x.ToString("0.###", ic)))).Append("]");
             s.Append(", \"planner_searches\": ").Append(hr.Planner != null ? hr.Planner.Searches : 0).Append(", \"planner_search_ms_total\": ").Append((hr.Planner != null ? hr.Planner.SearchMsTotal : 0.0).ToString("0.###", ic)).Append(", \"planner_search_ms_max\": ").Append((hr.Planner != null ? hr.Planner.SearchMsMax : 0.0).ToString("0.###", ic)).Append(", \"planner_searches_over_5ms\": ").Append(hr.Planner != null ? hr.Planner.SearchesOver5Ms : 0).Append("}");
             s.Append("}\n");
             return s.ToString();
