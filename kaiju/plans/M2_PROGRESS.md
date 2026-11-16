@@ -155,3 +155,9 @@ Done (committed on the integration branch): (1) T-115g softness raster from the 
 In flight: T-103b chain (Alameda county, 26 tiles done of 2433 planned, about 12-18 h total, LPC run for the 82 fringe tiles started, 1 done); T-124 Unity Bay run.
 Next unblocked: when chain.log says all counties done: LPC tile re-bake, `m005_bay.py` re-run, then T-106c (do NOT run earlier, the fill changes the buildings), then one full LOD refresh (L1-L4 are stale again after the re-bakes; not run now to avoid a wasted ~hours bake); merge T-124 once task/T-124 has commits and all evaluations PASS; switch the cost field to bay_cost@v2 and rerun m007_bay_real; L0_04_31 10 m DEM fallback; bathymetry boxes without USACE depths; P6 rev 2 reading; T-123 items wait on T-005.
 - Build lead 9 addendum: T-124 merged d37e9b9 (M-008@v1; verdict FAIL on M-008.f streaming holds, routed: prefetch ring or per-body hold; profile 29-72 ms streaming work item; re-run AI.PackHarness.Tests after the BayHarness edit). Add these to session 10's queue.
+
+## Watchdog run 2026-11-16 00:22Z (build lead 10 stand-in) hand-over
+Merged: T-115h (362060f, bay_cost@v2 default AI cost field; M-007 P4 PASS→FAIL on real data, kept v2 per §15, routed T-115i), T-124b (44dc087, M-008.f PASS behind default-off prefetch/slice flags). HANDOFF entries written.
+In flight: T-103b chain (Alameda, still running); T-005 r12 (T-005 lead, not touched).
+Next unblocked: T-124c (default flip after full regression, remaining hitches, M-008.b rendering run, Perf.Bay to bay_cost v2); T-115i (P4 nobait vs candidate on LH/LLMH under v2, then P5 LL/LLH/MMH); then the queue from the 22:20Z hand-over (chain-dependent: LPC re-bake, m005_bay, T-106c, LOD refresh; L0_04_31 DEM fallback; bathymetry boxes; P6 rev 2).
+No build lead 11 session was started (start_session unavailable to the watchdog); the next watchdog run stands in again unless one is started.
