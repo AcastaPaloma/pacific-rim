@@ -119,7 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &1521345062
+--- !u!1 &771090955
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,8 +127,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1521345064}
-  - component: {fileID: 1521345063}
+  - component: {fileID: 771090957}
+  - component: {fileID: 771090956}
   m_Layer: 0
   m_Name: SliceBootstrap
   m_TagString: Untagged
@@ -136,13 +136,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1521345063
+--- !u!114 &771090956
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1521345062}
+  m_GameObject: {fileID: 771090955}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ca32fbaf7d42463f90e6487be6147ec, type: 3}
@@ -154,6 +154,7 @@ MonoBehaviour:
   mechFrameJson: {fileID: 4900000, guid: dcc48cc97e369465caa1c7ee41c9f163, type: 3}
   mechBodyJson: {fileID: 4900000, guid: e8f17fae31b984988b8a1419ef4699a9, type: 3}
   mechWalkJson: {fileID: 4900000, guid: 8074958624955411ea6a8e974bee1690, type: 3}
+  mechWalkFastJson: {fileID: 4900000, guid: 25f0c272dc576414098287395a88fc7b, type: 3}
   cameraSettings: {fileID: 4900000, guid: 8dd812046f43041bdb0ef71e97a860d8, type: 3}
   controlTuning: {fileID: 4900000, guid: 7c18ee12677f243759d04749f7b37c1d, type: 3}
   geoSettings: {fileID: 4900000, guid: 9179a88a72d35423192b1667c5f23996, type: 3}
@@ -163,13 +164,13 @@ MonoBehaviour:
   mechMaterial: {fileID: 2100000, guid: a356b7b45d3f84d6cb92b92d83e9716d, type: 2}
   impactorMaterial: {fileID: 2100000, guid: 040618899884d473fa80a1624de29a3c, type: 2}
   AutoPilot: 0
---- !u!4 &1521345064
+--- !u!4 &771090957
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1521345062}
+  m_GameObject: {fileID: 771090955}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -182,4 +183,4 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1521345064}
+  - {fileID: 771090957}
