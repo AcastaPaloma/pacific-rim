@@ -43,3 +43,15 @@ Next unblocked (§18), refill to 2 workers: T-193 p3_a b.DIG_max 0.576 + M-004 C
 ## Watchdog run 2026-11-16 ~05:25Z (acting M3 lead; session 2 left no hand-over)
 - Session 2 merged T-196 (37fd247, flag off, R-M3-DIV), T-195 (92de482), T-197 (247566c), T-149 (51eb94d); T-193 cycle 1 on task/T-193 7be0099 (candidate tuning unverified).
 - Dispatched: T-193 cycle 2 (Sonnet/medium, .wt/T-193) — the disk hold is lifted (156 GB free). Remaining unblocked after it: T-194 p4_d cross-process nondeterminism; help the §19 wake-up capture once T-202 lands (M2 lead owns); M-003 v1.2 + R-M3-DIV independent review; Q-231 Windows; combined render evaluator (§13).
+
+## Lead session 2 log (2026-11-16)
+- T-196 ✓ 37fd247 (Opus-high §14): `rendering.pixel.layerSharedPhase` (OFF) gives d-iv 1.000 but C11 1.49 px (floor k/4+0.5 for one 4-px grid); d-iv vs C11 cannot both pass on layered frames by rendering alone. Decision: flag stays off, d-iv on layered translating clips = OPEN GATE, R-M3-DIV (research/R-M3-DIV.md, proposals P-1..P-5 for an independent reviewer; k=2 look decision is the only zero-margin render option). No gate change.
+- T-195 ✓ 92de482 store assets (store.py; all art/title/logotype TEMPORARY; screenshots are T-187 stills + HUD composites, replace from demo build). P4-b/P4-e: 6 proposed paths docs/store/paths_proposed, not run.
+- T-197 ✓ 247566c research R-122 (HUD/settings/accessibility, M-NEW-a..h, T-149..T-156) + R-M3-DIV.
+- T-149 ✓ 51eb94d (merged locally; integration push denied by classifier, only task/T-149 pushed; HUD limits contract, Game.UI asmdefs need an EditMode run).
+- T-203 ✓ 1820f57 demo capture (100 s 1080p30 yuv444p, no fall; M-124 min 0.987 vs 0.99 FAIL on worst frames; grid min 0.9945; destruction framing weak; -sliceRecord flag).
+- T-193 ✓ a29ec8b lavender ladderMinStepL 5.0 + amber ditherSpread 0.4 (C_px.Y 0.00785, DIG_max 0.417; amber dither finer, no panel rating).
+- T-194 ✓ a55de90 (no output change): cause NOT found; single dither pixel p4_d_dolly_v4/x4 f33, constant per process. T-194b running (GPU buffer hash bisect + fix; agent a896890c); if stalled, Opus-high §14 escalation.
+
+## Hand-over (lead session 2 -> 3)
+Next: T-194b result; M-124 fix for the demo master (M-124 min 0.987, try CRF<6 or filter, keep gate; size <50 MB or out of git); demo destruction camera (follow camera rarely frames destruction); T-150.. Track 4 per research/R-122.md (hud_colours table, pixel font/layout, CannonAmmoProvider, settings persistence, InputActionAsset rebind), run Unity EditMode for Game.UI asmdefs + GameCoreConfig regen (batched, overdue); Q-231 Windows module; M-123/lint on the player capture (needs sidecars); combined render evaluator (§13) + eval-style on final captures; M-003 v1.2 / d-iv reviewer item. Integration push of local merges (T-149, T-193, ...) was denied for workers: check `git status -sb` and push through commit.sh progress commit only if allowed.
