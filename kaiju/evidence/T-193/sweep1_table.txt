@@ -1,0 +1,4 @@
+T-193 sweep 1 (one Unity process, 14 tuning variants x 2 configs, 0 errors). C = M-004 C_px (limit 0.01) per Y sequence, V4/V5; DIG = max per-frame DIG over sampled frames (limit 0.5).
+Baseline reproduces T-191: lavender M0StyleFrame v5Y1 0.0101 (FAIL), with far lift (M3HazeFarLift) 0.0078; amber p3_a DIG sample max 0.534 (full 60 frames 0.576).
+lavender ladderMinStepL 5.0: C 0.0079 / 0.0065 (v5Y1), DIG p4_a 0.30 (was 0.38). bands32: 0.0080 / 0.0061. spread up (1.2, 1.5) worsens C. ladderMinStepL 3.5 identical to base (rungs unchanged).
+amber: spread 0.6 DIG 0.510; ladderMinStepL 6.5 0.509; hazeBands 16 0.487 (all C_px <= 0.0075); bands64 0.523.
