@@ -63,8 +63,8 @@ namespace Game.Tools.Capture
         public static bool StableDrawOrder;
         /// <summary>T-194c fallback (URP Lit has no polygon Offset): with StableDrawOrder the building and landmark renderers are lifted by this many metres so their footprint face is no longer exactly coplanar with the terrain (no depth tie). 0 turns the lift off (-captureLiftM overrides).</summary>
         public static float BuildingLiftMeters = 0.02f;
-        /// <summary>T-194c (UNVERIFIED, no Unity run was left): the queue tier did not remove the 2 outcomes (7 flagged processes: 5 x c570, 2 x b6e6), so the tie is not decided by draw order. This lowers every terrain renderer by this many metres (-captureTerrainSink 0.02) so building footprints sit strictly above the terrain and the depth test no longer ties. Capture scene only; 0 (default) = off.</summary>
-        public static float TerrainSinkM;
+        /// <summary>T-194c (UNVERIFIED, no Unity run was left): the queue tier did not remove the 2 outcomes (7 flagged processes: 5 x c570, 2 x b6e6), so the tie is not decided by draw order. This lowers every terrain renderer by this many metres (-captureTerrainSink 0.02) so building footprints sit strictly above the terrain and the depth test no longer ties. Capture scene only; T-194d: default 0.02 (verified 3/3 processes, T-204), 0 = off.</summary>
+        public static float TerrainSinkM = 0.02f;
         static void SinkTerrain(GeoTileInstance inst, float metres)
         {
             foreach (var r in inst.GetComponentsInChildren<Renderer>(true))
