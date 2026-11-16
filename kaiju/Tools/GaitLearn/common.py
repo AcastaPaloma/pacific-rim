@@ -36,3 +36,23 @@ def batch(lines, tag, keep_gait=False, timeout=3600, isolated=True):
 def ds_metrics(gait):
     r = subprocess.run([PY, os.path.join(P, "Tools/GaitLearn/metrics.py"), gait], capture_output=True, text=True).stdout.split()
     return (float(r[0]), float(r[1]), int(r[2])) if len(r) == 3 else (float("nan"), float("nan"), 0)
+
+def eval_configs(named, seeds, tag, out_json=None):
+    """named: {label: cfg}. One isolated batch; returns {label: [(k, fall_s, ds_a, ds_len, n_eps)]} (DS metrics from the gait logs, see metrics.py)."""
+    lines = [vline(f"{lab}s{k}", cfg, k) for lab, cfg in named.items() for k in seeds]
+    res, o = batch(lines, tag, isolated=True)
+    out = {}
+    for lab in named:
+        rows = []
+        for k in seeds:
+            a, l, n = ds_metrics(f"{o}/out/gait/walk_fr010@{lab}s{k}.gait.jsonl")
+            rows.append((k, res.get(f"{lab}s{k}"), a, l, n))
+        out[lab] = rows
+    if out_json: json.dump(out, open(out_json, "w"))
+    shutil.copy(f"{o}/out/summary.txt", f"{out_json}.summary.txt") if out_json and os.path.exists(f"{o}/out/summary.txt") else None
+    return out
+
+def fmt(lab, rows):
+    f = [r[1] for r in rows if r[1] is not None]; a = [r[2] for r in rows if r[2] == r[2]]; l = [r[3] for r in rows if r[3] == r[3]]
+    return (f"{lab:18s} surv " + " ".join(f"{(r[1] or 0):5.1f}" for r in rows) + f" | med {np.median(f):5.1f} mean {np.mean(f):5.1f} | DS a " + " ".join(f"{r[2]:+.2f}" for r in rows) +
+            f" mean {np.mean(a):+.2f} | DS len mean {np.mean(l):.2f}")
