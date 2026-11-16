@@ -852,3 +852,9 @@ Re-run: `KAIJU_GEO_CACHE=<integration cache> python -I Pipelines/geo/bake_landma
 - Tests on merged HEAD: WorldStreaming 39/0, WorldStreaming.Host 35 pass/2 skip; worker: AI.PackHarness 11/0.
 - M-008 (Mac, 5 seeds, prefetch 768 + sliced render): f PASS (late tile frames 0, holds 0; was 5116), a PASS (p99/B_host 0.189), d/e/scope PASS, c advisory FAIL (4-7 frames >12 ms), b NOT_RUN, abs PENDING → INCOMPLETE. No threshold touched. The 29-72 ms item was a render tile main-thread build (L3_03_04 46 ms), not physics; sliced → max 15-31 ms.
 - Routed T-124c: flip prefetch 768 + SliceRenderBuilds to default after full regression (cost ~2x physics chunks); remaining hitches: L0 build in Pump, 60 ms host.Tick stall, BayHarness brain step ≤56 ms, fragment spawn 20-39 ms; M-008.b rendering run. Perf.Bay still on bay_cost v1 (T-115h kept DefaultFileName v1): switch in T-124c.
+
+## T-124b finish: defaults flipped on, full 5-seed verdict (M2 worker; merge 9842530; watchdog as build lead 10, 2026-11-16)
+- Production StreamingHost now uses PhysicsPrefetchRadiusM 768 and UnityTileBuilder.SliceRenderBuilds true; M008BayRun defaults the same (`-m008Prefetch 0 -m008SliceRender 0` restores old). Library defaults in StreamingConfig / UnityTileBuilder stay OFF (existing tests assert the old behaviour; not weakened). UrgentSliceMs stays 0. Alternatives recorded: prefetch only (c worse: 6 vs 1 hitch frames).
+- M-008 (Mac, seeds 1-5, bay_cost v1): f PASS 0 (baseline 5116), a PASS 0.189 (0.207), c advisory FAIL 1 (3), d/e PASS, b NOT_RUN, abs PENDING. Thresholds unchanged.
+- Tests: AI.PackHarness.Tests 11/0 (re-run after the BayHarness edit), WorldStreaming 39/0, Host 35/0/2 skip, Unity EditMode Game.World.Streaming.Unity.Tests 8/8. Evidence evidence/T-124b/.
+- Routed (T-124c): hitches from BayHarness brain step and destruction spawn, rendered M-008.b run, Perf.Bay on bay_cost v2.

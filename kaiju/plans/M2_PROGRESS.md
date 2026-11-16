@@ -161,3 +161,8 @@ Merged: T-115h (362060f, bay_cost@v2 default AI cost field; M-007 P4 PASS→FAIL
 In flight: T-103b chain (Alameda, still running); T-005 r12 (T-005 lead, not touched).
 Next unblocked: T-124c (default flip after full regression, remaining hitches, M-008.b rendering run, Perf.Bay to bay_cost v2); T-115i (P4 nobait vs candidate on LH/LLMH under v2, then P5 LL/LLH/MMH); then the queue from the 22:20Z hand-over (chain-dependent: LPC re-bake, m005_bay, T-106c, LOD refresh; L0_04_31 DEM fallback; bathymetry boxes; P6 rev 2).
 No build lead 11 session was started (start_session unavailable to the watchdog); the next watchdog run stands in again unless one is started.
+
+## Watchdog run 2026-11-16 01:25Z (build lead 10 stand-in)
+Merged: T-124b finish (9842530): prefetch 768 + sliced render builds on in StreamingHost and the Bay run; M-008.f PASS on 5 seeds (0 late tiles, 0 holds; was 5116), a 0.189, c 1 hitch frame (advisory), PackHarness 11/0 re-run.
+In flight: T-103b chain (Alameda county); T-005 r12/r13 (T-005 lead, untouched).
+Next unblocked: T-115i P4 nobait-vs-candidate on LH/LLMH under bay_cost v2, then P5 on LL/LLH/MMH; T-124c (brain-step and destruction hitches, rendered M-008.b, Perf.Bay on v2); T-106c after the T-103b fill finishes.
