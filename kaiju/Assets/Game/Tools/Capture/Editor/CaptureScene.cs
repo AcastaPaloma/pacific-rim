@@ -61,6 +61,8 @@ namespace Game.Tools.Capture
         /// rendered one pixel differently. Give every renderer a unique, name-derived Renderer.rendererPriority (terrain, water, building chunks, then the rest, each by path) so the draw order never depends on the process.
         /// Opt-in (flag tools.capture.stable_draw_order or -captureStableOrder), off by default: the renderer-priority part alone did NOT remove the cross-process difference (4 processes, 2 outcomes); the render-queue tier is untested.</summary>
         public static bool StableDrawOrder;
+        /// <summary>T-194c fallback (URP Lit has no polygon Offset): with StableDrawOrder the building and landmark renderers are lifted by this many metres so their footprint face is no longer exactly coplanar with the terrain (no depth tie). 0 turns the lift off (-captureLiftM overrides).</summary>
+        public static float BuildingLiftMeters = 0.02f;
         /// <summary>T-194c (UNVERIFIED, no Unity run was left): the queue tier did not remove the 2 outcomes (7 flagged processes: 5 x c570, 2 x b6e6), so the tie is not decided by draw order. This lowers every terrain renderer by this many metres (-captureTerrainSink 0.02) so building footprints sit strictly above the terrain and the depth test no longer ties. Capture scene only; 0 (default) = off.</summary>
         public static float TerrainSinkM;
         static void SinkTerrain(GeoTileInstance inst, float metres)
@@ -76,7 +78,8 @@ namespace Game.Tools.Capture
             rs.Sort((a, b) => string.CompareOrdinal(GroupKey(P(a.transform)), GroupKey(P(b.transform))));
             for (int i = 0; i < rs.Count; i++) rs[i].rendererPriority = i;
             // the sort may not honour the priority for opaque queues: terrain, then buildings (and landmarks, which share that material) are also separated by render queue, which it always honours
-            foreach (var r in rs) { var m = r.sharedMaterial; if (m == null) continue; string path = P(r.transform); if (path.Contains("/BuildingChunks/") || path.Contains("/Landmarks/")) m.renderQueue = 2001; }
+            var lifted = new HashSet<Transform>();
+            foreach (var r in rs) { var m = r.sharedMaterial; if (m == null) continue; string path = P(r.transform); if (path.Contains("/BuildingChunks/") || path.Contains("/Landmarks/")) { m.renderQueue = 2001; if (BuildingLiftMeters > 0f && !lifted.Contains(r.transform)) { lifted.Add(r.transform); r.transform.position += Vector3.up * BuildingLiftMeters; } } }
         }
 
         static void AddPixelCameras(string profile)

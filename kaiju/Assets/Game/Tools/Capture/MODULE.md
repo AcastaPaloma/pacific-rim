@@ -38,3 +38,4 @@ Exit 0 ok, 1 error (lint failure, log errors, replay differs), 3 a path was bloc
 
 ## T-194c: queue tier does NOT fix the cross-process tie
 `-captureStableOrder` (building/landmark queue 2001, terrain 2000; opt-in, flag `tools.capture.stable_draw_order`) was run in 7 separate processes on p4_d_dolly_v4 x4: 5 gave outcome `c570...`, 2 gave `b6e6...` (frame 33, one pixel), same as without it. So the tie is not decided by draw order. `-captureTerrainSink <m>` (default off, UNVERIFIED, untested: no Unity run was left) lowers terrain renderers so footprints sit above the terrain. Evidence `evidence/T-194c/`.
+- T-194c: `-captureStableOrder` (flag `tools.capture.stable_draw_order`) now also lifts building/landmark renderers by `CaptureScene.BuildingLiftMeters` (0.02 m, `-captureLiftM <m>`): 4 separate processes bit-identical (evidence/T-194c). Queue-tier alone did not remove the depth tie. Off by default.
