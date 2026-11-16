@@ -1,0 +1,2 @@
+# T-194d: terrain sink 0.02 m is the capture default
+`CaptureScene.TerrainSinkM` default 0.02 (capture scene only; `-captureTerrainSink 0` disables). Four sequential separate Unity processes run with NO sink flag (`run.sh C n`, same capture args as T-194c): `capture.py xproc` C_1 vs C_2/C_3/C_4: 6 sequences, 1210 files, 0 differing, pass. Hashes in `hashes/`; PNGs local only (caps/ ignored). Captured output differs from pre-sink captures at building bases (sink 0.02 m); gameplay unaffected.
