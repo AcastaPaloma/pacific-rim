@@ -29,6 +29,14 @@ namespace Game.World.Streaming
         /// <summary>Physics ring: radius 512 m (2 chunks of margin over the 60 m/s cap), evict at 768 m (R-101 section 5, O1).</summary>
         public double PhysicsRadiusM = 512.0, PhysicsHysteresisFrac = 0.5;
         public double PhysicsPriorityBoost = 1000.0;
+        /// <summary>T-124b (feature flag, 0 = off = old behaviour): physics PREFETCH radius, larger than PhysicsRadiusM. Chunks within it are requested (and retained
+        /// out to max(prefetch, evict radius)); a body is held (PhysicsRingResident) only for chunks inside the unchanged hold ring PhysicsRadiusM, so chunks that stream
+        /// in at the edge of the prefetch ring are resident before they enter the hold ring. Values below PhysicsRadiusM are ignored.</summary>
+        public double PhysicsPrefetchRadiusM = 0.0;
+        /// <summary>Effective request radius of the physics ring.</summary>
+        public double PhysicsRequestRadiusM => Math.Max(PhysicsRadiusM, PhysicsPrefetchRadiusM);
+        /// <summary>Effective retention (evict) radius of a loaded physics chunk.</summary>
+        public double PhysicsRetainRadiusM => Math.Max(PhysicsRadiusM * (1.0 + PhysicsHysteresisFrac), PhysicsPrefetchRadiusM);
         public StreamingBudget Budget = StreamingBudget.Default;
         /// <summary>When over budget evict until under this fraction (rule 5).</summary>
         public double EvictTargetFrac = 0.9;

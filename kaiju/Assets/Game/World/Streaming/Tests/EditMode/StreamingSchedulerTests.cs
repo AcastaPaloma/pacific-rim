@@ -119,6 +119,61 @@ namespace Game.World.Streaming.Tests
         }
 
         [Test]
+        public void Physics_PrefetchFlagOffByDefault_RequestAndRetainRadiiUnchanged()
+        {
+            var c = new StreamingConfig();
+            Assert.AreEqual(0.0, c.PhysicsPrefetchRadiusM);
+            Assert.AreEqual(512.0, c.PhysicsRequestRadiusM);
+            Assert.AreEqual(768.0, c.PhysicsRetainRadiusM);
+            c.PhysicsPrefetchRadiusM = 100.0; Assert.AreEqual(512.0, c.PhysicsRequestRadiusM, "below the hold ring is ignored");
+            c.PhysicsPrefetchRadiusM = 1024.0; Assert.AreEqual(1024.0, c.PhysicsRequestRadiusM); Assert.AreEqual(1024.0, c.PhysicsRetainRadiusM);
+        }
+
+        [Test]
+        public void Physics_PrefetchRing_LoadsBeyondHoldRing_RingStaysTheHoldRing()
+        {
+            var cfg = new StreamingConfig { PhysicsPrefetchRadiusM = 768.0 };
+            var h = new Harness(cfg);
+            double bx = X0 + 100.0, bz = Z0 + 100.0;
+            for (int i = 0; i < 5; i++) h.Step(0.1, Harness.Body(7, bx, bz));
+            var phys = Resident(h, ResidencyKind.Physics);
+            double maxD = 0; int beyondHold = 0;
+            foreach (var k in phys) { double d = Harness.DistXZ(k, bx, bz); maxD = Math.Max(maxD, d); if (d > 512.0) beyondHold++; }
+            Assert.LessOrEqual(maxD, 768.0 + 1e-9);
+            Assert.Greater(beyondHold, 0, "chunks between 512 and 768 m are prefetched");
+            Assert.IsTrue(h.Sched.PhysicsRingResident(7));
+            // the hold ring is only the 512 m ring: a prefetched-but-unloaded outer chunk does not hold the body
+            var h2 = new Harness(new StreamingConfig { PhysicsPrefetchRadiusM = 768.0 }) { AutoComplete = false };
+            h2.Step(0.1, Harness.Body(7, bx, bz));
+            foreach (var r in h2.Plan.Load) if (r.Key.Kind == ResidencyKind.Physics && Harness.DistXZ(r.Key, bx, bz) <= 512.0) h2.Sched.Completed(r.Key, 0, 1);
+            h2.Step(0.1, Harness.Body(7, bx, bz));
+            Assert.IsTrue(h2.Sched.PhysicsRingResident(7), "inner ring resident, outer prefetch still pending");
+        }
+
+        [Test]
+        public void Physics_SlowLoader_WalkingBody_HeldWithoutPrefetch_NotHeldWithPrefetch()
+        {
+            int Run(double prefetch)
+            {
+                var h = new Harness(new StreamingConfig { PhysicsPrefetchRadiusM = prefetch }) { AutoComplete = false };
+                var pending = new List<(ResidencyKey key, int due)>(); var requested = new HashSet<ResidencyKey>();
+                double bx = X0 + 100.0, bz = Z0 + 100.0; int held = 0;
+                for (int tick = 0; tick < 400; tick++)
+                {
+                    if (tick > 60) bx += 3.0;   // 30 m/s east after a 6 s settle
+                    h.Step(0.1, Harness.Body(7, bx, bz, 30f, 0f));
+                    foreach (var r in h.Plan.Load) if (requested.Add(r.Key)) pending.Add((r.Key, tick + 4));   // 0.4 s read + mesh + bake
+                    for (int i = pending.Count - 1; i >= 0; i--) if (pending[i].due <= tick) { h.Sched.Completed(pending[i].key, 0, 1); pending.RemoveAt(i); }
+                    if (tick > 60 && !h.Sched.PhysicsRingResident(7)) held++;
+                }
+                return held;
+            }
+            int off = Run(0.0), on = Run(768.0);
+            Assert.Greater(off, 0, "with the 512 m ring requested at 512 m a 0.4 s loader holds the body");
+            Assert.AreEqual(0, on, "prefetch to 768 m gives the loader a 256 m (8 s) head start");
+        }
+
+        [Test]
         public void Physics_CamerasAndBodiesWithoutPhysicsRequestNoChunks()
         {
             var h = new Harness();
