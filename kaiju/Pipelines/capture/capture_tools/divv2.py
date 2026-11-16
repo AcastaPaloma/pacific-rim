@@ -36,7 +36,7 @@ def slab_labels(depth, bounds):
 
 def _blocks(a, s, off):
     ox, oy = off
-    r = np.roll(a, (-oy, -ox), (0, 1)) if (ox or oy) else a
+    r = a[oy:, ox:]   # crop (not roll): the partial strips left of/above the lattice and the partial edge blocks are excluded
     H, W = r.shape[0] // s * s, r.shape[1] // s * s
     return r[:H, :W].reshape(H // s, s, W // s, s, *r.shape[2:])
 
@@ -54,9 +54,9 @@ def _coverage(inside, s, off, shape):
     """Per-pixel boolean (rolled back) of pixels in counted blocks."""
     m = np.zeros(shape, bool)
     ix = np.kron(inside, np.ones((s, s), bool))
-    m[:ix.shape[0], :ix.shape[1]] = ix
     ox, oy = off
-    return np.roll(m, (oy, ox), (0, 1)) if (ox or oy) else m
+    m[oy:oy + ix.shape[0], ox:ox + ix.shape[1]] = ix
+    return m
 
 
 def d_iv_v2(out, s, labels=None, declared=None, ui=None, tol=1, renderer_labels=None, min_eval_area=0.95,
