@@ -54,5 +54,29 @@ namespace Game.Slice.PlayMode.Tests
             StringAssert.DoesNotContain("\"audio\": null", json); StringAssert.DoesNotContain("\"received\": 0,", json);
             SliceBootstrap.SmokeFrames = 0; SliceBootstrap.ConfigName = null;
         }
+
+        // T-200: the wake-up demo profile: physics mech (walk_mode 2) walks, kaiju spawned, buildings damaged. Same checks as -sliceSmoke N -sliceConfig demo in a player.
+        [UnityTest, Timeout(1200000)]
+        public IEnumerator Demo_PhysicsMechWalksAndFights()
+        {
+            string dir = Path.Combine(Path.GetDirectoryName(Application.dataPath), "evidence", "T-200");
+            string outPath = Path.Combine(dir, "smoke_demo.json");
+            if (File.Exists(outPath)) File.Delete(outPath);
+            SliceBootstrap.SmokeFrames = 1200; SliceBootstrap.SmokeOut = null; SliceBootstrap.ConfigName = "demo";
+            yield return EditorSceneManager.LoadSceneAsyncInPlayMode("Assets/Game/Slice/Scenes/M1Slice.unity", new LoadSceneParameters(LoadSceneMode.Single));
+            float t = 0f;
+            while ((SliceBootstrap.Instance == null || !SliceBootstrap.Instance.SmokeDone) && t < 1100f) { t += Time.unscaledDeltaTime; yield return null; }
+            Assert.IsNotNull(SliceBootstrap.Instance, "bootstrap present");
+            Assert.IsTrue(SliceBootstrap.Instance.SmokeDone, "smoke finished (loaded: " + SliceBootstrap.Instance.Ready + ")");
+            string json = SliceBootstrap.Instance.SmokeJson;
+            Directory.CreateDirectory(dir); File.WriteAllText(outPath, json);
+            StringAssert.Contains("\"config\": \"demo\"", json);
+            StringAssert.Contains("\"mech_body\": \"physics walk_mode 2\"", json);
+            var m = System.Text.RegularExpressions.Regex.Match(json, "\"mech_travel_m\": ([0-9.]+)");
+            Assert.IsTrue(m.Success && double.Parse(m.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture) > 0.0, "mech travel > 0 m: " + m.Value);
+            StringAssert.DoesNotContain("\"building_damaged_events\": 0,", json);
+            StringAssert.DoesNotContain("\"decisions\": 0,", json);
+            SliceBootstrap.SmokeFrames = 0; SliceBootstrap.ConfigName = null;
+        }
     }
 }
