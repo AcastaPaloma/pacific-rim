@@ -1,0 +1,1225 @@
+{
+ "schema": "mech_frame@v1",
+ "id": "mech_frame_balanced",
+ "source": "research/R-005.md (R-005); generator research/R-005/mech_frame.py",
+ "frame": {
+  "axes": "x right, y up, z forward (Unity world, left-handed)",
+  "origin": "ground, midway between the feet",
+  "units": "m, kg, s, deg",
+  "pose": "rest: standing straight, arms hanging, feet parallel, knees straight"
+ },
+ "total_height_m": 80.0,
+ "total_mass_kg": 10000000.0,
+ "com_rest": [
+  0.0,
+  42.5405,
+  0.135
+ ],
+ "hull_volume_m3": 8115.2,
+ "mean_hull_density_kg_m3": 1232.3,
+ "stance": {
+  "neutral_stance_width_m": 16.0,
+  "note": "lateral distance between foot centrelines; feet directly under the hip joints"
+ },
+ "foot_sole": {
+  "length_m": 10.0,
+  "width_m": 15.0,
+  "area_m2": 150.0,
+  "heel_z_m": -3.5,
+  "toe_z_m": 6.5,
+  "ankle_z_m": 0.0,
+  "ankle_height_m": 4.0,
+  "shape": "rectangle (corners may be chamfered by art if area stays within 2%)"
+ },
+ "segments": [
+  {
+   "id": "pelvis",
+   "kind": "pelvis",
+   "side": null,
+   "parent": null,
+   "proximal_joint": [
+    0,
+    39.0,
+    0
+   ],
+   "distal_end": [
+    0,
+    48.5,
+    0
+   ],
+   "length_m": 9.5,
+   "width_x_m": 16.0,
+   "height_y_m": 9.5,
+   "depth_z_m": 9.0,
+   "mass_kg": 1100000.0,
+   "com": [
+    0,
+    43.75,
+    0
+   ],
+   "inertia_principal_kgm2": [
+    15697900.0,
+    30891700.0,
+    31739600.0
+   ],
+   "inertia_axes": "world x,y,z at rest pose (principal axes aligned with world)",
+   "inertia_method": "solid box",
+   "hull_volume_m3": 957.6,
+   "hull_density_kg_m3": 1148.7
+  },
+  {
+   "id": "torso",
+   "kind": "torso",
+   "side": null,
+   "parent": "pelvis",
+   "proximal_joint": [
+    0,
+    48.5,
+    0
+   ],
+   "distal_end": [
+    0,
+    71.0,
+    0
+   ],
+   "length_m": 22.5,
+   "width_x_m": 18.0,
+   "height_y_m": 22.5,
+   "depth_z_m": 10.0,
+   "mass_kg": 3300000.0,
+   "com": [
+    0,
+    59.75,
+    0
+   ],
+   "inertia_principal_kgm2": [
+    166719000.0,
+    116600000.0,
+    228319000.0
+   ],
+   "inertia_axes": "world x,y,z at rest pose (principal axes aligned with world)",
+   "inertia_method": "solid box",
+   "hull_volume_m3": 2835.0,
+   "hull_density_kg_m3": 1164.0
+  },
+  {
+   "id": "head",
+   "kind": "head",
+   "side": null,
+   "parent": "torso",
+   "proximal_joint": [
+    0,
+    71.0,
+    0
+   ],
+   "distal_end": [
+    0,
+    80.0,
+    0
+   ],
+   "length_m": 9.0,
+   "width_x_m": 5.0,
+   "height_y_m": 9.0,
+   "depth_z_m": 6.0,
+   "mass_kg": 200000.0,
+   "com": [
+    0,
+    75.5,
+    0
+   ],
+   "inertia_principal_kgm2": [
+    1950000.0,
+    1016670.0,
+    1766670.0
+   ],
+   "inertia_axes": "world x,y,z at rest pose (principal axes aligned with world)",
+   "inertia_method": "solid box",
+   "hull_volume_m3": 189.0,
+   "hull_density_kg_m3": 1058.2
+  },
+  {
+   "id": "upper_arm_L",
+   "kind": "upper_arm",
+   "side": "L",
+   "parent": "torso",
+   "proximal_joint": [
+    -13.5,
+    66.0,
+    0
+   ],
+   "distal_end": [
+    -13.5,
+    51.0,
+    0
+   ],
+   "length_m": 15.0,
+   "width_x_m": 5.0,
+   "height_y_m": 15.0,
+   "depth_z_m": 5.0,
+   "mass_kg": 320000.0,
+   "com": [
+    -13.5,
+    57.342,
+    0.0
+   ],
+   "inertia_principal_kgm2": [
+    5209990.0,
+    1797410.0,
+    5848200.0
+   ],
+   "inertia_axes": "world x,y,z at rest pose (principal axes aligned with world)",
+   "inertia_method": "de Leva 1996 radii of gyration x segment length; CoM fraction from proximal joint",
+   "hull_volume_m3": 294.52,
+   "hull_density_kg_m3": 1086.5
+  },
+  {
+   "id": "forearm_L",
+   "kind": "forearm",
+   "side": "L",
+   "parent": "upper_arm_L",
+   "proximal_joint": [
+    -13.5,
+    51.0,
+    0
+   ],
+   "distal_end": [
+    -13.5,
+    38.0,
+    0
+   ],
+   "length_m": 13.0,
+   "width_x_m": 4.8,
+   "height_y_m": 13.0,
+   "depth_z_m": 4.8,
+   "mass_kg": 280000.0,
+   "com": [
+    -13.5,
+    45.0538,
+    0.0
+   ],
+   "inertia_principal_kgm2": [
+    3323050.0,
+    692812.0,
+    3604650.0
+   ],
+   "inertia_axes": "world x,y,z at rest pose (principal axes aligned with world)",
+   "inertia_method": "de Leva 1996 radii of gyration x segment length; CoM fraction from proximal joint",
+   "hull_volume_m3": 235.24,
+   "hull_density_kg_m3": 1190.3
+  },
+  {
+   "id": "hand_L",
+   "kind": "hand",
+   "side": "L",
+   "parent": "forearm_L",
+   "proximal_joint": [
+    -13.5,
+    38.0,
+    0
+   ],
+   "distal_end": [
+    -13.5,
+    30.5,
+    0
+   ],
+   "length_m": 7.5,
+   "width_x_m": 2.5,
+   "height_y_m": 7.5,
+   "depth_z_m": 5.0,
+   "mass_kg": 100000.0,
+   "com": [
+    -13.5,
+    35.282,
+    0.0
+   ],
+   "inertia_principal_kgm2": [
+    310641.0,
+    190440.0,
+    466560.0
+   ],
+   "inertia_axes": "world x,y,z at rest pose (principal axes aligned with world)",
+   "inertia_method": "de Leva 1996 radii of gyration x segment length; CoM fraction from proximal joint",
+   "hull_volume_m3": 65.62,
+   "hull_density_kg_m3": 1523.8
+  },
+  {
+   "id": "thigh_L",
+   "kind": "thigh",
+   "side": "L",
+   "parent": "pelvis",
+   "proximal_joint": [
+    -8.0,
+    42.0,
+    0
+   ],
+   "distal_end": [
+    -8.0,
+    23.0,
+    0
+   ],
+   "length_m": 19.0,
+   "width_x_m": 6.5,
+   "height_y_m": 19.0,
+   "depth_z_m": 7.0,
+   "mass_kg": 1150000.0,
+   "com": [
+    -8.0,
+    34.2195,
+    0.0
+   ],
+   "inertia_principal_kgm2": [
+    44936300.0,
+    9216750.0,
+    44936300.0
+   ],
+   "inertia_axes": "world x,y,z at rest pose (principal axes aligned with world)",
+   "inertia_method": "de Leva 1996 radii of gyration x segment length; CoM fraction from proximal joint",
+   "hull_volume_m3": 678.98,
+   "hull_density_kg_m3": 1693.7
+  },
+  {
+   "id": "shank_L",
+   "kind": "shank",
+   "side": "L",
+   "parent": "thigh_L",
+   "proximal_joint": [
+    -8.0,
+    23.0,
+    0
+   ],
+   "distal_end": [
+    -8.0,
+    4.0,
+    0
+   ],
+   "length_m": 19.0,
+   "width_x_m": 5.5,
+   "height_y_m": 19.0,
+   "depth_z_m": 6.0,
+   "mass_kg": 550000.0,
+   "com": [
+    -8.0,
+    14.6495,
+    0.0
+   ],
+   "inertia_principal_kgm2": [
+    12015500.0,
+    2065710.0,
+    12508800.0
+   ],
+   "inertia_axes": "world x,y,z at rest pose (principal axes aligned with world)",
+   "inertia_method": "de Leva 1996 radii of gyration x segment length; CoM fraction from proximal joint",
+   "hull_volume_m3": 492.44,
+   "hull_density_kg_m3": 1116.9
+  },
+  {
+   "id": "foot_L",
+   "kind": "foot",
+   "side": "L",
+   "parent": "shank_L",
+   "proximal_joint": [
+    -8.0,
+    4.0,
+    0
+   ],
+   "distal_end": [
+    -8.0,
+    0.0,
+    6.5
+   ],
+   "length_m": 10.0,
+   "width_x_m": 15.0,
+   "height_y_m": 4.0,
+   "depth_z_m": 10.0,
+   "mass_kg": 300000.0,
+   "com": [
+    -8.0,
+    2.0,
+    1.5
+   ],
+   "inertia_principal_kgm2": [
+    2900000.0,
+    8125000.0,
+    6025000.0
+   ],
+   "inertia_axes": "world x,y,z at rest pose (principal axes aligned with world)",
+   "inertia_method": "solid box (length_m = sole length heel to toe; distal_end = toe tip)",
+   "hull_volume_m3": 300.0,
+   "hull_density_kg_m3": 1000.0
+  },
+  {
+   "id": "upper_arm_R",
+   "kind": "upper_arm",
+   "side": "R",
+   "parent": "torso",
+   "proximal_joint": [
+    13.5,
+    66.0,
+    0
+   ],
+   "distal_end": [
+    13.5,
+    51.0,
+    0
+   ],
+   "length_m": 15.0,
+   "width_x_m": 5.0,
+   "height_y_m": 15.0,
+   "depth_z_m": 5.0,
+   "mass_kg": 320000.0,
+   "com": [
+    13.5,
+    57.342,
+    0.0
+   ],
+   "inertia_principal_kgm2": [
+    5209990.0,
+    1797410.0,
+    5848200.0
+   ],
+   "inertia_axes": "world x,y,z at rest pose (principal axes aligned with world)",
+   "inertia_method": "de Leva 1996 radii of gyration x segment length; CoM fraction from proximal joint",
+   "hull_volume_m3": 294.52,
+   "hull_density_kg_m3": 1086.5
+  },
+  {
+   "id": "forearm_R",
+   "kind": "forearm",
+   "side": "R",
+   "parent": "upper_arm_R",
+   "proximal_joint": [
+    13.5,
+    51.0,
+    0
+   ],
+   "distal_end": [
+    13.5,
+    38.0,
+    0
+   ],
+   "length_m": 13.0,
+   "width_x_m": 4.8,
+   "height_y_m": 13.0,
+   "depth_z_m": 4.8,
+   "mass_kg": 280000.0,
+   "com": [
+    13.5,
+    45.0538,
+    0.0
+   ],
+   "inertia_principal_kgm2": [
+    3323050.0,
+    692812.0,
+    3604650.0
+   ],
+   "inertia_axes": "world x,y,z at rest pose (principal axes aligned with world)",
+   "inertia_method": "de Leva 1996 radii of gyration x segment length; CoM fraction from proximal joint",
+   "hull_volume_m3": 235.24,
+   "hull_density_kg_m3": 1190.3
+  },
+  {
+   "id": "hand_R",
+   "kind": "hand",
+   "side": "R",
+   "parent": "forearm_R",
+   "proximal_joint": [
+    13.5,
+    38.0,
+    0
+   ],
+   "distal_end": [
+    13.5,
+    30.5,
+    0
+   ],
+   "length_m": 7.5,
+   "width_x_m": 2.5,
+   "height_y_m": 7.5,
+   "depth_z_m": 5.0,
+   "mass_kg": 100000.0,
+   "com": [
+    13.5,
+    35.282,
+    0.0
+   ],
+   "inertia_principal_kgm2": [
+    310641.0,
+    190440.0,
+    466560.0
+   ],
+   "inertia_axes": "world x,y,z at rest pose (principal axes aligned with world)",
+   "inertia_method": "de Leva 1996 radii of gyration x segment length; CoM fraction from proximal joint",
+   "hull_volume_m3": 65.62,
+   "hull_density_kg_m3": 1523.8
+  },
+  {
+   "id": "thigh_R",
+   "kind": "thigh",
+   "side": "R",
+   "parent": "pelvis",
+   "proximal_joint": [
+    8.0,
+    42.0,
+    0
+   ],
+   "distal_end": [
+    8.0,
+    23.0,
+    0
+   ],
+   "length_m": 19.0,
+   "width_x_m": 6.5,
+   "height_y_m": 19.0,
+   "depth_z_m": 7.0,
+   "mass_kg": 1150000.0,
+   "com": [
+    8.0,
+    34.2195,
+    0.0
+   ],
+   "inertia_principal_kgm2": [
+    44936300.0,
+    9216750.0,
+    44936300.0
+   ],
+   "inertia_axes": "world x,y,z at rest pose (principal axes aligned with world)",
+   "inertia_method": "de Leva 1996 radii of gyration x segment length; CoM fraction from proximal joint",
+   "hull_volume_m3": 678.98,
+   "hull_density_kg_m3": 1693.7
+  },
+  {
+   "id": "shank_R",
+   "kind": "shank",
+   "side": "R",
+   "parent": "thigh_R",
+   "proximal_joint": [
+    8.0,
+    23.0,
+    0
+   ],
+   "distal_end": [
+    8.0,
+    4.0,
+    0
+   ],
+   "length_m": 19.0,
+   "width_x_m": 5.5,
+   "height_y_m": 19.0,
+   "depth_z_m": 6.0,
+   "mass_kg": 550000.0,
+   "com": [
+    8.0,
+    14.6495,
+    0.0
+   ],
+   "inertia_principal_kgm2": [
+    12015500.0,
+    2065710.0,
+    12508800.0
+   ],
+   "inertia_axes": "world x,y,z at rest pose (principal axes aligned with world)",
+   "inertia_method": "de Leva 1996 radii of gyration x segment length; CoM fraction from proximal joint",
+   "hull_volume_m3": 492.44,
+   "hull_density_kg_m3": 1116.9
+  },
+  {
+   "id": "foot_R",
+   "kind": "foot",
+   "side": "R",
+   "parent": "shank_R",
+   "proximal_joint": [
+    8.0,
+    4.0,
+    0
+   ],
+   "distal_end": [
+    8.0,
+    0.0,
+    6.5
+   ],
+   "length_m": 10.0,
+   "width_x_m": 15.0,
+   "height_y_m": 4.0,
+   "depth_z_m": 10.0,
+   "mass_kg": 300000.0,
+   "com": [
+    8.0,
+    2.0,
+    1.5
+   ],
+   "inertia_principal_kgm2": [
+    2900000.0,
+    8125000.0,
+    6025000.0
+   ],
+   "inertia_axes": "world x,y,z at rest pose (principal axes aligned with world)",
+   "inertia_method": "solid box (length_m = sole length heel to toe; distal_end = toe tip)",
+   "hull_volume_m3": 300.0,
+   "hull_density_kg_m3": 1000.0
+  }
+ ],
+ "joints": [
+  {
+   "id": "waist",
+   "parent": "pelvis",
+   "child": "torso",
+   "position": [
+    0,
+    48.5,
+    0
+   ],
+   "unity_joint_type": "SphericalJoint",
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "unity_drive": "xDrive(twist)",
+     "positive": "torso leans forward",
+     "unity_sign": 1,
+     "rom_deg": [
+      -20,
+      40
+     ],
+     "m0": "active"
+    },
+    {
+     "name": "axial_rotation",
+     "axis": [
+      0,
+      1,
+      0
+     ],
+     "unity_drive": "yDrive(swingY)",
+     "positive": "torso turns left (nose to -x)",
+     "unity_sign": -1,
+     "rom_deg": [
+      -30,
+      30
+     ],
+     "m0": "active"
+    },
+    {
+     "name": "lateral_bend",
+     "axis": [
+      0,
+      0,
+      1
+     ],
+     "unity_drive": "zDrive(swingZ)",
+     "positive": "torso bends to the right (+x)",
+     "unity_sign": -1,
+     "rom_deg": [
+      -20,
+      20
+     ],
+     "m0": "active"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "neck",
+   "parent": "torso",
+   "child": "head",
+   "position": [
+    0,
+    71.0,
+    0
+   ],
+   "unity_joint_type": "FixedJoint (M0); SphericalJoint later",
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "unity_drive": "xDrive(twist)",
+     "positive": "head nods forward",
+     "unity_sign": 1,
+     "rom_deg": [
+      -30,
+      40
+     ],
+     "m0": "locked"
+    },
+    {
+     "name": "rotation",
+     "axis": [
+      0,
+      1,
+      0
+     ],
+     "unity_drive": "yDrive(swingY)",
+     "positive": "head turns left",
+     "unity_sign": -1,
+     "rom_deg": [
+      -70,
+      70
+     ],
+     "m0": "locked"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "shoulder_L",
+   "parent": "torso",
+   "child": "upper_arm_L",
+   "position": [
+    -13.5,
+    66.0,
+    0
+   ],
+   "unity_joint_type": "SphericalJoint",
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "unity_drive": "xDrive(twist)",
+     "positive": "arm swings forward",
+     "unity_sign": -1,
+     "rom_deg": [
+      -50,
+      160
+     ],
+     "m0": "active"
+    },
+    {
+     "name": "internal_rotation",
+     "axis": [
+      0,
+      1,
+      0
+     ],
+     "unity_drive": "yDrive(swingY)",
+     "positive": "forearm turns toward the chest",
+     "unity_sign": 1,
+     "rom_deg": [
+      -60,
+      70
+     ],
+     "m0": "active"
+    },
+    {
+     "name": "abduction",
+     "axis": [
+      0,
+      0,
+      1
+     ],
+     "unity_drive": "zDrive(swingZ)",
+     "positive": "arm raised sideways",
+     "unity_sign": -1,
+     "rom_deg": [
+      -10,
+      150
+     ],
+     "m0": "active"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "elbow_L",
+   "parent": "upper_arm_L",
+   "child": "forearm_L",
+   "position": [
+    -13.5,
+    51.0,
+    0
+   ],
+   "unity_joint_type": "RevoluteJoint",
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "unity_drive": "xDrive",
+     "positive": "hand comes forward/up",
+     "unity_sign": -1,
+     "rom_deg": [
+      0,
+      145
+     ],
+     "m0": "active"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "wrist_L",
+   "parent": "forearm_L",
+   "child": "hand_L",
+   "position": [
+    -13.5,
+    38.0,
+    0
+   ],
+   "unity_joint_type": "FixedJoint (M0); SphericalJoint later",
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "unity_drive": "xDrive(twist)",
+     "positive": "palm side forward",
+     "unity_sign": -1,
+     "rom_deg": [
+      -60,
+      60
+     ],
+     "m0": "locked"
+    },
+    {
+     "name": "ulnar_deviation",
+     "axis": [
+      0,
+      0,
+      1
+     ],
+     "unity_drive": "zDrive(swingZ)",
+     "positive": "hand tilts outward",
+     "unity_sign": -1,
+     "rom_deg": [
+      -20,
+      30
+     ],
+     "m0": "locked"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "hip_L",
+   "parent": "pelvis",
+   "child": "thigh_L",
+   "position": [
+    -8.0,
+    42.0,
+    0
+   ],
+   "unity_joint_type": "SphericalJoint",
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "unity_drive": "xDrive(twist)",
+     "positive": "thigh swings forward",
+     "unity_sign": -1,
+     "rom_deg": [
+      -20,
+      120
+     ],
+     "m0": "active"
+    },
+    {
+     "name": "internal_rotation",
+     "axis": [
+      0,
+      1,
+      0
+     ],
+     "unity_drive": "yDrive(swingY)",
+     "positive": "toes turn inward",
+     "unity_sign": 1,
+     "rom_deg": [
+      -40,
+      35
+     ],
+     "m0": "active"
+    },
+    {
+     "name": "abduction",
+     "axis": [
+      0,
+      0,
+      1
+     ],
+     "unity_drive": "zDrive(swingZ)",
+     "positive": "leg moves outward",
+     "unity_sign": -1,
+     "rom_deg": [
+      -25,
+      40
+     ],
+     "m0": "active"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "knee_L",
+   "parent": "thigh_L",
+   "child": "shank_L",
+   "position": [
+    -8.0,
+    23.0,
+    0
+   ],
+   "unity_joint_type": "RevoluteJoint",
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "unity_drive": "xDrive",
+     "positive": "shank swings back",
+     "unity_sign": 1,
+     "rom_deg": [
+      0,
+      135
+     ],
+     "m0": "active"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "ankle_L",
+   "parent": "shank_L",
+   "child": "foot_L",
+   "position": [
+    -8.0,
+    4.0,
+    0
+   ],
+   "unity_joint_type": "SphericalJoint with swingY locked",
+   "dofs": [
+    {
+     "name": "plantarflexion",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "unity_drive": "xDrive(twist)",
+     "positive": "toes down",
+     "unity_sign": 1,
+     "rom_deg": [
+      -20,
+      40
+     ],
+     "m0": "active"
+    },
+    {
+     "name": "inversion",
+     "axis": [
+      0,
+      0,
+      1
+     ],
+     "unity_drive": "zDrive(swingZ)",
+     "positive": "sole turns inward",
+     "unity_sign": 1,
+     "rom_deg": [
+      -15,
+      25
+     ],
+     "m0": "active"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "shoulder_R",
+   "parent": "torso",
+   "child": "upper_arm_R",
+   "position": [
+    13.5,
+    66.0,
+    0
+   ],
+   "unity_joint_type": "SphericalJoint",
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "unity_drive": "xDrive(twist)",
+     "positive": "arm swings forward",
+     "unity_sign": -1,
+     "rom_deg": [
+      -50,
+      160
+     ],
+     "m0": "active"
+    },
+    {
+     "name": "internal_rotation",
+     "axis": [
+      0,
+      1,
+      0
+     ],
+     "unity_drive": "yDrive(swingY)",
+     "positive": "forearm turns toward the chest",
+     "unity_sign": -1,
+     "rom_deg": [
+      -60,
+      70
+     ],
+     "m0": "active"
+    },
+    {
+     "name": "abduction",
+     "axis": [
+      0,
+      0,
+      1
+     ],
+     "unity_drive": "zDrive(swingZ)",
+     "positive": "arm raised sideways",
+     "unity_sign": 1,
+     "rom_deg": [
+      -10,
+      150
+     ],
+     "m0": "active"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "elbow_R",
+   "parent": "upper_arm_R",
+   "child": "forearm_R",
+   "position": [
+    13.5,
+    51.0,
+    0
+   ],
+   "unity_joint_type": "RevoluteJoint",
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "unity_drive": "xDrive",
+     "positive": "hand comes forward/up",
+     "unity_sign": -1,
+     "rom_deg": [
+      0,
+      145
+     ],
+     "m0": "active"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "wrist_R",
+   "parent": "forearm_R",
+   "child": "hand_R",
+   "position": [
+    13.5,
+    38.0,
+    0
+   ],
+   "unity_joint_type": "FixedJoint (M0); SphericalJoint later",
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "unity_drive": "xDrive(twist)",
+     "positive": "palm side forward",
+     "unity_sign": -1,
+     "rom_deg": [
+      -60,
+      60
+     ],
+     "m0": "locked"
+    },
+    {
+     "name": "ulnar_deviation",
+     "axis": [
+      0,
+      0,
+      1
+     ],
+     "unity_drive": "zDrive(swingZ)",
+     "positive": "hand tilts outward",
+     "unity_sign": 1,
+     "rom_deg": [
+      -20,
+      30
+     ],
+     "m0": "locked"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "hip_R",
+   "parent": "pelvis",
+   "child": "thigh_R",
+   "position": [
+    8.0,
+    42.0,
+    0
+   ],
+   "unity_joint_type": "SphericalJoint",
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "unity_drive": "xDrive(twist)",
+     "positive": "thigh swings forward",
+     "unity_sign": -1,
+     "rom_deg": [
+      -20,
+      120
+     ],
+     "m0": "active"
+    },
+    {
+     "name": "internal_rotation",
+     "axis": [
+      0,
+      1,
+      0
+     ],
+     "unity_drive": "yDrive(swingY)",
+     "positive": "toes turn inward",
+     "unity_sign": -1,
+     "rom_deg": [
+      -40,
+      35
+     ],
+     "m0": "active"
+    },
+    {
+     "name": "abduction",
+     "axis": [
+      0,
+      0,
+      1
+     ],
+     "unity_drive": "zDrive(swingZ)",
+     "positive": "leg moves outward",
+     "unity_sign": 1,
+     "rom_deg": [
+      -25,
+      40
+     ],
+     "m0": "active"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "knee_R",
+   "parent": "thigh_R",
+   "child": "shank_R",
+   "position": [
+    8.0,
+    23.0,
+    0
+   ],
+   "unity_joint_type": "RevoluteJoint",
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "unity_drive": "xDrive",
+     "positive": "shank swings back",
+     "unity_sign": 1,
+     "rom_deg": [
+      0,
+      135
+     ],
+     "m0": "active"
+    }
+   ],
+   "note": ""
+  },
+  {
+   "id": "ankle_R",
+   "parent": "shank_R",
+   "child": "foot_R",
+   "position": [
+    8.0,
+    4.0,
+    0
+   ],
+   "unity_joint_type": "SphericalJoint with swingY locked",
+   "dofs": [
+    {
+     "name": "plantarflexion",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "unity_drive": "xDrive(twist)",
+     "positive": "toes down",
+     "unity_sign": 1,
+     "rom_deg": [
+      -20,
+      40
+     ],
+     "m0": "active"
+    },
+    {
+     "name": "inversion",
+     "axis": [
+      0,
+      0,
+      1
+     ],
+     "unity_drive": "zDrive(swingZ)",
+     "positive": "sole turns inward",
+     "unity_sign": -1,
+     "rom_deg": [
+      -15,
+      25
+     ],
+     "m0": "active"
+    }
+   ],
+   "note": ""
+  }
+ ],
+ "scaling_rule": "lengths x H/80; masses x M/1e7; inertia x (M/1e7)(H/80)^2; joint positions x H/80; ROM unchanged",
+ "m0_active_dof": 23
+}
