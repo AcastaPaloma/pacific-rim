@@ -37,6 +37,9 @@ namespace Game.World.Streaming.Unity
         /// <summary>Feature flag (default false = old single-frame build). True: render payload meshes are built over several Ticks, at most RenderSliceMs of main-thread work per Tick (at least one stage).</summary>
         public bool SliceRenderBuilds;
         public double RenderSliceMs = 2.0;
+        /// <summary>T-124c feature flag (default false). With SliceRenderBuilds: create each mesh GameObject inside the first slice stage of its job instead of all of them in Build() (Pump),
+        /// so a tile with many meshes no longer pays N GameObject creations + SetParent in one frame.</summary>
+        public bool LazyRenderGameObjects;
         /// <summary>Longest single main-thread stage of the sliced path (ms), since construction; profile.</summary>
         public double MaxStageMs { get; private set; }
         public int RenderJobsPending => _jobs.Count;
@@ -103,7 +106,8 @@ namespace Game.World.Streaming.Unity
                 foreach (var d in p.Meshes)
                 {
                     if (d.VertexCount == 0 || d.Indices.Length == 0) continue;
-                    var go = new GameObject(d.Name); go.transform.SetParent(node.Root.transform, false);
+                    GameObject go = null;
+                    if (!LazyRenderGameObjects) { go = new GameObject(d.Name); go.transform.SetParent(node.Root.transform, false); }
                     var job = new MeshJob { Node = node, D = d, Go = go };
                     _jobs.Add(job); pr.Left++;
                     pr.Gpu += (long)d.VertexCount * 32 + d.Indices.Length * 4L; pr.Cpu += (long)d.VertexCount * 32 + d.Indices.Length * 4L;
@@ -175,8 +179,9 @@ namespace Game.World.Streaming.Unity
                 MeshJob j = null; int at = -1;
                 for (int i = 0; i < _jobs.Count; i++) if (_jobs[i].Ready) { j = _jobs[i]; at = i; break; }
                 if (j == null) break;
-                if (j.Go == null) { _jobs.RemoveAt(at); continue; }
+                if (j.Go == null && (!LazyRenderGameObjects || j.Node.Root == null)) { _jobs.RemoveAt(at); continue; }
                 long ts = Stopwatch.GetTimestamp(); var d = j.D;
+                if (j.Go == null) { j.Go = new GameObject(d.Name); j.Go.transform.SetParent(j.Node.Root.transform, false); }
                 switch (j.Stage)
                 {
                     case 0: j.M = new Mesh { name = d.Name, indexFormat = d.VertexCount > 65535 ? UnityEngine.Rendering.IndexFormat.UInt32 : UnityEngine.Rendering.IndexFormat.UInt16 }; j.M.vertices = j.V; j.V = null; break;

@@ -157,9 +157,23 @@ namespace Game.World.Streaming.Host
         public int InFlight => _reading.Count + _pending.Count + _ready.Count;
         public bool IsBodyHeld(int focusId) => !_sched.PhysicsRingResident(focusId);
 
+        /// <summary>T-124c profile (no behaviour effect): wall ms per stage of the last Tick: 0 scheduler, 1 evict/Release, 2 origin+clusters, 3 reassign+end clusters, 4 dispatch, 5 pump.</summary>
+        public readonly double[] TickStageMsLast = new double[6];
+        public readonly double[] TickStageMsMax = new double[6];
+
+        void StageEnd(int stage, ref long t0)
+        {
+            long t1 = System.Diagnostics.Stopwatch.GetTimestamp();
+            double ms = (t1 - t0) * 1000.0 / System.Diagnostics.Stopwatch.Frequency;
+            TickStageMsLast[stage] = ms; if (ms > TickStageMsMax[stage]) TickStageMsMax[stage] = ms;
+            t0 = t1;
+        }
+
         public void Tick(double dt, ReadOnlySpan<FocusSample> foci)
         {
+            long st = System.Diagnostics.Stopwatch.GetTimestamp();
             _sched.Tick(dt, foci, _plan);
+            StageEnd(0, ref st);
             for (int i = 0; i < _plan.Evict.Count; i++)
             {
                 var k = _plan.Evict[i];
@@ -168,15 +182,20 @@ namespace Game.World.Streaming.Host
                 _resident.Remove(k);
                 _sched.Released(k);
             }
+            StageEnd(1, ref st);
             ApplyOrigin(foci);
             _physicsFoci.Clear();
             for (int i = 0; i < foci.Length; i++) if (foci[i].Kind == FocusKind.Body && foci[i].NeedsPhysics) _physicsFoci.Add(foci[i].Id);
             ApplyClusters();
+            StageEnd(2, ref st);
             ReassignChunks();
             RemoveEndedClusters();
+            StageEnd(3, ref st);
             for (int i = 0; i < _plan.Load.Count; i++) _pending.Add(_plan.Load[i]);
             Dispatch();
+            StageEnd(4, ref st);
             Pump();
+            StageEnd(5, ref st);
         }
 
         void ApplyOrigin(ReadOnlySpan<FocusSample> foci)
