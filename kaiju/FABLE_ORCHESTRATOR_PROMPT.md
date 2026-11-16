@@ -203,7 +203,7 @@ Stop and ask (as a `Q-###`, batched, with recommendations) for:
 
 For everything else, make the call, log it, and keep going.
 
-**Founder instruction (2026-11-15): the orchestrator makes every decision itself, choosing the recommended path that keeps the full ambition (`ledger/AGENT_PROTOCOL.md` §15 overrides the list above).** When the founders are offline, also follow §12: decide with the recommended option, log it, keep every independent track running in parallel, and keep token use low.
+**Founder instruction (2026-11-16): fully independent overnight; build the wake-up demo first (`ledger/AGENT_PROTOCOL.md` §19).** **Founder instruction (2026-11-15): the orchestrator makes every decision itself, choosing the recommended path that keeps the full ambition (`ledger/AGENT_PROTOCOL.md` §15 overrides the list above).** When the founders are offline, also follow §12: decide with the recommended option, log it, keep every independent track running in parallel, and keep token use low.
 
 **Report format** (after each milestone or significant session):
 1. What passed, with evidence links.

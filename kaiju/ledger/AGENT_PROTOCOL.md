@@ -271,3 +271,22 @@ The night of 2026-11-14 ran about 10 sessions at once and used up the 5-hour usa
   - Before any download, bake or capture set, check `df -h` and keep at least 25 GB free.
   - Slim evidence as in T-004.
   - Never duplicate the 75 GB Bay cache. Task worktrees use an APFS clone (`cp -cR`) or the shared path.
+
+## 19. Overnight: a working product when the founder wakes up (founder instruction, 2026-11-16 night)
+Full independence. Never wait for the founder. Every recommendation made to the founder so far counts as accepted. This section is top priority, and it overrides any earlier ordering. §15 (the safety limits), §16 (context cost), §17 (budget pacing) and the disk guard still apply.
+
+**Wake-up deliverable**, owned by the M2 build lead, with the M3/render/audio lead helping:
+1. **`demo` config.** One FeatureFlags/config profile that switches on everything that works today: `walk_mode 2`, combat (melee and cannon), co-op, the kaiju AI, destruction and seismic, slice audio, and the pixel pipeline with its passing layer and haze flags. The defaults stay untouched.
+2. **A runnable player build.** Built with `Tools/Build/build.sh` (T-140) on that profile, and it must pass the smoke test (launches; the mech walks; a kaiju spawns and fights; buildings break; frames are non-blank).
+3. **A gameplay capture.** Record 60–120 s of the slice with the T-147/T-191 capture tooling: walking, fighting, destruction, in the pixel look. Slim encode.
+4. **`reports/WAKE_UP.md`.** One page: how to launch (the exact command), what works, what's stubbed or TEMPORARY, the capture paths, the metric results, and what's next. Keep it short and factual. Known failures are listed, never hidden.
+
+Wrong or broken pieces get fixed or switched off in the demo profile. Never fake a result.
+
+**Accepted recommendations, applied now:**
+- **T-005 pure-physics rounds pause.** Stop any running r12/r13 work and record its state in HANDOFF. The pure-physics walk stays an open LEDGER requirement (§15 staging), so it's staged, not cut. Opus time goes to the demo path.
+- **Walk speed.** A Sonnet task raises the `walk_mode 2` speed cap step by step toward 9 m/s (Froude 0.2). At each step it measures foot slip and stability, and stops at the last stable speed. The demo profile uses that speed.
+- **Hygiene (§16).** Archive idle superseded sessions. Only the M2 build lead, the M3/render/audio lead and the hourly watchdog stay.
+- **After the deliverable lands,** continue the §18 queue in M-007 → Bay data → T-124c performance → M3 polish order.
+
+**Watchdog (`kaiju-watchdog`, hourly).** Each run checks progress against the wake-up deliverable. If the deliverable's owner is idle or dead, the watchdog starts the next step itself (§15 rules on refused session starts).
