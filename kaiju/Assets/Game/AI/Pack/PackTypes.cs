@@ -170,6 +170,7 @@ namespace Game.AI.Pack
         public float BaitDrawSeconds;        // Bait inside its band this long counts as drawing fire (mech lock is 3 s)
         public float GateTimeoutSeconds;     // the commit gate opens this long after the first member is near the target, ready or not
         public float CommitRangeFrac;        // a member commits only within this x standoff of the target
+        public float CommitRangeFracAnchor;  // T-115j: > 0 = the Anchor's own commit range (x standoff / slot radius) while CommitRangeFrac applies to the Flanker and Bait; 0 = every role uses CommitRangeFrac (T-115i behaviour)
         public float BaitOffsetRad;          // Bait slot offset against the first flanker's side (strike geometry, P4)
         public float AnchorOffsetRad;        // Anchor slot offset against the first flanker's side (keeps the engaged spread above 90 degrees)
         public bool RoutePlanning;           // T-115c: members transit along IRoutePlanner waypoints and goal utility / pacing use planner path lengths (needs a planner on the coordinator; straight line otherwise)
@@ -198,6 +199,9 @@ namespace Game.AI.Pack
         public float AccelMps2;              // kaiju linear acceleration used for the arrival-time estimate (the harness and the body model: 2 m/s^2)
         public bool StrictAnchorTol;         // T-113b: under bait-first the Anchor holds the Flanker's slot tolerance (no AnchorTolMul)
 
+        /// <summary>T-115j: the commit range (x standoff) for a role; the Anchor uses CommitRangeFracAnchor when set, every other role CommitRangeFrac.</summary>
+        public readonly float CommitRangeFracFor(PackRole role) => role == PackRole.Anchor && CommitRangeFracAnchor > 0f ? CommitRangeFracAnchor : CommitRangeFrac;
+
         public static PackConfig Default()
         {
             const float deg = 0.017453292519943295f;
@@ -210,7 +214,7 @@ namespace Game.AI.Pack
                 MechStrength = 2.5f, MechValue = 4f, HuntHandlingBaseSeconds = 120f, RaidDamageRate = 1f,
                 DefenseRadiusM = 3000f, RiskScale = 1f, AnchorMinFit = 0.3f, RegroupMinSeconds = 30f,
                 WeightCrane = 1f, WeightPower = 2f, WeightBridge = 3f, WeightAirport = 3f, TransitDistanceM = 1500f,
-                SlotApproachFrac = 0f, StageFrac = 1.0f, StageTimeoutSeconds = 120f, SlotTolFrac = 0.4f, SlotTolMinM = 80f, AnchorTolMul = 2f, PaceMinFrac = 0f, BaitJoinDelaySeconds = 0f, BaitStepInM = 100f, BaitDrawSeconds = 4f, GateTimeoutSeconds = 60f, CommitRangeFrac = 1.6f,
+                SlotApproachFrac = 0f, StageFrac = 1.0f, StageTimeoutSeconds = 120f, SlotTolFrac = 0.4f, SlotTolMinM = 80f, AnchorTolMul = 2f, PaceMinFrac = 0f, BaitJoinDelaySeconds = 0f, BaitStepInM = 100f, BaitDrawSeconds = 4f, GateTimeoutSeconds = 60f, CommitRangeFrac = 1.6f, CommitRangeFracAnchor = 0f,
                 BaitOffsetRad = 0.9f, AnchorOffsetRad = 0.6f, LatchReleaseM = 700f,
                 AnchorLead = false, BaitTimed = false, AnchorHoldM = 0f, AnchorLeadLagS = 2f, BaitLeadS = 9f, AccelMps2 = 2f,
                 BaitFirst = false, BaitWideOffsetRad = 100f * deg, HoldOutsideMarginM = 40f, StrikeArcMinRad = 0f, StrikeArcMaxRad = 70f * deg,

@@ -1,0 +1,36 @@
+# hunt/mixed/raid (m007_bay_real, hold-out 3001-3030 / 3001-3010, evaluator rev 2, bay_cost@v2)
+cl   measure                                 base              ra1               ra5               cr45              
+C1   fr_commit                               PASS 0.9189       PASS 0.9067       PASS 0.9024       PASS 0.8916       
+C2   fe_vs_nofocus                           NOT_RUN -         NOT_RUN -         NOT_RUN -         NOT_RUN -         
+P1   member_fit_time_min_over_species_x_comp PASS 0.8319       PASS 0.8283       PASS 0.8458       PASS 0.8458       
+P4   bs_rate                                 FAIL 0.5000       FAIL 0.5000       PASS 0.5729       FAIL 0.5729       
+P4   bs_rate_minus_k_nobait                  FAIL -0.2542      FAIL -0.2406      PASS 0.0010       FAIL -0.0036      
+P5   kx_ratio_vs_noroles                     FAIL 0.9919       FAIL 0.9852       FAIL 0.8146       FAIL 0.8181       
+P6   participation_share                     FAIL 0.6629       FAIL 0.6629       FAIL 0.6554       FAIL 0.6488       
+I1   raid_completion_rate                    PASS 1.0000       PASS 1.0000       PASS 1.0000       PASS 1.0000       
+I3   ival_per_kaiju_hour_ratio               FAIL 0.9716       FAIL 0.9716       FAIL 0.9716       FAIL 0.9716       
+
+# hunt_mv@v2 (same seeds)
+cl   measure                                 base              ra1               ra5               cr45              
+C1   fr_commit                               FAIL 0.6377       FAIL 0.6099       FAIL 0.5455       FAIL 0.5820       
+C2   fe_vs_nofocus                           PASS 0.9576       PASS 0.9575       PASS 0.9702       PASS 0.9702       
+P1   member_fit_time_min_over_species_x_comp PASS 0.7895       PASS 0.7895       PASS 0.7883       PASS 0.7883       
+P6   participation_share                     FAIL 0.5000       FAIL 0.5027       FAIL 0.5000       FAIL 0.4966       
+
+# fresh seeds 4001-4030, hunt only (P5 here is hunt-only, no mixed)
+cl   measure                                 fresh_base        fresh_ra5         
+C1   fr_commit                               FAIL 0.5882       FAIL 0.5306       
+P1   member_fit_time_min_over_species_x_comp PASS 0.7386       PASS 0.7828       
+P4   bs_rate                                 FAIL 0.2034       FAIL 0.2462       
+P4   bs_rate_minus_k_nobait                  FAIL -0.0036      FAIL -0.0951      
+P5   kx_ratio_vs_noroles                     FAIL 1.0637       FAIL 1.0128       
+P6   participation_share                     FAIL 0.5168       FAIL 0.5156       
+
+# 900 s hunt (hold-out seeds 3001-3030, hunt only; mixed/raid not rerun so I1/I3 NOT_RUN)
+cl   measure                                 base600           base900           ra5_600           ra5_900           
+C1   fr_commit                               PASS 0.9189       PASS 0.8444       PASS 0.9024       PASS 0.7868       
+P1   member_fit_time_min_over_species_x_comp PASS 0.8319       PASS 0.7592       PASS 0.8458       PASS 0.7862       
+P4   bs_rate                                 FAIL 0.5000       FAIL 0.4559       PASS 0.5729       FAIL 0.5522       
+P4   bs_rate_minus_k_nobait                  FAIL -0.2542      FAIL -0.1248      PASS 0.0010       FAIL -0.0198      
+P5   kx_ratio_vs_noroles                     FAIL 0.9919       FAIL 0.9214       FAIL 0.8146       FAIL 0.8299       
+P6   participation_share                     FAIL 0.6629       FAIL 0.7112       FAIL 0.6554       FAIL 0.6929       

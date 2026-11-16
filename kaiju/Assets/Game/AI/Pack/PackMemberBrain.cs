@@ -216,7 +216,7 @@ namespace Game.AI.Pack
                 {
                     float dist = Dist(me, tp);
                     // within the commit range only: a straggler still in transit keeps walking to its slot
-                    if (dist <= Math.Max(_pcfg.CommitRangeFrac * _stand(obs), d.CommitRangeM))
+                    if (dist <= Math.Max(_pcfg.CommitRangeFracFor(d.Role) * _stand(obs), d.CommitRangeM))
                     {
                         intent.DesiredHeadingRad = Dir(me, tp); intent.SpeedFrac = _cfg.SpeedCharge; intent.State = BrainState.Charge; intent.TargetId = d.FocusTargetId;
                         intent.Action = dist <= _cfg.MeleeReachM ? BrainAction.Melee : BrainAction.None;

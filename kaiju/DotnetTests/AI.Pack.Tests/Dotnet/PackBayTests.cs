@@ -20,6 +20,18 @@ namespace Game.AI.Pack.Tests
         }
 
         [Test]
+        public void CommitRangeFracFor_IsRoleAwareOnlyWhenTheAnchorFieldIsSet()   // T-115j
+        {
+            var c = PackConfig.Bay();
+            Assert.AreEqual(0f, c.CommitRangeFracAnchor, "default off: every role uses CommitRangeFrac");
+            foreach (PackRole r in new[] { PackRole.Anchor, PackRole.Flanker, PackRole.Bait }) Assert.AreEqual(c.CommitRangeFrac, c.CommitRangeFracFor(r));
+            c.CommitRangeFrac = 4.5f; c.CommitRangeFracAnchor = 1.6f;
+            Assert.AreEqual(1.6f, c.CommitRangeFracFor(PackRole.Anchor));
+            Assert.AreEqual(4.5f, c.CommitRangeFracFor(PackRole.Flanker));
+            Assert.AreEqual(4.5f, c.CommitRangeFracFor(PackRole.Bait));
+        }
+
+        [Test]
         public void Bay_GateStaysClosedInTransitThenOpensWithAWideFlankSpread()
         {
             var sim = BaySim();
