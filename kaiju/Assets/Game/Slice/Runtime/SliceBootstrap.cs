@@ -345,7 +345,16 @@ namespace Game.Slice
                 var tuning = DevicePilotSource.LoadTuning(controlTuning);
                 var pilot = new DevicePilotSource(_flags, tuning, () => new System.Numerics.Vector3(_body.Body.X, _body.Body.Y, _body.Body.Z), () => _cam != null ? _cam.transform.eulerAngles.y * Mathf.Deg2Rad : 0f,
                     stick: () => AutoPilot ? _autoStick() : ReadKeys());
-                _autoStick = () => { float t = (float)_root.Services.Clock.TimeSeconds; return new Vector2(0.15f * Mathf.Sin(t * 0.35f), 0.6f); };
+                _autoStick = () =>
+                {
+                    float t = (float)_root.Services.Clock.TimeSeconds;
+                    if (_mechUnit == null) return new Vector2(0.15f * Mathf.Sin(t * 0.35f), 0.6f);
+                    // T-202: the physics mech falls on slopes steeper than ~4 deg (walk_mode 2 is tuned on flat ground), so the scripted auto-pilot picks the flattest heading within +-60 deg every 0.25 s (documented pilot assist, smoke / auto only)
+                    if (t >= _apNext) { _apNext = t + 0.25f; _apDir = PickFlatHeading(); }
+                    float cy = _cam != null ? _cam.transform.eulerAngles.y * Mathf.Deg2Rad : 0f;
+                    var d = new Vector2(Mathf.Sin(_apDir), Mathf.Cos(_apDir));
+                    return new Vector2(d.x * Mathf.Cos(cy) - d.y * Mathf.Sin(cy), d.x * Mathf.Sin(cy) + d.y * Mathf.Cos(cy)) * 0.6f;
+                };
                 _seat = new PilotSeat(new SinglePilotArbiter(), pilot);
                 if (_configUsed == "demo" && _flags.IsOn(MechConfig.FlagEnabled) && _flags.IsOn(MechConfig.FlagBodyEnabled)) SpawnPhysicsMech(mx, gy, mz, vis);
             }
@@ -413,6 +422,22 @@ namespace Game.Slice
             var ph = _mechUnit.Phase;
             if (_mechFellAt < 0 && (ph == LocoPhase.Fallen || ph == LocoPhase.Falling)) { _mechFellAt = ts; Log("mech FELL at t=" + F((float)ts) + " s, com (" + F(com.X) + ", " + F(com.Y) + ", " + F(com.Z) + ") ground " + F(gy) + " v (" + F(v.X) + ", " + F(v.Y) + ", " + F(v.Z) + ")"); }
             if (ts >= _mechTraceNext) { _mechTraceNext = ts + 1.0; Log("mech t=" + F((float)ts) + " " + ph + " com (" + F(com.X) + ", " + F(com.Y) + ", " + F(com.Z) + ") ground " + F(gy) + " ray " + F(_mechUnit.Controller.GroundHeight != null ? _mechUnit.Controller.GroundHeight(com.X, com.Z) : -999f) + " v " + F(sp) + " hd " + F(hd)); }
+        }
+
+        float _apNext, _apDir = float.NaN; float _apBase = float.NaN;
+        /// <summary>World heading (rad, 0 = +z) of the flattest of 9 candidates within +-60 deg of the base heading (mech facing at the first call), by max terrain gradient over 10..70 m ahead.</summary>
+        float PickFlatHeading()
+        {
+            if (float.IsNaN(_apBase)) _apBase = _mechUnit.Command.Heading;
+            float cx = _mech.X, cz = _mech.Y, best = float.MaxValue, bestH = _apBase;
+            for (int k = -4; k <= 4; k++)
+            {
+                float h = _apBase + k * 15f * Mathf.Deg2Rad, worst = 0f, prev = Ground(cx, cz);
+                for (int i = 1; i <= 7; i++) { float g = Ground(cx + Mathf.Sin(h) * 10f * i, cz + Mathf.Cos(h) * 10f * i); worst = Mathf.Max(worst, Mathf.Abs(g - prev) / 10f); prev = g; }
+                float score = worst + 0.002f * Mathf.Abs(k);
+                if (score < best) { best = score; bestH = h; }
+            }
+            return bestH;
         }
 
         void SetActorsActive(bool on)
