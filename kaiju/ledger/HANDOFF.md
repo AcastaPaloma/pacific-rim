@@ -924,3 +924,9 @@ Re-run: `KAIJU_GEO_CACHE=<integration cache> python -I Pipelines/geo/bake_landma
 ## T-194c determinism fix
 - Queue tier (`-captureStableOrder`, building/landmark 2001, terrain 2000) did NOT fix the cross-process nondeterminism: p4_d_dolly_v4 x4 over 7 flagged processes gave outcome c570 x5 and b6e6 x2 (frame 33, one pixel), unflagged baseline b6e6 reproduced; the other 5 capture sequences are identical in every process pair. So draw order is not the discriminator. Evidence `kaiju/evidence/T-194c/`, details `kaiju/tasks/T-194.progress.md`.
 - Added default-off, UNVERIFIED `-captureTerrainSink <m>` (lowers terrain renderers, capture scene only). All 8 allowed Unity runs are used; a 9th was refused. Next: 2-4 runs to test the sink; failing that, the geo builder (World/Geo owner) must not emit the coplanar footprint face, or a depth-bias building shader (URP Lit has no Offset). Defaults and captured output unchanged. — decided autonomously (founder asleep): keep the fix opt-in, not default, because it is not verified.
+
+## T-204 batched EditMode
+- Integration HEAD 471e53e: EditMode 1043 total, 1029 pass, 8 fail, 6 skip; compiles clean. Details and log paths `evidence/regression/T-204.md`.
+- Fixed: GameCoreConfig.asset regenerated (27 -> 28 flag files), Adapter test passes.
+- Open, owner Units.Mech (not touched): 7 ReferenceGaitTests failures (dorsiflexion spare, stance-foot yaw moment at 0.2/0.3) after T-201 walk_tuning_fast; needs the Mech owner.
+- `-captureTerrainSink 0.02` compiles and fixed the p4_d x4 frame 33 cross-process split in 3 of 3 processes (xproc 0/300 differing). Recommend making it default for capture runs (only 3 samples; earlier flag runs gave 5 of 7 matching). — decided autonomously (founder asleep); alternative: geo builder footprint-face removal
