@@ -93,7 +93,7 @@ namespace Game.Combat
     }
 
     /// <summary>Owns the mounted weapons and advances them in a fixed order (cannons in mount order, then arms). The host steps it; clients never do.</summary>
-    public sealed class CombatSystem
+    public sealed class CombatSystem : IAmmoQuery
     {
         private readonly IEventBus _bus;
         private readonly ICombatTargetQuery _query;
@@ -111,6 +111,14 @@ namespace Game.Combat
         public CombatSystem(IEventBus bus, ICombatTargetQuery query, ImpactRouter router)
         {
             _bus = bus; _query = query; _router = router ?? throw new ArgumentNullException(nameof(router));
+        }
+
+        /// <summary>First mounted cannon whose mount id is <paramref name="owner"/>; read-only, no behaviour change (T-152b).</summary>
+        public bool TryGetAmmo(EntityId owner, out AmmoStatus status)
+        {
+            for (int i = 0; i < _cannons.Count; i++)
+                if (_cannons[i].Mount.Id.Equals(owner)) { status = _cannons[i].Cannon.GetAmmoStatus(); return true; }
+            status = default; return false;
         }
 
         public CannonMount AddCannon(IWeaponMount mount, CannonSpec spec, double muzzleForwardM = 0, double muzzleHeightM = 0, BallisticEnvironment? env = null)
