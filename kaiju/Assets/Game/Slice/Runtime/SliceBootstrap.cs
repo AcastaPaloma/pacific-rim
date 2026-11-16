@@ -79,7 +79,7 @@ namespace Game.Slice
         SliceAudioBehaviour _audio;   // T-188: only when audio.slice is on
         readonly Dictionary<BuildingId, (double x, double z)> _audioPos = new Dictionary<BuildingId, (double x, double z)>();
         readonly SliceBuildingIndex _index = new SliceBuildingIndex();
-        readonly List<SliceFootprint> _footprints = new List<SliceFootprint>();   // Unity-frame building footprints for the spawn planner
+        readonly List<SliceFootprint> _footprints = new List<SliceFootprint>(); readonly List<BuildingId> _footIds = new List<BuildingId>();   // Unity-frame building footprints for the spawn planner
         float _spawnYawDeg;
         public const float MechHeightM = 80f;   // Units.Placeholder body height (PlaceholderLimits.HeightM): the rig orbits at 3.1 x this
         readonly Queue<BuildingId> _removals = new Queue<BuildingId>();
@@ -267,7 +267,7 @@ namespace Game.Slice
                 _index.Add(b.Id, x, z, Math.Sqrt(Math.Max(b.AreaM2, 20.0)) * 0.6);
                 if (_audio != null) _audioPos[b.Id] = (x, z);
                 _combatWorld.AddBuilding(b.Id, x - OriginX, z - OriginZ, Math.Sqrt(Math.Max(b.AreaM2, 20.0)) * 0.6, b.HeightM);
-                _footprints.Add(new SliceFootprint(x - OriginX, z - OriginZ, Math.Sqrt(Math.Max(b.AreaM2, 20.0)) * 0.6, b.HeightM));
+                _footprints.Add(new SliceFootprint(x - OriginX, z - OriginZ, Math.Sqrt(Math.Max(b.AreaM2, 20.0)) * 0.6, b.HeightM)); _footIds.Add(b.Id);
             }
             _buildingCount = all.Count;
         }
@@ -513,7 +513,7 @@ namespace Game.Slice
             if (_audio != null && _cam != null) _audio.Tick(_mechT.position, _cam.transform, _root.Services.Clock.Step, OriginX, OriginZ);
             { var mp = _mechT.position; if (_haveLastM) _mechTravel += Math.Sqrt((mp.x - _lastMX) * (mp.x - _lastMX) + (mp.z - _lastMZ) * (mp.z - _lastMZ)); _lastMX = mp.x; _lastMZ = mp.z; _haveLastM = true; }
             MoveImpactor(dt);
-            for (int i = 0; i < 3 && _removals.Count > 0; i++) { var id = _removals.Dequeue(); if (!_comp.Geo.IsRemoved(id)) { _comp.Geo.RemoveBuilding(id); _removedCount++; } }
+            for (int i = 0; i < 3 && _removals.Count > 0; i++) { var id = _removals.Dequeue(); if (!_comp.Geo.IsRemoved(id)) { _comp.Geo.RemoveBuilding(id); _removedCount++; if (_recDir != null) RecordEvent(Time.timeSinceLevelLoad - _readyAt, "building removed " + id); } }
             var kb = Keyboard.current;
             if (kb != null)
             {
@@ -834,74 +834,124 @@ namespace Game.Slice
                 SetImpactCamPose(); _recDestroyCamOn = true; _recDestroyCamUntil = -1f; RecordEvent(t, "destruction cam: cut to impact view");
             }
         }
-        /// <summary>T-206b framing: high (35-45 deg down), 120-200 m from the look point, aimed between the impact point and the cluster of nearby buildings (plus a point up the impactor path). Candidates (azimuth x distance x pitch) must have a clear line of sight to the look point and sit outside every footprint + 30 m margin (no wall in front); the best score wins (cluster points and impactor-path point visible, side-on preferred). Falls back to the smoke's destroy pose.</summary>
+        // ---- T-206c destruction camera: real building geometry instead of footprint circles ----
+        sealed class Occluder { public BuildingId Id, PartOf; public Vector3 Min, Max; public float[] P; public int[] I; public float Ox, Oz; }
+        List<Occluder> _occ;
+        void BuildOccluders()
+        {
+            _occ = new List<Occluder>();
+            foreach (var inst in _builder.Instances)
+            {
+                float ox = (float)(inst.Model.Context.OriginX - OriginX), oz = (float)(inst.Model.Context.OriginZ - OriginZ);
+                foreach (var b in inst.Model.Buildings)
+                {
+                    if (b.Excluded != null || b.Mesh == null || b.Mesh.Positions == null || b.Mesh.Positions.Length < 9) continue;
+                    var p = b.Mesh.Positions; var mn = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue); var mx = -mn;
+                    for (int i = 0; i + 2 < p.Length; i += 3) { var v = new Vector3(p[i] + ox, p[i + 1], p[i + 2] + oz); mn = Vector3.Min(mn, v); mx = Vector3.Max(mx, v); }
+                    _occ.Add(new Occluder { Id = b.Id, PartOf = b.PartOf, Min = mn, Max = mx, P = p, I = b.Mesh.Indices, Ox = ox, Oz = oz });
+                }
+            }
+            Log("T-206c occluders: " + _occ.Count + " building meshes");
+        }
+        static bool SegAabb(Vector3 a, Vector3 b, Vector3 mn, Vector3 mx)
+        {
+            float t0 = 0f, t1 = 1f;
+            for (int k = 0; k < 3; k++)
+            {
+                float o = a[k], d = b[k] - a[k], lo = mn[k], hi = mx[k];
+                if (Mathf.Abs(d) < 1e-6f) { if (o < lo || o > hi) return false; continue; }
+                float u0 = (lo - o) / d, u1 = (hi - o) / d; if (u0 > u1) { var t = u0; u0 = u1; u1 = t; }
+                if (u0 > t0) t0 = u0; if (u1 < t1) t1 = u1; if (t0 > t1) return false;
+            }
+            return true;
+        }
+        static bool SegTri(Vector3 o, Vector3 d, Vector3 v0, Vector3 v1, Vector3 v2)
+        {
+            var e1 = v1 - v0; var e2 = v2 - v0; var pv = Vector3.Cross(d, e2); float det = Vector3.Dot(e1, pv);
+            if (Mathf.Abs(det) < 1e-9f) return false;
+            float inv = 1f / det; var sv = o - v0; float u = Vector3.Dot(sv, pv) * inv; if (u < 0f || u > 1f) return false;
+            var q = Vector3.Cross(sv, e1); float v = Vector3.Dot(d, q) * inv; if (v < 0f || u + v > 1f) return false;
+            float t = Vector3.Dot(e2, q) * inv; return t > 0.002f && t < 0.998f;
+        }
+        bool SegHitsOccluder(Vector3 a, Vector3 b, Occluder o)
+        {
+            if (!SegAabb(a, b, o.Min, o.Max)) return false;
+            var d = b - a; var p = o.P; var ix = o.I;
+            for (int t = 0; t + 2 < ix.Length; t += 3)
+            {
+                int i0 = ix[t] * 3, i1 = ix[t + 1] * 3, i2 = ix[t + 2] * 3;
+                if (SegTri(a, d, new Vector3(p[i0] + o.Ox, p[i0 + 1], p[i0 + 2] + o.Oz), new Vector3(p[i1] + o.Ox, p[i1 + 1], p[i1 + 2] + o.Oz), new Vector3(p[i2] + o.Ox, p[i2 + 1], p[i2 + 2] + o.Oz))) return true;
+            }
+            return false;
+        }
+        readonly RaycastHit[] _losHits = new RaycastHit[16];
+        /// <summary>True when the segment eye..p crosses no building mesh (other than the target and its parts) and no terrain / landmark collider (Physics raycast).</summary>
+        bool CamVisible(Vector3 eye, Vector3 p, List<Occluder> near, BuildingId target)
+        {
+            foreach (var o in near)
+            {
+                if (o.Id.Equals(target) || o.PartOf.Equals(target)) continue;
+                if (SegHitsOccluder(eye, p, o)) return false;
+            }
+            var dir = p - eye; float len = dir.magnitude; if (len < 1f) return true;
+            int n = UnityEngine.Physics.RaycastNonAlloc(eye, dir / len, _losHits, len - 0.5f, ~0, QueryTriggerInteraction.Ignore);
+            for (int i = 0; i < n; i++) { var c = _losHits[i].collider; if (c is TerrainCollider || c.gameObject.layer == LayerMask.NameToLayer("LandmarkStatic")) return false; }
+            return true;
+        }
+        /// <summary>T-206c framing: the destroyed building's real mesh bounds are the look target and fill about 1/3 of the frame height; the pose needs an unobstructed line (building triangles, terrain and landmark colliders) to the bounds centre and at least 4 of 6 bounds points. If no candidate passes, relax in this order: stage 0 pitch 42/48 deg at the 1/3-frame distance; stage 1 higher pitch 56/64/72; stage 2 same pitches 1.35x farther; stage 3 1.8x farther; stages 4-5 near top-down 78/84 deg (1x, 1.5x; centre + 2 more points); stage 6 eye-inside test off (60-84 deg, >=1 point); stage 7 ungated 60-84 deg at 1.6x (logged LAST RESORT); then the smoke. Buildings >= 60 m tall start with 20/28/35 deg pitches (tower against the sky)'s destroy pose.</summary>
         void SetImpactCamPose()
         {
-            float yr = _spawnYawDeg * Mathf.Deg2Rad; int target = -1; double bestD = double.MaxValue; double h = 40.0;
+            int target = -1; double bestD = double.MaxValue;
             for (int i = 0; i < _footprints.Count; i++)
             {
                 var f = _footprints[i]; double d = (f.X - _impactAim.x) * (f.X - _impactAim.x) + (f.Z - _impactAim.z) * (f.Z - _impactAim.z);
-                if (d < bestD) { bestD = d; h = f.Height; target = i; }
+                if (d < bestD) { bestD = d; target = i; }
             }
-            // cluster: up to 6 nearest footprints within 90 m of the impact point (mid-height points, capped at 25 m)
-            var cluster = new List<Vector3>(); var taken = new HashSet<int>();
-            for (int n = 0; n < 6; n++)
-            {
-                int bi = -1; double bd = 90.0 * 90.0;
-                for (int i = 0; i < _footprints.Count; i++)
-                {
-                    if (taken.Contains(i)) continue; var f = _footprints[i];
-                    double d = (f.X - _impactAim.x) * (f.X - _impactAim.x) + (f.Z - _impactAim.z) * (f.Z - _impactAim.z);
-                    if (d < bd) { bd = d; bi = i; }
-                }
-                if (bi < 0) break; taken.Add(bi); var fb = _footprints[bi];
-                cluster.Add(new Vector3((float)fb.X, Ground((float)fb.X, (float)fb.Z) + Mathf.Clamp((float)fb.Height * 0.5f, 6f, 25f), (float)fb.Z));
-            }
-            var impact = new Vector3(_impactAim.x, Ground(_impactAim.x, _impactAim.z) + Mathf.Clamp((float)h * 0.4f, 8f, 30f), _impactAim.z);
-            var back = (_impactAim - _impactor.position); back.y = 0f; back = back.sqrMagnitude > 1f ? -back.normalized : new Vector3(-Mathf.Sin(yr), 0f, -Mathf.Cos(yr));   // horizontal unit vector pointing back up the impactor path
-            var pathPt = impact + back * 60f + new Vector3(0f, 35f, 0f);
-            var look = impact + back * 18f;   // bias the aim slightly up the path so the round is in frame as it arrives
-            float approach = Mathf.Atan2(back.x, back.z);
-            float bestScore = float.MinValue; Vector3 bestPos = default; bool have = false;
-            float[] dists = { 170f, 140f, 200f, 120f }; float[] pitches = { 45f, 42f, 38f };
-            float[] tHoriz = { 110f, 70f, 40f }, tClear = { 14f, 10f, 8f }, tMargin = { 60f, 40f, 25f };
-            for (int tier = 0; tier < 3 && !have; tier++)
-            for (int di = 0; di < dists.Length; di++)
-                for (int pi = 0; pi < pitches.Length; pi++)
+            if (target < 0) { SetDestroyView(); return; }
+            if (_occ == null) BuildOccluders();
+            var tid = _footIds[target]; bool hasB = false; Vector3 mn = Vector3.zero, mx = Vector3.zero;
+            foreach (var o in _occ) if (o.Id.Equals(tid) || o.PartOf.Equals(tid)) { if (!hasB) { mn = o.Min; mx = o.Max; hasB = true; } else { mn = Vector3.Min(mn, o.Min); mx = Vector3.Max(mx, o.Max); } }
+            if (!hasB) { RecordEvent(Time.timeSinceLevelLoad - _readyAt, "destruction cam: target has no mesh, smoke view"); SetDestroyView(); return; }
+            var ctr = (mn + mx) * 0.5f; var fp = _footprints[target];
+            RecordEvent(Time.timeSinceLevelLoad - _readyAt, "destruction cam target bounds min(" + F(mn.x) + "," + F(mn.y) + "," + F(mn.z) + ") max(" + F(mx.x) + "," + F(mx.y) + "," + F(mx.z) + ") footprint(" + F((float)fp.X) + "," + F((float)fp.Z) + ") h " + F((float)fp.Height) + " ground " + F(Ground(ctr.x, ctr.z)));
+            var corners = new Vector3[8]; for (int c = 0; c < 8; c++) corners[c] = new Vector3((c & 1) != 0 ? mx.x : mn.x, (c & 2) != 0 ? mx.y : mn.y, (c & 4) != 0 ? mx.z : mn.z);
+            var pts = new[] { ctr, new Vector3(ctr.x, mx.y - 1f, ctr.z), new Vector3(mn.x, Mathf.Lerp(mn.y, mx.y, 0.7f), ctr.z), new Vector3(mx.x, Mathf.Lerp(mn.y, mx.y, 0.7f), ctr.z), new Vector3(ctr.x, Mathf.Lerp(mn.y, mx.y, 0.7f), mn.z), new Vector3(ctr.x, Mathf.Lerp(mn.y, mx.y, 0.7f), mx.z) };
+            var near = new List<Occluder>(); foreach (var o in _occ) { if (_comp.Geo.IsRemoved(o.Id)) continue; if (o.Max.x < ctr.x - 420f || o.Min.x > ctr.x + 420f || o.Max.z < ctr.z - 420f || o.Min.z > ctr.z + 420f) continue; near.Add(o); }
+            var back = (_impactAim - _impactor.position); back.y = 0f; back = back.sqrMagnitude > 1f ? -back.normalized : Vector3.back;
+            float approach = Mathf.Atan2(back.x, back.z); var pathPt = ctr + back * 60f + new Vector3(0f, 35f, 0f);
+            float tanHalf = Mathf.Tan(Mathf.Clamp(_cam != null ? _cam.fieldOfView : 50f, 20f, 90f) * 0.5f * Mathf.Deg2Rad);
+            float[][] stagePitch = { mx.y - mn.y >= 60f ? new[] { 20f, 28f, 35f } : new[] { 42f, 48f }, new[] { 56f, 64f, 72f }, new[] { 42f, 48f, 56f, 64f, 72f }, new[] { 42f, 48f, 56f, 64f, 72f }, new[] { 78f, 84f }, new[] { 78f, 84f }, new[] { 60f, 72f, 84f }, new[] { 60f, 72f, 84f } };
+            float[] stageScale = { 1f, 1f, 1.35f, 1.8f, 1f, 1.5f, 1f, 1.6f }; int[] stageMinVis = { 5, 5, 5, 5, 3, 3, 1, 0 }; int rejGround = 0, rejInside = 0, rejCenter = 0, rejVis = 0;
+            float bestScore = float.MinValue; Vector3 bestPos = default; int bestStage = -1, bestVis = 0; float bestFrac = 0f, bestDist = 0f; int tested = 0;
+            for (int stage = 0; stage < 8 && bestStage < 0; stage++)
+                foreach (float pitch in stagePitch[stage])
                     for (int k = 0; k < 24; k++)
                     {
-                        float az = approach + (k * 15f) * Mathf.Deg2Rad;   // camera azimuth around the look point, measured from the path-back direction
-                        float pr = pitches[pi] * Mathf.Deg2Rad, hd = dists[di] * Mathf.Cos(pr);
-                        var pos = new Vector3(look.x + Mathf.Sin(az) * hd, look.y + dists[di] * Mathf.Sin(pr), look.z + Mathf.Cos(az) * hd);
-                        if (pos.y < Ground(pos.x, pos.z) + 25f) continue;
-                        if (InsideAnyFootprint(pos, tMargin[tier]) || RoofAbove(pos, tHoriz[tier], tClear[tier])) continue;
-                        if (!ClearLineOfSight(pos, look, target)) continue;
-                        int vis = 0; foreach (var c in cluster) if (ClearLineOfSight(pos, c, -1)) vis++;
-                        float side = Mathf.Abs(Mathf.DeltaAngle(k * 15f, 90f)) > 0f ? Mathf.Min(Mathf.Abs(Mathf.DeltaAngle(k * 15f, 90f)), Mathf.Abs(Mathf.DeltaAngle(k * 15f, 270f))) : 0f;   // 0 when exactly side-on
-                        float score = vis * 10f + (ClearLineOfSight(pos, pathPt, -1) ? 6f : 0f) - side / 15f - di * 0.5f - pi * 0.2f;
-                        if (score > bestScore) { bestScore = score; bestPos = pos; have = true; }
+                        float az = approach + k * 15f * Mathf.Deg2Rad, pr = pitch * Mathf.Deg2Rad;
+                        var dirUp = new Vector3(Mathf.Sin(az) * Mathf.Cos(pr), Mathf.Sin(pr), Mathf.Cos(az) * Mathf.Cos(pr));   // unit vector from the look point to the eye
+                        var fwd = -dirUp; var up = (Vector3.up - fwd * Vector3.Dot(Vector3.up, fwd)).normalized;
+                        float lo = float.MaxValue, hi = float.MinValue; foreach (var cc in corners) { float u = Vector3.Dot(cc - ctr, up); lo = Mathf.Min(lo, u); hi = Mathf.Max(hi, u); }
+                        float H = Mathf.Max(hi - lo, 8f), dist = Mathf.Clamp(1.5f * H / tanHalf, 55f, 650f) * stageScale[stage];
+                        var pos = ctr + dirUp * dist; tested++;
+                        if (pos.y < Ground(pos.x, pos.z) + 25f) { rejGround++; continue; }
+                        bool inside = false; foreach (var o in near) if (pos.x > o.Min.x - 8f && pos.x < o.Max.x + 8f && pos.z > o.Min.z - 8f && pos.z < o.Max.z + 8f && pos.y < o.Max.y + 8f && pos.y > o.Min.y - 8f) { inside = true; break; }
+                        if (inside && stage < 6) { rejInside++; continue; }
+                        if (stage < 7 && !CamVisible(pos, ctr, near, tid)) { rejCenter++; continue; }
+                        int vis = 1; for (int q = 1; q < pts.Length; q++) if (CamVisible(pos, pts[q], near, tid)) vis++;
+                        if (vis < stageMinVis[stage]) { rejVis++; continue; }
+                        float frac = H / (2f * dist * tanHalf);
+                        float side = Mathf.Min(Mathf.Abs(Mathf.DeltaAngle(k * 15f, 90f)), Mathf.Abs(Mathf.DeltaAngle(k * 15f, 270f)));
+                        float score = vis * 10f + (CamVisible(pos, pathPt, near, tid) ? 4f : 0f) - Mathf.Abs(frac - 1f / 3f) * 60f - side / 30f;
+                        if (score > bestScore) { bestScore = score; bestPos = pos; bestVis = vis; bestFrac = frac; bestDist = dist; bestStage = stage; }
                     }
-            if (have) { SetScriptedLook(bestPos, look); RecordEvent(Time.timeSinceLevelLoad - _readyAt, "destruction cam pose (" + F(bestPos.x) + ", " + F(bestPos.y) + ", " + F(bestPos.z) + ") score " + F(bestScore) + " cluster " + cluster.Count); return; }
+            if (bestStage >= 0)
+            {
+                SetScriptedLook(bestPos, ctr);
+                RecordEvent(Time.timeSinceLevelLoad - _readyAt, "destruction cam pose (" + F(bestPos.x) + ", " + F(bestPos.y) + ", " + F(bestPos.z) + ") stage " + bestStage + " dist " + F(bestDist) + " frame_fraction " + F(bestFrac) + " visible_pts " + bestVis + "/6 candidates " + tested + (bestStage >= 6 ? " (LAST RESORT: eye-inside test " + (bestStage == 6 ? "off" : "off and ray gate off") + ")" : ""));
+                return;
+            }
+            RecordEvent(Time.timeSinceLevelLoad - _readyAt, "destruction cam: NO valid pose in 8 stages (" + tested + " candidates; rejected ground " + rejGround + " inside " + rejInside + " centre-ray " + rejCenter + " points " + rejVis + "), smoke view");
             SetDestroyView();
-        }
-        /// <summary>True when a building within horiz metres (horizontally) of p has its roof within clear metres of p.y or above it (the eye would look at a roof / wall right in front of the lens).</summary>
-        bool RoofAbove(Vector3 p, float horiz, float clear)
-        {
-            for (int i = 0; i < _footprints.Count; i++)
-            {
-                var f = _footprints[i]; double dx = f.X - p.x, dz = f.Z - p.z, r = horiz + f.Radius;
-                if (dx * dx + dz * dz < r * r && p.y < Ground((float)f.X, (float)f.Z) + f.Height + clear) return true;
-            }
-            return false;
-        }
-        bool InsideAnyFootprint(Vector3 p, float margin)
-        {
-            for (int i = 0; i < _footprints.Count; i++)
-            {
-                var f = _footprints[i]; double r = f.Radius + margin;
-                if ((f.X - p.x) * (f.X - p.x) + (f.Z - p.z) * (f.Z - p.z) < r * r) return true;
-            }
-            return false;
         }
         void RecordEvent(float t, string what) { _recEvents.Add("t=" + F(t) + " " + what); }
         /// <summary>Recurring script on top of the smoke's first 20 s (quake 5, impact 12, cannon every 2 s from 3, swings 8 and 14, duel 13.5): another impact every 18 s, quake every 30 s, swing every 10 s, duel reset every 25 s.</summary>
