@@ -68,6 +68,9 @@ namespace Game.World.Streaming.Host
         public double MainThreadSliceMs = 2.0;
         public int MaxReads = 4;
         public int MaxPhysicsReads = 4;
+        /// <summary>T-124b (feature flag, 0 = off = old behaviour): main-thread build time per Tick for URGENT (physics) payloads. Past it, at least one urgent payload is built and the
+        /// rest wait for the next Tick, so a burst of chunks arriving together (a cluster change, a spawn, a fast body) is spread over frames instead of one long frame.</summary>
+        public double UrgentSliceMs = 0.0;
         /// <summary>Wall clock in ms (injectable for tests).</summary>
         public Func<double> ClockMs = () => Stopwatch.GetTimestamp() * 1000.0 / Stopwatch.Frequency;
     }
@@ -113,6 +116,15 @@ namespace Game.World.Streaming.Host
         public int Failures { get; private set; }
         public int Dropped { get; private set; }
         public double LastBuildMs { get; private set; }
+        /// <summary>T-124b profile of the main-thread build items (ITileBuilder.Build): the longest single item since the last ResetItemProfile, its key and kind, and the count of items.</summary>
+        public double MaxItemMs { get; private set; }
+        public string MaxItemKey { get; private set; } = "";
+        public double MaxItemMsPhysics { get; private set; }
+        public double MaxItemMsRender { get; private set; }
+        public long ItemCount { get; private set; }
+        /// <summary>Largest number of payloads built in one Pump (burst size).</summary>
+        public int MaxItemsPerPump { get; private set; }
+        public void ResetItemProfile() { MaxItemMs = 0; MaxItemKey = ""; MaxItemMsPhysics = 0; MaxItemMsRender = 0; ItemCount = 0; MaxItemsPerPump = 0; }
         public StreamingPlan LastPlan => _plan;
         /// <summary>(oldX, oldZ, newX, newZ): fired right after the builder shifted its roots.</summary>
         public event Action<double, double, double, double> OriginShifted;
@@ -313,7 +325,11 @@ namespace Game.World.Streaming.Host
             for (int i = 0; i < _ready.Count; i++)
             {
                 var r = _ready[i];
-                if (!r.Urgent && done > 0 && _opt.ClockMs() - t0 >= _opt.MainThreadSliceMs) break;
+                if (done > 0)
+                {
+                    double slice = r.Urgent ? _opt.UrgentSliceMs : _opt.MainThreadSliceMs;
+                    if ((!r.Urgent || slice > 0.0) && _opt.ClockMs() - t0 >= slice) break;
+                }
                 done++;
                 var st = _sched.GetState(r.Key);
                 if (st != TileState.Requested && st != TileState.Reading && st != TileState.Building) { Dropped++; continue; }
@@ -326,9 +342,14 @@ namespace Game.World.Streaming.Host
                     _clusterBuilder.AssignCluster(r.Key, owner);
                     _chunkOwner[r.Key] = owner;
                 }
+                double ti = _opt.ClockMs();
                 try { _builder.Build(r.Key, r.Payload, this); }
                 catch (Exception e) { Failures++; _sched.Failed(r.Key, "build: " + e.Message); }
+                double di = _opt.ClockMs() - ti; ItemCount++;
+                if (di > MaxItemMs) { MaxItemMs = di; MaxItemKey = r.Key.ToString(); }
+                if (r.Key.Kind == ResidencyKind.Physics) { if (di > MaxItemMsPhysics) MaxItemMsPhysics = di; } else if (di > MaxItemMsRender) MaxItemMsRender = di;
             }
+            if (done > MaxItemsPerPump) MaxItemsPerPump = done;
             _ready.RemoveRange(0, done);
             LastBuildMs = _opt.ClockMs() - t0;
         }

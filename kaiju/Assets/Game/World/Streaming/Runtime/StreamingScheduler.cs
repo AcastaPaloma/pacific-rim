@@ -64,7 +64,7 @@ namespace Game.World.Streaming
         /// <summary>Distance (after the prefetch lead is taken off) within which a key stays resident for a focus; diagnostic and tests.</summary>
         public double RetentionRadiusM(in ResidencyKey key, in FocusSample f)
         {
-            if (key.Kind == ResidencyKind.Physics) return _cfg.PhysicsRadiusM * (1.0 + _cfg.PhysicsHysteresisFrac);
+            if (key.Kind == ResidencyKind.Physics) return _cfg.PhysicsRetainRadiusM;
             return RingCap(key.Tile.Level, f, out _, out _) * (1.0 + _cfg.RenderHysteresisFrac);
         }
 
@@ -267,7 +267,7 @@ namespace Game.World.Streaming
         void AddPhysics(in FocusSample f)
         {
             if (!_ring.TryGetValue(f.Id, out var ring)) { ring = new List<ResidencyKey>(); _ring[f.Id] = ring; }
-            double R = _cfg.PhysicsRadiusM, Rk = R * (1.0 + _cfg.PhysicsHysteresisFrac), cs = ResidencyKey.ChunkSizeM;
+            double R = _cfg.PhysicsRadiusM, Rq = _cfg.PhysicsRequestRadiusM, Rk = _cfg.PhysicsRetainRadiusM, cs = ResidencyKey.ChunkSizeM;
             int x0 = (int)Math.Floor((f.X - Rk) / cs), x1 = (int)Math.Floor((f.X + Rk) / cs);
             int z0 = (int)Math.Floor((f.Z - Rk) / cs), z1 = (int)Math.Floor((f.Z + Rk) / cs);
             for (int cz = Math.Max(0, z0); cz <= z1; cz++)
@@ -279,11 +279,11 @@ namespace Game.World.Streaming
                     double dx = Math.Max(Math.Max(bx0 - f.X, f.X - (bx0 + cs)), 0.0), dz = Math.Max(Math.Max(bz0 - f.Z, f.Z - (bz0 + cs)), 0.0);
                     double d = Math.Sqrt(dx * dx + dz * dz);
                     bool loaded = _entries.ContainsKey(key);
-                    if (d > (loaded ? Rk : R)) continue;
+                    if (d > (loaded ? Rk : Rq)) continue;
                     if (!_cost.Exists(tile)) continue;
                     if (d <= R) ring.Add(key);
                     // rule 3 with t_reach = 0 (inside the physics ring), sse term = closeness: P x 1000 outranks every render tile
-                    double closeness = 1.0 - Math.Min(1.0, d / R);
+                    double closeness = 1.0 - Math.Min(1.0, d / Rq);
                     Raise(key, _cfg.PhysicsPriorityBoost * (1.0 + 8.0 * closeness) / 0.25, true, false);
                 }
         }
@@ -414,7 +414,7 @@ namespace Game.World.Streaming
                 if (key.Kind == ResidencyKind.Physics)
                 {
                     if (f.Kind != FocusKind.Body || !f.NeedsPhysics) continue;
-                    if (Math.Sqrt(dx * dx + dz * dz) <= _cfg.PhysicsRadiusM * (1.0 + _cfg.PhysicsHysteresisFrac)) return true;
+                    if (Math.Sqrt(dx * dx + dz * dz) <= _cfg.PhysicsRetainRadiusM) return true;
                 }
                 else
                 {
