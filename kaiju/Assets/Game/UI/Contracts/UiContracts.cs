@@ -13,6 +13,10 @@ namespace Game.UI
     public static class UiFlags
     {
         public const string Hud = "ui.hud";
+        /// <summary>T-150: use the sha-checked hud_colours table instead of the embedded palettes.</summary>
+        public const string HudData = "ui.hud_data";
+        /// <summary>T-153: load and save settings@v1.</summary>
+        public const string Settings = "ui.settings";
     }
 
     /// <summary>Which D-019 limits a provider actually has state for. Only ammo exists at runtime today (R-122 section 1).</summary>
