@@ -129,7 +129,7 @@ namespace Game.Slice
                 if (int.TryParse(Arg("-sliceRecordFps"), out int rf) && rf > 0) _recFps = rf;
                 if (float.TryParse(Arg("-sliceRecordSeconds"), NumberStyles.Float, CultureInfo.InvariantCulture, out float rs) && rs > 0f) _recSeconds = rs;
                 _recDestroyCam = Arg("-sliceRecordDestructionCam") == "1";
-                Directory.CreateDirectory(_recDir); Time.captureFramerate = _recFps;
+                Directory.CreateDirectory(_recDir); Time.captureFramerate = _recFps; AudioListener.volume = 0f;   // T-206b: silent record (no audio output at all)
             }
             if (!CoreRuntime.IsBooted) { Debug.LogError("[Slice] Core is not booted"); yield break; }
             _root = CoreRuntime.Root;
@@ -834,7 +834,7 @@ namespace Game.Slice
                 SetImpactCamPose(); _recDestroyCamOn = true; _recDestroyCamUntil = -1f; RecordEvent(t, "destruction cam: cut to impact view");
             }
         }
-        /// <summary>Side-on framing: the camera sits 90 degrees off the impactor's approach (so the round crosses the frame), 190-310 m from the target, ~20 degrees looking down at mid-height of the target building; first azimuth/distance with a clear line of sight wins, else the smoke's destroy pose.</summary>
+        /// <summary>T-206b framing: high (35-45 deg down), 120-200 m from the look point, aimed between the impact point and the cluster of nearby buildings (plus a point up the impactor path). Candidates (azimuth x distance x pitch) must have a clear line of sight to the look point and sit outside every footprint + 30 m margin (no wall in front); the best score wins (cluster points and impactor-path point visible, side-on preferred). Falls back to the smoke's destroy pose.</summary>
         void SetImpactCamPose()
         {
             float yr = _spawnYawDeg * Mathf.Deg2Rad; int target = -1; double bestD = double.MaxValue; double h = 40.0;
@@ -843,17 +843,65 @@ namespace Game.Slice
                 var f = _footprints[i]; double d = (f.X - _impactAim.x) * (f.X - _impactAim.x) + (f.Z - _impactAim.z) * (f.Z - _impactAim.z);
                 if (d < bestD) { bestD = d; h = f.Height; target = i; }
             }
-            var look = new Vector3(_impactAim.x, Ground(_impactAim.x, _impactAim.z) + Mathf.Max(8f, (float)h * 0.5f), _impactAim.z);
-            float[] offs = { Mathf.PI / 2f, -Mathf.PI / 2f, Mathf.PI / 4f, -Mathf.PI / 4f, 3f * Mathf.PI / 4f, -3f * Mathf.PI / 4f };
-            float[] dists = { 190f, 250f, 310f };
-            for (int di = 0; di < dists.Length; di++)
-                for (int k = 0; k < offs.Length; k++)
+            // cluster: up to 6 nearest footprints within 90 m of the impact point (mid-height points, capped at 25 m)
+            var cluster = new List<Vector3>(); var taken = new HashSet<int>();
+            for (int n = 0; n < 6; n++)
+            {
+                int bi = -1; double bd = 90.0 * 90.0;
+                for (int i = 0; i < _footprints.Count; i++)
                 {
-                    float az = yr + offs[k], dist = dists[di];
-                    var pos = new Vector3(look.x - Mathf.Sin(az) * dist, look.y + dist * 0.36f, look.z - Mathf.Cos(az) * dist);
-                    if (ClearLineOfSight(pos, look, target)) { SetScriptedLook(pos, look); return; }
+                    if (taken.Contains(i)) continue; var f = _footprints[i];
+                    double d = (f.X - _impactAim.x) * (f.X - _impactAim.x) + (f.Z - _impactAim.z) * (f.Z - _impactAim.z);
+                    if (d < bd) { bd = d; bi = i; }
                 }
+                if (bi < 0) break; taken.Add(bi); var fb = _footprints[bi];
+                cluster.Add(new Vector3((float)fb.X, Ground((float)fb.X, (float)fb.Z) + Mathf.Clamp((float)fb.Height * 0.5f, 6f, 25f), (float)fb.Z));
+            }
+            var impact = new Vector3(_impactAim.x, Ground(_impactAim.x, _impactAim.z) + Mathf.Clamp((float)h * 0.4f, 8f, 30f), _impactAim.z);
+            var back = (_impactAim - _impactor.position); back.y = 0f; back = back.sqrMagnitude > 1f ? -back.normalized : new Vector3(-Mathf.Sin(yr), 0f, -Mathf.Cos(yr));   // horizontal unit vector pointing back up the impactor path
+            var pathPt = impact + back * 60f + new Vector3(0f, 35f, 0f);
+            var look = impact + back * 18f;   // bias the aim slightly up the path so the round is in frame as it arrives
+            float approach = Mathf.Atan2(back.x, back.z);
+            float bestScore = float.MinValue; Vector3 bestPos = default; bool have = false;
+            float[] dists = { 170f, 140f, 200f, 120f }; float[] pitches = { 45f, 42f, 38f };
+            float[] tHoriz = { 110f, 70f, 40f }, tClear = { 14f, 10f, 8f }, tMargin = { 60f, 40f, 25f };
+            for (int tier = 0; tier < 3 && !have; tier++)
+            for (int di = 0; di < dists.Length; di++)
+                for (int pi = 0; pi < pitches.Length; pi++)
+                    for (int k = 0; k < 24; k++)
+                    {
+                        float az = approach + (k * 15f) * Mathf.Deg2Rad;   // camera azimuth around the look point, measured from the path-back direction
+                        float pr = pitches[pi] * Mathf.Deg2Rad, hd = dists[di] * Mathf.Cos(pr);
+                        var pos = new Vector3(look.x + Mathf.Sin(az) * hd, look.y + dists[di] * Mathf.Sin(pr), look.z + Mathf.Cos(az) * hd);
+                        if (pos.y < Ground(pos.x, pos.z) + 25f) continue;
+                        if (InsideAnyFootprint(pos, tMargin[tier]) || RoofAbove(pos, tHoriz[tier], tClear[tier])) continue;
+                        if (!ClearLineOfSight(pos, look, target)) continue;
+                        int vis = 0; foreach (var c in cluster) if (ClearLineOfSight(pos, c, -1)) vis++;
+                        float side = Mathf.Abs(Mathf.DeltaAngle(k * 15f, 90f)) > 0f ? Mathf.Min(Mathf.Abs(Mathf.DeltaAngle(k * 15f, 90f)), Mathf.Abs(Mathf.DeltaAngle(k * 15f, 270f))) : 0f;   // 0 when exactly side-on
+                        float score = vis * 10f + (ClearLineOfSight(pos, pathPt, -1) ? 6f : 0f) - side / 15f - di * 0.5f - pi * 0.2f;
+                        if (score > bestScore) { bestScore = score; bestPos = pos; have = true; }
+                    }
+            if (have) { SetScriptedLook(bestPos, look); RecordEvent(Time.timeSinceLevelLoad - _readyAt, "destruction cam pose (" + F(bestPos.x) + ", " + F(bestPos.y) + ", " + F(bestPos.z) + ") score " + F(bestScore) + " cluster " + cluster.Count); return; }
             SetDestroyView();
+        }
+        /// <summary>True when a building within horiz metres (horizontally) of p has its roof within clear metres of p.y or above it (the eye would look at a roof / wall right in front of the lens).</summary>
+        bool RoofAbove(Vector3 p, float horiz, float clear)
+        {
+            for (int i = 0; i < _footprints.Count; i++)
+            {
+                var f = _footprints[i]; double dx = f.X - p.x, dz = f.Z - p.z, r = horiz + f.Radius;
+                if (dx * dx + dz * dz < r * r && p.y < Ground((float)f.X, (float)f.Z) + f.Height + clear) return true;
+            }
+            return false;
+        }
+        bool InsideAnyFootprint(Vector3 p, float margin)
+        {
+            for (int i = 0; i < _footprints.Count; i++)
+            {
+                var f = _footprints[i]; double r = f.Radius + margin;
+                if ((f.X - p.x) * (f.X - p.x) + (f.Z - p.z) * (f.Z - p.z) < r * r) return true;
+            }
+            return false;
         }
         void RecordEvent(float t, string what) { _recEvents.Add("t=" + F(t) + " " + what); }
         /// <summary>Recurring script on top of the smoke's first 20 s (quake 5, impact 12, cannon every 2 s from 3, swings 8 and 14, duel 13.5): another impact every 18 s, quake every 30 s, swing every 10 s, duel reset every 25 s.</summary>
