@@ -70,7 +70,19 @@ def output_labels(lab_int, declared, k, out_wh):
     return lab
 
 
-def adapt(sidecar, depth_png16, out_wh=None):
+def guard_labels(lab, guard_px):
+    """Set label to -1 within guard_px (Chebyshev) of a pixel with another label: tolerance for the capture label boundary
+    being displaced against the presented slab boundary (depth is not shifted with the slab's output shift)."""
+    if guard_px <= 0:
+        return lab
+    from scipy import ndimage
+    z = 2 * guard_px + 1
+    lo = ndimage.minimum_filter(lab, size=z, mode="nearest"); hi = ndimage.maximum_filter(lab, size=z, mode="nearest")
+    out = lab.copy(); out[(lo != lab) | (hi != lab)] = -1
+    return out
+
+
+def adapt(sidecar, depth_png16, out_wh=None, guard_px=0):
     """-> dict(labels, declared, k, lab_internal). declared None when the frame is not layered (v1 reading)."""
     cam = sidecar["camera"]
     k = sidecar["resolution"]["integer_scale"]
@@ -80,13 +92,13 @@ def adapt(sidecar, depth_png16, out_wh=None):
     z, sky = decode_depth(depth_png16, cam)
     lab_int = internal_labels(radial_m(z, cam), sky, sidecar["layers"]["boundaries_radial_m"])
     out_wh = out_wh or tuple(sidecar["resolution"]["output_wh"])
-    return {"labels": output_labels(lab_int, declared, k, out_wh), "declared": declared, "k": k,
+    return {"labels": guard_labels(output_labels(lab_int, declared, k, out_wh), guard_px), "declared": declared, "k": k,
             "lab_internal": lab_int, "offset": tuple(sidecar["resolution"]["output_block_offset_px"])}
 
 
-def evaluate_frame(sidecar, depth_png16, color_output):
+def evaluate_frame(sidecar, depth_png16, color_output, guard_px=0):
     """Run divv2.frame_ok on a real frame. Also returns the seam share (1 - eval_area)."""
-    a = adapt(sidecar, depth_png16, (color_output.shape[1], color_output.shape[0]))
+    a = adapt(sidecar, depth_png16, (color_output.shape[1], color_output.shape[0]), guard_px)
     if a["declared"] is None:
         return divv2.frame_ok(color_output, a["k"], None, None, offset=a["offset"])
     return divv2.frame_ok(color_output, a["k"], labels=a["labels"], declared=a["declared"])
