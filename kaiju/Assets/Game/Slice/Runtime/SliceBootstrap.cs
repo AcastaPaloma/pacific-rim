@@ -343,7 +343,7 @@ namespace Game.Slice
                 // The M1 placeholder body (Units.Placeholder, TEMPORARY too) driven through a pilot seat: device pilot -> single arbiter -> IntentFrame -> body.
                 _body = _comp.Placeholder.Create(mech, _mech.Id);
                 var tuning = DevicePilotSource.LoadTuning(controlTuning);
-                var pilot = new DevicePilotSource(_flags, tuning, () => new System.Numerics.Vector3(_body.Body.X, _body.Body.Y, _body.Body.Z), () => _cam != null ? _cam.transform.eulerAngles.y * Mathf.Deg2Rad : 0f,
+                var pilot = new DevicePilotSource(_flags, tuning, () => new System.Numerics.Vector3(_body.Body.X, _body.Body.Y, _body.Body.Z), () => AutoPilot ? _spawnYawDeg * Mathf.Deg2Rad : _cam != null ? _cam.transform.eulerAngles.y * Mathf.Deg2Rad : 0f,   // auto-pilot: fixed view yaw, so the smoke's camera cuts do not turn the stick (T-202)
                     stick: () => AutoPilot ? _autoStick() : ReadKeys());
                 _autoStick = () =>
                 {
@@ -351,7 +351,7 @@ namespace Game.Slice
                     if (_mechUnit == null) return new Vector2(0.15f * Mathf.Sin(t * 0.35f), 0.6f);
                     // T-202: the physics mech falls on slopes steeper than ~4 deg (walk_mode 2 is tuned on flat ground), so the scripted auto-pilot picks the flattest heading within +-60 deg every 0.25 s (documented pilot assist, smoke / auto only)
                     if (t >= _apNext) { _apNext = t + 0.25f; _apDir = PickFlatHeading(); }
-                    float cy = _cam != null ? _cam.transform.eulerAngles.y * Mathf.Deg2Rad : 0f;
+                    float cy = _spawnYawDeg * Mathf.Deg2Rad;
                     var d = new Vector2(Mathf.Sin(_apDir), Mathf.Cos(_apDir));
                     return new Vector2(d.x * Mathf.Cos(cy) - d.y * Mathf.Sin(cy), d.x * Mathf.Sin(cy) + d.y * Mathf.Cos(cy)) * 0.6f;
                 };
@@ -434,7 +434,7 @@ namespace Game.Slice
             {
                 float h = _apBase + k * 15f * Mathf.Deg2Rad, worst = 0f, prev = Ground(cx, cz);
                 for (int i = 1; i <= 7; i++) { float g = Ground(cx + Mathf.Sin(h) * 10f * i, cz + Mathf.Cos(h) * 10f * i); worst = Mathf.Max(worst, Mathf.Abs(g - prev) / 10f); prev = g; }
-                float score = worst + 0.002f * Mathf.Abs(k);
+                float score = Mathf.Max(worst, 0.05f) + 0.01f * Mathf.Abs(k);   // gradients under 3 deg count as flat, so it keeps straight on
                 if (score < best) { best = score; bestH = h; }
             }
             return bestH;
