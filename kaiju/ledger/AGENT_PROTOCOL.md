@@ -290,3 +290,11 @@ Wrong or broken pieces get fixed or switched off in the demo profile. Never fake
 - **After the deliverable lands,** continue the §18 queue in M-007 → Bay data → T-124c performance → M3 polish order.
 
 **Watchdog (`kaiju-watchdog`, hourly).** Each run checks progress against the wake-up deliverable. If the deliverable's owner is idle or dead, the watchdog starts the next step itself (§15 rules on refused session starts).
+- **RAM guard (founder, 2026-11-16).** The machine has 24 GB, and parallel Unity runs, Python pools and many idle sessions left too little for real work.
+  - Before any Unity batch run, bake, fetch or multiprocessing job, check `memory_pressure | tail -1`. If free memory is below 30 %, start nothing heavy: wait, or do code-only work.
+  - **Unity:** at most 1 batch Unity process machine-wide, tighter than the 2 allowed by §9.
+  - **Python pools:** at most 3 workers per job.
+  - **Sessions:**
+    - At most 3 lead sessions.
+    - Archive a session as soon as it is replaced or finished.
+    - Never leave a finished worker's background process running.
