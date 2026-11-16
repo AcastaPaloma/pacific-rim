@@ -51,7 +51,10 @@ namespace Game.Rendering.Pixel
         /// <summary>T-190: beyond the profile's hazeFarStartM the haze level rises to pure airlight by hazeFarFullM (far lift), so far geometry fades toward the sky and the depth value ladder keeps rising across a real skyline. Ships false; slab boundaries (layerSnap) do not follow it.</summary>
         public const string HazeFarLift = "rendering.pixel.hazeFarLift";
 
-        public static readonly string[] All = { Enabled, LowRes, Supersample, Dither, Haze, Outline, Quantise, SubPixelPresent, LayerSnap, DepthShift, HazeFarLift };
+        /// <summary>T-196: with layerSnap, the three slab shifts share one output-pixel lattice phase (one k x k block grid, M-003.d-iv) instead of each rounding its own remainder; costs C11 (at least 1.5 px, PixelSharedPhase). Ships false; a measured option, not enabled in any configuration.</summary>
+        public const string LayerSharedPhase = "rendering.pixel.layerSharedPhase";
+
+        public static readonly string[] All = { Enabled, LowRes, Supersample, Dither, Haze, Outline, Quantise, SubPixelPresent, LayerSnap, DepthShift, HazeFarLift, LayerSharedPhase };
 
         /// <summary>The flag that gates a stage, or null for stages that always run when the pipeline is enabled.</summary>
         public static string ForStage(PixelStageId stage)

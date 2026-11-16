@@ -69,6 +69,10 @@ namespace Game.Rendering.Pixel
         Vector3 m_SavedPosition; float m_SavedNear, m_SavedFar; Matrix4x4 m_SavedProjection; bool m_SavedShadows;
         Material m_CompositeMaterial;
         string m_LayerReason;
+        // T-196 (flag layerSharedPhase): one output-pixel lattice phase for the three slab shifts, resolved once per prepared layered frame.
+        readonly PixelSharedPhase m_SharedPhase = new PixelSharedPhase();
+        readonly int[] m_SharedShifts = new int[2 * PixelLayerPlan.Count];
+        bool m_SharedApplied, m_WasLayered;
 
         public static bool TryGet(Camera camera, out PixelCameraBinder binder) => s_Binders.TryGetValue(camera, out binder) && binder != null && binder.isActiveAndEnabled;
 
@@ -129,6 +133,8 @@ namespace Game.Rendering.Pixel
         {
             var s = Settings;
             var layout = new PixelLayout { OutputWidth = Mathf.Max(1, outputSize.x), OutputHeight = Mathf.Max(1, outputSize.y), Guard = s.guardTexels };
+            // T-196: a shared lattice phase moves a slab up to 1.5 px further than its own remainder, so the slab shifts need two texels of guard band.
+            if (Flags.IsOn(PixelFlags.LayerSnap) && Flags.IsOn(PixelFlags.LayerSharedPhase)) layout.Guard = Mathf.Max(layout.Guard, 2);
             layout.Scale = Flags.IsOn(PixelFlags.LowRes) ? PixelScaleRule.ChooseScale(layout.OutputHeight, s.targetLines, s.minScale, s.maxScale) : 1;
             PixelScaleRule.InternalSize(layout.OutputWidth, layout.OutputHeight, layout.Scale, out layout.Width, out layout.Height);
             layout.Supersample = Flags.IsOn(PixelFlags.Supersample) ? Mathf.Max(1, s.supersample) : 1;
@@ -174,7 +180,8 @@ namespace Game.Rendering.Pixel
         /// </summary>
         void PrepareLayers()
         {
-            m_Layered = false; m_LayerReason = null; m_Slabs = null;
+            m_WasLayered = m_Layered;
+            m_Layered = false; m_LayerReason = null; m_Slabs = null; m_SharedApplied = false;
             if (!m_HasHints || !Flags.IsOn(PixelFlags.LayerSnap) || m_Hints.LayerCount == 0) return;
             var cam = Camera;
             float tanV = Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad), tanH = tanV * m_Layout.Width / m_Layout.Height;
@@ -188,7 +195,23 @@ namespace Game.Rendering.Pixel
             m_Slabs = slabs; m_BoundaryBands = bands;
             EnsureSlabTargets();
             m_Layered = true;
+            ResolveSharedPhase();
         }
+
+        /// <summary>
+        /// T-196: with layerSharedPhase (and subPixelPresent) on, the three slab shifts are resolved on one lattice phase (<see cref="PixelSharedPhase"/>); a cut on the hints or on
+        /// any layer, or a frame after a non-layered one, restarts the per-shot reference. Off: nothing is kept and the slabs round their own remainders (T-181d).
+        /// </summary>
+        void ResolveSharedPhase()
+        {
+            if (!Flags.IsOn(PixelFlags.LayerSharedPhase) || !Flags.IsOn(PixelFlags.SubPixelPresent)) { m_SharedPhase.Reset(); return; }
+            bool cut = m_Hints.Cut || m_Hints.LayerNear.Cut || m_Hints.LayerMain.Cut || m_Hints.LayerFar.Cut || !m_WasLayered;
+            m_SharedPhase.Resolve(m_Hints, m_Layout.Scale, m_Layout.Guard * m_Layout.Scale, cut, m_SharedShifts);
+            m_SharedApplied = true;
+        }
+
+        /// <summary>True for this frame when the slab shifts share one lattice phase (layerSharedPhase on and the frame is layered).</summary>
+        public bool SharedPhaseApplied => m_SharedApplied;
 
         void Reject(string reason) { m_LayerReason = reason; PixelLog.LayerHintsRejected++; PixelLog.WarnOnce("layerSnap: " + reason + "; rendering the single-snap path"); }
 
@@ -228,6 +251,7 @@ namespace Game.Rendering.Pixel
         public Vector2Int SlabShift(int slab)
         {
             if (!m_HasHints || !m_Layered || !Flags.IsOn(PixelFlags.SubPixelPresent)) return Vector2Int.zero;
+            if (m_SharedApplied) return new Vector2Int(m_SharedShifts[2 * slab], m_SharedShifts[2 * slab + 1]);
             PixelLayerHints.ShiftOutputPx(PixelLayerHints.Get(m_Hints, slab), m_Layout.Scale, m_Layout.Guard, out int x, out int y);
             return new Vector2Int(x, y);
         }
@@ -238,7 +262,7 @@ namespace Game.Rendering.Pixel
             if (!m_Layered) return null;
             var s = new int[6];
             for (int i = 0; i < PixelLayerPlan.Count; i++) { var v = SlabShift(i); s[2 * i] = v.x; s[2 * i + 1] = v.y; }
-            return PixelLayerSidecar.Build(m_Hints, m_Slabs, m_BoundaryBands, s, m_Layout.Scale, m_Layout.Guard, Flags.IsOn(PixelFlags.SubPixelPresent), Flags.IsOn(PixelFlags.DepthShift));
+            return PixelLayerSidecar.Build(m_Hints, m_Slabs, m_BoundaryBands, s, m_Layout.Scale, m_Layout.Guard, Flags.IsOn(PixelFlags.SubPixelPresent), Flags.IsOn(PixelFlags.DepthShift), m_SharedApplied);
         }
 
         /// <summary>
@@ -295,10 +319,11 @@ namespace Game.Rendering.Pixel
             return new Vector2(tanV * m_Layout.TargetWidth, tanV * m_Layout.TargetHeight);
         }
 
-        /// <summary>Present shift in whole output pixels: round(sub-texel remainder * scale), limited to the guard band.</summary>
+        /// <summary>Present shift in whole output pixels: round(sub-texel remainder * scale), limited to the guard band. With a shared slab phase (T-196) the main slab's resolved shift, which every slab equals modulo the scale.</summary>
         public Vector2Int PresentShift()
         {
             if (!m_HasHints || !Flags.IsOn(PixelFlags.SubPixelPresent)) return Vector2Int.zero;
+            if (m_SharedApplied) return SlabShift(PixelLayerPlan.Main);
             int limit = m_Layout.Guard * m_Layout.Scale;
             return new Vector2Int(Mathf.Clamp(Mathf.RoundToInt(m_Hints.SubTexelX * m_Layout.Scale), -limit, limit),
                                   Mathf.Clamp(Mathf.RoundToInt(m_Hints.SubTexelY * m_Layout.Scale), -limit, limit));
