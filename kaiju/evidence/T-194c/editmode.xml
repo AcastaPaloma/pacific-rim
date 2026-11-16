@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="31" result="Passed" total="31" passed="31" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.0470164">
+  <test-suite type="TestSuite" id="1000" name="KaijuGame" fullname="KaijuGame" runstate="Runnable" testcasecount="1043" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.047016" total="31" passed="31" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1794" name="Game.Tools.Capture.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/kaiju/.wt/T-194c/kaiju/Library/ScriptAssemblies/Game.Tools.Capture.Tests.dll" runstate="Runnable" testcasecount="31" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.033711" total="31" passed="31" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="38055" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1795" name="Game" fullname="Game" runstate="Runnable" testcasecount="31" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.032891" total="31" passed="31" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1796" name="Tools" fullname="Game.Tools" runstate="Runnable" testcasecount="31" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.032085" total="31" passed="31" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1797" name="Capture" fullname="Game.Tools.Capture" runstate="Runnable" testcasecount="31" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.031459" total="31" passed="31" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1798" name="Tests" fullname="Game.Tools.Capture.Tests" runstate="Runnable" testcasecount="31" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.027584" total="31" passed="31" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1784" name="CaptureMotionSetTests" fullname="Game.Tools.Capture.Tests.CaptureMotionSetTests" classname="Game.Tools.Capture.Tests.CaptureMotionSetTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.017462" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-suite type="ParameterizedMethod" id="1792" name="BrokenMotionSetIsReported" fullname="Game.Tools.Capture.Tests.CaptureMotionSetTests.BrokenMotionSetIsReported" classname="Game.Tools.Capture.Tests.CaptureMotionSetTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.011285" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="1787" name="BrokenMotionSetIsReported(&quot;\&quot;classes\&quot;: [\&quot;S0\&quot;,\&quot;T1\&quot;,\&quot;T2\&quot;,\&quot;T3\&quot;,\&quot;Y1\&quot;,\&quot;Y2\&quot;]&quot;,&quot;\&quot;classes\&quot;: [\&quot;S0\&quot;,\&quot;T9\&quot;]&quot;)" fullname="Game.Tools.Capture.Tests.CaptureMotionSetTests.BrokenMotionSetIsReported(&quot;\&quot;classes\&quot;: [\&quot;S0\&quot;,\&quot;T1\&quot;,\&quot;T2\&quot;,\&quot;T3\&quot;,\&quot;Y1\&quot;,\&quot;Y2\&quot;]&quot;,&quot;\&quot;classes\&quot;: [\&quot;S0\&quot;,\&quot;T9\&quot;]&quot;)" methodname="BrokenMotionSetIsReported" classname="Game.Tools.Capture.Tests.CaptureMotionSetTests" runstate="Runnable" seed="1215473171" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.007681" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1788" name="BrokenMotionSetIsReported(&quot;\&quot;classes\&quot;: [\&quot;S0\&quot;,\&quot;T1\&quot;,\&quot;T2\&quot;,\&quot;T3\&quot;,\&quot;Y1\&quot;,\&quot;Y2\&quot;]&quot;,&quot;\&quot;classes\&quot;: []&quot;)" fullname="Game.Tools.Capture.Tests.CaptureMotionSetTests.BrokenMotionSetIsReported(&quot;\&quot;classes\&quot;: [\&quot;S0\&quot;,\&quot;T1\&quot;,\&quot;T2\&quot;,\&quot;T3\&quot;,\&quot;Y1\&quot;,\&quot;Y2\&quot;]&quot;,&quot;\&quot;classes\&quot;: []&quot;)" methodname="BrokenMotionSetIsReported" classname="Game.Tools.Capture.Tests.CaptureMotionSetTests" runstate="Runnable" seed="202344649" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000100" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1789" name="BrokenMotionSetIsReported(&quot;\&quot;classes\&quot;: [\&quot;S0\&quot;,\&quot;T1\&quot;,\&quot;T2\&quot;,\&quot;T3\&quot;,\&quot;Y1\&quot;,\&quot;Y2\&quot;]&quot;,&quot;\&quot;classes\&quot;: [\&quot;S0\&quot;,\&quot;S0\&quot;]&quot;)" fullname="Game.Tools.Capture.Tests.CaptureMotionSetTests.BrokenMotionSetIsReported(&quot;\&quot;classes\&quot;: [\&quot;S0\&quot;,\&quot;T1\&quot;,\&quot;T2\&quot;,\&quot;T3\&quot;,\&quot;Y1\&quot;,\&quot;Y2\&quot;]&quot;,&quot;\&quot;classes\&quot;: [\&quot;S0\&quot;,\&quot;S0\&quot;]&quot;)" methodname="BrokenMotionSetIsReported" classname="Game.Tools.Capture.Tests.CaptureMotionSetTests" runstate="Runnable" seed="905109874" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000062" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1790" name="BrokenMotionSetIsReported(&quot;\&quot;purpose\&quot;: \&quot;M-004\&quot;&quot;,&quot;\&quot;purpose\&quot;: \&quot;M-005\&quot;&quot;)" fullname="Game.Tools.Capture.Tests.CaptureMotionSetTests.BrokenMotionSetIsReported(&quot;\&quot;purpose\&quot;: \&quot;M-004\&quot;&quot;,&quot;\&quot;purpose\&quot;: \&quot;M-005\&quot;&quot;)" methodname="BrokenMotionSetIsReported" classname="Game.Tools.Capture.Tests.CaptureMotionSetTests" runstate="Runnable" seed="582385929" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000053" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1791" name="BrokenMotionSetIsReported(&quot;\&quot;mode\&quot;: \&quot;clip\&quot;&quot;,&quot;\&quot;mode\&quot;: \&quot;still\&quot;, \&quot;still_frames\&quot;: [0]&quot;)" fullname="Game.Tools.Capture.Tests.CaptureMotionSetTests.BrokenMotionSetIsReported(&quot;\&quot;mode\&quot;: \&quot;clip\&quot;&quot;,&quot;\&quot;mode\&quot;: \&quot;still\&quot;, \&quot;still_frames\&quot;: [0]&quot;)" methodname="BrokenMotionSetIsReported" classname="Game.Tools.Capture.Tests.CaptureMotionSetTests" runstate="Runnable" seed="1078179129" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000087" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                </test-suite>
+                <test-case id="1786" name="MotionClassTableMatchesTheRegistry" fullname="Game.Tools.Capture.Tests.CaptureMotionSetTests.MotionClassTableMatchesTheRegistry" methodname="MotionClassTableMatchesTheRegistry" classname="Game.Tools.Capture.Tests.CaptureMotionSetTests" runstate="Runnable" seed="539558355" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.001786" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1785" name="MotionSetLintsCleanAndParses" fullname="Game.Tools.Capture.Tests.CaptureMotionSetTests.MotionSetLintsCleanAndParses" methodname="MotionSetLintsCleanAndParses" classname="Game.Tools.Capture.Tests.CaptureMotionSetTests" runstate="Runnable" seed="110044448" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000317" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1793" name="MotionSetNeedsEnoughFramesAndPlainPathsRejectIt" fullname="Game.Tools.Capture.Tests.CaptureMotionSetTests.MotionSetNeedsEnoughFramesAndPlainPathsRejectIt" methodname="MotionSetNeedsEnoughFramesAndPlainPathsRejectIt" classname="Game.Tools.Capture.Tests.CaptureMotionSetTests" runstate="Runnable" seed="1878840081" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000226" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1777" name="CapturePathSamplerTests" fullname="Game.Tools.Capture.Tests.CapturePathSamplerTests" classname="Game.Tools.Capture.Tests.CapturePathSamplerTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.004228" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1780" name="CatmullRomHitsEveryKeyframe" fullname="Game.Tools.Capture.Tests.CapturePathSamplerTests.CatmullRomHitsEveryKeyframe" methodname="CatmullRomHitsEveryKeyframe" classname="Game.Tools.Capture.Tests.CapturePathSamplerTests" runstate="Runnable" seed="651803931" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.001072" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1781" name="EaseInOutStartsSlowAndMatchesAtEnds" fullname="Game.Tools.Capture.Tests.CapturePathSamplerTests.EaseInOutStartsSlowAndMatchesAtEnds" methodname="EaseInOutStartsSlowAndMatchesAtEnds" classname="Game.Tools.Capture.Tests.CapturePathSamplerTests" runstate="Runnable" seed="736948268" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000717" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1778" name="LinearEndsAndMidpoint" fullname="Game.Tools.Capture.Tests.CapturePathSamplerTests.LinearEndsAndMidpoint" methodname="LinearEndsAndMidpoint" classname="Game.Tools.Capture.Tests.CapturePathSamplerTests" runstate="Runnable" seed="1176685503" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000108" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1783" name="NoiseIsInRangeAndOrderIndependent" fullname="Game.Tools.Capture.Tests.CapturePathSamplerTests.NoiseIsInRangeAndOrderIndependent" methodname="NoiseIsInRangeAndOrderIndependent" classname="Game.Tools.Capture.Tests.CapturePathSamplerTests" runstate="Runnable" seed="852770289" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.001137" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1782" name="ShakeIsDeterministicAndDecays" fullname="Game.Tools.Capture.Tests.CapturePathSamplerTests.ShakeIsDeterministicAndDecays" methodname="ShakeIsDeterministicAndDecays" classname="Game.Tools.Capture.Tests.CapturePathSamplerTests" runstate="Runnable" seed="324810458" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000186" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1779" name="YawTakesTheShortestArc" fullname="Game.Tools.Capture.Tests.CapturePathSamplerTests.YawTakesTheShortestArc" methodname="YawTakesTheShortestArc" classname="Game.Tools.Capture.Tests.CapturePathSamplerTests" runstate="Runnable" seed="949742155" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000072" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1758" name="CapturePathTests" fullname="Game.Tools.Capture.Tests.CapturePathTests" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" testcasecount="17" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.005102" total="17" passed="17" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1775" name="BlockedPathNamesItsFirstMissingTag" fullname="Game.Tools.Capture.Tests.CapturePathTests.BlockedPathNamesItsFirstMissingTag" methodname="BlockedPathNamesItsFirstMissingTag" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="1710889296" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000347" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-suite type="ParameterizedMethod" id="1771" name="BrokenRuleIsReported" fullname="Game.Tools.Capture.Tests.CapturePathTests.BrokenRuleIsReported" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.001501" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="1760" name="BrokenRuleIsReported(&quot;\&quot;fps\&quot;: 60&quot;,&quot;\&quot;fps\&quot;: 50&quot;,&quot;L03&quot;)" fullname="Game.Tools.Capture.Tests.CapturePathTests.BrokenRuleIsReported(&quot;\&quot;fps\&quot;: 60&quot;,&quot;\&quot;fps\&quot;: 50&quot;,&quot;L03&quot;)" methodname="BrokenRuleIsReported" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="572213861" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000221" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1761" name="BrokenRuleIsReported(&quot;\&quot;duration_s\&quot;: 1.0&quot;,&quot;\&quot;duration_s\&quot;: 1.003&quot;,&quot;L04&quot;)" fullname="Game.Tools.Capture.Tests.CapturePathTests.BrokenRuleIsReported(&quot;\&quot;duration_s\&quot;: 1.0&quot;,&quot;\&quot;duration_s\&quot;: 1.003&quot;,&quot;L04&quot;)" methodname="BrokenRuleIsReported" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="675018366" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000051" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1762" name="BrokenRuleIsReported(&quot;\&quot;dither_anchor\&quot;:\&quot;direction\&quot;&quot;,&quot;\&quot;dither_anchor\&quot;:\&quot;screen\&quot;&quot;,&quot;L07&quot;)" fullname="Game.Tools.Capture.Tests.CapturePathTests.BrokenRuleIsReported(&quot;\&quot;dither_anchor\&quot;:\&quot;direction\&quot;&quot;,&quot;\&quot;dither_anchor\&quot;:\&quot;screen\&quot;&quot;,&quot;L07&quot;)" methodname="BrokenRuleIsReported" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="1722439195" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000048" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1763" name="BrokenRuleIsReported(&quot;\&quot;enabled\&quot;:true&quot;,&quot;\&quot;enabled\&quot;:false&quot;,&quot;L07&quot;)" fullname="Game.Tools.Capture.Tests.CapturePathTests.BrokenRuleIsReported(&quot;\&quot;enabled\&quot;:true&quot;,&quot;\&quot;enabled\&quot;:false&quot;,&quot;L07&quot;)" methodname="BrokenRuleIsReported" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="521391014" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000045" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1764" name="BrokenRuleIsReported(&quot;\&quot;output_wh\&quot;:[1920,1080]&quot;,&quot;\&quot;output_wh\&quot;:[1900,1080]&quot;,&quot;L08&quot;)" fullname="Game.Tools.Capture.Tests.CapturePathTests.BrokenRuleIsReported(&quot;\&quot;output_wh\&quot;:[1920,1080]&quot;,&quot;\&quot;output_wh\&quot;:[1900,1080]&quot;,&quot;L08&quot;)" methodname="BrokenRuleIsReported" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="607122776" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000064" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1765" name="BrokenRuleIsReported(&quot;\&quot;profile_id\&quot;: \&quot;lavender_peach\&quot;&quot;,&quot;\&quot;profile_id\&quot;: \&quot;nope\&quot;&quot;,&quot;L15&quot;)" fullname="Game.Tools.Capture.Tests.CapturePathTests.BrokenRuleIsReported(&quot;\&quot;profile_id\&quot;: \&quot;lavender_peach\&quot;&quot;,&quot;\&quot;profile_id\&quot;: \&quot;nope\&quot;&quot;,&quot;L15&quot;)" methodname="BrokenRuleIsReported" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="1132160852" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000043" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1766" name="BrokenRuleIsReported(&quot;\&quot;schema\&quot;: \&quot;capture_path@v1\&quot;&quot;,&quot;\&quot;schema\&quot;: \&quot;capture_path@v2\&quot;&quot;,&quot;L01&quot;)" fullname="Game.Tools.Capture.Tests.CapturePathTests.BrokenRuleIsReported(&quot;\&quot;schema\&quot;: \&quot;capture_path@v1\&quot;&quot;,&quot;\&quot;schema\&quot;: \&quot;capture_path@v2\&quot;&quot;,&quot;L01&quot;)" methodname="BrokenRuleIsReported" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="1022306528" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000045" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1767" name="BrokenRuleIsReported(&quot;\&quot;path_id\&quot;: \&quot;t_good\&quot;&quot;,&quot;\&quot;path_id\&quot;: \&quot;Bad Id\&quot;&quot;,&quot;L02&quot;)" fullname="Game.Tools.Capture.Tests.CapturePathTests.BrokenRuleIsReported(&quot;\&quot;path_id\&quot;: \&quot;t_good\&quot;&quot;,&quot;\&quot;path_id\&quot;: \&quot;Bad Id\&quot;&quot;,&quot;L02&quot;)" methodname="BrokenRuleIsReported" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="2007195320" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000080" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1768" name="BrokenRuleIsReported(&quot;\&quot;requires\&quot;: []&quot;,&quot;\&quot;requires\&quot;: [\&quot;warp_drive\&quot;]&quot;,&quot;L11&quot;)" fullname="Game.Tools.Capture.Tests.CapturePathTests.BrokenRuleIsReported(&quot;\&quot;requires\&quot;: []&quot;,&quot;\&quot;requires\&quot;: [\&quot;warp_drive\&quot;]&quot;,&quot;L11&quot;)" methodname="BrokenRuleIsReported" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="285645048" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000061" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1769" name="BrokenRuleIsReported(&quot;\&quot;tile\&quot;:\&quot;L0_30_36\&quot;&quot;,&quot;\&quot;tile\&quot;:\&quot;tile9\&quot;&quot;,&quot;L14&quot;)" fullname="Game.Tools.Capture.Tests.CapturePathTests.BrokenRuleIsReported(&quot;\&quot;tile\&quot;:\&quot;L0_30_36\&quot;&quot;,&quot;\&quot;tile\&quot;:\&quot;tile9\&quot;&quot;,&quot;L14&quot;)" methodname="BrokenRuleIsReported" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="2072995657" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000053" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1770" name="BrokenRuleIsReported(&quot;\&quot;alt_navd88\&quot;:146,\&quot;yaw_deg\&quot;:350&quot;,&quot;\&quot;alt_navd88\&quot;:146,\&quot;alt_m\&quot;:2,\&quot;yaw_deg\&quot;:350&quot;,&quot;L10&quot;)" fullname="Game.Tools.Capture.Tests.CapturePathTests.BrokenRuleIsReported(&quot;\&quot;alt_navd88\&quot;:146,\&quot;yaw_deg\&quot;:350&quot;,&quot;\&quot;alt_navd88\&quot;:146,\&quot;alt_m\&quot;:2,\&quot;yaw_deg\&quot;:350&quot;,&quot;L10&quot;)" methodname="BrokenRuleIsReported" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="1407925499" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000052" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                </test-suite>
+                <test-case id="1773" name="CatmullRomNeedsFourKeyframes" fullname="Game.Tools.Capture.Tests.CapturePathTests.CatmullRomNeedsFourKeyframes" methodname="CatmullRomNeedsFourKeyframes" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="1423626697" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000139" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1774" name="ClipAt4kAndStillWithoutFramesAreRejected" fullname="Game.Tools.Capture.Tests.CapturePathTests.ClipAt4kAndStillWithoutFramesAreRejected" methodname="ClipAt4kAndStillWithoutFramesAreRejected" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="1811813720" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000198" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1759" name="GoodPathLintsClean" fullname="Game.Tools.Capture.Tests.CapturePathTests.GoodPathLintsClean" methodname="GoodPathLintsClean" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="886307578" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000081" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1776" name="ShippedPathFilesLintClean" fullname="Game.Tools.Capture.Tests.CapturePathTests.ShippedPathFilesLintClean" methodname="ShippedPathFilesLintClean" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="827086888" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.001840" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1772" name="UnsortedKeyframesAndWrongEndsAreReported" fullname="Game.Tools.Capture.Tests.CapturePathTests.UnsortedKeyframesAndWrongEndsAreReported" methodname="UnsortedKeyframesAndWrongEndsAreReported" classname="Game.Tools.Capture.Tests.CapturePathTests" runstate="Runnable" seed="1082029402" result="Passed" start-time="2026-11-16 15:29:02Z" end-time="2026-11-16 15:29:02Z" duration="0.000204" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/kuanw/Library/Application Support/DefaultCompany/KaijuGame/TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
