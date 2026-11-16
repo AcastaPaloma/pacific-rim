@@ -19,6 +19,10 @@ using Game.Control.Contracts;
 using Game.Control.Unity;
 using Game.Core.Unity;
 using Game.Units.Placeholder.Unity;
+using Game.Physics.Body.Contracts;
+using Game.Physics.Body.Unity;
+using Game.Units.Mech.Contracts;
+using Game.Units.Mech.Unity;
 using Game.Rendering.Pixel;
 using Game.World.Destruction;
 using Game.World.Geo;
@@ -39,6 +43,10 @@ namespace Game.Slice
         public TextAsset sliceFlags;
         [Tooltip("T-189 feel-check flag set (Assets/Game/Slice/Config/slice_feelcheck.flags.json): the default; -sliceConfig m1 (or SliceBootstrap.ConfigName = \"m1\") uses sliceFlags instead.")]
         public TextAsset feelcheckFlags;
+        [Tooltip("T-200 wake-up demo flag set (Assets/Game/Slice/Config/slice_demo.flags.json): -sliceConfig demo. Adds the physics mech (Units.Mech, walk_mode 2).")]
+        public TextAsset demoFlags;
+        [Tooltip("Mech config files (Assets/Game/Config/Mech/mech_frame_balanced.json, body_tuning.json, walk_tuning.json): demo only; a player has no Application.dataPath copy.")]
+        public TextAsset mechFrameJson, mechBodyJson, mechWalkJson;
         public TextAsset cameraSettings;
         [Tooltip("Assets/Game/Config/Control/control_tuning.json")]
         public TextAsset controlTuning;
@@ -79,6 +87,8 @@ namespace Game.Slice
         readonly int[] _stateCounts = new int[5];
         int _removedCount, _damagedEvents, _quakes, _impacts, _nextEventId = 1;
         Camera _cam; ThirdPersonRig _rig; PixelCameraBinder _binder;
+        // T-200 demo: the physics mech (Units.Mech, walk_mode 2). _body stays as the TEMPORARY logic proxy for damage, cannon mount and camera target; it is placed on the mech's centre of mass every step.
+        BodyWorld _bodyWorld; MechUnit _mechUnit; long _mechStep; GameObject _mechVisRoot; double _mechComTravel; float _mechComX, _mechComZ; bool _mechComSet;
         Transform _kaijuT, _mechT; PlaceholderBodyBehaviour _body; PilotSeat _seat; Func<Vector2> _autoStick; SliceKaijuAgent _kaiju; SliceTarget _mech;
         Transform _impactor; Vector3 _impactVel; BuildingId _impactTarget; Vector3 _impactAim;
         readonly StringBuilder _log = new StringBuilder();
@@ -117,7 +127,8 @@ namespace Game.Slice
             string cfg = Arg("-sliceConfig") ?? ConfigName ?? "feelcheck";
             var cfgAsset = cfg == "m1" || feelcheckFlags == null ? sliceFlags : feelcheckFlags;
             _configUsed = cfgAsset == feelcheckFlags && feelcheckFlags != null ? "feelcheck" : "m1";
-            _flags = FeatureFlagLoader.Parse(ApplyFlagOverrides(cfgAsset != null ? cfgAsset.text : null), _configUsed == "feelcheck" ? "slice_feelcheck.flags.json" : "slice_m1.flags.json", _root.Errors);
+            if (cfg == "demo") { if (demoFlags != null) { cfgAsset = demoFlags; _configUsed = "demo"; } else Debug.LogError("[Slice] -sliceConfig demo but the scene has no demoFlags asset (run SliceEditorTools.BuildScene); using " + _configUsed); }
+            _flags = FeatureFlagLoader.Parse(ApplyFlagOverrides(cfgAsset != null ? cfgAsset.text : null), _configUsed == "demo" ? "slice_demo.flags.json" : _configUsed == "feelcheck" ? "slice_feelcheck.flags.json" : "slice_m1.flags.json", _root.Errors);
             if (!_flags.IsOn(SliceFlags.M1)) { Debug.Log("[Slice] slice.m1 is off: nothing loaded"); yield break; }
             _bus = _root.Registry.Resolve<IEventBus>();
             var t0 = Time.realtimeSinceStartupAsDouble;
@@ -336,6 +347,7 @@ namespace Game.Slice
                     stick: () => AutoPilot ? _autoStick() : ReadKeys());
                 _autoStick = () => { float t = (float)_root.Services.Clock.TimeSeconds; return new Vector2(0.15f * Mathf.Sin(t * 0.35f), 0.6f); };
                 _seat = new PilotSeat(new SinglePilotArbiter(), pilot);
+                if (_configUsed == "demo" && _flags.IsOn(MechConfig.FlagEnabled) && _flags.IsOn(MechConfig.FlagBodyEnabled)) SpawnPhysicsMech(mx, gy, mz, vis);
             }
             _targets.Add(_mech);
             var brain = _root.Registry.Resolve<IKaijuBrainFactory>().Create();
@@ -353,6 +365,55 @@ namespace Game.Slice
             }
         }
 
+        /// <summary>T-200: the physics mech (walk_mode 2, assisted walk) driven by the pilot seat, standing where the capsule stood. Falls back to the capsule body, with an error in the log, if the mech cannot be built.</summary>
+        void SpawnPhysicsMech(float mx, float gy, float mz, GameObject capsuleVisual)
+        {
+            try
+            {
+                MechConfig cfg = mechFrameJson != null && mechBodyJson != null && mechWalkJson != null ? MechConfig.FromJson(mechFrameJson.text, mechBodyJson.text, mechWalkJson.text) : MechConfig.LoadDefault();
+                cfg = cfg.WithWalk(w => w.walk_mode = 2);   // demo only: the shipped walk_tuning.json keeps walk_mode 0
+                double dt = _root.Services.Settings.FixedStepSeconds;
+                _bodyWorld = new BodyWorld(cfg.Body, dt, true, _bus, _flags);
+                var spawn = new BodySpawn { Position = new System.Numerics.Vector3(mx, gy + 0.05f, mz), Rotation = System.Numerics.Quaternion.CreateFromAxisAngle(System.Numerics.Vector3.UnitY, _spawnYawDeg * Mathf.Deg2Rad), Visuals = true, Name = "SliceMech" };
+                _mechUnit = new MechUnit(_bodyWorld, cfg, _mech.Id, _bus, _seat, spawn, _flags);
+                _mechVisRoot = ((ArticulatedBody)_mechUnit.Body).Root;
+                if (mechMaterial != null) foreach (var r in _mechVisRoot.GetComponentsInChildren<Renderer>()) r.sharedMaterial = mechMaterial;
+                capsuleVisual.SetActive(false);
+                Log("demo: physics mech spawned (walk_mode " + cfg.Walk.walk_mode + ", mass " + F((float)_mechUnit.Body.TotalMassKg) + " kg) at (" + F(mx) + ", " + F(gy) + ", " + F(mz) + ")");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("[Slice] demo: physics mech failed, keeping the capsule body: " + ex);
+                Log("demo: physics mech FAILED (" + ex.GetType().Name + ": " + ex.Message + "); capsule body kept");
+                _mechUnit?.Dispose(); _mechUnit = null; _bodyWorld?.Dispose(); _bodyWorld = null; _mechVisRoot = null; capsuleVisual.SetActive(true);
+            }
+        }
+
+        /// <summary>One physics step of the demo mech per fixed step: pilot seat read + controller, PhysX, then the logic proxy and the ground anchor follow the centre of mass.</summary>
+        void StepPhysicsMech()
+        {
+            long n = _mechStep;
+            _mechUnit.PreStep(n);
+            _bodyWorld.Simulate(n + 1);
+            _mechStep = n + 1;
+            _mechUnit.PostStep(n + 1);
+            var com = _mechUnit.Body.Com; var v = _mechUnit.Body.ComVelocity;
+            float gy = Ground(com.X, com.Z), hd = _mechUnit.Command.Heading;
+            _body.SetIntent(_mechUnit.Intent);
+            _body.Body.Place(com.X, gy, com.Z, hd);
+            _body.transform.SetPositionAndRotation(new Vector3(com.X, gy, com.Z), Quaternion.Euler(0f, hd * Mathf.Rad2Deg, 0f));
+            _mechT.SetPositionAndRotation(new Vector3(com.X, gy, com.Z), Quaternion.Euler(0f, hd * Mathf.Rad2Deg, 0f));
+            _mech.X = com.X; _mech.Y = com.Z; _mech.Speed = Mathf.Sqrt(v.X * v.X + v.Z * v.Z); _mech.HeadingRad = Mathf.PI * 0.5f - hd;
+            if (_mechComSet) _mechComTravel += Math.Sqrt((com.X - _mechComX) * (com.X - _mechComX) + (com.Z - _mechComZ) * (com.Z - _mechComZ));
+            _mechComX = com.X; _mechComZ = com.Z; _mechComSet = true;
+        }
+
+        void SetActorsActive(bool on)
+        {
+            _kaijuT.gameObject.SetActive(on); _mechT.gameObject.SetActive(on);
+            if (_mechVisRoot != null) _mechVisRoot.SetActive(on);
+        }
+
         const float KaijuHalfHeightM = 50f;   // capsule scale y 50 = 100 m tall
 
         void PlaceKaiju() { _kaijuT.SetPositionAndRotation(new Vector3(_kaiju.X, Ground(_kaiju.X, _kaiju.Y) + KaijuHalfHeightM, _kaiju.Y), Quaternion.Euler(0f, 90f - _kaiju.HeadingRad * Mathf.Rad2Deg, 0f)); }
@@ -366,7 +427,8 @@ namespace Game.Slice
         void FixedUpdate()
         {
             if (!Ready) return;
-            if (_body != null)
+            if (_mechUnit != null) StepPhysicsMech();
+            else if (_body != null)
             {
                 _body.SetIntent(_seat.Read());
                 var b = _body.Body;
@@ -542,7 +604,7 @@ namespace Game.Slice
             {
                 SetDestroyView();
                 // the before/after pair must differ only by the removed building: hide the moving actors and clear any camera shake
-                _kaijuT.gameObject.SetActive(false); _mechT.gameObject.SetActive(false); _hidActors = true;
+                SetActorsActive(false); _hidActors = true;
                 if (_rig != null) _rig.Impulse.Reset();
             }
             _capturePending = true; StartCoroutine(CaptureFrame(_frames.Count, label, t));
@@ -640,7 +702,7 @@ namespace Game.Slice
                 Destroy(tex);
             }
             else { Debug.LogError("[SliceSmoke] CaptureScreenshotAsTexture returned null (index " + index + ")"); if (index >= 0) { _frames.Add(null); _frameFiles.Add("(failed)"); _frameLabels.Add(label); _frameT.Add(tSeconds); } }
-            if (_hidActors) { _kaijuT.gameObject.SetActive(true); _mechT.gameObject.SetActive(true); _hidActors = false; }
+            if (_hidActors) { SetActorsActive(true); _hidActors = false; }
             if (index >= 0 && _rig != null && label != "follow" && label != "destroy_before") { _rig.ClearScriptedPose(); _rig.Cut(); }
             else if (label == "destroy_before" && _rig != null) { _rig.ClearScriptedPose(); _rig.Cut(); }
             _capturePending = false;
@@ -708,6 +770,7 @@ namespace Game.Slice
             sb.Append("  \"kaiju\": { \"decisions\": ").Append(_kaiju.Decisions).Append(", \"melee_hits\": ").Append(_kaiju.Hits).Append(", \"state\": \"").Append(_kaiju.State).Append("\", \"distance_to_mech_m\": ").Append(F(Mathf.Sqrt((_mech.X - _kaiju.X) * (_mech.X - _kaiju.X) + (_mech.Y - _kaiju.Y) * (_mech.Y - _kaiju.Y)))).Append(" },\n");
             _feel?.AppendJson(sb);
             AppendAudioJson(sb);
+            sb.Append("  \"mech_body\": \"").Append(_mechUnit != null ? "physics walk_mode 2" : "placeholder capsule (TEMPORARY)").Append("\", \"mech_phase\": \"").Append(_mechUnit != null ? _mechUnit.Phase.ToString() : "").Append("\", \"mech_fell\": ").Append(_mechUnit != null && (_mechUnit.Phase == LocoPhase.Fallen || _mechUnit.Phase == LocoPhase.Falling) ? "true" : "false").Append(",\n");
             sb.Append("  \"config\": \"").Append(_configUsed).Append("\", \"hangar_note\": \"").Append(_feel != null ? _feel.SpawnNote.Replace("\"", "'") : "").Append("\",\n");
             AppendPixelCheck(sb);
             sb.Append("  \"mech_travel_m\": ").Append(F(_mechTravel)).Append(",\n");
@@ -775,6 +838,6 @@ namespace Game.Slice
             GUI.Label(new Rect(10, 10, 1100, 100), s);
         }
 
-        void OnDestroy() { _feel?.Dispose(); if (_bus != null) { _bus.Unsubscribe<BuildingDamaged>(this); _bus.Unsubscribe<EmergencePoint>(this); } if (_drawRec.Valid) _drawRec.Dispose(); if (Instance == this) Instance = null; }
+        void OnDestroy() { _feel?.Dispose(); _mechUnit?.Dispose(); _bodyWorld?.Dispose(); _mechUnit = null; _bodyWorld = null; if (_bus != null) { _bus.Unsubscribe<BuildingDamaged>(this); _bus.Unsubscribe<EmergencePoint>(this); } if (_drawRec.Valid) _drawRec.Dispose(); if (Instance == this) Instance = null; }
     }
 }
