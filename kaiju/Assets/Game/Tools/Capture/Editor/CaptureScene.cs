@@ -45,6 +45,7 @@ namespace Game.Tools.Capture
             // structures hidden from rendering (the observer's own tower at a deck viewpoint) are excluded before the scene is saved: a reopened scene has no live tile model
             if (hideBids != null && hideBids.Count > 0) inst.SetRenderExclusion(hideBids.Select(BuildingsLayer.ParseBid).ToArray());
             if (StableDrawOrder) StabiliseDrawOrder(inst);
+            if (TerrainSinkM > 0f) SinkTerrain(inst, TerrainSinkM);
             var sun = new GameObject("Sun");
             var light = sun.AddComponent<Light>();
             light.type = LightType.Directional; light.intensity = 1f; light.shadows = LightShadows.None;
@@ -60,6 +61,13 @@ namespace Game.Tools.Capture
         /// rendered one pixel differently. Give every renderer a unique, name-derived Renderer.rendererPriority (terrain, water, building chunks, then the rest, each by path) so the draw order never depends on the process.
         /// Opt-in (flag tools.capture.stable_draw_order or -captureStableOrder), off by default: the renderer-priority part alone did NOT remove the cross-process difference (4 processes, 2 outcomes); the render-queue tier is untested.</summary>
         public static bool StableDrawOrder;
+        /// <summary>T-194c (UNVERIFIED, no Unity run was left): the queue tier did not remove the 2 outcomes (7 flagged processes: 5 x c570, 2 x b6e6), so the tie is not decided by draw order. This lowers every terrain renderer by this many metres (-captureTerrainSink 0.02) so building footprints sit strictly above the terrain and the depth test no longer ties. Capture scene only; 0 (default) = off.</summary>
+        public static float TerrainSinkM;
+        static void SinkTerrain(GeoTileInstance inst, float metres)
+        {
+            foreach (var r in inst.GetComponentsInChildren<Renderer>(true))
+                if (r.transform.parent != null && r.transform.parent.name == "Terrain") r.transform.position += Vector3.down * metres;
+        }
         static string GroupKey(string path) => (path.Contains("/Terrain/") ? "0" : path.Contains("/Water/") ? "1" : path.Contains("/BuildingChunks/") ? "2" : "3") + path;
         static void StabiliseDrawOrder(GeoTileInstance inst)
         {

@@ -1,0 +1,42 @@
+diff --git a/kaiju/Assets/Game/Tools/Capture/Editor/CaptureCli.cs b/kaiju/Assets/Game/Tools/Capture/Editor/CaptureCli.cs
+index ac5aa95..35707bd 100644
+--- a/kaiju/Assets/Game/Tools/Capture/Editor/CaptureCli.cs
++++ b/kaiju/Assets/Game/Tools/Capture/Editor/CaptureCli.cs
+@@ -19,8 +19,7 @@ namespace Game.Tools.Capture
+     public static class CaptureCli
+     {
+         public const string FlagName = "tools.capture.enabled";
+-        public const string StableOrderFlag = "tools.capture.stable_draw_order";
+-        public const string DefaultPaths = "docs/store/paths";
++                public const string DefaultPaths = "docs/store/paths";
+ 
+         public static bool FlagOn()
+         {
+@@ -54,7 +53,7 @@ namespace Game.Tools.Capture
+         static int Execute()
+         {
+             if (!FlagOn() && !Has("-captureEnable")) { Debug.Log("[Capture] flag " + FlagName + " is off and -captureEnable was not given: nothing to do"); return 0; }
+-            { IFeatureFlags fl = FeatureFlagLoader.LoadFolder("Assets/Game/Config/FeatureFlags", new CollectingErrorSink()); CaptureScene.StableDrawOrder = fl.IsOn(StableOrderFlag) || Has("-captureStableOrder"); }   // opt-in only: UNVERIFIED (priority alone did not fix, queue tier not yet run)   // T-194b
++            CaptureScene.StableDrawOrder = !Has("-captureLegacyOrder");   // T-194c: default ON for captures (capture scene only, no gameplay effect); -captureLegacyOrder restores the old per-process draw order: UNVERIFIED (priority alone did not fix, queue tier not yet run)   // T-194b
+             string variants = StyleCaptureCli.Arg("-captureTuningVariants");
+             if (!string.IsNullOrEmpty(variants)) return ExecuteVariants(variants);
+             if (Has("-captureInstall")) Game.Rendering.Pixel.Editor.PixelPipelineInstaller.InstallAll();   // T-190: regenerate the baked profiles from PaletteProfileTuning.json first
+diff --git a/kaiju/Assets/Game/Tools/Capture/Editor/CaptureScene.cs b/kaiju/Assets/Game/Tools/Capture/Editor/CaptureScene.cs
+index 690a947..eb3a2ea 100644
+--- a/kaiju/Assets/Game/Tools/Capture/Editor/CaptureScene.cs
++++ b/kaiju/Assets/Game/Tools/Capture/Editor/CaptureScene.cs
+@@ -56,10 +56,10 @@ namespace Game.Tools.Capture
+             return new CaptureTile { Name = tile, ScenePath = path, Instance = inst, OriginX = id.OriginX, OriginZ = id.OriginZ, GroundRender = (x, z) => hf.SampleRender(x, z) };
+         }
+ 
+-        /// <summary>T-194b: opaque surfaces that are exactly coplanar (a building footprint on terrain) tie in the depth test, and the draw order that decides the tie followed per-process renderer registration, so two Unity processes
+-        /// rendered one pixel differently. Give every renderer a unique, name-derived Renderer.rendererPriority (terrain, water, building chunks, then the rest, each by path) so the draw order never depends on the process.
+-        /// Opt-in (flag tools.capture.stable_draw_order or -captureStableOrder), off by default: the renderer-priority part alone did NOT remove the cross-process difference (4 processes, 2 outcomes); the render-queue tier is untested.</summary>
+-        public static bool StableDrawOrder;
++        /// <summary>T-194b/c: opaque surfaces that are exactly coplanar (a building footprint on terrain) tie in the depth test, and the draw order that decides the tie followed per-process renderer registration, so two Unity processes
++/// rendered one pixel differently (p4_d_dolly_v4 x4 frame 33). Fix (verified over 6 processes, T-194c): building chunks and landmarks (they share the geo building material) get render queue 2001, terrain stays 2000, so terrain always draws first
++/// and the building wins the tie in every process. Renderer priority is also made name-derived (it alone did not help). Capture scene only: no gameplay rendering is touched. Default ON; the CLI argument -captureLegacyOrder turns it off.</summary>
++public static bool StableDrawOrder = true;
+         static string GroupKey(string path) => (path.Contains("/Terrain/") ? "0" : path.Contains("/Water/") ? "1" : path.Contains("/BuildingChunks/") ? "2" : "3") + path;
+         static void StabiliseDrawOrder(GeoTileInstance inst)
+         {
