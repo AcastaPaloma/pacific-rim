@@ -1,0 +1,18 @@
+{
+  "task": "T-039c", "scene": "M1Slice", "platform": "OSXEditor", "development_build": true,
+  "graphics_device": "Apple M5 Pro", "resolution": "640x480",
+  "pixel_pipeline": true, "frames_recorded": 19526, "warmup_frames": 60,
+  "frame_ms": { "mean": 1.075, "median": 1, "p95": 1.621, "max": 105.98 },
+  "draw_calls": { "median": 279, "max": 283 },
+  "load_seconds": 40.86, "tiles": 15, "buildings_registered": 16615, "landmark_colliders": 154,
+  "quakes": 1, "impacts": 1, "building_damaged_events": 1126, "state_counts": [0, 975, 145, 4, 2], "buildings_removed_from_scene": 2,
+  "kaiju": { "decisions": 108, "melee_hits": 1, "state": "Charge", "distance_to_mech_m": 5205.019 },
+  "feel": { "combat": true, "hangar": true, "cannon_shots": 5, "arm_swings": 2, "weapon_fired_events": 7, "impact_impulse_events": 5, "impacts_building": 3, "impacts_kaiju": 2, "impacts_ground": 0, "kaiju_min_hp": 292.4, "kaiju_hp": 400.0, "kaiju_downs": 0, "hangar_cycles": 1, "ammo": 20, "combat_buildings_in_world": 16615 },
+  "audio": { "received": 1140, "emitted": 318, "dropped_no_position": 0, "dropped_filtered": 975, "dropped_cap": 290, "footfalls": 0 },
+  "mech_body": "physics walk_mode 2", "mech_phase": "SingleSupport", "mech_fell": false,
+  "config": "demo", "hangar_note": "hangar cycle 1: hp 900 -> 1000 (1 queued, 1 repaired), redeployed at Crissy Field airfield, Presidio (-4619, 1910), terrain known True",
+  "pixel_check": null,
+  "mech_travel_m": 55.906,
+  "render_diag": "",
+  "log": "config demo: install: geo=True destruction=True seismic=True bridge=True brain=True combat=True hangar=True audio=True emergence=True | spawn plan: mech (884, 1024) ground 3.782 m, view yaw 210 deg, blockers 0, buildings in view 114 (0.134 s) | demo: physics mech spawned (walk_mode 2, mass 10000000 kg) at (884, 3.782, 1024) | combat: cannon True melee True, kaiju 400 hp | hangar: stub on, site Crissy Field airfield, Presidio | ready in 40.9 s: tiles 15, buildings 16615, landmark colliders 154 | emergence at (75364, 82861) t=28 s | quake Mw 6.90 on Chabot fault, buildings damaged so far 1125 | destroy view: clear line of sight, target height 12.66 m | smoke duel: kaiju placed 90 m ahead | impact 16875 MJ on bld:osm-way:132121557: state 0 -> 4 (thresholds MJ 0.1/0.2/0.6/1.5) | kaiju melee hit; body hp 0.90 | hangar cycle 1: hp 900 -> 1000 (1 queued, 1 repaired), redeployed at Crissy Field airfield, Presidio (-4619, 1910), terrain known True | kaiju respawned 340 m ahead | "
+}
