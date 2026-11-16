@@ -35,3 +35,6 @@ Exit 0 ok, 1 error (lint failure, log errors, replay differs), 3 a path was bloc
 
 ## Cross-process determinism diagnostics (T-194)
 `capture.py xproc --a <root> --b <root>` compares the `hashes.sha256` of two runs made by separate Unity processes (names the frame and buffer). `CaptureDiag` (env `KAIJU_CAPTURE_DIAG=<dir>`, default off, p4_d paths only) dumps per-frame buffer hashes, camera matrix bits, environment and geometry hashes; `KAIJU_DIAG_PERMUTE=N` re-renders under N renderer orders. Open finding: `tasks/T-194.progress.md`.
+
+## T-194c: queue tier does NOT fix the cross-process tie
+`-captureStableOrder` (building/landmark queue 2001, terrain 2000; opt-in, flag `tools.capture.stable_draw_order`) was run in 7 separate processes on p4_d_dolly_v4 x4: 5 gave outcome `c570...`, 2 gave `b6e6...` (frame 33, one pixel), same as without it. So the tie is not decided by draw order. `-captureTerrainSink <m>` (default off, UNVERIFIED, untested: no Unity run was left) lowers terrain renderers so footprints sit above the terrain. Evidence `evidence/T-194c/`.
