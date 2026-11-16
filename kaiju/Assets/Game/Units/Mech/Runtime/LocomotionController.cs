@@ -450,7 +450,7 @@ namespace Game.Units.Mech
             _qp.TimeScale = _qpScale; _qp.DesiredYaw = _cmd.Heading;
             int tdBefore = _qp.Controller.Touchdowns;
             _qp.Apply(_qpTime, _pelvisYaw, _groundY); _qpTime += _dt * _qpScale; _qpPlanTd = _t.qp_plan > 0.5 && _qp.Controller.Schedule.LastCallReanchored;
-            if (_qpPdSwing >= 0 || _qpPdRef > 0 || _qpDiag || _qpFoot) QpSwingPd();
+            if (_qpPdSwing >= 0 || _qpPdRef > 0 || _qpDiag || _qpFoot || _t.qp_r11_pdq > 0) QpSwingPd();
             if (_qpMatch && _t.qp_td_rematch > 0 && _t.qp_plan < 0.5 && _qp.Controller.Touchdowns > tdBefore) QpTouchdownRematch();
             if (_qpLat) QpLateralDrives();
             var c = _qp.Controller; _dbg.QpOn = true; _dbg.QpScale = _qpScale; _dbg.QpMs = (System.Diagnostics.Stopwatch.GetTimestamp() - t0) * 1e3 / System.Diagnostics.Stopwatch.Frequency; _dbg.QpIters = c.LastIterations; _dbg.QpTau ??= new double[6]; System.Array.Copy(c.Tau, _dbg.QpTau, 6);
@@ -495,6 +495,29 @@ namespace Game.Units.Mech
                     }
                     double ratio = _b.DofAppliedTorque(d) / Math.Max(info.ForceLimitNm, 1.0); c.FootLog[11 + pl] = ratio;
                     if (Math.Abs(ratio) > _t.qp_foot_sat) { if (pl == c.Parity) _qpAnkSatSwing++; else _qpAnkSatStance++; }
+                }
+            }
+            if (_t.qp_r11_pdq > 0)
+            {
+                // round 11 (qp_r11_pdq = b): the PD of the six sagittal leg DOFs tracks the state the QP intends one tick ahead (implicit drive: target q + qd dt + qdd* dt^2 / 2, rate qd + qdd* dt),
+                // blended b with the legacy target, so it corrects deviations from the QP's motion instead of pulling to the legacy imp-2 plan; qp_r11_pdq_k scales its gains.
+                double bq = Math.Min(1.0, _t.qp_r11_pdq), kq = Math.Max(0, _t.qp_r11_pdq_k), th2 = c.SolQdd(2);
+                int pm = (int)Math.Round(_t.qp_r11_pdq_mode); var inc = c.Schedule.Inc; bool ds = inc[2 * sw] || inc[2 * sw + 1];
+                for (int pl = 0; pl < 2; pl++)
+                {
+                    if (pm == 1 && pl == sw) continue;            // stance leg only
+                    if (pm == 2 && !ds) continue;                 // both legs, only while the swing-parity leg still has contact (double support)
+                    if (pm == 3 && pl == sw && !ds) continue;     // all but the airborne swing leg
+                    var leg = legs[pl]; int[] d3 = { leg.Hip[0], leg.Knee, leg.Ankle[0] }; int a = 3 + 3 * pl, b = a + 1, f = a + 2;
+                    double[] acc = { c.SolQdd(a) + th2, c.SolQdd(a) - c.SolQdd(b), c.SolQdd(f) + c.SolQdd(b) };
+                    for (int j = 0; j < 3; j++)
+                    {
+                        int d = d3[j]; if (_drvK[d] <= 0 && _drvC[d] <= 0) continue;
+                        var info = _b.GetDof(d); double q = _b.DofPosition(d), qd = _b.DofVelocity(d), aj = double.IsNaN(acc[j]) || double.IsInfinity(acc[j]) ? 0 : acc[j];
+                        double tq = q + qd * _dt + 0.5 * aj * _dt * _dt, vq = qd + aj * _dt;
+                        double tg = Math.Max(info.LowerRad, Math.Min(info.UpperRad, (1 - bq) * _drvT[d] + bq * tq)), vl = (1 - bq) * _drvV[d] + bq * vq;
+                        _drvT[d] = tg; _drvV[d] = vl; _b.SetDofDrive(d, tg, vl, _drvK[d] * kq, _drvC[d] * Math.Sqrt(kq));   // the qp.k PD log keeps the unscaled gains
+                    }
                 }
             }
             if (_qpDiag)
