@@ -3,15 +3,20 @@
   "ref_w": 480,
   "ref_h": 270,
   "elements": [
+    {"id": "mech_hp_label", "kind": "text", "x": 8, "y": 200, "w": 110, "h": 14, "text": "MECH 100%"},
+    {"id": "mech_hp_bar", "kind": "bar", "x": 8, "y": 216, "w": 110, "h": 6, "segments": 24},
     {"id": "power_label", "kind": "text", "x": 8, "y": 238, "w": 36, "h": 14, "text": "PWR"},
     {"id": "power_bar", "kind": "bar", "x": 48, "y": 242, "w": 64, "h": 6, "segments": 16},
-    {"id": "heat_label", "kind": "text", "x": 8, "y": 254, "w": 36, "h": 14, "text": "HET"},
+    {"id": "heat_label", "kind": "text", "x": 8, "y": 254, "w": 36, "h": 14, "text": "HEA"},
     {"id": "heat_bar", "kind": "bar", "x": 48, "y": 258, "w": 64, "h": 6, "segments": 16},
-    {"id": "strain_gauge", "kind": "vbar", "x": 8, "y": 196, "w": 6, "h": 36, "segments": 12},
-    {"id": "pilot_portrait", "kind": "slot", "x": 18, "y": 196, "w": 32, "h": 32},
+    {"id": "strain_gauge", "kind": "vbar", "x": 8, "y": 150, "w": 6, "h": 36, "segments": 12},
+    {"id": "pilot_portrait", "kind": "slot", "x": 18, "y": 150, "w": 32, "h": 32},
     {"id": "ammo_text", "kind": "text", "x": 388, "y": 238, "w": 84, "h": 14, "text": "18/20"},
+    {"id": "reload_bar", "kind": "bar", "x": 388, "y": 253, "w": 84, "h": 4},
     {"id": "ammo_pips", "kind": "pips", "x": 388, "y": 258, "w": 84, "h": 6, "segments": 20},
     {"id": "warning_line", "kind": "text", "x": 136, "y": 8, "w": 208, "h": 14, "text": "OVERHEAT"},
+    {"id": "kaiju_label", "kind": "text", "x": 344, "y": 8, "w": 128, "h": 14, "text": "KAIJU 100%"},
+    {"id": "kaiju_bar", "kind": "bar", "x": 344, "y": 24, "w": 128, "h": 6, "segments": 32},
     {"id": "partner_block", "kind": "text", "x": 8, "y": 8, "w": 120, "h": 14, "text": "P2 PWR 80%"}
   ]
 }

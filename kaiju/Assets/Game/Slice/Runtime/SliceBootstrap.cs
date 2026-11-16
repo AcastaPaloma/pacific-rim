@@ -9,6 +9,8 @@ using System.IO;
 using System.Text;
 using Game.AI;
 using Game.Combat;
+using Game.UI;
+using Game.UI.Unity;
 using Game.Audio.SliceBridge;
 using Game.Audio.SliceBridge.Unity;
 using Game.Cameras;
@@ -52,6 +54,8 @@ namespace Game.Slice
         public TextAsset controlTuning;
         [Tooltip("Assets/Game/Config/WorldGeo.json: Geo reads it from Application.dataPath, which a player does not have, so the scene carries it.")]
         public TextAsset geoSettings;
+        [Tooltip("T-154 HUD data files (Assets/Game/Config/UI/hud_layout.json, hud_colours.json); a player has no Application.dataPath copy. Used only with ui.hud_view + ui.hud_data.")]
+        public TextAsset hudLayoutJson, hudColoursJson;
         public PixelPipelineCatalog pixelCatalog;
         public string paletteProfileId = "warm_amber_haze";
         public Material kaijuMaterial, mechMaterial, impactorMaterial;
@@ -111,6 +115,15 @@ namespace Game.Slice
         /// <summary>Diagnostics only: -sliceFlagOff a,b turns those flags off for this run (e.g. rendering.pixel.haze), to bisect a render problem.</summary>
         static string ApplyFlagOverrides(string json)
         {
+            string on = Arg("-sliceFlagOn");   // T-154 diagnostics: -sliceFlagOn a,b turns those flags on for this run (ui.hud_data,ui.hud_view for the HUD evidence run); committed configs stay as they are
+            if (json != null && !string.IsNullOrEmpty(on))
+                foreach (var name in on.Split(','))
+                {
+                    string key = "\"" + name + "\"";
+                    if (json.Contains(key + ": false")) json = json.Replace(key + ": false", key + ": true");
+                    else if (!json.Contains(key + ": true")) json = json.Replace("\"flags\": {", "\"flags\": { " + key + ": true,");
+                    Debug.Log("[Slice] diagnostic override: " + name + " on");
+                }
             string off = Arg("-sliceFlagOff");
             if (json == null || string.IsNullOrEmpty(off)) return json;
             foreach (var name in off.Split(',')) { json = json.Replace("\"" + name + "\": true", "\"" + name + "\": false"); Debug.Log("[Slice] diagnostic override: " + name + " off"); }
@@ -168,6 +181,7 @@ namespace Game.Slice
             _combatWorld = new SliceCombatWorld((x, z) => _comp != null && _comp.Geo != null ? Ground(x, z) : 0.0);
             if (_flags.IsOn(CombatFlags.Cannon) || _flags.IsOn(CombatFlags.Melee)) _root.Registry.Register<ICombatTargetQuery>(_combatWorld);   // T-189: real Combat sweeps the slice's volumes
             _comp = GameComposition.Install(_root.Registry, _flags, _root.Errors, inputs);
+            _hudAmmo = HudDataInstaller.Install(_root.Registry, _flags);   // T-154: after CombatInstaller (inside GameComposition.Install); null unless ui.hud_data is on and Combat has an ammo query
             Log("config " + _configUsed + ": install: geo=" + (_comp.Geo != null) + " destruction=" + (_comp.Destruction != null) + " seismic=" + (_comp.Seismic != null)
                 + " bridge=" + (_comp.ShakingBridge != null) + " brain=" + (_comp.Brain != null)
                 + " combat=" + (_comp.Combat != null) + " hangar=" + (_comp.Hangar != null) + " audio=" + _flags.IsOn(SliceAudioFlags.Slice) + " emergence=" + _flags.IsOn("emergence.enabled"));
@@ -312,6 +326,44 @@ namespace Game.Slice
                 pg.AddComponent<UniversalAdditionalCameraData>().SetRenderer(pixelCatalog.presentRendererIndex);
                 pg.AddComponent<PixelPresentCamera>().source = _binder;
             }
+            SetupHud();
+        }
+
+        // ---- T-154 HUD view (flags ui.hud_data + ui.hud_view, both default off) ----
+        IAmmoSource _hudAmmo; CannonAmmoProvider _hudLimits; HudView _hud;
+        public HudView Hud => _hud;
+
+        void SetupHud()
+        {
+            if (!_flags.IsOn(UiFlags.HudView) || !_flags.IsOn(UiFlags.HudData)) return;
+            if (hudLayoutJson == null || hudColoursJson == null) { Debug.LogError("[Slice] ui.hud_view is on but the scene has no hudLayoutJson / hudColoursJson (run SliceEditorTools.BuildScene)"); return; }
+            try
+            {
+                var layout = HudLayout.Parse(hudLayoutJson.text);
+                var palette = HudColourTable.Resolve(paletteProfileId, true, HudColourTable.Parse(hudColoursJson.text));
+                if (palette == null) { Debug.LogError("[Slice] HUD: no colours for palette profile " + paletteProfileId); return; }
+                if (_hudAmmo != null) _hudLimits = new CannonAmmoProvider(_hudAmmo);
+                _hud = gameObject.AddComponent<HudView>();
+                _hud.Configure(layout, palette, HudData, () => _binder != null ? _binder.PresentShift() : Vector2Int.zero, () => _binder != null && _binder.IsPrepared ? _binder.Layout.Scale : HudTextScale.PixelK(Screen.height));
+                Log("HUD view on: palette " + palette.Profile + ", ammo " + (_hudLimits != null) + ", " + layout.Elements.Count + " elements");
+            }
+            catch (Exception ex) { Debug.LogError("[Slice] HUD setup failed: " + ex.Message); }
+        }
+
+        /// <summary>The HUD's per-frame input: contracts only (ammo provider over Combat's ammo query), plus the stand-in health numbers the host already holds (mech body damage fraction, kaiju health fraction).</summary>
+        HudFrameData HudData()
+        {
+            var d = new HudFrameData { Visible = Ready };
+            if (!Ready) return d;
+            int mount = _feel != null ? _feel.CannonMountId : 0;
+            if (_hudLimits != null && mount > 0 && _hudLimits.TryGetLimits(mount, out var view))
+            {
+                d.HasLimits = true; d.Limits = view;
+                if (_hudLimits.TryGetReload(mount, out bool reloading, out float frac)) { d.HasReload = true; d.Reloading = reloading; d.ReloadFrac = frac; }
+            }
+            d.HasMechHp = true; d.MechHp = _body != null ? _body.Body.Damage.Fraction : _mech.Hp;
+            if (_kaiju != null) { d.HasKaijuHp = true; d.KaijuHp = _feel != null && _feel.CombatOn ? (float)_feel.KaijuHpFraction : _kaiju.Hp; }
+            return d;
         }
 
         float Ground(double ux, double uz)
