@@ -34,6 +34,11 @@ namespace Game.AI.Pack
         public readonly float DepthOverHeight, SoftCost;
         /// <summary>Number of A* searches run (tests and the cost report).</summary>
         public int Searches { get; private set; }
+        /// <summary>T-124c profile (read-only, no behaviour effect): wall ms of the A* searches (total, longest single, count over 5 ms). Reset with <see cref="ResetSearchProfile"/>.</summary>
+        public double SearchMsTotal { get; private set; }
+        public double SearchMsMax { get; private set; }
+        public int SearchesOver5Ms { get; private set; }
+        public void ResetSearchProfile() { SearchMsTotal = 0; SearchMsMax = 0; SearchesOver5Ms = 0; }
 
         private readonly IBayCostField _f;
         private readonly int _nx, _ny;
@@ -166,7 +171,10 @@ namespace Game.AI.Pack
             var key = new Key((int)sp.HeightM, CellOf(from), goal);
             if (_cache.TryGetValue(key, out Route hit)) return hit;
             if (_cache.Count > 4096) _cache.Clear();
+            long st0 = System.Diagnostics.Stopwatch.GetTimestamp();
             Route route = Search(CellOf(from), goal, limit, to);
+            double sms = (System.Diagnostics.Stopwatch.GetTimestamp() - st0) * 1000.0 / System.Diagnostics.Stopwatch.Frequency;
+            SearchMsTotal += sms; if (sms > SearchMsMax) SearchMsMax = sms; if (sms > 5.0) SearchesOver5Ms++;
             _cache[key] = route;
             return route;
         }

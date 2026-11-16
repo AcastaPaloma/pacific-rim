@@ -1,0 +1,925 @@
+{
+ "assumed_thresholds_decisive": [
+  "M-008.a"
+ ],
+ "contract_errors": [],
+ "coverage": {
+  "missing": [],
+  "optional_not_provided": [
+   "m008_ref@v1 (reference run for normalisation)"
+  ],
+  "provided": [
+   "5 m008_bay@v1 runs (seeds [1, 2, 3, 4, 5]), 0 m008_ref@v1, 0 m008_sweep@v1"
+  ],
+  "required": [
+   "5 m008_bay@v1 runs (distinct seeds)"
+  ]
+ },
+ "exit_code": 3,
+ "extra": {
+  "m008": {
+   "pooled_bay": {
+    "ALL": {
+     "max": 59.469,
+     "mean": 0.88452345,
+     "n": 180000,
+     "p50": 0.841,
+     "p95": 1.4,
+     "p99": 1.844,
+     "p99.9": 6.836001
+    },
+    "approach": {
+     "max": 41.615,
+     "mean": 0.595530115923,
+     "n": 58142,
+     "p50": 0.551,
+     "p95": 0.827,
+     "p99": 1.279,
+     "p99.9": 10.569533
+    },
+    "engaged": {
+     "max": 59.469,
+     "mean": 1.02241058445,
+     "n": 121858,
+     "p50": 0.982,
+     "p95": 1.461,
+     "p99": 1.912,
+     "p99.9": 5.958293
+    }
+   },
+   "relative_budget_note": "relative on the Mac; B_host = 8.3 ms, ratio limit 0.60 (Assumed)",
+   "rendering": [
+    false
+   ],
+   "runs": [
+    {
+     "events_per_min": 7.5,
+     "fragments_peak": 4800,
+     "gc_collections": 425,
+     "label": "m008_bay_seed1",
+     "peak_rss_mb": 591.9,
+     "phases": {
+      "ALL": {
+       "brain_mean_ms": 0.00870055555556,
+       "destruction_mean_ms": 0.00669336111111,
+       "frames": 36000,
+       "physics_mean_ms": 0.727874305556,
+       "streaming_mean_ms": 0.0887829166667,
+       "total_ms": {
+        "max": 26.202,
+        "mean": 0.832073361111,
+        "n": 36000,
+        "p50": 0.706,
+        "p95": 1.404,
+        "p99": 1.83105,
+        "p99.9": 4.585054
+       }
+      },
+      "approach": {
+       "brain_mean_ms": 0.00959779792746,
+       "destruction_mean_ms": 0.00477234455959,
+       "frames": 12352,
+       "physics_mean_ms": 0.436031897668,
+       "streaming_mean_ms": 0.0924576586788,
+       "total_ms": {
+        "max": 19.45,
+        "mean": 0.542950453368,
+        "n": 12352,
+        "p50": 0.524,
+        "p95": 0.727,
+        "p99": 0.97898,
+        "p99.9": 5.337012
+       }
+      },
+      "engaged": {
+       "brain_mean_ms": 0.00823190121786,
+       "destruction_mean_ms": 0.00769676082544,
+       "frames": 23648,
+       "physics_mean_ms": 0.880311611976,
+       "streaming_mean_ms": 0.0868634979702,
+       "total_ms": {
+        "max": 26.202,
+        "mean": 0.983090197903,
+        "n": 23648,
+        "p50": 0.979,
+        "p95": 1.482,
+        "p99": 1.93059,
+        "p99.9": 4.515473
+       }
+      }
+     },
+     "platform": "Mac OS X 26.6.2 | Apple M5 Pro x15 | batch, no rendering, realtime=1",
+     "scenario": "m008_bay@v1",
+     "seed": 1
+    },
+    {
+     "events_per_min": 7.5,
+     "fragments_peak": 4800,
+     "gc_collections": 596,
+     "label": "m008_bay_seed2",
+     "peak_rss_mb": 551,
+     "phases": {
+      "ALL": {
+       "brain_mean_ms": 0.0113090833333,
+       "destruction_mean_ms": 0.00626636111111,
+       "frames": 36000,
+       "physics_mean_ms": 0.836599361111,
+       "streaming_mean_ms": 0.0934601666667,
+       "total_ms": {
+        "max": 57.333,
+        "mean": 0.947554277778,
+        "n": 36000,
+        "p50": 0.929,
+        "p95": 1.496,
+        "p99": 1.90202,
+        "p99.9": 4.900042
+       }
+      },
+      "approach": {
+       "brain_mean_ms": 0.0107180458072,
+       "destruction_mean_ms": 0.00439619504987,
+       "frames": 10828,
+       "physics_mean_ms": 0.464889453269,
+       "streaming_mean_ms": 0.100755818249,
+       "total_ms": {
+        "max": 21.566,
+        "mean": 0.580756741781,
+        "n": 10828,
+        "p50": 0.556,
+        "p95": 0.771,
+        "p99": 1.078,
+        "p99.9": 5.366608
+       }
+      },
+      "engaged": {
+       "brain_mean_ms": 0.0115633243286,
+       "destruction_mean_ms": 0.00707083267122,
+       "frames": 25172,
+       "physics_mean_ms": 0.996494279358,
+       "streaming_mean_ms": 0.0903218655649,
+       "total_ms": {
+        "max": 57.333,
+        "mean": 1.10533608772,
+        "n": 25172,
+        "p50": 1.07,
+        "p95": 1.562,
+        "p99": 1.96716,
+        "p99.9": 4.551376
+       }
+      }
+     },
+     "platform": "Mac OS X 26.6.2 | Apple M5 Pro x15 | batch, no rendering, realtime=1",
+     "scenario": "m008_bay@v1",
+     "seed": 2
+    },
+    {
+     "events_per_min": 7.5,
+     "fragments_peak": 4800,
+     "gc_collections": 619,
+     "label": "m008_bay_seed3",
+     "peak_rss_mb": 553,
+     "phases": {
+      "ALL": {
+       "brain_mean_ms": 0.0121895555556,
+       "destruction_mean_ms": 0.00873755555556,
+       "frames": 36000,
+       "physics_mean_ms": 0.814336361111,
+       "streaming_mean_ms": 0.103612611111,
+       "total_ms": {
+        "max": 59.469,
+        "mean": 0.938730333333,
+        "n": 36000,
+        "p50": 0.901,
+        "p95": 1.40605,
+        "p99": 1.81801,
+        "p99.9": 8.346095
+       }
+      },
+      "approach": {
+       "brain_mean_ms": 0.0120640094579,
+       "destruction_mean_ms": 0.0099777909137,
+       "frames": 11842,
+       "physics_mean_ms": 0.525288380341,
+       "streaming_mean_ms": 0.122244384395,
+       "total_ms": {
+        "max": 41.615,
+        "mean": 0.669444181726,
+        "n": 11842,
+        "p50": 0.606,
+        "p95": 0.967,
+        "p99": 1.63436,
+        "p99.9": 11.679504
+       }
+      },
+      "engaged": {
+       "brain_mean_ms": 0.0122510969451,
+       "destruction_mean_ms": 0.00812960509976,
+       "frames": 24158,
+       "physics_mean_ms": 0.956024670916,
+       "streaming_mean_ms": 0.0944795098932,
+       "total_ms": {
+        "max": 59.469,
+        "mean": 1.0707316003,
+        "n": 24158,
+        "p50": 1.026,
+        "p95": 1.45915,
+        "p99": 1.83643,
+        "p99.9": 6.497716
+       }
+      }
+     },
+     "platform": "Mac OS X 26.6.2 | Apple M5 Pro x15 | batch, no rendering, realtime=1",
+     "scenario": "m008_bay@v1",
+     "seed": 3
+    },
+    {
+     "events_per_min": 7.5,
+     "fragments_peak": 4800,
+     "gc_collections": 582,
+     "label": "m008_bay_seed4",
+     "peak_rss_mb": 592,
+     "phases": {
+      "ALL": {
+       "brain_mean_ms": 0.00810880555556,
+       "destruction_mean_ms": 0.00781216666667,
+       "frames": 36000,
+       "physics_mean_ms": 0.740223527778,
+       "streaming_mean_ms": 0.0913443888889,
+       "total_ms": {
+        "max": 39.54,
+        "mean": 0.847436638889,
+        "n": 36000,
+        "p50": 0.824,
+        "p95": 1.29905,
+        "p99": 1.69,
+        "p99.9": 5.970032
+       }
+      },
+      "approach": {
+       "brain_mean_ms": 0.00977604349351,
+       "destruction_mean_ms": 0.007888723255,
+       "frames": 11404,
+       "physics_mean_ms": 0.472239652753,
+       "streaming_mean_ms": 0.112870484041,
+       "total_ms": {
+        "max": 39.54,
+        "mean": 0.602733163802,
+        "n": 11404,
+        "p50": 0.554,
+        "p95": 0.83,
+        "p99": 1.24185,
+        "p99.9": 11.070804
+       }
+      },
+      "engaged": {
+       "brain_mean_ms": 0.00733578630672,
+       "destruction_mean_ms": 0.00777667100342,
+       "frames": 24596,
+       "physics_mean_ms": 0.864474955277,
+       "streaming_mean_ms": 0.0813637583347,
+       "total_ms": {
+        "max": 15.582,
+        "mean": 0.960894047813,
+        "n": 24596,
+        "p50": 0.924,
+        "p95": 1.352,
+        "p99": 1.7301,
+        "p99.9": 4.233425
+       }
+      }
+     },
+     "platform": "Mac OS X 26.6.2 | Apple M5 Pro x15 | batch, no rendering, realtime=1",
+     "scenario": "m008_bay@v1",
+     "seed": 4
+    },
+    {
+     "events_per_min": 7.5,
+     "fragments_peak": 4800,
+     "gc_collections": 511,
+     "label": "m008_bay_seed5",
+     "peak_rss_mb": 556,
+     "phases": {
+      "ALL": {
+       "brain_mean_ms": 0.00970738888889,
+       "destruction_mean_ms": 0.00902852777778,
+       "frames": 36000,
+       "physics_mean_ms": 0.743869805556,
+       "streaming_mean_ms": 0.09418275,
+       "total_ms": {
+        "max": 47.596,
+        "mean": 0.856822638889,
+        "n": 36000,
+        "p50": 0.801,
+        "p95": 1.332,
+        "p99": 2.06703,
+        "p99.9": 10.949013
+       }
+      },
+      "approach": {
+       "brain_mean_ms": 0.0101548310003,
+       "destruction_mean_ms": 0.00444434960737,
+       "frames": 11716,
+       "physics_mean_ms": 0.4515583817,
+       "streaming_mean_ms": 0.116706384432,
+       "total_ms": {
+        "max": 39.379,
+        "mean": 0.582897490611,
+        "n": 11716,
+        "p50": 0.523,
+        "p95": 0.788,
+        "p99": 1.34255,
+        "p99.9": 11.29466
+       }
+      },
+      "engaged": {
+       "brain_mean_ms": 0.00949151704826,
+       "destruction_mean_ms": 0.0112401993082,
+       "frames": 24284,
+       "physics_mean_ms": 0.884897669247,
+       "streaming_mean_ms": 0.0833160517213,
+       "total_ms": {
+        "max": 47.596,
+        "mean": 0.988979904464,
+        "n": 24284,
+        "p50": 0.927,
+        "p95": 1.396,
+        "p99": 2.25885,
+        "p99.9": 10.350461
+       }
+      }
+     },
+     "platform": "Mac OS X 26.6.2 | Apple M5 Pro x15 | batch, no rendering, realtime=1",
+     "scenario": "m008_bay@v1",
+     "seed": 5
+    }
+   ]
+  }
+ },
+ "failing_gating": [],
+ "failures_suppressed": false,
+ "flags": [],
+ "headless_verdict": "INCOMPLETE",
+ "headless_verdict_label": "INCOMPLETE",
+ "images": [],
+ "inputs": [
+  {
+   "path": "evidence/T-124c/opt_v2/m008_bay_seed1.json",
+   "role": "m008_run@v1",
+   "sha256": "6c9c35f07f17785645988dca722631ff2d1f4e49a1ec2d47bf99154efb02793d"
+  },
+  {
+   "path": "evidence/T-124c/opt_v2/m008_bay_seed2.json",
+   "role": "m008_run@v1",
+   "sha256": "b29e903354f1fef24c091b0159859ffcb49cdb02827b97fed7b9fc31fdcf7f95"
+  },
+  {
+   "path": "evidence/T-124c/opt_v2/m008_bay_seed3.json",
+   "role": "m008_run@v1",
+   "sha256": "820ed9e245735a94100a11e87ba88d23525241564cf6323e19eef58331ea8dca"
+  },
+  {
+   "path": "evidence/T-124c/opt_v2/m008_bay_seed4.json",
+   "role": "m008_run@v1",
+   "sha256": "6af0f7ff140c9a1d5f7613d806de93809e7ff2892eec6d70a2c5a53278ba8be2"
+  },
+  {
+   "path": "evidence/T-124c/opt_v2/m008_bay_seed5.json",
+   "role": "m008_run@v1",
+   "sha256": "3f0b42b3da9714682c18f5b9c0b34580b26241f7b815599c8fea24491d5d2ccf"
+  }
+ ],
+ "invocation": {
+  "command": "m008",
+  "inputs": [
+   "evidence/T-124c/opt_v2/m008_bay_seed1.json",
+   "evidence/T-124c/opt_v2/m008_bay_seed2.json",
+   "evidence/T-124c/opt_v2/m008_bay_seed3.json",
+   "evidence/T-124c/opt_v2/m008_bay_seed4.json",
+   "evidence/T-124c/opt_v2/m008_bay_seed5.json"
+  ],
+  "label": "m008_bay_seed1.json",
+  "mode": "standard",
+  "options": {},
+  "ratings": null
+ },
+ "label": "m008_bay_seed1.json",
+ "metric": "M-008",
+ "metric_version": "M-008@v1",
+ "normalisers": {},
+ "registry": {
+  "metric_status": "registered",
+  "path": "Tools/Metrics/registry/M-008@v1.yaml",
+  "revision": "v1.0",
+  "sha256": "a1733479da815e8896b96a07e9228a11ad6d6b84da17bf97dfe3fd8ef3b9c3c3",
+  "spec": "M-008@v1"
+ },
+ "report_schema": "metric_report@v1",
+ "run": {
+  "host": "revw-172-31-218-200.rn.uwaterloo.ca",
+  "python": "3.12.16",
+  "timestamp_utc": "2026-11-16T21:18:11Z",
+  "wall_time_s": 0.292
+ },
+ "submeasures": [
+  {
+   "decisive_part": "scenario_defects",
+   "diagnostics": {
+    "defects": [],
+    "kaiju_body": [
+     "placeholder kinematic box (T-117 pending)"
+    ],
+    "mech_body": [
+     "placeholder kinematic box (Units.Placeholder pending T-005)"
+    ]
+   },
+   "id": "M-008.scope",
+   "kind": "gating",
+   "margin": 0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "scenario_defects",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "The run is the M-008 Bay scenario (bodies, species mix, destruction, real Bay tiles streaming, warm-up and measured length, runs)",
+   "unit": "count",
+   "value": 0
+  },
+  {
+   "decisive_part": "seed 5 host p99 / B_host",
+   "diagnostics": {
+    "b_host_ms": 8.3,
+    "reference_host_p99_ms": []
+   },
+   "id": "M-008.a",
+   "kind": "gating",
+   "margin": 0.350960240964,
+   "margin_rel": 0.58493373494,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "host_p50_ms": 0.706,
+     "host_p99_ms": 1.83105,
+     "margin": 0.379391566265,
+     "margin_rel": 0.632319277108,
+     "name": "seed 1 host p99 / B_host",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.6,
+     "unit": "ratio",
+     "value": 0.220608433735
+    },
+    {
+     "host_p50_ms": 0.929,
+     "host_p99_ms": 1.90202,
+     "margin": 0.370840963855,
+     "margin_rel": 0.618068273092,
+     "name": "seed 2 host p99 / B_host",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.6,
+     "unit": "ratio",
+     "value": 0.229159036145
+    },
+    {
+     "host_p50_ms": 0.901,
+     "host_p99_ms": 1.81801,
+     "margin": 0.380962650602,
+     "margin_rel": 0.634937751004,
+     "name": "seed 3 host p99 / B_host",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.6,
+     "unit": "ratio",
+     "value": 0.219037349398
+    },
+    {
+     "host_p50_ms": 0.824,
+     "host_p99_ms": 1.69,
+     "margin": 0.396385542169,
+     "margin_rel": 0.660642570281,
+     "name": "seed 4 host p99 / B_host",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.6,
+     "unit": "ratio",
+     "value": 0.203614457831
+    },
+    {
+     "host_p50_ms": 0.801,
+     "host_p99_ms": 2.06703,
+     "margin": 0.350960240964,
+     "margin_rel": 0.58493373494,
+     "name": "seed 5 host p99 / B_host",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.6,
+     "unit": "ratio",
+     "value": 0.249039759036
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.6,
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Host simulation ms per frame p99 against B_host (relative budget on the Mac, all phases pooled per run, worst run decides)",
+   "unit": "ratio",
+   "value": 0.249039759036
+  },
+  {
+   "diagnostics": {},
+   "id": "M-008.b",
+   "kind": "gating",
+   "note": null,
+   "parts": [
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "seed 1 frame p99 / 16.7 ms",
+     "note": "no rendered frame times (batch run without a graphics device or without rendering)",
+     "op": "<=",
+     "status": "NOT_RUN",
+     "threshold": 0.6,
+     "unit": "ratio",
+     "value": null
+    },
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "seed 2 frame p99 / 16.7 ms",
+     "note": "no rendered frame times (batch run without a graphics device or without rendering)",
+     "op": "<=",
+     "status": "NOT_RUN",
+     "threshold": 0.6,
+     "unit": "ratio",
+     "value": null
+    },
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "seed 3 frame p99 / 16.7 ms",
+     "note": "no rendered frame times (batch run without a graphics device or without rendering)",
+     "op": "<=",
+     "status": "NOT_RUN",
+     "threshold": 0.6,
+     "unit": "ratio",
+     "value": null
+    },
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "seed 4 frame p99 / 16.7 ms",
+     "note": "no rendered frame times (batch run without a graphics device or without rendering)",
+     "op": "<=",
+     "status": "NOT_RUN",
+     "threshold": 0.6,
+     "unit": "ratio",
+     "value": null
+    },
+    {
+     "margin": null,
+     "margin_rel": null,
+     "name": "seed 5 frame p99 / 16.7 ms",
+     "note": "no rendered frame times (batch run without a graphics device or without rendering)",
+     "op": "<=",
+     "status": "NOT_RUN",
+     "threshold": 0.6,
+     "unit": "ratio",
+     "value": null
+    }
+   ],
+   "status": "NOT_RUN",
+   "threshold_status": "assumed_pending_calibration",
+   "title": "Rendered frame time p99 against 16.7 ms (relative budget on the Mac; needs a run that rendered on a graphics device)",
+   "unit": "",
+   "value": null
+  },
+  {
+   "decisive_part": "seed 3 frames > 33.3 ms",
+   "diagnostics": {
+    "series": "total_ms (host)"
+   },
+   "id": "M-008.c",
+   "kind": "advisory",
+   "margin": -4,
+   "margin_rel": -4.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "seed 1 frames > 33.3 ms",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "margin": -2,
+     "margin_rel": -2.0,
+     "name": "seed 2 frames > 33.3 ms",
+     "op": "<=",
+     "status": "FAIL",
+     "threshold": 0,
+     "unit": "count",
+     "value": 2
+    },
+    {
+     "margin": -4,
+     "margin_rel": -4.0,
+     "name": "seed 3 frames > 33.3 ms",
+     "op": "<=",
+     "status": "FAIL",
+     "threshold": 0,
+     "unit": "count",
+     "value": 4
+    },
+    {
+     "margin": -1,
+     "margin_rel": -1.0,
+     "name": "seed 4 frames > 33.3 ms",
+     "op": "<=",
+     "status": "FAIL",
+     "threshold": 0,
+     "unit": "count",
+     "value": 1
+    },
+    {
+     "margin": -4,
+     "margin_rel": -4.0,
+     "name": "seed 5 frames > 33.3 ms",
+     "op": "<=",
+     "status": "FAIL",
+     "threshold": 0,
+     "unit": "count",
+     "value": 4
+    }
+   ],
+   "status": "FAIL",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "Hitches, frames longer than 33.3 ms in the measured window (advisory)",
+   "unit": "count",
+   "value": 4
+  },
+  {
+   "decisive_part": "seed 3 brain+pack mean / B_host",
+   "diagnostics": {},
+   "id": "M-008.d",
+   "kind": "advisory",
+   "margin": 0.0235313788487,
+   "margin_rel": 0.941255153949,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0.0239517402945,
+     "margin_rel": 0.95806961178,
+     "name": "seed 1 brain+pack mean / B_host",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.025,
+     "unit": "ratio",
+     "value": 0.00104825970549
+    },
+    {
+     "margin": 0.0236374598394,
+     "margin_rel": 0.945498393574,
+     "name": "seed 2 brain+pack mean / B_host",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.025,
+     "unit": "ratio",
+     "value": 0.00136254016064
+    },
+    {
+     "margin": 0.0235313788487,
+     "margin_rel": 0.941255153949,
+     "name": "seed 3 brain+pack mean / B_host",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.025,
+     "unit": "ratio",
+     "value": 0.00146862115127
+    },
+    {
+     "margin": 0.0240230354752,
+     "margin_rel": 0.960921419009,
+     "name": "seed 4 brain+pack mean / B_host",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.025,
+     "unit": "ratio",
+     "value": 0.000976964524766
+    },
+    {
+     "margin": 0.0238304350736,
+     "margin_rel": 0.953217402945,
+     "name": "seed 5 brain+pack mean / B_host",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0.025,
+     "unit": "ratio",
+     "value": 0.00116956492637
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0.025,
+   "threshold_status": "derived",
+   "title": "Brain plus pack-layer share of B_host, amortised per frame (advisory)",
+   "unit": "ratio",
+   "value": 0.00146862115127
+  },
+  {
+   "decisive_part": "seed 1 median alloc / frame",
+   "diagnostics": {},
+   "id": "M-008.e",
+   "kind": "advisory",
+   "margin": 0.0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "gc_collections": 425,
+     "margin": 0.0,
+     "margin_rel": 0.0,
+     "name": "seed 1 median alloc / frame",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "bytes",
+     "value": 0.0
+    },
+    {
+     "gc_collections": 596,
+     "margin": 0.0,
+     "margin_rel": 0.0,
+     "name": "seed 2 median alloc / frame",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "bytes",
+     "value": 0.0
+    },
+    {
+     "gc_collections": 619,
+     "margin": 0.0,
+     "margin_rel": 0.0,
+     "name": "seed 3 median alloc / frame",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "bytes",
+     "value": 0.0
+    },
+    {
+     "gc_collections": 582,
+     "margin": 0.0,
+     "margin_rel": 0.0,
+     "name": "seed 4 median alloc / frame",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "bytes",
+     "value": 0.0
+    },
+    {
+     "gc_collections": 511,
+     "margin": 0.0,
+     "margin_rel": 0.0,
+     "name": "seed 5 median alloc / frame",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "bytes",
+     "value": 0.0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "Managed allocation per frame in the measured window, median bytes (advisory; target 0 B steady)",
+   "unit": "bytes",
+   "value": 0.0
+  },
+  {
+   "decisive_part": "late_tile_frames",
+   "diagnostics": {
+    "max_work_item_ms": 42.477,
+    "tile_loads": [
+     126,
+     112,
+     125,
+     111,
+     122
+    ]
+   },
+   "id": "M-008.f",
+   "kind": "gating",
+   "margin": 0,
+   "margin_rel": 0.0,
+   "note": null,
+   "op": "<=",
+   "parts": [
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "late_tile_frames",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "count",
+     "value": 0
+    },
+    {
+     "margin": 0,
+     "margin_rel": 0.0,
+     "name": "physics_holds",
+     "op": "<=",
+     "status": "PASS",
+     "threshold": 0,
+     "unit": "count",
+     "value": 0
+    }
+   ],
+   "status": "PASS",
+   "threshold": 0,
+   "threshold_status": "derived",
+   "title": "Streaming over real Bay tiles, no late tile frame and no physics hold",
+   "unit": "count",
+   "value": 0
+  },
+  {
+   "diagnostics": {},
+   "id": "M-008.net",
+   "kind": "info",
+   "note": "co-op off/on with a second process is not part of the single-process batch run (tracked, owner Track 5 follow-up)",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "none",
+   "title": "Net cost per frame, co-op off then on with a second process (informational; not run in the single-process batch)",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {},
+   "id": "M-008.sweep",
+   "kind": "info",
+   "note": "no m008_sweep@v1 run among the inputs",
+   "parts": [],
+   "status": "NOT_RUN",
+   "threshold_status": "none",
+   "title": "Scaling sweep, host p99 against kaiju, mechs and fragments (informational)",
+   "unit": "",
+   "value": null
+  },
+  {
+   "diagnostics": {
+    "thresholds": {
+     "fps_avg_min": 60.0,
+     "frame_p999_ms_max": 33.3,
+     "frame_p99_ms_max": 16.7
+    }
+   },
+   "id": "M-008.abs",
+   "kind": "gating",
+   "note": "pending target PC (Q-019, Q-207): absolute 60 fps needs target-class hardware; Mac figures are relative only",
+   "parts": [],
+   "status": "PENDING",
+   "threshold_status": "derived",
+   "title": "Absolute 60 fps on the target PC (avg >= 60 fps, p99 <= 16.7 ms, p99.9 <= 33.3 ms, B_host absolute, 30 min soak) - pending target PC",
+   "unit": "",
+   "value": null
+  }
+ ],
+ "tool": {
+  "git_commit": "01fc776547d3e63d4e7df34e9004f35dddcc7195",
+  "name": "kaiju_metrics",
+  "semantics": 3,
+  "settings": {
+   "compare_rel_tol": 1e-09,
+   "sha256": "63d7b89eb292feeeae3d171a78c115e1e7df54afbe5d2cc4681996dba268ef74"
+  },
+  "version": "1.0.0"
+ },
+ "verdict": "INCOMPLETE",
+ "verdict_label": "INCOMPLETE",
+ "warnings": [
+  "ADVISORY M-008.c failed: value 4 vs <= 0"
+ ]
+}

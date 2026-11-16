@@ -46,6 +46,23 @@ namespace Game.AI.PackHarness.Tests
                     }
         }
 
+        // T-124c: the phase hook (frame interleaving for the brain-step amortisation) only observes: 4 calls per step in order 0..3, phase timings are filled, log identical.
+        [Test]
+        public void PhaseHook_ObservesOnly_FourPhasesPerStep()
+        {
+            string plain = Run("hunt", "LLH", 5, BayBrains.Candidate, 20);
+            var w = new StringWriter(); var calls = new List<int>(); long steps = 0;
+            var h = new BayHarness(new BayScenario { Name = "hunt", Composition = "LLH", Seed = 5, BrainId = BayBrains.Candidate, DurationSeconds = 20 }, w);
+            h.PhaseHook = (hh, step, ph) => calls.Add(ph);
+            h.AfterStep = (hh, step, now) => steps++;
+            h.Run();
+            Assert.That(w.ToString(), Is.EqualTo(plain));
+            Assert.That(steps, Is.GreaterThan(0));
+            Assert.That(calls.Count, Is.EqualTo(4 * steps));
+            for (int i = 0; i < calls.Count; i++) Assert.That(calls[i], Is.EqualTo(i % 4));
+            Assert.That(h.PhaseMsLast.All(x => x >= 0.0));
+        }
+
         // T-115f: hunt_mv@v2 is a new variant; the default variant must leave the v1 logs untouched and mv2 must be deterministic, translation invariant and logged as a variant.
         static string RunV(string variant, ulong seed, string brain, double dx, double dy)
         {

@@ -37,6 +37,7 @@ namespace Game.Perf.Bay
         public string OutDir = "evidence/T-124";
         public string TilesRoot;
         public string RasterPath;
+        public string CostVersion = BayRasterCostField.DefaultVersion;
         public string Scenario = "bay";            // bay | ref | sweep
         public ulong Seed = 1;
         public double WarmupS = 60.0, MeasureS = 600.0;
@@ -51,6 +52,11 @@ namespace Game.Perf.Bay
         public double PhysicsPrefetchM = 768.0;      // T-124b: StreamingConfig.PhysicsPrefetchRadiusM (0 = off)
         public bool SliceRender = true;             // T-124b: UnityTileBuilder.SliceRenderBuilds
         public double UrgentSliceMs = 0.0;          // T-124b: StreamingHostOptions.UrgentSliceMs (0 = off)
+        public bool BrainSlice;                     // T-124c (default off): the 10 Hz brain step runs as 4 phases and a frame runs after each phase (amortised over the 6 frames of the step)
+        public bool SpawnTemplate;                  // T-124c (default off): fragments are cloned from a preconfigured template with Instantiate(..., InstantiateParameters{scene}) instead of AddComponent x2 + MoveGameObjectToScene
+        public bool Render;                         // T-124c (default off): graphics device run (no -nographics): a camera at the host mech renders the streamed tiles every frame, GPU-synced; fills frames.render_ms (M-008.b)
+        public int RenderW = 1280, RenderH = 720;
+        public bool LazyGameObjects;                // T-124c (default off): UnityTileBuilder.LazyRenderGameObjects
     }
 
     public static class M008BayRun
@@ -73,8 +79,13 @@ namespace Game.Perf.Bay
                     Realtime = Arg(a, "-m008Realtime", "1") != "0",
                 };
                 if (o.TilesRoot == null || !Directory.Exists(o.TilesRoot)) throw new ArgumentException("-m008Tiles must name the baked tiles/v1 root (L0, L1.. folders)");
-                o.RasterPath = o.RasterPath ?? Path.Combine(Directory.GetCurrentDirectory(), "evidence", "T-115", "bay_cost_256m_v1.bin");
+                o.CostVersion = Arg(a, "-m008CostVersion", BayRasterCostField.DefaultVersion);   // T-124c: bay_cost@v2 by default (T-115h made v2 the AI default; Perf.Bay had stayed on v1)
+                o.RasterPath = o.RasterPath ?? BayRasterCostField.FindRaster(Directory.GetCurrentDirectory(), o.CostVersion)
+                    ?? Path.Combine(Directory.GetCurrentDirectory(), "evidence", BayRasterCostField.EvidenceFolderFor(o.CostVersion), BayRasterCostField.FileNameFor(o.CostVersion));
                 o.PhysicsPrefetchM = D(Arg(a, "-m008Prefetch", "768")); o.UrgentSliceMs = D(Arg(a, "-m008UrgentSlice", "0")); o.SliceRender = Arg(a, "-m008SliceRender", "1") != "0";
+                o.Render = Arg(a, "-m008Render", "0") == "1"; o.RenderW = int.Parse(Arg(a, "-m008RenderW", "1280")); o.RenderH = int.Parse(Arg(a, "-m008RenderH", "720"));
+                o.BrainSlice = Arg(a, "-m008BrainSlice", "0") == "1"; o.SpawnTemplate = Arg(a, "-m008SpawnTemplate", "0") == "1"; o.LazyGameObjects = Arg(a, "-m008LazyGo", "0") == "1";
+                o.SpawnPiecesPerFrame = int.Parse(Arg(a, "-m008SpawnPerFrame", "16"));
                 var sd = Arg(a, "-m008Spawn", null); if (sd != null) o.SpawnDistM = D(sd);
                 if (o.Scenario == "ref") { o.Kaiju = 1; o.Mechs = 1; o.Destruction = false; }
                 if (a.Length > 0) { var k = Arg(a, "-m008Kaiju", null); if (k != null) o.Kaiju = int.Parse(k); var m = Arg(a, "-m008Mechs", null); if (m != null) o.Mechs = int.Parse(m); var f = Arg(a, "-m008Fragments", null); if (f != null) o.FragmentsTarget = int.Parse(f); }
@@ -126,7 +137,7 @@ namespace Game.Perf.Bay
             router.Register(0, new GeoL0TileReader(o.TilesRoot, settings, 4));
             GeoLodTileReader.RegisterAll(router, o.TilesRoot);
             var runner = new ThreadPoolWorkRunner();
-            var builder = new UnityTileBuilder(parent.transform, runner, settings) { ClusterScenes = scenes, SliceRenderBuilds = o.SliceRender };
+            var builder = new UnityTileBuilder(parent.transform, runner, settings) { ClusterScenes = scenes, SliceRenderBuilds = o.SliceRender, LazyRenderGameObjects = o.LazyGameObjects };
             var sched = new StreamingScheduler(new StreamingConfig { PhysicsPrefetchRadiusM = o.PhysicsPrefetchM }, new DefaultTileCostModel());
             var host = new StreamingHostCore(sched, router, builder, runner, new StreamingHostOptions { UrgentSliceMs = o.UrgentSliceMs });
 
@@ -140,9 +151,32 @@ namespace Game.Perf.Bay
             var anchor = new Body { Id = 40, Kind = 2, Size = Vector3.one }; bodies.Add(anchor);
             var foci = new FocusSample[bodies.Count];
 
+            // rendered run (M-008.b): silent (AudioListener muted, no AudioSource exists), plain URP camera on the host mech, rendered to an offscreen target and GPU-synced with a 1x1 readback
+            Camera rcam = null; RenderTexture rrt = null, rtiny = null; Texture2D rtex = null; var renderL = new List<float>(40000);
+            if (o.Render)
+            {
+                AudioListener.pause = true; AudioListener.volume = 0f;
+                var cg = new GameObject("M008Camera"); rcam = cg.AddComponent<Camera>(); rcam.fieldOfView = 50f; rcam.nearClipPlane = 1f; rcam.farClipPlane = 6000f; rcam.clearFlags = CameraClearFlags.SolidColor; rcam.backgroundColor = new Color(0.55f, 0.65f, 0.8f);
+                rrt = new RenderTexture(o.RenderW, o.RenderH, 24, RenderTextureFormat.ARGB32); rcam.targetTexture = rrt; rcam.enabled = false;
+                rtiny = new RenderTexture(1, 1, 0, RenderTextureFormat.ARGB32); rtex = new Texture2D(1, 1, TextureFormat.RGBA32, false);
+                var lg = new GameObject("M008Light"); var lc = lg.AddComponent<Light>(); lc.type = LightType.Directional; lc.shadows = LightShadows.Soft; lg.transform.rotation = Quaternion.Euler(45f, 30f, 0f);
+            }
+            double RenderOnce()
+            {
+                long r0 = Stopwatch.GetTimestamp();
+                double ox = double.IsNaN(host.RenderOriginX) ? 0.0 : host.RenderOriginX, oz = double.IsNaN(host.RenderOriginZ) ? 0.0 : host.RenderOriginZ;
+                rcam.transform.position = new Vector3((float)(cam.X - ox), cam.GroundY + 90f, (float)(cam.Z - oz));
+                Body tgt = null; double best = double.MaxValue; foreach (var kb in bodies) if (kb.Kind == 1 && kb.Alive) { double dx = kb.X - cam.X, dz = kb.Z - cam.Z, dd = dx * dx + dz * dz; if (dd < best) { best = dd; tgt = kb; } }
+                Vector3 look = tgt != null ? new Vector3((float)(tgt.X - cam.X), -0.15f * 90f, (float)(tgt.Z - cam.Z)) : new Vector3(1f, -0.1f, 0f);
+                if (look.sqrMagnitude < 1f) look = Vector3.forward; rcam.transform.rotation = Quaternion.LookRotation(look.normalized, Vector3.up);
+                rcam.Render();
+                Graphics.Blit(rrt, rtiny); var prev = RenderTexture.active; RenderTexture.active = rtiny; rtex.ReadPixels(new Rect(0, 0, 1, 1), 0, 0); RenderTexture.active = prev;   // forces the GPU to finish the frame
+                return (Stopwatch.GetTimestamp() - r0) * 1000.0 / Stopwatch.Frequency;
+            }
+
             var dm = new DamageModel();
             var rnd = new System.Random((int)(o.Seed * 7919 + 13));
-            var frags = new List<Fragment>(8192);
+            var frags = new List<Fragment>(8192); GameObject fragTemplate = null;
             var spawnQ = new Queue<(int cluster, Vector3 pos, float mass, float size, Vector3 vel)>();
             var origins = new Dictionary<int, (double x, double z)>();
 
@@ -177,7 +211,7 @@ namespace Game.Perf.Bay
                 {
 
                     bool inMeasure = !pre && frameSim >= o.WarmupS && frameSim < o.WarmupS + o.MeasureS;
-                    if (inMeasure && !measuring) { measuring = true; host.ResetItemProfile(); loadsStart = host.LoadsDispatched; gc0 = GC.CollectionCount(0); if (nextEvent < frameSim) nextEvent = frameSim + 4.0; }
+                    if (inMeasure && !measuring) { measuring = true; host.ResetItemProfile(); Array.Clear(host.TickStageMsMax, 0, host.TickStageMsMax.Length); hr.Planner?.ResetSearchProfile(); loadsStart = host.LoadsDispatched; gc0 = GC.CollectionCount(0); if (nextEvent < frameSim) nextEvent = frameSim + 4.0; }
                     if (o.Realtime && !pre)
                     {   // pace to wall time: frame n of the whole run is due at n * Dt
                         double due = frameNo * (double)Dt; while (wall.Elapsed.TotalSeconds < due) Thread.Sleep(1);
@@ -284,11 +318,26 @@ namespace Game.Perf.Bay
                         {
                             var q = spawnQ.Dequeue();
                             if (!scenes.TryGet(q.cluster, out var cs4)) continue;
-                            var go = new GameObject("Frag") { layer = FragLayer };
-                            var rb = go.AddComponent<Rigidbody>(); rb.mass = q.mass; rb.linearVelocity = q.vel;
-                            go.AddComponent<BoxCollider>().size = new Vector3(q.size, q.size, q.size);
-                            SceneManager.MoveGameObjectToScene(go, cs4.Scene);
-                            go.transform.position = q.pos;
+                            GameObject go;
+                            if (o.SpawnTemplate)
+                            {   // unit-box template (collider size 1, scaled): no AddComponent / MoveGameObjectToScene per piece; the clone is created straight in the cluster's scene
+                                if (fragTemplate == null)
+                                {
+                                    fragTemplate = new GameObject("FragTemplate") { layer = FragLayer }; fragTemplate.transform.position = new Vector3(0f, -100000f, 0f);
+                                    fragTemplate.AddComponent<Rigidbody>().useGravity = false; fragTemplate.AddComponent<BoxCollider>().size = Vector3.one;
+                                }
+                                go = UnityEngine.Object.Instantiate(fragTemplate, q.pos, Quaternion.identity, new InstantiateParameters { scene = cs4.Scene });
+                                go.transform.localScale = new Vector3(q.size, q.size, q.size);
+                                var rb2 = go.GetComponent<Rigidbody>(); rb2.mass = q.mass; rb2.useGravity = true; rb2.linearVelocity = q.vel;
+                            }
+                            else
+                            {
+                                go = new GameObject("Frag") { layer = FragLayer };
+                                var rb = go.AddComponent<Rigidbody>(); rb.mass = q.mass; rb.linearVelocity = q.vel;
+                                go.AddComponent<BoxCollider>().size = new Vector3(q.size, q.size, q.size);
+                                SceneManager.MoveGameObjectToScene(go, cs4.Scene);
+                                go.transform.position = q.pos;
+                            }
                             frags.Add(new Fragment { T = go.transform, Cluster = q.cluster }); spawned++; made++;
                         }
                         if (made > 0) { spawnMsSum += (Stopwatch.GetTimestamp() - ts0) * 1000.0 / Stopwatch.Frequency; spawnPieces += made; }
@@ -301,29 +350,50 @@ namespace Game.Perf.Bay
                     }
                     long t3 = Stopwatch.GetTimestamp();
 
+                    if (o.Render && !(measuring && inMeasure) && !pre) RenderOnce();   // warm-up frames render too (shader/pipeline warm-up), not measured
                     if (measuring && inMeasure)
                     {
                         double toMs = 1000.0 / Stopwatch.Frequency;
-                        double bm = f == 0 ? brainMs : 0.0;
+                        double bm = brainMs;
                         phase.Add(engaged ? 1 : 0); strm.Add((float)((t1 - t0) * toMs)); phys.Add((float)((t2 - t1) * toMs)); destr.Add((float)((t3 - t2) * toMs));
-                        brainL.Add((float)bm); total.Add((float)((t3 - t0) * toMs + bm));
-                        alloc.Add(GC.GetAllocatedBytesForCurrentThread() - a0 + (f == 0 ? brainAlloc : 0));
+                        double rms = 0.0; if (o.Render) rms = RenderOnce();
+                        brainL.Add((float)bm); total.Add((float)((t3 - t0) * toMs + bm)); if (o.Render) renderL.Add((float)((t3 - t0) * toMs + bm + rms));
+                        alloc.Add(GC.GetAllocatedBytesForCurrentThread() - a0 + brainAlloc);
                         if ((t3 - t0) * toMs + bm > 12.0 && hitchLog.Count < 40)
-                            hitchLog.Add(frameSim.ToString("0.0", CultureInfo.InvariantCulture) + "s tot=" + ((t3 - t0) * toMs + bm).ToString("0.0", CultureInfo.InvariantCulture) + " strm=" + ((t1 - t0) * toMs).ToString("0.0", CultureInfo.InvariantCulture) + " phys=" + ((t2 - t1) * toMs).ToString("0.0", CultureInfo.InvariantCulture) + " destr=" + ((t3 - t2) * toMs).ToString("0.0", CultureInfo.InvariantCulture) + " brain=" + bm.ToString("0.0", CultureInfo.InvariantCulture) + " build=" + host.LastBuildMs.ToString("0.0", CultureInfo.InvariantCulture) + " shift=" + builder.LastShiftMs.ToString("0.0", CultureInfo.InvariantCulture) + " cshift=" + builder.LastClusterShiftMs.ToString("0.0", CultureInfo.InvariantCulture) + " items=" + host.LastPlan.Load.Count + " gc0=" + GC.CollectionCount(0));
+                            hitchLog.Add(frameSim.ToString("0.0", CultureInfo.InvariantCulture) + "s tot=" + ((t3 - t0) * toMs + bm).ToString("0.0", CultureInfo.InvariantCulture) + " strm=" + ((t1 - t0) * toMs).ToString("0.0", CultureInfo.InvariantCulture) + " phys=" + ((t2 - t1) * toMs).ToString("0.0", CultureInfo.InvariantCulture) + " destr=" + ((t3 - t2) * toMs).ToString("0.0", CultureInfo.InvariantCulture) + " brain=" + bm.ToString("0.0", CultureInfo.InvariantCulture) + " build=" + host.LastBuildMs.ToString("0.0", CultureInfo.InvariantCulture) + " shift=" + builder.LastShiftMs.ToString("0.0", CultureInfo.InvariantCulture) + " cshift=" + builder.LastClusterShiftMs.ToString("0.0", CultureInfo.InvariantCulture) + " items=" + host.LastPlan.Load.Count + " gc0=" + GC.CollectionCount(0) + " tickstages=" + string.Join("/", Array.ConvertAll(host.TickStageMsLast, x => x.ToString("0.0", CultureInfo.InvariantCulture))) + " phases=" + string.Join("/", Array.ConvertAll(hr.PhaseMsLast, x => x.ToString("0.0", CultureInfo.InvariantCulture))) + " search_max=" + (hr.Planner != null ? hr.Planner.SearchMsMax.ToString("0.0", CultureInfo.InvariantCulture) : "0"));
                         if (frameNo % 600 == 0) { proc.Refresh(); rssMaxKb = Math.Max(rssMaxKb, proc.WorkingSet64 / 1024); }
                     }
                                 }
             }
 
-            hr.AfterStep = (h, step, now) =>
+            double[] phaseMsMax = new double[4];
+            if (o.BrainSlice)
+            {   // T-124c: one frame after each of the four brain phases; the phase's own wall ms is charged to that frame
+                hr.PhaseHook = (h, step, ph) =>
+                {
+                    if (ph == 0) { gapAlloc0 = GC.GetAllocatedBytesForCurrentThread(); }
+                    phaseMsMax[ph] = Math.Max(phaseMsMax[ph], h.PhaseMsLast[ph]);
+                    Frame(step * Step + ph * (Step / FramesPerStep), false, ph, h.PhaseMsLast[ph], 0);
+                };
+                hr.AfterStep = (h, step, now) =>
+                {
+                    simNow = now + Step;
+                    Snapshot(h);
+                    for (int f = 4; f < FramesPerStep; f++) Frame(now + f * (Step / FramesPerStep), false, f, 0.0, 0);
+                };
+            }
+            else
             {
-                double brainMs = gap.Elapsed.TotalMilliseconds; long brainAlloc = GC.GetAllocatedBytesForCurrentThread() - gapAlloc0;
-                simNow = now + Step;
-                Snapshot(h);
-                for (int f = 0; f < FramesPerStep; f++) Frame(now + f * (Step / FramesPerStep), false, f, brainMs, brainAlloc);
-                gap.Restart(); gapAlloc0 = GC.GetAllocatedBytesForCurrentThread();
-            };
-
+                hr.AfterStep = (h, step, now) =>
+                {
+                    double brainMs = gap.Elapsed.TotalMilliseconds; long brainAlloc = GC.GetAllocatedBytesForCurrentThread() - gapAlloc0;
+                    for (int q = 0; q < 4; q++) phaseMsMax[q] = Math.Max(phaseMsMax[q], h.PhaseMsLast[q]);
+                    simNow = now + Step;
+                    Snapshot(h);
+                    for (int f = 0; f < FramesPerStep; f++) Frame(now + f * (Step / FramesPerStep), false, f, f == 0 ? brainMs : 0.0, f == 0 ? brainAlloc : 0);
+                    gap.Restart(); gapAlloc0 = GC.GetAllocatedBytesForCurrentThread();
+                };
+            }
 
             // loading screen: bodies parked at their start, host ticks until the rings are resident and nothing is in flight (cold start, not part of the measured window)
             Snapshot(hr);
@@ -345,25 +415,30 @@ namespace Game.Perf.Bay
             long loads = host.LoadsDispatched - loadsStart; int distinctSpecies = 0; { var seen = new HashSet<int>(); foreach (var b in bodies) if (b.Kind == 1) seen.Add(b.Species); distinctSpecies = seen.Count; }
             // teardown
             foreach (var b in bodies) if (b.Go != null) UnityEngine.Object.DestroyImmediate(b.Go);
-            frags.Clear(); host.Dispose(); builder.ReleaseAll(); scenes.Dispose(); UnityEngine.Object.DestroyImmediate(parent);
+            if (o.Render) { UnityEngine.Object.DestroyImmediate(rcam.gameObject); rcam = null; RenderTexture.active = null; rrt.Release(); rtiny.Release(); UnityEngine.Object.DestroyImmediate(rtex); }
+            frags.Clear(); if (fragTemplate != null) UnityEngine.Object.DestroyImmediate(fragTemplate); host.Dispose(); builder.ReleaseAll(); scenes.Dispose(); UnityEngine.Object.DestroyImmediate(parent);
 
             double events_per_min = events * 60.0 / o.MeasureS;
             bool rubble = !o.Destruction || (spawned > 0 && liveFrags > 0);
             var ic = CultureInfo.InvariantCulture; var s = new StringBuilder(1 << 20);
             string scen = o.Scenario == "bay" ? "m008_bay@v1" : o.Scenario == "ref" ? "m008_ref@v1" : "m008_sweep@v1";
-            s.Append("{\"format\": \"m008_run\", \"schema\": 1, \"scenario\": \"").Append(scen).Append("\", \"label\": \"").Append(label + "_seed" + o.Seed).Append("\", \"seed\": ").Append(o.Seed);
-            s.Append(", \"platform\": \"").Append(SystemInfo.operatingSystem.Replace("\"", "'")).Append(" | ").Append(SystemInfo.processorType.Replace("\"", "'")).Append(" x").Append(SystemInfo.processorCount).Append(" | batch, no rendering, realtime=").Append(o.Realtime ? "1" : "0").Append("\"");
-            s.Append(", \"rendering\": false, \"tiles\": \"real\", \"streaming_on\": true, \"frame_hz\": 60, \"warmup_s\": ").Append(o.WarmupS.ToString("R", ic)).Append(", \"measure_s\": ").Append(o.MeasureS.ToString("R", ic));
+            s.Append("{\"format\": \"m008_run\", \"schema\": 1, \"scenario\": \"").Append(scen).Append("\", \"label\": \"").Append(label + "_seed" + o.Seed).Append("\", \"seed\": ").Append(o.Seed).Append(", \"cost_version\": \"bay_cost@" + o.CostVersion + "\", \"cost_raster\": \"" + Path.GetFileName(o.RasterPath) + "\"");
+            s.Append(", \"platform\": \"").Append(SystemInfo.operatingSystem.Replace("\"", "'")).Append(" | ").Append(SystemInfo.processorType.Replace("\"", "'")).Append(" x").Append(SystemInfo.processorCount).Append(" | batch, " + (o.Render ? "rendered " + o.RenderW + "x" + o.RenderH + " plain URP, audio muted" : "no rendering") + ", realtime=").Append(o.Realtime ? "1" : "0").Append("\"");
+            s.Append(", \"rendering\": " + (o.Render ? "true" : "false") + ", \"tiles\": \"real\", \"streaming_on\": true, \"frame_hz\": 60, \"warmup_s\": ").Append(o.WarmupS.ToString("R", ic)).Append(", \"measure_s\": ").Append(o.MeasureS.ToString("R", ic));
             s.Append(", \"bodies\": {\"mechs\": ").Append(o.Mechs).Append(", \"kaiju\": ").Append(o.Kaiju).Append(", \"species\": ").Append(distinctSpecies).Append(", \"mech_body\": \"placeholder kinematic box (Units.Placeholder pending T-005)\", \"kaiju_body\": \"placeholder kinematic box (T-117 pending)\"}");
             s.Append(", \"destruction\": {\"fragments_peak\": ").Append(peakFrags).Append(", \"events\": ").Append(events).Append(", \"events_per_min\": ").Append(events_per_min.ToString("0.###", ic));
             s.Append(", \"rubble_persisting\": ").Append(rubble ? "true" : "false").Append(", \"fragments_spawned\": ").Append(spawned).Append(", \"fragments_live_end\": ").Append(liveFrags).Append(", \"fragments_evicted_with_cluster\": ").Append(evictedFrags).Append(", \"deferred_events\": ").Append(deferredEvents);
             s.Append(", \"spawn_ms_per_piece\": ").Append((spawnPieces > 0 ? spawnMsSum / spawnPieces : 0.0).ToString("0.####", ic)).Append("}");
             s.Append(", \"phases\": [\"approach\", \"engaged\"], \"frames\": {");
             Series(s, "phase", phase, ic); s.Append(", "); Series(s, "total_ms", total, ic); s.Append(", "); Series(s, "physics_ms", phys, ic); s.Append(", "); Series(s, "destruction_ms", destr, ic); s.Append(", ");
-            Series(s, "brain_ms", brainL, ic); s.Append(", "); Series(s, "streaming_ms", strm, ic); s.Append(", "); Series(s, "alloc_bytes", alloc, ic); s.Append(", \"render_ms\": null}");
+            Series(s, "brain_ms", brainL, ic); s.Append(", "); Series(s, "streaming_ms", strm, ic); s.Append(", "); Series(s, "alloc_bytes", alloc, ic); s.Append(", \"render_ms\": "); if (o.Render) { s.Append('['); for (int ri = 0; ri < renderL.Count; ri++) { if (ri > 0) s.Append(','); s.Append(renderL[ri].ToString("0.###", ic)); } s.Append(']'); } else s.Append("null"); s.Append("}");
             s.Append(", \"streaming\": {\"late_tile_frames\": ").Append(lateFrames).Append(", \"physics_holds\": ").Append(holds).Append(", \"tile_loads\": ").Append(loads).Append(", \"max_work_item_ms\": ").Append(maxItem.ToString("0.###", ic)).Append(", \"frames_without_ground\": ").Append(noGround).Append(", \"holds_by_kind_mech_kaiju_anchor\": [").Append(holdByKind[0]).Append(',').Append(holdByKind[1]).Append(',').Append(holdByKind[2]).Append("], \"hold_diag\": \"").Append(string.Join(" || ", holdDiag)).Append("\", \"hold_starts\": \"").Append(string.Join("; ", holdLog)).Append("\", \"item_profile\": {\"max_item_ms\": ").Append(host.MaxItemMs.ToString("0.###", ic)).Append(", \"max_item_key\": \"").Append(host.MaxItemKey).Append("\", \"max_item_ms_physics\": ").Append(host.MaxItemMsPhysics.ToString("0.###", ic)).Append(", \"max_item_ms_render\": ").Append(host.MaxItemMsRender.ToString("0.###", ic)).Append(", \"items\": ").Append(host.ItemCount).Append(", \"max_items_per_pump\": ").Append(host.MaxItemsPerPump).Append(", \"hitches\": \"").Append(string.Join(" || ", hitchLog)).Append("\"}, \"prefetch_m\": ").Append(o.PhysicsPrefetchM.ToString("0.#", ic)).Append(", \"slice_render\": ").Append(o.SliceRender ? 1 : 0).Append(", \"max_stage_ms\": ").Append(builder.MaxStageMs.ToString("0.###", ic)).Append(", \"urgent_slice_ms\": ").Append(o.UrgentSliceMs.ToString("0.#", ic)).Append(", \"host_failures\": ").Append(host.Failures).Append(", \"host_dropped\": ").Append(host.Dropped).Append(", \"first_hold_sim_s\": ").Append(firstHoldS.ToString("0.##", ic)).Append(", \"preroll_s\": ").Append(prerollS.ToString("0.#", ic)).Append(", \"preroll_ticks\": ").Append(preTicks).Append("}");
             s.Append(", \"gc_collections\": ").Append(gcDelta).Append(", \"peak_rss_mb\": ").Append((rssMaxKb / 1024.0).ToString("0.#", ic));
-            s.Append(", \"sweep\": ").Append(o.Scenario == "sweep" ? "{\"kaiju\": " + o.Kaiju + ", \"mechs\": " + o.Mechs + ", \"fragments_target\": " + o.FragmentsTarget + "}" : "null").Append(", \"engaged\": ").Append(engaged ? "true" : "false").Append("}\n");
+            s.Append(", \"sweep\": ").Append(o.Scenario == "sweep" ? "{\"kaiju\": " + o.Kaiju + ", \"mechs\": " + o.Mechs + ", \"fragments_target\": " + o.FragmentsTarget + "}" : "null").Append(", \"engaged\": ").Append(engaged ? "true" : "false");
+            s.Append(", \"t124c\": {\"brain_slice\": ").Append(o.BrainSlice ? "true" : "false").Append(", \"spawn_template\": ").Append(o.SpawnTemplate ? "true" : "false").Append(", \"lazy_go\": ").Append(o.LazyGameObjects ? "true" : "false").Append(", \"spawn_per_frame\": ").Append(o.SpawnPiecesPerFrame);
+            s.Append(", \"phase_ms_max\": [").Append(string.Join(",", Array.ConvertAll(phaseMsMax, x => x.ToString("0.###", ic)))).Append("], \"tick_stage_ms_max\": [").Append(string.Join(",", Array.ConvertAll(host.TickStageMsMax, x => x.ToString("0.###", ic)))).Append("]");
+            s.Append(", \"planner_searches\": ").Append(hr.Planner != null ? hr.Planner.Searches : 0).Append(", \"planner_search_ms_total\": ").Append((hr.Planner != null ? hr.Planner.SearchMsTotal : 0.0).ToString("0.###", ic)).Append(", \"planner_search_ms_max\": ").Append((hr.Planner != null ? hr.Planner.SearchMsMax : 0.0).ToString("0.###", ic)).Append(", \"planner_searches_over_5ms\": ").Append(hr.Planner != null ? hr.Planner.SearchesOver5Ms : 0).Append("}");
+            s.Append("}\n");
             return s.ToString();
         }
 

@@ -125,6 +125,13 @@ namespace Game.AI.PackHarness
 
         /// <summary>T-124: called at the end of every simulated step (step index, simulated seconds). Null = M1..T-115 behaviour, bit for bit. The M-008 Bay performance harness uses it to interleave the Unity frame loop.</summary>
         public Action<BayHarness, long, double> AfterStep;
+        /// <summary>T-124c (default off, null): called after each of the four step phases (0 world+perceive, 1 pack coordinator, 2 brain decisions, 3 kaiju motion+fire) with
+        /// (harness, step, phase). Lets a frame loop interleave frames between the phases so the 10 Hz brain step is spread over the 60 Hz frames (amortisation).
+        /// No effect on the simulation: the hook only observes.</summary>
+        public Action<BayHarness, long, int> PhaseHook;
+        /// <summary>T-124c profile: wall ms of the phases of the last step (0 world+perceive, 1 pack coordinator, 2 decisions, 3 motion+fire).</summary>
+        public readonly double[] PhaseMsLast = new double[4];
+        public GridRoutePlanner Planner => _planner;
         public BayResult Result => _res;
         public int KaijuCount => _k.Count;
         public int MechCount => _m.Count;
@@ -346,10 +353,13 @@ namespace Game.AI.PackHarness
             for (long step = 0; step < total; step++)
             {
                 _now = step * (double)dt;
+                long pt0 = System.Diagnostics.Stopwatch.GetTimestamp();
                 EmergenceTick(step);
                 for (int j = 0; j < _m.Count; j++) StepMech(_m[j], dt);
                 for (int i = 0; i < _k.Count; i++) if (_k[i].Alive && _k[i].Emerged) Perceive(_k[i]);
+                PhaseEnd(0, ref pt0, step);
                 if (step % _sc.CoordinatorEverySteps == 0) { if (_sc.Name == "emerge") Formation(step); if (_packLayer) TickPacks(step); }
+                PhaseEnd(1, ref pt0, step);
                 bool decStep = step % _sc.DecisionEverySteps == 0;
                 bool logStep = step % logPeriodSteps == 0;
                 if (logStep) LogWorld(step);
@@ -366,13 +376,23 @@ namespace Game.AI.PackHarness
                         if (logStep) _log.Decision(step, _now, k.Id.Value, k.Sp, _packLayer ? PackIdOf(k) : 0, RoleOf(k), GoalOf(k), true, AX(k.X), AY(k.Y), k.Heading, k.Speed, k.HpAbs > 0 ? k.HpAbs / k.HpMax : 0f, k.Intent, prev, _obs, BoardAge(k), BoardSourceName(k));
                     }
                 }
+                PhaseEnd(2, ref pt0, step);
                 for (int i = 0; i < _k.Count; i++) if (_k[i].Alive && _k[i].Emerged) StepKaiju(_k[i], dt, step);
                 MechFire(step, dt);
+                PhaseEnd(3, ref pt0, step);
                 _res.Steps++;
                 AfterStep?.Invoke(this, step, _now);
             }
             _w.Flush();
             return _res;
+        }
+
+        void PhaseEnd(int phase, ref long t0, long step)
+        {
+            long t1 = System.Diagnostics.Stopwatch.GetTimestamp();
+            PhaseMsLast[phase] = (t1 - t0) * 1000.0 / System.Diagnostics.Stopwatch.Frequency;
+            PhaseHook?.Invoke(this, step, phase);
+            t0 = System.Diagnostics.Stopwatch.GetTimestamp();   // the hook's own time (frames) is not charged to the next phase
         }
 
         int PackIdOf(K k) => k.PackIdx >= 0 ? k.PackIdx + 1 : 0;
