@@ -349,6 +349,7 @@ namespace Game.Slice
                 {
                     float t = (float)_root.Services.Clock.TimeSeconds;
                     if (_mechUnit == null) return new Vector2(0.15f * Mathf.Sin(t * 0.35f), 0.6f);
+                    if (Arg("-sliceAp") == "straight") return new Vector2(0f, 0.6f);   // bisect aid: straight on, no terrain steering
                     // T-202: the physics mech falls on slopes steeper than ~4 deg (walk_mode 2 is tuned on flat ground), so the scripted auto-pilot picks the flattest heading within +-60 deg every 0.25 s (documented pilot assist, smoke / auto only)
                     if (t >= _apNext) { _apNext = t + 0.25f; _apDir = PickFlatHeading(); }
                     float cy = _spawnYawDeg * Mathf.Deg2Rad;
@@ -356,7 +357,7 @@ namespace Game.Slice
                     return new Vector2(d.x * Mathf.Cos(cy) - d.y * Mathf.Sin(cy), d.x * Mathf.Sin(cy) + d.y * Mathf.Cos(cy)) * 0.6f;
                 };
                 _seat = new PilotSeat(new SinglePilotArbiter(), pilot);
-                if (_configUsed == "demo" && _flags.IsOn(MechConfig.FlagEnabled) && _flags.IsOn(MechConfig.FlagBodyEnabled)) SpawnPhysicsMech(mx, gy, mz, vis);
+                if (_configUsed == "demo" && _flags.IsOn(MechConfig.FlagEnabled) && _flags.IsOn(MechConfig.FlagBodyEnabled)) { _capsuleVis = vis; SpawnPhysicsMech(mx, gy, mz, vis, _spawnYawDeg * Mathf.Deg2Rad); }
             }
             _targets.Add(_mech);
             var brain = _root.Registry.Resolve<IKaijuBrainFactory>().Create();
@@ -375,7 +376,7 @@ namespace Game.Slice
         }
 
         /// <summary>T-200: the physics mech (walk_mode 2, assisted walk) driven by the pilot seat, standing where the capsule stood. Falls back to the capsule body, with an error in the log, if the mech cannot be built.</summary>
-        void SpawnPhysicsMech(float mx, float gy, float mz, GameObject capsuleVisual)
+        void SpawnPhysicsMech(float mx, float gy, float mz, GameObject capsuleVisual, float yawRad)
         {
             try
             {
@@ -384,7 +385,7 @@ namespace Game.Slice
                 cfg = cfg.WithWalk(w => w.walk_mode = 2);   // demo only: the shipped walk_tuning.json keeps walk_mode 0
                 double dt = _root.Services.Settings.FixedStepSeconds;
                 _bodyWorld = new BodyWorld(cfg.Body, dt, true, _bus, _flags);
-                var spawn = new BodySpawn { Position = new System.Numerics.Vector3(mx, gy + 0.05f, mz), Rotation = System.Numerics.Quaternion.CreateFromAxisAngle(System.Numerics.Vector3.UnitY, _spawnYawDeg * Mathf.Deg2Rad), Visuals = true, Name = "SliceMech" };
+                var spawn = new BodySpawn { Position = new System.Numerics.Vector3(mx, gy + 0.05f, mz), Rotation = System.Numerics.Quaternion.CreateFromAxisAngle(System.Numerics.Vector3.UnitY, yawRad), Visuals = true, Name = "SliceMech" };
                 _mechUnit = new MechUnit(_bodyWorld, cfg, _mech.Id, _bus, _seat, spawn, _flags);
                 _mechVisRoot = ((ArticulatedBody)_mechUnit.Body).Root;
                 if (mechMaterial != null) foreach (var r in _mechVisRoot.GetComponentsInChildren<Renderer>()) r.sharedMaterial = mechMaterial;
@@ -419,9 +420,10 @@ namespace Game.Slice
             // T-202 diagnostics: where it falls, lowest/highest COM, top COM speed, 1 s trace in the log
             double ts = _root.Services.Clock.TimeSeconds; float sp = Mathf.Sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
             if (com.Y < _mechMinY) _mechMinY = com.Y; if (com.Y > _mechMaxY) _mechMaxY = com.Y; if (sp > _mechMaxSpeed) _mechMaxSpeed = sp;
-            var ph = _mechUnit.Phase;
+            var ph = _mechUnit.Phase; if (ph == LocoPhase.Fallen || ph == LocoPhase.Falling) _mechEverFell = true;
             if (_mechFellAt < 0 && (ph == LocoPhase.Fallen || ph == LocoPhase.Falling)) { _mechFellAt = ts; Log("mech FELL at t=" + F((float)ts) + " s, com (" + F(com.X) + ", " + F(com.Y) + ", " + F(com.Z) + ") ground " + F(gy) + " v (" + F(v.X) + ", " + F(v.Y) + ", " + F(v.Z) + ")"); }
             if (ts >= _mechTraceNext) { _mechTraceNext = ts + (ts > 16.5 && ts < 19.5 ? 0.1 : 1.0); Log("mech t=" + F((float)ts) + " " + ph + " com (" + F(com.X) + ", " + F(com.Y) + ", " + F(com.Z) + ") ground " + F(gy) + " ray " + F(_mechUnit.Controller.GroundHeight != null ? _mechUnit.Controller.GroundHeight(com.X, com.Z) : -999f) + " v " + F(sp) + " hd " + F(hd)); }
+            MaybeRespawnPhysicsMech(ts, ph, com.X, com.Z, hd);
         }
 
         float _apNext, _apDir = float.NaN; float _apBase = float.NaN;
@@ -438,6 +440,22 @@ namespace Game.Slice
                 if (score < best) { best = score; bestH = h; }
             }
             return bestH;
+        }
+
+        GameObject _capsuleVis; int _mechFalls; double _fallenSince = -1; bool _mechEverFell;
+        /// <summary>TEMPORARY (T-202): the physics mech still falls after 15 to 30 s of start/stop/turn walking on the city terrain in the player (cause not found, see tasks/T-202.progress.md). The demo stays playable: a mech that has been Falling/Fallen for 2.5 s is rebuilt standing at the same spot and heading. Counted in the smoke JSON as mech_respawns; mech_fell_ever stays true. Off with -sliceNoRespawn.</summary>
+        void MaybeRespawnPhysicsMech(double ts, LocoPhase ph, float x, float z, float heading)
+        {
+            bool down = ph == LocoPhase.Fallen || ph == LocoPhase.Falling;
+            if (!down) { _fallenSince = -1; return; }
+            if (_fallenSince < 0) _fallenSince = ts;
+            if (ts - _fallenSince < 2.5 || Arg("-sliceNoRespawn") != null && Arg("-sliceNoRespawn") != "") return;
+            _mechFalls++; _fallenSince = -1; _mechEverFell = true;
+            Log("mech respawn " + _mechFalls + " (TEMPORARY, fell at t=" + F((float)ts) + " s) at (" + F(x) + ", " + F(z) + ")");
+            try { _mechUnit.Dispose(); } catch (Exception ex) { Debug.LogWarning("[Slice] mech dispose: " + ex.Message); }
+            _bodyWorld?.Dispose(); _bodyWorld = null; _mechUnit = null; _mechStep = 0; _mechComSet = false; _apBase = float.NaN; _apNext = 0f;
+            if (_mechVisRoot != null) Destroy(_mechVisRoot);
+            SpawnPhysicsMech(x, Ground(x, z), z, _capsuleVis, heading);
         }
 
         void SetActorsActive(bool on)
@@ -805,7 +823,7 @@ namespace Game.Slice
             sb.Append("  \"kaiju\": { \"decisions\": ").Append(_kaiju.Decisions).Append(", \"melee_hits\": ").Append(_kaiju.Hits).Append(", \"state\": \"").Append(_kaiju.State).Append("\", \"distance_to_mech_m\": ").Append(F(Mathf.Sqrt((_mech.X - _kaiju.X) * (_mech.X - _kaiju.X) + (_mech.Y - _kaiju.Y) * (_mech.Y - _kaiju.Y)))).Append(" },\n");
             _feel?.AppendJson(sb);
             AppendAudioJson(sb);
-            sb.Append("  \"mech_body\": \"").Append(_mechUnit != null ? "physics walk_mode 2" : "placeholder capsule (TEMPORARY)").Append("\", \"mech_phase\": \"").Append(_mechUnit != null ? _mechUnit.Phase.ToString() : "").Append("\", \"mech_fell\": ").Append(_mechUnit != null && (_mechUnit.Phase == LocoPhase.Fallen || _mechUnit.Phase == LocoPhase.Falling) ? "true" : "false").Append(",\n");
+            sb.Append("  \"mech_body\": \"").Append(_mechUnit != null ? "physics walk_mode 2" : "placeholder capsule (TEMPORARY)").Append("\", \"mech_phase\": \"").Append(_mechUnit != null ? _mechUnit.Phase.ToString() : "").Append("\", \"mech_respawns\": ").Append(_mechFalls).Append(", \"mech_fell_ever\": ").Append(_mechEverFell ? "true" : "false").Append(", \"mech_fell\": ").Append(_mechUnit != null && (_mechUnit.Phase == LocoPhase.Fallen || _mechUnit.Phase == LocoPhase.Falling) ? "true" : "false").Append(",\n");
             sb.Append("  \"mech_fell_at_s\": ").Append(F((float)_mechFellAt)).Append(", \"mech_min_y\": ").Append(F(_mechMinY)).Append(", \"mech_max_y\": ").Append(F(_mechMaxY)).Append(", \"mech_max_speed\": ").Append(F(_mechMaxSpeed)).Append(", \"mech_com_travel_m\": ").Append(F((float)_mechComTravel)).Append(",\n");
             sb.Append("  \"config\": \"").Append(_configUsed).Append("\", \"hangar_note\": \"").Append(_feel != null ? _feel.SpawnNote.Replace("\"", "'") : "").Append("\",\n");
             AppendPixelCheck(sb);
