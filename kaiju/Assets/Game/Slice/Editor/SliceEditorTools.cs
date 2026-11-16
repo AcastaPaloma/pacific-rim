@@ -50,6 +50,7 @@ namespace Game.Slice.Editor
             b.mechFrameJson = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Config/Mech/mech_frame_balanced.json");
             b.mechBodyJson = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Config/Mech/body_tuning.json");
             b.mechWalkJson = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Config/Mech/walk_tuning.json");
+            b.mechWalkFastJson = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Config/Mech/walk_tuning_fast.json");   // T-201
             b.cameraSettings = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Config/Camera/ThirdPersonRig.json");
             b.geoSettings = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Config/WorldGeo.json");
             b.controlTuning = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Game/Config/Control/control_tuning.json");

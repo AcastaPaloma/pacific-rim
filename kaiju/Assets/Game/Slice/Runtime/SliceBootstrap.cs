@@ -46,7 +46,7 @@ namespace Game.Slice
         [Tooltip("T-200 wake-up demo flag set (Assets/Game/Slice/Config/slice_demo.flags.json): -sliceConfig demo. Adds the physics mech (Units.Mech, walk_mode 2).")]
         public TextAsset demoFlags;
         [Tooltip("Mech config files (Assets/Game/Config/Mech/mech_frame_balanced.json, body_tuning.json, walk_tuning.json): demo only; a player has no Application.dataPath copy.")]
-        public TextAsset mechFrameJson, mechBodyJson, mechWalkJson;
+        public TextAsset mechFrameJson, mechBodyJson, mechWalkJson, mechWalkFastJson;   // T-201 overlay: demo walks at ~5.8 m/s; -sliceWalk default keeps 2.67 m/s
         public TextAsset cameraSettings;
         [Tooltip("Assets/Game/Config/Control/control_tuning.json")]
         public TextAsset controlTuning;
@@ -371,6 +371,7 @@ namespace Game.Slice
             try
             {
                 MechConfig cfg = mechFrameJson != null && mechBodyJson != null && mechWalkJson != null ? MechConfig.FromJson(mechFrameJson.text, mechBodyJson.text, mechWalkJson.text) : MechConfig.LoadDefault();
+                if (mechWalkFastJson != null && Arg("-sliceWalk") != "default") cfg = cfg.WithWalkOverlay(mechWalkFastJson.text);   // T-201 fast profile (last stable rung)
                 cfg = cfg.WithWalk(w => w.walk_mode = 2);   // demo only: the shipped walk_tuning.json keeps walk_mode 0
                 double dt = _root.Services.Settings.FixedStepSeconds;
                 _bodyWorld = new BodyWorld(cfg.Body, dt, true, _bus, _flags);
