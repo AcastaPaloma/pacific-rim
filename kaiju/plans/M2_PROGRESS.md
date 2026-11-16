@@ -166,3 +166,7 @@ No build lead 11 session was started (start_session unavailable to the watchdog)
 Merged: T-124b finish (9842530): prefetch 768 + sliced render builds on in StreamingHost and the Bay run; M-008.f PASS on 5 seeds (0 late tiles, 0 holds; was 5116), a 0.189, c 1 hitch frame (advisory), PackHarness 11/0 re-run.
 In flight: T-103b chain (Alameda county); T-005 r12/r13 (T-005 lead, untouched).
 Next unblocked: T-115i P4 nobait-vs-candidate on LH/LLMH under bay_cost v2, then P5 on LL/LLH/MMH; T-124c (brain-step and destruction hitches, rendered M-008.b, Perf.Bay on v2); T-106c after the T-103b fill finishes.
+
+## watchdog run 2026-11-16 (build lead 10 stand-in), T-115i
+T-115i: P4 under bay_cost@v2 diagnosed (first Bait aim slips from ~280-480 s to ~420-590 s of the 600 s hunt because real soft ground slows the walk; Anchor still 600-1000 m out at aim). One config cycle `CommitRangeFrac=4.5`: P4 -0.254 -> -0.004 (still FAIL), C1 PASS, P5 0.992 -> 0.818 (worse), I3/P6 unchanged; default NOT changed, routed R-NEW-a-v2 (role-aware commit range, longer-horizon reading side by side). Evidence evidence/T-115i/, ledger entry in HANDOFF.md.
+Next unblocked: T-124c (hitches + rendered M-008.b + Perf.Bay on bay_cost v2); T-103b chain (LPC re-bake, m005_bay, LOD refresh); T-106c after the fill finishes.
