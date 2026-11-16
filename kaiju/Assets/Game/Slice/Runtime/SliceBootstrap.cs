@@ -139,6 +139,7 @@ namespace Game.Slice
             if (cfg == "demo") { if (demoFlags != null) { cfgAsset = demoFlags; _configUsed = "demo"; } else Debug.LogError("[Slice] -sliceConfig demo but the scene has no demoFlags asset (run SliceEditorTools.BuildScene); using " + _configUsed); }
             _flags = FeatureFlagLoader.Parse(ApplyFlagOverrides(cfgAsset != null ? cfgAsset.text : null), _configUsed == "demo" ? "slice_demo.flags.json" : _configUsed == "feelcheck" ? "slice_feelcheck.flags.json" : "slice_m1.flags.json", _root.Errors);
             if (!_flags.IsOn(SliceFlags.M1)) { Debug.Log("[Slice] slice.m1 is off: nothing loaded"); yield break; }
+            _fxOn = _flags.IsOn(PixelFlags.DestructionFx) || Arg("-sliceDestructionFx") == "1";   // T-207 (default off): dust / debris burst + collapse flash when a building is removed; -sliceDestructionFx 1 also picks tall, open impact targets in record mode
             _bus = _root.Registry.Resolve<IEventBus>();
             var t0 = Time.realtimeSinceStartupAsDouble;
 
@@ -513,7 +514,7 @@ namespace Game.Slice
             if (_audio != null && _cam != null) _audio.Tick(_mechT.position, _cam.transform, _root.Services.Clock.Step, OriginX, OriginZ);
             { var mp = _mechT.position; if (_haveLastM) _mechTravel += Math.Sqrt((mp.x - _lastMX) * (mp.x - _lastMX) + (mp.z - _lastMZ) * (mp.z - _lastMZ)); _lastMX = mp.x; _lastMZ = mp.z; _haveLastM = true; }
             MoveImpactor(dt);
-            for (int i = 0; i < 3 && _removals.Count > 0; i++) { var id = _removals.Dequeue(); if (!_comp.Geo.IsRemoved(id)) { _comp.Geo.RemoveBuilding(id); _removedCount++; if (_recDir != null) RecordEvent(Time.timeSinceLevelLoad - _readyAt, "building removed " + id); } }
+            for (int i = 0; i < 3 && _removals.Count > 0; i++) { var id = _removals.Dequeue(); if (!_comp.Geo.IsRemoved(id)) { if (_fxOn) SpawnDestructionFx(id); _comp.Geo.RemoveBuilding(id); _removedCount++; if (_recDir != null) RecordEvent(Time.timeSinceLevelLoad - _readyAt, "building removed " + id); } }
             var kb = Keyboard.current;
             if (kb != null)
             {
@@ -568,6 +569,42 @@ namespace Game.Slice
         }
 
         // ---- impactor ----
+        // ---- T-207 destruction cue ----
+        bool _fxOn; PixelDestructionFx _fx; int _fxBursts;
+        void SpawnDestructionFx(BuildingId id)
+        {
+            if (_binder == null || impactorMaterial == null) return;
+            if (_occ == null) BuildOccluders();
+            bool has = false; Vector3 mn = Vector3.zero, mx = Vector3.zero;
+            foreach (var o in _occ) if (o.Id.Equals(id) || o.PartOf.Equals(id)) { if (!has) { mn = o.Min; mx = o.Max; has = true; } else { mn = Vector3.Min(mn, o.Min); mx = Vector3.Max(mx, o.Max); } }
+            if (!has) return;
+            if (_fx == null) _fx = PixelDestructionFx.Create(impactorMaterial, _binder.profile, _cam, 270f);
+            float g = Ground((mn.x + mx.x) * 0.5, (mn.z + mx.z) * 0.5);
+            _fx.Burst(mn, mx, g, id.GetHashCode()); _fxBursts++;
+            if (_recDir != null) RecordEvent(Time.timeSinceLevelLoad - _readyAt, "destruction fx burst " + id + " size " + F(mx.x - mn.x) + "x" + F(mx.y - mn.y) + "x" + F(mx.z - mn.z));
+        }
+
+        /// <summary>Record-mode target choice (T-207): among buildings within 170 m of the default aim that this impact will destroy (state 4 energy), prefer tall (>= 30 m) buildings with few equally tall neighbours within 55 m (open sight line, high contrast against the skyline / low neighbours).</summary>
+        bool TryPickTallTarget(Vector3 aim, double energyJ, out BuildingId id, out Vector3 aimOut)
+        {
+            id = default; aimOut = aim; double best = double.MinValue; int bi = -1;
+            for (int i = 0; i < _footprints.Count; i++)
+            {
+                var f = _footprints[i]; double dx = f.X - aim.x, dz = f.Z - aim.z, d = Math.Sqrt(dx * dx + dz * dz);
+                if (d > 170.0 || f.Height < 30.0 || f.Height > 120.0) continue;
+                var bid = _footIds[i]; if (_comp.Geo.IsRemoved(bid)) continue;
+                if (_comp.Destruction.TryGetState(bid, out var bst) && bst.State >= 4) continue;
+                if (!_comp.Destruction.TryGetThresholds(bid, out double s1, out double s2, out double s3, out double s4) || s4 > energyJ * 0.98) continue;
+                int nb = 0; for (int j = 0; j < _footprints.Count; j++) { if (j == i) continue; var g = _footprints[j]; double ex = g.X - f.X, ez = g.Z - f.Z; if (ex * ex + ez * ez < 55.0 * 55.0 && g.Height >= 0.7 * f.Height) nb++; }
+                double score = Math.Min(f.Height, 90.0) / 90.0 * 4.0 - nb * 0.7 - d / 170.0;
+                if (score > best) { best = score; bi = i; }
+            }
+            if (bi < 0) return false;
+            id = _footIds[bi]; var fp = _footprints[bi]; aimOut = new Vector3((float)fp.X, 0f, (float)fp.Z); aimOut.y = Ground(aimOut.x, aimOut.z) + 5f;
+            Log("T-207 impact target by height: " + id + " h " + F((float)fp.Height) + " m, score " + F((float)best));
+            return true;
+        }
+
         public bool TriggerImpact()
         {
             if (_impactor != null) return false;
@@ -576,6 +613,7 @@ namespace Game.Slice
             var aim = new Vector3(p.x + fx * 170f + fz * 40f, 0f, p.z + fz * 170f - fx * 40f);
             if (!_index.TryNearest(aim.x + OriginX, aim.z + OriginZ, bid => !(_comp.Destruction.TryGetState(bid, out var bst) && bst.State >= 4), out _impactTarget, out double ax, out double az)) { Log("impact: no buildings"); return false; }
             aim = new Vector3((float)(ax - OriginX), 0f, (float)(az - OriginZ)); aim.y = Ground(aim.x, aim.z) + 5f;
+            if (_recDir != null && _fxOn && TryPickTallTarget(aim, SliceImpact.KineticEnergyJ(ImpactMassKg, ImpactSpeedMs), out var tallId, out var tallAim)) { _impactTarget = tallId; aim = tallAim; }
             _impactAim = aim;
             var start = aim + new Vector3(-fx * 600f - fz * 200f, 350f, -fz * 600f + fx * 200f);   // comes in from behind the camera
             _impactVel = (aim - start).normalized * (float)ImpactSpeedMs;

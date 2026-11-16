@@ -1,0 +1,791 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="114" result="Passed" total="114" passed="114" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:31Z" duration="3.0756393">
+  <test-suite type="TestSuite" id="1000" name="KaijuGame" fullname="KaijuGame" runstate="Runnable" testcasecount="1096" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:31Z" duration="3.075639" total="114" passed="114" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1744" name="Game.Rendering.Pixel.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-207/kaiju/Library/ScriptAssemblies/Game.Rendering.Pixel.Tests.dll" runstate="Runnable" testcasecount="101" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.690309" total="101" passed="101" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="16823" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1745" name="Game" fullname="Game" runstate="Runnable" testcasecount="101" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.689671" total="101" passed="101" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1746" name="Rendering" fullname="Game.Rendering" runstate="Runnable" testcasecount="101" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.689038" total="101" passed="101" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1747" name="Pixel" fullname="Game.Rendering.Pixel" runstate="Runnable" testcasecount="101" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.688504" total="101" passed="101" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1748" name="Tests" fullname="Game.Rendering.Pixel.Tests" runstate="Runnable" testcasecount="101" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.687870" total="101" passed="101" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1686" name="ColourMathTests" fullname="Game.Rendering.Pixel.Tests.ColourMathTests" classname="Game.Rendering.Pixel.Tests.ColourMathTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.017966" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1687" name="DeltaE2000_MatchesPublishedTestData" fullname="Game.Rendering.Pixel.Tests.ColourMathTests.DeltaE2000_MatchesPublishedTestData" methodname="DeltaE2000_MatchesPublishedTestData" classname="Game.Rendering.Pixel.Tests.ColourMathTests" runstate="Runnable" seed="1745615732" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.005009" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1690" name="EightBitRounding_StaysUnderTheTolerance" fullname="Game.Rendering.Pixel.Tests.ColourMathTests.EightBitRounding_StaysUnderTheTolerance" methodname="EightBitRounding_StaysUnderTheTolerance" classname="Game.Rendering.Pixel.Tests.ColourMathTests" runstate="Runnable" seed="1328811839" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.003233" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1692" name="Hex_RoundTrips_AndRejectsMalformed" fullname="Game.Rendering.Pixel.Tests.ColourMathTests.Hex_RoundTrips_AndRejectsMalformed" methodname="Hex_RoundTrips_AndRejectsMalformed" classname="Game.Rendering.Pixel.Tests.ColourMathTests" runstate="Runnable" seed="298537428" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.001627" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1688" name="Lab_OfKnownColours" fullname="Game.Rendering.Pixel.Tests.ColourMathTests.Lab_OfKnownColours" methodname="Lab_OfKnownColours" classname="Game.Rendering.Pixel.Tests.ColourMathTests" runstate="Runnable" seed="851320539" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000117" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1689" name="Lab_RoundTripsThroughLinear" fullname="Game.Rendering.Pixel.Tests.ColourMathTests.Lab_RoundTripsThroughLinear" methodname="Lab_RoundTripsThroughLinear" classname="Game.Rendering.Pixel.Tests.ColourMathTests" runstate="Runnable" seed="436808227" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000254" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1691" name="NearestIndex_ExactColourIsItself_AndTiesTakeTheFirst" fullname="Game.Rendering.Pixel.Tests.ColourMathTests.NearestIndex_ExactColourIsItself_AndTiesTakeTheFirst" methodname="NearestIndex_ExactColourIsItself_AndTiesTakeTheFirst" classname="Game.Rendering.Pixel.Tests.ColourMathTests" runstate="Runnable" seed="1326655503" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000483" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1693" name="PaletteSha256_IsTheCanonicalCompactJsonHash" fullname="Game.Rendering.Pixel.Tests.ColourMathTests.PaletteSha256_IsTheCanonicalCompactJsonHash" methodname="PaletteSha256_IsTheCanonicalCompactJsonHash" classname="Game.Rendering.Pixel.Tests.ColourMathTests" runstate="Runnable" seed="688818637" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000181" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1694" name="DitherMaskTests" fullname="Game.Rendering.Pixel.Tests.DitherMaskTests" classname="Game.Rendering.Pixel.Tests.DitherMaskTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.004571" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1695" name="Bayer2_And_Bayer4_AreTheReferenceMatrices" fullname="Game.Rendering.Pixel.Tests.DitherMaskTests.Bayer2_And_Bayer4_AreTheReferenceMatrices" methodname="Bayer2_And_Bayer4_AreTheReferenceMatrices" classname="Game.Rendering.Pixel.Tests.DitherMaskTests" runstate="Runnable" seed="80701124" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000373" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1701" name="Bayer4_HalfMixIsACheckerboard" fullname="Game.Rendering.Pixel.Tests.DitherMaskTests.Bayer4_HalfMixIsACheckerboard" methodname="Bayer4_HalfMixIsACheckerboard" classname="Game.Rendering.Pixel.Tests.DitherMaskTests" runstate="Runnable" seed="976649081" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000205" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1702" name="ClusteredDot_HalfMixFormsClumps_UnlikeBayer" fullname="Game.Rendering.Pixel.Tests.DitherMaskTests.ClusteredDot_HalfMixFormsClumps_UnlikeBayer" methodname="ClusteredDot_HalfMixFormsClumps_UnlikeBayer" classname="Game.Rendering.Pixel.Tests.DitherMaskTests" runstate="Runnable" seed="1082865657" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000713" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-suite type="ParameterizedMethod" id="1700" name="Masks_ArePermutations_AndDeterministic" fullname="Game.Rendering.Pixel.Tests.DitherMaskTests.Masks_ArePermutations_AndDeterministic" classname="Game.Rendering.Pixel.Tests.DitherMaskTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.001999" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="1696" name="Masks_ArePermutations_AndDeterministic(&quot;bayer4&quot;,4)" fullname="Game.Rendering.Pixel.Tests.DitherMaskTests.Masks_ArePermutations_AndDeterministic(&quot;bayer4&quot;,4)" methodname="Masks_ArePermutations_AndDeterministic" classname="Game.Rendering.Pixel.Tests.DitherMaskTests" runstate="Runnable" seed="779573791" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000331" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1697" name="Masks_ArePermutations_AndDeterministic(&quot;bayer8&quot;,8)" fullname="Game.Rendering.Pixel.Tests.DitherMaskTests.Masks_ArePermutations_AndDeterministic(&quot;bayer8&quot;,8)" methodname="Masks_ArePermutations_AndDeterministic" classname="Game.Rendering.Pixel.Tests.DitherMaskTests" runstate="Runnable" seed="1833827111" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000063" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1698" name="Masks_ArePermutations_AndDeterministic(&quot;cluster8&quot;,8)" fullname="Game.Rendering.Pixel.Tests.DitherMaskTests.Masks_ArePermutations_AndDeterministic(&quot;cluster8&quot;,8)" methodname="Masks_ArePermutations_AndDeterministic" classname="Game.Rendering.Pixel.Tests.DitherMaskTests" runstate="Runnable" seed="1281114253" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000069" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1699" name="Masks_ArePermutations_AndDeterministic(&quot;bluenoise16&quot;,16)" fullname="Game.Rendering.Pixel.Tests.DitherMaskTests.Masks_ArePermutations_AndDeterministic(&quot;bluenoise16&quot;,16)" methodname="Masks_ArePermutations_AndDeterministic" classname="Game.Rendering.Pixel.Tests.DitherMaskTests" runstate="Runnable" seed="1135598149" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.001115" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                </test-suite>
+                <test-case id="1703" name="ThresholdBytes_AreStrictlyOrderedByRank_AndCentred" fullname="Game.Rendering.Pixel.Tests.DitherMaskTests.ThresholdBytes_AreStrictlyOrderedByRank_AndCentred" methodname="ThresholdBytes_AreStrictlyOrderedByRank_AndCentred" classname="Game.Rendering.Pixel.Tests.DitherMaskTests" runstate="Runnable" seed="920086348" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000257" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1721" name="HazeAndStageTests" fullname="Game.Rendering.Pixel.Tests.HazeAndStageTests" classname="Game.Rendering.Pixel.Tests.HazeAndStageTests" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.094450" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1724" name="BandStart_IsTheInverseOfBand" fullname="Game.Rendering.Pixel.Tests.HazeAndStageTests.BandStart_IsTheInverseOfBand" methodname="BandStart_IsTheInverseOfBand" classname="Game.Rendering.Pixel.Tests.HazeAndStageTests" runstate="Runnable" seed="946684285" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000309" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1726" name="DefaultOrder_IsLegal" fullname="Game.Rendering.Pixel.Tests.HazeAndStageTests.DefaultOrder_IsLegal" methodname="DefaultOrder_IsLegal" classname="Game.Rendering.Pixel.Tests.HazeAndStageTests" runstate="Runnable" seed="2069856378" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000460" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1735" name="EveryStageWithAFlag_HasADistinctFlagName" fullname="Game.Rendering.Pixel.Tests.HazeAndStageTests.EveryStageWithAFlag_HasADistinctFlagName" methodname="EveryStageWithAFlag_HasADistinctFlagName" classname="Game.Rendering.Pixel.Tests.HazeAndStageTests" runstate="Runnable" seed="2124966987" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000407" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1722" name="HazeBands_FollowDistanceMonotonically_OutTo30Km" fullname="Game.Rendering.Pixel.Tests.HazeAndStageTests.HazeBands_FollowDistanceMonotonically_OutTo30Km" methodname="HazeBands_FollowDistanceMonotonically_OutTo30Km" classname="Game.Rendering.Pixel.Tests.HazeAndStageTests" runstate="Runnable" seed="1068974869" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000179" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1723" name="HazeCurveGamma_OneIsTheLogCurve_BelowOneLiftsNearLevels" fullname="Game.Rendering.Pixel.Tests.HazeAndStageTests.HazeCurveGamma_OneIsTheLogCurve_BelowOneLiftsNearLevels" methodname="HazeCurveGamma_OneIsTheLogCurve_BelowOneLiftsNearLevels" classname="Game.Rendering.Pixel.Tests.HazeAndStageTests" runstate="Runnable" seed="1097866415" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000122" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1725" name="HazeSeam_MixesOnlyTheTwoBandsAtABoundary_AndAFlatFaceGetsNoSeam" fullname="Game.Rendering.Pixel.Tests.HazeAndStageTests.HazeSeam_MixesOnlyTheTwoBandsAtABoundary_AndAFlatFaceGetsNoSeam" methodname="HazeSeam_MixesOnlyTheTwoBandsAtABoundary_AndAFlatFaceGetsNoSeam" classname="Game.Rendering.Pixel.Tests.HazeAndStageTests" runstate="Runnable" seed="1146712782" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.090303" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1727" name="IllegalOrders_AreRejectedWithAReason" fullname="Game.Rendering.Pixel.Tests.HazeAndStageTests.IllegalOrders_AreRejectedWithAReason" methodname="IllegalOrders_AreRejectedWithAReason" classname="Game.Rendering.Pixel.Tests.HazeAndStageTests" runstate="Runnable" seed="1591632358" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000500" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1728" name="RunTimeCheck_BlocksAStageThatArrivesTooLate" fullname="Game.Rendering.Pixel.Tests.HazeAndStageTests.RunTimeCheck_BlocksAStageThatArrivesTooLate" methodname="RunTimeCheck_BlocksAStageThatArrivesTooLate" classname="Game.Rendering.Pixel.Tests.HazeAndStageTests" runstate="Runnable" seed="1042665923" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000230" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-suite type="ParameterizedMethod" id="1734" name="ScaleRule_GivesIntegerScale" fullname="Game.Rendering.Pixel.Tests.HazeAndStageTests.ScaleRule_GivesIntegerScale" classname="Game.Rendering.Pixel.Tests.HazeAndStageTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000891" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="1729" name="ScaleRule_GivesIntegerScale(1920,1080,4,480,270)" fullname="Game.Rendering.Pixel.Tests.HazeAndStageTests.ScaleRule_GivesIntegerScale(1920,1080,4,480,270)" methodname="ScaleRule_GivesIntegerScale" classname="Game.Rendering.Pixel.Tests.HazeAndStageTests" runstate="Runnable" seed="118069050" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000216" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1730" name="ScaleRule_GivesIntegerScale(2560,1440,5,512,288)" fullname="Game.Rendering.Pixel.Tests.HazeAndStageTests.ScaleRule_GivesIntegerScale(2560,1440,5,512,288)" methodname="ScaleRule_GivesIntegerScale" classname="Game.Rendering.Pixel.Tests.HazeAndStageTests" runstate="Runnable" seed="287271631" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000023" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1731" name="ScaleRule_GivesIntegerScale(3840,2160,6,640,360)" fullname="Game.Rendering.Pixel.Tests.HazeAndStageTests.ScaleRule_GivesIntegerScale(3840,2160,6,640,360)" methodname="ScaleRule_GivesIntegerScale" classname="Game.Rendering.Pixel.Tests.HazeAndStageTests" runstate="Runnable" seed="1608308792" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000021" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1732" name="ScaleRule_GivesIntegerScale(1366,768,4,342,192)" fullname="Game.Rendering.Pixel.Tests.HazeAndStageTests.ScaleRule_GivesIntegerScale(1366,768,4,342,192)" methodname="ScaleRule_GivesIntegerScale" classname="Game.Rendering.Pixel.Tests.HazeAndStageTests" runstate="Runnable" seed="2089381169" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000020" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1733" name="ScaleRule_GivesIntegerScale(1280,720,4,320,180)" fullname="Game.Rendering.Pixel.Tests.HazeAndStageTests.ScaleRule_GivesIntegerScale(1280,720,4,320,180)" methodname="ScaleRule_GivesIntegerScale" classname="Game.Rendering.Pixel.Tests.HazeAndStageTests" runstate="Runnable" seed="792283983" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000020" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                </test-suite>
+              </test-suite>
+              <test-suite type="TestFixture" id="1626" name="HazeFarLiftTests" fullname="Game.Rendering.Pixel.Tests.HazeFarLiftTests" classname="Game.Rendering.Pixel.Tests.HazeFarLiftTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.004980" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1627" name="Flag_IsListed_ShipsFalse" fullname="Game.Rendering.Pixel.Tests.HazeFarLiftTests.Flag_IsListed_ShipsFalse" methodname="Flag_IsListed_ShipsFalse" classname="Game.Rendering.Pixel.Tests.HazeFarLiftTests" runstate="Runnable" seed="264063344" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000061" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1629" name="Lift_IsMonotone_ReachesLastBandAtFull_AndNeverLowersTheLevel" fullname="Game.Rendering.Pixel.Tests.HazeFarLiftTests.Lift_IsMonotone_ReachesLastBandAtFull_AndNeverLowersTheLevel" methodname="Lift_IsMonotone_ReachesLastBandAtFull_AndNeverLowersTheLevel" classname="Game.Rendering.Pixel.Tests.HazeFarLiftTests" runstate="Runnable" seed="625659911" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000351" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1628" name="NoLift_WhenStartIsZero_OrNotBelowFull_OrAtAndBelowStart" fullname="Game.Rendering.Pixel.Tests.HazeFarLiftTests.NoLift_WhenStartIsZero_OrNotBelowFull_OrAtAndBelowStart" methodname="NoLift_WhenStartIsZero_OrNotBelowFull_OrAtAndBelowStart" classname="Game.Rendering.Pixel.Tests.HazeFarLiftTests" runstate="Runnable" seed="1741355840" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000095" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1630" name="Shader_CarriesTheSameFormula" fullname="Game.Rendering.Pixel.Tests.HazeFarLiftTests.Shader_CarriesTheSameFormula" methodname="Shader_CarriesTheSameFormula" classname="Game.Rendering.Pixel.Tests.HazeFarLiftTests" runstate="Runnable" seed="170141618" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000595" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1631" name="Tuning_ShipsInertForProfilesWithoutAFarRange_AndFlagOffIsTheDefault" fullname="Game.Rendering.Pixel.Tests.HazeFarLiftTests.Tuning_ShipsInertForProfilesWithoutAFarRange_AndFlagOffIsTheDefault" methodname="Tuning_ShipsInertForProfilesWithoutAFarRange_AndFlagOffIsTheDefault" classname="Game.Rendering.Pixel.Tests.HazeFarLiftTests" runstate="Runnable" seed="806945938" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000269" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1632" name="HazeRungModelTests" fullname="Game.Rendering.Pixel.Tests.HazeRungModelTests" classname="Game.Rendering.Pixel.Tests.HazeRungModelTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.059369" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1634" name="CommittedTuning_CarriesTheR131Recommendation" fullname="Game.Rendering.Pixel.Tests.HazeRungModelTests.CommittedTuning_CarriesTheR131Recommendation" methodname="CommittedTuning_CarriesTheR131Recommendation" classname="Game.Rendering.Pixel.Tests.HazeRungModelTests" runstate="Runnable" seed="2124868668" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.007253" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1635" name="GreyAlbedoRenders_MatchTheOfflineModel_Within05L" fullname="Game.Rendering.Pixel.Tests.HazeRungModelTests.GreyAlbedoRenders_MatchTheOfflineModel_Within05L" methodname="GreyAlbedoRenders_MatchTheOfflineModel_Within05L" classname="Game.Rendering.Pixel.Tests.HazeRungModelTests" runstate="Runnable" seed="19380861" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.011250" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1637" name="GroundAlbedo_ClimbsAtMostOneRungPerBandStep_AndNeverFalls" fullname="Game.Rendering.Pixel.Tests.HazeRungModelTests.GroundAlbedo_ClimbsAtMostOneRungPerBandStep_AndNeverFalls" methodname="GroundAlbedo_ClimbsAtMostOneRungPerBandStep_AndNeverFalls" classname="Game.Rendering.Pixel.Tests.HazeRungModelTests" runstate="Runnable" seed="1589833531" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.020639" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1636" name="RecordedPredictions_AreAllGatesPassing_ForTheCommittedTuning" fullname="Game.Rendering.Pixel.Tests.HazeRungModelTests.RecordedPredictions_AreAllGatesPassing_ForTheCommittedTuning" methodname="RecordedPredictions_AreAllGatesPassing_ForTheCommittedTuning" classname="Game.Rendering.Pixel.Tests.HazeRungModelTests" runstate="Runnable" seed="1375420992" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.001087" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1633" name="RungLightness_MatchesTheOfflineModel_ForAllFiveProfiles" fullname="Game.Rendering.Pixel.Tests.HazeRungModelTests.RungLightness_MatchesTheOfflineModel_ForAllFiveProfiles" methodname="RungLightness_MatchesTheOfflineModel_ForAllFiveProfiles" classname="Game.Rendering.Pixel.Tests.HazeRungModelTests" runstate="Runnable" seed="37497212" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.018129" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1704" name="PaletteLutTests" fullname="Game.Rendering.Pixel.Tests.PaletteLutTests" classname="Game.Rendering.Pixel.Tests.PaletteLutTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.296228" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1705" name="Bake_IsDeterministic_AndEveryCellIsAValidPair" fullname="Game.Rendering.Pixel.Tests.PaletteLutTests.Bake_IsDeterministic_AndEveryCellIsAValidPair" methodname="Bake_IsDeterministic_AndEveryCellIsAValidPair" classname="Game.Rendering.Pixel.Tests.PaletteLutTests" runstate="Runnable" seed="380283896" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.043028" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1715" name="Bake_RejectsBadInput" fullname="Game.Rendering.Pixel.Tests.PaletteLutTests.Bake_RejectsBadInput" methodname="Bake_RejectsBadInput" classname="Game.Rendering.Pixel.Tests.PaletteLutTests" runstate="Runnable" seed="1909601968" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000322" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1713" name="ChangingOneColour_ChangesTheLut" fullname="Game.Rendering.Pixel.Tests.PaletteLutTests.ChangingOneColour_ChangesTheLut" methodname="ChangingOneColour_ChangesTheLut" classname="Game.Rendering.Pixel.Tests.PaletteLutTests" runstate="Runnable" seed="815364938" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.013453" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-suite type="ParameterizedMethod" id="1711" name="GreyAxis_MapsDarkToLightAlongTheRamp" fullname="Game.Rendering.Pixel.Tests.PaletteLutTests.GreyAxis_MapsDarkToLightAlongTheRamp" classname="Game.Rendering.Pixel.Tests.PaletteLutTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.228079" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="1706" name="GreyAxis_MapsDarkToLightAlongTheRamp(&quot;warm_rust_sepia&quot;)" fullname="Game.Rendering.Pixel.Tests.PaletteLutTests.GreyAxis_MapsDarkToLightAlongTheRamp(&quot;warm_rust_sepia&quot;)" methodname="GreyAxis_MapsDarkToLightAlongTheRamp" classname="Game.Rendering.Pixel.Tests.PaletteLutTests" runstate="Runnable" seed="1376054172" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.042681" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1707" name="GreyAxis_MapsDarkToLightAlongTheRamp(&quot;warm_amber_haze&quot;)" fullname="Game.Rendering.Pixel.Tests.PaletteLutTests.GreyAxis_MapsDarkToLightAlongTheRamp(&quot;warm_amber_haze&quot;)" methodname="GreyAxis_MapsDarkToLightAlongTheRamp" classname="Game.Rendering.Pixel.Tests.PaletteLutTests" runstate="Runnable" seed="721144359" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.037354" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1708" name="GreyAxis_MapsDarkToLightAlongTheRamp(&quot;slate_teal&quot;)" fullname="Game.Rendering.Pixel.Tests.PaletteLutTests.GreyAxis_MapsDarkToLightAlongTheRamp(&quot;slate_teal&quot;)" methodname="GreyAxis_MapsDarkToLightAlongTheRamp" classname="Game.Rendering.Pixel.Tests.PaletteLutTests" runstate="Runnable" seed="1746578321" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.046496" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1709" name="GreyAxis_MapsDarkToLightAlongTheRamp(&quot;lavender_peach&quot;)" fullname="Game.Rendering.Pixel.Tests.PaletteLutTests.GreyAxis_MapsDarkToLightAlongTheRamp(&quot;lavender_peach&quot;)" methodname="GreyAxis_MapsDarkToLightAlongTheRamp" classname="Game.Rendering.Pixel.Tests.PaletteLutTests" runstate="Runnable" seed="310587423" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.058171" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1710" name="GreyAxis_MapsDarkToLightAlongTheRamp(&quot;slate_crimson&quot;)" fullname="Game.Rendering.Pixel.Tests.PaletteLutTests.GreyAxis_MapsDarkToLightAlongTheRamp(&quot;slate_crimson&quot;)" methodname="GreyAxis_MapsDarkToLightAlongTheRamp" classname="Game.Rendering.Pixel.Tests.PaletteLutTests" runstate="Runnable" seed="1221256011" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.041991" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                </test-suite>
+                <test-case id="1712" name="SaturatedSceneColour_MapsToTheAccent_AndNeutralNeverDoes" fullname="Game.Rendering.Pixel.Tests.PaletteLutTests.SaturatedSceneColour_MapsToTheAccent_AndNeutralNeverDoes" methodname="SaturatedSceneColour_MapsToTheAccent_AndNeutralNeverDoes" classname="Game.Rendering.Pixel.Tests.PaletteLutTests" runstate="Runnable" seed="167077031" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.009484" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1714" name="Select_FollowsTheThresholdAndSpread" fullname="Game.Rendering.Pixel.Tests.PaletteLutTests.Select_FollowsTheThresholdAndSpread" methodname="Select_FollowsTheThresholdAndSpread" classname="Game.Rendering.Pixel.Tests.PaletteLutTests" runstate="Runnable" seed="1054580274" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000241" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1716" name="PaletteSetTests" fullname="Game.Rendering.Pixel.Tests.PaletteSetTests" classname="Game.Rendering.Pixel.Tests.PaletteSetTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.082091" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1718" name="ConfigCopy_IsTheResearchFileVerbatim" fullname="Game.Rendering.Pixel.Tests.PaletteSetTests.ConfigCopy_IsTheResearchFileVerbatim" methodname="ConfigCopy_IsTheResearchFileVerbatim" classname="Game.Rendering.Pixel.Tests.PaletteSetTests" runstate="Runnable" seed="1328327835" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.072974" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1720" name="MiniJson_ParsesNestedValues_AndRejectsTrailingText" fullname="Game.Rendering.Pixel.Tests.PaletteSetTests.MiniJson_ParsesNestedValues_AndRejectsTrailingText" methodname="MiniJson_ParsesNestedValues_AndRejectsTrailingText" classname="Game.Rendering.Pixel.Tests.PaletteSetTests" runstate="Runnable" seed="963115165" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000526" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1719" name="Reader_RejectsWrongSchema_AndUnknownRoles" fullname="Game.Rendering.Pixel.Tests.PaletteSetTests.Reader_RejectsWrongSchema_AndUnknownRoles" methodname="Reader_RejectsWrongSchema_AndUnknownRoles" classname="Game.Rendering.Pixel.Tests.PaletteSetTests" runstate="Runnable" seed="1260012774" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000163" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1717" name="RepoPaletteSet_HasTheFiveProfiles_WithCanonicalHashes" fullname="Game.Rendering.Pixel.Tests.PaletteSetTests.RepoPaletteSet_HasTheFiveProfiles_WithCanonicalHashes" methodname="RepoPaletteSet_HasTheFiveProfiles_WithCanonicalHashes" classname="Game.Rendering.Pixel.Tests.PaletteSetTests" runstate="Runnable" seed="775267317" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.007058" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1638" name="ParallaxShiftMathTests" fullname="Game.Rendering.Pixel.Tests.ParallaxShiftMathTests" classname="Game.Rendering.Pixel.Tests.ParallaxShiftMathTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.041468" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1642" name="AnyDepth_StaysNearFivePixels_SoQ260StaysOpen" fullname="Game.Rendering.Pixel.Tests.ParallaxShiftMathTests.AnyDepth_StaysNearFivePixels_SoQ260StaysOpen" methodname="AnyDepth_StaysNearFivePixels_SoQ260StaysOpen" classname="Game.Rendering.Pixel.Tests.ParallaxShiftMathTests" runstate="Runnable" seed="370466452" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.037738" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1640" name="DepthAwareShift_RemovesTheParallaxTermOnly" fullname="Game.Rendering.Pixel.Tests.ParallaxShiftMathTests.DepthAwareShift_RemovesTheParallaxTermOnly" methodname="DepthAwareShift_RemovesTheParallaxTermOnly" classname="Game.Rendering.Pixel.Tests.ParallaxShiftMathTests" runstate="Runnable" seed="275653673" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000877" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1643" name="ShiftAndSnap_Basics" fullname="Game.Rendering.Pixel.Tests.ParallaxShiftMathTests.ShiftAndSnap_Basics" methodname="ShiftAndSnap_Basics" classname="Game.Rendering.Pixel.Tests.ParallaxShiftMathTests" runstate="Runnable" seed="1375299234" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000264" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1639" name="SingleSnap_UniformShift_ReproducesTheBaseline" fullname="Game.Rendering.Pixel.Tests.ParallaxShiftMathTests.SingleSnap_UniformShift_ReproducesTheBaseline" methodname="SingleSnap_UniformShift_ReproducesTheBaseline" classname="Game.Rendering.Pixel.Tests.ParallaxShiftMathTests" runstate="Runnable" seed="2125143442" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000528" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1641" name="ThreeLayerSlabsAtTheClassDepths_ReachOnePixel" fullname="Game.Rendering.Pixel.Tests.ParallaxShiftMathTests.ThreeLayerSlabsAtTheClassDepths_ReachOnePixel" methodname="ThreeLayerSlabsAtTheClassDepths_ReachOnePixel" classname="Game.Rendering.Pixel.Tests.ParallaxShiftMathTests" runstate="Runnable" seed="1888345650" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.001085" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1644" name="PixelArchitectureTests" fullname="Game.Rendering.Pixel.Tests.PixelArchitectureTests" classname="Game.Rendering.Pixel.Tests.PixelArchitectureTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.004693" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1647" name="CameraFlagFile_AllFalse_AndMatchesCameraFlagsAll" fullname="Game.Rendering.Pixel.Tests.PixelArchitectureTests.CameraFlagFile_AllFalse_AndMatchesCameraFlagsAll" methodname="CameraFlagFile_AllFalse_AndMatchesCameraFlagsAll" classname="Game.Rendering.Pixel.Tests.PixelArchitectureTests" runstate="Runnable" seed="1688031941" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.001713" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1645" name="PixelAsmdefs_ReferenceNoCameraUnitOrWorldAssembly_AndNoGuids" fullname="Game.Rendering.Pixel.Tests.PixelArchitectureTests.PixelAsmdefs_ReferenceNoCameraUnitOrWorldAssembly_AndNoGuids" methodname="PixelAsmdefs_ReferenceNoCameraUnitOrWorldAssembly_AndNoGuids" classname="Game.Rendering.Pixel.Tests.PixelArchitectureTests" runstate="Runnable" seed="105805143" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.001884" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1646" name="PixelFlagFile_AllFalse_AndMatchesPixelFlagsAll" fullname="Game.Rendering.Pixel.Tests.PixelArchitectureTests.PixelFlagFile_AllFalse_AndMatchesPixelFlagsAll" methodname="PixelFlagFile_AllFalse_AndMatchesPixelFlagsAll" classname="Game.Rendering.Pixel.Tests.PixelArchitectureTests" runstate="Runnable" seed="1858166440" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000263" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1648" name="PixelDepthShiftTests" fullname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests" classname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.006850" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1655" name="Disocclusion_TakesTheFartherSample_AndOcclusionTheNearer" fullname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests.Disocclusion_TakesTheFartherSample_AndOcclusionTheNearer" methodname="Disocclusion_TakesTheFartherSample_AndOcclusionTheNearer" classname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests" runstate="Runnable" seed="1881074580" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000527" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1649" name="Flag_IsListed_ShipsFalse_AndIsDistinctFromLayerSnap" fullname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests.Flag_IsListed_ShipsFalse_AndIsDistinctFromLayerSnap" methodname="Flag_IsListed_ShipsFalse_AndIsDistinctFromLayerSnap" classname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests" runstate="Runnable" seed="570314937" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000083" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1657" name="Model_DepthShiftWorstPhase_MatchesTheDesignNote_AKnownFailOfC11" fullname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests.Model_DepthShiftWorstPhase_MatchesTheDesignNote_AKnownFailOfC11" methodname="Model_DepthShiftWorstPhase_MatchesTheDesignNote_AKnownFailOfC11" classname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests" runstate="Runnable" seed="1715893558" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000468" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1654" name="NearSurface_ShiftsFartherThanFar_ByTheDepthRatio" fullname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests.NearSurface_ShiftsFartherThanFar_ByTheDepthRatio" methodname="NearSurface_ShiftsFartherThanFar_ByTheDepthRatio" classname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests" runstate="Runnable" seed="1423894345" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000091" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1650" name="Shader_KeepsTheFlatPathUntouched_AndGatesDepthShiftOnMode" fullname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests.Shader_KeepsTheFlatPathUntouched_AndGatesDepthShiftOnMode" methodname="Shader_KeepsTheFlatPathUntouched_AndGatesDepthShiftOnMode" classname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests" runstate="Runnable" seed="2072816117" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.001389" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1651" name="ShiftPx_IsParallaxShiftMath_Clamped" fullname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests.ShiftPx_IsParallaxShiftMath_Clamped" methodname="ShiftPx_IsParallaxShiftMath_Clamped" classname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests" runstate="Runnable" seed="64508650" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000182" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1656" name="SkyDepth_IsTreatedAsFarthest" fullname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests.SkyDepth_IsTreatedAsFarthest" methodname="SkyDepth_IsTreatedAsFarthest" classname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests" runstate="Runnable" seed="712675641" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000638" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1652" name="UniformDepthAtReference_EqualsTheFlatShift_EveryPixel" fullname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests.UniformDepthAtReference_EqualsTheFlatShift_EveryPixel" methodname="UniformDepthAtReference_EqualsTheFlatShift_EveryPixel" classname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests" runstate="Runnable" seed="888851248" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.001978" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1653" name="ZeroRemainder_IsIdentityAtAnyDepth" fullname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests.ZeroRemainder_IsIdentityAtAnyDepth" methodname="ZeroRemainder_IsIdentityAtAnyDepth" classname="Game.Rendering.Pixel.Tests.PixelDepthShiftTests" runstate="Runnable" seed="1720731289" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000257" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1658" name="PixelLayerHintsTests" fullname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests" classname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.006594" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1659" name="ContractVersion_IsTwo" fullname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests.ContractVersion_IsTwo" methodname="ContractVersion_IsTwo" classname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests" runstate="Runnable" seed="841366288" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000072" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1665" name="GridOffByMoreThanTolerance_IsRejected_AndWithinToleranceAccepted" fullname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests.GridOffByMoreThanTolerance_IsRejected_AndWithinToleranceAccepted" methodname="GridOffByMoreThanTolerance_IsRejected_AndWithinToleranceAccepted" classname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests" runstate="Runnable" seed="287340987" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000619" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1668" name="LayerHint_IsBlittable" fullname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests.LayerHint_IsBlittable" methodname="LayerHint_IsBlittable" classname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests" runstate="Runnable" seed="1217024067" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000083" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1660" name="LayerSnapFlag_IsListed_AndDistinct" fullname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests.LayerSnapFlag_IsListed_AndDistinct" methodname="LayerSnapFlag_IsListed_AndDistinct" classname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests" runstate="Runnable" seed="1360983278" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000053" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1666" name="MainLayer_MustMatchTheV1Fields" fullname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests.MainLayer_MustMatchTheV1Fields" methodname="MainLayer_MustMatchTheV1Fields" classname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests" runstate="Runnable" seed="1134004605" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000061" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1667" name="NonFinite_RemainderTooBig_AndHugeOffset_AreRejected" fullname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests.NonFinite_RemainderTooBig_AndHugeOffset_AreRejected" methodname="NonFinite_RemainderTooBig_AndHugeOffset_AreRejected" classname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests" runstate="Runnable" seed="1626682532" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000054" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1664" name="NonIncreasingDepths_AreRejected" fullname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests.NonIncreasingDepths_AreRejected" methodname="NonIncreasingDepths_AreRejected" classname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests" runstate="Runnable" seed="1084858852" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000069" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1662" name="ThreeConsistentLayers_AreAccepted_AndFeedThePlan" fullname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests.ThreeConsistentLayers_AreAccepted_AndFeedThePlan" methodname="ThreeConsistentLayers_AreAccepted_AndFeedThePlan" classname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests" runstate="Runnable" seed="1479379445" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.001014" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1661" name="V1Source_DefaultsToNoLayers_AndIsNotAnError" fullname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests.V1Source_DefaultsToNoLayers_AndIsNotAnError" methodname="V1Source_DefaultsToNoLayers_AndIsNotAnError" classname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests" runstate="Runnable" seed="328113023" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000128" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1663" name="WrongLayerCount_IsRejectedWithReason" fullname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests.WrongLayerCount_IsRejectedWithReason" methodname="WrongLayerCount_IsRejectedWithReason" classname="Game.Rendering.Pixel.Tests.PixelLayerHintsTests" runstate="Runnable" seed="590226326" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000098" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1669" name="PixelLayerPlanTests" fullname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests" classname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.026442" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1670" name="BandStart_WithGamma_IsTheInverseOfLevel" fullname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests.BandStart_WithGamma_IsTheInverseOfLevel" methodname="BandStart_WithGamma_IsTheInverseOfLevel" classname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests" runstate="Runnable" seed="1250626364" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.001582" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1678" name="C11Lock_IsExactOnly_AtTheSlabReferenceDepth_MatchingTheMirror" fullname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests.C11Lock_IsExactOnly_AtTheSlabReferenceDepth_MatchingTheMirror" methodname="C11Lock_IsExactOnly_AtTheSlabReferenceDepth_MatchingTheMirror" classname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests" runstate="Runnable" seed="1135024055" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.013075" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1676" name="Composite_OwnerWins_GapTakesTheNearestCoveredSample_NothingCoveredIsSky" fullname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests.Composite_OwnerWins_GapTakesTheNearestCoveredSample_NothingCoveredIsSky" methodname="Composite_OwnerWins_GapTakesTheNearestCoveredSample_NothingCoveredIsSky" classname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests" runstate="Runnable" seed="1577999086" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.001054" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1677" name="Grid_IsOneTexelAtTheReferenceDepth_AndAMismatchedGridIsRejected" fullname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests.Grid_IsOneTexelAtTheReferenceDepth_AndAMismatchedGridIsRejected" methodname="Grid_IsOneTexelAtTheReferenceDepth_AndAMismatchedGridIsRejected" classname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests" runstate="Runnable" seed="957008087" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000116" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1673" name="HazeOff_PutsBoundariesAtTheGeometricMiddleOfTheAdmissibleRange" fullname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests.HazeOff_PutsBoundariesAtTheGeometricMiddleOfTheAdmissibleRange" methodname="HazeOff_PutsBoundariesAtTheGeometricMiddleOfTheAdmissibleRange" classname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests" runstate="Runnable" seed="2134178755" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000156" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1675" name="Hysteresis_KeepsTheBandEdge_WhileTheReferenceDriftsALittle" fullname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests.Hysteresis_KeepsTheBandEdge_WhileTheReferenceDriftsALittle" methodname="Hysteresis_KeepsTheBandEdge_WhileTheReferenceDriftsALittle" classname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests" runstate="Runnable" seed="1575352608" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.001822" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1674" name="IllegalReferenceDepths_AreRejectedWithAReason" fullname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests.IllegalReferenceDepths_AreRejectedWithAReason" methodname="IllegalReferenceDepths_AreRejectedWithAReason" classname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests" runstate="Runnable" seed="1228203235" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.002022" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1671" name="SlabBoundaries_SitOnHazeBandEdges_InAllFiveProfiles_AndMatchTheMirror" fullname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests.SlabBoundaries_SitOnHazeBandEdges_InAllFiveProfiles_AndMatchTheMirror" methodname="SlabBoundaries_SitOnHazeBandEdges_InAllFiveProfiles_AndMatchTheMirror" classname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests" runstate="Runnable" seed="1709296963" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.002285" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1672" name="Slabs_PartitionRadialDistance_OwnTheirReferenceDepthAtEveryPixel_AndClipCoversOwnership" fullname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests.Slabs_PartitionRadialDistance_OwnTheirReferenceDepthAtEveryPixel_AndClipCoversOwnership" methodname="Slabs_PartitionRadialDistance_OwnTheirReferenceDepthAtEveryPixel_AndClipCoversOwnership" classname="Game.Rendering.Pixel.Tests.PixelLayerPlanTests" runstate="Runnable" seed="590123104" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.002073" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1679" name="PixelLayerSidecarTests" fullname="Game.Rendering.Pixel.Tests.PixelLayerSidecarTests" classname="Game.Rendering.Pixel.Tests.PixelLayerSidecarTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.003105" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1683" name="Build_GridsAreOneTexelAtEachReference" fullname="Game.Rendering.Pixel.Tests.PixelLayerSidecarTests.Build_GridsAreOneTexelAtEachReference" methodname="Build_GridsAreOneTexelAtEachReference" classname="Game.Rendering.Pixel.Tests.PixelLayerSidecarTests" runstate="Runnable" seed="1179261872" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.001221" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1685" name="Build_IsDeterministic_AndBothMainDepthsPlanFromTheSameBoundaries" fullname="Game.Rendering.Pixel.Tests.PixelLayerSidecarTests.Build_IsDeterministic_AndBothMainDepthsPlanFromTheSameBoundaries" methodname="Build_IsDeterministic_AndBothMainDepthsPlanFromTheSameBoundaries" classname="Game.Rendering.Pixel.Tests.PixelLayerSidecarTests" runstate="Runnable" seed="942774336" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000179" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1684" name="Build_RejectsWrongShapes" fullname="Game.Rendering.Pixel.Tests.PixelLayerSidecarTests.Build_RejectsWrongShapes" methodname="Build_RejectsWrongShapes" classname="Game.Rendering.Pixel.Tests.PixelLayerSidecarTests" runstate="Runnable" seed="1044125149" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000155" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1682" name="Build_WritesTheVersionedKeyWithReferencesGridsBoundariesBandsAndShifts" fullname="Game.Rendering.Pixel.Tests.PixelLayerSidecarTests.Build_WritesTheVersionedKeyWithReferencesGridsBoundariesBandsAndShifts" methodname="Build_WritesTheVersionedKeyWithReferencesGridsBoundariesBandsAndShifts" classname="Game.Rendering.Pixel.Tests.PixelLayerSidecarTests" runstate="Runnable" seed="322714654" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000441" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1681" name="MainShift_EqualsTheV1PresentShift" fullname="Game.Rendering.Pixel.Tests.PixelLayerSidecarTests.MainShift_EqualsTheV1PresentShift" methodname="MainShift_EqualsTheV1PresentShift" classname="Game.Rendering.Pixel.Tests.PixelLayerSidecarTests" runstate="Runnable" seed="1807245089" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000127" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1680" name="ShiftOutputPx_RoundsTheOwnRemainderAndClampsToTheGuard" fullname="Game.Rendering.Pixel.Tests.PixelLayerSidecarTests.ShiftOutputPx_RoundsTheOwnRemainderAndClampsToTheGuard" methodname="ShiftOutputPx_RoundsTheOwnRemainderAndClampsToTheGuard" classname="Game.Rendering.Pixel.Tests.PixelLayerSidecarTests" runstate="Runnable" seed="242785763" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000086" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1736" name="PixelSharedPhaseTests" fullname="Game.Rendering.Pixel.Tests.PixelSharedPhaseTests" classname="Game.Rendering.Pixel.Tests.PixelSharedPhaseTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.036847" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1739" name="CutFrame_HasNoDeviation_AndAFrameLaterTheReferenceIsKept" fullname="Game.Rendering.Pixel.Tests.PixelSharedPhaseTests.CutFrame_HasNoDeviation_AndAFrameLaterTheReferenceIsKept" methodname="CutFrame_HasNoDeviation_AndAFrameLaterTheReferenceIsKept" classname="Game.Rendering.Pixel.Tests.PixelSharedPhaseTests" runstate="Runnable" seed="1653382014" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000484" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1740" name="EqualRemainders_GiveEqualShifts" fullname="Game.Rendering.Pixel.Tests.PixelSharedPhaseTests.EqualRemainders_GiveEqualShifts" methodname="EqualRemainders_GiveEqualShifts" classname="Game.Rendering.Pixel.Tests.PixelSharedPhaseTests" runstate="Runnable" seed="2073691678" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000373" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1738" name="EveryFrame_AllSlabsShareOneLatticePhase_InsideTheGuardBand" fullname="Game.Rendering.Pixel.Tests.PixelSharedPhaseTests.EveryFrame_AllSlabsShareOneLatticePhase_InsideTheGuardBand" methodname="EveryFrame_AllSlabsShareOneLatticePhase_InsideTheGuardBand" classname="Game.Rendering.Pixel.Tests.PixelSharedPhaseTests" runstate="Runnable" seed="675683982" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.005446" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1737" name="Flag_IsListed_AndShipsOff" fullname="Game.Rendering.Pixel.Tests.PixelSharedPhaseTests.Flag_IsListed_AndShipsOff" methodname="Flag_IsListed_AndShipsOff" classname="Game.Rendering.Pixel.Tests.PixelSharedPhaseTests" runstate="Runnable" seed="354770891" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000096" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1742" name="Nearest_StaysCongruent_AndInsideTheLimitWhenPossible" fullname="Game.Rendering.Pixel.Tests.PixelSharedPhaseTests.Nearest_StaysCongruent_AndInsideTheLimitWhenPossible" methodname="Nearest_StaysCongruent_AndInsideTheLimitWhenPossible" classname="Game.Rendering.Pixel.Tests.PixelSharedPhaseTests" runstate="Runnable" seed="1016691409" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000079" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1743" name="Sidecar_WritesSharedPhase_OnlyWhenApplied" fullname="Game.Rendering.Pixel.Tests.PixelSharedPhaseTests.Sidecar_WritesSharedPhase_OnlyWhenApplied" methodname="Sidecar_WritesSharedPhase_OnlyWhenApplied" classname="Game.Rendering.Pixel.Tests.PixelSharedPhaseTests" runstate="Runnable" seed="2006088543" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.000162" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1741" name="T1Translation_DeviationIsBoundedBy1p5Px_AndReachesIt" fullname="Game.Rendering.Pixel.Tests.PixelSharedPhaseTests.T1Translation_DeviationIsBoundedBy1p5Px_AndReachesIt" methodname="T1Translation_DeviationIsBoundedBy1p5Px_AndReachesIt" classname="Game.Rendering.Pixel.Tests.PixelSharedPhaseTests" runstate="Runnable" seed="205085813" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:28Z" duration="0.029262" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="1763" name="Game.Rendering.Pixel.Unity.Tests.dll" fullname="/Users/kuanw/Me/code/pacific-rim/.claude/worktrees/fable-orchestrator-prompt-83a0a8/.wt/T-207/kaiju/Library/ScriptAssemblies/Game.Rendering.Pixel.Unity.Tests.dll" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:31Z" duration="2.366957" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="16823" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1764" name="Game" fullname="Game" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:31Z" duration="2.366547" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1765" name="Rendering" fullname="Game.Rendering" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:31Z" duration="2.366391" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1766" name="Pixel" fullname="Game.Rendering.Pixel" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:31Z" duration="2.366252" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1767" name="Tests" fullname="Game.Rendering.Pixel.Tests" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:31Z" duration="2.366090" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1749" name="PixelPipelineTests" fullname="Game.Rendering.Pixel.Tests.PixelPipelineTests" classname="Game.Rendering.Pixel.Tests.PixelPipelineTests" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:31Z" duration="2.365724" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1753" name="Depth_IsLinearEyeDepthInMetres" fullname="Game.Rendering.Pixel.Tests.PixelPipelineTests.Depth_IsLinearEyeDepthInMetres" methodname="Depth_IsLinearEyeDepthInMetres" classname="Game.Rendering.Pixel.Tests.PixelPipelineTests" runstate="Runnable" seed="841459018" result="Passed" start-time="2026-11-16 22:49:28Z" end-time="2026-11-16 22:49:29Z" duration="0.205367" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1756" name="EachStage_ChangesTheFrame_WhenToggled" fullname="Game.Rendering.Pixel.Tests.PixelPipelineTests.EachStage_ChangesTheFrame_WhenToggled" methodname="EachStage_ChangesTheFrame_WhenToggled" classname="Game.Rendering.Pixel.Tests.PixelPipelineTests" runstate="Runnable" seed="787482766" result="Passed" start-time="2026-11-16 22:49:29Z" end-time="2026-11-16 22:49:29Z" duration="0.063426" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1758" name="EditingOneColour_AndRebaking_ChangesTheCapture_AndStaysOnTheEditedPalette" fullname="Game.Rendering.Pixel.Tests.PixelPipelineTests.EditingOneColour_AndRebaking_ChangesTheCapture_AndStaysOnTheEditedPalette" methodname="EditingOneColour_AndRebaking_ChangesTheCapture_AndStaysOnTheEditedPalette" classname="Game.Rendering.Pixel.Tests.PixelPipelineTests" runstate="Runnable" seed="1560525207" result="Passed" start-time="2026-11-16 22:49:29Z" end-time="2026-11-16 22:49:29Z" duration="0.097200" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1755" name="EveryCombinationOfTheOptionalStages_RendersAValidOnPaletteFrame" fullname="Game.Rendering.Pixel.Tests.PixelPipelineTests.EveryCombinationOfTheOptionalStages_RendersAValidOnPaletteFrame" methodname="EveryCombinationOfTheOptionalStages_RendersAValidOnPaletteFrame" classname="Game.Rendering.Pixel.Tests.PixelPipelineTests" runstate="Runnable" seed="922575459" result="Passed" start-time="2026-11-16 22:49:29Z" end-time="2026-11-16 22:49:29Z" duration="0.351129" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1759" name="GeneratedProfiles_MatchThePaletteSet_AndTheirLutIsAFreshBake" fullname="Game.Rendering.Pixel.Tests.PixelPipelineTests.GeneratedProfiles_MatchThePaletteSet_AndTheirLutIsAFreshBake" methodname="GeneratedProfiles_MatchThePaletteSet_AndTheirLutIsAFreshBake" classname="Game.Rendering.Pixel.Tests.PixelPipelineTests" runstate="Runnable" seed="38541749" result="Passed" start-time="2026-11-16 22:49:29Z" end-time="2026-11-16 22:49:30Z" duration="0.475960" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1760" name="Installer_KeepsTheFeatureListAndMapInStep_InTheDefaultOrder" fullname="Game.Rendering.Pixel.Tests.PixelPipelineTests.Installer_KeepsTheFeatureListAndMapInStep_InTheDefaultOrder" methodname="Installer_KeepsTheFeatureListAndMapInStep_InTheDefaultOrder" classname="Game.Rendering.Pixel.Tests.PixelPipelineTests" runstate="Runnable" seed="1087232980" result="Passed" start-time="2026-11-16 22:49:30Z" end-time="2026-11-16 22:49:30Z" duration="0.019260" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1761" name="Installer_RejectsIllegalOrders_AndWritesNothing" fullname="Game.Rendering.Pixel.Tests.PixelPipelineTests.Installer_RejectsIllegalOrders_AndWritesNothing" methodname="Installer_RejectsIllegalOrders_AndWritesNothing" classname="Game.Rendering.Pixel.Tests.PixelPipelineTests" runstate="Runnable" seed="15580372" result="Passed" start-time="2026-11-16 22:49:30Z" end-time="2026-11-16 22:49:30Z" duration="0.018049" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1762" name="LegalReorder_GivesTheIdenticalFrame_AndAnIllegalRuntimeOrderIsSkippedWithAWarning" fullname="Game.Rendering.Pixel.Tests.PixelPipelineTests.LegalReorder_GivesTheIdenticalFrame_AndAnIllegalRuntimeOrderIsSkippedWithAWarning" methodname="LegalReorder_GivesTheIdenticalFrame_AndAnIllegalRuntimeOrderIsSkippedWithAWarning" classname="Game.Rendering.Pixel.Tests.PixelPipelineTests" runstate="Runnable" seed="966909629" result="Passed" start-time="2026-11-16 22:49:30Z" end-time="2026-11-16 22:49:30Z" duration="0.338412" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[[Pixel] stage Haze skipped: illegal stage order (Haze must come before Quantise: haze is applied before palette quantisation)
+]]></output>
+                </test-case>
+                <test-case id="1750" name="M0Frame_EveryInternalPixelIsAnExactPaletteColour_WithItsIndex" fullname="Game.Rendering.Pixel.Tests.PixelPipelineTests.M0Frame_EveryInternalPixelIsAnExactPaletteColour_WithItsIndex" methodname="M0Frame_EveryInternalPixelIsAnExactPaletteColour_WithItsIndex" classname="Game.Rendering.Pixel.Tests.PixelPipelineTests" runstate="Runnable" seed="260501973" result="Passed" start-time="2026-11-16 22:49:30Z" end-time="2026-11-16 22:49:30Z" duration="0.037496" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1751" name="Output_IsAnExactIntegerPointUpscale" fullname="Game.Rendering.Pixel.Tests.PixelPipelineTests.Output_IsAnExactIntegerPointUpscale" methodname="Output_IsAnExactIntegerPointUpscale" classname="Game.Rendering.Pixel.Tests.PixelPipelineTests" runstate="Runnable" seed="516541079" result="Passed" start-time="2026-11-16 22:49:30Z" end-time="2026-11-16 22:49:30Z" duration="0.021629" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1754" name="QuantiseOff_IsNotOnPalette_AndIndexIs255" fullname="Game.Rendering.Pixel.Tests.PixelPipelineTests.QuantiseOff_IsNotOnPalette_AndIndexIs255" methodname="QuantiseOff_IsNotOnPalette_AndIndexIs255" classname="Game.Rendering.Pixel.Tests.PixelPipelineTests" runstate="Runnable" seed="2131203674" result="Passed" start-time="2026-11-16 22:49:30Z" end-time="2026-11-16 22:49:30Z" duration="0.033947" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1757" name="SixthProfile_FromAJsonFixture_NeedsNoCodeOrShaderChange" fullname="Game.Rendering.Pixel.Tests.PixelPipelineTests.SixthProfile_FromAJsonFixture_NeedsNoCodeOrShaderChange" methodname="SixthProfile_FromAJsonFixture_NeedsNoCodeOrShaderChange" classname="Game.Rendering.Pixel.Tests.PixelPipelineTests" runstate="Runnable" seed="1246120144" result="Passed" start-time="2026-11-16 22:49:30Z" end-time="2026-11-16 22:49:30Z" duration="0.393244" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1752" name="TwoRenders_AreBitIdentical" fullname="Game.Rendering.Pixel.Tests.PixelPipelineTests.TwoRenders_AreBitIdentical" methodname="TwoRenders_AreBitIdentical" classname="Game.Rendering.Pixel.Tests.PixelPipelineTests" runstate="Runnable" seed="1766542917" result="Passed" start-time="2026-11-16 22:49:30Z" end-time="2026-11-16 22:49:31Z" duration="0.307190" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/kuanw/Library/Application Support/DefaultCompany/KaijuGame/TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
