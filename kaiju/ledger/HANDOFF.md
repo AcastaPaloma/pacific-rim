@@ -944,3 +944,6 @@ Re-run: `KAIJU_GEO_CACHE=<integration cache> python -I Pipelines/geo/bake_landma
 
 ## T-152b
 - Combat gets read-only IAmmoQuery/AmmoStatus; HUD adapter in Composition behind ui.hud_data, default off — decided autonomously (user offline).
+
+## d-iv vs C11 decision (lead session 3, T-196b)
+- Adopt P-1 per independent review (research/R-M3-DIV-review.md): `d-iv@v2` per slab, threshold 0.995, C11 stays 1 px, no threshold changed; `d-iv@v1` reported next to it in every report; slab seams gated by A2 = 1.000 plus a tearing test; non-layered frames measured whole at 0.995; rerun of the 8 T-196 layered clips needed (Unity slot) before any spec gate switch. — decided autonomously (founder offline), flagged for founder review.
