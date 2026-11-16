@@ -142,14 +142,17 @@ namespace Game.Slice
         }
 
         /// <summary>Nearest building anchor to (x,z) regardless of radius (scripted impactor target); false when empty.</summary>
-        public bool TryNearest(double x, double z, out BuildingId id, out double ax, out double az)
+        public bool TryNearest(double x, double z, out BuildingId id, out double ax, out double az) { return TryNearest(x, z, null, out id, out ax, out az); }
+
+        /// <summary>As above, skipping anchors for which <paramref name="accept"/> returns false (T-202: the impactor must not pick a building the quake already destroyed).</summary>
+        public bool TryNearest(double x, double z, Func<BuildingId, bool> accept, out BuildingId id, out double ax, out double az)
         {
             id = default; ax = az = 0; double best = double.MaxValue; bool found = false;
             foreach (var l in _cells.Values)
                 foreach (var e in l)
                 {
                     double d = (e.X - x) * (e.X - x) + (e.Z - z) * (e.Z - z);
-                    if (d < best) { best = d; id = e.Id; ax = e.X; az = e.Z; found = true; }
+                    if (d < best && (accept == null || accept(e.Id))) { best = d; id = e.Id; ax = e.X; az = e.Z; found = true; }
                 }
             return found;
         }

@@ -564,7 +564,7 @@ namespace Game.Slice
             var p = _mechT.position;
             float yr = _spawnYawDeg * Mathf.Deg2Rad, fx = Mathf.Sin(yr), fz = Mathf.Cos(yr);
             var aim = new Vector3(p.x + fx * 170f + fz * 40f, 0f, p.z + fz * 170f - fx * 40f);
-            if (!_index.TryNearest(aim.x + OriginX, aim.z + OriginZ, out _impactTarget, out double ax, out double az)) { Log("impact: no buildings"); return false; }
+            if (!_index.TryNearest(aim.x + OriginX, aim.z + OriginZ, bid => !(_comp.Destruction.TryGetState(bid, out var bst) && (int)bst >= 4), out _impactTarget, out double ax, out double az)) { Log("impact: no buildings"); return false; }
             aim = new Vector3((float)(ax - OriginX), 0f, (float)(az - OriginZ)); aim.y = Ground(aim.x, aim.z) + 5f;
             _impactAim = aim;
             var start = aim + new Vector3(-fx * 600f - fz * 200f, 350f, -fz * 600f + fx * 200f);   // comes in from behind the camera
