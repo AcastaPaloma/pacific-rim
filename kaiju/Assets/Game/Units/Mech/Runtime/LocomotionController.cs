@@ -452,6 +452,7 @@ namespace Game.Units.Mech
             _qp.Apply(_qpTime, _pelvisYaw, _groundY); _qpTime += _dt * _qpScale; _qpPlanTd = _t.qp_plan > 0.5 && _qp.Controller.Schedule.LastCallReanchored;
             if (_qpPdSwing >= 0 || _qpPdRef > 0 || _qpDiag || _qpFoot || _t.qp_r11_pdq > 0) QpSwingPd();
             if (_qpMatch && _t.qp_td_rematch > 0 && _t.qp_plan < 0.5 && _qp.Controller.Touchdowns > tdBefore) QpTouchdownRematch();
+            if (_t.qp_r13_copservo > 0.5 && _t.qp_plan > 0.5) QpR13CopServo();
             if (_qpLat) QpLateralDrives();
             var c = _qp.Controller; _dbg.QpOn = true; _dbg.QpScale = _qpScale; _dbg.QpMs = (System.Diagnostics.Stopwatch.GetTimestamp() - t0) * 1e3 / System.Diagnostics.Stopwatch.Frequency; _dbg.QpIters = c.LastIterations; _dbg.QpTau ??= new double[6]; System.Array.Copy(c.Tau, _dbg.QpTau, 6);
             _dbg.QpRow = _qpRow;
@@ -462,6 +463,28 @@ namespace Game.Units.Mech
         }
 
         /// <summary>Step 9.5k: marks the swing leg of the QP (parity 0 = planar leg A) for the next tick's PD scale (qp_pd_swing); qp_pd_ref re-issues the PD target / rate of the swing (1) or both (2) legs from the QP reference joint angles / rates with the scaled gains of this tick; qp_diag fills the qp.k log block.</summary>
+        // round 13 (qp_r13_copservo): measured rear-CoP servo on the rear ankle in double support; _r13I = integral of the CoP error (m), _r13On = servo active on the previous tick
+        double _r13I, _r13Tau, _r13Err; bool _r13On; public double R13Tau => _r13Tau; public double R13Err => _r13Err; public bool R13On => _r13On;
+        void QpR13CopServo()
+        {
+            var c = _qp.Controller; var legs = _qpLegNow ?? _qpLegs[0]; int sw = c.Parity; var inc = c.Schedule.Inc;
+            bool ds = (inc[2 * sw] || inc[2 * sw + 1]) && (inc[2 * (1 - sw)] || inc[2 * (1 - sw) + 1]);
+            var leg = legs[sw]; int d = leg.Ankle[0]; _b.GetFoot(leg.Foot, out var fs); _b.GetFoot(legs[1 - sw].Foot, out var fo); double W = fs.NormalForceN + fo.NormalForceN;
+            if (!ds || fs.NormalForceN <= _t.qp_r13_fmin * W) { if (_r13On) _r13I = 0; _r13On = false; return; }
+            _r13On = true;
+            var fw = Fwd(_pelvisYaw); var fwd3 = new Vector3(fw.X, 0, fw.Y); var info = _b.GetDof(d);
+            _b.GetLink(fs.Link, out var fl); var sole = _b.Frame.foot_sole;
+            double xa = Vector3.Dot(fl.Position, fwd3), xc = Vector3.Dot(fs.Cop, fwd3), xcom = Vector3.Dot(_com, fwd3);
+            double xheel = xa + (sole.heel_z_m - sole.ankle_z_m), xt = Math.Max(xheel + _t.qp_r13_heel, xcom - _t.qp_r13_m);
+            double err = xt - xc; double lim = Math.Max(Math.Abs(sole.heel_z_m - sole.ankle_z_m), Math.Abs(sole.toe_z_m - sole.ankle_z_m));
+            _r13I = Math.Max(-lim, Math.Min(lim, _r13I + _t.qp_r13_gi * err * _dt));
+            double sg = _t.qp_r13_sign >= 0 ? 1.0 : -1.0;
+            double tau = sg * fs.NormalForceN * (xt + _r13I - xa);
+            tau = Math.Max(-info.ForceLimitNm, Math.Min(info.ForceLimitNm, tau));
+            _r13Tau = tau; _r13Err = err;
+            _b.SetDofFeedForward(d, tau);
+            _b.SetDofDrive(d, _drvT[d], 0, 0, _drvC[d] * Math.Max(0, _t.qp_r13_kd));
+        }
         void QpSwingPd()
         {
             var c = _qp.Controller; var legs = _qpLegNow ?? _qpLegs[0]; int sw = c.Parity;
