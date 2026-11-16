@@ -926,3 +926,10 @@ Re-run: `KAIJU_GEO_CACHE=<integration cache> python -I Pipelines/geo/bake_landma
 - Added default-off, UNVERIFIED `-captureTerrainSink <m>` (lowers terrain renderers, capture scene only). All 8 allowed Unity runs are used; a 9th was refused. Next: 2-4 runs to test the sink; failing that, the geo builder (World/Geo owner) must not emit the coplanar footprint face, or a depth-bias building shader (URP Lit has no Offset). Defaults and captured output unchanged. — decided autonomously (founder asleep): keep the fix opt-in, not default, because it is not verified.
 - 2026-11-16 · T-115k (M2, merged): R-NEW-a-v3 negative. Default-off AnchorSkipStage/AnchorApproachFrac; dev improves but hold-out P4 -0.254 -> -0.102 FAIL, P5 0.992 -> 0.696; not shipped, default bit-identical. Next: Bay data (T-103b chain, T-106c). evidence/T-115k/
 - T-194c: cross-process capture flip fixed under -captureStableOrder (building lift 0.02 m; queue tier alone failed); 4 processes bit-identical, default unchanged. See plans/M3_PROGRESS.md and evidence/T-194c/. Next: M-124 demo master fix. — d
+
+
+## T-204 batched EditMode
+- Integration HEAD 471e53e: EditMode 1043 total, 1029 pass, 8 fail, 6 skip; compiles clean. Details and log paths `evidence/regression/T-204.md`.
+- Fixed: GameCoreConfig.asset regenerated (27 -> 28 flag files), Adapter test passes.
+- Open, owner Units.Mech (not touched): 7 ReferenceGaitTests failures (dorsiflexion spare, stance-foot yaw moment at 0.2/0.3) after T-201 walk_tuning_fast; needs the Mech owner.
+- `-captureTerrainSink 0.02` compiles and fixed the p4_d x4 frame 33 cross-process split in 3 of 3 processes (xproc 0/300 differing). Recommend making it default for capture runs (only 3 samples; earlier flag runs gave 5 of 7 matching). — decided autonomously (founder asleep); alternative: geo builder footprint-face removal
