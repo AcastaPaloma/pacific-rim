@@ -40,7 +40,7 @@ namespace Game.Units.Mech.Editor
             string outDir = Arg("-out", "Temp/scenarios"), list = Arg("-scenarios", "stand");
             bool strips = Arg("-strips") != null; int repeat = int.Parse(Arg("-repeat", "1"));
             double dt = Game.Core.CoreSettings.Parse(File.ReadAllText(Path.Combine(Application.dataPath, "Game/Config/CoreSettings.json")), "CoreSettings.json").FixedStepSeconds;
-            var config = MechConfig.LoadDefault();
+            var config = MechConfig.LoadDefault(walkOverlayFile: Arg("-walkoverlay"));   // T-201: -walkoverlay walk_tuning_fast.json applies a named override from Config/Mech
             if (Arg("-height") != null || Arg("-mass") != null) config = config.ScaledTo(double.Parse(Arg("-height", "80"), System.Globalization.CultureInfo.InvariantCulture), double.Parse(Arg("-mass", "1e7"), System.Globalization.CultureInfo.InvariantCulture));
             string commit = Commit(), engine = EngineInfo();
             var names = new List<string>();
@@ -58,8 +58,12 @@ namespace Game.Units.Mech.Editor
                     foreach (var variant in variants)
                     for (int k = 0; k < repeat; k++)
                     {
+                        // T-201: a variant named "a+b#label" applies only to scenarios a and b (the capture is named scenario@label); "*#label" or no '#' applies to all
+                        string vkey = variant.Key; int hash = vkey.IndexOf('#');
+                        if (hash >= 0) { string only = vkey.Substring(0, hash); if (only != "*" && Array.IndexOf(only.Split('+'), name) < 0) continue; }
+                        var variantKey = hash >= 0 ? vkey.Substring(hash + 1) : vkey;
                         EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-                        string capture = (repeat > 1 ? name + "_run" + (k + 1) : name) + (variant.Key.Length > 0 ? "@" + variant.Key : "");
+                        string capture = (repeat > 1 ? name + "_run" + (k + 1) : name) + (variantKey.Length > 0 ? "@" + variantKey : "");
                         var cfg = variant.Value == null ? config : config.WithWalk(w => JsonUtility.FromJsonOverwrite(variant.Value, w)).WithExperiments();
                         summary.AppendLine("EFFECTIVE " + capture + " " + Effective(cfg.Walk, variant.Value));
                         bool phys = Arg("-nophys") == null && (Arg("-physlist") == null || Array.IndexOf(Arg("-physlist").Split(','), name) >= 0);
