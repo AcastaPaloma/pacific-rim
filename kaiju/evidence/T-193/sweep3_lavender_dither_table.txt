@@ -1,0 +1,19 @@
+T-193 sweeps 3 and 4: lavender_peach with ONLY ditherSpread changed (ladderMinStepL at default 2.5, because HazeRungModelTests pin the R-131 rung ladder). C = M-004 C_px per Y sequence (limit 0.01), DIG max over the sampled p4_a frames (limit 0.5). D00_orig = no change (reproduces 0.0101 FAIL on M0StyleFrame V5_Y1). Spread 0.15 and below falls off a cliff (C 0.0146+, DIG 0.12) so 0.25 was chosen.
+D00_orig M0StyleFrame V4_Y1 0.0084 | V4_Y2 0.0061 | V5_Y1 0.0101 | V5_Y2 0.0091 | p4_a_still_v5 DIGmax 0.382 | p4_a_sunrise_v5 DIGmax 0.384
+D00_orig M3HazeFarLift V4_Y1 0.0064 | V4_Y2 0.0051 | V5_Y1 0.0078 | V5_Y2 0.0080 | p4_a_still_v5 DIGmax 0.351 | p4_a_sunrise_v5 DIGmax 0.353
+D03_spread30 M0StyleFrame V4_Y1 0.0088 | V4_Y2 0.0067 | V5_Y1 0.0090 | V5_Y2 0.0082 | p4_a_still_v5 DIGmax 0.242 | p4_a_sunrise_v5 DIGmax 0.241
+D03_spread30 M3HazeFarLift V4_Y1 0.0062 | V4_Y2 0.0055 | V5_Y1 0.0061 | V5_Y2 0.0067 | p4_a_still_v5 DIGmax 0.211 | p4_a_sunrise_v5 DIGmax 0.209
+D04_spread40 M0StyleFrame V4_Y1 0.0092 | V4_Y2 0.0069 | V5_Y1 0.0099 | V5_Y2 0.0090 | p4_a_still_v5 DIGmax 0.267 | p4_a_sunrise_v5 DIGmax 0.267
+D04_spread40 M3HazeFarLift V4_Y1 0.0065 | V4_Y2 0.0056 | V5_Y1 0.0066 | V5_Y2 0.0073 | p4_a_still_v5 DIGmax 0.230 | p4_a_sunrise_v5 DIGmax 0.229
+D05_spread50 M0StyleFrame V4_Y1 0.0098 | V4_Y2 0.0072 | V5_Y1 0.0110 | V5_Y2 0.0100 | p4_a_still_v5 DIGmax 0.308 | p4_a_sunrise_v5 DIGmax 0.313
+D05_spread50 M3HazeFarLift V4_Y1 0.0071 | V4_Y2 0.0060 | V5_Y1 0.0079 | V5_Y2 0.0085 | p4_a_still_v5 DIGmax 0.272 | p4_a_sunrise_v5 DIGmax 0.278
+D07_spread70 M0StyleFrame V4_Y1 0.0082 | V4_Y2 0.0060 | V5_Y1 0.0097 | V5_Y2 0.0088 | p4_a_still_v5 DIGmax 0.375 | p4_a_sunrise_v5 DIGmax 0.378
+D07_spread70 M3HazeFarLift V4_Y1 0.0062 | V4_Y2 0.0050 | V5_Y1 0.0072 | V5_Y2 0.0076 | p4_a_still_v5 DIGmax 0.341 | p4_a_sunrise_v5 DIGmax 0.341
+E010_spread10 M0StyleFrame V4_Y1 0.0177 | V4_Y2 0.0144 | V5_Y1 0.0289 | V5_Y2 0.0308 | p4_a_still_v5 DIGmax 0.040 | p4_a_sunrise_v5 DIGmax 0.036
+E010_spread10 M3HazeFarLift V4_Y1 0.0127 | V4_Y2 0.0120 | V5_Y1 0.0247 | V5_Y2 0.0295 | p4_a_still_v5 DIGmax 0.022 | p4_a_sunrise_v5 DIGmax 0.022
+E015_spread15 M0StyleFrame V4_Y1 0.0123 | V4_Y2 0.0092 | V5_Y1 0.0146 | V5_Y2 0.0138 | p4_a_still_v5 DIGmax 0.125 | p4_a_sunrise_v5 DIGmax 0.122
+E015_spread15 M3HazeFarLift V4_Y1 0.0083 | V4_Y2 0.0073 | V5_Y1 0.0102 | V5_Y2 0.0115 | p4_a_still_v5 DIGmax 0.094 | p4_a_sunrise_v5 DIGmax 0.095
+E020_spread20 M0StyleFrame V4_Y1 0.0084 | V4_Y2 0.0065 | V5_Y1 0.0080 | V5_Y2 0.0073 | p4_a_still_v5 DIGmax 0.186 | p4_a_sunrise_v5 DIGmax 0.184
+E020_spread20 M3HazeFarLift V4_Y1 0.0057 | V4_Y2 0.0051 | V5_Y1 0.0055 | V5_Y2 0.0060 | p4_a_still_v5 DIGmax 0.158 | p4_a_sunrise_v5 DIGmax 0.156
+E025_spread25 M0StyleFrame V4_Y1 0.0088 | V4_Y2 0.0067 | V5_Y1 0.0087 | V5_Y2 0.0079 | p4_a_still_v5 DIGmax 0.222 | p4_a_sunrise_v5 DIGmax 0.219
+E025_spread25 M3HazeFarLift V4_Y1 0.0062 | V4_Y2 0.0055 | V5_Y1 0.0059 | V5_Y2 0.0065 | p4_a_still_v5 DIGmax 0.192 | p4_a_sunrise_v5 DIGmax 0.189
