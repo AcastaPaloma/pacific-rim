@@ -934,3 +934,10 @@ Re-run: `KAIJU_GEO_CACHE=<integration cache> python -I Pipelines/geo/bake_landma
 - Open, owner Units.Mech (not touched): 7 ReferenceGaitTests failures (dorsiflexion spare, stance-foot yaw moment at 0.2/0.3) after T-201 walk_tuning_fast; needs the Mech owner.
 - `-captureTerrainSink 0.02` compiles and fixed the p4_d x4 frame 33 cross-process split in 3 of 3 processes (xproc 0/300 differing). Recommend making it default for capture runs (only 3 samples; earlier flag runs gave 5 of 7 matching). — decided autonomously (founder asleep); alternative: geo builder footprint-face removal
 - T-194d: terrain sink 0.02 m now default for capture runs; 4 sequential processes 0/1210 differing (evidence/T-194d). — decided autonomously (founder asleep)
+
+## T-150..T-153 (Track 4 data layer, worker 2026-11-16)
+- Flags added, default off: `ui.hud_data` (use the sha-checked hud_colours table), `ui.settings` (settings@v1 persistence) in FeatureFlags/UI.json — decided autonomously (user offline).
+- `hud_colours.json` identical to the embedded `HudPalette.All` (test asserts equality), so flipping the flag changes no pixel; table sha covers panel/text/fills/profile sha — decided autonomously (user offline).
+- CannonAmmoProvider reads an `IAmmoSource` (Game.UI), not Game.Combat: the Combat contract has no ammo query (Cannon.Ammo lives in Combat runtime). Adapter belongs to Composition/Combat owner — decided autonomously (user offline).
+- 7x10 medium font not drawn; Medium step flagged placeholder (`HudTextLadder.IsPlaceholder`) — decided autonomously (user offline).
+- Rebind default action map is provisional; real ids come with Control's InputActionAsset migration (T-151 Control part, Q-NEW-c) — decided autonomously (user offline).
