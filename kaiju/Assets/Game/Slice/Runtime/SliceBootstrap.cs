@@ -122,6 +122,14 @@ namespace Game.Slice
             Instance = this;
             string sm = Arg("-sliceSmoke"); if (sm != null && int.TryParse(sm, out int n)) SmokeFrames = n;
             string so = Arg("-sliceSmokeOut"); if (so != null) SmokeOut = so;
+            _recDir = Arg("-sliceRecord");   // T-203 demo capture: auto-pilot + recurring scripted events, one PNG per frame at -sliceRecordFps (default 30) on a fixed game clock, for -sliceRecordSeconds (default 90)
+            if (!string.IsNullOrEmpty(_recDir))
+            {
+                if (SmokeFrames <= 0) SmokeFrames = 100000000;
+                if (int.TryParse(Arg("-sliceRecordFps"), out int rf) && rf > 0) _recFps = rf;
+                if (float.TryParse(Arg("-sliceRecordSeconds"), NumberStyles.Float, CultureInfo.InvariantCulture, out float rs) && rs > 0f) _recSeconds = rs;
+                Directory.CreateDirectory(_recDir); Time.captureFramerate = _recFps;
+            }
             if (!CoreRuntime.IsBooted) { Debug.LogError("[Slice] Core is not booted"); yield break; }
             _root = CoreRuntime.Root;
             string cfg = Arg("-sliceConfig") ?? ConfigName ?? "feelcheck";
@@ -177,6 +185,7 @@ namespace Game.Slice
             if (Arg("-sliceShaderProbe") != null) SpawnShaderProbe();
             LogGeoDiag();
             Ready = true; _readyAt = Time.timeSinceLevelLoad;
+            if (!string.IsNullOrEmpty(_recDir)) StartCoroutine(RecordLoop());
             AutoPilot = SmokeFrames > 0;
             if (SmokeFrames > 0) _drawRec = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Draw Calls Count");
         }
@@ -442,15 +451,15 @@ namespace Game.Slice
             return bestH;
         }
 
-        GameObject _capsuleVis; int _mechFalls; double _fallenSince = -1; bool _mechEverFell;
+        GameObject _capsuleVis; readonly List<string> _fallEvents = new List<string>(); int _mechFalls; double _fallenSince = -1; bool _mechEverFell;
         /// <summary>TEMPORARY (T-202): the physics mech still falls after 15 to 30 s of start/stop/turn walking on the city terrain in the player (cause not found, see tasks/T-202.progress.md). The demo stays playable: a mech that has been Falling/Fallen for 2.5 s is rebuilt standing at the same spot and heading. Counted in the smoke JSON as mech_respawns; mech_fell_ever stays true. Off with -sliceNoRespawn.</summary>
         void MaybeRespawnPhysicsMech(double ts, LocoPhase ph, float x, float z, float heading)
         {
             bool down = ph == LocoPhase.Fallen || ph == LocoPhase.Falling;
             if (!down) { _fallenSince = -1; return; }
-            if (_fallenSince < 0) _fallenSince = ts;
+            if (_fallenSince < 0) { _fallenSince = ts; _fallEvents.Add("fall_detected game_t=" + F(Time.timeSinceLevelLoad - _readyAt) + " clock_t=" + F((float)ts)); }
             if (ts - _fallenSince < 2.5 || Arg("-sliceNoRespawn") != null && Arg("-sliceNoRespawn") != "") return;
-            _mechFalls++; _fallenSince = -1; _mechEverFell = true;
+            _mechFalls++; _fallenSince = -1; _mechEverFell = true; _fallEvents.Add("respawn game_t=" + F(Time.timeSinceLevelLoad - _readyAt) + " clock_t=" + F((float)ts));
             Log("mech respawn " + _mechFalls + " (TEMPORARY, fell at t=" + F((float)ts) + " s) at (" + F(x) + ", " + F(z) + ")");
             try { _mechUnit.Dispose(); } catch (Exception ex) { Debug.LogWarning("[Slice] mech dispose: " + ex.Message); }
             _bodyWorld?.Dispose(); _bodyWorld = null; _mechUnit = null; _mechStep = 0; _mechComSet = false; _apBase = float.NaN; _apNext = 0f;
@@ -628,6 +637,7 @@ namespace Game.Slice
             bool shoot = !string.IsNullOrEmpty(SmokeOut);
             if (_quakes == 0 && t >= QuakeAtS && !Skip("quake")) TriggerQuake();
             if (_impacts == 0 && _impactor == null && t >= ImpactAtS && !Skip("impact")) TriggerImpact();
+            if (_recDir != null) RecordScript(t);
             if (_feel != null)
             {   // T-189 scripted fight: a cannon round every 2 s from 3 s, arm swings at 8 s and 14 s, the hangar cycle once the captures are done
                 if (!_duelDone && t >= 13.5f && !Skip("duel")) { _duelDone = true; _feel.ScriptedDuel(); _nextShotAt = t; }
@@ -636,7 +646,7 @@ namespace Game.Slice
                 else if (_swingsDone == 0 && t >= 8f && _feel.SwingArm()) _swingsDone++;
                 else if (_swingsDone == 1 && t >= 14f && _feel.SwingArm()) _swingsDone++;
                 bool capsDone = !shoot || (_captureIdx >= CapSchedule.Length && _destroyBeforeDone && !_capturePending);
-                if (_feel.HangarOn && _feel.HangarCycles == 0 && t >= EndS - 0.05f && capsDone && _impacts > 0) { _feel.HangarCycle(HangarGround); _hangarAtT = t; }
+                if (_recDir == null && _feel.HangarOn && _feel.HangarCycles == 0 && t >= EndS - 0.05f && capsDone && _impacts > 0) { _feel.HangarCycle(HangarGround); _hangarAtT = t; }
             }
             if (shoot && !_capturePending)
             {
@@ -803,6 +813,52 @@ namespace Game.Slice
 
         static double Pct(List<double> v, double p) { var s = new List<double>(v); s.Sort(); return s.Count == 0 ? 0 : s[Math.Min(s.Count - 1, (int)(p * s.Count))]; }
 
+        // ---- T-203 demo recording ----
+        string _recDir; int _recFps = 30; float _recSeconds = 90f, _recNextImpact = 30f, _recNextQuake = 35f, _recNextSwing = 20f, _recNextDuel = 30f;
+        readonly List<string> _recEvents = new List<string>();
+        void RecordEvent(float t, string what) { _recEvents.Add("t=" + F(t) + " " + what); }
+        /// <summary>Recurring script on top of the smoke's first 20 s (quake 5, impact 12, cannon every 2 s from 3, swings 8 and 14, duel 13.5): another impact every 18 s, quake every 30 s, swing every 10 s, duel reset every 25 s.</summary>
+        void RecordScript(float t)
+        {
+            if (t >= _recNextImpact && _impactor == null && _impacts > 0) { if (TriggerImpact()) RecordEvent(t, "impact"); _recNextImpact = t + 18f; }
+            if (t >= _recNextQuake && _quakes > 0) { if (TriggerQuake()) RecordEvent(t, "quake"); _recNextQuake = t + 30f; }
+            if (_feel != null)
+            {
+                if (t >= _recNextSwing && _swingsDone >= 2) { if (_feel.SwingArm()) RecordEvent(t, "arm swing"); _recNextSwing = t + 10f; }
+                if (t >= _recNextDuel && _duelDone && !Skip("duel")) { _feel.ScriptedDuel(); RecordEvent(t, "duel: kaiju placed 90 m ahead"); _recNextDuel = t + 25f; }
+            }
+        }
+
+        IEnumerator RecordLoop()
+        {
+            int n = 0; int total = (int)(_recSeconds * _recFps); var sw = System.Diagnostics.Stopwatch.StartNew();
+            var trace = new StringBuilder();
+            while (n < total)
+            {
+                yield return new WaitForEndOfFrame();
+                var tex = ScreenCapture.CaptureScreenshotAsTexture();
+                if (tex != null)
+                {
+                    try { File.WriteAllBytes(Path.Combine(_recDir, "f" + n.ToString("D6", CultureInfo.InvariantCulture) + ".png"), tex.EncodeToPNG()); } catch (Exception ex) { Debug.LogError("[SliceRecord] write failed: " + ex.Message); }
+                    Destroy(tex);
+                }
+                if (n % _recFps == 0 && _mechT != null)
+                {
+                    var mp = _mechT.position; float t = Time.timeSinceLevelLoad - _readyAt;
+                    trace.Append("    { \"frame\": ").Append(n).Append(", \"game_t\": ").Append(F(t)).Append(", \"mech\": [").Append(F(mp.x)).Append(", ").Append(F(mp.y)).Append(", ").Append(F(mp.z)).Append("], \"kaiju\": [").Append(F(_kaiju.X)).Append(", ").Append(F(_kaiju.Y)).Append("], \"impacts\": ").Append(_impacts).Append(", \"quakes\": ").Append(_quakes).Append(", \"buildings_damaged_events\": ").Append(_damagedEvents).Append(", \"mech_falls\": ").Append(_mechFalls).Append(" },\n");
+                }
+                n++;
+            }
+            var sb = new StringBuilder();
+            sb.Append("{\n  \"task\": \"T-203\", \"fps\": ").Append(_recFps).Append(", \"frames\": ").Append(n).Append(", \"seconds\": ").Append(F(_recSeconds)).Append(", \"resolution\": \"").Append(Screen.width).Append("x").Append(Screen.height).Append("\", \"wall_s\": ").Append(F((float)sw.Elapsed.TotalSeconds)).Append(",\n");
+            sb.Append("  \"config\": \"").Append(_configUsed).Append("\", \"mech_fell_ever\": ").Append(_mechEverFell ? "true" : "false").Append(", \"mech_respawns\": ").Append(_mechFalls).Append(", \"impacts\": ").Append(_impacts).Append(", \"quakes\": ").Append(_quakes).Append(", \"buildings_damaged_events\": ").Append(_damagedEvents).Append(", \"buildings_removed\": ").Append(_removedCount).Append(", \"mech_com_travel_m\": ").Append(F((float)_mechTravel)).Append(",\n");
+            sb.Append("  \"fall_events\": [").Append(string.Join(", ", _fallEvents.ConvertAll(x => "\"" + x + "\""))).Append("],\n");
+            sb.Append("  \"scripted_events\": [").Append(string.Join(", ", _recEvents.ConvertAll(x => "\"" + x + "\""))).Append("],\n  \"trace_1s\": [\n").Append(trace.ToString().TrimEnd('\n', ',')).Append("\n  ]\n}\n");
+            File.WriteAllText(Path.Combine(_recDir, "record.json"), sb.ToString());
+            Debug.Log("[SliceRecord] done " + n + " frames");
+            Application.Quit();
+        }
+
         void FinishSmoke()
         {
             SmokeDone = true;
@@ -885,6 +941,7 @@ namespace Game.Slice
         // ---- HUD ----
         void OnGUI()
         {
+            if (_recDir != null && Arg("-sliceRecordHud") == null) return;   // T-203: the demo clip has no feel-check HUD (-sliceRecordHud 1 keeps it)
             if (!Ready) { GUI.Label(new Rect(10, 10, 600, 24), "M1 slice: loading..."); return; }
             var s = (_configUsed == "feelcheck" ? "Kaiju feel check (TEMPORARY: capsule mech and kaiju; mech body awaits T-005)  " : "M1 slice (TEMPORARY stand-ins)  ") + (1f / Mathf.Max(Time.smoothDeltaTime, 1e-4f)).ToString("F0") + " fps   buildings destroyed " + _stateCounts[4] + "  damaged events " + _damagedEvents
                 + "\n" + (_feel != null ? SliceFeelRig.Help : "WASD move   Q quake   I impactor") + "   kaiju " + _kaiju.State + " d=" + Mathf.Sqrt((_mech.X - _kaiju.X) * (_mech.X - _kaiju.X) + (_mech.Y - _kaiju.Y) * (_mech.Y - _kaiju.Y)).ToString("F0") + " m   mech hp " + _mech.Hp.ToString("F2")
