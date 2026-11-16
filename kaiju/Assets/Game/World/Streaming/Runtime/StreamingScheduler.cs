@@ -90,6 +90,7 @@ namespace Game.World.Streaming
         {
             if (!_entries.TryGetValue(key, out var e) || e.State == TileState.Resident || e.State == TileState.Evicting) return;
             _gpuUsed += gpuBytes - e.Gpu; _cpuUsed += cpuBytes - e.Cpu;
+            _wantDirty = true;
             e.Gpu = gpuBytes; e.Cpu = cpuBytes; e.State = TileState.Resident;
             e.LastNeededTick = _tick;
             _fail.Remove(key);
@@ -100,12 +101,14 @@ namespace Game.World.Streaming
         public void Released(in ResidencyKey key)
         {
             if (!_entries.TryGetValue(key, out var e) || e.State != TileState.Evicting) return;
+            _wantDirty = true;
             Remove(e);
         }
 
         public void Failed(in ResidencyKey key, string reason)
         {
             if (!_entries.TryGetValue(key, out var e) || e.State == TileState.Resident || e.State == TileState.Evicting) return;
+            _wantDirty = true;
             Remove(e);
             if (!_fail.TryGetValue(key, out var f)) { f = new Fail(); _fail[key] = f; }
             f.Count++;
@@ -127,6 +130,7 @@ namespace Game.World.Streaming
             if (plan == null) throw new ArgumentNullException(nameof(plan));
             plan.Clear();
             _time += dt; _tick++;
+            long pt = System.Diagnostics.Stopwatch.GetTimestamp();
 
             int firstInfo = plan.Clusters.Count;
             _clusters.Assign(foci, QuietStep, plan.Assignments, plan.Clusters);
@@ -137,8 +141,17 @@ namespace Game.World.Streaming
                     if (c.Rebased) _bus.Publish(new ClusterOriginChanged { ClusterId = c.ClusterId, OldX = c.PrevOriginX, OldZ = c.PrevOriginZ, NewX = c.OriginX, NewZ = c.OriginZ });
                 }
 
-            BuildWanted(foci);
-            ApplyFallbacks();
+            PhaseEnd(0, ref pt);
+            bool replan = ShouldReplan(foci);
+            if (replan)
+            {
+                BuildWanted(foci);
+                PhaseEnd(1, ref pt);
+                ApplyFallbacks();
+                PhaseEnd(2, ref pt);
+                SnapshotFoci(foci);
+            }
+            else { ReplansSkipped++; PhaseMsLast[1] = PhaseMsLast[2] = 0.0; pt = System.Diagnostics.Stopwatch.GetTimestamp(); }
 
             // mark needed, find retention-based evictions
             foreach (var e in _entries.Values)
@@ -152,6 +165,7 @@ namespace Game.World.Streaming
             _scratch.Sort(KeyComparer.Instance);
             for (int i = 0; i < _scratch.Count; i++) EvictEntry(_scratch[i], plan);
 
+            PhaseEnd(3, ref pt);
             // budget: evict by lowest priority, then LRU, until under the target
             long gpuCap = _cfg.Budget.GpuBytes, cpuCap = _cfg.Budget.CpuBytes;
             long pendingGpu = 0, pendingCpu = 0;
@@ -167,6 +181,7 @@ namespace Game.World.Streaming
                 }
             }
 
+            PhaseEnd(4, ref pt);
             // loads
             _cand.Clear();
             foreach (var kv in _want)
@@ -212,12 +227,60 @@ namespace Game.World.Streaming
                 plan.Load.Add(r);
             }
             if (blockedAny) BudgetBlockedTicks++;
+            PhaseEnd(5, ref pt);
 
-            // the refinement memory of this tick is the hysteresis state of the next
-            var t = _refined; _refined = _refinedNext; _refinedNext = t; _refinedNext.Clear();
+            // the refinement memory of this tick is the hysteresis state of the next (a skipped replan did not touch it)
+            if (replan) { var t = _refined; _refined = _refinedNext; _refinedNext = t; _refinedNext.Clear(); }
+            if (plan.Load.Count > 0 || plan.Evict.Count > 0) _wantDirty = true;
         }
 
         int _evictCursor;
+
+        // ---- T-124d: gated replan (default off: StreamingConfig.ReplanMoveM = 0 recomputes the wanted set every tick, exactly as before)
+        FocusSample[] _lastFoci = new FocusSample[0];
+        int _lastFociCount = -1;
+        double _lastReplanTime;
+        bool _wantDirty = true;
+        /// <summary>Ticks whose wanted-set recompute (quadtree walks, physics rings, fallbacks) was skipped by the gate.</summary>
+        public long ReplansSkipped { get; private set; }
+
+        void SnapshotFoci(ReadOnlySpan<FocusSample> foci)
+        {
+            if (_lastFoci.Length < foci.Length) _lastFoci = new FocusSample[Math.Max(foci.Length, 2 * _lastFoci.Length)];
+            for (int i = 0; i < foci.Length; i++) _lastFoci[i] = foci[i];
+            _lastFociCount = foci.Length; _lastReplanTime = _time; _wantDirty = false;
+        }
+
+        /// <summary>True when the wanted set must be recomputed. With ReplanMoveM = 0 always. Otherwise only when something it depends on changed: residency state (a host callback
+        /// or a request/evict of the last tick), the focus set or any focus parameter, a focus moved (position + lead x velocity change) by ReplanMoveM or more since the last
+        /// recompute, or ReplanMaxIntervalS elapsed. Skipped ticks reuse the cached wanted set and priorities.</summary>
+        bool ShouldReplan(ReadOnlySpan<FocusSample> foci)
+        {
+            double m = _cfg.ReplanMoveM;
+            if (m <= 0.0 || _wantDirty || _lastFociCount != foci.Length || _time - _lastReplanTime >= _cfg.ReplanMaxIntervalS) return true;
+            double lead = _cfg.PrefetchLeadS;
+            for (int i = 0; i < foci.Length; i++)
+            {
+                ref readonly var a = ref foci[i]; ref var b = ref _lastFoci[i];
+                if (a.Id != b.Id || a.Kind != b.Kind || a.NeedsPhysics != b.NeedsPhysics || a.NeedsRender != b.NeedsRender
+                    || a.FovDeg != b.FovDeg || a.OutputHeightPx != b.OutputHeightPx || a.IntegerScale != b.IntegerScale || a.VisualRangeM != b.VisualRangeM) return true;
+                double dx = a.X - b.X, dy = a.Y - b.Y, dz = a.Z - b.Z;
+                double dvx = (double)a.Vx - b.Vx, dvy = (double)a.Vy - b.Vy, dvz = (double)a.Vz - b.Vz;
+                double err = Math.Sqrt(dx * dx + dz * dz) + Math.Abs(dy) + lead * Math.Sqrt(dvx * dvx + dvy * dvy + dvz * dvz);
+                if (err >= m) return true;
+            }
+            return false;
+        }
+
+        /// <summary>T-124d profile (no behaviour effect): wall ms per phase of the last Tick / the largest seen: 0 clusters, 1 wanted set, 2 fallbacks, 3 retention evict, 4 budget evict, 5 loads.</summary>
+        public readonly double[] PhaseMsLast = new double[6], PhaseMsMax = new double[6];
+        void PhaseEnd(int i, ref long t0)
+        {
+            long t1 = System.Diagnostics.Stopwatch.GetTimestamp();
+            double ms = (t1 - t0) * 1000.0 / System.Diagnostics.Stopwatch.Frequency;
+            PhaseMsLast[i] = ms; if (ms > PhaseMsMax[i]) PhaseMsMax[i] = ms;
+            t0 = t1;
+        }
 
         void EvictEntry(Entry e, StreamingPlan plan)
         {

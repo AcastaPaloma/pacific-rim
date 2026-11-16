@@ -37,6 +37,10 @@ namespace Game.World.Streaming
         public double PhysicsRequestRadiusM => Math.Max(PhysicsRadiusM, PhysicsPrefetchRadiusM);
         /// <summary>Effective retention (evict) radius of a loaded physics chunk.</summary>
         public double PhysicsRetainRadiusM => Math.Max(PhysicsRadiusM * (1.0 + PhysicsHysteresisFrac), PhysicsPrefetchRadiusM);
+        /// <summary>T-124d (feature flag, 0 = off = recompute the wanted set every tick, as before): skip the wanted-set recompute (quadtree walks, physics rings, fallbacks) on a tick
+        /// when residency is unchanged and no focus moved more than this many metres (position plus PrefetchLeadS x velocity change) since the last recompute; priorities of the
+        /// skipped ticks are the cached ones. Bounds the plan staleness to ReplanMoveM metres and ReplanMaxIntervalS seconds.</summary>
+        public double ReplanMoveM = 0.0, ReplanMaxIntervalS = 0.25;
         public StreamingBudget Budget = StreamingBudget.Default;
         /// <summary>When over budget evict until under this fraction (rule 5).</summary>
         public double EvictTargetFrac = 0.9;
