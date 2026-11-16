@@ -298,3 +298,13 @@ Wrong or broken pieces get fixed or switched off in the demo profile. Never fake
     - At most 3 lead sessions.
     - Archive a session as soon as it is replaced or finished.
     - Never leave a finished worker's background process running.
+- **Silent and lean mode (founder, 2026-11-16, in meetings; stays in force until the founder lifts it).**
+  - **No sound may leave the machine.**
+    - Never use `afplay`, `say` or any audio playback.
+    - Run Unity batch jobs with audio disabled. Pass `-nographics` where possible, and force the audio flags off in the run config: `audio.enabled` false and Unity `AudioSettings` muted (`AudioListener.volume = 0`).
+    - Captures record no audio track, or a muted one.
+    - Audio work is verified offline, from buffers and metrics, never by playback.
+  - **Tighter memory than the RAM guard above:**
+    - start heavy jobs only when `memory_pressure` shows at least 40 % free;
+    - at most 1 batch Unity process;
+    - at most 2 pool workers per job.
