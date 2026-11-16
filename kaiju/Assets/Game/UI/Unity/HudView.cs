@@ -48,8 +48,8 @@ namespace Game.UI.Unity
             if (k < 1) k = 1;
             var sh = _shift != null ? _shift() : Vector2Int.zero;
             // Present stage: output pixel o shows texel floor((o + shift) / k), so texel 0 starts at -shift.x (left) and, top-down, at +shift.y.
-            float ppp = Mathf.Max(1f, GUIUtility.pixelsPerPoint);
-            var rect = new Rect(-sh.x / ppp, sh.y / ppp, HudRaster.W * k / ppp, HudRaster.H * k / ppp);
+            // IMGUI rects in a player are in screen pixels (Screen.width x Screen.height), the same space the pixel pipeline presents in.
+            var rect = new Rect(-sh.x, sh.y, HudRaster.W * k, HudRaster.H * k);
             GUI.DrawTextureWithTexCoords(rect, _tex, new Rect(0f, 1f, 1f, -1f), true);   // rows are top-down in the raster, bottom-up in the texture
             LastScale = k; LastShift = sh; LastClippedStrings = _raster.ClippedStrings; LastDrawnElements = _raster.DrawnElements; RepaintCount++;
         }
