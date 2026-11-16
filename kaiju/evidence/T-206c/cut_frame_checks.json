@@ -1,0 +1,101 @@
+{
+ "cuts": [
+  {
+   "impact": 1,
+   "cut_t": 15.233,
+   "cut_frame": 457,
+   "grid_share_per_frame": [
+    0.9956,
+    0.9956,
+    0.9956,
+    0.9956,
+    0.9956,
+    0.9956
+   ],
+   "changed_pixel_share_hit_window": 0.0324,
+   "changed_share_center_crop": 0.1082
+  },
+  {
+   "impact": 2,
+   "cut_t": 33.233,
+   "cut_frame": 997,
+   "grid_share_per_frame": [
+    0.9989,
+    0.9989,
+    0.9989,
+    0.9989,
+    0.9989,
+    0.9989
+   ],
+   "changed_pixel_share_hit_window": 0.0169,
+   "changed_share_center_crop": 0.0238
+  },
+  {
+   "impact": 3,
+   "cut_t": 51.233,
+   "cut_frame": 1537,
+   "grid_share_per_frame": [
+    0.9966,
+    0.9966,
+    0.9966,
+    0.9966,
+    0.9966,
+    0.9966
+   ],
+   "changed_pixel_share_hit_window": 0.0032,
+   "changed_share_center_crop": 0.0107
+  },
+  {
+   "impact": 4,
+   "cut_t": 69.233,
+   "cut_frame": 2077,
+   "grid_share_per_frame": [
+    0.9957,
+    0.9957,
+    0.9957,
+    0.9957,
+    0.9957,
+    0.9957
+   ],
+   "changed_pixel_share_hit_window": 0.0198,
+   "changed_share_center_crop": 0.0307
+  },
+  {
+   "impact": 5,
+   "cut_t": 87.233,
+   "cut_frame": 2617,
+   "grid_share_per_frame": [
+    0.9951,
+    0.9951,
+    0.9951,
+    0.9951,
+    0.9951,
+    0.9951
+   ],
+   "changed_pixel_share_hit_window": 0.0358,
+   "changed_share_center_crop": 0.0365
+  }
+ ],
+ "events": [
+  "t=15.233 destruction cam target bounds min(762.186,1.688,839.428) max(793.038,16.368,874.269) footprint(777.612,856.848) h 12.66 ground 3.81",
+  "t=15.233 destruction cam pose (868.667, 161.452, 754.161) stage 0 dist 205.107 frame_fraction 0.333 visible_pts 6/6 candidates 48",
+  "t=15.233 destruction cam: cut to impact view",
+  "t=19.8 destruction cam: back to follow",
+  "t=33.233 destruction cam target bounds min(709.426,1.404,937.43) max(751.843,124.505,1006.41) footprint(730.543,971.893) h 121 ground 3.503",
+  "t=33.233 destruction cam pose (166.944, 279.22, 1159.829) stage 0 dist 632.319 frame_fraction 0.333 visible_pts 6/6 candidates 72",
+  "t=33.233 destruction cam: cut to impact view",
+  "t=37.8 destruction cam: back to follow",
+  "t=51.233 destruction cam target bounds min(743.326,1.457,1061.725) max(760.56,16.465,1077.765) footprint(751.673,1070.078) h 13 ground 3.482",
+  "t=51.233 destruction cam pose (792.739, 198.208, 1023.737) stage 7 dist 198.986 frame_fraction 0.208 visible_pts 2/6 candidates 600 (LAST RESORT: eye-inside test off and ray gate off)",
+  "t=51.233 destruction cam: cut to impact view",
+  "t=55.8 destruction cam: back to follow",
+  "t=69.233 destruction cam target bounds min(742.327,1.772,1142.119) max(756.196,16.726,1156.692) footprint(749.263,1149.405) h 12.66 ground 5.879",
+  "t=69.233 destruction cam pose (805.205, 85.172, 1086.315) stage 0 dist 113.465 frame_fraction 0.333 visible_pts 6/6 candidates 48",
+  "t=69.233 destruction cam: cut to impact view",
+  "t=73.8 destruction cam: back to follow",
+  "t=87.233 destruction cam target bounds min(687.258,1.054,1224.699) max(781.969,17.54,1319.826) footprint(734.661,1272.254) h 14.126 ground 3.997",
+  "t=87.233 destruction cam pose (966.72, 324.299, 1010.503) stage 0 dist 470.763 frame_fraction 0.333 visible_pts 6/6 candidates 48",
+  "t=87.233 destruction cam: cut to impact view",
+  "t=91.8 destruction cam: back to follow"
+ ]
+}
