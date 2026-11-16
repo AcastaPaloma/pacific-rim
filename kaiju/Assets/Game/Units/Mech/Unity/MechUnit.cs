@@ -34,7 +34,7 @@ namespace Game.Units.Mech.Unity
         /// <summary>The optimised reference (gait_reference_opt@v1) when this walk tuning asks for imp = 2, else null. A missing or invalid file throws.</summary>
         public GaitReferenceData GaitReferenceFor()
         {
-            string file = Walk.imp >= 2.5 && Walk.qp_engage_speed_frac > 0 ? GaitReferenceData.FileFor(2.0) : GaitReferenceData.FileFor(Walk.imp);   // imp >= 2.5 (the whole-body QP) reads gait_reference_qp.json (@v2), imp 2 gait_reference_opt.json (@v1); an imp 3 hand-off start (step 9.5) runs the imp 2 pipeline on the @v1 file first and passes the @v2 file as QpReferenceFor
+            string file = Walk.qp_r15_ref > 0.5 && Walk.qp_ref_v5 > 0.5 && Walk.imp >= 2.5 ? GaitReferenceData.MainFileV5For(Walk.qp_ref_v5) : Walk.imp >= 2.5 && Walk.qp_engage_speed_frac > 0 ? GaitReferenceData.FileFor(2.0) : GaitReferenceData.FileFor(Walk.imp);   // imp >= 2.5 (the whole-body QP) reads gait_reference_qp.json (@v2), imp 2 gait_reference_opt.json (@v1); an imp 3 hand-off start (step 9.5) runs the imp 2 pipeline on the @v1 file first and passes the @v2 file as QpReferenceFor
             if (file == null) return null;
             string path = Path.Combine(Application.dataPath, "Game/Config/Mech", file);
             var d = JsonUtility.FromJson<GaitReferenceData>(File.ReadAllText(path)); d.Validate(); return d;
@@ -85,6 +85,21 @@ namespace Game.Units.Mech.Unity
                         sg.depth_z_m = L; sg.length_m = L; sg.width_x_m = W; sg.distal_end[2] = toe; sg.com[2] = 0.5 * (heel + toe);
                         sg.hull_volume_m3 *= (L * W * h) / v0; sg.inertia_principal_kgm2 = new[] { m * (h * h + L * L) / 12.0, m * (W * W + L * L) / 12.0, m * (W * W + h * h) / 12.0 };
                     }
+                c = new MechConfig { Frame = f, Body = c.Body, Walk = c.Walk };
+            }
+            if (Walk.body_r15_stance_m > 0)
+            {
+                var f = JsonUtility.FromJson<MechFrameData>(JsonUtility.ToJson(c.Frame)); double h = Walk.body_r15_stance_m;
+                double Sg(double x) => x > 0 ? h : -h;
+                foreach (var sg in f.segments)
+                    if (sg.kind == "thigh" || sg.kind == "shank" || sg.kind == "foot")
+                    {
+                        if (sg.proximal_joint != null) sg.proximal_joint[0] = Sg(sg.proximal_joint[0]);
+                        if (sg.distal_end != null) sg.distal_end[0] = Sg(sg.distal_end[0]);
+                        if (sg.com != null) sg.com[0] = Sg(sg.com[0]);
+                    }
+                foreach (var j in f.joints) { string k = j.id.Split('_')[0]; if (k == "hip" || k == "knee" || k == "ankle") j.position[0] = Sg(j.position[0]); }
+                f.stance.neutral_stance_width_m = 2 * h;
                 c = new MechConfig { Frame = f, Body = c.Body, Walk = c.Walk };
             }
             return c;
