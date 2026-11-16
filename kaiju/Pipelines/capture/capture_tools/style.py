@@ -50,6 +50,55 @@ def run_metric(metric, set_dir, out_dir, extra=()):
             "report": json.load(open(rep)) if os.path.exists(rep) else None, "tail": p.stdout[-300:] + p.stderr[-300:]}
 
 
+def divv2_set(set_dir, out_dir):
+    """T-196e: d-iv@v2 for the layered frames of a capture set (sequence dirs with sidecars f*.json + depth), no manual div_v2.json.
+    Writes <out_dir>/div_v2.json (read by seam_summary) and returns it; None when the set has no layered frame (v1 stays the rule).
+    d-iv@v1 of the same frames is reported beside it (v1_min), never dropped."""
+    from . import divv2, divv2_adapter as A
+    rows = []
+    for sj in sorted(glob.glob(os.path.join(set_dir, "*", "sequence.json"))):
+        seq = os.path.dirname(sj)
+        for n in sorted(x for x in os.listdir(seq) if x.startswith("f") and x.endswith(".json")):
+            sc = json.load(open(os.path.join(seq, n)))
+            if divv2_adapter_layered(sc) is False or "depth" not in sc.get("files", {}):
+                continue
+            sc, d, c = A.load_frame(seq, n)
+            r = A.evaluate_frame(sc, d, c)
+            if r["version"] != "v2":
+                continue
+            off = tuple(sc["resolution"]["output_block_offset_px"])
+            rows.append({"r": r, "v1": divv2.d_iv_v2(c, sc["resolution"]["integer_scale"], offset=off)["frame"],
+                         "seq": os.path.basename(seq), "frame": n})
+    if not rows:
+        return None
+    cv = divv2.clip_value([x["r"] for x in rows])
+    seam = [1 - x["r"]["eval_area"] for x in rows]
+    res = {"metric": divv2.METRIC["id"], "threshold": divv2.THRESHOLD, "layered_frames": len(rows), "gate_value": cv["gate_value"],
+           "ok": cv["ok"], "failures": cv["failures"][:10], "v1_min": min(x["v1"] for x in rows),
+           "seam_share_max": max(seam), "seam_share_cap": 0.05,
+           "seam_adherence_min": min(x["r"].get("seam_adherence", 1.0) for x in rows)}
+    os.makedirs(out_dir, exist_ok=True)
+    json.dump(res, open(os.path.join(out_dir, "div_v2.json"), "w"), indent=1)
+    return res
+
+
+def divv2_adapter_layered(sc):
+    from . import divv2_adapter as A
+    return A.declared_offsets(sc) is not None
+
+
+def metric_ok(m):
+    """Exit 0, or, for a layered set, d-iv@v2 passes and d-iv@v1 is the ONLY failing gating sub-measure (v2 is the rule for layered
+    frames, v1 stays reported). Unlayered sets and every other failure keep the m003 verdict."""
+    if m["exit"] == 0:
+        return True
+    v2, rep = m.get("d_iv_v2"), m.get("report")
+    if not v2 or not rep or not v2["ok"]:
+        return False
+    fails = {s["id"] for s in rep["submeasures"] if s.get("kind") == "gating" and s["status"] == "FAIL"}
+    return m["exit"] == 1 and fails == {"M-003.d-iv"}
+
+
 def _capture_sets(root):
     """A capture set is a directory whose child directories hold sequence.json (the layout of Tools/Metrics). The T-147 driver writes
     <out>/<path_id>/x4/sequence.json, so <out> is a tree of sets: returns [root] for a set, else every child that is one."""
@@ -70,8 +119,12 @@ def run(set_dir, out_dir, motion=False, run_metrics=True, gameplay=True):
 def _run_one(set_dir, out_dir, motion=False, run_metrics=True, gameplay=True):
     res = {"check": "M-123", "scale": scale_check_set(set_dir, gameplay), "metrics": []}
     if run_metrics:
-        res["metrics"].append(run_metric("m003", set_dir, os.path.join(out_dir, "m003")))
+        m3 = run_metric("m003", set_dir, os.path.join(out_dir, "m003"))
+        v2 = divv2_set(set_dir, os.path.join(out_dir, "m003"))
+        if v2:
+            m3["d_iv_v2"] = v2
+        res["metrics"].append(m3)
         if motion:
             res["metrics"].append(run_metric("m004", set_dir, os.path.join(out_dir, "m004")))
-    res["pass"] = res["scale"]["pass"] and all(m["exit"] == 0 for m in res["metrics"])
+    res["pass"] = res["scale"]["pass"] and all(metric_ok(m) for m in res["metrics"])
     return res

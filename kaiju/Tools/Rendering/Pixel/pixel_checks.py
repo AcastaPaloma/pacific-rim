@@ -194,7 +194,7 @@ def cmd_grid(a):
                      "uniform_blocks_offset_ignored": grid_share(out, s, 0, 0), "subpixel_offset_internal_px": r["subpixel_offset_internal_px"]})
     return {"sequence": os.path.relpath(a.sequence_dir), "frames": rows, "pass": bool(all(x["uniform_blocks_declared"] >= 0.995 for x in rows)),
             "criterion": "M-003 d-iv@v1: >= 99.5 % of s x s output blocks uniform at the declared offset",
-            "d_iv_v2": "not computed here (layered frames need capture depth + sidecar slabs): see Pipelines/capture/capture_tools/divv2.py; advisory, never changes `pass`"}
+            "d_iv_v2": "not computed here (layered frames need capture depth + sidecar slabs): see Pipelines/capture/capture_tools/divv2.py; the capture style path (capture_tools.style.divv2_set) computes it automatically for layered sequences; this command stays the v1 reading"}
 
 
 def project_rendered(f, world):

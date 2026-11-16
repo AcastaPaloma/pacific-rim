@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import numpy as np
 
-METRIC = {"id": "M-003.d-iv@v2", "status": "advisory (additive; v1 stays the gate)", "threshold": 0.995,
+METRIC = {"id": "M-003.d-iv@v2", "status": "rule for layered frames (T-196e); d-iv@v1 rule for unlayered frames, reported beside v2", "threshold": 0.995,
           "block_tol_code": 1, "min_eval_area": 0.95, "seam_adherence_min": 1.0,
           "source": "research/R-M3-DIV-review.md section 5 (P-1)"}
 THRESHOLD = METRIC["threshold"]
