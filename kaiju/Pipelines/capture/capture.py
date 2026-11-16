@@ -8,7 +8,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from capture_tools import encode, fidelity, hud, lint, matrix, motion, sheets, shots, spec, style  # noqa: E402
+from capture_tools import encode, fidelity, hud, lint, matrix, motion, sheets, shots, spec, style, xproc  # noqa: E402
 
 
 def main(argv=None):
@@ -37,6 +37,7 @@ def main(argv=None):
     p.add_argument("--cols", type=int, default=4); p.add_argument("--every", type=int, default=1)
     p = sub.add_parser("hud"); p.add_argument("--captures", required=True); p.add_argument("--scenes", required=True); p.add_argument("--out", required=True)
     p = sub.add_parser("motion"); p.add_argument("--set", required=True, help="capture root holding <path_id>/<viewpoint>_<class>/sequence.json"); p.add_argument("--out", required=True); p.add_argument("--jobs", type=int, default=4)
+    p = sub.add_parser("xproc"); p.add_argument("--a", required=True, help="capture root of process A"); p.add_argument("--b", required=True, help="capture root of process B (same paths, same code, a separate Unity process)")
     p = sub.add_parser("shots"); p.add_argument("--plan", required=True); p.add_argument("--paths", required=True); p.add_argument("--geo", required=True, help="StreamingAssets/Geo/tiles/v1/L0")
     p.add_argument("--out", required=True); p.add_argument("--extra", default="", help="comma-separated extra path directories (HUD, motion)"); p.add_argument("--run", help="capture_run.json of a driver run (marks captured paths)")
     a = ap.parse_args(argv)
@@ -55,6 +56,8 @@ def main(argv=None):
             json.dump(matrix.settings_json(r), open(a.settings_out, "w"), indent=1)
     elif a.cmd == "hud":
         r = hud.run(a.captures, a.scenes, a.out)
+    elif a.cmd == "xproc":
+        r = xproc.run(a.a, a.b)
     elif a.cmd == "motion":
         r = motion.run(a.set, a.out, a.jobs)
     elif a.cmd == "shots":
