@@ -54,7 +54,10 @@ namespace Game.Rendering.Pixel
         /// <summary>T-196: with layerSnap, the three slab shifts share one output-pixel lattice phase (one k x k block grid, M-003.d-iv) instead of each rounding its own remainder; costs C11 (at least 1.5 px, PixelSharedPhase). Ships false; a measured option, not enabled in any configuration.</summary>
         public const string LayerSharedPhase = "rendering.pixel.layerSharedPhase";
 
-        public static readonly string[] All = { Enabled, LowRes, Supersample, Dither, Haze, Outline, Quantise, SubPixelPresent, LayerSnap, DepthShift, HazeFarLift, LayerSharedPhase };
+        /// <summary>T-207: when a building is removed, a short palette-limited dust / debris burst and a collapse flash are drawn as world geometry inside the low-res frame (PixelDestructionFx). Ships false; the player's -sliceDestructionFx 1 turns it on for record mode.</summary>
+        public const string DestructionFx = "rendering.pixel.destruction_fx";
+
+        public static readonly string[] All = { Enabled, LowRes, Supersample, Dither, Haze, Outline, Quantise, SubPixelPresent, LayerSnap, DepthShift, HazeFarLift, LayerSharedPhase, DestructionFx };
 
         /// <summary>The flag that gates a stage, or null for stages that always run when the pipeline is enabled.</summary>
         public static string ForStage(PixelStageId stage)
