@@ -22,6 +22,10 @@ namespace Game.Physics.Body.Unity
         readonly Vector3 _previousGravity;
         readonly Dictionary<IArticulatedBody, PhysicsLogWriter> _logs = new Dictionary<IArticulatedBody, PhysicsLogWriter>();
         readonly IEventBus _bus;
+        readonly UnityEngine.SceneManagement.Scene _isolated;
+        /// <summary>Round 17 (default: invalid scene = old behaviour, bit-identical). Headless rollout tooling (ScenarioCli -isolated) sets a preview scene here per rollout: bodies and ground are then created in it and <see cref="Simulate"/> steps its own PhysicsScene, so a rollout starts from a fresh PhysX scene and its result no longer depends on the rollouts that ran before it in the same process (r16: +-3 s per seed by batch order).</summary>
+        public static UnityEngine.SceneManagement.Scene IsolatedScene;
+        public static void Place(GameObject go) { if (IsolatedScene.IsValid()) UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(go, IsolatedScene); }
         public double StepSeconds { get; }
         public SimMassUnit MassUnit { get; }
         readonly IFeatureFlags _flags;
@@ -32,7 +36,7 @@ namespace Game.Physics.Body.Unity
         /// <param name="scripted">True: the caller advances physics with <see cref="Simulate"/> (headless scenarios, tests). False: Unity's FixedUpdate does.</param>
         public BodyWorld(BodyTuning tuning, double stepSeconds, bool scripted, IEventBus bus, IFeatureFlags flags = null)
         {
-            StepSeconds = stepSeconds; _bus = bus; _flags = flags; MassUnit = new SimMassUnit(tuning.sim_mass_unit_kg);
+            _isolated = IsolatedScene;             StepSeconds = stepSeconds; _bus = bus; _flags = flags; MassUnit = new SimMassUnit(tuning.sim_mass_unit_kg);
             _previousMode = UnityEngine.Physics.simulationMode; _previousGravity = UnityEngine.Physics.gravity;
             UnityEngine.Physics.gravity = new Vector3(0, -(float)tuning.gravity_mps2, 0);
             if (scripted) UnityEngine.Physics.simulationMode = SimulationMode.Script;
@@ -84,7 +88,7 @@ namespace Game.Physics.Body.Unity
         public void Simulate(long stepAfter)
         {
             foreach (var b in _bodies) b.BeforeStep();
-            UnityEngine.Physics.Simulate((float)StepSeconds);
+            if (_isolated.IsValid()) _isolated.GetPhysicsScene().Simulate((float)StepSeconds); else UnityEngine.Physics.Simulate((float)StepSeconds);
             foreach (var b in _bodies) { b.AfterStep(stepAfter); if (_logs.TryGetValue(b, out var w)) { w.WriteStep(stepAfter); b.FlushLogEvents(stepAfter); } }
         }
 
@@ -116,6 +120,7 @@ namespace Game.Physics.Body.Unity
         public static GameObject CreateGround(BodyTuning t, float halfExtent = 5000f, float height = 0f, float slopeDeg = 0f)
         {
             var go = new GameObject("ground");
+            Place(go);
             var c = go.AddComponent<BoxCollider>();
             c.size = new Vector3(halfExtent * 2, 20f, halfExtent * 2);
             go.transform.rotation = Quaternion.Euler(-slopeDeg, 0, 0);

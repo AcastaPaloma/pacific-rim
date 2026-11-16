@@ -96,6 +96,7 @@ namespace Game.Physics.Body.Unity
             _soleCentreLocal = new Vector3(0, -(float)fs.ankle_height_m, (float)((fs.heel_z_m + fs.toe_z_m) * 0.5 - fs.ankle_z_m));
 
             Root = new GameObject(opt.Name + "_" + unitId);
+            BodyWorld.Place(Root);
             Root.transform.SetPositionAndRotation(opt.Position, opt.Rotation);
             var material = BodyWorld.FootMaterial(tuning);
             var dofs = new List<DofInfo>();

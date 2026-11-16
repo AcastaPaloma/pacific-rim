@@ -26,6 +26,7 @@ namespace Game.Units.Mech.Qp
         public double LateCx, CxEmax;   // CxEmax (qp_cx_emax, 9.5i): clamp of the CoM-x position error in the CoM row (0 = off)   // step 9.5i (qp_late_cx k): while the touchdown is late the CoM-x reference advances at k x the reference CoM speed (0 = frozen at the step end, as the prototype)
         public double ArmRefYawFf;   // step 9.5h (qp_arm_ref_yawff w): the filtered measured yaw-momentum rate of the arms in the feed-forward is replaced by (1 - w) measured + w predicted from the reference shoulder acceleration (DLArmRefPred)
         public bool YawTrunk; public double YawFf = 1.0, YawCap = 0.1, YawBudget = 0, YawBudgetFloor = 0.1;   // step 9.5e: trunk yaw task with the legs' and arms' yaw-momentum rate as feed-forward
+        public double R17YrefSs; public bool R17; public double R17AxMax = 1.5, R17ULog = 1.6; public double[] R17Wa = new double[6], R17Wu = new double[6];   // round 17 (qp_r17_yref_ss, qp_r17, default off): y_ref = stance-foot centre in single support; sagittal learned residual (see WalkTuning)
         public bool R16; public double R16DyMax = 4.0, R16GMax = 0.5; public double[] R16Wy = new double[5], R16Wg = new double[5];   // round 16 (qp_r16, default off): learned residual on the lateral task, a linear policy of 5 features (see LateralRows)
         public bool Lateral; public double OmY = 0.5, WCy = 1e3, WRoll = 1e3, KRoll = 2.0, WYaw = 1e6, OmYaw = 1.0;   // the prototype's solver has none; the default 1e-6 of the shared solver distorts the weak (1e-6..1e-4) weights
         /// <summary>Not ported (all off in b5): sigma smoothing, land_lead/xlead/vclip/nounder, om_land, sw_post, fmin_td, rate_bw, sg_fmin, predict.</summary>
@@ -40,7 +41,7 @@ namespace Game.Units.Mech.Qp
             FootUnload = t.qp_foot > 0.5 && t.qp_plan > 0.5 ? t.qp_foot_unload : 0.0, FootUnloadAt = t.qp_foot_unload_at,
             Foot = t.qp_foot > 0.5 && t.qp_plan > 0.5, FootPre = t.qp_foot_pre, FootHeelDeg = t.qp_foot_heel_deg, FootStance = t.qp_foot_stance > 0.5, FootW = t.qp_foot_w, FootRate = t.qp_foot_rate, FootDrive = t.qp_foot_drive > 0.5,
             FootMeas = t.qp_foot > 0.5 && t.qp_plan > 0.5 && t.qp_foot_meas > 0.5, FootCopM = t.qp_foot_cop_m, FootFricFloor = t.qp_foot_fric_floor, R7NoForce = t.qp_plan > 0.5 && t.qp_r7_noforce > 0.5, R7Fp = t.qp_plan > 0.5 ? t.qp_r7_fp : 0.0, R8Retime = t.qp_plan > 0.5 && t.qp_r8_retime > 0.5, R8RefClock = t.qp_r8_refclock > 0.5, R8Trem = t.qp_r8_trem > 0.5, R8Gmin = t.qp_r8_gmin, R8Gk = t.qp_r8_gk, R8Gmax = t.qp_r8_gmax, R8SatK = t.qp_r8_satk, R8SatFrac = t.qp_r8_satfrac, R8SwLim = t.qp_plan > 0.5 ? t.qp_r8_swlim : 0.0, R9Gate = t.qp_plan > 0.5 ? t.qp_r9_gate : 0.0, R10Diag = t.qp_plan > 0.5 && t.qp_r10_diag > 0.5, R11Ds = t.qp_plan > 0.5 ? (int)Math.Round(t.qp_r11_ds) : 0, R12RearToe = t.qp_plan > 0.5 && t.qp_r12_reartoe > 0.5, R12RearToeM = t.qp_r12_reartoe_m, R10Fp = t.qp_plan > 0.5 && t.qp_r7_fp <= 0.0 ? t.qp_r10_fp : 0.0, R10FpMin = t.qp_r10_fp_min, R9GateTmax = t.qp_r9_gate_tmax, R9Launch = t.qp_plan > 0.5 ? t.qp_r9_launch : 0.0, R9Ramp = t.qp_r9_ramp, R9Vfrac = t.qp_r9_vfrac, R9Tau = t.qp_r9_tau, R7Clock = t.qp_plan > 0.5 && t.qp_r7_clock > 0.5, FootCopHeelM = t.qp_foot_cop_heel_m, FootCopToeM = t.qp_foot_cop_toe_m,
-            WTau = t.qp_w_tau, YawTrunk = t.qp_yaw_trunk > 0.5, YawFf = t.qp_yaw_ff, YawCap = t.qp_yaw_cap, YawBudget = t.qp_yaw_budget, YawBudgetFloor = t.qp_yaw_budget_floor, ArmRefYawFf = t.qp_arm_ref_yawff, LateCx = t.qp_late_cx, CxEmax = t.qp_cx_emax, Rom = t.qp_rom > 0.5, FpRom = t.qp_rom > 0.5 && t.qp_fp_rom > 0.5, RomMargin = t.qp_rom_margin_deg * Math.PI / 180, RomHorizon = t.qp_rom_horizon_s, RomAmax = t.qp_rom_amax, FpRomBand = t.qp_fp_rom_band_deg * Math.PI / 180, SwJ = t.qp_swj, SwJOm = t.qp_swj_om, SwJAmax = t.qp_swj_amax, SwJTd = t.qp_swj_td_frac, SwJAnkle = t.qp_swj_ankle > 0.5, CdxMax = t.qp_cdx_max, SwCp = t.qp_sw_cp, Plan = t.qp_plan > 0.5, PlanKxi = t.qp_plan_kxi, PlanLmin = t.qp_plan_lmin, PlanLmax = t.qp_plan_lmax, PlanTdFrac = t.qp_plan_td_frac, PlanTdTol = t.qp_plan_td_tol, PlanZkp = t.qp_plan_zkp, PlanZkd = t.qp_plan_zkd, PlanWz = t.qp_plan_wz, PlanWx = t.qp_plan_wx, PlanReplanM = t.qp_plan_replan_m, PlanFp = t.qp_plan_fp, PlanSw = t.qp_plan_sw, PlanApex = t.qp_plan_apex, PlanVd = t.qp_plan_vd, PlanFpTau = t.qp_plan_fp_tau, PlanHeelW = t.qp_plan_heelw, PlanDownFrac = t.qp_plan_down_frac, PlanForceFrac = t.qp_plan_force_frac, PlanForceZ = t.qp_plan_force_z, PlanMaxFrac = t.qp_plan_max_frac, PlanDs = t.qp_plan_ds, PlanReach = t.qp_plan_reach, SwFollow = t.qp_sw_follow, SwAmax = t.qp_sw_amax, TdAir = t.qp_td_air_frac, TdXoffMax = t.qp_td_xoff_max, Diag = t.qp_diag > 0.5, TdHeel = t.qp_td_heel > 0.5, Lateral = t.qp_lateral > 0.5, R16 = t.qp_r16 > 0.5, R16DyMax = t.qp_r16_dymax, R16GMax = t.qp_r16_gmax, R16Wy = new[] { t.qp_r16_wy0, t.qp_r16_wy1, t.qp_r16_wy2, t.qp_r16_wy3, t.qp_r16_wy4 }, R16Wg = new[] { t.qp_r16_wg0, t.qp_r16_wg1, t.qp_r16_wg2, t.qp_r16_wg3, t.qp_r16_wg4 }, OmY = t.qp_om_y, WCy = t.qp_w_cy, WRoll = t.qp_w_roll, KRoll = t.qp_k_roll, WYaw = t.qp_w_yaw, OmYaw = t.qp_om_yaw
+            WTau = t.qp_w_tau, YawTrunk = t.qp_yaw_trunk > 0.5, YawFf = t.qp_yaw_ff, YawCap = t.qp_yaw_cap, YawBudget = t.qp_yaw_budget, YawBudgetFloor = t.qp_yaw_budget_floor, ArmRefYawFf = t.qp_arm_ref_yawff, LateCx = t.qp_late_cx, CxEmax = t.qp_cx_emax, Rom = t.qp_rom > 0.5, FpRom = t.qp_rom > 0.5 && t.qp_fp_rom > 0.5, RomMargin = t.qp_rom_margin_deg * Math.PI / 180, RomHorizon = t.qp_rom_horizon_s, RomAmax = t.qp_rom_amax, FpRomBand = t.qp_fp_rom_band_deg * Math.PI / 180, SwJ = t.qp_swj, SwJOm = t.qp_swj_om, SwJAmax = t.qp_swj_amax, SwJTd = t.qp_swj_td_frac, SwJAnkle = t.qp_swj_ankle > 0.5, CdxMax = t.qp_cdx_max, SwCp = t.qp_sw_cp, Plan = t.qp_plan > 0.5, PlanKxi = t.qp_plan_kxi, PlanLmin = t.qp_plan_lmin, PlanLmax = t.qp_plan_lmax, PlanTdFrac = t.qp_plan_td_frac, PlanTdTol = t.qp_plan_td_tol, PlanZkp = t.qp_plan_zkp, PlanZkd = t.qp_plan_zkd, PlanWz = t.qp_plan_wz, PlanWx = t.qp_plan_wx, PlanReplanM = t.qp_plan_replan_m, PlanFp = t.qp_plan_fp, PlanSw = t.qp_plan_sw, PlanApex = t.qp_plan_apex, PlanVd = t.qp_plan_vd, PlanFpTau = t.qp_plan_fp_tau, PlanHeelW = t.qp_plan_heelw, PlanDownFrac = t.qp_plan_down_frac, PlanForceFrac = t.qp_plan_force_frac, PlanForceZ = t.qp_plan_force_z, PlanMaxFrac = t.qp_plan_max_frac, PlanDs = t.qp_plan_ds, PlanReach = t.qp_plan_reach, SwFollow = t.qp_sw_follow, SwAmax = t.qp_sw_amax, TdAir = t.qp_td_air_frac, TdXoffMax = t.qp_td_xoff_max, Diag = t.qp_diag > 0.5, TdHeel = t.qp_td_heel > 0.5, Lateral = t.qp_lateral > 0.5, R17YrefSs = t.qp_r17_yref_ss, R17 = t.qp_r17 > 0.5, R17AxMax = t.qp_r17_axmax, R17ULog = t.qp_r17_ulog, R17Wa = new[] { t.qp_r17_wa0, t.qp_r17_wa1, t.qp_r17_wa2, t.qp_r17_wa3, t.qp_r17_wa4, t.qp_r17_wa5 }, R17Wu = new[] { t.qp_r17_wu0, t.qp_r17_wu1, t.qp_r17_wu2, t.qp_r17_wu3, t.qp_r17_wu4, t.qp_r17_wu5 }, R16 = t.qp_r16 > 0.5, R16DyMax = t.qp_r16_dymax, R16GMax = t.qp_r16_gmax, R16Wy = new[] { t.qp_r16_wy0, t.qp_r16_wy1, t.qp_r16_wy2, t.qp_r16_wy3, t.qp_r16_wy4 }, R16Wg = new[] { t.qp_r16_wg0, t.qp_r16_wg1, t.qp_r16_wg2, t.qp_r16_wg3, t.qp_r16_wg4 }, OmY = t.qp_om_y, WCy = t.qp_w_cy, WRoll = t.qp_w_roll, KRoll = t.qp_k_roll, WYaw = t.qp_w_yaw, OmYaw = t.qp_om_yaw
         };
     }
 
@@ -298,10 +299,17 @@ namespace Game.Units.Mech.Qp
 
         /// <summary>Stage 2 rows on the generators: lateral force = m (om_y^2 (y_ref - y) - 2 om_y vy), roll moment = -k_roll L_roll, yaw moment = -Izz (om_yaw^2 e + 2 om_yaw w), plus prior (fy = 0) and smoothness on the per-point lateral force. Normalised by W, W l.</summary>
         readonly double[] R16F = new double[5];
+        readonly double[] R17G = new double[6]; double _r17Unl = 0.1;   // round 17: residual features, rear-unload lift-off threshold (x W; 0.1 = the base rule)
         void LateralRows(int nx, int nS, int gpp, double ms, double W, double cx, double cz)
         {
             var o = _o; double l = _l, mt = _mt * ms;
             double yref = YRef, omy = o.OmY;
+            if (o.R17YrefSs > 0 && nS > 0 && nS <= 2)
+            {
+                // round 17: single support, y_ref = stance-foot centre (mean lateral position of the loaded sole corners), blended by R17YrefSs
+                double ys17 = 0; int nc17 = 0; for (int a = 0; a < nS; a++) { int i = _sIdx[a]; for (int k = 0; k < 2; k++) { ys17 += Corner[3 * (2 * i + k) + 1]; nc17++; } }
+                yref += o.R17YrefSs * (ys17 / Math.Max(1, nc17) - yref);
+            }
             if (o.R16 && nS > 0)
             {
                 // round 16 residual (pure controller target shaping, bounded): features f = [1, (ys - y)/l, (ys - yref)/l, vy / sqrt(g l), single-support flag], ys = mean lateral position of the loaded sole corners;
@@ -366,7 +374,7 @@ namespace Game.Units.Mech.Qp
             int sw = _sch.Parity; double tau0 = t - _sch.TAnchor, tds = _tl0[sw], tsw = _ts - tds, rear = _fn[2 * sw] + _fn[2 * sw + 1];
             bool r9hold = R9Hold(tau0, tds, sw);
             if (_o.R10Diag) { _r10Tds = tds; if (double.IsNaN(_r10Unl) && rear < 0.1 * W) _r10Unl = tau0; }
-            if (double.IsNaN(_swT0) && !r9hold && tau0 >= 0.5 * tds && rear < 0.1 * W)
+            if (double.IsNaN(_swT0) && !r9hold && tau0 >= 0.5 * tds && rear < _r17Unl * W)
             {
                 _lastXfer = tau0;
                 if (tau0 > tds) { double m0 = MinJerk((tau0 - tds) / tsw); _swT0 = tds; _swX0 = m0 < 0.9 && !double.IsNaN(_pXfp) ? (_px[2 * sw] - _pXfp * m0) / (1.0 - m0) : _px[2 * sw]; }
@@ -573,7 +581,17 @@ namespace Game.Units.Mech.Qp
                         xcd = (1 - w) * r0 + w * Math.Max(flo, Math.Min(fhi, xcd));
                     }
                 }
-                cdx = om * om * (cx - xcd);
+                if (o.R17)
+                {
+                    // round 17 sagittal residual (bounded controller-target shaping, no external force): g = [1, v_x/sqrt(g l), (xi - x_cop_target)/l, double-support flag, rear load share, step phase]
+                    double sg17 = Math.Sqrt(Math.Max(1e-9, o.G * l)), rear17 = (_fn[2 * swLeg] + _fn[2 * swLeg + 1]) / Math.Max(W, 1e-9);
+                    R17G[0] = 1.0; R17G[1] = ComD[0] / sg17; R17G[2] = (xi - xcd) / l; R17G[3] = nS > 2 ? 1.0 : 0.0; R17G[4] = rear17; R17G[5] = Math.Max(0.0, Math.Min(1.5, tau / Math.Max(_ts, 1e-3)));
+                    double za = 0, zu = 0; for (int k = 0; k < 6; k++) { za += o.R17Wa[k] * R17G[k]; zu += o.R17Wu[k] * R17G[k]; }
+                    cdx = om * om * (cx - xcd) + o.R17AxMax * Math.Tanh(za);
+                    _r17Unl = 0.1 * Math.Exp(Math.Max(-o.R17ULog, Math.Min(o.R17ULog, zu)));
+                }
+                else
+                    cdx = om * om * (cx - xcd);
                 if (o.FootZdip > 0)
                 {
                     // step 7c: reach-driven CoM height (see qp_foot_zdip); the IK of the swing leg ran this tick only while it is in flight
