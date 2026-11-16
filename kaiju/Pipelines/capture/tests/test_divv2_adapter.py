@@ -85,3 +85,44 @@ def test_unlayered_sidecar_uses_v1_reading():
     out = np.roll(out, (sc["resolution"]["output_block_offset_px"][1], sc["resolution"]["output_block_offset_px"][0]), (0, 1))
     r = A.evaluate_frame(sc, _depth_png([60.0]), out)
     assert r["version"] == "v1" and r["ok"]
+
+
+def test_presented_labels_follow_shader_rule_with_whole_texel_shifts():
+    """Each slab shifted by its own whole output pixels (incl. >= k): the presented label is the slab the shader samples."""
+    sc = copy.deepcopy(SC)
+    sc["layers"]["shift_output_px"] = [[5, -2], [-3, 1], [0, 4]]
+    h, w = 24, 40
+    lab_int = np.full((h, w), 1, np.int16); lab_int[:, :10] = 0; lab_int[:, 30:] = 2   # near | main | far columns
+    lab = A.presented_labels(lab_int, sc, (w * K, h * K))
+    # slab 0 (sx=5): output col c samples texel floor((c+5)/K); owned (label 0) while that is < 10
+    assert lab[0, 0] == 0 and lab[0, 10 * K - 5 - 1] == 0 and lab[0, 10 * K - 5] != 0
+    # main (sx=-3) takes over where slab 0 is not owned: texel floor((c-3)/K) in [10,30)
+    c = 10 * K - 5
+    assert lab[0, c] == (1 if 10 <= (c - 3) // K < 30 else -1)
+    # far (sx=0) owns from col 30*K; slab 1 does not own there
+    assert lab[8, 30 * K + 6] == 2 and lab[8, w * K - 20] == 2
+    # no pixel is mislabelled against the shader rule on the interior rows
+    ty = lambda r, sy: (r - sy) // K
+    for r in (8, 20, 40):
+        for cc in range(0, w * K, 7):
+            exp = -1
+            for i, (sx, sy) in enumerate(sc["layers"]["shift_output_px"]):
+                t, u = (cc + sx) // K, ty(r, sy)
+                if 0 <= t < w and 0 <= u < h and lab_int[u, t] == i: exp = i; break
+                if 0 <= t < w and 0 <= u < h and lab_int[u, t] < i: break
+            if r < h * K and lab[r, cc] != -1:
+                assert lab[r, cc] == exp
+
+
+def test_gap_fill_ambiguity_only_in_clip_overlap_at_label_edges():
+    h, w = 20, 30
+    lab = np.ones((h, w), np.int16); lab[:, :15] = 0
+    b0 = SC["layers"]["boundaries_radial_m"][0]
+    lo1, hi0 = SC["layers"]["slab_clip_eye_m"][1][0], SC["layers"]["slab_clip_eye_m"][0][1]
+    assert lo1 < b0 < hi0                                         # the real clip ranges overlap around the boundary
+    rad_in = np.full((h, w), (lo1 + hi0) / 2 * 1.01)               # inside the overlap everywhere
+    cam = dict(CAM, hfov_deg=1.0, vfov_deg=1.0)                   # rays ~ 1: eye ~ radial
+    amb = A.gap_fill_ambiguous(lab, rad_in, SC, cam)
+    assert amb[:, 14].all() and amb[:, 15].all() and not amb[:, 5].any() and not amb[:, 25].any()
+    far = np.full((h, w), hi0 * 2.0)                              # outside the overlap: nothing ambiguous
+    assert not A.gap_fill_ambiguous(lab, far, SC, cam).any()
