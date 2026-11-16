@@ -415,7 +415,7 @@ namespace Game.Perf.Bay
             long loads = host.LoadsDispatched - loadsStart; int distinctSpecies = 0; { var seen = new HashSet<int>(); foreach (var b in bodies) if (b.Kind == 1) seen.Add(b.Species); distinctSpecies = seen.Count; }
             // teardown
             foreach (var b in bodies) if (b.Go != null) UnityEngine.Object.DestroyImmediate(b.Go);
-            if (o.Render) { UnityEngine.Object.DestroyImmediate(rcam.gameObject); rcam = null; rrt.Release(); rtiny.Release(); }
+            if (o.Render) { UnityEngine.Object.DestroyImmediate(rcam.gameObject); rcam = null; RenderTexture.active = null; rrt.Release(); rtiny.Release(); UnityEngine.Object.DestroyImmediate(rtex); }
             frags.Clear(); if (fragTemplate != null) UnityEngine.Object.DestroyImmediate(fragTemplate); host.Dispose(); builder.ReleaseAll(); scenes.Dispose(); UnityEngine.Object.DestroyImmediate(parent);
 
             double events_per_min = events * 60.0 / o.MeasureS;
