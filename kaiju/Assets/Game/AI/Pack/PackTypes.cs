@@ -171,6 +171,8 @@ namespace Game.AI.Pack
         public float GateTimeoutSeconds;     // the commit gate opens this long after the first member is near the target, ready or not
         public float CommitRangeFrac;        // a member commits only within this x standoff of the target
         public float CommitRangeFracAnchor;  // T-115j: > 0 = the Anchor's own commit range (x standoff / slot radius) while CommitRangeFrac applies to the Flanker and Bait; 0 = every role uses CommitRangeFrac (T-115i behaviour)
+        public bool AnchorSkipStage;         // T-115k: the Anchor's slot is not widened by the ring-up stage ring (it heads straight for its engagement slot); off = T-115j behaviour
+        public float AnchorApproachFrac;     // T-115k: > 0 = the Anchor's last-stretch transit speed floor (replaces SlotApproachFrac for the Anchor); 0 = off
         public float BaitOffsetRad;          // Bait slot offset against the first flanker's side (strike geometry, P4)
         public float AnchorOffsetRad;        // Anchor slot offset against the first flanker's side (keeps the engaged spread above 90 degrees)
         public bool RoutePlanning;           // T-115c: members transit along IRoutePlanner waypoints and goal utility / pacing use planner path lengths (needs a planner on the coordinator; straight line otherwise)
