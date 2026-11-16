@@ -93,7 +93,7 @@ namespace Game.Slice
         Transform _impactor; Vector3 _impactVel; BuildingId _impactTarget; Vector3 _impactAim;
         readonly StringBuilder _log = new StringBuilder();
         string _lastMsg = "";
-        double _mechTravel; float _lastMX, _lastMZ; bool _haveLastM;
+        double _mechTravel; float _mechMinY = float.PositiveInfinity, _mechMaxSpeed; double _mechFellAt = -1; double _mechTraceNext; float _mechMaxY = float.NegativeInfinity; double _mechTeleportM; float _lastMX, _lastMZ; bool _haveLastM;
         double _loadSeconds; int _tileCount, _buildingCount, _landmarkColliders;
         // smoke
         int _frame; readonly List<float> _ms = new List<float>(); readonly List<double> _draw = new List<double>(); ProfilerRecorder _drawRec;
@@ -407,6 +407,12 @@ namespace Game.Slice
             _mech.X = com.X; _mech.Y = com.Z; _mech.Speed = Mathf.Sqrt(v.X * v.X + v.Z * v.Z); _mech.HeadingRad = Mathf.PI * 0.5f - hd;
             if (_mechComSet) _mechComTravel += Math.Sqrt((com.X - _mechComX) * (com.X - _mechComX) + (com.Z - _mechComZ) * (com.Z - _mechComZ));
             _mechComX = com.X; _mechComZ = com.Z; _mechComSet = true;
+            // T-202 diagnostics: where it falls, lowest/highest COM, top COM speed, 1 s trace in the log
+            double ts = _root.Services.Clock.TimeSeconds; float sp = Mathf.Sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
+            if (com.Y < _mechMinY) _mechMinY = com.Y; if (com.Y > _mechMaxY) _mechMaxY = com.Y; if (sp > _mechMaxSpeed) _mechMaxSpeed = sp;
+            var ph = _mechUnit.Phase;
+            if (_mechFellAt < 0 && (ph == LocoPhase.Fallen || ph == LocoPhase.Falling)) { _mechFellAt = ts; Log("mech FELL at t=" + F((float)ts) + " s, com (" + F(com.X) + ", " + F(com.Y) + ", " + F(com.Z) + ") ground " + F(gy) + " v (" + F(v.X) + ", " + F(v.Y) + ", " + F(v.Z) + ")"); }
+            if (ts >= _mechTraceNext) { _mechTraceNext = ts + 1.0; Log("mech t=" + F((float)ts) + " " + ph + " com (" + F(com.X) + ", " + F(com.Y) + ", " + F(com.Z) + ") ground " + F(gy) + " ray " + F(_mechUnit.Controller.GroundHeight != null ? _mechUnit.Controller.GroundHeight(com.X, com.Z) : -999f) + " v " + F(sp) + " hd " + F(hd)); }
         }
 
         void SetActorsActive(bool on)
@@ -772,9 +778,10 @@ namespace Game.Slice
             _feel?.AppendJson(sb);
             AppendAudioJson(sb);
             sb.Append("  \"mech_body\": \"").Append(_mechUnit != null ? "physics walk_mode 2" : "placeholder capsule (TEMPORARY)").Append("\", \"mech_phase\": \"").Append(_mechUnit != null ? _mechUnit.Phase.ToString() : "").Append("\", \"mech_fell\": ").Append(_mechUnit != null && (_mechUnit.Phase == LocoPhase.Fallen || _mechUnit.Phase == LocoPhase.Falling) ? "true" : "false").Append(",\n");
+            sb.Append("  \"mech_fell_at_s\": ").Append(F((float)_mechFellAt)).Append(", \"mech_min_y\": ").Append(F(_mechMinY)).Append(", \"mech_max_y\": ").Append(F(_mechMaxY)).Append(", \"mech_max_speed\": ").Append(F(_mechMaxSpeed)).Append(", \"mech_com_travel_m\": ").Append(F((float)_mechComTravel)).Append(",\n");
             sb.Append("  \"config\": \"").Append(_configUsed).Append("\", \"hangar_note\": \"").Append(_feel != null ? _feel.SpawnNote.Replace("\"", "'") : "").Append("\",\n");
             AppendPixelCheck(sb);
-            sb.Append("  \"mech_travel_m\": ").Append(F(_mechTravel)).Append(",\n");
+            sb.Append("  \"mech_travel_m\": ").Append(F(_mechUnit != null ? _mechComTravel : _mechTravel)).Append(",\n");
             sb.Append("  \"render_diag\": \"").Append(_diagAtCapture.Replace("\\", "/").Replace("\"", "'")).Append("\",\n");
             sb.Append("  \"log\": \"").Append(_log.ToString().Replace("\\", "/").Replace("\"", "'").Replace("\r", "").Replace("\n", " | ")).Append("\"\n}\n");
             SmokeJson = sb.ToString();
