@@ -28,8 +28,11 @@ Builds/demo/KaijuGame.app/Contents/MacOS/KaijuGame -sliceConfig demo
 - The mech covers only ~40 m in the 20 s smoke; it is a vertical slice, not the Bay-scale game.
 - The player smoke needs the window flags above. `Tools/Build/build.sh` counts Unity batch processes with a `pgrep` that also matches shell wrapper lines containing `-batchmode`; a shim was needed once.
 
-## Capture
-PENDING: requested from the M3/render lead (T-147/T-191 tooling, `M3HazeFarLift`, yuv444p CRF 6 per `docs/store/encode_settings.json`). Path and notes are added below when it lands. 4:4:4 may not play in some players (QuickTime, browsers); use VLC or mpv.
+## Capture (100 s of the demo, recorded by the M3 lead with the new `-sliceRecord` mode)
+- Master: `evidence/capture/demo/demo_100s_1080p30_yuv444p_crf6_MASTER.mp4` (48.9 MB, 100 s, 1920x1080 @ 30, H.264 4:4:4 CRF 6). Easy-to-play copy: `CASUAL_FALLBACK` yuv420p (20.7 MB; not a spec encode). Also `contact_sheet_5s.png`, `notes.md`, `frame_checks.json` in the same folder.
+- Shows: the mech walking ~410 m at ~5.8 m/s with no fall and no respawn in the 100 s (other routes can fall), kaiju capsule, 4 duels, cannon and arm swings, 5 impacts, 4 quakes, 8 buildings removed.
+- Honest flaws: destruction framing is weak (clearly visible only ~11-14 s); the kaiju is a capsule stand-in; non-blank frames 3000/3000, but the pixel grid minimum is 0.9945 (target 0.999) and the M-124 4:4:4 check FAILS on the worst frames (min 0.987 vs the 0.99 gate, mean 0.9965); M-123 and the lint were not run (the player writes no sidecars).
+- 4:4:4 may not play in some players (QuickTime, browsers); use VLC or mpv, or the 4:2:0 copy.
 
 ## Next
 M-007 (AI pack) -> Bay data (T-103b chain) -> T-124c performance -> M3 polish. Also open: walk speed toward 9 m/s, respawn API, co-op seat, footfall audio, layerSnap (T-196).
