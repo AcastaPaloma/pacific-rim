@@ -461,7 +461,7 @@ namespace Game.Slice
         void SetActorsActive(bool on)
         {
             _kaijuT.gameObject.SetActive(on); _mechT.gameObject.SetActive(on);
-            if (_mechVisRoot != null) _mechVisRoot.SetActive(on);
+            if (_mechVisRoot != null) foreach (var r in _mechVisRoot.GetComponentsInChildren<Renderer>(true)) r.enabled = on;   // T-202: never SetActive the articulation root (deactivating the ArticulationBody collapsed the mech at the destroy-view capture)
         }
 
         const float KaijuHalfHeightM = 50f;   // capsule scale y 50 = 100 m tall
