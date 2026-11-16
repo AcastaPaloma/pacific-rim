@@ -32,6 +32,12 @@ namespace Game.AI.Pack.Tests
         }
 
         [Test]
+        public void AnchorEarlyArrivalFlags_DefaultOff()   // T-115k
+        {
+            foreach (var c in new[] { PackConfig.Default(), PackConfig.Bay() }) { Assert.IsFalse(c.AnchorSkipStage); Assert.AreEqual(0f, c.AnchorApproachFrac); }
+        }
+
+        [Test]
         public void Bay_GateStaysClosedInTransitThenOpensWithAWideFlankSpread()
         {
             var sim = BaySim();

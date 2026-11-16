@@ -512,7 +512,7 @@ namespace Game.AI.Pack
                             float off = !_cfg.BayTactics ? 0f : nFlank == 0 ? (ai == 0 ? _flankSide * _cfg.WingOffsetRad : ai == 1 ? -_flankSide * _cfg.WingOffsetRad : 0f)
                                       : nFlank == 1 ? -_flankSide * _cfg.AnchorOffsetRad * (1 + ai)
                                       : (ai == 0 ? 0f : (ai % 2 == 1 ? _flankSide : -_flankSide) * 0.35f);
-                            d.SlotPos = At(tp, baseAng + off, StageScale(m.Species, SlotRadius(m.Species, holdR)));
+                            d.SlotPos = At(tp, baseAng + off, _cfg.AnchorSkipStage ? SlotRadius(m.Species, holdR) : StageScale(m.Species, SlotRadius(m.Species, holdR)));
                             Track(off, ref minAng, ref maxAng, ref slotsUsed);
                         }
                         d.AllowMelee = true;

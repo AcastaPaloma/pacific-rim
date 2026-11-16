@@ -250,7 +250,7 @@ namespace Game.AI.Pack
         /// <summary>Transit aim point: the planner's next waypoint while the slot is far (RoutePlanning), the slot itself on the last stretch.</summary>
         private Float2 Via(Float2 me, in PackDirective d) => _pcfg.RoutePlanning && Dist(me, d.SlotPos) > _pcfg.TransitDistanceM ? d.RoutePos : d.SlotPos;
 
-        private float TransitSpeed(Float2 me, in PackDirective d, float tactical) => Dist(me, d.SlotPos) > _pcfg.TransitDistanceM ? (d.PaceFrac > 0f ? d.PaceFrac : 1f) : Math.Max(tactical, _pcfg.SlotApproachFrac);
+        private float TransitSpeed(Float2 me, in PackDirective d, float tactical) => Dist(me, d.SlotPos) > _pcfg.TransitDistanceM ? (d.PaceFrac > 0f ? d.PaceFrac : 1f) : Math.Max(tactical, d.Role == PackRole.Anchor && _pcfg.AnchorApproachFrac > 0f ? _pcfg.AnchorApproachFrac : _pcfg.SlotApproachFrac);
 
         private void PostAnchor(in BrainObservation obs, in PackDirective d, Float2 me, ref BrainIntent intent)
         {
