@@ -142,6 +142,7 @@ namespace Game.Tools.Capture
             string seq = "x" + output.Scale.ToString(Inv);
             float refDepth = FocusDepth(s, p);
             s.Grid(refDepth, out _, out float dptF); double dpt = dptF;
+            string diagTag = (Environment.GetEnvironmentVariable("KAIJU_DIAG_TAG") ?? "run") + "_" + p.PathId; CaptureDiag.Geometry(diagTag);
             // warm-up (C10): the first renders of a run differ until lighting and haze state settle; throwaway frames at the first pose, nothing written
             for (int i = 0; i < Warmup; i++) { s.Rig.Cut(); s.Rig.SetScriptedPose(PoseAt(p, tile, plan[0], dpt, out _), refDepth); s.Rig.Tick(StyleCaptureSession.Dt); s.Capture.Render(true); s.Capture.Read(true); }
 
@@ -157,11 +158,22 @@ namespace Game.Tools.Capture
                 w.ExtraJson = SidecarBlock(p, tile, output, frame, smp);
                 var f = w.FrameScripted(res.Frames.Count, pose, refDepth);   // T-190: sequence index runs 0..n-1 even when the plan is thinned (style_capture@v1 forbids gaps); the path frame is in the capture_path block
                 if (res.Frames.Count == 0) { res.InternalW = f.Width; res.InternalH = f.Height; res.OutputW = f.OutputWidth; res.OutputH = f.OutputHeight; CheckSize(p, output, f); }
+                CaptureDiag.Frame(diagTag, frame, s.Capture, f, true);
                 if (res.Frames.Count < DeterminismFrames) hashes.Add(Hash(f.OutputRgb));
                 res.Frames.Add(frame);
                 prev = frame;
             }
             w.End();
+            if (CaptureDiag.Wants(diagTag) && int.TryParse(Environment.GetEnvironmentVariable("KAIJU_DIAG_PERMUTE"), out int permN) && permN > 0)
+            {
+                int pprev = int.MinValue;
+                CaptureDiag.Permute(diagTag, permN, fr =>
+                {
+                    if (fr != pprev + 1) s.Rig.Cut();
+                    s.Rig.SetScriptedPose(PoseAt(p, tile, fr, dpt, out _), refDepth); s.Rig.Tick(StyleCaptureSession.Dt);
+                    s.Capture.Render(true); CaptureDiag.lastHash = CaptureDiag.CamHash(s.Capture); pprev = fr;
+                }, plan);
+            }
             // self-check: replay the first frames from a cut and compare the presented pixels bit for bit
             int n = Math.Min(DeterminismFrames, plan.Count); bool same = true; prev = int.MinValue;
             for (int i = 0; i < n; i++)
