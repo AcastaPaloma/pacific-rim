@@ -37,12 +37,46 @@ def radial_m(z, camera):
     return z * ray
 
 
-def internal_labels(rad, sky, boundaries):
+def internal_labels(rad, sky, boundaries, quantum=0.0):
+    """Slab index per internal texel from the radial distance; sky = far slab. `quantum` is the relative uncertainty of the
+    decoded depth (one step of the png16_log code, ln(far/near)/65535, see depth_quantum): a texel whose radial lies within
+    quantum * boundary of a slab boundary cannot be assigned from the saved depth and is -1 (undecidable), not guessed."""
     lab = np.zeros(rad.shape, np.int16)
+    unsure = np.zeros(rad.shape, bool)
     for b in boundaries:
         lab += (rad >= b).astype(np.int16)
+        unsure |= np.abs(rad - b) <= quantum * b
+    lab[unsure] = -1
     lab[sky] = len(boundaries)
     return lab
+
+
+def gap_fill_ambiguous(lab, rad, sidecar, camera):
+    """Texels whose slab cannot be told from the composite depth alone (T-196d). The composite (and the present) takes a gap, a texel no
+    slab both covers and owns, from the covered slab with the SMALLEST radial distance, so a sample of slab i+1 inside slab i's range
+    (the clip ranges overlap, layers.slab_clip_eye_m) can stand in for a slab i texel that slab i does not cover; its depth then reads
+    as slab i. Only near a label edge (within one texel: a coverage difference between slab renders is sub-texel) and only inside the
+    overlap of the two clip ranges can that happen: exactly those texels are undecidable (-1)."""
+    from scipy import ndimage
+    clips = sidecar["layers"]["slab_clip_eye_m"]
+    b = sidecar["layers"]["boundaries_radial_m"]
+    H, W = lab.shape
+    ys, xs = np.mgrid[0:H, 0:W]
+    tv = math.tan(math.radians(camera["vfov_deg"]) / 2); th = math.tan(math.radians(camera["hfov_deg"]) / 2)
+    rayl = np.sqrt(1 + ((xs + 0.5) / W * 2 - 1) ** 2 * th * th + ((ys + 0.5) / H * 2 - 1) ** 2 * tv * tv)
+    band = np.zeros(lab.shape, bool)
+    for j, bj in enumerate(b):
+        lo = clips[j + 1][0] * rayl                              # nearest radial slab j+1 can see
+        hi = clips[j][1] * rayl                                  # farthest radial slab j can see
+        band |= (rad >= lo) & (rad <= hi)
+    mn = ndimage.minimum_filter(lab, size=3, mode="nearest"); mx = ndimage.maximum_filter(lab, size=3, mode="nearest")
+    return band & ((mn != lab) | (mx != lab))
+
+
+def depth_quantum(camera):
+    """Relative error bound of a decoded depth: one step of the 16-bit log code (rounding is half a step; the full step also covers
+    the float to code to float round trip and the radial reconstruction)."""
+    return math.log(camera["far_m"] / camera["near_m"]) / 65535.0
 
 
 def declared_offsets(sidecar):
@@ -70,6 +104,38 @@ def output_labels(lab_int, declared, k, out_wh):
     return lab
 
 
+def presented_labels(lab_int, sidecar, out_wh):
+    """Exact presented-frame slab labels (T-196d), from the renderer's own rule (PixelPresent.shader PixelLayeredColour).
+    Output pixel (col c, image row r; the shader's o.y is bottom-up) samples slab i at internal texel
+    (floor((c + sx_i) / k), floor((r - sy_i) / k)) (image rows; sx, sy = layers.shift_output_px, whole output pixels, the guard
+    offset cancels because the capture internal image is the unpadded crop), and the first slab near to far that is covered and
+    owned at ITS sampled texel wins. The capture depth is the zero-shift composite, whose label L(t) = first slab covered and
+    owned at texel t, so: L(t_i) == i  <=> slab i is covered+owned there; L(t_i) > i proves slab i is not; L(t_i) < i (a nearer
+    slab hides it) is undecidable from the composite and the pixel is left -1 (seam), as is a gap (nothing covered/owned at
+    its texel, the shader's smallest-radial fallback) and a sample outside the internal image (clamped by the guard band).
+    No guard, no tolerance: every presented pixel is mapped through the declared shifts."""
+    k = sidecar["resolution"]["integer_scale"]
+    W, H = out_wh
+    h, w = lab_int.shape
+    shifts = sidecar["layers"]["shift_output_px"]
+    cols, rows = np.arange(W), np.arange(H)
+    lab = np.full((H, W), -1, np.int16)
+    undecided = np.ones((H, W), bool)
+    for i, (sx, sy) in enumerate(shifts):
+        tx = np.floor_divide(cols + sx, k)
+        ty = np.floor_divide(rows - sy, k)
+        inx = (tx >= 0) & (tx < w)
+        iny = (ty >= 0) & (ty < h)
+        L = lab_int[np.clip(ty, 0, h - 1)[:, None], np.clip(tx, 0, w - 1)[None, :]]
+        inside = iny[:, None] & inx[None, :]
+        own = undecided & inside & (L == i)
+        lab[own] = i
+        # a nearer slab hides slab i at its texel: later slabs' state is unknown for pixels where L < i; stop deciding them
+        hidden = undecided & ~inside | undecided & (L < i)
+        undecided = undecided & ~own & ~hidden
+    return lab
+
+
 def guard_labels(lab, guard_px):
     """Set label to -1 within guard_px (Chebyshev) of a pixel with another label: tolerance for the capture label boundary
     being displaced against the presented slab boundary (depth is not shifted with the slab's output shift)."""
@@ -82,7 +148,7 @@ def guard_labels(lab, guard_px):
     return out
 
 
-def adapt(sidecar, depth_png16, out_wh=None, guard_px=0):
+def adapt(sidecar, depth_png16, out_wh=None, guard_px=0, mapping="presented"):
     """-> dict(labels, declared, k, lab_internal). declared None when the frame is not layered (v1 reading)."""
     cam = sidecar["camera"]
     k = sidecar["resolution"]["integer_scale"]
@@ -90,15 +156,19 @@ def adapt(sidecar, depth_png16, out_wh=None, guard_px=0):
     if declared is None:
         return {"labels": None, "declared": None, "k": k, "offset": tuple(sidecar["resolution"]["output_block_offset_px"])}
     z, sky = decode_depth(depth_png16, cam)
-    lab_int = internal_labels(radial_m(z, cam), sky, sidecar["layers"]["boundaries_radial_m"])
+    rad = radial_m(z, cam)
+    lab_int = internal_labels(rad, sky, sidecar["layers"]["boundaries_radial_m"], depth_quantum(cam))
+    if mapping == "presented":
+        lab_int[gap_fill_ambiguous(lab_int, rad, sidecar, cam)] = -1
     out_wh = out_wh or tuple(sidecar["resolution"]["output_wh"])
-    return {"labels": guard_labels(output_labels(lab_int, declared, k, out_wh), guard_px), "declared": declared, "k": k,
+    lab_out = output_labels(lab_int, declared, k, out_wh) if mapping == "lattice" else presented_labels(lab_int, sidecar, out_wh)
+    return {"labels": guard_labels(lab_out, guard_px), "declared": declared, "k": k,
             "lab_internal": lab_int, "offset": tuple(sidecar["resolution"]["output_block_offset_px"])}
 
 
-def evaluate_frame(sidecar, depth_png16, color_output, guard_px=0):
+def evaluate_frame(sidecar, depth_png16, color_output, guard_px=0, mapping="presented"):
     """Run divv2.frame_ok on a real frame. Also returns the seam share (1 - eval_area)."""
-    a = adapt(sidecar, depth_png16, (color_output.shape[1], color_output.shape[0]), guard_px)
+    a = adapt(sidecar, depth_png16, (color_output.shape[1], color_output.shape[0]), guard_px, mapping)
     if a["declared"] is None:
         return divv2.frame_ok(color_output, a["k"], None, None, offset=a["offset"])
     return divv2.frame_ok(color_output, a["k"], labels=a["labels"], declared=a["declared"])

@@ -110,22 +110,37 @@ def d_iv_v2(out, s, labels=None, declared=None, ui=None, tol=1, renderer_labels=
             "_cover": cover}
 
 
-def seam_adherence(out, res, labels, ui=None):
-    """A2-style seam check: share of non-UI pixels outside counted blocks (the seam zone) whose colour occurs inside the
-    counted blocks of the frame. Resampled/blended seams create new colours -> < 1.0."""
+def _code(a):
+    a = a.reshape(-1, a.shape[-1]).astype(np.int64)
+    return (a[:, 0] << 16) | (a[:, 1] << 8) | a[:, 2]
+
+
+def _interior(labels, r):
+    """Pixels with a slab label (>= 0) and no different label within Chebyshev distance r (image edges do not count as labels)."""
+    from scipy import ndimage
+    z = 2 * r + 1
+    lo = ndimage.minimum_filter(labels, size=z, mode="nearest"); hi = ndimage.maximum_filter(labels, size=z, mode="nearest")
+    return (labels >= 0) & (lo == labels) & (hi == labels)
+
+
+def seam_adherence(out, res, labels, ui=None, s_=4):
+    """A2-style seam check: share of non-UI pixels outside counted blocks (the seam zone) whose colour occurs in the slab pixels
+    of the frame. The palette is every pixel in the interior of a slab label region (no other label within one block s_; counted
+    or not, so non-uniform blocks carrying haze/dither colours count; T-196d: counted blocks alone missed those), so a
+    blended/resampled seam, which lies at the region edges, still produces colours that exist in no slab -> < 1.0."""
     cover = res["_cover"]
     ui = np.zeros(cover.shape, bool) if ui is None else ui
     seam = ~cover & ~ui
     if not seam.any(): return 1.0
-    pal = {tuple(c) for c in np.unique(out[cover].reshape(-1, out.shape[-1]), axis=0)}
-    sc = out[seam].reshape(-1, out.shape[-1])
-    return float(np.mean([tuple(c) in pal for c in sc]))
+    slab_px = cover if labels is None else _interior(labels, s_) & ~ui
+    pal = np.unique(_code(out[slab_px]))
+    return float(np.isin(_code(out[seam]), pal).mean())
 
 
 def frame_ok(out, s, labels, declared, **kw):
     r = d_iv_v2(out, s, labels, declared, **kw)
     if r["version"] == "v2":
-        r["seam_adherence"] = seam_adherence(out, r, labels, kw.get("ui"))
+        r["seam_adherence"] = seam_adherence(out, r, labels, kw.get("ui"), s)
         if r["seam_adherence"] < METRIC["seam_adherence_min"]:
             r["ok"] = False; r["failures"].append(f"seam adherence {r['seam_adherence']:.4f} < 1.000 (grid tearing)")
     r.pop("_cover", None)

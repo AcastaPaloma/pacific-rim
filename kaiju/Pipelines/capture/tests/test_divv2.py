@@ -97,7 +97,7 @@ def test_renderer_labels_must_agree_with_capture():
 def test_seam_grid_tearing_fails():
     lab = _labels(); out = _frame(OFFS, lab)
     res = divv2.d_iv_v2(out, S, lab, OFFS)
-    seam = ~res["_cover"]
+    seam = ~res["_cover"] & ~divv2._interior(lab, S)   # seam at the slab edges (the image-edge strips are slab content, not a seam)
     assert seam.any()
     torn = out.copy(); torn[seam] = (255, 0, 255)         # seam pixels not from either slab's palette
     r = divv2.frame_ok(torn, S, lab, OFFS)
