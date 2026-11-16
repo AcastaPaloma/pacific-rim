@@ -17,6 +17,7 @@ namespace Game.Rendering.Pixel
             public Pass() : base(PixelStageId.Quantise, ScriptableRenderPassInput.None) { }
             protected override void Record(RenderGraph renderGraph, UniversalResourceData resources, PixelFrameContext context)
             {
+                PixelDiagTap.Tap(renderGraph, resources.activeColorTexture, context);
                 int scale = ColourScale(context);
                 var profile = binder.profile;
                 var desc = ColourDesc(renderGraph, resources, 1, "_PixelQuantised");

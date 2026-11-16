@@ -174,6 +174,16 @@ namespace Game.Tools.Capture
                     s.Capture.Render(true); CaptureDiag.lastHash = CaptureDiag.CamHash(s.Capture); pprev = fr;
                 }, plan);
             }
+            if (CaptureDiag.Wants(diagTag) && Environment.GetEnvironmentVariable("KAIJU_DIAG_COVER") == "1")
+            {
+                int pprev2 = int.MinValue;
+                CaptureDiag.Cover(diagTag, 33, 188, 109, s.Capture, fr =>
+                {
+                    if (fr != pprev2 + 1) s.Rig.Cut();
+                    s.Rig.SetScriptedPose(PoseAt(p, tile, fr, dpt, out _), refDepth); s.Rig.Tick(StyleCaptureSession.Dt);
+                    s.Capture.Render(true); pprev2 = fr;
+                });
+            }
             // self-check: replay the first frames from a cut and compare the presented pixels bit for bit
             int n = Math.Min(DeterminismFrames, plan.Count); bool same = true; prev = int.MinValue;
             for (int i = 0; i < n; i++)

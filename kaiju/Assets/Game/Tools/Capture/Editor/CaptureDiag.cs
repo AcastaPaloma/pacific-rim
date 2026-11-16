@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Game.Rendering.Pixel;
 using Game.Tools.StyleCapture;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -25,13 +26,15 @@ namespace Game.Tools.Capture
         {
             if (!Wants(tag) || !s_GeometryDone.Add(tag)) return;
             Directory.CreateDirectory(Dir);
+            PixelDiagTap.Enabled = true;
             string fix = Environment.GetEnvironmentVariable("KAIJU_DIAG_FIX");
             if (fix == "1" || fix == "2") { var pr = RenderSettings.ambientProbe; RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Custom; RenderSettings.ambientProbe = pr; }
             if (fix == "2") RenderSettings.reflectionIntensity = 0f;
             try
             {
                 var dt = ReflectionProbe.defaultTexture; var sbr = new StringBuilder("default reflection " + (dt != null ? dt.GetType().Name + " " + dt.width + " dim " + dt.dimension : "null") + "\n");
-                if (dt is RenderTexture drt) { for (int face = 0; face < 6; face++) for (int mip = 0; mip < 3; mip++) { var rq = AsyncGPUReadback.Request(drt, mip, 0, Math.Max(1, drt.width >> mip), 0, Math.Max(1, drt.height >> mip), face, 1); rq.WaitForCompletion(); sbr.Append("face " + face + " mip " + mip + " " + (rq.hasError ? "err" : Sha(rq.GetData<byte>().ToArray())) + "\n"); } }
+                if (dt is Cubemap cm) { for (int face = 0; face < 6; face++) for (int mip = 0; mip < cm.mipmapCount; mip++) { var rq = AsyncGPUReadback.Request(cm, mip, 0, Math.Max(1, cm.width >> mip), 0, Math.Max(1, cm.height >> mip), face, 1); rq.WaitForCompletion(); sbr.Append("face " + face + " mip " + mip + " " + (rq.hasError ? "err" : Sha(rq.GetData<byte>().ToArray())) + "\n"); } }
+                else if (dt is RenderTexture drt) { for (int face = 0; face < 6; face++) for (int mip = 0; mip < 3; mip++) { var rq = AsyncGPUReadback.Request(drt, mip, 0, Math.Max(1, drt.width >> mip), 0, Math.Max(1, drt.height >> mip), face, 1); rq.WaitForCompletion(); sbr.Append("face " + face + " mip " + mip + " " + (rq.hasError ? "err" : Sha(rq.GetData<byte>().ToArray())) + "\n"); } }
                 File.WriteAllText(System.IO.Path.Combine(Dir, tag + "_reflection.txt"), sbr.ToString());
             }
             catch (Exception e) { File.WriteAllText(System.IO.Path.Combine(Dir, tag + "_reflection.txt"), "exception " + e.Message); }
@@ -67,6 +70,49 @@ namespace Game.Tools.Capture
             File.WriteAllText(System.IO.Path.Combine(Dir, tag + "_geometry.txt"), "renderers " + rs.Length + " enum_hash " + Sha(Encoding.UTF8.GetBytes(all.ToString())) + " sorted_hash " + Sha(Encoding.UTF8.GetBytes(string.Join("\n", rows))) + "\n");
         }
 
+
+        static readonly HashSet<string> s_ResDone = new HashSet<string>();
+        static string Tap(RenderTexture rt, string tag, int frame, string name, bool dump)
+        {
+            if (rt == null) return "null";
+            var req = AsyncGPUReadback.Request(rt, 0); req.WaitForCompletion();
+            if (req.hasError) return "err";
+            var b = req.GetData<byte>().ToArray();
+            if (dump && frame == 33) File.WriteAllBytes(System.IO.Path.Combine(Dir, tag + "_f" + frame + "_" + name + ".bin"), b);
+            return Sha(b) + "(" + rt.graphicsFormat + ")";
+        }
+        static string TexHash(Texture t)
+        {
+            var sb = new StringBuilder(t.name + " " + t.GetType().Name + " " + t.width + "x" + t.height);
+            AsyncGPURead(t, sb); return sb.ToString();
+        }
+        static void AsyncGPURead(Texture t, StringBuilder sb)
+        {
+            AsyncGPUReadbackRequest rq;
+            if (t is Texture3D t3) rq = AsyncGPUReadback.Request(t3, 0); else rq = AsyncGPUReadback.Request(t, 0);
+            rq.WaitForCompletion();
+            sb.Append(" gpu=" + (rq.hasError ? "err" : Sha(rq.GetData<byte>().ToArray())));
+            if (t is Texture2D t2 && t2.isReadable) sb.Append(" cpu=" + Sha(t2.GetRawTextureData()));
+            if (t is Texture3D t3b && t3b.isReadable) sb.Append(" cpu=" + Sha(t3b.GetPixelData<byte>(0).ToArray()));
+        }
+        // once per tag: hashes of the textures the Dither and Quantise passes read, as they sit on the GPU of this process
+        static void Resources(string tag, PixelCaptureRig rig)
+        {
+            if (!s_ResDone.Add(tag)) return;
+            var sb = new StringBuilder();
+            try
+            {
+                if (PixelCameraBinder.TryGet(rig.World, out var binder))
+                {
+                    if (binder.profile != null) { sb.AppendLine("lut " + TexHash(binder.profile.LutTexture)); sb.AppendLine("palette " + TexHash(binder.profile.PaletteTexture)); }
+                    var settings = binder.Settings; if (settings != null) sb.AppendLine("mask " + TexHash(PixelDitherMaskCache.Get(settings.ditherMask)));
+                }
+                else sb.AppendLine("no binder");
+            }
+            catch (Exception e) { sb.AppendLine("exception " + e); }
+            File.WriteAllText(System.IO.Path.Combine(Dir, tag + "_resources.txt"), sb.ToString());
+        }
+
         public static string CamHash(PixelCaptureRig rig)
         {
             var rt = rig.World.targetTexture; if (rt == null) return "null";
@@ -91,6 +137,32 @@ namespace Game.Tools.Capture
             }
             File.WriteAllText(System.IO.Path.Combine(Dir, tag + "_permute.txt"), lines.ToString());
         }
+
+        // Which renderers cover one cam-target pixel? Renders frame `frame` with all renderers off, then with each renderer alone; lists those whose pixel differs from the empty render.
+        public static void Cover(string tag, int frame, int px, int py, PixelCaptureRig rig, Action<int> renderFrame)
+        {
+            var rs = new List<Renderer>(UnityEngine.Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None));
+            rs.Sort((a, b) => string.CompareOrdinal(Path(a.transform), Path(b.transform)));
+            var rt = rig.World.targetTexture; int w = rt.width;
+            byte[] Px() { var req = AsyncGPUReadback.Request(rt, 0); req.WaitForCompletion(); var d = req.GetData<byte>(); int o = (py * w + px) * 4; return new[] { d[o], d[o + 1], d[o + 2], d[o + 3] }; }
+            var en = new List<bool>(); foreach (var r in rs) en.Add(r.enabled);
+            var sb = new StringBuilder();
+            renderFrame(frame); sb.Append("all " + BitConverter.ToString(Px()) + " hash " + CamHash(rig) + "\n");
+            foreach (var r in rs) r.enabled = false;
+            renderFrame(frame); var empty = Px(); sb.Append("none " + BitConverter.ToString(empty) + "\n");
+            for (int i = 0; i < rs.Count; i++)
+            {
+                rs[i].enabled = en[i]; if (!en[i]) continue;
+                renderFrame(frame); var q = Px(); rs[i].enabled = false;
+                if (BitConverter.ToString(q) != BitConverter.ToString(empty))
+                {
+                    var m = rs[i].sharedMaterial; var b = rs[i].bounds;
+                    sb.Append("COVER " + Path(rs[i].transform) + " mat=" + (m != null ? m.name + ":" + (m.shader != null ? m.shader.name : "") + ":q" + m.renderQueue : "-") + " px=" + BitConverter.ToString(q) + " bounds=" + b.center.ToString("F3") + b.size.ToString("F3") + " layer=" + rs[i].gameObject.layer + "\n");
+                }
+            }
+            for (int i = 0; i < rs.Count; i++) rs[i].enabled = en[i];
+            File.WriteAllText(System.IO.Path.Combine(Dir, tag + "_cover_f" + frame + ".txt"), sb.ToString());
+        }
         public static string lastHash;
 
         static string Path(Transform t) { var s = t.name; while (t.parent != null) { t = t.parent; s = t.name + "/" + s; } return s; }
@@ -108,6 +180,8 @@ namespace Game.Tools.Capture
                 req.WaitForCompletion();
                 if (!req.hasError) { camBytes = req.GetData<byte>().ToArray(); camHash = Sha(camBytes); }
             }
+            Resources(tag, rig);
+            string tapSrc = Tap(PixelDiagTap.Source, tag, frame, "src", dumpRaw), tapThr = Tap(PixelDiagTap.Threshold, tag, frame, "thr", dumpRaw);
             var sh = RenderSettings.ambientProbe; var shs = new StringBuilder();
             for (int c = 0; c < 3; c++) for (int k = 0; k < 9; k++) shs.Append(sh[c, k].ToString("R")).Append(',');
             File.AppendAllText(System.IO.Path.Combine(Dir, tag + "_env.txt"), frame + " mode=" + RenderSettings.ambientMode + " sky=" + (RenderSettings.skybox != null ? RenderSettings.skybox.name : "null") + " ai=" + RenderSettings.ambientIntensity + " refmode=" + RenderSettings.defaultReflectionMode + " refint=" + RenderSettings.reflectionIntensity + " custom=" + (RenderSettings.customReflectionTexture != null ? RenderSettings.customReflectionTexture.name : "null") + " amb=" + RenderSettings.ambientLight + " sh=" + shs + "\n");
@@ -116,7 +190,7 @@ namespace Game.Tools.Capture
             M(cam.worldToCameraMatrix); M(cam.projectionMatrix); M(cam.cullingMatrix); M(cam.transform.localToWorldMatrix);
             mt.Append("fov " + BitConverter.SingleToInt32Bits(cam.fieldOfView).ToString("x8") + " asp " + BitConverter.SingleToInt32Bits(cam.aspect).ToString("x8") + " rect " + cam.pixelRect + " tgt " + (cam.targetTexture != null ? cam.targetTexture.width + "x" + cam.targetTexture.height : "null") + " usePhys " + cam.usePhysicalProperties);
             File.AppendAllText(System.IO.Path.Combine(Dir, tag + "_cam_matrices.txt"), frame + " " + mt + "\n");
-            string line = frame + " cam=" + camHash + " depthf=" + Sha(Bytes(f.Depth)) + " rgb=" + Sha(f.Rgb) + " idx=" + Sha(f.Index) + " out=" + (f.OutputRgb != null ? Sha(f.OutputRgb) : "-");
+            string line = frame + " cam=" + camHash + " src=" + tapSrc + " thr=" + tapThr + " depthf=" + Sha(Bytes(f.Depth)) + " rgb=" + Sha(f.Rgb) + " idx=" + Sha(f.Index) + " out=" + (f.OutputRgb != null ? Sha(f.OutputRgb) : "-");
             File.AppendAllText(System.IO.Path.Combine(Dir, tag + "_frames.txt"), line + "\n");
             if (dumpRaw)
             {

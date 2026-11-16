@@ -44,6 +44,7 @@ namespace Game.Tools.Capture
             var hf = inst.Model.Context.Heights;
             // structures hidden from rendering (the observer's own tower at a deck viewpoint) are excluded before the scene is saved: a reopened scene has no live tile model
             if (hideBids != null && hideBids.Count > 0) inst.SetRenderExclusion(hideBids.Select(BuildingsLayer.ParseBid).ToArray());
+            if (StableDrawOrder) StabiliseDrawOrder(inst);
             var sun = new GameObject("Sun");
             var light = sun.AddComponent<Light>();
             light.type = LightType.Directional; light.intensity = 1f; light.shadows = LightShadows.None;
@@ -53,6 +54,21 @@ namespace Game.Tools.Capture
             string path = Dir + "/CaptureBay_" + tile + (hideBids != null && hideBids.Count > 0 ? "_h" + (string.Join(",", hideBids.OrderBy(x => x, StringComparer.Ordinal)).GetHashCode() & 0xffff).ToString("x4") : "") + ".unity";
             if (!EditorSceneManager.SaveScene(scene, path)) throw new IOException("could not save " + path);
             return new CaptureTile { Name = tile, ScenePath = path, Instance = inst, OriginX = id.OriginX, OriginZ = id.OriginZ, GroundRender = (x, z) => hf.SampleRender(x, z) };
+        }
+
+        /// <summary>T-194b: opaque surfaces that are exactly coplanar (a building footprint on terrain) tie in the depth test, and the draw order that decides the tie followed per-process renderer registration, so two Unity processes
+        /// rendered one pixel differently. Give every renderer a unique, name-derived Renderer.rendererPriority (terrain, water, building chunks, then the rest, each by path) so the draw order never depends on the process.
+        /// Opt-in (flag tools.capture.stable_draw_order or -captureStableOrder), off by default: the renderer-priority part alone did NOT remove the cross-process difference (4 processes, 2 outcomes); the render-queue tier is untested.</summary>
+        public static bool StableDrawOrder;
+        static string GroupKey(string path) => (path.Contains("/Terrain/") ? "0" : path.Contains("/Water/") ? "1" : path.Contains("/BuildingChunks/") ? "2" : "3") + path;
+        static void StabiliseDrawOrder(GeoTileInstance inst)
+        {
+            string P(Transform t) { var s = t.name; while (t.parent != null) { t = t.parent; s = t.name + "/" + s; } return s; }
+            var rs = new List<Renderer>(inst.GetComponentsInChildren<Renderer>(true));
+            rs.Sort((a, b) => string.CompareOrdinal(GroupKey(P(a.transform)), GroupKey(P(b.transform))));
+            for (int i = 0; i < rs.Count; i++) rs[i].rendererPriority = i;
+            // the sort may not honour the priority for opaque queues: terrain, then buildings (and landmarks, which share that material) are also separated by render queue, which it always honours
+            foreach (var r in rs) { var m = r.sharedMaterial; if (m == null) continue; string path = P(r.transform); if (path.Contains("/BuildingChunks/") || path.Contains("/Landmarks/")) m.renderQueue = 2001; }
         }
 
         static void AddPixelCameras(string profile)

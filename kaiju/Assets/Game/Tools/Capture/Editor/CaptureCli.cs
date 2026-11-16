@@ -19,6 +19,7 @@ namespace Game.Tools.Capture
     public static class CaptureCli
     {
         public const string FlagName = "tools.capture.enabled";
+        public const string StableOrderFlag = "tools.capture.stable_draw_order";
         public const string DefaultPaths = "docs/store/paths";
 
         public static bool FlagOn()
@@ -53,6 +54,7 @@ namespace Game.Tools.Capture
         static int Execute()
         {
             if (!FlagOn() && !Has("-captureEnable")) { Debug.Log("[Capture] flag " + FlagName + " is off and -captureEnable was not given: nothing to do"); return 0; }
+            { IFeatureFlags fl = FeatureFlagLoader.LoadFolder("Assets/Game/Config/FeatureFlags", new CollectingErrorSink()); CaptureScene.StableDrawOrder = fl.IsOn(StableOrderFlag) || Has("-captureStableOrder"); }   // opt-in only: UNVERIFIED (priority alone did not fix, queue tier not yet run)   // T-194b
             if (Has("-captureInstall")) Game.Rendering.Pixel.Editor.PixelPipelineInstaller.InstallAll();   // T-190: regenerate the baked profiles from PaletteProfileTuning.json first
             string outRoot = StyleCaptureCli.Arg("-captureOut", "evidence/T-147/captures_local");
             int maxFrames = Int("-captureMaxFrames", 0), stride = Int("-captureStride", 1);
