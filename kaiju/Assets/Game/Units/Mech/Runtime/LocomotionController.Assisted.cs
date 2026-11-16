@@ -28,6 +28,9 @@ namespace Game.Units.Mech
 
         public Func<float, float, float> GroundHeight;   // terrain height under a world xz (a ray cast in the Unity assembly); null = flat ground at y = 0
 
+        /// <summary>Swing clearance (x leg length). kin_clear_fast adds clearance in proportion to the limited command speed, reaching the full amount at kin_clear_vref x cruise speed (T-201: the fast gait needs a high swing at speed, a turn in place does not); 0 = the constant kin_clear.</summary>
+        double KClear() => _t.kin_clear_fast > 0 ? _t.kin_clear + _t.kin_clear_fast * Math.Min(1.0, _cmd.Speed / Math.Max(1e-6, _t.kin_clear_vref * _lim.VCruise)) : _t.kin_clear;
+
         float KGround(Vector2 xz) => GroundHeight != null ? GroundHeight(xz.X, xz.Y) : 0f;
 
         void KinInit()
@@ -123,12 +126,12 @@ namespace Game.Units.Mech
                 _kFootYaw[sw] = _kSwYaw0 + Wrap(_kSwYaw1 - _kSwYaw0) * (float)s;
                 // swing height: quick rise (peak at u = kin_peak), slow min-jerk descent so the foot lands with almost no vertical speed
                 double up = _t.kin_peak, hn = u < up ? Math.Pow(Math.Sin(0.5 * Math.PI * u / up), 2) : 1 - Lipm.MinJerk((u - up) / (1 - up)), sn = Math.Sqrt(Math.Max(0, hn));
-                _kFootH[sw] = _t.kin_clear * l * hn; _kFootPitch[sw] = -_t.kin_toe_deg * Math.PI / 180 * sn;
+                _kFootH[sw] = KClear() * l * hn; _kFootPitch[sw] = -_t.kin_toe_deg * Math.PI / 180 * sn;
                 // swing ankle path: continues from the lift-off ankle (heel-risen foot pivoted on its toe) to the flat-foot landing ankle, clearance on top; the pitch eases from the lift-off pitch to toe up
                 Vector2 fe = Fwd(_kSwYaw1); float gnd = KGround(_kSwTarget);
                 Vector3 aEnd = new Vector3(_kSwTarget.X - fe.X * _ankleToSoleCentre, gnd + _ankleHeight, _kSwTarget.Y - fe.Y * _ankleToSoleCentre);
                 double ys = Lipm.SmoothStep(u / 0.5), m = Lipm.SmoothStep(u / 0.35);
-                _kSwAnkle = new Vector3(_kSwA0.X + (aEnd.X - _kSwA0.X) * (float)s, (float)(_kSwA0.Y + (aEnd.Y - _kSwA0.Y) * ys + _t.kin_clear * l * hn), _kSwA0.Z + (aEnd.Z - _kSwA0.Z) * (float)s);
+                _kSwAnkle = new Vector3(_kSwA0.X + (aEnd.X - _kSwA0.X) * (float)s, (float)(_kSwA0.Y + (aEnd.Y - _kSwA0.Y) * ys + KClear() * l * hn), _kSwA0.Z + (aEnd.Z - _kSwA0.Z) * (float)s);
                 _kSwPitch = _kSwP0 * (1 - m) + _kFootPitch[sw] * m;
                 {
                     // the lowest sole end (toe or heel, pitch about the ankle) stays kin_lift_m above the ground until the last 20 % of the swing

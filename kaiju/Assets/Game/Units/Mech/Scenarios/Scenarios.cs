@@ -93,7 +93,8 @@ namespace Game.Units.Mech.Scenarios
             }
         };
 
-        public static ScenarioSpec Find(string name) { foreach (var s in All()) if (s.Name == name) return s; throw new ArgumentException("unknown scenario " + name); }
+        /// <summary>T-201: "walk_v6.5" = a walk scenario that commands 6.5 m/s (Froude v^2 / (g l) of the reference mech, leg length 42 m); the step-reach cap may hold the real speed lower.</summary>
+        public static ScenarioSpec Find(string name) { if (name.StartsWith("walk_v", StringComparison.Ordinal) && double.TryParse(name.Substring(6), NumberStyles.Float, CultureInfo.InvariantCulture, out double v)) return Walk(name, v * v / (9.81 * 42.0)); foreach (var s in All()) if (s.Name == name) return s; throw new ArgumentException("unknown scenario " + name); }
     }
 
     public static class ScenarioRunner

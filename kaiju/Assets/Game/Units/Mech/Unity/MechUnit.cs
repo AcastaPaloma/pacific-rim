@@ -26,11 +26,14 @@ namespace Game.Units.Mech.Unity
             return c;
         }
         /// <summary>Editor and headless runs: read the committed config files.</summary>
-        public static MechConfig LoadDefault(string frameFile = "mech_frame_balanced.json")
+        public static MechConfig LoadDefault(string frameFile = "mech_frame_balanced.json", string walkOverlayFile = null)
         {
             string dir = Path.Combine(Application.dataPath, "Game/Config/Mech");
-            return FromJson(File.ReadAllText(Path.Combine(dir, frameFile)), File.ReadAllText(Path.Combine(dir, "body_tuning.json")), File.ReadAllText(Path.Combine(dir, "walk_tuning.json")));
+            var c = FromJson(File.ReadAllText(Path.Combine(dir, frameFile)), File.ReadAllText(Path.Combine(dir, "body_tuning.json")), File.ReadAllText(Path.Combine(dir, "walk_tuning.json")));
+            return walkOverlayFile == null ? c : c.WithWalkOverlay(File.ReadAllText(Path.Combine(dir, walkOverlayFile)));
         }
+        /// <summary>T-201: a named walk-tuning override (for example <c>walk_tuning_fast.json</c>): a JSON object with only the keys it changes, applied on top of walk_tuning.json. The default files are never edited, so walk_mode 0 and the default walk_mode 2 stay as they are.</summary>
+        public MechConfig WithWalkOverlay(string overlayJson) => WithWalk(w => JsonUtility.FromJsonOverwrite(overlayJson, w));
         /// <summary>The optimised reference (gait_reference_opt@v1) when this walk tuning asks for imp = 2, else null. A missing or invalid file throws.</summary>
         public GaitReferenceData GaitReferenceFor()
         {
