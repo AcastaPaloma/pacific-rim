@@ -72,6 +72,21 @@ namespace Game.Units.Mech.Unity
                     }
                 c = new MechConfig { Frame = f, Body = c.Body, Walk = c.Walk };
             }
+            if (Walk.body_r14_sole_m > 0 || Walk.body_r14_width_m > 0)
+            {
+                var f = JsonUtility.FromJson<MechFrameData>(JsonUtility.ToJson(c.Frame)); var fsole = f.foot_sole;
+                double L = Walk.body_r14_sole_m > 0 ? Walk.body_r14_sole_m : fsole.length_m, W = Walk.body_r14_width_m > 0 ? Walk.body_r14_width_m : fsole.width_m;
+                double fh = -fsole.heel_z_m / fsole.length_m, heel = fsole.ankle_z_m - fh * L, toe = heel + L;   // ankle fraction behind the heel kept
+                fsole.length_m = L; fsole.width_m = W; fsole.area_m2 = L * W; fsole.heel_z_m = heel; fsole.toe_z_m = toe;
+                foreach (var sg in f.segments)
+                    if (sg.kind == "foot")
+                    {
+                        double v0 = sg.depth_z_m * sg.width_x_m * sg.height_y_m, h = sg.height_y_m, m = sg.mass_kg;
+                        sg.depth_z_m = L; sg.length_m = L; sg.width_x_m = W; sg.distal_end[2] = toe; sg.com[2] = 0.5 * (heel + toe);
+                        sg.hull_volume_m3 *= (L * W * h) / v0; sg.inertia_principal_kgm2 = new[] { m * (h * h + L * L) / 12.0, m * (W * W + L * L) / 12.0, m * (W * W + h * h) / 12.0 };
+                    }
+                c = new MechConfig { Frame = f, Body = c.Body, Walk = c.Walk };
+            }
             return c;
         }
         public MechConfig WithWalk(Action<WalkTuning> edit) { var w = JsonUtility.FromJson<WalkTuning>(JsonUtility.ToJson(Walk)); edit(w); return new MechConfig { Frame = Frame, Body = Body, Walk = w }; }
