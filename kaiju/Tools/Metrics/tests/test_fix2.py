@@ -316,7 +316,7 @@ def test_feel2_calibrate_diff_rewrites_source(tmp_path):
 # ------------------------------------------------------------------ registry v1.1 adds structure only
 V11_DIFF = {"M-001": ({"min_contacts_per_foot"}, set(), {"steady_captures"}),
             "M-002": ({"min_contacts_per_foot"}, set(), set()),
-            "M-003": (set(), {"M-003.b.O"}, set()),
+            "M-003": (set(), {"M-003.b.O"}, {"versioned_definitions"}),
             "M-004": ({"crawl_min_interleaved_share", "index_colour_tol_de00"}, set(), set())}
 
 
