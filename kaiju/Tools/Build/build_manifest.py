@@ -44,11 +44,15 @@ def canon(obj):
 
 
 def read_build_guid(app_dir):
-    p = os.path.join(app_dir, "Contents", "Resources", "Data", "boot.config")
-    if os.path.exists(p):
-        m = re.search(rb"^build-guid=([0-9a-f]{32})\s*$", open(p, "rb").read(), re.M)
-        if m:
-            return m.group(1).decode()
+    # macOS: <X.app>/Contents/Resources/Data; Windows (Q-231): <dir>/<Name>_Data (app_dir is the build dir holding the .exe)
+    cands = [os.path.join(app_dir, "Contents", "Resources", "Data", "boot.config")]
+    if os.path.isdir(app_dir):
+        cands += [os.path.join(app_dir, n, "boot.config") for n in sorted(os.listdir(app_dir)) if n.endswith("_Data")]
+    for p in cands:
+        if os.path.exists(p):
+            m = re.search(rb"^build-guid=([0-9a-f]{32})\s*$", open(p, "rb").read(), re.M)
+            if m:
+                return m.group(1).decode()
     return None
 
 

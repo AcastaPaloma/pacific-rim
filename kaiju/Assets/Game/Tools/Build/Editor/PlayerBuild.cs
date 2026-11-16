@@ -55,6 +55,7 @@ namespace Game.Tools.Build
             string outDir = Arg("-buildOut") ?? "Builds/Player";
             int repeat = 1; int.TryParse(Arg("-buildRepeat"), out repeat); if (repeat < 1) repeat = 1;
             bool dev = Has("-buildDev");
+            bool win = Arg("-buildTarget") == "win64";   // Q-231: Windows x64 via the Windows standalone module (default macOS)
             var scenes = SceneList();
             AssetDatabase.Refresh();
             for (int n = 1; n <= repeat; n++)
@@ -62,16 +63,16 @@ namespace Game.Tools.Build
                 string dir = n == 1 ? outDir : outDir + ".repro" + n;
                 if (Directory.Exists(dir)) Directory.Delete(dir, true);
                 Directory.CreateDirectory(dir);
-                string app = dir + "/" + ProductFile + ".app";
+                string app = dir + "/" + ProductFile + (win ? ".exe" : ".app");
                 var opts = new BuildPlayerOptions
                 {
-                    scenes = scenes, locationPathName = app, target = BuildTarget.StandaloneOSX,
+                    scenes = scenes, locationPathName = app, target = win ? BuildTarget.StandaloneWindows64 : BuildTarget.StandaloneOSX,
                     options = dev ? BuildOptions.Development : BuildOptions.None,
                 };
                 var report = BuildPipeline.BuildPlayer(opts);
                 var sum = report.summary;
                 Debug.Log("[Build] #" + n + " " + sum.result + " size " + sum.totalSize + " bytes, " + sum.totalTime + " errors " + sum.totalErrors);
-                WriteUnityJson(dir + ".unity_build.json", scenes, sum.result.ToString(), dev, app);
+                WriteUnityJson(dir + ".unity_build.json", scenes, sum.result.ToString(), dev, app, win ? "StandaloneWindows64" : "StandaloneOSX");
                 if (sum.result != BuildResult.Succeeded) return 2;
             }
             return 0;
@@ -79,13 +80,13 @@ namespace Game.Tools.Build
 
         static string J(string s) { return "\"" + s.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\""; }
 
-        static void WriteUnityJson(string path, string[] scenes, string result, bool dev, string app)
+        static void WriteUnityJson(string path, string[] scenes, string result, bool dev, string app, string target)
         {
             var sb = new StringBuilder();
             sb.Append("{\n  \"spec\": \"unity_build@v1\",\n");
             sb.Append("  \"result\": ").Append(J(result)).Append(",\n");
             sb.Append("  \"unity_version\": ").Append(J(Application.unityVersion)).Append(",\n");
-            sb.Append("  \"target\": \"StandaloneOSX\",\n  \"development\": ").Append(dev ? "true" : "false").Append(",\n");
+            sb.Append("  \"target\": ").Append(J(target)).Append(",\n  \"development\": ").Append(dev ? "true" : "false").Append(",\n");
             sb.Append("  \"app\": ").Append(J(Path.GetFileName(app))).Append(",\n");
             sb.Append("  \"scenes\": [");
             for (int i = 0; i < scenes.Length; i++)

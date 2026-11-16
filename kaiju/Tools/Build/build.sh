@@ -1,22 +1,25 @@
 #!/usr/bin/env bash
 # T-140: reproducible macOS player build -> attribution bundle -> tile copy -> manifest -> smoke test (-> M-121 repro check).
-# Usage: Tools/Build/build.sh [--out DIR] [--tile-set FILE] [--tiles-src DIR] [--repro] [--no-smoke] [--dev]
+# Usage: Tools/Build/build.sh [--out DIR] [--tile-set FILE] [--tiles-src DIR] [--repro] [--no-smoke] [--dev] [--target mac|win64]
 #   --out DIR       build directory (default /tmp/kaiju-build/<commit>); must be under /tmp or a gitignored Build*/ dir
 #   --tile-set FILE JSON {"tiles":[...]} copied (hash-verified) into the player (default: the committed district tiles)
 #   --tiles-src DIR tile root the set is copied from (default Assets/StreamingAssets/Geo/tiles/v1; never the 75 GB Bay cache)
 #   --repro         build twice in ONE Unity session (<out>, <out>.repro2), write both manifests, run the M-121 diff,
 #                   delete the repro build (size) when the diff passes
+#   --target T      mac (default) | win64 (Q-231: Windows x64 player <out>/b1/KaijuGame.exe via the Unity Windows module; cannot be
+#                   smoke-run on a Mac, so pass --no-smoke: the smoke step is refused for win64; Windows run = tracked row "untested")
 #   --no-smoke      skip the player smoke test
 # Needs: a free Unity batch slot (< 2 real batch processes machine-wide), >= 25 GB free disk, python env `kaiju`.
 # Never publishes, never touches the Steamworks SDK; platform.steam must stay false (the manifest gate fails otherwise).
 set -uo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"; PROJ="$(cd "$HERE/../.." && pwd)"
 PY="${KAIJU_PY:-/opt/miniconda3/envs/kaiju/bin/python}"; UNITY="${UNITY_CMD:-unity}"
-OUT=""; TILESET=""; TILESRC="$PROJ/Assets/StreamingAssets/Geo/tiles/v1"; REPRO=0; SMOKE=1; DEV=""
+OUT=""; TILESET=""; TILESRC="$PROJ/Assets/StreamingAssets/Geo/tiles/v1"; REPRO=0; SMOKE=1; DEV=""; TARGET=mac
 while [ $# -gt 0 ]; do case "$1" in
   --out) OUT="$2"; shift 2;; --tile-set) TILESET="$2"; shift 2;; --tiles-src) TILESRC="$2"; shift 2;;
-  --repro) REPRO=1; shift;; --no-smoke) SMOKE=0; shift;; --dev) DEV="-buildDev"; shift;;
+  --repro) REPRO=1; shift;; --no-smoke) SMOKE=0; shift;; --dev) DEV="-buildDev"; shift;; --target) TARGET="$2"; shift 2;;
   *) echo "build.sh: unknown arg $1" >&2; exit 2;; esac; done
+case "$TARGET" in mac|win64) ;; *) echo "build.sh: --target must be mac or win64" >&2; exit 2;; esac
 fail() { echo "build.sh: $*" >&2; exit 1; }
 COMMIT="$(git -C "$PROJ" rev-parse --short=10 HEAD)"; [ -n "$OUT" ] || OUT="/tmp/kaiju-build/$COMMIT"
 case "$OUT" in /tmp/*|/private/tmp/*|*/Build/*|*/Builds/*) ;; *) fail "--out must be under /tmp or a Build(s)/ dir (gitignored)";; esac
@@ -47,21 +50,26 @@ fi
 
 # 2. Unity player build
 REP=1; [ "$REPRO" = 1 ] && REP=2
-( cd "$PROJ" && "$UNITY" run "$PROJ" -- -executeMethod Game.Tools.Build.PlayerBuild.Run -buildOut "$OUT/b1" -buildRepeat "$REP" $DEV -logFile "$OUT/logs/unity_build.log" ) > "$OUT/logs/unity_run.out" 2>&1
+( cd "$PROJ" && "$UNITY" run "$PROJ" -- -executeMethod Game.Tools.Build.PlayerBuild.Run -buildOut "$OUT/b1" -buildRepeat "$REP" -buildTarget "$TARGET" $DEV -logFile "$OUT/logs/unity_build.log" ) > "$OUT/logs/unity_run.out" 2>&1
 RC=$?; [ $RC -eq 0 ] || fail "Unity build failed (exit $RC), see $OUT/logs/unity_build.log"
 
 # 3. per build: tile copy (hash-verified), manifest
 DIRS=("$OUT/b1"); [ "$REPRO" = 1 ] && DIRS+=("$OUT/b1.repro2")
 for D in "${DIRS[@]}"; do
-  APP="$D/KaijuGame.app"; [ -d "$APP" ] || fail "no player at $APP"
-  SA="$APP/Contents/Resources/Data/StreamingAssets/Geo/tiles/v1"; mkdir -p "$SA"
+  if [ "$TARGET" = win64 ]; then
+    [ -f "$D/KaijuGame.exe" ] || fail "no player at $D/KaijuGame.exe"; APP="$D"; SA="$D/KaijuGame_Data/StreamingAssets/Geo/tiles/v1"
+  else
+    APP="$D/KaijuGame.app"; [ -d "$APP" ] || fail "no player at $APP"; SA="$APP/Contents/Resources/Data/StreamingAssets/Geo/tiles/v1"
+  fi
+  mkdir -p "$SA"
   "$PY" -I "$PROJ/Pipelines/build/copy_tiles.py" --src-root "$TILESRC" --tile-set "$TILESET" --dest "$SA" > "$OUT/logs/copy_tiles.$(basename "$D").log" 2>&1 || fail "tile copy failed for $D"
   "$PY" -I "$HERE/build_manifest.py" write --repo-root "$PROJ" --app-dir "$APP" --unity-json "$D.unity_build.json" --tile-set "$TILESET" \
       --attribution-dir "$OUT/attribution" --out "$D.manifest.json" || fail "manifest gate failed for $D"
 done
 
 # 4. smoke (the first build)
-if [ "$SMOKE" = 1 ]; then
+if [ "$SMOKE" = 1 ] && [ "$TARGET" = win64 ]; then echo "build.sh: smoke skipped: a Windows player cannot run on this Mac (tracked: Windows run untested)"
+elif [ "$SMOKE" = 1 ]; then
   "$PY" -I "$HERE/smoke.py" --app "$OUT/b1/KaijuGame.app" --out-dir "$OUT/smoke" || fail "smoke test failed (see $OUT/smoke)"
 fi
 
@@ -71,4 +79,5 @@ if [ "$REPRO" = 1 ]; then
   [ "${PIPESTATUS[0]}" -eq 0 ] || fail "M-121 FAILED (manifests differ), builds kept in $OUT"
   rm -rf "$OUT/b1.repro2"; echo "build.sh: repro build deleted (manifest kept)"
 fi
-echo "build.sh: OK $OUT/b1/KaijuGame.app  manifest $OUT/b1.manifest.json"
+PL=KaijuGame.app; [ "$TARGET" = win64 ] && PL=KaijuGame.exe
+echo "build.sh: OK $OUT/b1/$PL  manifest $OUT/b1.manifest.json"
