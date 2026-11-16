@@ -103,6 +103,25 @@ namespace Game.Combat
         public long Step;
     }
 
+    /// <summary>Read-only ammo and reload state of one cannon (T-152b). <see cref="ReloadFrac"/> is 0..1, 1 = ready to fire; non-finite input reads as 0.</summary>
+    public readonly struct AmmoStatus
+    {
+        public readonly int Ammo, Capacity;
+        public readonly double ReloadFrac;
+        public AmmoStatus(int ammo, int capacity, double reloadFrac)
+        {
+            Ammo = ammo; Capacity = capacity;
+            ReloadFrac = !(reloadFrac > 0) ? 0 : (reloadFrac > 1 ? 1 : reloadFrac);
+        }
+        public bool Reloading => ReloadFrac < 1;
+    }
+
+    /// <summary>Read-only ammo query (HUD and tools). Never mutates weapon state. False when the owner has no cannon.</summary>
+    public interface IAmmoQuery
+    {
+        bool TryGetAmmo(EntityId owner, out AmmoStatus status);
+    }
+
     /// <summary>Hit points of entities that can be shot or struck (kaiju today; a placeholder mech through an adapter).</summary>
     public interface IEntityHealth
     {

@@ -20,6 +20,9 @@
     <Compile Include="../../Assets/Game/Composition/Tests/EditMode/BayRasterCostFieldTests.cs" />
     <Compile Include="../../Assets/Game/Composition/Runtime/PackInstaller.cs" />
     <Compile Include="../../Assets/Game/Composition/Tests/EditMode/PackCompositionTests.cs" />
+    <Compile Include="../../Assets/Game/Composition/Runtime/CombatInstaller.cs" />
+    <Compile Include="../../Assets/Game/Composition/Runtime/HudDataInstaller.cs" />
+    <Compile Include="../../Assets/Game/Composition/Tests/EditMode/HudDataInstallerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../AI.Contracts/AI.Contracts.csproj" />
@@ -47,6 +50,11 @@
     <ProjectReference Include="../Meta.Roster.Contracts/Meta.Roster.Contracts.csproj" />
     <ProjectReference Include="../Meta.Refit/Meta.Refit.csproj" />
     <ProjectReference Include="../Meta.Refit.Contracts/Meta.Refit.Contracts.csproj" />
+    <ProjectReference Include="../Combat/Combat.csproj" />
+    <ProjectReference Include="../Combat.Contracts/Combat.Contracts.csproj" />
+    <ProjectReference Include="../UI/UI.csproj" />
+    <ProjectReference Include="../UI.Contracts/UI.Contracts.csproj" />
+    <ProjectReference Include="../Units.Placeholder/Units.Placeholder.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />

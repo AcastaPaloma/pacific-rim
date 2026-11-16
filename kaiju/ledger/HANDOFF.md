@@ -941,3 +941,6 @@ Re-run: `KAIJU_GEO_CACHE=<integration cache> python -I Pipelines/geo/bake_landma
 - CannonAmmoProvider reads an `IAmmoSource` (Game.UI), not Game.Combat: the Combat contract has no ammo query (Cannon.Ammo lives in Combat runtime). Adapter belongs to Composition/Combat owner — decided autonomously (user offline).
 - 7x10 medium font not drawn; Medium step flagged placeholder (`HudTextLadder.IsPlaceholder`) — decided autonomously (user offline).
 - Rebind default action map is provisional; real ids come with Control's InputActionAsset migration (T-151 Control part, Q-NEW-c) — decided autonomously (user offline).
+
+## T-152b
+- Combat gets read-only IAmmoQuery/AmmoStatus; HUD adapter in Composition behind ui.hud_data, default off — decided autonomously (user offline).

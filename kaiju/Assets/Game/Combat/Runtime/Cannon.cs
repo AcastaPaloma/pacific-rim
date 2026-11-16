@@ -57,6 +57,14 @@ namespace Game.Combat
             Ammo = ammo ?? spec.MaxAmmo;
         }
 
+        /// <summary>Steps left before the next shot is possible (0 = ready). Read-only (T-152b).</summary>
+        public int CooldownSteps => _cooldown;
+
+        /// <summary>0..1 reload progress after the last shot, 1 = ready (T-152b). Ammo is reported separately.</summary>
+        public double ReloadFrac => _cooldown <= 0 || Spec.ReloadSteps <= 0 ? 1.0 : 1.0 - (double)_cooldown / Spec.ReloadSteps;
+
+        public AmmoStatus GetAmmoStatus() => new AmmoStatus(Ammo, Spec.MaxAmmo, ReloadFrac);
+
         public bool CanFire => Ammo > 0 && _cooldown <= 0;
 
         /// <summary>
