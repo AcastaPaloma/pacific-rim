@@ -14,7 +14,7 @@ internal static class Program
 {
     private static int Main(string[] args)
     {
-        string map = "flat"; bool plan = true; string scenario = "hunt", brain = BayBrains.Candidate, comps = "LLH", seeds = "1-1", outDir = "m007_bay_out", speciesDir = null, costRaster = null;
+        string map = "flat"; bool plan = true; string scenario = "hunt", brain = BayBrains.Candidate, comps = "LLH", seeds = "1-1", outDir = "m007_bay_out", speciesDir = null, costRaster = null, costVersion = Environment.GetEnvironmentVariable("KAIJU_BAY_COST_VERSION") ?? BayRasterCostField.DefaultVersion;
         BayLayout huntShift = null; string variant = ""; float squadDist = 1000f; float[] mv2 = null; bool defaults = false; int par = Math.Max(1, Environment.ProcessorCount - 2); string packOver = ""; float[] mixedSpawn = null;
         for (int i = 0; i < args.Length; i++)
         {
@@ -30,6 +30,7 @@ internal static class Program
                 case "--no-route": plan = false; break;
                 case "--hunt-shift": { var q = args[++i].Split(','); huntShift = BayLayout.SyntheticHuntShifted(float.Parse(q[0]), float.Parse(q[1])); break; }
                 case "--cost-raster": costRaster = args[++i]; break;
+                case "--cost-version": costVersion = args[++i]; break;   // T-115h: bay_cost@v1 (low-land proxy) | v2 (USGS liquefaction, v1 proxy in coverage holes); default v2
                 case "--variant": variant = args[++i]; break;
                 case "--squad-dist": squadDist = float.Parse(args[++i]); break;
                 case "--mv2": { var q = args[++i].Split(','); mv2 = new[] { float.Parse(q[0]), float.Parse(q[1]), float.Parse(q[2]), float.Parse(q[3]) }; break; }   // kaiju spacing, picket ahead, mech spacing, patrol radius (m)
@@ -52,7 +53,8 @@ internal static class Program
         BayRasterCostField realField = null;
         if (map == "real")
         {
-            costRaster = costRaster ?? Environment.GetEnvironmentVariable("KAIJU_BAY_COST") ?? Path.Combine(FindRoot(), "evidence", "T-115", BayRasterCostField.DefaultFileName);
+            costRaster = costRaster ?? Environment.GetEnvironmentVariable("KAIJU_BAY_COST") ?? BayRasterCostField.FindRaster(FindRoot(), costVersion) ?? throw new FileNotFoundException("bay_cost@" + costVersion + " raster not found; pass --cost-raster");
+            Console.Error.WriteLine("bay_cost raster: " + costRaster);
             realField = BayRasterCostField.Load(costRaster);   // read only, shared by all runs; every run builds its own planner
         }
         var sp = seeds.Split('-'); ulong s0 = ulong.Parse(sp[0]), s1 = ulong.Parse(sp[sp.Length - 1]);

@@ -13,6 +13,37 @@ namespace Game.Composition
     {
         public const string MapId = "m007_bay_real@v1";
         public const string DefaultFileName = "bay_cost_256m_v1.bin";
+        // T-115h: versioned data switch. bay_cost@v1 = depth + low-land softness proxy (evidence/T-115). bay_cost@v2 = same depth, softness from the USGS OFR 2006-1037
+        // liquefaction layer inside its coverage, v1 proxy kept in the holes (Pipelines/geo/export_bay_softness.py, evidence/T-115g). Same BCF1 layout, so one reader serves both.
+        public const string V1 = "v1";
+        public const string V2 = "v2";
+        public const string DefaultVersion = V2;
+
+        public static string FileNameFor(string version)
+        {
+            switch (version)
+            {
+                case V1: return "bay_cost_256m_v1.bin";
+                case V2: return "bay_cost_256m_v2.bin";
+                default: throw new ArgumentException("unknown bay_cost version '" + version + "' (v1 | v2)");
+            }
+        }
+
+        /// <summary>Evidence sub-folder (relative to the project root) that holds the raster of a version.</summary>
+        public static string EvidenceFolderFor(string version) => version == V1 ? "T-115" : version == V2 ? "T-115g" : throw new ArgumentException("unknown bay_cost version '" + version + "'");
+
+        /// <summary>Walks up from startDir to the project root (the folder with evidence/) and returns the raster path for a version, or null when it is not there.</summary>
+        public static string FindRaster(string startDir, string version)
+        {
+            var d = new DirectoryInfo(startDir);
+            while (d != null)
+            {
+                string p = Path.Combine(d.FullName, "evidence", EvidenceFolderFor(version), FileNameFor(version));
+                if (File.Exists(p)) return p;
+                d = d.Parent;
+            }
+            return null;
+        }
         private readonly ushort[] _depthDm;
         private readonly byte[] _soft;
 
