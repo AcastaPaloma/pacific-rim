@@ -49,6 +49,7 @@ namespace Game.Perf.Bay
         public double SpawnDistM = 4500.0;          // pack spawn east of the Port (R-103: camera at the host mech, pack 2.5 km away once the pack closes)
         public int FragmentsTarget = 0;             // sweep: cap on live fragments (0 = none)
         public double PhysicsPrefetchM = 0.0;       // T-124b: StreamingConfig.PhysicsPrefetchRadiusM (0 = off)
+        public bool SliceRender = false;            // T-124b: UnityTileBuilder.SliceRenderBuilds
         public double UrgentSliceMs = 0.0;          // T-124b: StreamingHostOptions.UrgentSliceMs (0 = off)
     }
 
@@ -73,7 +74,7 @@ namespace Game.Perf.Bay
                 };
                 if (o.TilesRoot == null || !Directory.Exists(o.TilesRoot)) throw new ArgumentException("-m008Tiles must name the baked tiles/v1 root (L0, L1.. folders)");
                 o.RasterPath = o.RasterPath ?? Path.Combine(Directory.GetCurrentDirectory(), "evidence", "T-115", "bay_cost_256m_v1.bin");
-                o.PhysicsPrefetchM = D(Arg(a, "-m008Prefetch", "0")); o.UrgentSliceMs = D(Arg(a, "-m008UrgentSlice", "0"));
+                o.PhysicsPrefetchM = D(Arg(a, "-m008Prefetch", "0")); o.UrgentSliceMs = D(Arg(a, "-m008UrgentSlice", "0")); o.SliceRender = Arg(a, "-m008SliceRender", "0") != "0";
                 var sd = Arg(a, "-m008Spawn", null); if (sd != null) o.SpawnDistM = D(sd);
                 if (o.Scenario == "ref") { o.Kaiju = 1; o.Mechs = 1; o.Destruction = false; }
                 if (a.Length > 0) { var k = Arg(a, "-m008Kaiju", null); if (k != null) o.Kaiju = int.Parse(k); var m = Arg(a, "-m008Mechs", null); if (m != null) o.Mechs = int.Parse(m); var f = Arg(a, "-m008Fragments", null); if (f != null) o.FragmentsTarget = int.Parse(f); }
@@ -125,7 +126,7 @@ namespace Game.Perf.Bay
             router.Register(0, new GeoL0TileReader(o.TilesRoot, settings, 4));
             GeoLodTileReader.RegisterAll(router, o.TilesRoot);
             var runner = new ThreadPoolWorkRunner();
-            var builder = new UnityTileBuilder(parent.transform, runner, settings) { ClusterScenes = scenes };
+            var builder = new UnityTileBuilder(parent.transform, runner, settings) { ClusterScenes = scenes, SliceRenderBuilds = o.SliceRender };
             var sched = new StreamingScheduler(new StreamingConfig { PhysicsPrefetchRadiusM = o.PhysicsPrefetchM }, new DefaultTileCostModel());
             var host = new StreamingHostCore(sched, router, builder, runner, new StreamingHostOptions { UrgentSliceMs = o.UrgentSliceMs });
 
@@ -360,7 +361,7 @@ namespace Game.Perf.Bay
             s.Append(", \"phases\": [\"approach\", \"engaged\"], \"frames\": {");
             Series(s, "phase", phase, ic); s.Append(", "); Series(s, "total_ms", total, ic); s.Append(", "); Series(s, "physics_ms", phys, ic); s.Append(", "); Series(s, "destruction_ms", destr, ic); s.Append(", ");
             Series(s, "brain_ms", brainL, ic); s.Append(", "); Series(s, "streaming_ms", strm, ic); s.Append(", "); Series(s, "alloc_bytes", alloc, ic); s.Append(", \"render_ms\": null}");
-            s.Append(", \"streaming\": {\"late_tile_frames\": ").Append(lateFrames).Append(", \"physics_holds\": ").Append(holds).Append(", \"tile_loads\": ").Append(loads).Append(", \"max_work_item_ms\": ").Append(maxItem.ToString("0.###", ic)).Append(", \"frames_without_ground\": ").Append(noGround).Append(", \"holds_by_kind_mech_kaiju_anchor\": [").Append(holdByKind[0]).Append(',').Append(holdByKind[1]).Append(',').Append(holdByKind[2]).Append("], \"hold_diag\": \"").Append(string.Join(" || ", holdDiag)).Append("\", \"hold_starts\": \"").Append(string.Join("; ", holdLog)).Append("\", \"item_profile\": {\"max_item_ms\": ").Append(host.MaxItemMs.ToString("0.###", ic)).Append(", \"max_item_key\": \"").Append(host.MaxItemKey).Append("\", \"max_item_ms_physics\": ").Append(host.MaxItemMsPhysics.ToString("0.###", ic)).Append(", \"max_item_ms_render\": ").Append(host.MaxItemMsRender.ToString("0.###", ic)).Append(", \"items\": ").Append(host.ItemCount).Append(", \"max_items_per_pump\": ").Append(host.MaxItemsPerPump).Append(", \"hitches\": \"").Append(string.Join(" || ", hitchLog)).Append("\"}, \"prefetch_m\": ").Append(o.PhysicsPrefetchM.ToString("0.#", ic)).Append(", \"urgent_slice_ms\": ").Append(o.UrgentSliceMs.ToString("0.#", ic)).Append(", \"host_failures\": ").Append(host.Failures).Append(", \"host_dropped\": ").Append(host.Dropped).Append(", \"first_hold_sim_s\": ").Append(firstHoldS.ToString("0.##", ic)).Append(", \"preroll_s\": ").Append(prerollS.ToString("0.#", ic)).Append(", \"preroll_ticks\": ").Append(preTicks).Append("}");
+            s.Append(", \"streaming\": {\"late_tile_frames\": ").Append(lateFrames).Append(", \"physics_holds\": ").Append(holds).Append(", \"tile_loads\": ").Append(loads).Append(", \"max_work_item_ms\": ").Append(maxItem.ToString("0.###", ic)).Append(", \"frames_without_ground\": ").Append(noGround).Append(", \"holds_by_kind_mech_kaiju_anchor\": [").Append(holdByKind[0]).Append(',').Append(holdByKind[1]).Append(',').Append(holdByKind[2]).Append("], \"hold_diag\": \"").Append(string.Join(" || ", holdDiag)).Append("\", \"hold_starts\": \"").Append(string.Join("; ", holdLog)).Append("\", \"item_profile\": {\"max_item_ms\": ").Append(host.MaxItemMs.ToString("0.###", ic)).Append(", \"max_item_key\": \"").Append(host.MaxItemKey).Append("\", \"max_item_ms_physics\": ").Append(host.MaxItemMsPhysics.ToString("0.###", ic)).Append(", \"max_item_ms_render\": ").Append(host.MaxItemMsRender.ToString("0.###", ic)).Append(", \"items\": ").Append(host.ItemCount).Append(", \"max_items_per_pump\": ").Append(host.MaxItemsPerPump).Append(", \"hitches\": \"").Append(string.Join(" || ", hitchLog)).Append("\"}, \"prefetch_m\": ").Append(o.PhysicsPrefetchM.ToString("0.#", ic)).Append(", \"slice_render\": ").Append(o.SliceRender ? 1 : 0).Append(", \"max_stage_ms\": ").Append(builder.MaxStageMs.ToString("0.###", ic)).Append(", \"urgent_slice_ms\": ").Append(o.UrgentSliceMs.ToString("0.#", ic)).Append(", \"host_failures\": ").Append(host.Failures).Append(", \"host_dropped\": ").Append(host.Dropped).Append(", \"first_hold_sim_s\": ").Append(firstHoldS.ToString("0.##", ic)).Append(", \"preroll_s\": ").Append(prerollS.ToString("0.#", ic)).Append(", \"preroll_ticks\": ").Append(preTicks).Append("}");
             s.Append(", \"gc_collections\": ").Append(gcDelta).Append(", \"peak_rss_mb\": ").Append((rssMaxKb / 1024.0).ToString("0.#", ic));
             s.Append(", \"sweep\": ").Append(o.Scenario == "sweep" ? "{\"kaiju\": " + o.Kaiju + ", \"mechs\": " + o.Mechs + ", \"fragments_target\": " + o.FragmentsTarget + "}" : "null").Append(", \"engaged\": ").Append(engaged ? "true" : "false").Append("}\n");
             return s.ToString();

@@ -24,6 +24,23 @@ namespace Game.World.Streaming.Unity
         }
         sealed class Baking { public ResidencyKey Key; public Node Node; public IBuildSink Sink; public volatile bool Done; public volatile string Error; public long Gpu, Cpu; }
 
+        // T-124b: sliced render builds. The managed array conversion of a payload mesh runs on the work runner; the main thread then does one cheap stage
+        // (vertices, normals, uv, triangles) per mesh per step inside a time budget, so a 46 ms L3 tile no longer lands in one frame.
+        sealed class MeshJob
+        {
+            public Node Node; public GeoMeshData D; public GameObject Go; public Mesh M; public int Stage;
+            public Vector3[] V, N; public Vector2[] UV; public volatile bool Ready;
+        }
+        sealed class PendingRender { public ResidencyKey Key; public Node Node; public IBuildSink Sink; public int Left; public long Gpu, Cpu; }
+        readonly List<MeshJob> _jobs = new List<MeshJob>();
+        readonly Dictionary<Node, PendingRender> _pendingRender = new Dictionary<Node, PendingRender>();
+        /// <summary>Feature flag (default false = old single-frame build). True: render payload meshes are built over several Ticks, at most RenderSliceMs of main-thread work per Tick (at least one stage).</summary>
+        public bool SliceRenderBuilds;
+        public double RenderSliceMs = 2.0;
+        /// <summary>Longest single main-thread stage of the sliced path (ms), since construction; profile.</summary>
+        public double MaxStageMs { get; private set; }
+        public int RenderJobsPending => _jobs.Count;
+
         readonly Transform _parent;
         readonly IWorkRunner _runner;
         readonly Dictionary<ResidencyKey, Node> _nodes = new Dictionary<ResidencyKey, Node>();
@@ -80,6 +97,22 @@ namespace Game.World.Streaming.Unity
             }
             _nodes[key] = node;
             long gpu = 0, cpu = 0;
+            if (!physics && SliceRenderBuilds)
+            {
+                var pr = new PendingRender { Key = key, Node = node, Sink = sink };
+                foreach (var d in p.Meshes)
+                {
+                    if (d.VertexCount == 0 || d.Indices.Length == 0) continue;
+                    var go = new GameObject(d.Name); go.transform.SetParent(node.Root.transform, false);
+                    var job = new MeshJob { Node = node, D = d, Go = go };
+                    _jobs.Add(job); pr.Left++;
+                    pr.Gpu += (long)d.VertexCount * 32 + d.Indices.Length * 4L; pr.Cpu += (long)d.VertexCount * 32 + d.Indices.Length * 4L;
+                    _runner.Run(() => Prepare(job));
+                }
+                if (pr.Left == 0) { sink.Built(key, 0, 0); return; }
+                _pendingRender[node] = pr;
+                return;
+            }
             foreach (var d in p.Meshes)
             {
                 if (d.VertexCount == 0 || d.Indices.Length == 0) continue;
@@ -111,9 +144,61 @@ namespace Game.World.Streaming.Unity
             });
         }
 
+        static void Prepare(MeshJob j)
+        {
+            var d = j.D; int n = d.VertexCount;
+            var v = new Vector3[n];
+            for (int i = 0; i < n; i++) v[i] = new Vector3(d.Positions[3 * i], d.Positions[3 * i + 1], d.Positions[3 * i + 2]);
+            j.V = v;
+            if (d.Normals != null && d.Normals.Length == d.Positions.Length)
+            {
+                var nn = new Vector3[n];
+                for (int i = 0; i < n; i++) nn[i] = new Vector3(d.Normals[3 * i], d.Normals[3 * i + 1], d.Normals[3 * i + 2]);
+                j.N = nn;
+            }
+            if (d.Uv != null)
+            {
+                var uv = new Vector2[n];
+                for (int i = 0; i < n; i++) uv[i] = new Vector2(d.Uv[2 * i], d.Uv[2 * i + 1]);
+                j.UV = uv;
+            }
+            j.Ready = true;
+        }
+
+        void TickRenderJobs()
+        {
+            if (_jobs.Count == 0) return;
+            long t0 = Stopwatch.GetTimestamp(); double toMs = 1000.0 / Stopwatch.Frequency; int staged = 0;
+            while (_jobs.Count > 0)
+            {
+                if (staged > 0 && (Stopwatch.GetTimestamp() - t0) * toMs >= RenderSliceMs) break;
+                MeshJob j = null; int at = -1;
+                for (int i = 0; i < _jobs.Count; i++) if (_jobs[i].Ready) { j = _jobs[i]; at = i; break; }
+                if (j == null) break;
+                if (j.Go == null) { _jobs.RemoveAt(at); continue; }
+                long ts = Stopwatch.GetTimestamp(); var d = j.D;
+                switch (j.Stage)
+                {
+                    case 0: j.M = new Mesh { name = d.Name, indexFormat = d.VertexCount > 65535 ? UnityEngine.Rendering.IndexFormat.UInt32 : UnityEngine.Rendering.IndexFormat.UInt16 }; j.M.vertices = j.V; j.V = null; break;
+                    case 1: if (j.N != null) j.M.normals = j.N; j.N = null; if (j.UV != null) j.M.uv = j.UV; j.UV = null; break;
+                    default: j.M.SetTriangles(d.Indices, 0, true); if (d.Normals == null) j.M.RecalculateNormals(); break;
+                }
+                j.Stage++; staged++;
+                MaxStageMs = Math.Max(MaxStageMs, (Stopwatch.GetTimestamp() - ts) * toMs);
+                if (j.Stage < 3) continue;
+                _jobs.RemoveAt(at);
+                j.Node.Meshes.Add(j.M);
+                j.Go.AddComponent<MeshFilter>().sharedMesh = j.M;
+                var mr = j.Go.AddComponent<MeshRenderer>();
+                mr.sharedMaterial = d.Material == "terrain" ? TerrainMaterial : MaterialFor(d.Material);
+                if (_pendingRender.TryGetValue(j.Node, out var pr) && --pr.Left == 0) { _pendingRender.Remove(j.Node); pr.Sink.Built(pr.Key, pr.Gpu, pr.Cpu); }
+            }
+        }
+
         /// <summary>Main thread, once per frame: attaches finished collider bakes (cheap: the cooked data is already on the mesh).</summary>
         public void Tick()
         {
+            TickRenderJobs();
             for (int i = _baking.Count - 1; i >= 0; i--)
             {
                 var b = _baking[i];
@@ -173,6 +258,8 @@ namespace Game.World.Streaming.Unity
             if (!_nodes.TryGetValue(key, out var n)) return;
             _nodes.Remove(key);
             for (int i = _baking.Count - 1; i >= 0; i--) if (_baking[i].Node == n) _baking.RemoveAt(i);
+            for (int i = _jobs.Count - 1; i >= 0; i--) if (_jobs[i].Node == n) { if (_jobs[i].M != null) Kill(_jobs[i].M); _jobs.RemoveAt(i); }
+            _pendingRender.Remove(n);
             foreach (var m in n.Meshes) if (m != null) Kill(m);
             if (n.Root != null) Kill(n.Root);
         }
