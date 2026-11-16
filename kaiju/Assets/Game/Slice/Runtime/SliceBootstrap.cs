@@ -93,7 +93,7 @@ namespace Game.Slice
         Transform _impactor; Vector3 _impactVel; BuildingId _impactTarget; Vector3 _impactAim;
         readonly StringBuilder _log = new StringBuilder();
         string _lastMsg = "";
-        double _mechTravel; float _lastMX, _lastMZ; bool _haveLastM;
+        double _mechTravel; float _mechMinY = float.PositiveInfinity, _mechMaxSpeed; double _mechFellAt = -1; double _mechTraceNext; float _mechMaxY = float.NegativeInfinity; double _mechTeleportM; float _lastMX, _lastMZ; bool _haveLastM;
         double _loadSeconds; int _tileCount, _buildingCount, _landmarkColliders;
         // smoke
         int _frame; readonly List<float> _ms = new List<float>(); readonly List<double> _draw = new List<double>(); ProfilerRecorder _drawRec;
@@ -343,11 +343,21 @@ namespace Game.Slice
                 // The M1 placeholder body (Units.Placeholder, TEMPORARY too) driven through a pilot seat: device pilot -> single arbiter -> IntentFrame -> body.
                 _body = _comp.Placeholder.Create(mech, _mech.Id);
                 var tuning = DevicePilotSource.LoadTuning(controlTuning);
-                var pilot = new DevicePilotSource(_flags, tuning, () => new System.Numerics.Vector3(_body.Body.X, _body.Body.Y, _body.Body.Z), () => _cam != null ? _cam.transform.eulerAngles.y * Mathf.Deg2Rad : 0f,
+                var pilot = new DevicePilotSource(_flags, tuning, () => new System.Numerics.Vector3(_body.Body.X, _body.Body.Y, _body.Body.Z), () => AutoPilot ? _spawnYawDeg * Mathf.Deg2Rad : _cam != null ? _cam.transform.eulerAngles.y * Mathf.Deg2Rad : 0f,   // auto-pilot: fixed view yaw, so the smoke's camera cuts do not turn the stick (T-202)
                     stick: () => AutoPilot ? _autoStick() : ReadKeys());
-                _autoStick = () => { float t = (float)_root.Services.Clock.TimeSeconds; return new Vector2(0.15f * Mathf.Sin(t * 0.35f), 0.6f); };
+                _autoStick = () =>
+                {
+                    float t = (float)_root.Services.Clock.TimeSeconds;
+                    if (_mechUnit == null) return new Vector2(0.15f * Mathf.Sin(t * 0.35f), 0.6f);
+                    if (Arg("-sliceAp") == "straight") return new Vector2(0f, 0.6f);   // bisect aid: straight on, no terrain steering
+                    // T-202: the physics mech falls on slopes steeper than ~4 deg (walk_mode 2 is tuned on flat ground), so the scripted auto-pilot picks the flattest heading within +-60 deg every 0.25 s (documented pilot assist, smoke / auto only)
+                    if (t >= _apNext) { _apNext = t + 0.25f; _apDir = PickFlatHeading(); }
+                    float cy = _spawnYawDeg * Mathf.Deg2Rad;
+                    var d = new Vector2(Mathf.Sin(_apDir), Mathf.Cos(_apDir));
+                    return new Vector2(d.x * Mathf.Cos(cy) - d.y * Mathf.Sin(cy), d.x * Mathf.Sin(cy) + d.y * Mathf.Cos(cy)) * 0.6f;
+                };
                 _seat = new PilotSeat(new SinglePilotArbiter(), pilot);
-                if (_configUsed == "demo" && _flags.IsOn(MechConfig.FlagEnabled) && _flags.IsOn(MechConfig.FlagBodyEnabled)) SpawnPhysicsMech(mx, gy, mz, vis);
+                if (_configUsed == "demo" && _flags.IsOn(MechConfig.FlagEnabled) && _flags.IsOn(MechConfig.FlagBodyEnabled)) { _capsuleVis = vis; SpawnPhysicsMech(mx, gy, mz, vis, _spawnYawDeg * Mathf.Deg2Rad); }
             }
             _targets.Add(_mech);
             var brain = _root.Registry.Resolve<IKaijuBrainFactory>().Create();
@@ -366,7 +376,7 @@ namespace Game.Slice
         }
 
         /// <summary>T-200: the physics mech (walk_mode 2, assisted walk) driven by the pilot seat, standing where the capsule stood. Falls back to the capsule body, with an error in the log, if the mech cannot be built.</summary>
-        void SpawnPhysicsMech(float mx, float gy, float mz, GameObject capsuleVisual)
+        void SpawnPhysicsMech(float mx, float gy, float mz, GameObject capsuleVisual, float yawRad)
         {
             try
             {
@@ -375,7 +385,7 @@ namespace Game.Slice
                 cfg = cfg.WithWalk(w => w.walk_mode = 2);   // demo only: the shipped walk_tuning.json keeps walk_mode 0
                 double dt = _root.Services.Settings.FixedStepSeconds;
                 _bodyWorld = new BodyWorld(cfg.Body, dt, true, _bus, _flags);
-                var spawn = new BodySpawn { Position = new System.Numerics.Vector3(mx, gy + 0.05f, mz), Rotation = System.Numerics.Quaternion.CreateFromAxisAngle(System.Numerics.Vector3.UnitY, _spawnYawDeg * Mathf.Deg2Rad), Visuals = true, Name = "SliceMech" };
+                var spawn = new BodySpawn { Position = new System.Numerics.Vector3(mx, gy + 0.05f, mz), Rotation = System.Numerics.Quaternion.CreateFromAxisAngle(System.Numerics.Vector3.UnitY, yawRad), Visuals = true, Name = "SliceMech" };
                 _mechUnit = new MechUnit(_bodyWorld, cfg, _mech.Id, _bus, _seat, spawn, _flags);
                 _mechVisRoot = ((ArticulatedBody)_mechUnit.Body).Root;
                 if (mechMaterial != null) foreach (var r in _mechVisRoot.GetComponentsInChildren<Renderer>()) r.sharedMaterial = mechMaterial;
@@ -407,12 +417,51 @@ namespace Game.Slice
             _mech.X = com.X; _mech.Y = com.Z; _mech.Speed = Mathf.Sqrt(v.X * v.X + v.Z * v.Z); _mech.HeadingRad = Mathf.PI * 0.5f - hd;
             if (_mechComSet) _mechComTravel += Math.Sqrt((com.X - _mechComX) * (com.X - _mechComX) + (com.Z - _mechComZ) * (com.Z - _mechComZ));
             _mechComX = com.X; _mechComZ = com.Z; _mechComSet = true;
+            // T-202 diagnostics: where it falls, lowest/highest COM, top COM speed, 1 s trace in the log
+            double ts = _root.Services.Clock.TimeSeconds; float sp = Mathf.Sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
+            if (com.Y < _mechMinY) _mechMinY = com.Y; if (com.Y > _mechMaxY) _mechMaxY = com.Y; if (sp > _mechMaxSpeed) _mechMaxSpeed = sp;
+            var ph = _mechUnit.Phase; if (ph == LocoPhase.Fallen || ph == LocoPhase.Falling) _mechEverFell = true;
+            if (_mechFellAt < 0 && (ph == LocoPhase.Fallen || ph == LocoPhase.Falling)) { _mechFellAt = ts; Log("mech FELL at t=" + F((float)ts) + " s, com (" + F(com.X) + ", " + F(com.Y) + ", " + F(com.Z) + ") ground " + F(gy) + " v (" + F(v.X) + ", " + F(v.Y) + ", " + F(v.Z) + ")"); }
+            if (ts >= _mechTraceNext) { _mechTraceNext = ts + (ts > 16.5 && ts < 19.5 ? 0.1 : 1.0); Log("mech t=" + F((float)ts) + " " + ph + " com (" + F(com.X) + ", " + F(com.Y) + ", " + F(com.Z) + ") ground " + F(gy) + " ray " + F(_mechUnit.Controller.GroundHeight != null ? _mechUnit.Controller.GroundHeight(com.X, com.Z) : -999f) + " v " + F(sp) + " hd " + F(hd)); }
+            MaybeRespawnPhysicsMech(ts, ph, com.X, com.Z, hd);
+        }
+
+        float _apNext, _apDir = float.NaN; float _apBase = float.NaN;
+        /// <summary>World heading (rad, 0 = +z) of the flattest of 9 candidates within +-60 deg of the base heading (mech facing at the first call), by max terrain gradient over 10..70 m ahead.</summary>
+        float PickFlatHeading()
+        {
+            if (float.IsNaN(_apBase)) _apBase = _mechUnit.Command.Heading;
+            float cx = _mech.X, cz = _mech.Y, best = float.MaxValue, bestH = _apBase;
+            for (int k = -4; k <= 4; k++)
+            {
+                float h = _apBase + k * 15f * Mathf.Deg2Rad, worst = 0f, prev = Ground(cx, cz);
+                for (int i = 1; i <= 7; i++) { float g = Ground(cx + Mathf.Sin(h) * 10f * i, cz + Mathf.Cos(h) * 10f * i); worst = Mathf.Max(worst, Mathf.Abs(g - prev) / 10f); prev = g; }
+                float score = Mathf.Max(worst, 0.05f) + 0.01f * Mathf.Abs(k);   // gradients under 3 deg count as flat, so it keeps straight on
+                if (score < best) { best = score; bestH = h; }
+            }
+            return bestH;
+        }
+
+        GameObject _capsuleVis; int _mechFalls; double _fallenSince = -1; bool _mechEverFell;
+        /// <summary>TEMPORARY (T-202): the physics mech still falls after 15 to 30 s of start/stop/turn walking on the city terrain in the player (cause not found, see tasks/T-202.progress.md). The demo stays playable: a mech that has been Falling/Fallen for 2.5 s is rebuilt standing at the same spot and heading. Counted in the smoke JSON as mech_respawns; mech_fell_ever stays true. Off with -sliceNoRespawn.</summary>
+        void MaybeRespawnPhysicsMech(double ts, LocoPhase ph, float x, float z, float heading)
+        {
+            bool down = ph == LocoPhase.Fallen || ph == LocoPhase.Falling;
+            if (!down) { _fallenSince = -1; return; }
+            if (_fallenSince < 0) _fallenSince = ts;
+            if (ts - _fallenSince < 2.5 || Arg("-sliceNoRespawn") != null && Arg("-sliceNoRespawn") != "") return;
+            _mechFalls++; _fallenSince = -1; _mechEverFell = true;
+            Log("mech respawn " + _mechFalls + " (TEMPORARY, fell at t=" + F((float)ts) + " s) at (" + F(x) + ", " + F(z) + ")");
+            try { _mechUnit.Dispose(); } catch (Exception ex) { Debug.LogWarning("[Slice] mech dispose: " + ex.Message); }
+            _bodyWorld?.Dispose(); _bodyWorld = null; _mechUnit = null; _mechStep = 0; _mechComSet = false; _apBase = float.NaN; _apNext = 0f;
+            if (_mechVisRoot != null) Destroy(_mechVisRoot);
+            SpawnPhysicsMech(x, Ground(x, z), z, _capsuleVis, heading);
         }
 
         void SetActorsActive(bool on)
         {
             _kaijuT.gameObject.SetActive(on); _mechT.gameObject.SetActive(on);
-            if (_mechVisRoot != null) _mechVisRoot.SetActive(on);
+            if (_mechVisRoot != null) foreach (var r in _mechVisRoot.GetComponentsInChildren<Renderer>(true)) r.enabled = on;   // T-202: never SetActive the articulation root (deactivating the ArticulationBody collapsed the mech at the destroy-view capture)
         }
 
         const float KaijuHalfHeightM = 50f;   // capsule scale y 50 = 100 m tall
@@ -515,7 +564,7 @@ namespace Game.Slice
             var p = _mechT.position;
             float yr = _spawnYawDeg * Mathf.Deg2Rad, fx = Mathf.Sin(yr), fz = Mathf.Cos(yr);
             var aim = new Vector3(p.x + fx * 170f + fz * 40f, 0f, p.z + fz * 170f - fx * 40f);
-            if (!_index.TryNearest(aim.x + OriginX, aim.z + OriginZ, out _impactTarget, out double ax, out double az)) { Log("impact: no buildings"); return false; }
+            if (!_index.TryNearest(aim.x + OriginX, aim.z + OriginZ, bid => !(_comp.Destruction.TryGetState(bid, out var bst) && bst.State >= 4), out _impactTarget, out double ax, out double az)) { Log("impact: no buildings"); return false; }
             aim = new Vector3((float)(ax - OriginX), 0f, (float)(az - OriginZ)); aim.y = Ground(aim.x, aim.z) + 5f;
             _impactAim = aim;
             var start = aim + new Vector3(-fx * 600f - fz * 200f, 350f, -fz * 600f + fx * 200f);   // comes in from behind the camera
@@ -570,18 +619,21 @@ namespace Game.Slice
         /// <summary>HUD text (top-left) and the "Development Build" label (bottom-right) are drawn over the presented frame; the pixel check ignores them.</summary>
         static PixelRect[] HudRects(int w, int h) { return new[] { new PixelRect(0, 0, Math.Min(w, 1120), Math.Min(h, 110)), new PixelRect(Math.Max(0, w - 220), Math.Max(0, h - 40), w, h) }; }
 
+        bool Skip(string what) { var a = Arg("-sliceSkip"); return !string.IsNullOrEmpty(a) && ("," + a + ",").Contains("," + what + ","); }   // T-202 bisect aid: -sliceSkip duel,cannon,swing,impact,quake
+
         void SmokeTick()
         {
             _frame++;
             float t = Time.timeSinceLevelLoad - _readyAt;
             bool shoot = !string.IsNullOrEmpty(SmokeOut);
-            if (_quakes == 0 && t >= QuakeAtS) TriggerQuake();
-            if (_impacts == 0 && _impactor == null && t >= ImpactAtS) TriggerImpact();
+            if (_quakes == 0 && t >= QuakeAtS && !Skip("quake")) TriggerQuake();
+            if (_impacts == 0 && _impactor == null && t >= ImpactAtS && !Skip("impact")) TriggerImpact();
             if (_feel != null)
             {   // T-189 scripted fight: a cannon round every 2 s from 3 s, arm swings at 8 s and 14 s, the hangar cycle once the captures are done
-                if (!_duelDone && t >= 13.5f) { _duelDone = true; _feel.ScriptedDuel(); _nextShotAt = t; }
-                if (t >= 3f && t >= _nextShotAt) { _feel.FireCannon(); _nextShotAt = t + 2f; }
-                if (_swingsDone == 0 && t >= 8f && _feel.SwingArm()) _swingsDone++;
+                if (!_duelDone && t >= 13.5f && !Skip("duel")) { _duelDone = true; _feel.ScriptedDuel(); _nextShotAt = t; }
+                if (t >= 3f && t >= _nextShotAt && !Skip("cannon")) { _feel.FireCannon(); _nextShotAt = t + 2f; }
+                if (Skip("swing")) { }
+                else if (_swingsDone == 0 && t >= 8f && _feel.SwingArm()) _swingsDone++;
                 else if (_swingsDone == 1 && t >= 14f && _feel.SwingArm()) _swingsDone++;
                 bool capsDone = !shoot || (_captureIdx >= CapSchedule.Length && _destroyBeforeDone && !_capturePending);
                 if (_feel.HangarOn && _feel.HangarCycles == 0 && t >= EndS - 0.05f && capsDone && _impacts > 0) { _feel.HangarCycle(HangarGround); _hangarAtT = t; }
@@ -771,10 +823,11 @@ namespace Game.Slice
             sb.Append("  \"kaiju\": { \"decisions\": ").Append(_kaiju.Decisions).Append(", \"melee_hits\": ").Append(_kaiju.Hits).Append(", \"state\": \"").Append(_kaiju.State).Append("\", \"distance_to_mech_m\": ").Append(F(Mathf.Sqrt((_mech.X - _kaiju.X) * (_mech.X - _kaiju.X) + (_mech.Y - _kaiju.Y) * (_mech.Y - _kaiju.Y)))).Append(" },\n");
             _feel?.AppendJson(sb);
             AppendAudioJson(sb);
-            sb.Append("  \"mech_body\": \"").Append(_mechUnit != null ? "physics walk_mode 2" : "placeholder capsule (TEMPORARY)").Append("\", \"mech_phase\": \"").Append(_mechUnit != null ? _mechUnit.Phase.ToString() : "").Append("\", \"mech_fell\": ").Append(_mechUnit != null && (_mechUnit.Phase == LocoPhase.Fallen || _mechUnit.Phase == LocoPhase.Falling) ? "true" : "false").Append(",\n");
+            sb.Append("  \"mech_body\": \"").Append(_mechUnit != null ? "physics walk_mode 2" : "placeholder capsule (TEMPORARY)").Append("\", \"mech_phase\": \"").Append(_mechUnit != null ? _mechUnit.Phase.ToString() : "").Append("\", \"mech_respawns\": ").Append(_mechFalls).Append(", \"mech_fell_ever\": ").Append(_mechEverFell ? "true" : "false").Append(", \"mech_fell\": ").Append(_mechUnit != null && (_mechUnit.Phase == LocoPhase.Fallen || _mechUnit.Phase == LocoPhase.Falling) ? "true" : "false").Append(",\n");
+            sb.Append("  \"mech_fell_at_s\": ").Append(F((float)_mechFellAt)).Append(", \"mech_min_y\": ").Append(F(_mechMinY)).Append(", \"mech_max_y\": ").Append(F(_mechMaxY)).Append(", \"mech_max_speed\": ").Append(F(_mechMaxSpeed)).Append(", \"mech_com_travel_m\": ").Append(F((float)_mechComTravel)).Append(",\n");
             sb.Append("  \"config\": \"").Append(_configUsed).Append("\", \"hangar_note\": \"").Append(_feel != null ? _feel.SpawnNote.Replace("\"", "'") : "").Append("\",\n");
             AppendPixelCheck(sb);
-            sb.Append("  \"mech_travel_m\": ").Append(F(_mechTravel)).Append(",\n");
+            sb.Append("  \"mech_travel_m\": ").Append(F(_mechUnit != null ? _mechComTravel : _mechTravel)).Append(",\n");
             sb.Append("  \"render_diag\": \"").Append(_diagAtCapture.Replace("\\", "/").Replace("\"", "'")).Append("\",\n");
             sb.Append("  \"log\": \"").Append(_log.ToString().Replace("\\", "/").Replace("\"", "'").Replace("\r", "").Replace("\n", " | ")).Append("\"\n}\n");
             SmokeJson = sb.ToString();
