@@ -128,6 +128,7 @@ namespace Game.Slice
                 if (SmokeFrames <= 0) SmokeFrames = 100000000;
                 if (int.TryParse(Arg("-sliceRecordFps"), out int rf) && rf > 0) _recFps = rf;
                 if (float.TryParse(Arg("-sliceRecordSeconds"), NumberStyles.Float, CultureInfo.InvariantCulture, out float rs) && rs > 0f) _recSeconds = rs;
+                _recDestroyCam = Arg("-sliceRecordDestructionCam") == "1";
                 Directory.CreateDirectory(_recDir); Time.captureFramerate = _recFps;
             }
             if (!CoreRuntime.IsBooted) { Debug.LogError("[Slice] Core is not booted"); yield break; }
@@ -638,6 +639,7 @@ namespace Game.Slice
             if (_quakes == 0 && t >= QuakeAtS && !Skip("quake")) TriggerQuake();
             if (_impacts == 0 && _impactor == null && t >= ImpactAtS && !Skip("impact")) TriggerImpact();
             if (_recDir != null) RecordScript(t);
+            if (_recDir != null && _recDestroyCam) RecordDestroyCam(t);
             if (_feel != null)
             {   // T-189 scripted fight: a cannon round every 2 s from 3 s, arm swings at 8 s and 14 s, the hangar cycle once the captures are done
                 if (!_duelDone && t >= 13.5f && !Skip("duel")) { _duelDone = true; _feel.ScriptedDuel(); _nextShotAt = t; }
@@ -816,6 +818,43 @@ namespace Game.Slice
         // ---- T-203 demo recording ----
         string _recDir; int _recFps = 30; float _recSeconds = 90f, _recNextImpact = 30f, _recNextQuake = 35f, _recNextSwing = 20f, _recNextDuel = 30f;
         readonly List<string> _recEvents = new List<string>();
+        // T-206 destruction camera (default OFF: -sliceRecordDestructionCam 1): cut to the impact framing shortly before the hit, hold ~3 s after it, then back to follow.
+        bool _recDestroyCam; bool _recDestroyCamOn; float _recDestroyCamUntil;
+        const float RecDestroyCamLeadS = 1.6f, RecDestroyCamHoldS = 3f;
+        void RecordDestroyCam(float t)
+        {
+            if (_rig == null) return;
+            if (_recDestroyCamOn)
+            {
+                if (_impactor == null && _recDestroyCamUntil < 0f) _recDestroyCamUntil = t + RecDestroyCamHoldS;   // the hit just landed
+                if (_recDestroyCamUntil >= 0f && t >= _recDestroyCamUntil) { _rig.ClearScriptedPose(); _rig.Cut(); _recDestroyCamOn = false; RecordEvent(t, "destruction cam: back to follow"); }
+            }
+            else if (_impactor != null && _destroyViewSet && (_impactAim - _impactor.position).magnitude <= (float)ImpactSpeedMs * RecDestroyCamLeadS)
+            {
+                SetImpactCamPose(); _recDestroyCamOn = true; _recDestroyCamUntil = -1f; RecordEvent(t, "destruction cam: cut to impact view");
+            }
+        }
+        /// <summary>Side-on framing: the camera sits 90 degrees off the impactor's approach (so the round crosses the frame), 190-310 m from the target, ~20 degrees looking down at mid-height of the target building; first azimuth/distance with a clear line of sight wins, else the smoke's destroy pose.</summary>
+        void SetImpactCamPose()
+        {
+            float yr = _spawnYawDeg * Mathf.Deg2Rad; int target = -1; double bestD = double.MaxValue; double h = 40.0;
+            for (int i = 0; i < _footprints.Count; i++)
+            {
+                var f = _footprints[i]; double d = (f.X - _impactAim.x) * (f.X - _impactAim.x) + (f.Z - _impactAim.z) * (f.Z - _impactAim.z);
+                if (d < bestD) { bestD = d; h = f.Height; target = i; }
+            }
+            var look = new Vector3(_impactAim.x, Ground(_impactAim.x, _impactAim.z) + Mathf.Max(8f, (float)h * 0.5f), _impactAim.z);
+            float[] offs = { Mathf.PI / 2f, -Mathf.PI / 2f, Mathf.PI / 4f, -Mathf.PI / 4f, 3f * Mathf.PI / 4f, -3f * Mathf.PI / 4f };
+            float[] dists = { 190f, 250f, 310f };
+            for (int di = 0; di < dists.Length; di++)
+                for (int k = 0; k < offs.Length; k++)
+                {
+                    float az = yr + offs[k], dist = dists[di];
+                    var pos = new Vector3(look.x - Mathf.Sin(az) * dist, look.y + dist * 0.36f, look.z - Mathf.Cos(az) * dist);
+                    if (ClearLineOfSight(pos, look, target)) { SetScriptedLook(pos, look); return; }
+                }
+            SetDestroyView();
+        }
         void RecordEvent(float t, string what) { _recEvents.Add("t=" + F(t) + " " + what); }
         /// <summary>Recurring script on top of the smoke's first 20 s (quake 5, impact 12, cannon every 2 s from 3, swings 8 and 14, duel 13.5): another impact every 18 s, quake every 30 s, swing every 10 s, duel reset every 25 s.</summary>
         void RecordScript(float t)
