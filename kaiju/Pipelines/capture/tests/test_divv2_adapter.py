@@ -138,3 +138,22 @@ def test_style_metric_ok_rule_t196e():
     rep["submeasures"][1]["status"] = "FAIL"
     assert not style.metric_ok({**m, "d_iv_v2": {"ok": True}})      # another gate failing: unchanged
     assert style.metric_ok({"exit": 0, "report": rep})
+
+
+def test_layered_nn_match_t196f():
+    """M-123 relation for layered frames (T-196f): every decidable pixel is a nearest-neighbour sample of the internal image under a slab shift; a
+    filtered frame is not; a single present_shift would not describe the frame."""
+    sc = copy.deepcopy(SC); sc["layers"]["shift_output_px"] = [[-2, 1], [-1, -1], [0, -3]]
+    ci = _tex(5)
+    depth = _depth_png([60.0, 800.0, 20000.0])
+    lab = A.adapt(sc, depth)["labels"]
+    out = np.zeros((OH, OW, 3), np.uint8)
+    for i, (sx, sy) in enumerate(sc["layers"]["shift_output_px"]):
+        ty = np.clip(np.floor_divide(np.arange(OH) - sy, K), 0, IH - 1)
+        tx = np.clip(np.floor_divide(np.arange(OW) + sx, K), 0, IW - 1)
+        out[lab == i] = ci[ty][:, tx][lab == i]
+    m, own, undec = A.layered_nn_match(sc, depth, ci, out)
+    assert m == 1.0 and own == 1.0 and 0.0 <= undec < 0.05
+    assert scale.matches_shifted_nn_of(out, ci, K, (-1, -1)) < 1.0
+    soft = out.astype(np.float32); soft = ((soft + np.roll(soft, 1, 1) + np.roll(soft, 1, 0)) / 3).astype(np.uint8)
+    assert A.layered_nn_match(sc, depth, ci, soft)[0] < 0.9
