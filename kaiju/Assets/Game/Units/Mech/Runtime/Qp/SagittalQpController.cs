@@ -18,6 +18,7 @@ namespace Game.Units.Mech.Qp
         /// <summary>Step 9.5b (stage 2, qp_lateral): 3D contact forces at 2 sole corners per heel / toe point (diamond pyramid |fx| + |fy| &lt;= mu' fz shared by both shears), lateral CoM, roll and yaw momentum rows. Off = the planar QP unchanged.</summary>
         public double WTau;   // step 9.5b: weight of sum (tau_j / LIM_j)^2 (0 = off, as the prototype); fixes the internal double-support force the other rows leave free
         public double SwJ, SwJOm = 2.0, SwJAmax = 6.0, SwJTd = 0.2; public bool SwJAnkle; public double SwFollow, SwAmax, TdAir, TdXoffMax; public bool Diag, TdHeel; public bool Rom, FpRom; public double RomMargin = 3 * Math.PI / 180, RomHorizon = 0.1, RomAmax = 30.0, FpRomBand = 3 * Math.PI / 180;   // step 9.5j (qp_rom, qp_fp_rom)
+        public bool R12RearToe; public double R12RearToeM;   // round 12 (qp_r12_reartoe, _m): the rear (swing-parity) leg's toe force cap is zero in double support while the toe lies more than -m ahead of the CoM (toe x > CoM x - m); the rear sole stays under the sole-flat pitch task until the rear leg is unloaded
         public int R11Ds;   // round 11 (qp_r11_ds): 0 = the 6c double-support CoP sweep from the rear toe; 1 = no sweep (DCM CoP target on the union of the contacts); 2 = sweep from the rear-foot point nearest the DCM target
         public double CdxMax, SwCp;   // step 9.5m (qp_cdx_max, qp_sw_cp; 0 = off)
         public double FootUnload, FootUnloadAt = 1.5, FootZdip, FootZdipMax = 4.0, FootZdipMargin = 0.5, FootZdipUp = 1.0, FootZdipDn = 0.5; public bool Foot, FootStance = true, FootDrive = true, FootMeas; public double FootPre = 0.5, FootHeelDeg = 2.0, FootW = 1.0, FootRate = 0.5, FootCopM = 0.08, FootFricFloor = 0.02; public bool R7NoForce, R7Clock; public double R7Fp; public bool R8Retime, R8RefClock, R8Trem; public double R8Gmin = 0.3, R8Gk = 3.0, R8Gmax = 1.0, R8SatK, R8SatFrac = 0.9, R8SwLim; public bool R10Diag; public double R10Fp, R10FpMin = 0.3, R9Gate, R9GateTmax = 1.0, R9Launch, R9Ramp = 0.3, R9Vfrac = 1.0, R9Tau = 2.0; public double FootCopHeelM, FootCopToeM;   // round 7   // round 6 (qp_foot*; Foot false = off)
@@ -37,7 +38,7 @@ namespace Game.Units.Mech.Qp
             FootZdip = t.qp_foot > 0.5 && t.qp_plan > 0.5 ? t.qp_foot_zdip : 0.0, FootZdipMax = t.qp_foot_zdip_max, FootZdipMargin = t.qp_foot_zdip_margin, FootZdipUp = t.qp_foot_zdip_up, FootZdipDn = t.qp_foot_zdip_dn,
             FootUnload = t.qp_foot > 0.5 && t.qp_plan > 0.5 ? t.qp_foot_unload : 0.0, FootUnloadAt = t.qp_foot_unload_at,
             Foot = t.qp_foot > 0.5 && t.qp_plan > 0.5, FootPre = t.qp_foot_pre, FootHeelDeg = t.qp_foot_heel_deg, FootStance = t.qp_foot_stance > 0.5, FootW = t.qp_foot_w, FootRate = t.qp_foot_rate, FootDrive = t.qp_foot_drive > 0.5,
-            FootMeas = t.qp_foot > 0.5 && t.qp_plan > 0.5 && t.qp_foot_meas > 0.5, FootCopM = t.qp_foot_cop_m, FootFricFloor = t.qp_foot_fric_floor, R7NoForce = t.qp_plan > 0.5 && t.qp_r7_noforce > 0.5, R7Fp = t.qp_plan > 0.5 ? t.qp_r7_fp : 0.0, R8Retime = t.qp_plan > 0.5 && t.qp_r8_retime > 0.5, R8RefClock = t.qp_r8_refclock > 0.5, R8Trem = t.qp_r8_trem > 0.5, R8Gmin = t.qp_r8_gmin, R8Gk = t.qp_r8_gk, R8Gmax = t.qp_r8_gmax, R8SatK = t.qp_r8_satk, R8SatFrac = t.qp_r8_satfrac, R8SwLim = t.qp_plan > 0.5 ? t.qp_r8_swlim : 0.0, R9Gate = t.qp_plan > 0.5 ? t.qp_r9_gate : 0.0, R10Diag = t.qp_plan > 0.5 && t.qp_r10_diag > 0.5, R11Ds = t.qp_plan > 0.5 ? (int)Math.Round(t.qp_r11_ds) : 0, R10Fp = t.qp_plan > 0.5 && t.qp_r7_fp <= 0.0 ? t.qp_r10_fp : 0.0, R10FpMin = t.qp_r10_fp_min, R9GateTmax = t.qp_r9_gate_tmax, R9Launch = t.qp_plan > 0.5 ? t.qp_r9_launch : 0.0, R9Ramp = t.qp_r9_ramp, R9Vfrac = t.qp_r9_vfrac, R9Tau = t.qp_r9_tau, R7Clock = t.qp_plan > 0.5 && t.qp_r7_clock > 0.5, FootCopHeelM = t.qp_foot_cop_heel_m, FootCopToeM = t.qp_foot_cop_toe_m,
+            FootMeas = t.qp_foot > 0.5 && t.qp_plan > 0.5 && t.qp_foot_meas > 0.5, FootCopM = t.qp_foot_cop_m, FootFricFloor = t.qp_foot_fric_floor, R7NoForce = t.qp_plan > 0.5 && t.qp_r7_noforce > 0.5, R7Fp = t.qp_plan > 0.5 ? t.qp_r7_fp : 0.0, R8Retime = t.qp_plan > 0.5 && t.qp_r8_retime > 0.5, R8RefClock = t.qp_r8_refclock > 0.5, R8Trem = t.qp_r8_trem > 0.5, R8Gmin = t.qp_r8_gmin, R8Gk = t.qp_r8_gk, R8Gmax = t.qp_r8_gmax, R8SatK = t.qp_r8_satk, R8SatFrac = t.qp_r8_satfrac, R8SwLim = t.qp_plan > 0.5 ? t.qp_r8_swlim : 0.0, R9Gate = t.qp_plan > 0.5 ? t.qp_r9_gate : 0.0, R10Diag = t.qp_plan > 0.5 && t.qp_r10_diag > 0.5, R11Ds = t.qp_plan > 0.5 ? (int)Math.Round(t.qp_r11_ds) : 0, R12RearToe = t.qp_plan > 0.5 && t.qp_r12_reartoe > 0.5, R12RearToeM = t.qp_r12_reartoe_m, R10Fp = t.qp_plan > 0.5 && t.qp_r7_fp <= 0.0 ? t.qp_r10_fp : 0.0, R10FpMin = t.qp_r10_fp_min, R9GateTmax = t.qp_r9_gate_tmax, R9Launch = t.qp_plan > 0.5 ? t.qp_r9_launch : 0.0, R9Ramp = t.qp_r9_ramp, R9Vfrac = t.qp_r9_vfrac, R9Tau = t.qp_r9_tau, R7Clock = t.qp_plan > 0.5 && t.qp_r7_clock > 0.5, FootCopHeelM = t.qp_foot_cop_heel_m, FootCopToeM = t.qp_foot_cop_toe_m,
             WTau = t.qp_w_tau, YawTrunk = t.qp_yaw_trunk > 0.5, YawFf = t.qp_yaw_ff, YawCap = t.qp_yaw_cap, YawBudget = t.qp_yaw_budget, YawBudgetFloor = t.qp_yaw_budget_floor, ArmRefYawFf = t.qp_arm_ref_yawff, LateCx = t.qp_late_cx, CxEmax = t.qp_cx_emax, Rom = t.qp_rom > 0.5, FpRom = t.qp_rom > 0.5 && t.qp_fp_rom > 0.5, RomMargin = t.qp_rom_margin_deg * Math.PI / 180, RomHorizon = t.qp_rom_horizon_s, RomAmax = t.qp_rom_amax, FpRomBand = t.qp_fp_rom_band_deg * Math.PI / 180, SwJ = t.qp_swj, SwJOm = t.qp_swj_om, SwJAmax = t.qp_swj_amax, SwJTd = t.qp_swj_td_frac, SwJAnkle = t.qp_swj_ankle > 0.5, CdxMax = t.qp_cdx_max, SwCp = t.qp_sw_cp, Plan = t.qp_plan > 0.5, PlanKxi = t.qp_plan_kxi, PlanLmin = t.qp_plan_lmin, PlanLmax = t.qp_plan_lmax, PlanTdFrac = t.qp_plan_td_frac, PlanTdTol = t.qp_plan_td_tol, PlanZkp = t.qp_plan_zkp, PlanZkd = t.qp_plan_zkd, PlanWz = t.qp_plan_wz, PlanWx = t.qp_plan_wx, PlanReplanM = t.qp_plan_replan_m, PlanFp = t.qp_plan_fp, PlanSw = t.qp_plan_sw, PlanApex = t.qp_plan_apex, PlanVd = t.qp_plan_vd, PlanFpTau = t.qp_plan_fp_tau, PlanHeelW = t.qp_plan_heelw, PlanDownFrac = t.qp_plan_down_frac, PlanForceFrac = t.qp_plan_force_frac, PlanForceZ = t.qp_plan_force_z, PlanMaxFrac = t.qp_plan_max_frac, PlanDs = t.qp_plan_ds, PlanReach = t.qp_plan_reach, SwFollow = t.qp_sw_follow, SwAmax = t.qp_sw_amax, TdAir = t.qp_td_air_frac, TdXoffMax = t.qp_td_xoff_max, Diag = t.qp_diag > 0.5, TdHeel = t.qp_td_heel > 0.5, Lateral = t.qp_lateral > 0.5, OmY = t.qp_om_y, WCy = t.qp_w_cy, WRoll = t.qp_w_roll, KRoll = t.qp_k_roll, WYaw = t.qp_w_yaw, OmYaw = t.qp_om_yaw
         };
     }
@@ -496,6 +497,12 @@ namespace Game.Units.Mech.Qp
                 int rl = _sch.Parity, fl = 1 - rl; double tds = Math.Max(_tl0[rl], 1e-3), ur = Math.Max(0.0, Math.Min(1.0, (tau - o.FootUnloadAt * tds) / o.FootUnload));
                 if (ur > 0 && (_fn[2 * fl] + _fn[2 * fl + 1]) > 0.3 * W) { double cap = o.FCap * (1.0 - ur); for (int a = 0; a < nS; a++) { int i = _sIdx[a]; if (i / 2 == rl) _fmax[i] = Math.Min(_fmax[i], cap); } }
             }
+            if (o.R12RearToe && o.Plan && double.IsNaN(_swT0))
+            {
+                // round 12: no load on the rear toe ahead of the CoM (a 15 m sole puts the rear toe ~5 m ahead of the front heel and of the CoM: W/2 there brakes the CoM). Only while both legs are in the contact schedule, so the QP keeps a support
+                int rl12 = _sch.Parity, fl12 = 1 - rl12;
+                if ((_sch.Inc[2 * fl12] || _sch.Inc[2 * fl12 + 1]) && _sch.Inc[2 * rl12 + 1] && _px[2 * rl12 + 1] > Com[0] - o.R12RearToeM) _fmax[2 * rl12 + 1] = 0;
+            }
             // generators: Gm (3 x nb), Em (2 nS x nb), Jb (9 x nb)
             Array.Clear(_gm, 0, _gm.Length); Array.Clear(_em, 0, _em.Length); Array.Clear(_jb, 0, _jb.Length);
             double cx = Com[0], cz = Com[1];
@@ -596,7 +603,8 @@ namespace Game.Units.Mech.Qp
             {
                 int ns = (_sch.Inc[2 * leg] ? 1 : 0) + (_sch.Inc[2 * leg + 1] ? 1 : 0);
                 if (o.Foot) FootUpdate(leg, ns, swLeg, tref, late, r[QpReference.Cq + 5 + 3 * leg], Q[5 + 3 * leg], dtfc);
-                if (ns == 2) continue;
+                bool r12Flat = ns == 2 && o.R12RearToe && o.Foot && o.Plan && leg == swLeg && double.IsNaN(_swT0);   // round 12: the rear sole keeps the sole-flat pitch task while it still carries load
+                if (ns == 2 && !r12Flat) continue;
                 int fidx = 5 + 3 * leg; double bl = 1.0; haveLt = false;
                 if (ns == 0)
                 {
@@ -666,7 +674,7 @@ namespace Game.Units.Mech.Qp
                 double af = r[QpReference.Cqdd + fidx] + kf * (r[QpReference.Cq + fidx] - Q[fidx]) + kfd * (r[QpReference.Cqd + fidx] - Qd[fidx]);
                 if (o.Foot) af = kf * (FootCmd[leg] - Q[fidx]) + kfd * (0.0 - Qd[fidx]);
                 else if (ns == 0 && leg == swLeg && haveLt) { af = _ltAcc[2] + kf * (_ltPos[2] - Q[fidx]) + kfd * (_ltVel[2] - Qd[fidx]); landOn = true; }
-                double wfs = 1.0; if (o.Foot) { if (ns == 0 && leg == swLeg) wfs = 1.0 + (o.FootW - 1.0) * _fcU[leg]; else if (ns == 1) wfs = o.FootW; }
+                double wfs = 1.0; if (o.Foot) { if (ns == 0 && leg == swLeg) wfs = 1.0 + (o.FootW - 1.0) * _fcU[leg]; else if (ns == 1 || r12Flat) wfs = o.FootW; }
                 double fps = 1.0;
                 if (o.FpRom) { int aj = 3 * leg + 2; double qa = 0; for (int c = 0; c < NQ; c++) qa += _cj[aj * NQ + c] * Q[c]; double dist = Math.Min(qa - RomLo[aj], RomHi[aj] - qa) - o.RomMargin; fps = Math.Max(0.0, Math.Min(1.0, dist / Math.Max(o.FpRomBand, 1e-6))); }
                 FpScale[leg] = fps; if (o.Diag && leg == swLeg) Diag[13] = fps;
