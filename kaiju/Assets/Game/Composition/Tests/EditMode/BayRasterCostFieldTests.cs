@@ -84,5 +84,34 @@ namespace Game.Composition.Tests
             float len = pl.PathLength(marin, ggbSf, SpeciesRole.Strider);
             Assert.Greater(len, 2f * straight, "Marin to the SF abutment must go round the Golden Gate (or be unreachable)");
         }
+
+        // ---- T-115h: bay_cost@v2 versioned switch ----
+        [Test]
+        public void VersionSwitchNamesAndRejectsUnknown()
+        {
+            Assert.AreEqual("bay_cost_256m_v1.bin", BayRasterCostField.FileNameFor("v1"));
+            Assert.AreEqual("bay_cost_256m_v2.bin", BayRasterCostField.FileNameFor("v2"));
+            Assert.AreEqual(BayRasterCostField.DefaultFileName, BayRasterCostField.FileNameFor(BayRasterCostField.V1));
+            Assert.Throws<ArgumentException>(() => BayRasterCostField.FileNameFor("v3"));
+            Assert.Throws<ArgumentException>(() => BayRasterCostField.FindRaster(Environment.CurrentDirectory, "v3"));
+        }
+
+        [Test]
+        public void V2KeepsDepthAndV1ProxyInCoverageHolesAndRaisesSoftGround()
+        {
+            string p1 = BayRasterCostField.FindRaster(Environment.CurrentDirectory, "v1"), p2 = BayRasterCostField.FindRaster(Environment.CurrentDirectory, "v2");
+            if (p1 == null || p2 == null) { Assert.Ignore("bay_cost rasters not found (evidence/T-115, evidence/T-115g)"); return; }
+            var a = BayRasterCostField.Load(p1); var b = BayRasterCostField.Load(p2);
+            Assert.AreEqual(a.Nx, b.Nx); Assert.AreEqual(a.Ny, b.Ny); Assert.AreEqual(a.CellM, b.CellM); Assert.AreEqual(a.OriginX, b.OriginX); Assert.AreEqual(a.OriginY, b.OriginY);
+            int same = 0, soft1 = 0, soft2 = 0;
+            for (int y = 0; y < a.Ny; y++) for (int x = 0; x < a.Nx; x++)
+            {
+                Assert.AreEqual(a.DepthM(x, y), b.DepthM(x, y), "depth is copied unchanged");
+                if (a.Softness(x, y) == b.Softness(x, y)) same++;
+                if (a.Softness(x, y) > 0.5f) soft1++; if (b.Softness(x, y) > 0.5f) soft2++;
+            }
+            Assert.Greater(same, a.Nx * a.Ny / 2, "outside the USGS coverage (holes, ocean) v2 keeps the v1 values");
+            Assert.AreEqual(27408, soft1); Assert.AreEqual(48688, soft2);   // numbers recorded in evidence/T-115g/bay_cost_256m_v2.json
+        }
     }
 }
