@@ -9,10 +9,12 @@ import subprocess
 import sys
 
 import numpy as np
+from PIL import Image
 
 from ._metrics import METRICS_PY, read_png
 from .scale import check_resolution, matches_nn_of, matches_shifted_nn_of
 
+SEAM_CAP = 0.05   # same cap as d-iv@v2 (divv2_set)
 VERDICT = {0: "PASS", 1: "FAIL", 2: "INVALID_INPUT", 3: "INCOMPLETE", 4: "TOOL_ERROR"}
 
 
@@ -30,7 +32,12 @@ def scale_check_set(set_dir, gameplay=True, min_match=1.0):
             ci = read_png(os.path.join(d, sc["files"]["color_internal"]))
             co = read_png(os.path.join(d, sc["files"]["color_output"]))
             shift = (sc.get("camera", {}).get("snap", {}) or {}).get("present_shift_output_px")
-            if shift is not None:   # exact relation (T-147): the present stage shows texel floor((y - sy) / k), floor((x + sx) / k)
+            if divv2_adapter_layered(sc) and "depth" in sc.get("files", {}):   # T-196f: slabs sit on different shifts, one shift cannot describe the frame
+                from . import divv2_adapter as A
+                m, own, undec = A.layered_nn_match(sc, np.array(Image.open(os.path.join(d, sc["files"]["depth"]))), ci, co)
+                if undec > SEAM_CAP:
+                    errs.append(f"layered frame: undecidable slab share {undec:.2%} exceeds the {SEAM_CAP:.0%} cap")
+            elif shift is not None:   # exact relation (T-147): the present stage shows texel floor((y - sy) / k), floor((x + sx) / k)
                 m = matches_shifted_nn_of(co, ci, res["integer_scale"], tuple(shift))
             else:
                 m = matches_nn_of(co, ci, res["integer_scale"], tuple(res.get("output_block_offset_px", (0, 0))))

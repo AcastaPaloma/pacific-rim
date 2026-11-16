@@ -181,3 +181,31 @@ def load_frame(seq_dir, sidecar_name):
     sc = json.load(open(os.path.join(seq_dir, sidecar_name)))
     rd = lambda key: np.array(Image.open(os.path.join(seq_dir, sc["files"][key])))
     return sc, rd("depth"), rd("color_output")[..., :3]
+
+
+def layered_nn_match(sidecar, depth_png16, color_internal, color_output):
+    """T-196f: no-stretch (M-123) relation for a layered frame. The present stage shows slab i at its own shift, so one
+    present_shift does not describe the frame (the single-shift relation reads 84-97 % on real layered clips). Slab i shows the internal
+    texel (floor((c + sx_i) / k), floor((r - sy_i) / k)). Pixels whose slab is undecidable (presented_labels = -1, the d-iv@v2 seam set,
+    same cap) are not compared. Every other pixel must equal the nearest-neighbour sample of the internal image under SOME slab's shift
+    (a stretch or filter produces colours no slab shift reproduces); the stricter share, equal under its own label, is returned too
+    (a composite label can be wrong by one texel at a boundary: seen once in 1080 frames).
+    Returns (any-slab match share over decidable pixels, own-label match share, undecidable share)."""
+    a = adapt(sidecar, depth_png16, (color_output.shape[1], color_output.shape[0]))
+    k, shifts = a["k"], sidecar["layers"]["shift_output_px"]
+    lab = a["labels"]
+    H, W = lab.shape
+    ih, iw = color_internal.shape[:2]
+    ci, co = color_internal[..., :3], color_output[..., :3]
+    own = np.zeros(lab.shape, bool)
+    anyslab = np.zeros(lab.shape, bool)
+    for i, (sx, sy) in enumerate(shifts):
+        ty = np.clip(np.floor_divide(np.arange(H) - sy, k), 0, ih - 1)
+        tx = np.clip(np.floor_divide(np.arange(W) + sx, k), 0, iw - 1)
+        eq = (ci[ty][:, tx] == co).all(-1)
+        anyslab |= eq
+        own |= eq & (lab == i)
+    dec = lab >= 0
+    if not dec.any():
+        return 0.0, 0.0, 1.0
+    return float(anyslab[dec].mean()), float(own[dec].mean()), float(1.0 - dec.mean())
