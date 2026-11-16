@@ -15,6 +15,8 @@ namespace Game.UI
         public const string Hud = "ui.hud";
         /// <summary>T-150: use the sha-checked hud_colours table instead of the embedded palettes.</summary>
         public const string HudData = "ui.hud_data";
+        /// <summary>T-154: draw the HUD view (Game.UI.Unity HudView) in the Slice host; needs ui.hud_data (the data layer) too.</summary>
+        public const string HudView = "ui.hud_view";
         /// <summary>T-153: load and save settings@v1.</summary>
         public const string Settings = "ui.settings";
     }

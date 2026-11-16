@@ -1,0 +1,108 @@
+{
+ "frame": "hud_composite_Small_k4_1080p.png",
+ "size": [
+  1920,
+  1080
+ ],
+ "k": 4,
+ "profile": "warm_amber_haze",
+ "blocks_uniform_whole_frame_best_offset": {
+  "value": 0.9962962962962963,
+  "offset": [
+   0,
+   2
+  ]
+ },
+ "blocks_uniform_whole_frame_offset00": 0.8490200617283951,
+ "regions": {
+  "mech_hp_label": {
+   "blocks_uniform_offset00": 1.0,
+   "unique_colours": 6
+  },
+  "mech_hp_bar": {
+   "blocks_uniform_offset00": 1.0,
+   "unique_colours": 3
+  },
+  "power_label": {
+   "blocks_uniform_offset00": 1.0,
+   "unique_colours": 4
+  },
+  "power_bar": {
+   "blocks_uniform_offset00": 1.0,
+   "unique_colours": 2
+  },
+  "heat_label": {
+   "outside_after_offset": true
+  },
+  "heat_bar": {
+   "blocks_uniform_offset00": 1.0,
+   "unique_colours": 3
+  },
+  "strain_gauge": {
+   "blocks_uniform_offset00": 1.0,
+   "unique_colours": 1
+  },
+  "pilot_portrait": {
+   "blocks_uniform_offset00": 1.0,
+   "unique_colours": 1
+  },
+  "ammo_text": {
+   "blocks_uniform_offset00": 1.0,
+   "unique_colours": 4
+  },
+  "reload_bar": {
+   "blocks_uniform_offset00": 1.0,
+   "unique_colours": 2
+  },
+  "ammo_pips": {
+   "blocks_uniform_offset00": 1.0,
+   "unique_colours": 3
+  },
+  "warning_line": {
+   "blocks_uniform_offset00": 1.0,
+   "unique_colours": 7
+  },
+  "kaiju_label": {
+   "blocks_uniform_offset00": 1.0,
+   "unique_colours": 4
+  },
+  "kaiju_bar": {
+   "blocks_uniform_offset00": 1.0,
+   "unique_colours": 2
+  },
+  "partner_block": {
+   "blocks_uniform_offset00": 1.0,
+   "unique_colours": 2
+  }
+ },
+ "drawn_elements": [
+  "mech_hp_label",
+  "mech_hp_bar",
+  "ammo_text",
+  "reload_bar",
+  "ammo_pips",
+  "warning_line",
+  "kaiju_label",
+  "kaiju_bar"
+ ],
+ "palette": {
+  "hud_colours": [
+   "031117",
+   "705451",
+   "b0735c",
+   "eb784e",
+   "fbc585"
+  ],
+  "pixels_checked": 36288,
+  "off_palette": 0,
+  "offenders": [],
+  "pass": true
+ },
+ "hud_grid": {
+  "min_region_blocks_uniform": 1.0
+ },
+ "clipping": {
+  "drawn_elements_whose_backdrop_leaves_the_480x270_frame": [],
+  "pass": true
+ }
+}

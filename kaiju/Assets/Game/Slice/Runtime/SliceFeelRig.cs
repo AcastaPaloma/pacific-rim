@@ -39,6 +39,8 @@ namespace Game.Slice
         public double LastKaijuHp = KaijuHitPoints, MinKaijuHp = KaijuHitPoints;
         public bool CombatOn => _comp.Combat != null;
         public bool HangarOn => _hangar != null;
+        /// <summary>EntityId value of the cannon mount (the id the Combat ammo query is keyed by); 0 without a cannon. T-154 HUD.</summary>
+        public int CannonMountId => _cannon != null ? (int)_cannon.Mount.Id.Value : 0;
         public int Ammo => _cannon != null ? _cannon.Cannon.Ammo : 0;
         public int MaxAmmo => _cannon != null ? _cannon.Cannon.Spec.MaxAmmo : 0;
         public double KaijuHpFraction => Math.Max(0.0, Math.Min(1.0, LastKaijuHp / KaijuHitPoints));
