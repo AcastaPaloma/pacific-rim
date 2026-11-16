@@ -1,0 +1,95 @@
+{
+ "schema": "capture_path@v1",
+ "path_id": "p4_e_title_card_v5",
+ "pillar": "P4",
+ "viewpoint": {
+  "id": "V5",
+  "tile": "L0_30_36",
+  "baytm": [
+   61591.4,
+   75450.7
+  ],
+  "heading_deg": 160
+ },
+ "profile_id": "lavender_peach",
+ "district_id": "SF-CoitTower",
+ "time_of_day": "fixed_v1",
+ "fps": 60,
+ "duration_s": 3.0,
+ "seed": 195020,
+ "interpolation": "linear",
+ "keyframes": [
+  {
+   "t_s": 0,
+   "pos_baytm": [
+    61591.4,
+    75450.7
+   ],
+   "alt_navd88": 92,
+   "yaw_deg": 160,
+   "pitch_deg": 2.3,
+   "hfov_deg": 60
+  },
+  {
+   "t_s": 3,
+   "pos_baytm": [
+    61591.4,
+    75450.7
+   ],
+   "alt_navd88": 92,
+   "yaw_deg": 160,
+   "pitch_deg": 2.3,
+   "hfov_deg": 60
+  }
+ ],
+ "shake": [],
+ "snap": {
+  "enabled": true,
+  "dither_anchor": "direction"
+ },
+ "outputs": [
+  {
+   "internal_wh": [
+    480,
+    270
+   ],
+   "output_wh": [
+    1920,
+    1080
+   ],
+   "scale": 4
+  },
+  {
+   "internal_wh": [
+    480,
+    270
+   ],
+   "output_wh": [
+    3840,
+    2160
+   ],
+   "scale": 8
+  }
+ ],
+ "mode": "still",
+ "actors": null,
+ "requires": [
+  "logotype"
+ ],
+ "reference_depth_m": 600,
+ "still_frames": [
+  0
+ ],
+ "hide_bids": [
+  "osm:w28824850"
+ ],
+ "notes": "PROPOSED (T-195, not run): P4-e title card = slow static V5 sunrise backdrop (p4_a_still_v5 framing) + library_logo.png composited by capture.py (non-world frame, UI palette check). The logotype is TEMPORARY (docs/store/assets/manifest.json).",
+ "overlay": {
+  "kind": "logotype",
+  "asset": "docs/store/assets/library_logo.png",
+  "anchor": "center",
+  "int_scale_on_1920x1080": 1,
+  "composite_after": "color_output",
+  "ui_palette_check": true
+ }
+}
