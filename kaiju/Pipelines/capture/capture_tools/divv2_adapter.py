@@ -222,20 +222,29 @@ def layered_nn_match(sidecar, depth_png16, color_internal, color_output, slab_id
     a = adapt(sidecar, depth_png16, (color_output.shape[1], color_output.shape[0]), slab_id=slab_id)
     k, shifts = a["k"], sidecar["layers"]["shift_output_px"]
     lab = a["labels"]
+    vouch = None
     if slab_id is not None:
-        # T-196g: the renderer names its gap fills. A gap fill is shown from one slab's own target at that slab's texel (deterministic rule:
-        # smallest radial distance), where the zero-shift composite may show a different slab, so the composite cannot vouch for it: it is
-        # excluded like the other undecidable pixels (same 5 % cap, reported in the undecidable share). Every other pixel is compared, exactly.
-        lab = np.where(a["gap"], -1, lab).astype(np.int16)
+        # T-196g: the renderer names the slab of every pixel, so nothing about the label is guessed. What the zero-shift composite (the saved internal
+        # image) can vouch for is a different question: slab i's sample at its texel appears in the internal image only where the composite also picked
+        # slab i there. Excluded as undecidable (same 5 % cap, reported in the undecidable share): gap fills (shown from one slab's own target, deterministic
+        # smallest-radial rule), samples clamped at the guard band (no internal texel), and texels where the composite shows a nearer slab (depth label
+        # below i, or too close to a slab boundary for the depth code to tell). Every other pixel is compared exactly.
+        lab = np.where(a["gap"] | a["clamped"], -1, lab).astype(np.int16)
+        cam = sidecar["camera"]
+        z, sky = decode_depth(depth_png16, cam)
+        vouch = internal_labels(radial_m(z, cam), sky, sidecar["layers"]["boundaries_radial_m"], depth_quantum(cam))
     H, W = lab.shape
     ih, iw = color_internal.shape[:2]
     ci, co = color_internal[..., :3], color_output[..., :3]
     own = np.zeros(lab.shape, bool)
     anyslab = np.zeros(lab.shape, bool)
     for i, (sx, sy) in enumerate(shifts):
-        ty = np.clip(np.floor_divide(np.arange(H) - sy, k), 0, ih - 1)
-        tx = np.clip(np.floor_divide(np.arange(W) + sx, k), 0, iw - 1)
+        ry, rx = np.floor_divide(np.arange(H) - sy, k), np.floor_divide(np.arange(W) + sx, k)
+        ty, tx = np.clip(ry, 0, ih - 1), np.clip(rx, 0, iw - 1)
         eq = (ci[ty][:, tx] == co).all(-1)
+        if vouch is not None:
+            vi = (vouch[ty][:, tx] == i) & (((ry >= 0) & (ry < ih))[:, None] & ((rx >= 0) & (rx < iw))[None, :])   # guard-band texels are not in the internal image
+            lab = np.where((lab == i) & ~vi, -1, lab).astype(np.int16)
         anyslab |= eq
         own |= eq & (lab == i)
     dec = lab >= 0

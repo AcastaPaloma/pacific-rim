@@ -99,10 +99,10 @@ Shader "Hidden/Game/Pixel/Present"
                         if (radial < smallestRadial) { smallestRadial = radial; smallest = i; }
                     }
                 }
-                // Slab-id channel (T-196g, capture-only, _PixelPresentMode.w = 2): 1 + slab, +4 when no slab was covered and owned at its own texel (the gap rule chose), +8 when
+                // Slab-id channel (T-196g, capture-only, _PixelPresentMode.w = 2): 1 + slab, +4 when some slab was covered but none owned at its own texel (the gap rule chose; sky is not a gap), +8 when
                 // the chosen sample was clamped into the guard band edge. Written to alpha; colour and every default output are unchanged.
-                bool gap = pick < 0;
-                if (gap) pick = smallest >= 0 ? smallest : 2;
+                bool gap = pick < 0 && smallest >= 0;   // a covered sample chose; nothing covered is sky (far slab), not a gap fill
+                if (pick < 0) pick = smallest >= 0 ? smallest : 2;
                 float2 rawT = floor((o + shift[pick]) / _PixelPresent.x) + _PixelPresent.y;
                 slabCode = (1.0 + pick + (gap ? 4.0 : 0.0) + (any(rawT != float2(texel[pick])) ? 8.0 : 0.0)) / 255.0;
                 depthOut = depth[pick];
