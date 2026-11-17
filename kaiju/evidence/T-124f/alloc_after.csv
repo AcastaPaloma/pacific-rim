@@ -1,0 +1,27 @@
+== host tick (bytes/tick, scheduler + host, fake reader/builder) ==
+speed_mps,replan_move_m,bytes_per_tick,bytes_per_quiet_tick,bytes_per_load_or_evict_tick,load_ticks,ticks
+6,0,30,2,213,749,5500
+6,3,26,2,242,565,5500
+30,0,105,50,269,1396,5500
+30,3,105,50,269,1396,5500
+100,0,216,56,376,2748,5500
+100,3,216,56,376,2748,5500
+== tile reads (bytes allocated on the reading thread, median of 3 after a warm-up) ==
+what,bytes,ms
+L0 render 30_36,23410856,33.7
+L0 physics chunk 30_36 (3,3),536720,0.3
+L0 physics chunk 30_36 (5,2) fresh reader (model rebuild),194827064,17245.2
+L1 render 17_17,55314144,13594.2
+L2 render 8_8,49643720,14211.3
+L3 render 4_4,30522800,14135.1
+L4 render 2_2,28033208,13436.1
+== components of one L2 read (L2_08_08) ==
+what,bytes,ms
+terrain.r16 File.ReadAllBytes,8397200,1.2
+GeoHeightField.FromR16,16793696,107.9
+RtinMesher.Build,21410032,13483.0
+form b1 ReadAllBytes + LodMesh.Decode,7465712,30.8
+form b1 LodBuildingIndex.Parse,13477168,89.0
+form b2 ReadAllBytes + LodMesh.Decode,807824,0.9
+form b2 LodBuildingIndex.Parse,11344,0.0
+water.png ReadAllBytes + PngGray8.Decode,8414992,240.7

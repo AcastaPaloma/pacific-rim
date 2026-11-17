@@ -21,9 +21,15 @@ namespace Game.World.Geo
         {
             if (raw.Length != samples * samples * 2) throw new InvalidDataException("terrain.r16 has " + raw.Length + " bytes, expected " + samples * samples * 2);
             var h = new float[samples * samples];
-            double k = (hMax - hMin) / 65535.0;
-            for (int i = 0; i < h.Length; i++) h[i] = (float)(hMin + (raw[2 * i] | (raw[2 * i + 1] << 8)) * k);
+            DecodeR16(raw, h, hMin, hMax);
             return new GeoHeightField(h, samples, spacing) { HMin = hMin, HMax = hMax };
+        }
+
+        /// <summary>T-124f: the r16 -> metres conversion of FromR16 into a caller-owned array (every element is overwritten, so a pooled array needs no clearing).</summary>
+        public static void DecodeR16(byte[] raw, float[] dest, double hMin, double hMax)
+        {
+            double k = (hMax - hMin) / 65535.0;
+            for (int i = 0; i < dest.Length; i++) dest[i] = (float)(hMin + (raw[2 * i] | (raw[2 * i + 1] << 8)) * k);
         }
 
         static double Bilinear(float[] a, int n, double spacing, double x, double z)
@@ -100,28 +106,45 @@ namespace Game.World.Geo
         public static byte[] Decode(byte[] png, out int width, out int height)
         {
             if (png.Length < 8 || png[0] != 0x89 || png[1] != (byte)'P') throw new InvalidDataException("not a PNG");
-            int p = 8;
+            // T-124f: sized buffers instead of growing MemoryStreams (the decode of a 2048 x 2048 water mask used to allocate 25 MB for a 4 MB result); same bytes out
+            int p = 8, idatTotal = 0;
             width = height = 0;
-            var idat = new MemoryStream();
             while (p < png.Length)
             {
                 int len = (png[p] << 24) | (png[p + 1] << 16) | (png[p + 2] << 8) | png[p + 3];
-                string type = System.Text.Encoding.ASCII.GetString(png, p + 4, 4);
+                bool ihdr = png[p + 4] == (byte)'I' && png[p + 5] == (byte)'H' && png[p + 6] == (byte)'D' && png[p + 7] == (byte)'R';
+                bool idatChunk = png[p + 4] == (byte)'I' && png[p + 5] == (byte)'D' && png[p + 6] == (byte)'A' && png[p + 7] == (byte)'T';
+                bool iend = png[p + 4] == (byte)'I' && png[p + 5] == (byte)'E' && png[p + 6] == (byte)'N' && png[p + 7] == (byte)'D';
                 int d = p + 8;
-                if (type == "IHDR")
+                if (ihdr)
                 {
                     width = (png[d] << 24) | (png[d + 1] << 16) | (png[d + 2] << 8) | png[d + 3];
                     height = (png[d + 4] << 24) | (png[d + 5] << 16) | (png[d + 6] << 8) | png[d + 7];
                     if (png[d + 8] != 8 || png[d + 9] != 0 || png[d + 12] != 0) throw new InvalidDataException("PNG must be 8-bit greyscale, non-interlaced");
                 }
-                else if (type == "IDAT") idat.Write(png, d, len);
-                else if (type == "IEND") break;
+                else if (idatChunk) idatTotal += len;
+                else if (iend) break;
                 p = d + len + 4;
             }
-            var z = idat.ToArray();
-            var raw = new MemoryStream();
-            using (var ds = new DeflateStream(new MemoryStream(z, 2, z.Length - 2), CompressionMode.Decompress)) ds.CopyTo(raw);
-            var r = raw.ToArray();
+            var z = new byte[idatTotal];
+            int zi = 0;
+            for (p = 8; p < png.Length;)
+            {
+                int len = (png[p] << 24) | (png[p + 1] << 16) | (png[p + 2] << 8) | png[p + 3];
+                bool idatChunk = png[p + 4] == (byte)'I' && png[p + 5] == (byte)'D' && png[p + 6] == (byte)'A' && png[p + 7] == (byte)'T';
+                bool iend = png[p + 4] == (byte)'I' && png[p + 5] == (byte)'E' && png[p + 6] == (byte)'N' && png[p + 7] == (byte)'D';
+                int d = p + 8;
+                if (idatChunk) { Buffer.BlockCopy(png, d, z, zi, len); zi += len; }
+                else if (iend) break;
+                p = d + len + 4;
+            }
+            var r = new byte[height * (width + 1)];
+            using (var ds = new DeflateStream(new MemoryStream(z, 2, z.Length - 2), CompressionMode.Decompress))
+            {
+                int got = 0;
+                while (got < r.Length) { int k = ds.Read(r, got, r.Length - got); if (k <= 0) break; got += k; }
+                if (got < r.Length) throw new InvalidDataException("PNG data is shorter than " + width + " x " + height);
+            }
             var o = new byte[width * height];
             int stride = width + 1;
             for (int y = 0; y < height; y++)

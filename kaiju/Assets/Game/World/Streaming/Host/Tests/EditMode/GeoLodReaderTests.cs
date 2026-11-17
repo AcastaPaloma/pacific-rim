@@ -47,7 +47,7 @@ namespace Game.World.Streaming.Host.Tests
         };
         static float[] Ups(int vertices) { var n = new float[vertices * 3]; for (int k = 1; k < n.Length; k += 3) n[k] = 1f; return n; }
 
-        static void WriteSyntheticTile(string dir, GeoTileId id, string indexOverride = null)
+        internal static void WriteSyntheticTile(string dir, GeoTileId id, string indexOverride = null)
         {
             double ox = id.OriginX, oz = id.OriginZ;
             // terrain: gentle slope plus a rough bump so the RTIN mesh is non-trivial; heights 0..~41 m
