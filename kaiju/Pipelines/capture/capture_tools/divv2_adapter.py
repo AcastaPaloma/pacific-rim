@@ -136,6 +136,28 @@ def presented_labels(lab_int, sidecar, out_wh):
     return lab
 
 
+def slab_id_labels(code):
+    """T-196g: exact per-pixel slab labels from the renderer's slab-id channel (`files.slab_id`, the layered present's alpha; PixelPresent.shader).
+    Code = 1 + slab, +4 when no slab was covered and owned at its own texel (the deterministic gap rule, smallest radial distance, chose), +8 when the
+    chosen sample was clamped at the guard-band edge; 255 (or 0) = no slab information. Returns (labels int16, -1 = none; gap bool; clamped bool).
+    Nothing is guessed from the composite depth: the label of every pixel is the slab that rendered it, gap fills included."""
+    c = np.asarray(code).astype(np.int16)
+    none = (c == 255) | (c == 0)
+    lab = ((c & 3) - 1).astype(np.int16)
+    lab[none] = -1
+    return lab, ((c >> 2) & 1).astype(bool) & ~none, ((c >> 3) & 1).astype(bool) & ~none
+
+
+def load_slab_id(seq_dir, sidecar):
+    """Slab-id code image for a frame, or None when the capture has no slab-id channel (older captures)."""
+    import os
+    name = (sidecar.get("files") or {}).get("slab_id")
+    if not name:
+        return None
+    path = os.path.join(seq_dir, name)
+    return np.array(Image.open(path)) if os.path.exists(path) else None
+
+
 def guard_labels(lab, guard_px):
     """Set label to -1 within guard_px (Chebyshev) of a pixel with another label: tolerance for the capture label boundary
     being displaced against the presented slab boundary (depth is not shifted with the slab's output shift)."""
@@ -148,13 +170,18 @@ def guard_labels(lab, guard_px):
     return out
 
 
-def adapt(sidecar, depth_png16, out_wh=None, guard_px=0, mapping="presented"):
-    """-> dict(labels, declared, k, lab_internal). declared None when the frame is not layered (v1 reading)."""
+def adapt(sidecar, depth_png16, out_wh=None, guard_px=0, mapping="presented", slab_id=None):
+    """-> dict(labels, declared, k, lab_internal). declared None when the frame is not layered (v1 reading). With `slab_id` (the capture's
+    slab-id channel, T-196g) the labels are exact and mapping/guess steps are skipped (`gap`, `clamped` masks returned too)."""
     cam = sidecar["camera"]
     k = sidecar["resolution"]["integer_scale"]
     declared = declared_offsets(sidecar)
     if declared is None:
         return {"labels": None, "declared": None, "k": k, "offset": tuple(sidecar["resolution"]["output_block_offset_px"])}
+    if slab_id is not None:
+        lab, gap, clamped = slab_id_labels(slab_id)
+        return {"labels": guard_labels(lab, guard_px), "declared": declared, "k": k, "lab_internal": None, "gap": gap, "clamped": clamped,
+                "offset": tuple(sidecar["resolution"]["output_block_offset_px"])}
     z, sky = decode_depth(depth_png16, cam)
     rad = radial_m(z, cam)
     lab_int = internal_labels(rad, sky, sidecar["layers"]["boundaries_radial_m"], depth_quantum(cam))
@@ -166,16 +193,17 @@ def adapt(sidecar, depth_png16, out_wh=None, guard_px=0, mapping="presented"):
             "lab_internal": lab_int, "offset": tuple(sidecar["resolution"]["output_block_offset_px"])}
 
 
-def evaluate_frame(sidecar, depth_png16, color_output, guard_px=0, mapping="presented"):
+def evaluate_frame(sidecar, depth_png16, color_output, guard_px=0, mapping="presented", slab_id=None):
     """Run divv2.frame_ok on a real frame. Also returns the seam share (1 - eval_area)."""
-    a = adapt(sidecar, depth_png16, (color_output.shape[1], color_output.shape[0]), guard_px, mapping)
+    a = adapt(sidecar, depth_png16, (color_output.shape[1], color_output.shape[0]), guard_px, mapping, slab_id)
     if a["declared"] is None:
         return divv2.frame_ok(color_output, a["k"], None, None, offset=a["offset"])
     return divv2.frame_ok(color_output, a["k"], labels=a["labels"], declared=a["declared"])
 
 
 def load_frame(seq_dir, sidecar_name):
-    """(sidecar, depth uint16 array, color_output uint8) for one frame json in a capture sequence dir."""
+    """(sidecar, depth uint16 array, color_output uint8) for one frame json in a capture sequence dir. The slab-id channel, when captured, is
+    read with load_slab_id(seq_dir, sidecar)."""
     import json
     import os
     sc = json.load(open(os.path.join(seq_dir, sidecar_name)))
@@ -183,7 +211,7 @@ def load_frame(seq_dir, sidecar_name):
     return sc, rd("depth"), rd("color_output")[..., :3]
 
 
-def layered_nn_match(sidecar, depth_png16, color_internal, color_output):
+def layered_nn_match(sidecar, depth_png16, color_internal, color_output, slab_id=None):
     """T-196f: no-stretch (M-123) relation for a layered frame. The present stage shows slab i at its own shift, so one
     present_shift does not describe the frame (the single-shift relation reads 84-97 % on real layered clips). Slab i shows the internal
     texel (floor((c + sx_i) / k), floor((r - sy_i) / k)). Pixels whose slab is undecidable (presented_labels = -1, the d-iv@v2 seam set,
@@ -191,9 +219,14 @@ def layered_nn_match(sidecar, depth_png16, color_internal, color_output):
     (a stretch or filter produces colours no slab shift reproduces); the stricter share, equal under its own label, is returned too
     (a composite label can be wrong by one texel at a boundary: seen once in 1080 frames).
     Returns (any-slab match share over decidable pixels, own-label match share, undecidable share)."""
-    a = adapt(sidecar, depth_png16, (color_output.shape[1], color_output.shape[0]))
+    a = adapt(sidecar, depth_png16, (color_output.shape[1], color_output.shape[0]), slab_id=slab_id)
     k, shifts = a["k"], sidecar["layers"]["shift_output_px"]
     lab = a["labels"]
+    if slab_id is not None:
+        # T-196g: the renderer names its gap fills. A gap fill is shown from one slab's own target at that slab's texel (deterministic rule:
+        # smallest radial distance), where the zero-shift composite may show a different slab, so the composite cannot vouch for it: it is
+        # excluded like the other undecidable pixels (same 5 % cap, reported in the undecidable share). Every other pixel is compared, exactly.
+        lab = np.where(a["gap"], -1, lab).astype(np.int16)
     H, W = lab.shape
     ih, iw = color_internal.shape[:2]
     ci, co = color_internal[..., :3], color_output[..., :3]

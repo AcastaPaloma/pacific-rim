@@ -68,7 +68,8 @@ namespace Game.Rendering.Pixel
                 bool depthOut = m_Binder.controlDepthOutput && !m_Present.controlBilinear;   // capture-only: write the log-coded depth of the shown texel
                 data.hasDepth = useDepth || (depthOut && !layered && m_Binder.InternalDepthHandle != null);
                 data.v2.z = layered ? 2f : useDepth ? 1f : 0f;
-                data.v2.w = depthOut ? 1f : 0f;
+                bool slabOut = m_Binder.controlSlabIdOutput && layered && !depthOut;   // capture-only: slab id in alpha (T-196g)
+                data.v2.w = depthOut ? 1f : slabOut ? 2f : 0f;
                 data.camPos = useDepth ? depthShift : Vector4.zero;
                 if (data.hasDepth) { data.depth = renderGraph.ImportTexture(m_Binder.InternalDepthHandle); builder.UseTexture(data.depth, AccessFlags.Read); }
                 data.slabTex = null;

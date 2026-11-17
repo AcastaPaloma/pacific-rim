@@ -34,7 +34,7 @@ def scale_check_set(set_dir, gameplay=True, min_match=1.0):
             shift = (sc.get("camera", {}).get("snap", {}) or {}).get("present_shift_output_px")
             if divv2_adapter_layered(sc) and "depth" in sc.get("files", {}):   # T-196f: slabs sit on different shifts, one shift cannot describe the frame
                 from . import divv2_adapter as A
-                m, own, undec = A.layered_nn_match(sc, np.array(Image.open(os.path.join(d, sc["files"]["depth"]))), ci, co)
+                m, own, undec = A.layered_nn_match(sc, np.array(Image.open(os.path.join(d, sc["files"]["depth"]))), ci, co, slab_id=A.load_slab_id(d, sc))
                 if undec > SEAM_CAP:
                     errs.append(f"layered frame: undecidable slab share {undec:.2%} exceeds the {SEAM_CAP:.0%} cap")
             elif shift is not None:   # exact relation (T-147): the present stage shows texel floor((y - sy) / k), floor((x + sx) / k)
@@ -70,7 +70,7 @@ def divv2_set(set_dir, out_dir):
             if divv2_adapter_layered(sc) is False or "depth" not in sc.get("files", {}):
                 continue
             sc, d, c = A.load_frame(seq, n)
-            r = A.evaluate_frame(sc, d, c)
+            r = A.evaluate_frame(sc, d, c, slab_id=A.load_slab_id(seq, sc))
             if r["version"] != "v2":
                 continue
             off = tuple(sc["resolution"]["output_block_offset_px"])

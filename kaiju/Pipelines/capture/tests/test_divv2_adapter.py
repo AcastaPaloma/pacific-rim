@@ -157,3 +157,51 @@ def test_layered_nn_match_t196f():
     assert scale.matches_shifted_nn_of(out, ci, K, (-1, -1)) < 1.0
     soft = out.astype(np.float32); soft = ((soft + np.roll(soft, 1, 1) + np.roll(soft, 1, 0)) / 3).astype(np.uint8)
     assert A.layered_nn_match(sc, depth, ci, soft)[0] < 0.9
+
+
+def test_slab_id_labels_decode_t196g():
+    """Slab-id channel code: 1 + slab, +4 gap rule, +8 clamped at the guard band; 255 / 0 = no information."""
+    code = np.array([[1, 2, 3, 255, 0], [5, 6, 7, 1 + 8, 3 + 4 + 8]], np.uint8)
+    lab, gap, clamped = A.slab_id_labels(code)
+    assert lab.tolist() == [[0, 1, 2, -1, -1], [0, 1, 2, 0, 2]]
+    assert gap.tolist() == [[False] * 5, [True, True, True, False, True]]
+    assert clamped.tolist() == [[False] * 5, [False, False, False, True, True]]
+
+
+def test_gap_fill_block_is_named_not_guessed_t196g():
+    """T-196f finding: a gap-filled texel shows one slab's own colour where the composite shows another, so it matches no internal nearest-neighbour sample
+    and the depth-derived label cannot say why. With the renderer's slab-id channel the block is named (gap) and excluded from the M-123 comparison, every
+    other pixel still compared exactly; without the channel the same frame fails, and a stretched frame still fails with it (negative control)."""
+    sc = copy.deepcopy(SC); sc["layers"]["shift_output_px"] = [[-2, 1], [-1, -1], [0, -3]]
+    ci = _tex(5)
+    depth = _depth_png([60.0, 800.0, 20000.0])
+    lab = A.adapt(sc, depth)["labels"]
+    out = np.zeros((OH, OW, 3), np.uint8)
+    for i, (sx, sy) in enumerate(sc["layers"]["shift_output_px"]):
+        ty = np.clip(np.floor_divide(np.arange(OH) - sy, K), 0, IH - 1)
+        tx = np.clip(np.floor_divide(np.arange(OW) + sx, K), 0, IW - 1)
+        out[lab == i] = ci[ty][:, tx][lab == i]
+        if i == 1: out[lab == -1] = ci[ty][:, tx][lab == -1]          # pixels the depth guess left undecided: the renderer says slab 1
+    code = np.where(lab >= 0, lab + 1, 255).astype(np.uint8)
+    code[lab == -1] = 1 + 1                                           # undecided-by-depth pixels named as slab 1 (exact labels everywhere)
+    ys, xs = np.nonzero(lab == 0); y0, x0 = ys[len(ys) // 2], xs[len(xs) // 2]
+    y0, x0 = y0 - y0 % K, x0 - x0 % K
+    out[y0:y0 + 3, x0:x0 + 4] = (out[y0, x0] ^ 0x5A)                  # a 4x3 texel no slab's nearest-neighbour sample reproduces
+    code[y0:y0 + 3, x0:x0 + 4] = 1 + 0 + 4                            # the renderer says: gap fill, slab 0
+    assert A.layered_nn_match(sc, depth, ci, out)[0] < 1.0
+    m, own, undec = A.layered_nn_match(sc, depth, ci, out, slab_id=code)
+    assert m == 1.0 and undec > 11 / (OH * OW)
+    soft = out.astype(np.float32); soft = ((soft + np.roll(soft, 1, 1) + np.roll(soft, 1, 0)) / 3).astype(np.uint8)
+    assert A.layered_nn_match(sc, depth, ci, soft, slab_id=code)[0] < 0.9
+
+
+def test_slab_id_channel_gives_exact_labels_to_divv2_t196g():
+    """With the channel, evaluate_frame uses the renderer's labels: no pixel is undecided, so the seam is only block-boundary pixels."""
+    sc = copy.deepcopy(SC); sc["layers"]["shift_output_px"] = [[0, 0], [0, 0], [0, 0]]
+    depth = _depth_png([60.0, 800.0, 20000.0])
+    out = np.repeat(np.repeat(_tex(9), K, 0), K, 1)[:OH, :OW]
+    code = np.full((OH, OW), 1 + 0, np.uint8)
+    a = A.adapt(sc, depth, (OW, OH), slab_id=code)
+    assert (a["labels"] == 0).all() and not a["gap"].any()
+    r = A.evaluate_frame(sc, depth, out, slab_id=code)
+    assert r["version"] == "v2" and r["frame"] >= 0.995

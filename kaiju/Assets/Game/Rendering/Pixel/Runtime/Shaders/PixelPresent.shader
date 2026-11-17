@@ -78,7 +78,7 @@ Shader "Hidden/Game/Pixel/Present"
             // Layered composite for output pixel o (mirrors PixelLayerPlan.Composite): each slab is sampled at its own shift; the first slab, near to far, whose sample is
             // covered and lies in its own radial range wins; a gap takes the covered sample with the smallest radial distance; nothing covered is the far slab (sky).
             // Radial distance = eye depth * length of the texel's view ray (the haze bands are radial).
-            float3 PixelLayeredColour(float2 o, out float depthOut)
+            float3 PixelLayeredColour(float2 o, out float depthOut, out float slabCode)
             {
                 float2 maxT = _PixelPresentSize.zw - 1.0;
                 float2 shift[3] = { _PixelSlabShift01.xy, _PixelSlabShift01.zw, _PixelSlabShift2.xy };
@@ -99,7 +99,12 @@ Shader "Hidden/Game/Pixel/Present"
                         if (radial < smallestRadial) { smallestRadial = radial; smallest = i; }
                     }
                 }
-                if (pick < 0) pick = smallest >= 0 ? smallest : 2;
+                // Slab-id channel (T-196g, capture-only, _PixelPresentMode.w = 2): 1 + slab, +4 when no slab was covered and owned at its own texel (the gap rule chose), +8 when
+                // the chosen sample was clamped into the guard band edge. Written to alpha; colour and every default output are unchanged.
+                bool gap = pick < 0;
+                if (gap) pick = smallest >= 0 ? smallest : 2;
+                float2 rawT = floor((o + shift[pick]) / _PixelPresent.x) + _PixelPresent.y;
+                slabCode = (1.0 + pick + (gap ? 4.0 : 0.0) + (any(rawT != float2(texel[pick])) ? 8.0 : 0.0)) / 255.0;
                 depthOut = depth[pick];
                 return SlabColourAt(pick, texel[pick]).rgb;
             }
@@ -118,9 +123,10 @@ Shader "Hidden/Game/Pixel/Present"
                 float2 o = floor(input.texcoord * _PixelPresentSize.xy);
                 float3 c;
                 float depthOut = 3.0e38;
+                float slabCode = 1.0;   // alpha 255 = no slab information
                 if (_PixelPresentMode.z > 1.5 && _PixelPresentMode.y < 0.5)
                 {
-                    c = PixelLayeredColour(o, depthOut);
+                    c = PixelLayeredColour(o, depthOut, slabCode);
                 }
                 else if (_PixelPresentMode.z > 0.5 && _PixelPresentMode.y < 0.5)
                 {
@@ -137,11 +143,11 @@ Shader "Hidden/Game/Pixel/Present"
                     float2 t = floor((o + _PixelPresent.zw) / _PixelPresent.x) + _PixelPresent.y;
                     int2 ti = int2(clamp(t, 0.0, _PixelPresentSize.zw - 1.0));
                     c = LOAD_TEXTURE2D(_PixelInternalTex, ti).rgb;
-                    if (_PixelPresentMode.w > 0.5) depthOut = LOAD_TEXTURE2D(_PixelInternalDepthTex, ti).r;
+                    if (_PixelPresentMode.w > 0.5 && _PixelPresentMode.w < 1.5) depthOut = LOAD_TEXTURE2D(_PixelInternalDepthTex, ti).r;
                 }
-                if (_PixelPresentMode.w > 0.5) return float4(PixelDepthCode(depthOut), 1);
+                if (_PixelPresentMode.w > 0.5 && _PixelPresentMode.w < 1.5) return float4(PixelDepthCode(depthOut), 1);
                 if (_PixelPresentMode.x > 0.5) c = PixelSrgbToLinear(c);
-                return float4(c, 1);
+                return float4(c, _PixelPresentMode.w > 1.5 ? slabCode : 1.0);
             }
             ENDHLSL
         }

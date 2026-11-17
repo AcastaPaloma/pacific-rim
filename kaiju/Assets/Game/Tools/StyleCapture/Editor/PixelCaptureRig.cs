@@ -20,6 +20,7 @@ namespace Game.Tools.StyleCapture
         public byte[] Index;      // palette index per pixel, 255 = not palette-quantised
         public float[] Depth;     // eye-space linear depth (m); >= 1e29 = sky
         public byte[] OutputRgb;  // presented frame, 3 bytes per pixel (null when the output was not read)
+        public byte[] OutputSlab; // T-196g: slab-id code per output pixel (the present's alpha, see PixelPresent.shader), null unless Binder.controlSlabIdOutput
     }
 
     /// <summary>
@@ -150,6 +151,12 @@ namespace Game.Tools.StyleCapture
                 m_OutputTex.ReadPixels(new Rect(0, 0, ow, oh), 0, 0, false);
                 NativeArray<byte> o = m_OutputTex.GetRawTextureData<byte>();
                 for (int i = 0, n = ow * oh; i < n; i++) { f.OutputRgb[i * 3] = o[i * 4]; f.OutputRgb[i * 3 + 1] = o[i * 4 + 1]; f.OutputRgb[i * 3 + 2] = o[i * 4 + 2]; }
+                if (Binder.controlSlabIdOutput)
+                {
+                    if (f.OutputSlab == null || f.OutputSlab.Length != ow * oh) f.OutputSlab = new byte[ow * oh];
+                    for (int i = 0, n = ow * oh; i < n; i++) f.OutputSlab[i] = o[i * 4 + 3];
+                }
+                else f.OutputSlab = null;
             }
             else if (!readOutput) { f.OutputRgb = null; f.OutputWidth = f.OutputHeight = 0; }
             RenderTexture.active = previous;
