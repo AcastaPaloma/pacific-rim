@@ -216,3 +216,12 @@ Next unblocked: quiet-window seed 5 run on this build (compare `gcd=` and M-008.
   1. T-106c, which can now run: seams, collider overlaps, the remaining default-height counties (find which counties lack LiDAR coverage or have unmatched footprints);
   2. then one full LOD refresh (L1–L4 are stale after the re-bakes, about hours; needs ≥40 % free memory, 1 Unity, 2 workers);
   3. then T-124c on a quiet machine (load was 15 at 03:20Z, too high).
+
+## T-106c (M2 worker, 2026-11-17): M-005@v2 Bay-scale fixes
+- Merged to the integration branch; no threshold changed, no Unity run. Full m005 pass after the fixes (1316 s): pass 16, fail 5 (was 15 / 6).
+- **collider_overlap PASS** (16 pairs, 1659 m2 -> 0): OSM has overlapping footprints; the bake now excludes a lower footprint that lies >= 90 % inside a higher one and clips it otherwise (`buildings.overlap`, 12 tiles re-baked).
+- **terrain_seam_all_edges 29 -> 2 edges** (max 8.0 -> 6.8 m): cause was the T-103 fill list (tiles with placeholder nodes) ending at a border, so one side read older 3DEP projects and the other fell back to CUDEM. Tiles now also read the cached 3DEP windows of their neighbours (`terrain.edge_donors`, 58 tiles re-baked, the filled side unchanged byte for byte). Left: L0_26_44|27_44 and L0_33_39|33_40, both a pier deck raised in only one tile; fix = deck height from samples around the whole pier, independent of the tile grid.
+- **default_height_share stays 0.1035 (FAIL)**: 82 % of the default area sits in 313 tiles (207 Contra Costa, 106 Sonoma) the lidar fill never attempted, because `fetch_lidar_bay.py run` died with BrokenProcessPool mid-county and the chain moved on. Needs new data: now crash-safe (pool rebuild, chain retries); re-run `fetch_lidar_bay.py run --county "Contra Costa County" "Sonoma County" --workers 3`, re-bake those tiles, LPC pass for 7 failed tiles. After that the share should land about 0.02-0.025, borderline; 123 tiles with unsatisfied fills would then need a rule review. Detail in tasks/T-106c.impl.md.
+- Bathymetry 0.61 unchanged (report only; the R-004 diked-cell basis gives 0.68).
+- Next: the fetch above (hours, needs network, 1 Unity not needed), then the LOD refresh (L1-L4 are stale after these re-bakes too).
+- Two tests in tests/ (test_default_height_fill rebake, test_ids_and_bake rebake) failed in one full run under machine load and pass on their own; not investigated further.
