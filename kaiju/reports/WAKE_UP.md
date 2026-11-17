@@ -7,16 +7,16 @@ Branch `claude/fable-orchestrator-prompt-83a0a8` (never merged to `main`). Facts
 cd kaiju
 Builds/demo/KaijuGame.app/Contents/MacOS/KaijuGame -sliceConfig demo
 ```
-- Add `-sliceWalk default` for the slow 2.67 m/s walk (the demo default is the fast overlay, `walk_tuning_fast.json`: about 7.4 m/s walked since T-201b; a build made before T-201b has the 5.8 m/s overlay baked in, rebuild to pick up 7.4 m/s).
+- Add `-sliceWalk default` for the slow 2.67 m/s walk (the demo default is the fast overlay, `walk_tuning_fast.json`: about 7.4 m/s walked since T-201b; the current build includes it).
 - Windowed 1280x720 (the pixel look expects it): `-screen-width 1280 -screen-height 720 -screen-fullscreen 0 -popupwindow`. Smoke runs REQUIRE these (without them the end-of-run pixel check throws).
 - Headless smoke: `... -sliceConfig demo -sliceSmoke 1200 -sliceSmokeOut /tmp/x/smoke.json <the window args>`.
-- Rebuild: `Tools/Build/build.sh` (output `/tmp/kaiju-build/<commit>/b1/KaijuGame.app`, M-125 attribution + smoke gate). The build in `Builds/demo/` is from commit 6463b75 (T-202).
+- Rebuild: `Tools/Build/build.sh` (output `/tmp/kaiju-build/<commit>/b1/KaijuGame.app`, M-125 attribution + smoke gate). The build in `Builds/demo/` is from commit 7767953 (T-201c; built with a dirty tree: unrelated modified URP settings assets, and it carries the 7.4 m/s overlay). Build gates: M-125 PASS (94/94 layers), smoke gate PASS.
 - Defaults are untouched: no argument = the `feelcheck` slice; `-sliceConfig m1` = the lean set.
 
-## What works (player smoke, `evidence/T-202/smoke_demo_full.json`)
+## What works (player smoke, `evidence/T-201c/smoke_demo_7p4.json`, 1200 frames, 1280x720, rebuilt at 7.4 m/s)
 - The `demo` profile (`Assets/Game/Slice/Config/slice_demo.flags.json`): physics mech (Units.Mech, `walk_mode 2`), melee and cannon combat, scripted kaiju brain, destruction, seismic (quake Mw 6.9 on the Chabot fault), emergence, `audio.slice`, hangar stub, pixel pipeline (`lowRes`, `dither`, `haze`, `quantise`, `subPixelPresent`, `hazeFarLift`), `warm_amber_haze` palette. `rendering.pixel.layerSnap` is OFF (fails M-003.d-iv; T-196 is fixing it).
-- Real-data San Francisco district (15 tiles, 16,615 buildings), 1128 building-damaged events, 4 buildings removed in the smoke, non-blank frames (pixel check PASS).
-- The physics mech survives the 20 s scripted smoke (phase SingleSupport, 41 m centre-of-mass travel, max speed 6.5 m/s).
+- Real-data San Francisco district (15 tiles, 16,615 buildings), 1128 building-damaged events, 4 buildings removed in the smoke.
+- The physics mech survives the 20 s scripted smoke at 7.4 m/s (phase SingleSupport, no fall, 0 respawns, 48.5 m centre-of-mass travel, max speed 8.14 m/s; the earlier 5.8 m/s build gave 41 m and 6.5 m/s). Pixel check PASS (non-blank in all 9 captures, min non-background share 0.56). Frame time median 3.3 ms, p95 18.6 ms.
 - Walk-speed ramp (T-201, T-201b; `evidence/T-201/ramp.md`, `evidence/T-201b/ramp.md`): last stable rung is a 7.5 m/s step-reach cap, about 7.4 m/s walked (Froude 0.13; was 5.8 m/s after T-201; default `walk_mode 2` is 2.67 m/s). Gate: no fall, pelvis tilt <= 5 deg, mean foot slip <= 0.5 m, 8 seeds x 63 s plus start/stop/estop/turn90/curve, all met. It needs a bigger hand-of-god (horizontal servo force cap 10 % W instead of 5 %). 8 m/s misses the slip gate (0.55 to 0.6 m) and 9 m/s does not hold (slip 1.6 to 1.9 m). The target of 9 m/s (Froude 0.2) is NOT reached.
 
 ## Stubbed, TEMPORARY, or broken (honest list)
