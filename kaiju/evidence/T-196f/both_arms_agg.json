@@ -1,0 +1,402 @@
+[
+ {
+  "arm": "perslab",
+  "clip": "p1_d_approach_t192",
+  "exit": "exit 2",
+  "pass_": null,
+  "scale_pass": null,
+  "frames": null,
+  "v2": {
+   "metric": "M-003.d-iv@v2",
+   "threshold": 0.995,
+   "layered_frames": 180,
+   "gate_value": 0.9999520130524497,
+   "ok": false,
+   "failures": [
+    "seam adherence 0.9977 < 1.000 (grid tearing)"
+   ],
+   "v1_min": 0.7277242706692226,
+   "seam_share_max": 0.02212962962962961,
+   "seam_share_cap": 0.05,
+   "seam_adherence_min": 0.9977409638554217
+  },
+  "v1": 0.727724270669,
+  "v1_status": "FAIL",
+  "m003_fails": [
+   "M-003.c1",
+   "M-003.d-iv",
+   "M-003.e.contrast"
+  ],
+  "m003_exit": 1
+ },
+ {
+  "arm": "perslab",
+  "clip": "p1_d_scale_proxy_v5",
+  "exit": "exit 2",
+  "pass_": null,
+  "scale_pass": null,
+  "frames": null,
+  "v2": {
+   "metric": "M-003.d-iv@v2",
+   "threshold": 0.995,
+   "layered_frames": 300,
+   "gate_value": 1.0,
+   "ok": true,
+   "failures": [],
+   "v1_min": 1.0,
+   "seam_share_max": 0.007993827160493794,
+   "seam_share_cap": 0.05,
+   "seam_adherence_min": 1.0
+  },
+  "v1": 1.0,
+  "v1_status": "PASS",
+  "m003_fails": [],
+  "m003_exit": 3
+ },
+ {
+  "arm": "perslab",
+  "clip": "p1_d_strafe_t192",
+  "exit": "exit 2",
+  "pass_": null,
+  "scale_pass": null,
+  "frames": null,
+  "v2": {
+   "metric": "M-003.d-iv@v2",
+   "threshold": 0.995,
+   "layered_frames": 180,
+   "gate_value": 1.0,
+   "ok": true,
+   "failures": [],
+   "v1_min": 0.6776121256334836,
+   "seam_share_max": 0.022716049382716097,
+   "seam_share_cap": 0.05,
+   "seam_adherence_min": 1.0
+  },
+  "v1": 0.677612125633,
+  "v1_status": "FAIL",
+  "m003_fails": [
+   "M-003.c1",
+   "M-003.d-iv"
+  ],
+  "m003_exit": 1
+ },
+ {
+  "arm": "perslab",
+  "clip": "p3_a_golden_gate_v3",
+  "exit": "exit 2",
+  "pass_": null,
+  "scale_pass": null,
+  "frames": null,
+  "v2": {
+   "metric": "M-003.d-iv@v2",
+   "threshold": 0.995,
+   "layered_frames": 360,
+   "gate_value": 1.0,
+   "ok": true,
+   "failures": [],
+   "v1_min": 1.0,
+   "seam_share_max": 0.010540123456790118,
+   "seam_share_cap": 0.05,
+   "seam_adherence_min": 1.0
+  },
+  "v1": 1.0,
+  "v1_status": "PASS",
+  "m003_fails": [],
+  "m003_exit": 3
+ },
+ {
+  "arm": "perslab",
+  "clip": "p3_a_strafe_t192",
+  "exit": "exit 2",
+  "pass_": null,
+  "scale_pass": null,
+  "frames": null,
+  "v2": {
+   "metric": "M-003.d-iv@v2",
+   "threshold": 0.995,
+   "layered_frames": 180,
+   "gate_value": 0.9992224845936762,
+   "ok": false,
+   "failures": [
+    "seam adherence 0.9999 < 1.000 (grid tearing)"
+   ],
+   "v1_min": 0.7197685185185185,
+   "seam_share_max": 0.029228395061728363,
+   "seam_share_cap": 0.05,
+   "seam_adherence_min": 0.9999202551834131
+  },
+  "v1": 0.719768518519,
+  "v1_status": "FAIL",
+  "m003_fails": [
+   "M-003.c1",
+   "M-003.d-iv",
+   "M-003.e.sky"
+  ],
+  "m003_exit": 1
+ },
+ {
+  "arm": "perslab",
+  "clip": "p4_a_still_v5",
+  "exit": "exit 2",
+  "pass_": null,
+  "scale_pass": null,
+  "frames": null,
+  "v2": {
+   "metric": "M-003.d-iv@v2",
+   "threshold": 0.995,
+   "layered_frames": 1,
+   "gate_value": 1.0,
+   "ok": true,
+   "failures": [],
+   "v1_min": 1.0,
+   "seam_share_max": 0.005779320987654324,
+   "seam_share_cap": 0.05,
+   "seam_adherence_min": 1.0
+  },
+  "v1": 1.0,
+  "v1_status": "PASS",
+  "m003_fails": [],
+  "m003_exit": 3
+ },
+ {
+  "arm": "perslab",
+  "clip": "p4_a_sunrise_v5",
+  "exit": "exit 2",
+  "pass_": null,
+  "scale_pass": null,
+  "frames": null,
+  "v2": {
+   "metric": "M-003.d-iv@v2",
+   "threshold": 0.995,
+   "layered_frames": 360,
+   "gate_value": 1.0,
+   "ok": true,
+   "failures": [],
+   "v1_min": 1.0,
+   "seam_share_max": 0.005779320987654324,
+   "seam_share_cap": 0.05,
+   "seam_adherence_min": 1.0
+  },
+  "v1": 1.0,
+  "v1_status": "PASS",
+  "m003_fails": [],
+  "m003_exit": 3
+ },
+ {
+  "arm": "perslab",
+  "clip": "p4_d_dolly_v4",
+  "exit": "running",
+  "pass_": null,
+  "scale_pass": null,
+  "frames": null,
+  "v2": {
+   "metric": "M-003.d-iv@v2",
+   "threshold": 0.995,
+   "layered_frames": 180,
+   "gate_value": 0.999731726443518,
+   "ok": true,
+   "failures": [],
+   "v1_min": 0.6729606433155494,
+   "seam_share_max": 0.021535493827160468,
+   "seam_share_cap": 0.05,
+   "seam_adherence_min": 1.0
+  },
+  "v1": 0.672960643316,
+  "v1_status": "FAIL",
+  "m003_fails": [
+   "M-003.d-iv"
+  ],
+  "m003_exit": 1
+ },
+ {
+  "arm": "shared",
+  "clip": "p1_d_approach_t192",
+  "exit": "exit 2",
+  "pass_": null,
+  "scale_pass": null,
+  "frames": null,
+  "v2": {
+   "metric": "M-003.d-iv@v2",
+   "threshold": 0.995,
+   "layered_frames": 180,
+   "gate_value": 1.0,
+   "ok": false,
+   "failures": [
+    "seam adherence 0.9972 < 1.000 (grid tearing)"
+   ],
+   "v1_min": 1.0,
+   "seam_share_max": 0.013341049382716075,
+   "seam_share_cap": 0.05,
+   "seam_adherence_min": 0.9972460220318238
+  },
+  "v1": 1.0,
+  "v1_status": "PASS",
+  "m003_fails": [
+   "M-003.c1",
+   "M-003.e.contrast"
+  ],
+  "m003_exit": 1
+ },
+ {
+  "arm": "shared",
+  "clip": "p1_d_scale_proxy_v5",
+  "exit": "exit 2",
+  "pass_": null,
+  "scale_pass": null,
+  "frames": null,
+  "v2": {
+   "metric": "M-003.d-iv@v2",
+   "threshold": 0.995,
+   "layered_frames": 300,
+   "gate_value": 1.0,
+   "ok": true,
+   "failures": [],
+   "v1_min": 1.0,
+   "seam_share_max": 0.007993827160493794,
+   "seam_share_cap": 0.05,
+   "seam_adherence_min": 1.0
+  },
+  "v1": 1.0,
+  "v1_status": "PASS",
+  "m003_fails": [],
+  "m003_exit": 3
+ },
+ {
+  "arm": "shared",
+  "clip": "p1_d_strafe_t192",
+  "exit": "exit 2",
+  "pass_": null,
+  "scale_pass": null,
+  "frames": null,
+  "v2": {
+   "metric": "M-003.d-iv@v2",
+   "threshold": 0.995,
+   "layered_frames": 180,
+   "gate_value": 1.0,
+   "ok": true,
+   "failures": [],
+   "v1_min": 1.0,
+   "seam_share_max": 0.013456790123456797,
+   "seam_share_cap": 0.05,
+   "seam_adherence_min": 1.0
+  },
+  "v1": 1.0,
+  "v1_status": "PASS",
+  "m003_fails": [
+   "M-003.c1"
+  ],
+  "m003_exit": 1
+ },
+ {
+  "arm": "shared",
+  "clip": "p3_a_golden_gate_v3",
+  "exit": "exit 2",
+  "pass_": null,
+  "scale_pass": null,
+  "frames": null,
+  "v2": {
+   "metric": "M-003.d-iv@v2",
+   "threshold": 0.995,
+   "layered_frames": 360,
+   "gate_value": 1.0,
+   "ok": true,
+   "failures": [],
+   "v1_min": 1.0,
+   "seam_share_max": 0.010540123456790118,
+   "seam_share_cap": 0.05,
+   "seam_adherence_min": 1.0
+  },
+  "v1": 1.0,
+  "v1_status": "PASS",
+  "m003_fails": [],
+  "m003_exit": 3
+ },
+ {
+  "arm": "shared",
+  "clip": "p3_a_strafe_t192",
+  "exit": "exit 2",
+  "pass_": null,
+  "scale_pass": null,
+  "frames": null,
+  "v2": {
+   "metric": "M-003.d-iv@v2",
+   "threshold": 0.995,
+   "layered_frames": 180,
+   "gate_value": 1.0,
+   "ok": true,
+   "failures": [],
+   "v1_min": 1.0,
+   "seam_share_max": 0.023233024691358017,
+   "seam_share_cap": 0.05,
+   "seam_adherence_min": 1.0
+  },
+  "v1": 1.0,
+  "v1_status": "PASS",
+  "m003_fails": [
+   "M-003.c1",
+   "M-003.e.sky"
+  ],
+  "m003_exit": 1
+ },
+ {
+  "arm": "shared",
+  "clip": "p4_a_still_v5",
+  "exit": "exit 2",
+  "pass_": null,
+  "scale_pass": null,
+  "frames": null,
+  "v2": {
+   "metric": "M-003.d-iv@v2",
+   "threshold": 0.995,
+   "layered_frames": 1,
+   "gate_value": 1.0,
+   "ok": true,
+   "failures": [],
+   "v1_min": 1.0,
+   "seam_share_max": 0.005779320987654324,
+   "seam_share_cap": 0.05,
+   "seam_adherence_min": 1.0
+  },
+  "v1": 1.0,
+  "v1_status": "PASS",
+  "m003_fails": [],
+  "m003_exit": 3
+ },
+ {
+  "arm": "shared",
+  "clip": "p4_a_sunrise_v5",
+  "exit": "running",
+  "pass_": null,
+  "scale_pass": null,
+  "frames": null,
+  "v2": null,
+  "v1": 1.0,
+  "v1_status": "PASS",
+  "m003_fails": [],
+  "m003_exit": 3
+ },
+ {
+  "arm": "shared",
+  "clip": "p4_d_dolly_v4",
+  "exit": "exit 2",
+  "pass_": null,
+  "scale_pass": null,
+  "frames": null,
+  "v2": {
+   "metric": "M-003.d-iv@v2",
+   "threshold": 0.995,
+   "layered_frames": 180,
+   "gate_value": 1.0,
+   "ok": true,
+   "failures": [],
+   "v1_min": 1.0,
+   "seam_share_max": 0.015354938271604945,
+   "seam_share_cap": 0.05,
+   "seam_adherence_min": 1.0
+  },
+  "v1": 1.0,
+  "v1_status": "PASS",
+  "m003_fails": [],
+  "m003_exit": 3
+ }
+]
