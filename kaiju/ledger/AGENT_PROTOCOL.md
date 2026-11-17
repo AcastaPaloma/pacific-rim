@@ -308,3 +308,12 @@ Wrong or broken pieces get fixed or switched off in the demo profile. Never fake
     - start heavy jobs only when `memory_pressure` shows at least 40 % free;
     - at most 1 batch Unity process;
     - at most 2 pool workers per job.
+
+## 20. Clean up after yourself (founder instruction, 2026-11-16: the disk filled up again)
+On 2026-11-16 the data volume reached 91% full. About 95 GB sat in stale session scratchpads, plus about 150 merged task worktrees, each with its own Unity Library, and old builds. Every task now cleans up its own leftovers:
+- **After a merge,** whoever merged runs `git worktree remove --force .wt/<task>` once the branch is in the integration branch and the worktree has no uncommitted or untracked work. The branch itself stays.
+- **Caches are never copied into a worktree.** Use a symlink or an APFS clone (`cp -cR`) of `Pipelines/geo/cache`, never a plain `cp`.
+- **Captures:** once the video is encoded and its evidence is committed, delete the per-frame PNGs and the raw run folders in the scratchpad.
+- **Builds:** keep only the latest build in `/tmp/kaiju-build`, and delete older ones after the smoke test passes.
+- **Before a session ends or hands over,** it deletes its own scratchpad contents, except files a successor needs; those get named in the handoff.
+- **Disk guard:** below 25 GB free, the first job is this cleanup, not a new download or build.
