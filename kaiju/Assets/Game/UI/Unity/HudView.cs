@@ -14,7 +14,7 @@ namespace Game.UI.Unity
         HudLayout _layout; HudPalette _palette;
         Func<HudFrameData> _source; Func<Vector2Int> _shift; Func<int> _scale;
         readonly HudRaster _raster = new HudRaster();
-        Texture2D _tex;
+        Texture2D _tex; ushort[] _half;
         public AccessibilitySettings Accessibility = AccessibilitySettings.Default;
 
         /// <summary>Last frame's numbers for logs and the evidence record.</summary>
@@ -30,7 +30,7 @@ namespace Game.UI.Unity
         void EnsureTexture()
         {
             if (_tex != null) return;
-            _tex = new Texture2D(HudRaster.W, HudRaster.H, TextureFormat.RGBA32, false, false) { name = "HudView", filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Clamp, hideFlags = HideFlags.HideAndDontSave };
+            _tex = new Texture2D(HudRaster.W, HudRaster.H, TextureFormat.RGBAHalf, false, true) { name = "HudView", filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Clamp, hideFlags = HideFlags.HideAndDontSave };
         }
 
         void OnDestroy() { if (_tex != null) Destroy(_tex); }
@@ -42,7 +42,10 @@ namespace Game.UI.Unity
             if (!data.Visible) return;
             _raster.Render(_layout, data, _palette, Accessibility);
             EnsureTexture();
-            _tex.SetPixelData(_raster.Rgba, 0);
+            // T-154b: half-float texture holding sRGB-decoded values, so the linear backbuffer's encode-on-write returns the exact palette bytes.
+            if (_half == null) _half = new ushort[_raster.Rgba.Length];
+            HudLinearUpload.ToHalfRgba(_raster.Rgba, _half);
+            _tex.SetPixelData(_half, 0);
             _tex.Apply(false);
             int k = _scale != null ? _scale() : HudTextScale.PixelK(Screen.height);
             if (k < 1) k = 1;
