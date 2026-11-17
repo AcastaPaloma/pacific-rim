@@ -4,8 +4,8 @@ namespace Game.UI
 {
     /// <summary>
     /// T-154b: colour-exact upload for the linear-colour-space project. IMGUI samples the HUD texture raw while the backbuffer sRGB-encodes on write, which
-    /// brightened the palette (031117 -> 0c4955). A half-float texture is never sRGB-decoded on sampling, so it carries sRGB-DECODED values: the hardware
-    /// encode on write then returns the original palette byte. Pure and engine-free so the round trip is unit-tested for all 256 byte values.
+    /// brightened the palette (031117 -> 0c4955). A half-float texture is never sRGB-decoded on sampling, so it carries pre-compensated values (see Compensated): the IMGUI
+    /// gamma step and the hardware encode on write then return the original palette byte. Pure and engine-free so the round trip is unit-tested for all 256 byte values.
     /// RGB channels are decoded; alpha stays linear (a/255), so alpha 0 and 255 blend as before.
     /// </summary>
     public static class HudLinearUpload
@@ -16,6 +16,19 @@ namespace Game.UI
             float c = b / 255f;
             return c <= 0.04045f ? c / 12.92f : (float)Math.Pow((c + 0.055) / 1.055, 2.4);
         }
+
+        /// <summary>
+        /// T-154b iteration 2: the player run showed IMGUI's colour shader ALSO converts linear -> gamma before the backbuffer's sRGB encode (the pure decode upload read
+        /// back as encode(encode(decode(b))): 031117 -> 064955, fbc585 -> fde4bf). Its conversion is the URP fast approximation max(1.055 x^(1/2.4 rounded to 0.416667) - 0.055, 0)
+        /// (the dark byte 3 read 6, which the exact curve cannot give). Pure and unit-tested.
+        /// </summary>
+        public static float GuiGamma(float x) { return x <= 0f ? 0f : Math.Max(1.055f * (float)Math.Pow(x, 0.416667) - 0.055f, 0f); }
+
+        /// <summary>Inverse of <see cref="GuiGamma"/> (0 for t &lt;= 0).</summary>
+        public static float InvGuiGamma(float t) { return t <= 0f ? 0f : (float)Math.Pow((t + 0.055) / 1.055, 1.0 / 0.416667); }
+
+        /// <summary>The value to upload so that GuiGamma then the hardware sRGB encode returns byte b: InvGuiGamma(Decode(b)).</summary>
+        public static float Compensated(int b) { return InvGuiGamma(Decode(b)); }
 
         /// <summary>Linear value -> nearest sRGB byte (what the GPU does on write to an sRGB target).</summary>
         public static byte Encode(float lin)
@@ -59,7 +72,7 @@ namespace Game.UI
         }
 
         static readonly ushort[] _lut = BuildLut();
-        static ushort[] BuildLut() { var t = new ushort[256]; for (int i = 0; i < 256; i++) t[i] = ToHalf(Decode(i)); return t; }
+        static ushort[] BuildLut() { var t = new ushort[256]; for (int i = 0; i < 256; i++) t[i] = ToHalf(Compensated(i)); return t; }
 
         /// <summary>Half bits of the decoded value for a byte.</summary>
         public static ushort DecodedHalf(byte b) { return _lut[b]; }

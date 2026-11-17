@@ -10,7 +10,7 @@ namespace Game.UI.Tests
             for (int b = 0; b < 256; b++)
             {
                 float lin = HudLinearUpload.FromHalf(HudLinearUpload.DecodedHalf((byte)b));
-                Assert.AreEqual(b, HudLinearUpload.Encode(lin), "byte " + b);
+                Assert.AreEqual(b, HudLinearUpload.Encode(HudLinearUpload.GuiGamma(lin)), "byte " + b);
             }
         }
 
@@ -29,9 +29,9 @@ namespace Game.UI.Tests
                     var src = new byte[] { c.R, c.G, c.B, 255 };
                     var dst = new ushort[4];
                     HudLinearUpload.ToHalfRgba(src, dst);
-                    Assert.AreEqual(c.R, HudLinearUpload.Encode(HudLinearUpload.FromHalf(dst[0])), e.Profile + " " + c);
-                    Assert.AreEqual(c.G, HudLinearUpload.Encode(HudLinearUpload.FromHalf(dst[1])), e.Profile + " " + c);
-                    Assert.AreEqual(c.B, HudLinearUpload.Encode(HudLinearUpload.FromHalf(dst[2])), e.Profile + " " + c);
+                    Assert.AreEqual(c.R, HudLinearUpload.Encode(HudLinearUpload.GuiGamma(HudLinearUpload.FromHalf(dst[0]))), e.Profile + " " + c);
+                    Assert.AreEqual(c.G, HudLinearUpload.Encode(HudLinearUpload.GuiGamma(HudLinearUpload.FromHalf(dst[1]))), e.Profile + " " + c);
+                    Assert.AreEqual(c.B, HudLinearUpload.Encode(HudLinearUpload.GuiGamma(HudLinearUpload.FromHalf(dst[2]))), e.Profile + " " + c);
                     Assert.AreEqual(0x3C00, dst[3]);
                     n++;
                 }
@@ -46,6 +46,14 @@ namespace Game.UI.Tests
             Assert.Less(HudLinearUpload.Decode(0x03), 3f / 255f);
             Assert.AreEqual(0f, HudLinearUpload.Decode(0), 0f);
             Assert.AreEqual(1f, HudLinearUpload.Decode(255), 1e-6f);
+        }
+
+        [Test]
+        public void ObservedPlayerReadback_Is_Reproduced_By_The_Model()
+        {
+            // Player run (T-154b it.1, pure-decode upload): 031117 read 064955 and fbc585 read fde4bf. Model: Encode(GuiGamma(Decode(b))).
+            int[] src = { 0x03, 0x11, 0x17, 0xfb, 0xc5, 0x85 }; int[] obs = { 0x06, 0x49, 0x55, 0xfd, 0xe4, 0xbf };
+            for (int i = 0; i < 6; i++) Assert.AreEqual(obs[i], HudLinearUpload.Encode(HudLinearUpload.GuiGamma(HudLinearUpload.Decode(src[i]))), 1, "channel " + i);
         }
 
         [Test]

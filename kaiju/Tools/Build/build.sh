@@ -38,7 +38,7 @@ fi
 # preflight
 FREE_GB=$(df -g / | awk 'NR==2{print $4}'); [ "$FREE_GB" -ge 25 ] || fail "only ${FREE_GB} GB free (need 25)"
 [ -z "$(grep -rl 'fileFormatVersion: 2guid' "$PROJ/Assets" 2>/dev/null)" ] || fail "broken hand-written .meta (fileFormatVersion: 2guid)"
-N=$(pgrep -fl Unity | grep -- -batchmode | grep -v AssetImportWorker | grep -v zsh | wc -l | tr -d ' ')
+N=$(ps ax -o command | grep -i "[U]nity.app/Contents/MacOS/Unity .*-batchmode" | grep -vc AssetImportWorker)   # AGENT_PROTOCOL s9 form (pgrep -fl counted other sessions' multi-line shell commands)
 [ "$N" -lt 2 ] || fail "$N Unity batch processes running (limit 2)"
 mkdir -p "$OUT/logs"; rm -rf "$OUT/app.manifest.json"
 
