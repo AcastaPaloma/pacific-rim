@@ -1,0 +1,176 @@
+136 log [UnityCache] 'http://localhost:8642/Build/KaijuGame.data.gz' successfully downloaded and stored in the browser cache
+245 log [UnityMemory] Configuration Parameters - Can be set up in boot.config
+245 log     "memorysetup-bucket-allocator-granularity=16"
+245 log     "memorysetup-bucket-allocator-bucket-count=8"
+245 log     "memorysetup-bucket-allocator-block-size=4194304"
+246 log     "memorysetup-bucket-allocator-block-count=1"
+246 log     "memorysetup-main-allocator-block-size=16777216"
+246 log     "memorysetup-thread-allocator-block-size=16777216"
+246 log     "memorysetup-main-allocator-mimalloc-enabled=1"
+246 log     "memorysetup-gfx-main-allocator-block-size=16777216"
+246 log     "memorysetup-gfx-thread-allocator-block-size=16777216"
+246 log     "memorysetup-cache-allocator-block-size=4194304"
+246 log     "memorysetup-typetree-allocator-block-size=2097152"
+246 log     "memorysetup-profiler-bucket-allocator-granularity=16"
+246 log     "memorysetup-profiler-bucket-allocator-bucket-count=8"
+246 log     "memorysetup-profiler-bucket-allocator-block-size=4194304"
+246 log     "memorysetup-profiler-bucket-allocator-block-count=1"
+246 log     "memorysetup-profiler-allocator-block-size=16777216"
+246 log     "memorysetup-profiler-editor-allocator-block-size=1048576"
+246 log     "memorysetup-temp-allocator-size-main=4194304"
+246 log     "memorysetup-job-temp-allocator-block-size=2097152"
+246 log     "memorysetup-job-temp-allocator-block-size-background=1048576"
+246 log     "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+246 log     "memorysetup-temp-allocator-size-background-worker=32768"
+246 log     "memorysetup-allocator-temp-initial-block-size-main=262144"
+246 log     "memorysetup-allocator-temp-initial-block-size-worker=262144"
+246 log     "memorysetup-temp-allocator-size-audio-worker=65536"
+246 log     "memorysetup-remapper-allocator-initial-capacity=32768"
+275 log CodeReloadManager initialized
+276 log Input System module state changed to: Initialized.
+277 log [Physics::Module] Initialized fallback backend.
+277 log [Physics::Module] Id: 0xdecafbad
+278 log Loading player data from data.unity3d
+281 log Initialize engine version: 6000.6.9f1 (8c45277fb9c5)
+282 log [EntityIdStore] init: page-table path, blockCount=262144, entitiesPerBlock=1024, top-level=2097152 bytes, sizeof(Block)=16512 (lazily allocated per committed block)
+282 log [Subsystems] Discovering subsystems at path UnitySubsystems
+283 log Creating WebGL 2.0 context.
+291 log Renderer: WebKit WebGL
+291 log Vendor:   WebKit
+291 log Version:  OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium))
+291 log GLES:     3
+291 log  EXT_clip_control EXT_color_buffer_float EXT_color_buffer_half_float EXT_conservative_depth EXT_depth_clamp EXT_disjoint_timer_query_webgl2 EXT_float_blend EXT_polygon_offset_clamp EXT_texture_compression_bptc EXT_texture_compression_rgtc EXT_texture_filter_anisotropic EXT_texture_norm16 KHR_paralle
+291 log el_shader_compile GL_NV_shader_noperspective_interpolation GL_OES_texture_float_linear GL_WEBGL_blend_func_extended GL_WEBGL_clip_cull_distance GL_WEBGL_compressed_texture_astc GL_WEBGL_compressed_texture_etc GL_WEBGL_compressed_texture_etc1 GL_WEBGL_compressed_texture_s3tc GL_WEBGL_compressed_textu
+295 log OPENGL LOG: Creating OpenGL ES 3.0 graphics device ; Context level  <OpenGL ES 3.0> ; Context handle 1
+321 log [Physics::Module] Selected backend (deferred post-plugins).
+321 log [Physics::Module] Name: PhysX
+321 log [Physics::Module] Id: 0xf2b8ea05
+321 log [Physics::Module] SDK Version: 4.1.2
+321 log [Physics::Module] Integration Version: 1.0.0
+321 log [Physics::Module] Threading Mode: Single-Threaded
+355 log Input System initialize...
+374 log UnloadTime: 1.299999 ms
+2439 log Shader 'Hidden/Universal Render Pipeline/GaussianDepthOfField' is not supported or has been stripped from the build (in 'DepthOfFieldGaussianPostProcessPass'). PostProcessing render passes will not execute.
+2439 log Shader 'Hidden/Universal Render Pipeline/GaussianDepthOfField' is not supported or has been stripped from the build (in 'DepthOfFieldGaussianPostProcessPass'). PostProcessing render passes will not execute.
+2439 log Shader 'Hidden/Universal Render Pipeline/BokehDepthOfField' is not supported or has been stripped from the build (in 'DepthOfFieldBokehPostProcessPass'). PostProcessing render passes will not execute.
+2439 log Shader 'Hidden/Universal Render Pipeline/PaniniProjection' is not supported or has been stripped from the build (in 'PaniniProjectionPostProcessPass'). PostProcessing render passes will not execute.
+2439 warn Shader 'Hidden/Universal Render Pipeline/Edge Adaptive Spatial Upsampling' is not supported or has been stripped from the build (in 'Blit FSR Upscaling'). PostProcessing render passes will not execute.
+3008 log [WebPreload] 115 files, 142 MB, 0 failed, in 0.6 s
+3008 log [Slice] diagnostic override: rendering.pixel.enabled off
+3008 log [Slice] web profile: pixel pipeline off, URP renderScale 0.34 point upscale
+16757 log [Slice] ready in 13.7 s: tiles 15, buildings 16615, landmark colliders 154
+16757 log [Slice] geo L0_26_37 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=1558v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-8064.00, -53.36, 2176.00) (256.00, 13.11, 256.00)
+16757 log [Slice] geo L0_26_37 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=988v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7808.00, -49.35, 2176.00) (256.00, 5.09, 256.00)
+16757 log [Slice] geo L0_26_37 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=924v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7552.00, -53.95, 2176.00) (256.00, 10.56, 256.00)
+16757 log [Slice] geo L0_29_35 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=6377v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1920.00, 39.73, -1920.00) (256.00, 17.46, 256.00)
+16757 log [Slice] geo L0_29_35 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=8856v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1664.00, 34.71, -1920.00) (256.00, 28.15, 256.00)
+16757 log [Slice] geo L0_29_35 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=7010v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1408.00, 22.55, -1920.00) (256.00, 20.81, 256.00)
+16757 log [Slice] geo L0_30_35 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=2564v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(128.00, 5.92, -1920.00) (256.00, 4.39, 256.00)
+16758 log [Slice] geo L0_30_35 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=2583v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(384.00, 3.96, -1920.00) (256.00, 2.55, 256.00)
+16758 log [Slice] geo L0_30_35 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=3083v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(640.00, 2.94, -1920.00) (256.00, 5.01, 256.00)
+16758 log [Slice] geo L0_31_35 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=1600v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2176.00, -3.75, -1920.00) (256.00, 15.13, 256.00)
+16758 log [Slice] geo L0_31_35 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=43v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2432.00, -11.32, -1920.00) (256.00, 4.13, 256.00)
+16758 log [Slice] geo L0_31_35 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=20v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2688.00, -12.54, -1920.00) (256.00, 0.62, 256.00)
+16758 log [Slice] geo L0_25_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=162v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-10112.00, -30.25, 128.00) (256.00, 5.68, 256.00)
+16758 log [Slice] geo L0_25_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=116v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9856.00, -29.77, 128.00) (256.00, 4.65, 256.00)
+16758 log [Slice] geo L0_25_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=394v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9600.00, -25.96, 128.00) (256.00, 20.47, 256.00)
+16758 log [Slice] geo L0_26_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=23425v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-8064.00, 44.70, 128.00) (256.00, 99.66, 256.00)
+16758 log [Slice] geo L0_26_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=13064v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7808.00, 28.95, 128.00) (256.00, 69.69, 256.00)
+16758 log [Slice] geo L0_26_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=14229v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7552.00, 29.30, 128.00) (256.00, 69.62, 256.00)
+16758 log [Slice] geo L0_27_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=15921v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-6016.00, 44.20, 128.00) (256.00, 46.26, 256.00)
+16758 log [Slice] geo L0_27_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=10218v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5760.00, 49.55, 128.00) (256.00, 16.36, 256.00)
+16758 log [Slice] geo L0_27_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=8160v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5504.00, 49.45, 128.00) (256.00, 16.16, 256.00)
+16758 log [Slice] geo L0_29_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=10531v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1920.00, 65.50, 128.00) (256.00, 31.19, 256.00)
+16758 log [Slice] geo L0_29_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=9854v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1664.00, 73.18, 128.00) (256.00, 23.20, 256.00)
+16758 log [Slice] geo L0_29_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=4709v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-1408.00, 62.92, 128.00) (256.00, 22.67, 256.00)
+16758 log [Slice] geo L0_30_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=4629v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(128.00, 20.23, 128.00) (256.00, 15.07, 256.00)
+16758 log [Slice] geo L0_30_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=3560v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(384.00, 11.53, 128.00) (256.00, 10.56, 256.00)
+16758 log [Slice] geo L0_30_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=3326v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(640.00, 6.50, 128.00) (256.00, 8.33, 256.00)
+16758 log [Slice] geo L0_31_36 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=1852v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2176.00, -18.46, 128.00) (256.00, 10.97, 256.00)
+16758 log [Slice] geo L0_31_36 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=1039v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2432.00, -19.52, 128.00) (256.00, 12.51, 256.00)
+16759 log [Slice] geo L0_31_36 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=875v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(2688.00, -20.68, 128.00) (256.00, 6.27, 256.00)
+16759 log [Slice] geo L0_25_37 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=879v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-10112.00, -49.41, 2176.00) (256.00, 12.42, 256.00)
+16759 log [Slice] geo L0_25_37 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=891v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9856.00, -44.37, 2176.00) (256.00, 12.42, 256.00)
+16759 log [Slice] geo L0_25_37 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=1850v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9600.00, -37.42, 2176.00) (256.00, 12.28, 256.00)
+16759 log [Slice] geo L0_27_37 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=13003v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-6016.00, 55.75, 2176.00) (256.00, 24.89, 256.00)
+16759 log [Slice] geo L0_27_37 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=11360v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5760.00, 44.09, 2176.00) (256.00, 34.88, 256.00)
+16759 log [Slice] geo L0_27_37 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=14577v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5504.00, 23.84, 2176.00) (256.00, 50.12, 256.00)
+16759 log [Slice] geo L0_25_38 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=9805v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-10112.00, 28.34, 4224.00) (256.00, 74.14, 256.00)
+16759 log [Slice] geo L0_25_38 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=8713v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9856.00, 38.11, 4224.00) (256.00, 96.06, 256.00)
+16759 log [Slice] geo L0_25_38 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=8615v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-9600.00, 27.77, 4224.00) (256.00, 75.02, 256.00)
+16759 log [Slice] geo L0_26_38 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=9265v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-8064.00, 164.18, 4224.00) (256.00, 111.55, 256.00)
+16759 log [Slice] geo L0_26_38 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=9615v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7808.00, 86.99, 4224.00) (256.00, 126.36, 256.00)
+16759 log [Slice] geo L0_26_38 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=16293v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-7552.00, 65.12, 4224.00) (256.00, 151.23, 256.00)
+16759 log [Slice] geo L0_27_38 renderer 'terrain_0_0' enabled=True active=True layer=0 mesh=4016v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-6016.00, -53.13, 4224.00) (256.00, 75.60, 256.00)
+16759 log [Slice] geo L0_27_38 renderer 'terrain_1_0' enabled=True active=True layer=0 mesh=2506v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5760.00, -66.77, 4224.00) (256.00, 42.76, 256.00)
+16759 log [Slice] geo L0_27_38 renderer 'terrain_2_0' enabled=True active=True layer=0 mesh=2837v material=geo_terrain shader=Universal Render Pipeline/Lit supported=True queue=2000 bounds=(-5504.00, -61.01, 4224.00) (256.00, 32.74, 256.00)
+16836 log [Slice] mech t=5.683 Stand com (883.932, 46.38, 1023.882) ground 3.788 ray 3.783 v 0.449 hd -2.618
+17662 log [Slice] mech t=6.683 Stand com (883.91, 45.824, 1023.506) ground 3.783 ray 3.779 v 0.485 hd -2.618
+18662 log [Slice] mech t=7.683 Stand com (883.867, 45.534, 1023.471) ground 3.787 ray 3.782 v 0.121 hd -2.618
+19662 log [Slice] mech t=8.683 Stand com (883.842, 45.432, 1023.477) ground 3.789 ray 3.784 v 0.033 hd -2.618
+20662 log [Slice] mech t=9.683 Stand com (883.831, 45.395, 1023.481) ground 3.79 ray 3.785 v 0.042 hd -2.618
+21662 log [Slice] mech t=10.683 Stand com (883.828, 45.382, 1023.483) ground 3.791 ray 3.785 v 0.05 hd -2.618
+22661 log [Slice] mech t=11.683 Stand com (883.827, 45.377, 1023.485) ground 3.791 ray 3.785 v 0.054 hd -2.618
+23662 log [Slice] mech t=12.683 Stand com (883.828, 45.375, 1023.486) ground 3.791 ray 3.785 v 0.059 hd -2.618
+24662 log [Slice] mech t=13.683 Stand com (883.829, 45.375, 1023.487) ground 3.79 ray 3.785 v 0.064 hd -2.618
+24771 log Audio context resumed after 24.467 seconds.
+25662 log [Slice] mech t=14.683 SingleSupport com (883.23, 46.025, 1023.252) ground 3.836 ray 3.828 v 1.29 hd -2.618
+26662 log [Slice] mech t=15.683 SingleSupport com (882.598, 45.593, 1022.421) ground 3.813 ray 3.808 v 1.739 hd -2.618
+27662 log [Slice] mech t=16.683 SingleSupport com (882.297, 45.715, 1019.961) ground 3.71 ray 3.709 v 3.704 hd -2.618
+27779 log [Slice] mech t=16.8 SingleSupport com (882.13, 45.854, 1019.612) ground 3.691 ray 3.689 v 3.385 hd -2.618
+27895 log [Slice] mech t=16.917 SingleSupport com (881.965, 45.875, 1019.273) ground 3.671 ray 3.67 v 3.19 hd -2.618
+28012 log [Slice] mech t=17.033 SingleSupport com (881.807, 45.777, 1018.945) ground 3.652 ray 3.651 v 2.982 hd -2.618
+28111 log [Slice] mech t=17.133 SingleSupport com (881.681, 45.831, 1018.704) ground 3.64 ray 3.64 v 2.747 hd -2.618
+28212 log [Slice] mech t=17.233 SingleSupport com (881.548, 45.869, 1018.471) ground 3.628 ray 3.629 v 2.712 hd -2.618
+28329 log [Slice] mech t=17.35 SingleSupport com (881.373, 45.879, 1018.209) ground 3.615 ray 3.615 v 2.731 hd -2.618
+28445 log [Slice] mech t=17.467 SingleSupport com (881.173, 45.85, 1017.956) ground 3.601 ray 3.602 v 2.801 hd -2.618
+28545 log [Slice] mech t=17.567 SingleSupport com (880.979, 45.802, 1017.752) ground 3.594 ray 3.595 v 2.874 hd -2.618
+28645 log [Slice] mech t=17.667 SingleSupport com (880.764, 45.743, 1017.564) ground 3.592 ray 3.593 v 2.945 hd -2.618
+28762 log [Slice] mech t=17.783 SingleSupport com (880.486, 45.671, 1017.362) ground 3.59 ray 3.59 v 3.047 hd -2.618
+28861 log [Slice] mech t=17.883 SingleSupport com (880.224, 45.627, 1017.201) ground 3.589 ray 3.587 v 3.097 hd -2.618
+28962 log [Slice] mech t=17.983 SingleSupport com (879.945, 45.615, 1017.042) ground 3.588 ray 3.586 v 3.294 hd -2.618
+29079 log [Slice] mech t=18.1 SingleSupport com (879.602, 45.586, 1016.853) ground 3.593 ray 3.591 v 3.641 hd -2.618
+29195 log [Slice] mech t=18.217 SingleSupport com (879.252, 45.735, 1016.633) ground 3.597 ray 3.596 v 3.829 hd -2.618
+29295 log [Slice] mech t=18.317 DoubleSupport com (878.96, 45.82, 1016.43) ground 3.601 ray 3.601 v 3.602 hd -2.618
+29395 log [Slice] mech t=18.417 SingleSupport com (878.668, 45.802, 1016.217) ground 3.604 ray 3.605 v 3.681 hd -2.618
+29512 log [Slice] mech t=18.533 SingleSupport com (878.33, 45.665, 1015.954) ground 3.609 ray 3.61 v 3.966 hd -2.618
+29611 log [Slice] mech t=18.633 SingleSupport com (878.043, 45.597, 1015.689) ground 3.614 ray 3.614 v 3.992 hd -2.618
+29712 log [Slice] mech t=18.733 SingleSupport com (877.761, 45.647, 1015.394) ground 3.618 ray 3.619 v 4.339 hd -2.618
+29829 log [Slice] mech t=18.85 SingleSupport com (877.436, 45.866, 1015.008) ground 3.623 ray 3.623 v 5.104 hd -2.618
+29945 log [Slice] mech t=18.967 SingleSupport com (877.112, 46.135, 1014.578) ground 3.637 ray 3.637 v 5.333 hd -2.618
+30045 log [Slice] mech t=19.067 SingleSupport com (876.836, 46.344, 1014.173) ground 3.651 ray 3.65 v 5.431 hd -2.618
+30145 log [Slice] mech t=19.167 SingleSupport com (876.56, 46.494, 1013.744) ground 3.671 ray 3.67 v 5.259 hd -2.618
+30262 log [Slice] mech t=19.283 SingleSupport com (876.248, 46.688, 1013.248) ground 3.698 ray 3.699 v 5.287 hd -2.618
+30361 log [Slice] mech t=19.383 SingleSupport com (875.985, 46.802, 1012.819) ground 3.724 ray 3.726 v 5.132 hd -2.618
+30462 log [Slice] mech t=19.483 SingleSupport com (875.734, 46.887, 1012.379) ground 3.758 ray 3.758 v 5.174 hd -2.618
+30579 log [Slice] mech t=19.6 SingleSupport com (875.461, 46.96, 1011.849) ground 3.802 ray 3.8 v 5.188 hd -2.618
+31579 log [Slice] mech t=20.6 SingleSupport com (874.039, 46.319, 1006.671) ground 4.394 ray 4.396 v 5.583 hd -2.618
+32579 log [Slice] mech t=21.6 SingleSupport com (872.342, 46.83, 1000.14) ground 6.178 ray 6.175 v 7.163 hd -2.618
+33579 log [Slice] mech t=22.6 DoubleSupport com (868.812, 48.188, 994.172) ground 6.398 ray 6.398 v 7.925 hd -2.601
+34579 log [Slice] mech t=23.6 SingleSupport com (863.737, 47.384, 988.246) ground 6.811 ray 6.813 v 7.846 hd -2.568
+35579 log [Slice] mech t=24.6 SingleSupport com (859.529, 48.211, 982.182) ground 7.848 ray 7.85 v 7.125 hd -2.589
+36579 log [Slice] mech t=25.6 SingleSupport com (856.134, 45.397, 975.756) ground 8.132 ray 8.131 v 10.016 hd -2.615
+37595 log [Slice] mech t=26.617 SingleSupport com (852.135, 45.172, 969.809) ground 7.314 ray 7.313 v 6.935 hd -2.615
+38595 log [Slice] mech t=27.617 SingleSupport com (848.522, 45.449, 965.1) ground 5.975 ray 5.976 v 5.147 hd -2.615
+39595 log [Slice] mech t=28.617 DoubleSupport com (847.05, 45.419, 960.972) ground 4.75 ray 4.748 v 4.23 hd -2.615
+40330 log [Slice] destroy view: clear line of sight, target height 16 m
+40595 log [Slice] mech t=29.617 SingleSupport com (845.843, 45.679, 957.52) ground 3.742 ray 3.746 v 3.187 hd -2.615
+41595 log [Slice] mech t=30.617 SingleSupport com (844.077, 44.77, 955.848) ground 3.418 ray 3.418 v 2.895 hd -2.615
+42595 log [Slice] mech t=31.617 SingleSupport com (842.383, 45.583, 955.094) ground 3.305 ray 3.305 v 0.997 hd -2.615
+43595 log [Slice] mech t=32.617 SingleSupport com (842.649, 45.116, 954.944) ground 3.318 ray 3.318 v 1.439 hd -2.615
+44595 log [Slice] mech t=33.617 SingleSupport com (843.937, 44.987, 954.407) ground 3.386 ray 3.387 v 1.366 hd -2.615
+44613 log [Slice] emergence at (75364, 82861) t=28 s
+44614 log [Slice] quake Mw 6.90 on Chabot fault, buildings damaged so far 1125
+45137 log [Slice] impact 16875 MJ on bld:osm-way:260286870: state 2 -> 4 (thresholds MJ 0.0/0.0/0.1/0.2)
+45844 log [Slice] mech t=34.617 SingleSupport com (843.984, 44.607, 954.226) ground 3.386 ray 3.387 v 0.747 hd -2.615
+46616 log [Slice] mech t=35.617 Stand com (842.948, 45.178, 954.463) ground 3.325 ray 3.326 v 1.025 hd -2.615
+47616 log [Slice] mech t=36.617 SingleSupport com (842.56, 45.47, 954.313) ground 3.299 ray 3.3 v 1.59 hd -2.609
+48616 log [Slice] mech t=37.617 SingleSupport com (842.343, 45.389, 954.555) ground 3.291 ray 3.292 v 0.876 hd -2.556
+49616 log [Slice] mech t=38.617 SingleSupport com (843.411, 45.243, 954.199) ground 3.349 ray 3.35 v 1.446 hd -2.447
+50016 log [Slice] kaiju melee hit; body hp 0.90
+50616 log [Slice] mech t=39.617 SingleSupport com (843.305, 45.547, 954.087) ground 3.341 ray 3.341 v 0.758 hd -2.281
+51616 log [Slice] mech t=40.617 SingleSupport com (843.629, 45.193, 953.752) ground 3.358 ray 3.36 v 1.449 hd -2.06
+52033 log [Slice] kaiju melee hit; body hp 0.80
+52616 log [Slice] mech t=41.617 SingleSupport com (842.831, 45.358, 953.97) ground 3.309 ray 3.31 v 1.853 hd -1.782
+53624 log [Slice] mech t=42.617 DoubleSupport com (842.219, 44.696, 955.263) ground 3.298 ray 3.298 v 1.112 hd -1.465
+54050 log [Slice] kaiju melee hit; body hp 0.70

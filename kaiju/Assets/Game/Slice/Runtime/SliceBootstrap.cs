@@ -107,6 +107,17 @@ namespace Game.Slice
 
         static string Arg(string name)
         {
+            if (Application.platform == RuntimePlatform.WebGLPlayer)   // web demo: page URL query stands in for the command line (?sliceFlagOff=a,b&sliceWalk=default)
+            {
+                string url = Application.absoluteURL ?? ""; int q = url.IndexOf('?');
+                if (q >= 0)
+                    foreach (var kv in url.Substring(q + 1).Split('&'))
+                    {
+                        int e = kv.IndexOf('='); if (e <= 0) continue;
+                        if ("-" + kv.Substring(0, e) == name) return Uri.UnescapeDataString(kv.Substring(e + 1));
+                    }
+                return null;
+            }
             var a = Environment.GetCommandLineArgs();
             for (int i = 0; i + 1 < a.Length; i++) if (a[i] == name) return a[i + 1];
             return null;
@@ -125,6 +136,8 @@ namespace Game.Slice
                     Debug.Log("[Slice] diagnostic override: " + name + " on");
                 }
             string off = Arg("-sliceFlagOff");
+            if (Application.platform == RuntimePlatform.WebGLPlayer && Arg("-webPixel") != "1")   // web profile: the custom pixel passes draw a flat frame under WebGL2 (WEB_DEMO.md known issue); ?webPixel=1 tries them
+                off = string.IsNullOrEmpty(off) ? "rendering.pixel.enabled" : off + ",rendering.pixel.enabled";
             if (json == null || string.IsNullOrEmpty(off)) return json;
             foreach (var name in off.Split(',')) { json = json.Replace("\"" + name + "\": true", "\"" + name + "\": false"); Debug.Log("[Slice] diagnostic override: " + name + " off"); }
             return json;
@@ -144,9 +157,10 @@ namespace Game.Slice
                 _recDestroyCam = Arg("-sliceRecordDestructionCam") == "1";
                 Directory.CreateDirectory(_recDir); Time.captureFramerate = _recFps; AudioListener.volume = 0f;   // T-206b: silent record (no audio output at all)
             }
+            if (Application.platform == RuntimePlatform.WebGLPlayer) yield return SliceWebPreload.Run();   // web demo: tiles into the in-memory FS first
             if (!CoreRuntime.IsBooted) { Debug.LogError("[Slice] Core is not booted"); yield break; }
             _root = CoreRuntime.Root;
-            string cfg = Arg("-sliceConfig") ?? ConfigName ?? "feelcheck";
+            string cfg = Arg("-sliceConfig") ?? ConfigName ?? (Application.platform == RuntimePlatform.WebGLPlayer ? "demo" : "feelcheck");   // web demo: no command line in a browser, so the demo profile is baked in
             var cfgAsset = cfg == "m1" || feelcheckFlags == null ? sliceFlags : feelcheckFlags;
             _configUsed = cfgAsset == feelcheckFlags && feelcheckFlags != null ? "feelcheck" : "m1";
             if (cfg == "demo") { if (demoFlags != null) { cfgAsset = demoFlags; _configUsed = "demo"; } else Debug.LogError("[Slice] -sliceConfig demo but the scene has no demoFlags asset (run SliceEditorTools.BuildScene); using " + _configUsed); }
@@ -157,6 +171,11 @@ namespace Game.Slice
             var t0 = Time.realtimeSinceStartupAsDouble;
 
             SetupPixelPipeline();
+            if (Application.platform == RuntimePlatform.WebGLPlayer && !_flags.IsOn(PixelFlags.Enabled) && GraphicsSettings.currentRenderPipeline is UniversalRenderPipelineAsset webUrp)
+            {   // web profile stand-in for the pixel look: render at ~1/3 scale, point upscale, no MSAA
+                webUrp.renderScale = 0.34f; webUrp.upscalingFilter = UpscalingFilterSelection.Point; webUrp.msaaSampleCount = 1;
+                Debug.Log("[Slice] web profile: pixel pipeline off, URP renderScale 0.34 point upscale");
+            }
             // 1. tiles (staged, one per frame), colliders: terrain + landmarks only (per-building colliders cost minutes; hits use the data index)
             var ids = new List<GeoTileId>();
             for (int i = 25; i <= 27; i++) for (int j = 36; j <= 38; j++) ids.Add(GeoTileId.From(0, i, j));
@@ -246,7 +265,7 @@ namespace Game.Slice
         {
             if (!Application.isEditor && geoSettings != null)
             {
-                string tmp = Path.Combine(Application.temporaryCachePath, "WorldGeo.json");
+                Directory.CreateDirectory(Application.temporaryCachePath); string tmp = Path.Combine(Application.temporaryCachePath, "WorldGeo.json");
                 File.WriteAllText(tmp, geoSettings.text);
                 return GeoSettings.Load(tmp);
             }
@@ -256,7 +275,7 @@ namespace Game.Slice
         FaultTraceSet BuildFaults()
         {
             // the production loader (T-036c): keeps the baked fault_id and verifies the layer's manifest hash (DEF-M1slice-f4)
-            string path = Path.Combine(Application.streamingAssetsPath, "Geo/global/v1/faults_bay.geojson");
+            string path = Path.Combine(GeoModule.StreamingRoot, "Geo/global/v1/faults_bay.geojson");
             return FaultTraceSet.Build(FaultTraceSet.PiecesFromGeo(GeoFaultsLoader.LoadGlobal(path), 0.0, 0.0));
         }
 
@@ -1169,7 +1188,7 @@ namespace Game.Slice
         void OnGUI()
         {
             if (_recDir != null && Arg("-sliceRecordHud") == null) return;   // T-203: the demo clip has no feel-check HUD (-sliceRecordHud 1 keeps it)
-            if (!Ready) { GUI.Label(new Rect(10, 10, 600, 24), "M1 slice: loading..."); return; }
+            if (!Ready) { GUI.Label(new Rect(10, 10, 600, 24), SliceWebPreload.Active ? SliceWebPreload.Status : "M1 slice: loading..."); return; }
             var s = (_configUsed == "feelcheck" ? "Kaiju feel check (TEMPORARY: capsule mech and kaiju; mech body awaits T-005)  " : "M1 slice (TEMPORARY stand-ins)  ") + (1f / Mathf.Max(Time.smoothDeltaTime, 1e-4f)).ToString("F0") + " fps   buildings destroyed " + _stateCounts[4] + "  damaged events " + _damagedEvents
                 + "\n" + (_feel != null ? SliceFeelRig.Help : "WASD move   Q quake   I impactor") + "   kaiju " + _kaiju.State + " d=" + Mathf.Sqrt((_mech.X - _kaiju.X) * (_mech.X - _kaiju.X) + (_mech.Y - _kaiju.Y) * (_mech.Y - _kaiju.Y)).ToString("F0") + " m   mech hp " + _mech.Hp.ToString("F2")
                 + (_feel != null ? "\n" + _feel.HudLine() : "") + "\n" + _lastMsg;

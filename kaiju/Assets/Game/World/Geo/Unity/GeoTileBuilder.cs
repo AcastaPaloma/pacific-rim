@@ -30,7 +30,7 @@ namespace Game.World.Geo.Unity
             GeoSettings.Load(Path.Combine(projectAssetsPath ?? Application.dataPath, ConfigFile));
 
         public static string TileDirectory(GeoTileId id) =>
-            Path.Combine(Application.streamingAssetsPath, "Geo", "tiles", "v1", id.Folder.Replace('/', Path.DirectorySeparatorChar));
+            Path.Combine(GeoModule.StreamingRoot, "Geo", "tiles", "v1", id.Folder.Replace('/', Path.DirectorySeparatorChar));
 
         /// <summary>Validates, imports and instantiates one tile. Throws GeoTileRejectedException for an incomplete manifest.</summary>
         public static GeoTileInstance Build(string tileDirectory, GeoBuildOptions opt)
