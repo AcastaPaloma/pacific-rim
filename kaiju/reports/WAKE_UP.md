@@ -7,7 +7,7 @@ Branch `claude/fable-orchestrator-prompt-83a0a8` (never merged to `main`). Facts
 cd kaiju
 Builds/demo/KaijuGame.app/Contents/MacOS/KaijuGame -sliceConfig demo
 ```
-- Add `-sliceWalk default` for the slow 2.67 m/s walk (the demo default is the fast ~5.8 m/s overlay).
+- Add `-sliceWalk default` for the slow 2.67 m/s walk (the demo default is the fast overlay, `walk_tuning_fast.json`: about 7.4 m/s walked since T-201b; a build made before T-201b has the 5.8 m/s overlay baked in, rebuild to pick up 7.4 m/s).
 - Windowed 1280x720 (the pixel look expects it): `-screen-width 1280 -screen-height 720 -screen-fullscreen 0 -popupwindow`. Smoke runs REQUIRE these (without them the end-of-run pixel check throws).
 - Headless smoke: `... -sliceConfig demo -sliceSmoke 1200 -sliceSmokeOut /tmp/x/smoke.json <the window args>`.
 - Rebuild: `Tools/Build/build.sh` (output `/tmp/kaiju-build/<commit>/b1/KaijuGame.app`, M-125 attribution + smoke gate). The build in `Builds/demo/` is from commit 6463b75 (T-202).
@@ -17,7 +17,7 @@ Builds/demo/KaijuGame.app/Contents/MacOS/KaijuGame -sliceConfig demo
 - The `demo` profile (`Assets/Game/Slice/Config/slice_demo.flags.json`): physics mech (Units.Mech, `walk_mode 2`), melee and cannon combat, scripted kaiju brain, destruction, seismic (quake Mw 6.9 on the Chabot fault), emergence, `audio.slice`, hangar stub, pixel pipeline (`lowRes`, `dither`, `haze`, `quantise`, `subPixelPresent`, `hazeFarLift`), `warm_amber_haze` palette. `rendering.pixel.layerSnap` is OFF (fails M-003.d-iv; T-196 is fixing it).
 - Real-data San Francisco district (15 tiles, 16,615 buildings), 1128 building-damaged events, 4 buildings removed in the smoke, non-blank frames (pixel check PASS).
 - The physics mech survives the 20 s scripted smoke (phase SingleSupport, 41 m centre-of-mass travel, max speed 6.5 m/s).
-- Walk-speed ramp (T-201, `evidence/T-201/ramp.md`): last stable rung is a 6 m/s step-reach cap, about 5.8 m/s walked (default `walk_mode 2` is 2.67 m/s). Gate: no fall, pelvis tilt <= 5 deg, mean foot slip <= 0.5 m, 8 seeds x 63 s plus start/stop/estop/turn90/curve. 7 m/s misses the slip gate in stop and estop; 8 and 9 m/s never pass. The target of 9 m/s (Froude 0.2) is NOT reached.
+- Walk-speed ramp (T-201, T-201b; `evidence/T-201/ramp.md`, `evidence/T-201b/ramp.md`): last stable rung is a 7.5 m/s step-reach cap, about 7.4 m/s walked (Froude 0.13; was 5.8 m/s after T-201; default `walk_mode 2` is 2.67 m/s). Gate: no fall, pelvis tilt <= 5 deg, mean foot slip <= 0.5 m, 8 seeds x 63 s plus start/stop/estop/turn90/curve, all met. It needs a bigger hand-of-god (horizontal servo force cap 10 % W instead of 5 %). 8 m/s misses the slip gate (0.55 to 0.6 m) and 9 m/s does not hold (slip 1.6 to 1.9 m). The target of 9 m/s (Froude 0.2) is NOT reached.
 
 ## Stubbed, TEMPORARY, or broken (honest list)
 - **Hand-of-god assist.** `walk_mode 2` holds the pelvis with a servo (net force ~7 % W, pelvis couple ~41 % W l, above one hip's limit). Pure-physics walking (`walk_mode 0`) is still unstable (best 30.8 s); T-005 is paused and stays an open requirement.
@@ -30,7 +30,7 @@ Builds/demo/KaijuGame.app/Contents/MacOS/KaijuGame -sliceConfig demo
 
 ## Capture (100 s of the demo, recorded by the M3 lead with the new `-sliceRecord` mode)
 - Master: `evidence/capture/demo/demo_100s_1080p30_yuv444p_crf6_MASTER.mp4` (48.9 MB, 100 s, 1920x1080 @ 30, H.264 4:4:4 CRF 6). Easy-to-play copy: `CASUAL_FALLBACK` yuv420p (20.7 MB; not a spec encode). Also `contact_sheet_5s.png`, `notes.md`, `frame_checks.json` in the same folder.
-- Shows: the mech walking ~410 m at ~5.8 m/s with no fall and no respawn in the 100 s (other routes can fall), kaiju capsule, 4 duels, cannon and arm swings, 5 impacts, 4 quakes, 8 buildings removed.
+- Shows: the mech walking ~410 m at ~5.8 m/s (recorded with the T-201 profile, before T-201b raised it to 7.4 m/s) with no fall and no respawn in the 100 s (other routes can fall), kaiju capsule, 4 duels, cannon and arm swings, 5 impacts, 4 quakes, 8 buildings removed.
 - Honest flaws: destruction framing is weak (clearly visible only ~11-14 s); the kaiju is a capsule stand-in; non-blank frames 3000/3000, but the pixel grid minimum is 0.9945 (target 0.999) and the M-124 4:4:4 check FAILS on the worst frames (min 0.987 vs the 0.99 gate, mean 0.9965); M-123 and the lint were not run (the player writes no sidecars).
 - 4:4:4 may not play in some players (QuickTime, browsers); use VLC or mpv, or the 4:2:0 copy.
 

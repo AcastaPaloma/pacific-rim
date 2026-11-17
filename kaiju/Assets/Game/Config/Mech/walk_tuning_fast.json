@@ -1,10 +1,10 @@
 {
   "schema": "walk_tuning@v1",
-  "notes": "T-201 named walk-tuning override (overlay: only the keys it changes, applied on top of walk_tuning.json by MechConfig.WithWalkOverlay / MechConfig.LoadDefault(walkOverlayFile: \"walk_tuning_fast.json\")). walk_mode 2 (assisted gait, TEMPORARY hand-of-god pelvis servo: net force about 7 % W, pelvis couple about 40 % W l mean and 50 % W l at its cap) at a step-reach cap of 0.555 leg lengths: 6 m/s commanded (Froude 0.087), about 5.8 m/s walked, against 2.67 m/s of the default walk_mode 2. Last stable rung of the T-005/T-201 ramp: 8 seeds x 63 s and start, stop, emergency stop, turn 90, curve all stay up with pelvis tilt <= 5 deg and mean foot slip <= 0.5 m; 7 m/s walks but misses the slip gate in stop and emergency stop. See evidence/T-201/ramp.md. The default files are untouched.",
+  "notes": "T-201b named walk-tuning override (overlay on walk_tuning.json; WithWalkOverlay / -walkoverlay). walk_mode 2 (assisted gait, TEMPORARY hand-of-god pelvis servo) at step-reach cap 7.5 m/s (step_length_max_frac 0.635): about 7.4 m/s walked (Froude 0.13), against 2.67 m/s of the default walk_mode 2 and 5.8 m/s of the T-201 profile (walk_tuning_fast6.json). Differs from that profile by kin_f_cap 0.10 (horizontal servo force cap 10 % W instead of 5 %: the stop and emergency stop slip came from the servo force cap, see evidence/T-201b/ramp.md) and kin_gain 1.2. Gates (no fall, pelvis tilt <= 5 deg, mean foot slip <= 0.5 m) hold on 8 seeds x 63 s and start, stop, emergency stop, turn 90, curve. 8 m/s misses the slip gate (0.55 to 0.6). Default files untouched.",
   "walk_mode": 2,
-  "step_length_max_frac": 0.555,
+  "step_length_max_frac": 0.635,
   "kin_tscale": 0.55,
-  "kin_gain": 1.5,
+  "kin_gain": 1.2,
   "kin_ds": 0.05,
   "kin_hdelay": 0.0,
   "kin_hz": 1.0,
@@ -12,5 +12,6 @@
   "kin_lift_m": 1.0,
   "kin_clear": 0.12,
   "kin_clear_fast": 0.13,
-  "kin_clear_vref": 0.6
+  "kin_clear_vref": 0.6,
+  "kin_f_cap": 0.1
 }

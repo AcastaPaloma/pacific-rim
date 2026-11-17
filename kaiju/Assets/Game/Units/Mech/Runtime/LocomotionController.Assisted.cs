@@ -65,7 +65,10 @@ namespace Game.Units.Mech
 
         Vector2 KNominal(int leg, Vector2 b, float yaw) => b + Fwd(yaw) * _ankleToSoleCentre + Right(yaw) * (float)(_legs[leg].Side * 0.5 * _stanceWidth * _t.kin_width);   // sole centre target: the ankle under the hip, the sole centre ahead of it
 
-        double KFootErr(int leg, float psi) => Vector2.Distance(_kFoot[leg], KNominal(leg, _kB, psi)) + 0.5 * _l * Math.Abs(Wrap(_kFootYaw[leg] - psi));
+        double KFootErr(int leg, float psi) => Vector2.Distance(_kFoot[leg] - (_t.kin_ikmeas > 0.5 ? _kOff[leg] : Vector2.Zero), KNominal(leg, _kB, psi)) + 0.5 * _l * Math.Abs(Wrap(_kFootYaw[leg] - psi));
+
+        double _kVPrev; bool _kHaveV;
+        readonly Vector2[] _kOff = new Vector2[2];   // T-201b kin_ikmeas: plan-minus-measured pelvis offset latched at each foot's touchdown
 
         void KinUpdate(long step)
         {
@@ -73,6 +76,8 @@ namespace Game.Units.Mech
             double dt = _dt, l = _l, v = _cmd.Speed, wy = _cmd.YawRate; float psi = _cmd.Heading;
             Vector2 dir = Fwd(psi), right = Right(psi);
             _kB += dir * (float)(v * dt);
+            Vector2 lagCur = _kHavePPrev ? new Vector2(_kPPrev.X - _pelvisState.Position.X, _kPPrev.Z - _pelvisState.Position.Z) : Vector2.Zero;   // plan pelvis minus measured pelvis (the servo lags the plan)
+            double kAcc = _kHaveV ? (v - _kVPrev) / dt : 0; _kVPrev = v; _kHaveV = true;   // commanded acceleration (the limiter ramps the speed linearly)
             // hit reaction: a shove that moves the pelvis farther than kin_hit_m from its plan frees the plan (the base follows the pelvis, the servo only pulls at its caps) and the next foot lands on the capture point of the measured motion
             Vector2 pelXz = XZ(_pelvisState.Position), planXz = _kB + right * (float)_kLat, errXz = pelXz - planXz; double errLen = errXz.Length();
             bool hit = _t.kin_hit_m > 0 && errLen > _t.kin_hit_m;
@@ -116,7 +121,14 @@ namespace Game.Units.Mech
                 {
                     double tRem = Math.Max(0, _kTsw * 0.92 - _kT);
                     Vector2 btd = _kB + dir * (float)(v * tRem); float psiTd = (float)(psi + wy * tRem);
-                    double tStance = (1 + ds) * _kTstep, f = Math.Min(0.5 * v * tStance, _t.kin_fmax_frac * l);
+                    double vTd = v;
+                    if (_t.kin_dpred > 0.5 && (kAcc < -1e-3 || (_t.kin_dpred > 1.5 && kAcc > 1e-3)))
+                    {
+                        // T-201b: the base keeps ramping with the command (v + a t, not below 0) until touchdown; the foot lands where the base will be then
+                        double tz = kAcc < 0 ? Math.Min(tRem, v / -kAcc) : tRem;
+                        btd = _kB + dir * (float)(v * tz + 0.5 * kAcc * tz * tz + (kAcc < 0 ? 0 : 0)); vTd = Math.Max(0, v + kAcc * tRem);
+                    }
+                    double tStance = (1 + ds) * _kTstep, f = Math.Min(0.5 * vTd * tStance, _t.kin_fmax_frac * l);
                     Vector2 bTarget = btd + Fwd(psiTd) * (float)f;
                     if (_kHitNow) bTarget = pelXz + (XZ(_pelvisState.Velocity) - dir * (float)v) * (float)(1.0 / Lipm.Omega(_g, Math.Max(1f, _com.Y - _groundY)));   // capture point of the measured motion relative to the commanded one
                     _kSwTarget = KNominal(sw, bTarget, psiTd) + _kJit; _kSwYaw1 = psiTd;
@@ -141,7 +153,7 @@ namespace Game.Units.Mech
                 }
                 if (u >= 1)
                 {
-                    _kFoot[sw] = _kSwTarget; _kFootYaw[sw] = _kSwYaw1; _kFootH[sw] = -_t.kin_preload_m; _kFootPitch[sw] = 0;
+                    _kFoot[sw] = _kSwTarget; _kFootYaw[sw] = _kSwYaw1; _kFootH[sw] = -_t.kin_preload_m; _kFootPitch[sw] = 0; _kOff[sw] = lagCur;
                     _kLastSw = sw; _kSwing = -1; _kDs = _kTstep * ds;
                 }
             }
@@ -200,7 +212,14 @@ namespace Game.Units.Mech
                         Vector3 rel = Vector3.Transform(new Vector3(0, _ankleHeight, (float)-piv), Quaternion.CreateFromAxisAngle(Vector3.UnitX, (float)extra));
                         ankle = pivot + Vector3.Transform(rel, JointMath2.YawRotation(yw));
                     }
-                    ik = LegIk.Solve(hipPos, pelRot, ankle, footRot, leg.ThighLength, leg.ShankLength, kmin, kmax);
+                    Vector3 ankleIk = ankle;
+                    if (_t.kin_ikmeas > 0.5)
+                    {
+                        // T-201b: planted feet hold a world point of the MEASURED pelvis frame (plan foot minus the lag latched at touchdown), the swing foot blends to the live lag; the hip is the measured one horizontally (the plan one vertically), so a lag change (stop, accel) never drags a planted foot
+                        Vector2 off = _kOff[i]; if (i == _kSwing) off += (lagCur - off) * (float)Lipm.MinJerk(Math.Min(1.0, _kT / _kTsw / 0.92));
+                        ankleIk = new Vector3(ankle.X - off.X, ankle.Y, ankle.Z - off.Y); Vector3 hp = pT + Vector3.Transform(_kHipLocal[i], pelRot); hipPos = new Vector3(thigh.Position.X, hp.Y, thigh.Position.Z);   // planted height (the legs carry the weight), measured horizontal position
+                    }
+                    ik = LegIk.Solve(hipPos, pelRot, ankleIk, footRot, leg.ThighLength, leg.ShankLength, kmin, kmax);
                     hip = JointMath2.RotVec(ik.HipRelative); ank = JointMath2.RotVec(ik.AnkleRelative);
                     double an = Component(ank, 0) * ainfo.Sign * 1.0;
                     if (i == _kSwing) break;
