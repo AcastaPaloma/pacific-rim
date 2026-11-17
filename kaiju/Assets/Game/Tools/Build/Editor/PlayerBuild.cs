@@ -50,12 +50,34 @@ namespace Game.Tools.Build
             if (code != 0) EditorApplication.Exit(code);
         }
 
+        /// <summary>Web demo Player settings (WebGL target only; desktop settings are untouched). WebGL2, not WebGPU: decision in ledger/HANDOFF.md.</summary>
+        static void ApplyWebSettings()
+        {
+            PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.WebGL, false);
+            PlayerSettings.SetGraphicsAPIs(BuildTarget.WebGL, new[] { UnityEngine.Rendering.GraphicsDeviceType.OpenGLES3 });
+            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Gzip;   // localhost is HTTP; build time; serve_web.sh sends Content-Encoding
+            PlayerSettings.WebGL.decompressionFallback = false;
+            PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.ExplicitlyThrownExceptionsOnly;   // the slice uses try/catch
+            PlayerSettings.WebGL.memoryGrowthMode = WebGLMemoryGrowthMode.Geometric;
+            PlayerSettings.WebGL.initialMemorySize = 512;
+            PlayerSettings.WebGL.maximumMemorySize = 4096;
+            PlayerSettings.WebGL.dataCaching = true;
+            PlayerSettings.WebGL.threadsSupport = false;
+            PlayerSettings.WebGL.template = "APPLICATION:Default";
+            PlayerSettings.runInBackground = true;
+            AssetDatabase.SaveAssets();
+            Debug.Log("[Build] web settings: api=" + string.Join(",", PlayerSettings.GetGraphicsAPIs(BuildTarget.WebGL)) + " compression=" + PlayerSettings.WebGL.compressionFormat
+                + " exceptions=" + PlayerSettings.WebGL.exceptionSupport + " maxMem=" + PlayerSettings.WebGL.maximumMemorySize);
+        }
+
         static int RunInner()
         {
             string outDir = Arg("-buildOut") ?? "Builds/Player";
             int repeat = 1; int.TryParse(Arg("-buildRepeat"), out repeat); if (repeat < 1) repeat = 1;
             bool dev = Has("-buildDev");
             bool win = Arg("-buildTarget") == "win64";   // Q-231: Windows x64 via the Windows standalone module (default macOS)
+            bool web = Arg("-buildTarget") == "web";     // web demo: WebGL2 player folder <dir>/KaijuGame (index.html), settings in ApplyWebSettings
+            if (web) ApplyWebSettings();
             var scenes = SceneList();
             AssetDatabase.Refresh();
             for (int n = 1; n <= repeat; n++)
@@ -63,16 +85,16 @@ namespace Game.Tools.Build
                 string dir = n == 1 ? outDir : outDir + ".repro" + n;
                 if (Directory.Exists(dir)) Directory.Delete(dir, true);
                 Directory.CreateDirectory(dir);
-                string app = dir + "/" + ProductFile + (win ? ".exe" : ".app");
+                string app = dir + "/" + ProductFile + (web ? "" : win ? ".exe" : ".app");
                 var opts = new BuildPlayerOptions
                 {
-                    scenes = scenes, locationPathName = app, target = win ? BuildTarget.StandaloneWindows64 : BuildTarget.StandaloneOSX,
+                    scenes = scenes, locationPathName = app, target = web ? BuildTarget.WebGL : win ? BuildTarget.StandaloneWindows64 : BuildTarget.StandaloneOSX,
                     options = dev ? BuildOptions.Development : BuildOptions.None,
                 };
                 var report = BuildPipeline.BuildPlayer(opts);
                 var sum = report.summary;
                 Debug.Log("[Build] #" + n + " " + sum.result + " size " + sum.totalSize + " bytes, " + sum.totalTime + " errors " + sum.totalErrors);
-                WriteUnityJson(dir + ".unity_build.json", scenes, sum.result.ToString(), dev, app, win ? "StandaloneWindows64" : "StandaloneOSX");
+                WriteUnityJson(dir + ".unity_build.json", scenes, sum.result.ToString(), dev, app, web ? "WebGL" : win ? "StandaloneWindows64" : "StandaloneOSX");
                 if (sum.result != BuildResult.Succeeded) return 2;
             }
             return 0;

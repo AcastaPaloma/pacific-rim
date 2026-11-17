@@ -71,7 +71,12 @@ namespace Game.World.Geo.Unity
         /// <summary>Tile set built when none is requested: the single M0 tile (existing scenes and tests unchanged).</summary>
         public static readonly string[] DefaultTileKeys = { "L0_30_36" };
 
-        public static string DefaultTilesRoot => System.IO.Path.Combine(Application.streamingAssetsPath, "Geo/tiles/v1");
+        /// <summary>Web demo: root that replaces Application.streamingAssetsPath for File IO. A WebGL player cannot File-read
+        /// StreamingAssets (it is an http URL), so the slice preloads the files into the in-memory filesystem and sets this. Null = streamingAssetsPath.</summary>
+        public static string StreamingRootOverride;
+        public static string StreamingRoot => StreamingRootOverride ?? Application.streamingAssetsPath;
+
+        public static string DefaultTilesRoot => System.IO.Path.Combine(StreamingRoot, "Geo/tiles/v1");
 
         /// <summary>Loads the tile set (manifests validated, hashes not re-verified at runtime) and returns a staged builder; call BuildNext() once per tile.
         /// keys null = DefaultTileKeys; the first key holds the floating origin.</summary>
