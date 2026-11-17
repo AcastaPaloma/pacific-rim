@@ -345,9 +345,24 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
         bx, bz = vector.sample_points_in_polygon(g)
         return base, float(np.min(sample_h(bx, bz)))
 
+    ocfg = bcfg.get("overlap") or {}
+    # T-106c: a standalone building:part (no containing outline) is its own collider, so it takes part in the overlap rule
+    ovr = (vector.resolve_overlaps(outlines + [p for p in parts if p["part_of"] is None], {**ocfg, "metres_per_level": bcfg["metres_per_level"]})
+           if ocfg.get("enabled") else {})
+    n_overlap = {"clipped": 0, "excluded": 0}
+
+    def overlap_applied(b):  # ownership is decided on the SOURCE outline, before this
+        r = ovr.get(b["oid"])
+        if r is None:
+            return b
+        n_overlap["excluded" if "excluded" in r else "clipped"] += 1
+        return dict(b, overlap_excluded=r["excluded"]) if "excluded" in r else dict(b, geom=r["geom"])
+
     owned_outlines = [b for b in outlines if owns(tile, b["geom"])]
     owned_ids = {b["oid"] for b in owned_outlines}
     owned_parts = [p for p in parts if (p["part_of"] in owned_ids) or (p["part_of"] is None and owns(tile, p["geom"]))]
+    owned_outlines = [overlap_applied(b) for b in owned_outlines]
+    owned_parts = [overlap_applied(p) if p["part_of"] is None else p for p in owned_parts]
 
     asr_attrs = vector.join_assessor([(b["oid"], b["geom"]) for b in owned_outlines] +
                                      [(p["oid"], p["geom"]) for p in owned_parts if p["part_of"] is None], asr_pts)
@@ -366,7 +381,7 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
             base, gmin = parent["base_navd88_m"], parent["ground_min_navd88_m"]
         else:
             base, gmin = base_of(b["geom"])
-        excluded = vector.exclusion_reason(tags) or (parent["excluded"] if parent is not None else None)
+        excluded = vector.exclusion_reason(tags) or b.get("overlap_excluded") or (parent["excluded"] if parent is not None else None)
         capped = False
         # DEF-T003-bay-2: a part whose height comes from a fallback never rises above its structure's known height
         if parent is not None and hsrc != "osm_height" and parent["height_source"] in ("osm_height", "datasf") and hm > parent["height_m"]:
@@ -500,6 +515,8 @@ def bake(tile: Tile, force=False, threads=1, out_root: Path = TILES_ROOT, shuffl
          "owner_rule": "a structure is owned by the tile containing its shapely point_on_surface; its parts follow it; geometry is not clipped",
          "roof_rule": "max(y) = base_navd88_m + height_m for every roof_shape; M0 renders flat roofs except pyramidal/spire/cone with roof:height (apex at height_m)",
          "count_excluded": sum(1 for f in bfeats if f["properties"]["excluded"]),
+         **({"overlap_rule": "T-106c: of two source outlines overlapping by > " + str(ocfg.get("min_overlap_m2", 0.05)) + " m2 the lower one (tag height, untagged lowest, then smaller area, then a way before a relation, then the smaller id) is excluded when >= " + str(ocfg.get("contained_frac", 0.9)) + " of it lies inside the higher outline(s), else clipped to the ground the higher outline leaves; ownership stays with the source outline",
+             "count_overlap_clipped": n_overlap["clipped"], "count_overlap_excluded": n_overlap["excluded"]} if ocfg.get("enabled") else {}),
          "count_height_capped_to_parent": sum(1 for f in bfeats if f["properties"]["height_capped_to_parent"]),
          "exclusion_rule": "kept as records, not extruded: location=underground, or layer<0 with building:levels:underground or level<0 (underground stations), building=ship; parts inherit their structure's exclusion",
          "height_fill_rule": "T-020b: only a building whose R-004 chain ended at default is re-resolved: (a) lidar_3dep = median over 1 m cells inside the footprint eroded " + str(bcfg["lidar_fill"]["erode_m"]) + " m of (3DEP first-return p95 - terrain), needs >= " + str(bcfg["lidar_fill"]["min_coverage"]) + " of cells with returns, mean multi-return share <= " + str(bcfg["lidar_fill"]["max_multi_return_share"]) + " (vegetation test) and height >= " + str(bcfg["lidar_fill"]["min_height_m"]) + " m; (b) assessor_stories = stories x metres_per_level; (c) else default. height_source is lidar_3dep / assessor_stories for filled buildings",

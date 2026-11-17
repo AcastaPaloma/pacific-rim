@@ -39,6 +39,12 @@
         "max_multi_return_share": 0.1
       }
     },
+    "overlap": {
+      "_src": "T-106c, M-005 collider_overlap (R-100 0.05 m2): OSM has overlapping footprints (a relation and its own outer ways, a large low shed under three houses, a podium under a tower). Set enabled=false to restore the T-003 bytes.",
+      "enabled": true,
+      "min_overlap_m2": 0.05,
+      "contained_frac": 0.9
+    },
     "datasf_min_iou": 0.6,
     "datasf_min_relief_m": 3.0,
     "min_area_m2": 0.05,

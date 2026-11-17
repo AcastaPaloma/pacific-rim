@@ -387,3 +387,59 @@ def ring_points(g, step=1.0):
             q = ring.interpolate(k * ring.length / n)
             xs.append(q.x); zs.append(q.y)
     return np.asarray(xs), np.asarray(zs)
+
+
+# ---------------------------------------------------------------- overlapping source footprints (T-106c)
+def nominal_height(tags, cfg):
+    """Tile-independent height from the tags alone (OSM height, else levels x metres_per_level), None when untagged.
+    Used only to rank two overlapping footprints; the lidar fill / DataSF heights depend on which tile bakes it."""
+    h = parse_length_m(tags.get("height"))
+    if h is not None and h > 0:
+        return h
+    lv = parse_number(tags.get("building:levels"))
+    if lv is not None and lv > 0:
+        return lv * cfg["metres_per_level"]
+    return None
+
+
+def resolve_overlaps(outlines, cfg):
+    """M-005.8 collider overlap: two OSM structure outlines that overlap by more than `min_overlap_m2` must not both be extruded
+    over the shared ground. The LOWER one (nominal tag height, untagged lowest; tie: smaller area, then a way before a relation, then the smaller id) yields:
+    when >= `contained_frac` of it lies inside the higher outline(s) it is a duplicate/podium inside a taller shape and is
+    excluded, otherwise its outline loses the overlapped ground (outline minus the higher outlines, original geometries).
+    Pure function of the OSM geometries and tags, so every tile that sees both outlines reaches the same decision.
+    `outlines`: dicts with oid, geom, tags. Returns {oid: {"excluded": reason} | {"geom": clipped}}."""
+    import shapely
+    cand = [b for b in outlines if exclusion_reason(b["tags"]) is None]
+    if len(cand) < 2:
+        return {}
+    tree = shapely.STRtree([b["geom"] for b in cand])
+    lo = cfg.get("min_overlap_m2", 0.05)
+
+    def rank(b):  # lower tuple = loses
+        h = nominal_height(b["tags"], cfg)
+        return (-1.0 if h is None else h, b["geom"].area, oid_key(b["oid"]))
+
+    winners = {}
+    for i, b in enumerate(cand):
+        for m in tree.query(b["geom"]):
+            m = int(m)
+            if m == i:
+                continue
+            o = cand[m]
+            if rank(o) <= rank(b):
+                continue
+            if b["geom"].intersection(o["geom"]).area > lo:
+                winners.setdefault(b["oid"], []).append(o)
+    out = {}
+    by = {b["oid"]: b for b in cand}
+    for oid, ws in sorted(winners.items(), key=lambda kv: oid_key(kv[0])):
+        b = by[oid]
+        cover = shapely.union_all([w["geom"] for w in ws])
+        inside = b["geom"].intersection(cover).area / b["geom"].area
+        if inside >= cfg.get("contained_frac", 0.9):
+            out[oid] = {"excluded": "overlap:inside " + min(ws, key=lambda w: oid_key(w["oid"]))["oid"]}
+            continue
+        g = clean_polygonal(b["geom"].difference(cover))
+        out[oid] = {"excluded": "overlap:no ground left"} if g is None else {"geom": g}
+    return out
