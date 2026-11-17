@@ -13,7 +13,7 @@ namespace Game.Rendering.Pixel
         /// <summary>Minimum luminance contrast ratio ((hi + 0.05) / (lo + 0.05)) a cue colour must have against the typical background.</summary>
         public const float MinContrast = 1.6f;
         /// <summary>Collapse flash phases by age (s): lightest ramp entry, then light, then mid, then off.</summary>
-        public const float FlashLightestUntilS = 0.12f, FlashLightUntilS = 0.26f, FlashMidUntilS = 0.40f;
+        public const float FlashLightestUntilS = 0.20f, FlashLightUntilS = 0.34f, FlashMidUntilS = 0.48f;   // T-196h: lightest hold 0.12 -> 0.20 s (the recapture measured the flash on b+1..b+4)
         public const int PhaseLightest = 0, PhaseLight = 1, PhaseMid = 2, PhaseOff = 3;
 
         public static float Luma(float r, float g, float b) => 0.2126f * r + 0.7152f * g + 0.0722f * b;

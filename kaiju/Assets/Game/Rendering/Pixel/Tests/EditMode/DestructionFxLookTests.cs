@@ -20,9 +20,9 @@ namespace Game.Rendering.Pixel.Tests
         public void FlashPhase_StepsDownBrightness_ThenOff()
         {
             Assert.AreEqual(DestructionFxLook.PhaseLightest, DestructionFxLook.FlashPhase(0f));
-            Assert.AreEqual(DestructionFxLook.PhaseLight, DestructionFxLook.FlashPhase(0.15f));
-            Assert.AreEqual(DestructionFxLook.PhaseMid, DestructionFxLook.FlashPhase(0.3f));
-            Assert.AreEqual(DestructionFxLook.PhaseOff, DestructionFxLook.FlashPhase(0.5f));
+            Assert.AreEqual(DestructionFxLook.PhaseLight, DestructionFxLook.FlashPhase(0.25f));
+            Assert.AreEqual(DestructionFxLook.PhaseMid, DestructionFxLook.FlashPhase(0.4f));
+            Assert.AreEqual(DestructionFxLook.PhaseOff, DestructionFxLook.FlashPhase(0.6f));
         }
 
         [Test]

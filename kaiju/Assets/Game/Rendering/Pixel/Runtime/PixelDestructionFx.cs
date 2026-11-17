@@ -128,7 +128,7 @@ namespace Game.Rendering.Pixel
                     if (u >= 1f) { p.R.enabled = false; continue; }
                     float s = Mathf.Lerp(p.S0, p.S1, u); p.T.position = p.Pos; p.T.localScale = new Vector3(s, s, s);
                     if (p.Debris) p.R.sharedMaterial = p.Ember && u < 0.45f ? _ember : _dark;
-                    else p.R.sharedMaterial = u < 0.22f ? _light : u < 0.6f ? _mid : _dark;
+                    else p.R.sharedMaterial = u < 0.6f ? _dark : _mid;   // T-196h: dust is the dark ramp entry (the pale 'light' dust read 1.35 against the mid-ramp background), fading to mid at the end
                 }
             }
         }
