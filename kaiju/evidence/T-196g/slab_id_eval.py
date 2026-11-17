@@ -37,7 +37,11 @@ if __name__ == "__main__":
         if not os.path.isdir(d): continue
         names = sorted(n for n in os.listdir(d) if n.startswith("f") and n.endswith(".json"))
         jobs += [(clip, n) for n in names[::STRIDE]]
-    with Pool(3) as p: rows = p.map(one, jobs, chunksize=4)
+    rows = []
+    with Pool(3, maxtasksperchild=40) as p:
+        for n, r in enumerate(p.imap_unordered(one, jobs, chunksize=2)):
+            rows.append(r)
+            if n % 60 == 0: print('progress', n, len(jobs), flush=True)
     json.dump(rows, open(OUT, "w"))
     for clip in sorted({r["clip"] for r in rows}):
         R = [r for r in rows if r["clip"] == clip]
