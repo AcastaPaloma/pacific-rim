@@ -1,0 +1,16 @@
+# Q-231: keep text inputs LF on Windows checkouts (autocrlf would change hashed JSON/config, break bash scripts and .meta/asset YAML).
+*.sh text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+*.cs text eol=lf
+*.asmdef text eol=lf
+*.meta text eol=lf
+*.asset text eol=lf
+*.unity text eol=lf
+*.prefab text eol=lf
+*.mat text eol=lf
+*.shader text eol=lf
+*.hlsl text eol=lf
+*.compute text eol=lf
+*.cginc text eol=lf
+*.md text eol=lf

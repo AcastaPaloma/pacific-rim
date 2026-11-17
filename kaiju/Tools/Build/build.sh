@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # T-140: reproducible macOS player build -> attribution bundle -> tile copy -> manifest -> smoke test (-> M-121 repro check).
-# Usage: Tools/Build/build.sh [--out DIR] [--tile-set FILE] [--tiles-src DIR] [--repro] [--no-smoke] [--dev] [--target mac|win64]
+# Usage: Tools/Build/build.sh [--out DIR] [--tile-set FILE] [--tiles-src DIR] [--repro] [--no-smoke] [--dev] [--target mac|win64|windows] [--dry-run]
 #   --out DIR       build directory (default /tmp/kaiju-build/<commit>); must be under /tmp or a gitignored Build*/ dir
 #   --tile-set FILE JSON {"tiles":[...]} copied (hash-verified) into the player (default: the committed district tiles)
 #   --tiles-src DIR tile root the set is copied from (default Assets/StreamingAssets/Geo/tiles/v1; never the 75 GB Bay cache)
@@ -8,22 +8,32 @@
 #                   delete the repro build (size) when the diff passes
 #   --target T      mac (default) | win64 (Q-231: Windows x64 player <out>/b1/KaijuGame.exe via the Unity Windows module; cannot be
 #                   smoke-run on a Mac, so pass --no-smoke: the smoke step is refused for win64; Windows run = tracked row "untested")
-#   --no-smoke      skip the player smoke test
+#   --dry-run       print the resolved plan (target, output, player path, Unity command) and exit 0 before any Unity/Python work (Q-231)
+#   --no-smoke      skip the player smoke test.  Windows run check: on a Windows box use Tools/Build/smoke.py --app <dir|exe> (see tasks/Q-231.progress.md)
 # Needs: a free Unity batch slot (< 2 real batch processes machine-wide), >= 25 GB free disk, python env `kaiju`.
 # Never publishes, never touches the Steamworks SDK; platform.steam must stay false (the manifest gate fails otherwise).
 set -uo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"; PROJ="$(cd "$HERE/../.." && pwd)"
 PY="${KAIJU_PY:-/opt/miniconda3/envs/kaiju/bin/python}"; UNITY="${UNITY_CMD:-unity}"
-OUT=""; TILESET=""; TILESRC="$PROJ/Assets/StreamingAssets/Geo/tiles/v1"; REPRO=0; SMOKE=1; DEV=""; TARGET=mac
+OUT=""; TILESET=""; TILESRC="$PROJ/Assets/StreamingAssets/Geo/tiles/v1"; REPRO=0; SMOKE=1; DEV=""; TARGET=mac; DRY=0
 while [ $# -gt 0 ]; do case "$1" in
   --out) OUT="$2"; shift 2;; --tile-set) TILESET="$2"; shift 2;; --tiles-src) TILESRC="$2"; shift 2;;
-  --repro) REPRO=1; shift;; --no-smoke) SMOKE=0; shift;; --dev) DEV="-buildDev"; shift;; --target) TARGET="$2"; shift 2;;
+  --repro) REPRO=1; shift;; --no-smoke) SMOKE=0; shift;; --dev) DEV="-buildDev"; shift;; --target) TARGET="$2"; shift 2;; --dry-run) DRY=1; shift;;
   *) echo "build.sh: unknown arg $1" >&2; exit 2;; esac; done
-case "$TARGET" in mac|win64) ;; *) echo "build.sh: --target must be mac or win64" >&2; exit 2;; esac
+[ "$TARGET" = windows ] && TARGET=win64   # profile alias (Q-231)
+case "$TARGET" in mac|win64) ;; *) echo "build.sh: --target must be mac, win64 or windows" >&2; exit 2;; esac
 fail() { echo "build.sh: $*" >&2; exit 1; }
 COMMIT="$(git -C "$PROJ" rev-parse --short=10 HEAD)"; [ -n "$OUT" ] || OUT="/tmp/kaiju-build/$COMMIT"
 case "$OUT" in /tmp/*|/private/tmp/*|*/Build/*|*/Builds/*) ;; *) fail "--out must be under /tmp or a Build(s)/ dir (gitignored)";; esac
 case "$TILESRC" in *Pipelines/geo/cache*) fail "refusing the Bay cache as tile source: use a small tile set under a committed tile root";; esac
+
+if [ "$DRY" = 1 ]; then
+  PL=KaijuGame.app; [ "$TARGET" = win64 ] && PL=KaijuGame.exe
+  echo "build.sh DRY-RUN: target=$TARGET (Unity -buildTarget $TARGET => $([ "$TARGET" = win64 ] && echo StandaloneWindows64 || echo StandaloneOSX)) scripting=project default (Mono; no IL2CPP override)"
+  echo "build.sh DRY-RUN: player=$OUT/b1/$PL manifest=$OUT/b1.manifest.json smoke=$([ "$SMOKE" = 1 ] && [ "$TARGET" != win64 ] && echo run || echo skipped) repro=$REPRO"
+  echo "build.sh DRY-RUN: $UNITY run $PROJ -- -executeMethod Game.Tools.Build.PlayerBuild.Run -buildOut $OUT/b1 -buildRepeat $([ "$REPRO" = 1 ] && echo 2 || echo 1) -buildTarget $TARGET $DEV"
+  exit 0
+fi
 
 # preflight
 FREE_GB=$(df -g / | awk 'NR==2{print $4}'); [ "$FREE_GB" -ge 25 ] || fail "only ${FREE_GB} GB free (need 25)"

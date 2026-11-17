@@ -52,3 +52,18 @@ def test_run_pass_and_fail(tmp_path):
 def test_run_timeout(tmp_path):
     r = smoke.run(fake_app(tmp_path, "sleep 30\n"), str(tmp_path / "o"), timeout=1)
     assert not r["pass"] and "timeout" in str(r["exit_code"])
+
+
+def test_player_binary_windows_layouts(tmp_path):
+    d = tmp_path / "win"
+    d.mkdir()
+    (d / "UnityCrashHandler64.exe").write_text("x")
+    (d / "KaijuGame.exe").write_text("x")
+    assert smoke.player_binary(str(d)).endswith("KaijuGame.exe")
+    assert smoke.player_binary(str(d / "KaijuGame.exe")).endswith("KaijuGame.exe")
+    (d / "Other.exe").write_text("x")
+    try:
+        smoke.player_binary(str(d))
+        assert False, "two exes must be refused"
+    except RuntimeError:
+        pass

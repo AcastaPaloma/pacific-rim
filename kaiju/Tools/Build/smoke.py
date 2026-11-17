@@ -6,7 +6,7 @@ Runs the player through the M1 slice scene (`-sliceSmoke N -sliceSmokeOut <json>
 timeout. Passes only if: exit code 0, the log has no "[Slice] Core is not booted" / exception / error-count lines for the
 composition, the smoke JSON reports tiles > 0 and buildings_registered > 0. Writes <out-dir>/smoke_result.json and exits 0/1.
 
-Usage:  python -I smoke.py --app <X.app> --out-dir <dir> [--frames 120] [--timeout 600]
+Usage:  python -I smoke.py --app <X.app | KaijuGame.exe | build dir with one .exe (Windows, Q-231)> --out-dir <dir> [--frames 120] [--timeout 600]
 """
 import argparse
 import json
@@ -39,6 +39,15 @@ def evaluate(exit_code, log_text, smoke_json):
 
 
 def player_binary(app):
+    """The player executable. macOS: the single executable in <X.app>/Contents/MacOS. Windows (Q-231): <X.exe>, or a build
+    directory holding exactly one *.exe that is not UnityCrashHandler*."""
+    if app.lower().endswith(".exe") and os.path.isfile(app):
+        return app
+    if os.path.isdir(app) and not app.endswith(".app"):
+        exes = [n for n in os.listdir(app) if n.lower().endswith(".exe") and not n.lower().startswith("unitycrashhandler")]
+        if len(exes) != 1:
+            raise RuntimeError("expected one player .exe in %s, found %r" % (app, exes))
+        return os.path.join(app, exes[0])
     macos = os.path.join(app, "Contents", "MacOS")
     names = [n for n in os.listdir(macos) if os.access(os.path.join(macos, n), os.X_OK)]
     if len(names) != 1:
