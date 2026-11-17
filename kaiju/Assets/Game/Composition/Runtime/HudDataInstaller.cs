@@ -21,6 +21,21 @@ namespace Game.Composition
         }
     }
 
+    /// <summary>Adapts <see cref="IHealthQuery"/> to <see cref="IHealthSource"/> (T-154c). mechId is the EntityId value. Read-only.</summary>
+    public sealed class CombatHealthSource : IHealthSource
+    {
+        private readonly IHealthQuery _query;
+        public CombatHealthSource(IHealthQuery query) { _query = query ?? throw new ArgumentNullException(nameof(query)); }
+
+        public bool TryGetHealthFraction(int mechId, out float fraction)
+        {
+            fraction = 0f;
+            if (mechId <= 0 || !_query.TryGetHealth(EntityId.FromValue((ulong)mechId), out HealthStatus s) || !(s.MaxHitPoints > 0)) return false;
+            fraction = (float)s.Fraction;
+            return true;
+        }
+    }
+
     public static class HudDataInstaller
     {
         public const string Flag = "ui.hud_data";
@@ -36,6 +51,23 @@ namespace Game.Composition
             }
             var src = new CombatAmmoSource(query);
             registry.Register<IAmmoSource>(src);
+            return src;
+        }
+
+        /// <summary>
+        /// T-154c: registers IHealthSource when the flag is on and a health query exists (IHealthQuery, else the CombatHandle's LinearEntityHealth).
+        /// Separate from <see cref="Install"/> so existing callers and registry counts are unchanged. Null (nothing registered) otherwise.
+        /// </summary>
+        public static IHealthSource InstallHealth(IServiceRegistry registry, IFeatureFlags flags)
+        {
+            if (registry == null || flags == null || !flags.IsOn(Flag)) return null;
+            if (!registry.TryResolve(out IHealthQuery query))
+            {
+                if (!registry.TryResolve(out CombatHandle handle) || handle?.Health == null) return null;
+                query = handle.Health;
+            }
+            var src = new CombatHealthSource(query);
+            registry.Register<IHealthSource>(src);
             return src;
         }
     }

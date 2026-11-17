@@ -88,5 +88,37 @@ namespace Game.Composition.Tests
             Assert.AreEqual(3, v.AmmoCount); Assert.AreEqual(3, v.AmmoMax);
             Assert.IsFalse(p.TryGetLimits(9, out _));
         }
+
+        // ---- T-154c: health query -> IHealthSource ----
+        [Test]
+        public void Health_FlagOff_InstallsNothing()
+        {
+            var reg = new Registry(); var h = new LinearEntityHealth(); reg.Register<IHealthQuery>(h);
+            Assert.IsNull(HudDataInstaller.InstallHealth(reg, Flags(false)));
+            Assert.IsFalse(reg.IsRegistered<IHealthSource>());
+            Assert.IsNull(HudDataInstaller.InstallHealth(new Registry(), Flags(true)));
+        }
+
+        [Test]
+        public void Health_FlagOn_ReportsFractionAndFeedsLimitsProvider()
+        {
+            var reg = new Registry(); var h = new LinearEntityHealth(); h.Register(EntityId.FromValue(7), 200); reg.Register<IHealthQuery>(h);
+            var src = HudDataInstaller.InstallHealth(reg, Flags(true));
+            Assert.IsNotNull(src); Assert.AreSame(src, reg.Resolve<IHealthSource>());
+            Assert.IsTrue(src.TryGetHealthFraction(7, out float f)); Assert.AreEqual(1f, f);
+            var rec = default(ImpactRecord); rec.Target = EntityId.FromValue(7); rec.EnergyJ = 200e6; // 30 hp
+            h.TryApply(rec.Target, rec, out _);
+            Assert.IsTrue(src.TryGetHealthFraction(7, out f)); Assert.AreEqual(0.85f, f, 1e-5f);
+            var p = new HealthLimitsProvider(new CannonAmmoProvider(new CombatAmmoSource(System(out _))), src);
+            Assert.IsTrue(p.TryGetLimits(7, out var v));
+            Assert.AreEqual(3, v.AmmoCount); Assert.IsTrue(v.Has(LimitsAvailability.Health)); Assert.AreEqual(0.85f, v.HealthFrac, 1e-5f);
+        }
+
+        [Test]
+        public void Health_UnknownOrInvalidMech_ReportsNothing()
+        {
+            var src = new CombatHealthSource(new LinearEntityHealth());
+            Assert.IsFalse(src.TryGetHealthFraction(8, out _)); Assert.IsFalse(src.TryGetHealthFraction(0, out _)); Assert.IsFalse(src.TryGetHealthFraction(-1, out _));
+        }
     }
 }

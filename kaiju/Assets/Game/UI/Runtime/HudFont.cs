@@ -5,7 +5,7 @@ namespace Game.UI
 {
     /// <summary>
     /// 5x7 bitmap pixel font (R-122 4.1/4.4): upper-case letters, digits and HUD punctuation. Each glyph is 7 rows of 5 bits (bit 4 = leftmost).
-    /// Lower-case text is drawn with the upper-case glyphs. The 7x10 medium font does not exist yet: <see cref="HudTextLadder"/> flags that step as placeholder.
+    /// Lower-case text is drawn with the upper-case glyphs. The M step uses the 7x10 <see cref="HudFontMedium"/> (T-154c); the step-aware overloads below pick the font.
     /// </summary>
     public static class HudFont
     {
@@ -105,6 +105,21 @@ namespace Game.UI
 
         public static int HeightPx(int scale) { return GlyphH * scale; }
 
+        /// <summary>Step-aware metrics: Medium uses the 7x10 font (advance 8), Small and Large the 5x7 font.</summary>
+        public static int AdvanceOf(TextScaleStep step) { return step == TextScaleStep.Medium ? HudFontMedium.Advance : Advance; }
+        public static int GlyphHeight(TextScaleStep step) { return step == TextScaleStep.Medium ? HudFontMedium.GlyphH : GlyphH; }
+        public static int GlyphWidth(TextScaleStep step) { return step == TextScaleStep.Medium ? HudFontMedium.GlyphW : GlyphW; }
+        public static int MeasureWidth(string s, int scale, TextScaleStep step)
+        {
+            if (string.IsNullOrEmpty(s)) return 0;
+            return (s.Length * AdvanceOf(step) - 1) * scale;
+        }
+        public static int HeightPx(int scale, TextScaleStep step) { return GlyphHeight(step) * scale; }
+        public static bool Pixel(char c, int x, int y, TextScaleStep step)
+        {
+            return step == TextScaleStep.Medium ? HudFontMedium.Pixel(c, x, y) : Pixel(c, x, y);
+        }
+
         /// <summary>All characters that have a glyph, ordinal order (for tests and atlas baking).</summary>
         public static string Charset()
         {
@@ -140,7 +155,7 @@ namespace Game.UI
         }
     }
 
-    /// <summary>Text-size ladder (R-122 4.4): S = 5x7 at k, M = 7x10 font at k (NOT YET DRAWN: placeholder uses the 5x7 glyphs at k), L = 5x7 at 2k. Integer scales only.</summary>
+    /// <summary>Text-size ladder (R-122 4.4): S = 5x7 at k, M = 7x10 font (HudFontMedium) at k, L = 5x7 at 2k. Integer scales only.</summary>
     public static class HudTextLadder
     {
         public static int PixelScale(TextScaleStep step, int k)
@@ -156,7 +171,7 @@ namespace Game.UI
             return h * PixelScale(step, k);
         }
 
-        /// <summary>True while the step does not have its own font (Medium only).</summary>
-        public static bool IsPlaceholder(TextScaleStep step) { return step == TextScaleStep.Medium; }
+        /// <summary>True while a step lacks its own font. Always false since T-154c (the 7x10 medium font is drawn); kept for callers.</summary>
+        public static bool IsPlaceholder(TextScaleStep step) { return false; }
     }
 }

@@ -28,17 +28,22 @@ namespace Game.UI
         public bool MediumFontPlaceholder;
 
         Rgb _panel, _text;
+        TextScaleStep _step;
 
         public void Clear() { Array.Clear(Rgba, 0, Rgba.Length); ClippedStrings = 0; DrawnElements = 0; }
 
-        public void Render(HudLayout layout, in HudFrameData d, HudPalette pal, AccessibilitySettings acc)
+        public void Render(HudLayout layout, in HudFrameData dIn, HudPalette pal, AccessibilitySettings acc)
         {
+            var d = dIn;
             Clear();
             if (layout == null || pal == null || !d.Visible) return;
             _panel = pal.Panel; _text = pal.Text;
             int rs = HudTextLadder.PixelScale(acc.TextScale, 1);
+            _step = acc.TextScale;
             MediumFontPlaceholder = HudTextLadder.IsPlaceholder(acc.TextScale);
             var v = d.Limits;
+            // T-154c: real health from the limits view fills the mech bar when the host did not supply its own number.
+            if (d.HasLimits && v.Has(LimitsAvailability.Health) && !d.HasMechHp) { d.HasMechHp = true; d.MechHp = v.HealthFrac; }
             bool ammo = d.HasLimits && v.Has(LimitsAvailability.Ammo) && v.AmmoMax > 0;
 
             if (d.HasMechHp) { Label(layout, "mech_hp_label", "MECH " + Pct(d.MechHp) + "%", rs); Bar(layout, "mech_hp_bar", d.MechHp, pal.Fills[1], pal); }
@@ -94,10 +99,10 @@ namespace Game.UI
             int cx = x;
             for (int i = 0; i < s.Length; i++)
             {
-                for (int gy = 0; gy < HudFont.GlyphH; gy++)
-                    for (int gx = 0; gx < HudFont.GlyphW; gx++)
-                        if (HudFont.Pixel(s[i], gx, gy)) Fill(cx + gx * scale, y + gy * scale, scale, scale, c);
-                cx += HudFont.Advance * scale;
+                for (int gy = 0; gy < HudFont.GlyphHeight(_step); gy++)
+                    for (int gx = 0; gx < HudFont.GlyphWidth(_step); gx++)
+                        if (HudFont.Pixel(s[i], gx, gy, _step)) Fill(cx + gx * scale, y + gy * scale, scale, scale, c);
+                cx += HudFont.AdvanceOf(_step) * scale;
             }
         }
 
@@ -106,11 +111,11 @@ namespace Game.UI
         {
             var e = l.Find(id); if (e == null || string.IsNullOrEmpty(s)) return;
             var r = e.Rect;
-            if (HudFont.HeightPx(scale) > r.H) { ClippedStrings++; return; }
-            while (s.Length > 0 && HudFont.MeasureWidth(s, scale) > r.W) { s = s.Substring(0, s.Length - 1); ClippedStrings++; }
+            if (HudFont.HeightPx(scale, _step) > r.H) { ClippedStrings++; return; }
+            while (s.Length > 0 && HudFont.MeasureWidth(s, scale, _step) > r.W) { s = s.Substring(0, s.Length - 1); ClippedStrings++; }
             if (s.Length == 0) return;
-            Backdrop(new HudRect(r.X, r.Y + (r.H - HudFont.HeightPx(scale)) / 2, HudFont.MeasureWidth(s, scale), HudFont.HeightPx(scale)));
-            Text(r.X, r.Y + (r.H - HudFont.HeightPx(scale)) / 2, s, scale, _text);
+            Backdrop(new HudRect(r.X, r.Y + (r.H - HudFont.HeightPx(scale, _step)) / 2, HudFont.MeasureWidth(s, scale, _step), HudFont.HeightPx(scale, _step)));
+            Text(r.X, r.Y + (r.H - HudFont.HeightPx(scale, _step)) / 2, s, scale, _text);
             DrawnElements++;
         }
 
