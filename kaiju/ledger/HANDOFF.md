@@ -967,6 +967,7 @@ Re-run: `KAIJU_GEO_CACHE=<integration cache> python -I Pipelines/geo/bake_landma
 - 2026-11-16 · T-124g (5c7ee22): two real-tile tests no longer assume the first L1 tile has buildings (test code only). StreamingAllocBenchTests hardcodes old pyramid tiles (open). — decided autonomously
 - T-201c dispatched: dotnet regressions + walk_mode 0 control check, demo player rebuild with smoke, WAKE_UP update.
 - 2026-11-16 · T-196g: A2 violations were not tearing: guard-band texel row (p1_d_approach f91, p3_a_strafe f44) and a gap-filled texel (M-123). Capture-only per-pixel slab-id channel (present alpha, default off) + exact labels in the adapter: per-slab arm, 4 translating clips x 180 frames, A2 = 1.00000 and M-123 = 1.000000 on every frame, thresholds untouched. Spec gate NOT switched: shared arm and 4 other clips not recaptured, final shader unrun. Next: one Unity confirm run, then switch. tasks/T-196g.progress.md — decided autonomously
+- 2026-11-17 · T-106c prep (watchdog, M2 build lead 10 stand-in): m005_bay re-run after the T-103b fill and LPC re-bake. default_height_share_bay 0.740 -> 0.104 (still > 0.02), tiles over 1254 -> 469. Seams (29 edges), collider overlap (16 pairs) and bay shallowness are unchanged. Evidence in evidence/T-106c/. No threshold changed. Next: T-106c, then LOD refresh.
 
 ## Web demo (task/web-demo, 2026-11-16)
 - WebGL2, not WebGPU — decided autonomously (user offline): WebGPU in 6000.6 is still flagged experimental for web and the custom pixel URP passes are untested on it; WebGL2 is the safe path for "plays in Chrome".

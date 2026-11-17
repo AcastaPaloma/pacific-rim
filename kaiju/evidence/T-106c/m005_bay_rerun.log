@@ -1,0 +1,52 @@
+[m005_bay] scanned 250/4311 (5 s)
+[m005_bay] scanned 500/4311 (8 s)
+[m005_bay] scanned 750/4311 (11 s)
+[m005_bay] scanned 1000/4311 (17 s)
+[m005_bay] scanned 1250/4311 (22 s)
+[m005_bay] scanned 1500/4311 (29 s)
+[m005_bay] scanned 1750/4311 (112 s)
+[m005_bay] scanned 2000/4311 (312 s)
+[m005_bay] scanned 2250/4311 (483 s)
+[m005_bay] scanned 2500/4311 (635 s)
+[m005_bay] scanned 2750/4311 (735 s)
+[m005_bay] scanned 3000/4311 (830 s)
+[m005_bay] scanned 3250/4311 (933 s)
+[m005_bay] scanned 3500/4311 (1043 s)
+[m005_bay] scanned 3750/4311 (1134 s)
+[m005_bay] scanned 4000/4311 (1136 s)
+[m005_bay] scanned 4250/4311 (1139 s)
+M-005@v2 Bay: FAIL  tiles 4311  {'pass': 15, 'fail': 6, 'reported': 6, 'not_run': 7}  (1157.1 s)
+  pass     bid_ownership                           {"duplicate_bids": 0, "not_in_owner_tile": 0}
+  pass     clipped_area                            0.0
+  fail     collider_overlap                        1659.469
+  fail     default_height_share_bay                0.10382
+  fail     default_height_share_county             {"counties_over": ["Contra Costa County", "Sacramento County", "San Joaquin County", "San Mateo County", "Santa Cruz County", "Sonoma County", "Yolo C
+  fail     default_height_share_tile               {"tiles_gated": 1331, "tiles_over": 469}
+  fail     terrain_seam_all_edges                  {"p99_dE_m": 0.005, "max_dE_m": 7.9978, "edges_over_threshold": 29}
+  pass     edge_vertex_gap_all_edges               0.0
+  pass     landmarks                               125
+  pass     landmarks_lid_bay_wide                  {"landmark_features": 125, "duplicate_lids": 0, "bid_clash": 0}
+  pass     M-005.1_present                         {"rows": 48, "missing": []}
+  pass     M-005.1_a_vs_import                     {"max_m": 0.493, "rows": 19, "over": []}
+  pass     M-005.1_b_vs_reference                  {"p95_m": 1.257, "max_m": 4.433, "rows": 34}
+  pass     M-005.1_cranes                          [{"id": "port_oakland_cranes_0", "d_m": 0.03, "found": "4/4"}, {"id": "port_oakland_cranes_1", "d_m": 0.041, "found": "5/5"}, {"id": "port_oakland_cra
+  pass     M-005.1_summits                         [{"id": "R004_17", "dz_m": 1.95}, {"id": "R004_18", "dz_m": 2.28}, {"id": "R004_19", "dz_m": 2.68}]
+  pass     M-005.1_heights                         {"over": [], "gated_rows": 21}
+  pass     bathymetry_golden_gate_channel          {"min_navd88_m": -109.764, "p5_navd88_m": -104.16, "median_navd88_m": -90.89, "p95_navd88_m": -41.22, "wet_cells": 1054897}
+  pass     bathymetry_oakland_inner_harbor         {"min_navd88_m": -17.859, "p5_navd88_m": -16.25, "median_navd88_m": -15.12, "p95_navd88_m": -1.53, "wet_cells": 205863}
+  pass     bathymetry_san_pablo_shoal              {"min_navd88_m": -4.064, "p5_navd88_m": -3.16, "median_navd88_m": -2.81, "p95_navd88_m": -2.63, "wet_cells": 3896925}
+  reported bathymetry_carquinez_strait             {"min_navd88_m": -37.893, "p5_navd88_m": -27.16, "median_navd88_m": -17.36, "p95_navd88_m": -0.45, "wet_cells": 3917944}
+  reported bathymetry_raccoon_strait               {"min_navd88_m": -62.854, "p5_navd88_m": -44.72, "median_navd88_m": -24.7, "p95_navd88_m": -3.09, "wet_cells": 2907033}
+  reported bathymetry_richmond_harbor              {"min_navd88_m": -12.645, "p5_navd88_m": -11.91, "median_navd88_m": -4.63, "p95_navd88_m": -0.03, "wet_cells": 1428857}
+  reported bathymetry_redwood_city_channel         {"min_navd88_m": -9.683, "p5_navd88_m": -9.06, "median_navd88_m": -0.12, "p95_navd88_m": 0.66, "wet_cells": 1996811}
+  reported bathymetry_suisun_bay_ship_channel      {"min_navd88_m": -22.538, "p5_navd88_m": -13.16, "median_navd88_m": -7.69, "p95_navd88_m": -0.01, "wet_cells": 7877364}
+  reported bathymetry_sf_bar                       {"min_navd88_m": -57.804, "p5_navd88_m": -38.97, "median_navd88_m": -20.58, "p95_navd88_m": -5.27, "wet_cells": 19917370}
+  fail     bathymetry_bay_wide_shallowness         {"share_below_5m": 0.6095, "wet_area_km2": 1075.6, "tiles": 1408, "supplementary_not_gated": {"basis": "every baked cell below MSL inside the polygon,
+  pass     licence_credits                         {"source_entries_missing_fields": 0, "credits_present": {"OSM": true, "USGS": true, "NOAA": true, "DataSF": true}, "licences": ["LicenseRef-facts-cite
+  not_run  M-005.2_ngs                             needs NGS NDE radial queries (network) stratified by county; no Bay mark set fetched. Owner: T-106b research/fetch step
+  not_run  M-005.2_pipeline                        needs source CUDEM/3DEP rasters re-read for 10,000 random land points per 100 tiles; the per-tile resampling check exists for L0_30_36 only (m005_chec
+  not_run  M-005.3_pipeline                        RMSE vs CUDEM on wet points needs the source rasters (as M-005.2 pipeline). Owner: T-106b
+  not_run  M-005.4_ks                              KS D <= 0.02 against source heights: the bake stores the resolved height, not the competing source heights; needs an independent reference (lidar rind
+  not_run  M-005.5                                 area recall/precision needs an independent footprint reference (DataSF for SF only); no Bay-wide independent footprint set is licensed (R-100 section 
+  not_run  M-005.6                                 1:1 scale pairs (<= 60 ppm) need the Unity as-built export of the landmarks; offline pair check not yet implemented for Bay tiles. Owner: T-106b
+  not_run  M-005.7                                 skyline needs the R-ind renders at the ten viewpoints (Unity/Python skyline pipeline, v1.1 spec); not run Bay-wide. Owner: T-106b

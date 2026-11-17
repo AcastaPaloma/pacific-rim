@@ -203,3 +203,16 @@ Next unblocked: quiet-window seed 5 run on this build (compare `gcd=` and M-008.
 - Bay data: T-103b chain is on its LAST county (San Francisco, 39 tiles, 5 done at 20:04; chain.log in Pipelines/geo/cache/lidar_bay/). Machine load 23-28. When chain.log shows no more counties: LPC tile re-bake, `m005_bay.py`, then T-106c (not earlier), then one LOD refresh. Heavy: check memory_pressure >= 40% free, 1 Unity max, 2 workers.
 - T-124c residual: a quiet-window seed 5 repeat of M008BayRun with `gcd=` to see whether T-124f cut the stalls, then per-flag A/B. Needs a quiet machine (load < 8).
 - Not mine / blocked: 7 Units.Mech ReferenceGaitTests (T-005), T-154 HUD colour bug (needs an approved Unity launch).
+
+## watchdog run 2026-11-17 03:20Z (build lead 10 stand-in): m005_bay re-run after the T-103b fill
+- The T-103b chain finished at 02:32Z ("all counties done"), including the LPC L0 re-bake (4311 baked, 0 failed).
+- Re-ran `m005_check.py bay --workers 2` over all 4311 tiles (1157 s). Evidence is in `evidence/T-106c/` (m005_bay.json, tiles csv, log). The T-106 baseline stays unchanged.
+- Result: still FAIL, with the same counts (pass 15, fail 6, reported 6, not_run 7). The LiDAR fill worked:
+  - default_height_share_bay: 0.740 → **0.104** (threshold 0.02, not lowered);
+  - tiles over: 1254 → 469 of 1331 gated;
+  - counties over: Alameda has dropped off. Still over: Contra Costa, Sacramento, San Joaquin, San Mateo, Santa Cruz, Sonoma, Yolo and others.
+- Unchanged, and now the T-106c scope: terrain_seam (29 edges, max dE 8.0 m), collider_overlap (16 pairs, 1659), bathymetry_bay_wide_shallowness (0.61). The M-005.2–.7 not_run items have T-106b owners.
+- Next unblocked:
+  1. T-106c, which can now run: seams, collider overlaps, the remaining default-height counties (find which counties lack LiDAR coverage or have unmatched footprints);
+  2. then one full LOD refresh (L1–L4 are stale after the re-bakes, about hours; needs ≥40 % free memory, 1 Unity, 2 workers);
+  3. then T-124c on a quiet machine (load was 15 at 03:20Z, too high).
