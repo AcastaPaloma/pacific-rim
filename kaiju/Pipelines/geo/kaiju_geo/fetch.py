@@ -11,7 +11,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from .common import (CACHE, pipe_rel, PIPE, Tile, canonical_json, finish_fetch, http_get, http_json,
+from .common import (CACHE, read_meta, pipe_rel, PIPE, Tile, canonical_json, finish_fetch, http_get, http_json,
                      is_offline, load_config, meta_path, NetworkForbidden, up_to_date, utc_now)
 
 SRC = load_config("sources.json")
@@ -213,6 +213,36 @@ def fetch_3dep(tile: Tile, fill: bool = False) -> list[dict]:
             om.update(item=oname, file=str(pipe_rel(odest)), fill=True)
             out.append(om)
     return out
+
+
+def neighbour_3dep(tile: Tile, own: list[dict], reach_m: float) -> list[dict]:
+    """T-106c: cached 3DEP windows of the 8 neighbouring tiles that reach this tile's terrain grid and are not already one of its own.
+
+    Neighbouring tiles share edge rows, so both must see the same 3DEP projects there; a tile's own list only holds the projects its
+    own window query / older-project fill (config/dep3_fill.json) found, which differs across the border of the fill region
+    (cause of the M-005 terrain_seam_all_edges failures: one side filled holes with older projects, the other fell back to CUDEM,
+    up to 8 m apart). Cache read only, never a fetch. Entries carry `donor: <neighbour id>`; sorted for determinism."""
+    import rasterio
+    from rasterio.warp import transform_bounds
+    have = {m["item"] for m in own}
+    bb = tile.bounds_lonlat(reach_m)
+    out, seen = [], set()
+    for di in (-1, 0, 1):
+        for dj in (-1, 0, 1):
+            if di == dj == 0:
+                continue
+            nid = f"L{tile.level}_{tile.i + di:02d}_{tile.j + dj:02d}"
+            for tif in sorted((CACHE / "3dep").glob(f"*__{nid}.tif")):
+                m = read_meta(tif)
+                if m is None or m.get("item") in have or (m.get("item"), m["sha256"]) in seen:
+                    continue
+                with rasterio.open(tif) as src:
+                    w, s_, e, n = transform_bounds(src.crs, "EPSG:4269", *src.bounds, densify_pts=5)
+                if w > bb[2] or e < bb[0] or s_ > bb[3] or n < bb[1]:
+                    continue
+                seen.add((m.get("item"), m["sha256"]))
+                out.append(dict(m, file=str(pipe_rel(tif)), donor=nid))
+    return sorted(out, key=lambda d: (d.get("published", ""), d["item"], d["donor"]))
 
 
 # ---------------------------------------------------------------- OSM (buildings, roads, coastline)

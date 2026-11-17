@@ -29,6 +29,7 @@ import sys
 import threading
 import time
 from concurrent.futures import ProcessPoolExecutor, FIRST_COMPLETED, wait
+from concurrent.futures.process import BrokenProcessPool
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -371,31 +372,48 @@ def cmd_run(a):
     kw = {"cell_m": a.cell_m, "max_run": a.max_run, "threads": a.threads, "validate": a.validate}
     done = failed = 0
     t_start = time.time()
-    with ProcessPoolExecutor(a.workers) as ex:
-        inflight = {}
-        it = iter(ids)
-        while True:
-            while len(inflight) < a.workers and not stop["why"]:
-                if free_gb() < a.min_free_gb:
-                    stop["why"] = "disk_low"; break
-                tid = next(it, None)
-                if tid is None:
+    pending = list(reversed(ids))  # pop() from the end = largest default share first
+    restarts, tried = 0, {}
+    while pending:
+        # T-106c: a worker killed by the OS (memory) breaks the whole pool; the old loop died with BrokenProcessPool and the
+        # chain script went on to the next county, leaving 172 of 208 Sonoma and 331 of 339 Contra Costa tiles unfilled.
+        # Now the tiles in flight are recorded as failed (retried by the next run), the pool is rebuilt, up to --max-restarts times.
+        broken = False
+        with ProcessPoolExecutor(a.workers) as ex:
+            inflight = {}
+            while True:
+                while len(inflight) < a.workers and not stop["why"] and not broken and pending:
+                    if free_gb() < a.min_free_gb:
+                        stop["why"] = "disk_low"; break
+                    tid = pending.pop()
+                    inflight[ex.submit(_worker, (tid, kw))] = tid
+                if not inflight:
                     break
-                inflight[ex.submit(_worker, (tid, kw))] = tid
-            if not inflight:
+                fin, _ = wait(list(inflight), return_when=FIRST_COMPLETED, timeout=30)
+                for fu in fin:
+                    tid0 = inflight.pop(fu)
+                    try:
+                        rec = fu.result()
+                    except BrokenProcessPool as e:
+                        broken = True
+                        rec = {"tile": tid0, "status": "failed", "error": f"worker died (pool broken, likely out of memory): {e}"[:300]}
+                    rec.setdefault("utc", utc_now())
+                    with open(STATUS, "a") as fh:
+                        fh.write(json.dumps(rec, sort_keys=True) + "\n")
+                    done += rec["status"] != "failed"; failed += rec["status"] == "failed"
+                    print(f"[run] {rec['tile']} {rec['status']} {rec.get('secs')} s out {rec.get('bytes_out')} sat {rec.get('satisfied')}/{rec.get('targets')} free {free_gb():.1f} GB", flush=True)
+                (WORK / "summary.json").write_text(json.dumps({"done": done, "failed": failed, "planned": len(ids), "stop_reason": stop["why"],
+                                                              "elapsed_s": round(time.time() - t_start), "free_gb": round(free_gb(), 1), "restarts": restarts, "utc": utc_now()}) + "\n")
+        if broken:
+            restarts += 1
+            print(f"[run] worker pool broke (restart {restarts}/{a.max_restarts}); rebuilding", flush=True)
+            if restarts > a.max_restarts:
+                stop["why"] = "pool_broken"
                 break
-            fin, _ = wait(list(inflight), return_when=FIRST_COMPLETED, timeout=30)
-            for fu in fin:
-                rec = fu.result(); inflight.pop(fu)
-                rec.setdefault("utc", utc_now())
-                with open(STATUS, "a") as fh:
-                    fh.write(json.dumps(rec, sort_keys=True) + "\n")
-                done += rec["status"] != "failed"; failed += rec["status"] == "failed"
-                print(f"[run] {rec['tile']} {rec['status']} {rec.get('secs')} s out {rec.get('bytes_out')} sat {rec.get('satisfied')}/{rec.get('targets')} free {free_gb():.1f} GB", flush=True)
-            (WORK / "summary.json").write_text(json.dumps({"done": done, "failed": failed, "planned": len(ids), "stop_reason": stop["why"],
-                                                          "elapsed_s": round(time.time() - t_start), "free_gb": round(free_gb(), 1), "utc": utc_now()}) + "\n")
+        if stop["why"]:
+            break
     print(f"[run] finished: done {done}, failed {failed}, stop {stop['why']}", flush=True)
-    return 3 if stop["why"] == "disk_low" else 130 if stop["why"] else (1 if failed else 0)
+    return 3 if stop["why"] == "disk_low" else 4 if stop["why"] == "pool_broken" else 130 if stop["why"] else (1 if failed else 0)
 
 
 def cmd_report(a):
@@ -419,7 +437,7 @@ def main(argv=None):
     r.add_argument("--county", nargs="*"); r.add_argument("--tile", nargs="*"); r.add_argument("--workers", type=int, default=3)
     r.add_argument("--threads", type=int, default=4); r.add_argument("--limit", type=int); r.add_argument("--min-free-gb", type=float, default=25.0)
     r.add_argument("--cell-m", type=int, default=CELL_M); r.add_argument("--max-run", type=int, default=4)
-    r.add_argument("--no-retry-failed", action="store_true"); r.add_argument("--validate", action="store_true")
+    r.add_argument("--max-restarts", type=int, default=5); r.add_argument("--no-retry-failed", action="store_true"); r.add_argument("--validate", action="store_true")
     sp.add_parser("report")
     a = ap.parse_args(argv)
     return {"plan": cmd_plan, "run": cmd_run, "report": cmd_report}[a.cmd](a) or 0

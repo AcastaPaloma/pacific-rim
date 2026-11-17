@@ -8,7 +8,13 @@ W=${KAIJU_GEO_CACHE:?}/lidar_bay
 COUNTIES=("Alameda County" "Santa Clara County" "San Mateo County" "Marin County" "Solano County" "Sonoma County" "Napa County" "Contra Costa County" "San Francisco" "Santa Cruz County" "Sacramento County" "Yolo County" "San Joaquin County")
 for c in "${COUNTIES[@]}"; do
   echo "[chain] $(date -u +%FT%TZ) county $c fetch"
-  $PY -I Pipelines/geo/fetch_lidar_bay.py run --county "$c" --workers ${WORKERS:-5} --threads 3 --min-free-gb 25; rc=$?
+  # T-106c: rc 1 (some tile failed) or 4 (worker pool kept breaking, e.g. out of memory) is retried up to 3 times: failed tiles are re-queued
+  # by the next run, done ones skipped. Before this the chain moved on after a crash and left 172 Sonoma and 331 Contra Costa tiles unfilled.
+  for attempt in 1 2 3; do
+    $PY -I Pipelines/geo/fetch_lidar_bay.py run --county "$c" --workers ${WORKERS:-5} --threads 3 --min-free-gb 25; rc=$?
+    [ $rc -eq 1 ] || [ $rc -eq 4 ] || break
+    echo "[chain] $(date -u +%FT%TZ) county $c fetch rc=$rc, retry $attempt"
+  done
   args=$($PY -I - "$c" <<'PYEOF'
 import json, os, sys
 W = os.environ["KAIJU_GEO_CACHE"] + "/lidar_bay/"

@@ -9,6 +9,11 @@
   "terrain": {
     "_src": "R-004 §1.2 merge rule: 3DEP 1 m where valid and CUDEM > +1.798 m NAVD88 (R-004 text 'MHW (+1.80 m)', i.e. MHHW), CUDEM elsewhere, linear feather.",
     "_blend_note": "Fix cycle 2 (M-005@v1.1 M-005.9: the blend may add steps of p99 <= 0.20 m, max <= 0.50 m). Measured on L0_30_36 (excess step E p99 / max; C10 median MSL-crossing offset from the OSM coastline): inside-only 10 m (R-004) 0.276 / 0.489, C10 2.5 m; inside-only 14 m 0.196 / 0.350, C10 5.0 m; inside-only 20 m 0.129 / 0.245, C10 5.5 m (fails C10 <= 5 m: CUDEM's smeared shoreline replaces 3DEP's where 3DEP marks water); centred 40 m 0.196 / 0.486, C10 1.5 m; centred 50 m 0.172 / 0.396, C10 1.5 m (chosen). Centred = weight 0.5 at the region edge, blending also 25 m seaward wherever both sources are valid (mostly hydro-flattened 3DEP water at -1.07 m: near-shore seabed within 25 m of the 3DEP land edge moves toward that value, reported in EVIDENCE.md).",
+    "edge_donors": {
+      "_src": "T-106c, M-005 terrain_seam_all_edges: a tile also reads the cached 3DEP windows of its 8 neighbours that reach within reach_m of its grid (192 m margin + 50 m blend fade), so the two sides of a shared edge see the same projects. Set enabled=false to restore the T-103 bytes.",
+      "enabled": true,
+      "reach_m": 260.0
+    },
     "feather_mode": "centred",
     "feather_centre": 0.5,
     "feather_valid_fade_m": 50.0,
