@@ -127,7 +127,8 @@ namespace Game.UI.Tests
             Assert.AreEqual(56, HudTextLadder.BodyHeightPx(TextScaleStep.Large, 4));
             Assert.GreaterOrEqual(HudTextLadder.BodyHeightPx(TextScaleStep.Small, 4), 18);
             Assert.AreEqual(42, HudTextLadder.BodyHeightPx(TextScaleStep.Small, 6));
-            Assert.IsTrue(HudTextLadder.IsPlaceholder(TextScaleStep.Medium));
+            Assert.IsFalse(HudTextLadder.IsPlaceholder(TextScaleStep.Medium)); // T-154c: the 7x10 font exists
+            Assert.AreEqual(40, HudTextLadder.BodyHeightPx(TextScaleStep.Medium, 4));
         }
 
         static HudLayout Layout() { return HudLayout.Parse(DataFiles.Read("Assets/Game/Config/UI/hud_layout.json")); }

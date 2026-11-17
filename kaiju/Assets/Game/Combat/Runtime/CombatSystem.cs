@@ -56,12 +56,13 @@ namespace Game.Combat
     }
 
     /// <summary>Hit points as a linear function of dissipated energy: hp = HpPerMegajoule * MJ (Assumed 0.15, R-027 section 3).</summary>
-    public sealed class LinearEntityHealth : IEntityHealth
+    public sealed class LinearEntityHealth : IEntityHealth, IHealthQuery
     {
         private readonly Dictionary<EntityId, double> _hp = new Dictionary<EntityId, double>();
+        private readonly Dictionary<EntityId, double> _max = new Dictionary<EntityId, double>();
         public double HpPerMegajoule { get; set; } = 0.15;
 
-        public void Register(EntityId id, double hitPoints) { _hp[id] = hitPoints; }
+        public void Register(EntityId id, double hitPoints) { _hp[id] = hitPoints; _max[id] = hitPoints; }
 
         public bool TryApply(EntityId entity, in ImpactRecord impact, out double hpRemoved)
         {
@@ -75,6 +76,13 @@ namespace Game.Combat
         }
 
         public bool TryGetHitPoints(EntityId entity, out double hitPoints) => _hp.TryGetValue(entity, out hitPoints);
+
+        /// <summary>Read-only (T-154c): current over the value given to <see cref="Register"/>.</summary>
+        public bool TryGetHealth(EntityId entity, out HealthStatus status)
+        {
+            if (_hp.TryGetValue(entity, out double cur) && _max.TryGetValue(entity, out double max)) { status = new HealthStatus(cur, max); return true; }
+            status = default; return false;
+        }
     }
 
     public sealed class CannonMount

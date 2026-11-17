@@ -122,6 +122,24 @@ namespace Game.Combat
         bool TryGetAmmo(EntityId owner, out AmmoStatus status);
     }
 
+    /// <summary>Current and maximum hit points of one entity (T-154c). <see cref="Fraction"/> is 0..1 (0 when Max is not positive or a value is NaN).</summary>
+    public readonly struct HealthStatus
+    {
+        public readonly double HitPoints, MaxHitPoints;
+        public HealthStatus(double hitPoints, double maxHitPoints)
+        {
+            MaxHitPoints = maxHitPoints > 0 && !double.IsInfinity(maxHitPoints) ? maxHitPoints : 0;
+            HitPoints = hitPoints > 0 ? (hitPoints > MaxHitPoints ? MaxHitPoints : hitPoints) : 0;
+        }
+        public double Fraction => MaxHitPoints > 0 ? HitPoints / MaxHitPoints : 0;
+    }
+
+    /// <summary>Read-only health query (HUD and tools). Never mutates health. False when the entity has no registered hit points.</summary>
+    public interface IHealthQuery
+    {
+        bool TryGetHealth(EntityId entity, out HealthStatus status);
+    }
+
     /// <summary>Hit points of entities that can be shot or struck (kaiju today; a placeholder mech through an adapter).</summary>
     public interface IEntityHealth
     {

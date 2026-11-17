@@ -30,6 +30,8 @@ namespace Game.UI
         Heat = 2,
         Ammo = 4,
         Strain = 8,
+        /// <summary>T-154c: real hit points (fraction) from the Combat health query. Additive; schema version unchanged.</summary>
+        Health = 16,
     }
 
     /// <summary>Heat state ladder; thresholds in <see cref="LimitsThresholds"/>.</summary>
@@ -75,9 +77,16 @@ namespace Game.UI
         public readonly int AmmoMax;
         public readonly float StrainFrac;
         public readonly StrainState Strain;
+        /// <summary>0..1 hit-point fraction; meaningful only when <see cref="LimitsAvailability.Health"/> is set.</summary>
+        public readonly float HealthFrac;
 
         public MechLimitsView(LimitsAvailability available, float powerFrac, float powerPeakFrac, float heatFrac,
-            int ammoCount, int ammoMax, float strainFrac)
+            int ammoCount, int ammoMax, float strainFrac) : this(available, powerFrac, powerPeakFrac, heatFrac, ammoCount, ammoMax, strainFrac, 0f)
+        {
+        }
+
+        public MechLimitsView(LimitsAvailability available, float powerFrac, float powerPeakFrac, float heatFrac,
+            int ammoCount, int ammoMax, float strainFrac, float healthFrac)
         {
             SchemaVersion = UiContractVersions.LimitsView;
             Available = available;
@@ -89,12 +98,19 @@ namespace Game.UI
             AmmoCount = ammoCount < 0 ? 0 : (ammoCount > AmmoMax ? AmmoMax : ammoCount);
             StrainFrac = Clamp01(strainFrac);
             Strain = LimitsThresholds.Strain(StrainFrac);
+            HealthFrac = Clamp01(healthFrac);
         }
 
         /// <summary>Ammo-only view: the only limit with real runtime state today.</summary>
         public static MechLimitsView AmmoOnly(int count, int max)
         {
             return new MechLimitsView(LimitsAvailability.Ammo, 0f, 0f, 0f, count, max, 0f);
+        }
+
+        /// <summary>Copy of this view with real health added (T-154c).</summary>
+        public MechLimitsView WithHealth(float healthFrac)
+        {
+            return new MechLimitsView(Available | LimitsAvailability.Health, PowerFrac, PowerPeakFrac, HeatFrac, AmmoCount, AmmoMax, StrainFrac, healthFrac);
         }
 
         public bool Has(LimitsAvailability a) { return (Available & a) == a; }
@@ -105,7 +121,7 @@ namespace Game.UI
             get
             {
                 return SchemaVersion == UiContractVersions.LimitsView
-                    && InRange(PowerFrac) && InRange(PowerPeakFrac) && InRange(HeatFrac) && InRange(StrainFrac)
+                    && InRange(PowerFrac) && InRange(PowerPeakFrac) && InRange(HeatFrac) && InRange(StrainFrac) && InRange(HealthFrac)
                     && AmmoCount >= 0 && AmmoCount <= AmmoMax;
             }
         }

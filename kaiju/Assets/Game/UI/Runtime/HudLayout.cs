@@ -105,7 +105,7 @@ namespace Game.UI
             {
                 var e = Elements[i];
                 if (e.Kind != "text" || e.Text == null) continue;
-                if (HudFont.MeasureWidth(e.Text, ts) > e.Rect.W * rk || HudFont.HeightPx(ts) > e.Rect.H * rk) bad.Add(e.Id);
+                if (HudFont.MeasureWidth(e.Text, ts, step) > e.Rect.W * rk || HudFont.HeightPx(ts, step) > e.Rect.H * rk) bad.Add(e.Id);
             }
             return bad;
         }
