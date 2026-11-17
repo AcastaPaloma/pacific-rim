@@ -203,3 +203,8 @@ Next unblocked: quiet-window seed 5 run on this build (compare `gcd=` and M-008.
 - Bay data: T-103b chain is on its LAST county (San Francisco, 39 tiles, 5 done at 20:04; chain.log in Pipelines/geo/cache/lidar_bay/). Machine load 23-28. When chain.log shows no more counties: LPC tile re-bake, `m005_bay.py`, then T-106c (not earlier), then one LOD refresh. Heavy: check memory_pressure >= 40% free, 1 Unity max, 2 workers.
 - T-124c residual: a quiet-window seed 5 repeat of M008BayRun with `gcd=` to see whether T-124f cut the stalls, then per-flag A/B. Needs a quiet machine (load < 8).
 - Not mine / blocked: 7 Units.Mech ReferenceGaitTests (T-005), T-154 HUD colour bug (needs an approved Unity launch).
+
+## M2 lead session 10: PAUSED (2026-11-16 ~20:55 local, founder pause relayed)
+- Merged since the state entry: T-124g 5c7ee22 (test fixes), T-201b e8d5e2d (walk_mode 2 ~7.4 m/s, 8/9 m/s fail slip), T-201c 8051414 (demo player rebuilt at 7.4 m/s, smoke no fall, max 8.14 m/s, regressions unchanged, 7 known Mech failures).
+- No worker or Unity job of mine is running. The T-103b LiDAR chain (background python, not a worker) was on Santa Cruz County when paused; left running, not touched.
+- Resume order: chain done -> LPC re-bake -> m005_bay.py -> T-106c -> LOD refresh; T-124c quiet-machine repeat; StreamingAllocBenchTests hardcoded tiles; system audio output was muted by a worker via osascript (unmute when wanted).
