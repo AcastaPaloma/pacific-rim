@@ -134,7 +134,13 @@ namespace Game.World.Streaming.Host
             var t = GeoJson.Obj(GeoJson.Get(man, "terrain"));
             int n = (int)GeoJson.Num(t, "samples", LodSpec.Samples);
             double sp = GeoJson.Num(t, "spacing_m");
-            var hf = GeoHeightField.FromR16(File.ReadAllBytes(Path.Combine(dir, GeoJson.Str(t, "file"))), n, sp, GeoJson.Num(t, "h_min"), GeoJson.Num(t, "h_max"));
+            // T-124f: the raw r16 bytes and the decoded height lattice (8.4 + 16.8 MB) come from the buffer pool and go back after meshing; neither outlives this method
+            var r16 = ReadExact(Path.Combine(dir, GeoJson.Str(t, "file")), n * n * 2);
+            var heights = GeoBufferPool<float>.Rent(n * n, false);
+            double hMin = GeoJson.Num(t, "h_min"), hMax = GeoJson.Num(t, "h_max");
+            GeoHeightField.DecodeR16(r16, heights, hMin, hMax);
+            GeoBufferPool<byte>.Return(r16);
+            var hf = new GeoHeightField(heights, n, sp) { HMin = hMin, HMax = hMax };
             if (ops != null && ops.Count > 0)
             {
                 res.TerrainOpsApplied = ops.Count;
@@ -153,12 +159,26 @@ namespace Game.World.Streaming.Host
                 if (!force[0] && !force[1] && !force[2] && !force[3]) force = null;
             }
             ct.ThrowIfCancellationRequested();
-            var rt = RtinMesher.Build(hf.Data, n, sp, (float)thr, _opt.TerrainChunkCells, "terrain", force);
+            var rt = RtinMesher.Build(hf.Data, n, sp, (float)thr, _opt.TerrainChunkCells, "terrain", force, _opt.KeepTerrainHeights);
+            GeoBufferPool<float>.Return(heights);
             res.Meshes.AddRange(rt.Chunks);
             res.TerrainTriangles = rt.Triangles;
             res.TerrainMaxErrorM = rt.MaxErrorM;
             res.TerrainRmsErrorM = rt.RmsErrorM;
             if (_opt.KeepTerrainHeights) res.TerrainRenderHeights = rt.RenderHeights;
+        }
+
+        /// <summary>Reads a file of exactly `length` bytes into a pooled buffer (same error as GeoHeightField.FromR16 when the size is wrong).</summary>
+        static byte[] ReadExact(string path, int length)
+        {
+            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 1, FileOptions.SequentialScan))
+            {
+                if (fs.Length != length) throw new InvalidDataException("terrain.r16 has " + fs.Length + " bytes, expected " + length);
+                var buf = GeoBufferPool<byte>.Rent(length, false);
+                int got = 0;
+                while (got < length) { int k = fs.Read(buf, got, length - got); if (k <= 0) throw new EndOfStreamException(path); got += k; }
+                return buf;
+            }
         }
 
         static GeoTileId Neighbour(GeoTileId id, int di, int dj)
