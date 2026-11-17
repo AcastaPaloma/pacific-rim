@@ -331,6 +331,14 @@ namespace Game.World.Streaming.Host.Tests
             return null;
         }
 
+        static bool HasBuildingTriangles(string tileDir)
+        {
+            var mp = Path.Combine(tileDir, "manifest.json");
+            if (!File.Exists(mp)) return false;
+            var stats = GeoJson.Obj(GeoJson.Get(GeoJson.Obj(GeoJson.Parse(File.ReadAllText(mp))), "stats"));
+            return GeoJson.Num(stats, "building_triangles") > 0;
+        }
+
         [Test]
         public void RealBakedTilesValidateAndMatchTheirManifests()
         {
@@ -341,7 +349,8 @@ namespace Game.World.Streaming.Host.Tests
             {
                 var ld = Path.Combine(root, "L" + level);
                 if (!Directory.Exists(ld)) continue;
-                foreach (var td in Directory.GetDirectories(ld).OrderBy(x => x).Take(2))
+                // the first two tiles that have buildings (sorted order starts with ocean tiles that have none, and the winding check below needs triangles)
+                foreach (var td in Directory.GetDirectories(ld).OrderBy(x => x).Where(HasBuildingTriangles).Take(2))
                 {
                     var name = Path.GetFileName(td).Split('_');
                     var id = GeoTileId.From(level, int.Parse(name[0]), int.Parse(name[1]));
@@ -388,15 +397,18 @@ namespace Game.World.Streaming.Host.Tests
             var root = RealRoot();
             if (root == null) Assert.Ignore("no baked geo_lod@v1 pyramid");
             var l1 = Path.Combine(root, "L1");
-            var td = Directory.GetDirectories(l1).OrderBy(x => x).FirstOrDefault(d => File.Exists(Path.Combine(d, "b1.index.json")));
-            if (td == null) Assert.Ignore("no L1 tile with B1");
+            // first L1 tile (sorted) with a whole, non-part OSM building that has triangles in b1 (ocean tiles have an index but no buildings)
+            string td = null; LodBuildingIndex idx = null; LodMesh mesh = null; int pick = -1;
+            foreach (var d in Directory.GetDirectories(l1).OrderBy(x => x).Where(x => File.Exists(Path.Combine(x, "b1.index.json")) && File.Exists(Path.Combine(x, "b1.lodmesh"))))
+            {
+                var i2 = LodBuildingIndex.Parse(File.ReadAllText(Path.Combine(d, "b1.index.json")));
+                var m2 = LodMesh.Decode(File.ReadAllBytes(Path.Combine(d, "b1.lodmesh")));
+                for (int k = 0; k < i2.Bids.Count && pick < 0; k++) if (i2.Bids[k].StartsWith("osm:") && i2.PartOf[k] == null && m2.Ranges.Any(r => r.BidIndex == k)) pick = k;
+                if (pick >= 0) { td = d; idx = i2; mesh = m2; break; }
+            }
+            if (td == null) Assert.Ignore("no L1 tile with B1 buildings");
             var name = Path.GetFileName(td).Split('_');
             var id = GeoTileId.From(1, int.Parse(name[0]), int.Parse(name[1]));
-            var idx = LodBuildingIndex.Parse(File.ReadAllText(Path.Combine(td, "b1.index.json")));
-            var mesh = LodMesh.Decode(File.ReadAllBytes(Path.Combine(td, "b1.lodmesh")));
-            int pick = -1;
-            for (int k = 0; k < idx.Bids.Count && pick < 0; k++) if (idx.Bids[k].StartsWith("osm:") && idx.PartOf[k] == null && mesh.Ranges.Any(r => r.BidIndex == k)) pick = k;
-            Assert.GreaterOrEqual(pick, 0);
             int expected = mesh.Ranges.Where(r => r.BidIndex == pick).Sum(r => r.IndexCount) / 3;
             var opt = new GeoLodOptions { ForceSharedBorders = false, TerrainThresholdM = 50 };       // coarse terrain: this test is about buildings
             var before = new GeoLodTileReader(root, null, opt).Load(id);
