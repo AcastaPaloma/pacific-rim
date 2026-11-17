@@ -44,6 +44,8 @@ namespace Game.Rendering.Pixel
         [NonSerialized] public bool controlContinuousTone;
         /// <summary>Capture-only (T-182): the present stage writes the log-coded eye depth of the texel it shows instead of its colour, so output-resolution edge positions are measured from the shipped present path.</summary>
         [NonSerialized] public bool controlDepthOutput;
+        /// <summary>T-196g capture-only: the layered present writes which slab shows at each output pixel into the alpha channel (colour unchanged). Off in play.</summary>
+        [NonSerialized] public bool controlSlabIdOutput;
 
         PixelPipelineSettings m_Settings;
         PixelFlagState m_Flags;

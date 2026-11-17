@@ -42,6 +42,8 @@ namespace Game.Tools.StyleCapture
         public PixelFlagState Flags;
         public ThirdPersonRigSettings RigSettings;
         readonly PixelPipelineScope m_Scope;
+        /// <summary>T-196g: write the layered present's per-pixel slab id (output alpha) as <c>_slab_id.png</c> beside the output (CaptureCli -captureSlabId). Code: 1 + slab, +4 gap rule chose, +8 sample clamped at the guard band; 255 = none.</summary>
+        public static bool SlabIdChannel;
         ushort[] m_Depth16; byte[] m_MaskPng; int m_MaskW, m_MaskH;
 
         public StyleCaptureSession(string scenePath, string outRoot, string configurationPath = null)
@@ -117,7 +119,7 @@ namespace Game.Tools.StyleCapture
         /// <summary>Writes one sequence directory: per frame the images and the sidecar, then sequence.json.</summary>
         public sealed class SequenceWriter
         {
-            readonly StyleCaptureSession m_S; readonly string m_Set, m_Seq, m_Purpose, m_Viewpoint, m_Dir; readonly MotionSpec m_Motion; readonly int m_Count; readonly bool m_Output;
+            readonly StyleCaptureSession m_S; readonly string m_Set, m_Seq, m_Purpose, m_Viewpoint, m_Dir; readonly MotionSpec m_Motion; readonly int m_Count; readonly bool m_Output; bool m_SlabWritten;
             readonly List<string> m_Frames = new List<string>();
             public string Directory => m_Dir;
             /// <summary>Extra top-level sidecar JSON members for the next frame (already formatted, without the leading comma).</summary>
@@ -151,11 +153,15 @@ namespace Game.Tools.StyleCapture
             CapturedFrame Write(int index, HazeTarget[] hazeTargets)
             {
                 var s = m_S; var cap = s.Capture;
+                cap.Binder.controlSlabIdOutput = SlabIdChannel;   // T-196g: per-pixel slab id in the output alpha; colour unchanged
                 cap.Render(m_Output);
                 CapturedFrame f = cap.Read(m_Output);
+                cap.Binder.controlSlabIdOutput = false;
                 string stem = "f" + index.ToString("D6", CultureInfo.InvariantCulture);
                 PixelCaptureRig.WriteRgbPng(Path.Combine(m_Dir, stem + "_color_internal.png"), f.Rgb, f.Width, f.Height);
                 if (m_Output) PixelCaptureRig.WriteRgbPng(Path.Combine(m_Dir, stem + "_color_output.png"), f.OutputRgb, f.OutputWidth, f.OutputHeight);
+                m_SlabWritten = m_Output && f.OutputSlab != null;
+                if (m_SlabWritten) PixelCaptureRig.WriteGreyPng(Path.Combine(m_Dir, stem + "_slab_id.png"), f.OutputSlab, f.OutputWidth, f.OutputHeight);
                 PixelCaptureRig.WriteGreyPng(Path.Combine(m_Dir, stem + "_index.png"), f.Index, f.Width, f.Height);
                 if (s.m_Depth16 == null || s.m_Depth16.Length != f.Depth.Length) s.m_Depth16 = new ushort[f.Depth.Length];
                 PixelCaptureRig.EncodeDepthLog16(f.Depth, cap.World.nearClipPlane, cap.World.farClipPlane, s.m_Depth16);
@@ -236,7 +242,7 @@ namespace Game.Tools.StyleCapture
                 j.Append(" \"conventions\": {\"handedness\": \"left (Unity)\", \"up\": \"+Y\", \"forward\": \"+Z\", \"pixel_origin\": \"top-left; pixel centre at (x+0.5, y+0.5)\", \"rotation\": \"camera-to-world quaternion of the camera transform used for rendering this frame (after snapping)\", \"yaw_pitch_roll\": \"Unity Euler angles in degrees: yaw about +Y (0 = +Z, positive right), pitch about +X (positive looks down, as in the R-002 horizon formula), roll about +Z\", \"subpixel_offset\": \"wanted view minus rendered view in internal texels, +x right, +y up\"},\n");
                 j.Append(" \"motion\": ").Append(MotionJson()).Append(",\n");
                 j.Append(" \"files\": {\"color_internal\": ").Append(Str(stem + "_color_internal.png")).Append(", \"color_output\": ").Append(m_Output ? Str(stem + "_color_output.png") : "null").Append(", \"palette_index\": ").Append(Str(stem + "_index.png"));
-                j.Append(", \"depth\": ").Append(Str(stem + "_depth.png")).Append(", \"mask_ui\": null, \"mask_animated\": ").Append(Str(stem + "_mask_animated.png")).Append(", \"motion_vectors\": null},\n");
+                j.Append(", \"depth\": ").Append(Str(stem + "_depth.png")).Append(", \"mask_ui\": null, \"mask_animated\": ").Append(Str(stem + "_mask_animated.png")).Append(", \"motion_vectors\": null, \"slab_id\": ").Append(m_SlabWritten ? Str(stem + "_slab_id.png") : "null").Append("},\n");
                 j.Append(" \"encodings\": {\"color_internal\": \"8-bit sRGB PNG, RGB, no alpha; final palette-quantised image before upscale and before UI (guard band cropped)\", \"color_output\": \"8-bit sRGB PNG, RGB, no alpha; the presented frame after upscale and sub-pixel compensation, no UI\", \"palette_index\": \"8-bit greyscale PNG at internal resolution; value = index into the profile colour list; 255 = not palette-quantised\", ");
                 j.Append("\"depth\": {\"format\": \"png16_log\", \"resolution\": \"internal\", \"quantity\": \"eye-space linear depth z (m) along the camera forward axis\", \"decode\": \"z = near_m * (far_m / near_m) ** (v / 65535); v = 65535 means sky / no geometry\"}, \"mask_animated\": \"8-bit PNG at internal resolution; 255 = animated element (none in this scene)\"}");
                 if (hazeTargets != null)
