@@ -34,20 +34,33 @@ namespace Game.Rendering.Pixel
             var r = profile != null ? profile.hazeRamp : null;
             if (r != null && r.Length >= 5)
             {
-                int n = r.Length; lightest = r[n - 1]; light = r[n - 2]; mid = r[Mathf.Max(2, n / 2)]; dark = r[Mathf.Min(n - 3, 1)];
+                // T-197b: every cue colour is a ramp entry chosen for luminance contrast against the typical (mid-ramp) background; the materials are emissive
+                // (Mat), so lighting adds nothing and the entry reaches haze + quantise as is.
+                int n = r.Length; var lum = new float[n];
+                for (int i = 0; i < n; i++) lum[i] = DestructionFxLook.Luma(r[i].r / 255f, r[i].g / 255f, r[i].b / 255f);
+                float bg = lum[n / 2];
+                Color At(int i) => (Color)r[i];
+                lightest = At(DestructionFxLook.PickContrasting(lum, n - 1, bg, DestructionFxLook.MinContrast));
+                light = At(DestructionFxLook.PickContrasting(lum, n - 2, bg, DestructionFxLook.MinContrast));
+                mid = At(Mathf.Max(2, n / 2));
+                dark = At(DestructionFxLook.PickContrasting(lum, Mathf.Min(n - 3, 1), bg, DestructionFxLook.MinContrast));
             }
             if (profile != null && profile.accentIndex >= 0 && profile.accentIndex < profile.colours.Length) ember = profile.colours[profile.accentIndex];
-            fx._flash = Mat(baseMaterial, lightest * 2.6f); fx._light = Mat(baseMaterial, light * 1.25f); fx._mid = Mat(baseMaterial, mid * 1.1f); fx._dark = Mat(baseMaterial, dark); fx._ember = Mat(baseMaterial, ember * 1.6f);
+            fx._flash = Mat(baseMaterial, lightest); fx._light = Mat(baseMaterial, light); fx._mid = Mat(baseMaterial, mid); fx._dark = Mat(baseMaterial, dark); fx._ember = Mat(baseMaterial, ember);
             return fx;
         }
 
+        /// <summary>Emissive material: base colour black (no lit contribution), emission = the ramp colour, so the colour is independent of light angle / shadow / exposure.</summary>
         static Material Mat(Material b, Color c)
         {
-            c.a = 1f; var m = new Material(b.shader); m.color = c;
-            if (m.HasProperty("_BaseColor")) m.SetColor("_BaseColor", c);
+            c.a = 1f; var m = new Material(b.shader); m.color = Color.black;
+            if (m.HasProperty("_BaseColor")) m.SetColor("_BaseColor", Color.black);
             if (m.HasProperty("_Smoothness")) m.SetFloat("_Smoothness", 0f);
             if (m.HasProperty("_Metallic")) m.SetFloat("_Metallic", 0f);
             if (m.HasProperty("_SpecularHighlights")) m.SetFloat("_SpecularHighlights", 0f);
+            if (m.HasProperty("_EnvironmentReflections")) m.SetFloat("_EnvironmentReflections", 0f);
+            m.EnableKeyword("_EMISSION"); m.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None;
+            if (m.HasProperty("_EmissionColor")) m.SetColor("_EmissionColor", c * DestructionFxLook.EmissionGain(DestructionFxLook.PhaseLightest));
             return m;
         }
 
@@ -104,7 +117,7 @@ namespace Game.Rendering.Pixel
                 if (b.Age >= LifeS) { foreach (var p in b.Parts) Destroy(p.T.gameObject); if (b.Flash != null) Destroy(b.Flash.T.gameObject); _bursts.RemoveAt(bi); continue; }
                 if (b.Flash != null)
                 {
-                    float a = b.Age; var m = a < 0.12f ? _flash : a < 0.26f ? _light : a < 0.40f ? _mid : null;
+                    int ph = DestructionFxLook.FlashPhase(b.Age); var m = ph == DestructionFxLook.PhaseLightest ? _flash : ph == DestructionFxLook.PhaseLight ? _light : ph == DestructionFxLook.PhaseMid ? _mid : null;
                     if (m == null) b.Flash.R.enabled = false; else { b.Flash.R.sharedMaterial = m; }
                 }
                 foreach (var p in b.Parts)
